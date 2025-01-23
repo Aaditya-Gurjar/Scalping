@@ -26,9 +26,7 @@ body.sidebar-main-menu .content-page {
 	
 }
 
-body.sidebar-main-menu .iq-sidebar-logo {
-	width: 80px;
-}
+
 
 body.sidebar-main-menu .iq-sidebar .iq-sidebar-menu .iq-menu li a span,
 body.sidebar-main-menu .iq-sidebar-logo a span,
@@ -117,9 +115,7 @@ body.sidebar-main-menu.sidebar-main .iq-sidebar {
 	width: 100px;
 }
 
-body.sidebar-main-menu.sidebar-main .iq-sidebar-logo {
-	width: 100px;
-}
+
 
 body.sidebar-main-menu.sidebar-main .iq-menu-bt {
 	display: block;

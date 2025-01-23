@@ -24,15 +24,15 @@ const Header = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  useEffect(() => {
-    document.body.classList.remove("sidebar-main");
+  // useEffect(() => {
+  //   document.body.classList.remove("sidebar-main");
 
-    if (isSidebarOpen) {
-      document.body.classList.add("sidebar-main");
-    } else {
-      document.body.classList.remove("sidebar-main");
-    }
-  }, [isSidebarOpen]);
+  //   if (isSidebarOpen) {
+  //     document.body.classList.add("sidebar-main");
+  //   } else {
+  //     document.body.classList.remove("sidebar-main");
+  //   }
+  // }, [isSidebarOpen]);
 
   const navigate = useNavigate();
   const role = localStorage.getItem("Role");
@@ -465,17 +465,21 @@ const Header = () => {
 
   return (
     <>
-      <div className={`iq-top-navbar ${isFixed ? "fixed-header" : ""}`}>
+      <div className="iq-top-navbar ">
         <div className="iq-navbar-custom">
           <div className="iq-sidebar-logo">
             <div className="top-logo">
-              <a href="index.html" className="logo">
+            <a href="#">
+                    <img className="header_img1" alt="Logo" id="header_img1" />
+                    <span><img className="header_img2" alt="Logo" id='header_img2' /></span>
+                </a>
+              {/* <a href="index.html" className="logo">
                 <img
                   src="assets/images/inalgo.png"
                   className="img-fluid"
                   alt=""
                 />
-              </a>
+              </a> */}
             </div>
           </div>
           {role === "Admin" ? (

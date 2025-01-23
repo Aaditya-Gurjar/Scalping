@@ -32,31 +32,31 @@ const Sidebar = () => {
     }, []);
 
 
-    const closeSidebarOnSmallScreen = () => {
-        if (window.innerWidth <= 991) {
-            document.body.classList.remove('sidebar-main');
-        }
-    };
+    // const closeSidebarOnSmallScreen = () => {
+    //     if (window.innerWidth <= 991) {
+    //         document.body.classList.remove('sidebar-main');
+    //     }
+    // };
 
 
-    useEffect(() => {
-        const sidebar = sidebarRef.current;
-        const handleAnchorClick = (event) => {
-            closeSidebarOnSmallScreen();
-        };
+    // useEffect(() => {
+    //     const sidebar = sidebarRef.current;
+    //     const handleAnchorClick = (event) => {
+    //         closeSidebarOnSmallScreen();
+    //     };
 
-        const anchors = sidebar.querySelectorAll('a');
-        anchors.forEach((anchor) => {
-            anchor.addEventListener('click', handleAnchorClick);
-        });
+    //     const anchors = sidebar.querySelectorAll('a');
+    //     anchors.forEach((anchor) => {
+    //         anchor.addEventListener('click', handleAnchorClick);
+    //     });
 
-        return () => {
-            anchors.forEach((anchor) => {
-                anchor.removeEventListener('click', handleAnchorClick);
-            });
-        };
+    //     return () => {
+    //         anchors.forEach((anchor) => {
+    //             anchor.removeEventListener('click', handleAnchorClick);
+    //         });
+    //     };
 
-    }, [isActive]);
+    // }, [isActive]);
 
 
     useEffect(() => {
@@ -392,11 +392,11 @@ const Sidebar = () => {
     return (
         <div className="iq-sidebar">
             <div className="iq-sidebar-logo d-flex justify-content-between">
-                <a href="#">
+                {/* <a href="#">
                     <img className="header_img1" alt="Logo" id="header_img1" />
                     <span><img className="header_img2" alt="Logo" id='header_img2' /></span>
-                </a>
-                <div className="iq-menu-bt-sidebar">
+                </a> */}
+                {/* <div className="iq-menu-bt-sidebar">
                     <div className="iq-menu-bt align-self-center">
                         <div onClick={handleClick} className={`wrapper-menu ${isActive ? 'open' : ''}`}>
                             <div className="main-circle">
@@ -407,7 +407,7 @@ const Sidebar = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
             <div
                 id="sidebar-scrollbar"

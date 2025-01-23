@@ -632,7 +632,7 @@ a:hover {
 .iq-sidebar {
   position: fixed;
   z-index: 999;
-  top: 0;
+  top: 70px;
   width: 260px;
   height: 100%;
   transition: all 0.3s ease-in-out;
@@ -641,9 +641,9 @@ a:hover {
   -ms-transition: all 0.3s ease-in-out;
   -o-transition: all 0.3s ease-in-out;
   -webkit-transition: all 0.3s ease-in-out;
-  -webkit-box-shadow: 0px 0px 25px 0px rgba(45, 69, 95, 0.1);
+  /* -webkit-box-shadow: 0px 0px 25px 0px rgba(45, 69, 95, 0.1);
   -moz-box-shadow: 0px 0px 25px 0px rgba(45, 69, 95, 0.1);
-  box-shadow: 0px 0px 25px 0px rgba(45, 69, 95, 0.1);
+  box-shadow: 0px 0px 25px 0px rgba(45, 69, 95, 0.1); */
 }
 
 .iq-sidebar.open {
@@ -968,7 +968,7 @@ body.sidebar-main .iq-sidebar:hover .iq-menu li.menu-open>a {
   display: inline-block;
   z-index: 99;
   background: #1a1e23;
-  margin: 20px 30px;
+  /* margin: 20px 30px; */
   -webkit-box-shadow: 0px 0px 25px 0px rgba(45, 69, 95, 0.1);
   -moz-box-shadow: 0px 0px 25px 0px rgba(45, 69, 95, 0.1);
   box-shadow: 0px 0px 25px 0px rgba(45, 69, 95, 0.1);
@@ -1096,9 +1096,7 @@ body.sidebar-main .iq-sidebar:hover .iq-menu li.menu-open>a {
   font-size: 14px;
 }
 
-.iq-top-navbar .iq-sidebar-logo .top-logo {
-  display: none;
-}
+
 
 .iq-breadcrumb {
   display: none;
@@ -1178,7 +1176,7 @@ div#lottie-fullscreen svg path {
   display: block;
   padding: 10px 15px;
   text-transform: capitalize;
-  color: #a09e9e;
+  color: #1a1e23;
   border-radius: 10px;
   -webkit-border-radius: 10px;
 }
@@ -1221,7 +1219,7 @@ div#lottie-fullscreen svg path {
 
 /*---------- Sidebar Logo --------------*/
 .iq-sidebar-logo {
-  display: none;
+  /* display: none; */
   width: 260px;
   padding-top: 15px;
   padding-left: 20px;
@@ -1497,14 +1495,13 @@ body.sidebar-main .iq-menu-bt-sidebar .iq-menu-bt {
 .content-page {
   margin-left: 260px;
   overflow: hidden;
-  padding: 120px 15px 0;
+  padding: 65px 0px 0;
   min-height: 100vh;
   -webkit-transition: all 0.3s ease-out 0s;
   -moz-transition: all 0.3s ease-out 0s;
   -ms-transition: all 0.3s ease-out 0s;
   -o-transition: all 0.3s ease-out 0s;
   transition: all 0.3s ease-out 0s;
- 
 }
 
 .iq-user-dropdown {
@@ -1523,9 +1520,7 @@ body.sidebar-main .content-page {
   margin-left: 80px;
 }
 
-body.sidebar-main .iq-sidebar-logo {
-  width: 80px;
-}
+
 
 body.sidebar-main .iq-sidebar .iq-sidebar-menu .iq-menu li a span,
 body.sidebar-main .iq-sidebar-logo a span,
@@ -3450,14 +3445,14 @@ button.close-popup {
   transition: transform .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out, -webkit-transform .15s ease-in-out
 }
 
-.custom-control-input {
+/* .custom-control-input {
   position: absolute;
   left: 0;
   z-index: -1;
   width: 1rem;
   height: 1.25rem;
   opacity: 0;
-}
+} */
 
 .custom-control-label {
   position: relative;
