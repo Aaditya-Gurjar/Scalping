@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Sidebar from '../components/layouts/Sidebar';
+import SidebarRight from '../components/layouts/SidebarRight';
 import Header from '../components/layouts/Header';
 import Dashboard from '../components/user/UserDashboard/Userdashboard';
 import Addscript from '../components/user/UserScript/Addscript.scalping';
@@ -63,6 +64,7 @@ const UserRoute = () => {
           </Routes>
 
         </div>
+        <SidebarRight />
       </div>
       {/* )} */}
     </>

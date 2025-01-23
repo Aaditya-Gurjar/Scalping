@@ -502,21 +502,16 @@ const Header = () => {
                 className="collapse navbar-collapse"
                 id="navbarSupportedContent">
                 <ul className="navbar-nav ms-auto navbar-list align-items-center">
-                  <li className="nav-item">
+                  {/* <li className="nav-item">
                     <button
                       className="btn btn-primary mt-3 mx-3 btn1"
                       style={{ pointerEvents: "none" }}>
                       Hello, Admin
                     </button>
-                  </li>
+                  </li> */}
 
                   <li className="nav-item">
-                    <button
-                      type="button"
-                      className="btn btn-primary mt-3 mx-3 btn1"
-                      onClick={(e) => setIsModalVisible(true)}>
-                      Set API Key
-                    </button>
+                    
                   </li>
 
                   <li className="nav-item">
@@ -679,13 +674,13 @@ const Header = () => {
                   </div>
                 </div>
                 <ul className="navbar-nav ms-auto navbar-list align-items-center">
-                  <li className="nav-item">
+                  {/* <li className="nav-item">
                     <button
                       className="btn btn-primary mt-3 mx-3 btn1"
                       style={{ pointerEvents: "none" }}>
                       Hello, User
                     </button>
-                  </li>
+                  </li> */}
                   {getBrokerName && getBrokerName == "Demo" ? (
                     <li className="nav-item">
                       <button
@@ -696,14 +691,14 @@ const Header = () => {
                     </li>
                   ) : (
                     <>
-                      <li className="nav-item">
+                      {/* <li className="nav-item">
                         <button
                           type="button"
                           className="btn btn-primary mt-4 btn1"
                           onClick={(e) => setIsModalVisible(true)}>
                           Set API Key
                         </button>
-                      </li>
+                      </li> */}
                     </>
                   )}
 
@@ -787,6 +782,20 @@ const Header = () => {
                               </div>
                             </div>
                           </Link>
+                          <Link
+                    
+                      className="iq-sub-card iq-bg-warning-hover text-decoration-none"
+                      onClick={(e) => setIsModalVisible(true)}>
+                         <div className="media align-items-center d-flex">
+                              <div className="rounded card-icon bg-soft-warning">
+                                <i className="ri-profile-line" />
+                              </div>
+                              <div className="media-body ms-3">
+                                <h6 className="mb-0 ">Set API Key</h6>
+                              </div>
+                            </div>
+                      
+                    </Link>
                           <Link
                             to="/user/editprofile"
                             className="iq-sub-card iq-bg-warning-hover text-decoration-none">
