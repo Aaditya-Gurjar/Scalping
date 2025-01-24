@@ -328,7 +328,7 @@ const Sidebar = () => {
     const userSidebarItems = [
         {
             path: '/user/dashboard',
-            icon: <i className="ri-home-fill" />,
+            icon: <i className="ri-home-8-line" />,
             label: 'Dashboard',
             permission: [] // No restriction
         },
@@ -356,36 +356,7 @@ const Sidebar = () => {
             label: 'Trade Report',
             permission: [] // No restriction
         },
-        {
-            path: 'tradehistory',
-            icon: <i className="la la-palette" />,
-            label: 'Trade History',
-            permission: [] // No restriction
-        },
-        {
-            path: 'traderesponse',
-            icon: <i className="la la-sellsy" />,
-            label: 'Trade Response',
-            permission: [] // No restriction
-        },
-        {
-            path: 'profitandloss',
-            icon: <i className="las la-universal-access" />,
-            label: 'Net P&L',
-            permission: [] // No restriction
-        },
-        {
-            path: 'pannel',
-            icon: <i className="lab la-ello" />,
-            label: 'Panel Track',
-            permission: [] // No restriction
-        },
-        {
-            path: 'discription',
-            icon: <i className="lab la-get-pocket" />,
-            label: 'Description',
-            permission: [] // No restriction
-        }
+        
     ];
 
 
@@ -488,7 +459,11 @@ const Sidebar = () => {
                                                     onClick={(e) => handleSidebarClick(e, item.path)}
                                                 >
                                                     <Link to={expire?.includes(1) ? "/user/all/plan" : item.path} className="iq-waves-effect">
-                                                        {item.icon}
+
+                                                        <div data-toggle="tooltip" data-placement="left" title={item.label}>
+                                                            {item.icon}
+                                                        </div>
+
                                                         <span style={{ marginLeft: '8px' }}>{item.label}</span>
                                                     </Link>
                                                 </li>

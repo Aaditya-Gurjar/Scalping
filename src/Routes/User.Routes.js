@@ -64,6 +64,7 @@ const UserRoute = () => {
           </Routes>
 
         </div>
+       
         <SidebarRight />
       </div>
       {/* )} */}

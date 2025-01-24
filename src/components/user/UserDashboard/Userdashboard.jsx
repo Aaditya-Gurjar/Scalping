@@ -709,7 +709,7 @@ const Userdashboard = () => {
                 </li>
               </ul>
 
-              <div className="row">
+              <div className="row mt-5">
                 {activeTab1 === "CurrentPosition" && (
                   <div className="d-flex">
                     <div
@@ -794,6 +794,10 @@ const Userdashboard = () => {
                   </div>
                 )}
               </div>
+              </div>
+</div>
+<div className="iq-card mt-4">
+
               <div className="">
                 {activeTab1 === "CurrentPosition" && (
                   <>
@@ -827,7 +831,7 @@ const Userdashboard = () => {
                         className="tab-pane fade show active"
                         id="home-justify"
                         role="tabpanel">
-                        <div className="tab-content mt-3">
+                        <div className="tab-content">
                           <CurrentScript
                             tableType={tableType}
                             data={subTab}
@@ -889,7 +893,7 @@ const Userdashboard = () => {
                     </div>
                   </>
                 )}
-              </div>
+              
             </div>
           </div>
         </div>

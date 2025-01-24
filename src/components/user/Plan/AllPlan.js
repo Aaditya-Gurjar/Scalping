@@ -342,7 +342,7 @@ const ServicesList = () => {
                                 <Tabs
                                     defaultActiveKey="Scalping"
                                     id="fill-tab-example"
-                                    className="mb-3 custom-tabs w-50"
+                                    className="mb-3 custom-tabs "
                                     fill>
                                     <Tab eventKey="Scalping" title="Scalping">
                                         <div className="">
@@ -353,7 +353,7 @@ const ServicesList = () => {
                                                             plan.PlanName == "Three Days Live" || plan.PlanName == "One Week Demo" || plan.PlanName == "Two Days Demo" ? "" :
                                                                 <Card key={index}  className="col-lg-3 col-md-6 mb-3 all-plan-card">
                                                                     <div className="d-flex flex-column justify-content-between h-100 p-3 border">
-                                                                        <div>
+                                                                        <div className="plan-data">
                                                                             <div style={styles.content}>
                                                                                 <h2 style={styles.title}>
                                                                                     {plan.PlanName} {SetPlan(plan.PlanName)}

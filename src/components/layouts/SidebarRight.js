@@ -326,36 +326,7 @@ const Sidebar = () => {
 
 
     const userSidebarItems = [
-        {
-            path: '/user/dashboard',
-            icon: <i className="ri-home-fill" />,
-            label: 'Dashboard',
-            permission: [] // No restriction
-        },
-        {
-            path: 'technical/pattern',
-            icon: <i className="lab la-joget" />,
-            label: 'Technical Patterns',
-            permission: [] // No restriction
-        },
-        {
-            path: 'lastpattern',
-            icon: <i className="lab la-ioxhost" />,
-            label: 'Last Patterns',
-            permission: [] // No restriction
-        },
-        {
-            path: 'all/plan',
-            icon: <i className="lab la-ioxhost" />,
-            label: 'All Plans',
-            permission: [] // No restriction
-        },
-        {
-            path: 'tradereport',
-            icon: <i className="la la-sellsy" />,
-            label: 'Trade Report',
-            permission: [] // No restriction
-        },
+       
         {
             path: 'tradehistory',
             icon: <i className="la la-palette" />,
@@ -390,7 +361,7 @@ const Sidebar = () => {
 
 
     return (
-        <div className="iq-sidebar">
+        <div className="iq-sidebar sidebar-right">
             <div className="iq-sidebar-logo d-flex justify-content-between">
               
                 {/* <div className="iq-menu-bt-sidebar">
@@ -485,7 +456,9 @@ const Sidebar = () => {
                                                     onClick={(e) => handleSidebarClick(e, item.path)}
                                                 >
                                                     <Link to={expire?.includes(1) ? "/user/all/plan" : item.path} className="iq-waves-effect">
-                                                        {item.icon}
+                                                    <div  data-toggle="tooltip" data-placement="left" title={item.label}>
+{item.icon}
+</div>
                                                         <span style={{ marginLeft: '8px' }}>{item.label}</span>
                                                     </Link>
                                                 </li>
