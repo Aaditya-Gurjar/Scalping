@@ -5101,10 +5101,13 @@ a {
   position: sticky;
   top: 0px;
   z-index: 100;
-  color: #fff !important;
+  color: #bdbec0  !important;
   background: transparent !important;
 }
-
+.MuiTypography-root, .MuiTablePagination-toolbar, .MuiTablePagination-actions button svg
+{
+  color: #bdbec0  !important;
+}
 .css-1ygcj2i-MuiTableCell-root {
 
   padding: 8px !important;
@@ -5624,23 +5627,25 @@ option[value='Reject'] {
 ul#fill-tab-example {
 margin: 0px auto;
 }
-button.nav-link.active,
+button.nav-link.active
 {
   color: #fff !important;
   background-color: #3f414d !important;
 }
-.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active ,.nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover
+a.nav-link.active, .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active ,.nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover
 {
   border: 0;
   border-bottom:1px solid #fff !important;
   border-radius: 0px;
+  background-color: transparent !important; 
+
 }
 .form-select, .form-control {
   background-color: #1a1e23 !important;
   color: #bdbec0 !important;
   border-color: #4b5055 !important;
 }
-ul.nav.nav-tabs.justify-content-center ,  .nav-tabs.nav-fill{
+ul.nav.nav-tabs.justify-content-center ,  .nav-tabs.nav-fill, .nav.nav-pills{
   background: #0e1218;
   margin: 10px 20px;
   border-radius: 10px;
@@ -5671,4 +5676,16 @@ tbody.MuiTableBody-root.css-apqrd9-MuiTableBody-root , tfoot.MuiTableFooter-root
 .MuiTableRow-head {
   border-top: 2px solid #fff;
   background: transparent;
+}
+.MuiTableHead-root {
+  background-color: #2f3239 !important;
+}
+p, h1,h2,h3,h4,h5, body
+{
+  color: #bdbec0 !important;
+}
+.modal-content {
+
+  background-color: #1e293b !important;
+  
 }
