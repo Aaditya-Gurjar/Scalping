@@ -33,6 +33,9 @@ const NewUpdate = () => {
                 const response = await superToAdminAddNewPermission(req);
                 if (response.Status) {
                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         title: 'New Permission Added!',
                         text: response.message,
                         icon: 'success',
@@ -42,6 +45,9 @@ const NewUpdate = () => {
                     // setTimeout(() => navigate('/superadmin/create-admin'), 1500);
                 } else {
                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         title: 'Error!',
                         text: response.message || 'Unknown error occurred',
                         icon: 'error',
@@ -51,6 +57,9 @@ const NewUpdate = () => {
                 }
             } catch (error) {
                 Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                     title: 'Error!',
                     text: error.response?.data?.message || 'Failed to add new permission',
                     icon: 'error',

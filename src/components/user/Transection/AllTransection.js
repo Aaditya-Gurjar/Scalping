@@ -85,6 +85,9 @@ const Clientservice = () => {
             .then((response) => {
                 if (response.Status) {
                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         title: "Success",
                         text: response.message,
                         icon: "success",
@@ -100,6 +103,9 @@ const Clientservice = () => {
                 }
                 else {
                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         title: "Error",
                         text: response.message,
                         icon: "error",
@@ -122,6 +128,9 @@ const Clientservice = () => {
             .then((response) => {
                 if (response.Status) {
                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         title: "Success",
                         text: response.message,
                         icon: "success",
@@ -137,6 +146,9 @@ const Clientservice = () => {
                 }
                 else {
                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         title: "Error",
                         text: response.message,
                         icon: "error",

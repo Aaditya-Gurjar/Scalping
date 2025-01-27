@@ -5617,12 +5617,7 @@ option[value='Reject'] {
       row-gap: 20px;
   }
 }
-.all-plan-card {
-  border: none !important;
-  box-shadow: none !important;
-  padding: 15px 10px !important;
-  width: 25% !important;
-}
+
 
 ul#fill-tab-example {
 margin: 0px auto;
@@ -5684,8 +5679,23 @@ p, h1,h2,h3,h4,h5, body
 {
   color: #bdbec0 !important;
 }
-.modal-content {
+.modal-content, .setApi .card-body, .setApi .card{
 
   background-color: #1e293b !important;
+  --bs-card-bg: #1e293b !important;
   
+}
+.setApi .iq-card.content.container-fluid {
+ padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+.all-plan-card {
+  background-color: #22282f;
+  border-radius: 10px;
+  width: 100%;
+  padding: 20px 20px;
+}
+.plan-data {
+  text-align: center;
 }

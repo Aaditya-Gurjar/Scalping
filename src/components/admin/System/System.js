@@ -127,6 +127,9 @@ const Strategygroup = () => {
                 const response = await UploadImage(data);
                 if (response.Status) {
                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         icon: 'success',
                         title: 'Success',
                         text: 'Data Added Successfully',
@@ -139,6 +142,9 @@ const Strategygroup = () => {
                     ReloadFun()
                 } else {
                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         icon: 'error',
                         title: 'Error',
                         text: 'Data Not Added',
@@ -147,6 +153,9 @@ const Strategygroup = () => {
             } catch (err) {
                 console.error("Error in Adding Data", err);
                 Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                     icon: 'error',
                     title: 'Error',
                     text: 'An error occurred while adding data.',

@@ -84,6 +84,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
     const SweentAlertFun = (text) => {
         Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
             title: "Error",
             text: text,
             icon: "error",
@@ -154,6 +157,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
 
         Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
             title: "Are you sure?",
             text: "You won't be able to revert this!",
             icon: "warning",
@@ -167,6 +173,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                     .then((response) => {
                         if (response.Status) {
                             Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                                 title: "Square off Successfully!",
                                 text: response.message,
                                 icon: "success",
@@ -181,6 +190,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                             }, 1500)
                         } else {
                             Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                                 title: "Error !",
                                 text: response.message,
                                 icon: "error",
@@ -245,6 +257,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         // console.log("getCharting[index]?.AccType", getCharting[index]?.AccType)
         if (trading) {
             Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                 title: "Do you want to Discontinue",
                 text: "You won't be able to revert this!",
                 icon: "info",
@@ -323,6 +338,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                             .then((response) => {
                                 if (response.Status) {
                                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                                         title: "Success",
                                         text: response.message,
                                         icon: "success",
@@ -334,6 +352,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                 }
                                 else {
                                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                                         title: "Error !",
                                         text: response.message,
                                         icon: "error",
@@ -349,6 +370,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                 console.log("response", response)
                                 if (response.Status) {
                                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                                         title: "Success",
                                         text: response.message,
                                         icon: "success",
@@ -361,6 +385,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                 }
                                 else {
                                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                                         title: "Error !",
                                         text: response.message,
                                         icon: "error",
@@ -389,6 +416,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         else {
             {
                 Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                     title: "Do you want to Continue",
                     text: "You won't be able to revert this!",
                     icon: "info",
@@ -463,6 +493,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                             .then((response) => {
                                 if (response.Status) {
                                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                                         title: "Success",
                                         text: response.message,
                                         icon: "success",
@@ -474,6 +507,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                 }
                                 else {
                                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                                         title: "Error !",
                                         text: response.message,
                                         icon: 'error',
@@ -497,6 +533,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
     const AddScript = (data) => {
         if (data2.status == false) {
             Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                 title: "Error",
                 text: data2.msg,
                 icon: "error",
@@ -511,6 +550,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 }
                 else {
                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         title: "Warning",
                         text: "Don't have any script left Please buy some Scripts",
                         icon: "warning",
@@ -526,6 +568,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 }
                 else {
                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         title: "Warning",
                         text: "Don't have any script left Please buy some Scripts",
                         icon: "warning",
@@ -541,6 +586,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 }
                 else {
                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         title: "Warning",
                         text: "Don't have any script left Please buy some Scripts",
                         icon: "warning",
@@ -560,6 +608,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 }
                 else {
                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         title: "Warning",
                         text: "Don't have any script left Please buy some Scripts",
                         icon: "warning",
@@ -741,6 +792,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                             title: "Updated",
                             text: response.message,
                             icon: "success",
@@ -753,6 +807,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                         }, 1500)
                     } else {
                         Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                             title: "Error !",
                             text: response.message,
                             icon: "error",
@@ -879,6 +936,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                             title: "Updated",
                             text: response.message,
                             icon: "success",
@@ -891,6 +951,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                         }, 1500)
                     } else {
                         Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                             title: "Error !",
                             text: response.message,
                             icon: "error",
@@ -1016,6 +1079,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                             title: "Updated",
                             text: response.message,
                             icon: "success",
@@ -1028,6 +1094,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                         }, 1500)
                     } else {
                         Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                             title: "Error !",
                             text: response.message,
                             icon: "error",

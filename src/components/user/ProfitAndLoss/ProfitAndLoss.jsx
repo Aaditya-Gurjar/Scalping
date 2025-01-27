@@ -73,6 +73,9 @@ const Tradehistory = () => {
 
         if (response.Status) {
           Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
             title: "Success",
             icon: "success",
             text: response.message,
@@ -88,6 +91,9 @@ const Tradehistory = () => {
           setShowTable(true);
         } else {
           Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
             title: "No Records found",
             icon: "info",
             text: response.message,

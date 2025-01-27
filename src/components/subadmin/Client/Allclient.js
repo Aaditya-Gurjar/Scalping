@@ -240,6 +240,9 @@ const AllClient = () => {
                 const response = await EditClientPanle(req);
                 if (response.Status) {
                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         title: "Updated",
                         text: response.message,
                         icon: "success",
@@ -254,6 +257,9 @@ const AllClient = () => {
                     fetchAllSubadmin();
                 } else {
                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         title: "Error",
                         text: response.message,
                         icon: "error",

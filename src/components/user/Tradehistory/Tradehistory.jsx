@@ -266,6 +266,9 @@ const Tradehistory = () => {
           setShowTable(true);
         } else {
           Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
             title: "No Records found",
             icon: "info",
             timer: 1500,
