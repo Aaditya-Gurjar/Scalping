@@ -1175,10 +1175,8 @@ Margin Bottom
 Card
 ------------------------------------------------*/
 .iq-card {
-  background: #ffffff;
-  -webkit-border-radius: 25px;
-  -moz-border-radius: 25px;
-  border-radius: 25px;
+  background: #1a1e23;
+
   margin-bottom: 30px;
   border: none;
   -webkit-box-shadow: 0px 4px 5px 1px rgba(175, 175, 175, 0.1);
