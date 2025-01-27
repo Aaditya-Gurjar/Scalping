@@ -221,7 +221,8 @@ import { Get_All_Plans } from "../../CommonAPI/User";
 const EditSubadmin = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { rowData } = location.state || {};
+  const { rowData,rowIndex } = location.state || {};
+  
 
   const Name_regex = (name) => {
     const nameRegex = /^[a-zA-Z]+$/;
@@ -242,7 +243,7 @@ const EditSubadmin = () => {
     const GetAllSubadminData = async () => {
       const response = await GetAllSubadmin();
       const matchuser = response.Data.find((item) => {
-        return item.Username === rowData.Username; // Match by Username
+        return item.Username === rowData?.Username; // Match by Username
       });
 
       if (matchuser) {
@@ -253,14 +254,15 @@ const EditSubadmin = () => {
     GetAllSubadminData();
   }, [rowData]);
 
-  console.log("Permissions", permissions);
+  
+  // console.log("Permissions", permissions);
 
   const formik = useFormik({
     initialValues: {
-      Username: rowData.Username || "",
-      Name: rowData.Name || "",
-      SignEmail: rowData.EmailId || "",
-      mobile_no: rowData.Mobile_No || "",
+      Username: rowData?.Username || "",
+      Name: rowData?.Name || "",
+      SignEmail: rowData?.EmailId || "",
+      mobile_no: rowData?.Mobile_No || "",
       permissions: permissions || [], // Ensure permissions is set here
     },
 

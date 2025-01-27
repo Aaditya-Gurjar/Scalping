@@ -63,13 +63,13 @@ const AllSubadmin = () => {
 
 
     const EditSubadmindetail = (value, tableMeta) => {
-        // console.log("clientService",value);
+        console.log("clientService",value);
         
         
         const rowIndex = tableMeta.rowIndex;
 
         const rowData = tableMeta.rowData;
-        // return
+        return
 
         navigate(`/admin/editSubadmin`, {
             state: { rowIndex, rowData },

@@ -9,6 +9,7 @@ import "ag-charts-enterprise";
 import ApexCharts from 'react-apexcharts';
 import Swal from 'sweetalert2';
 import "react-datepicker/dist/react-datepicker.css";
+import ChartComponent from '../AdvanceChart/ChartComponent'
 
 
 const Tradehistory = () => {
@@ -429,6 +430,39 @@ const Tradehistory = () => {
         setShowTable(false)
     }, [selectStrategyType, selectGroup, selectedRowData])
 
+    const Accordion = ({ id, title, content }) => (
+        <div className="mb-3 mt-3">
+            <div className="accordion" id={id}>
+                <div className="accordion-item">
+                    <h2 className="accordion-header" id={`heading-${id}`}>
+                        <button
+                            className="accordion-button collapsed"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target={`#collapse-${id}`}
+                            aria-expanded="false"
+                            aria-controls={`collapse-${id}`}
+                            style={{ fontWeight: 'bold' }}
+                        >
+                            {title}
+                        </button>
+                    </h2>
+                    <div
+                        id={`collapse-${id}`}
+                        className="accordion-collapse collapse"
+                        aria-labelledby={`heading-${id}`}
+                        data-bs-parent={`#${id}`}
+                    >
+                        <div className="accordion-body">
+                            {content}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+
+
 
 
     return (
@@ -513,182 +547,132 @@ const Tradehistory = () => {
                                 )}
                             <button className='btn btn-primary mt-2' onClick={handleSubmit}>Submit</button>
 
-                            {showTable && <>
-
-                                <div>
-                                    {/* <p className='bold mt-4' style={{ fontWeight: 'bold', fontSize: '20px', color: 'black' }}>
-                                        Total Profit and Loss : <span style={{ color: getAllTradeData && getAllTradeData.Overall[0].PnL < 0 ? 'red' : 'green' }}>{getAllTradeData && parseFloat(getAllTradeData.Overall[0].PnL).toFixed(4)}</span>
-                                    </p> */}
-
-                                    <p className='bold mt-4' style={{ fontWeight: 'bold', fontSize: '20px', color: 'black' }}>
-                                        Total Profit and Loss : <span style={{ color: getAllTradeData && getAllTradeData.Overall[0].PnL < 0 ? 'red' : 'green' }}>{getAllTradeData && getAllTradeData.Overall[0].PnL}</span>
-                                    </p>
-
-
-
-                                </div>
-
-                                <div className='mt-3'>
-                                    <GridExample
-                                        columns={columns3(selectStrategyType)}
-                                        data={getAllTradeData.data}
-                                        onRowSelect={handleRowSelect}
-                                        checkBox={false}
+                            {showTable && (
+                                <>
+                                    <Accordion
+                                        id="totalProfitLoss"
+                                        title="Total Profit and Loss Details"
+                                        content={
+                                            <>
+                                                <p className="bold mt-4" style={{ fontWeight: 'bold', fontSize: '20px', color: 'black' }}>
+                                                    Total Profit and Loss:
+                                                    <span style={{ color: getAllTradeData && getAllTradeData.Overall[0].PnL < 0 ? 'red' : 'green' }}>
+                                                        {getAllTradeData && getAllTradeData.Overall[0].PnL}
+                                                    </span>
+                                                </p>
+                                                <GridExample columns={columns3(selectStrategyType)} data={getAllTradeData.data} onRowSelect={handleRowSelect} checkBox={false} />
+                                            </>
+                                        }
                                     />
-                                </div>
 
+                                    <Accordion
+                                        id="drawdownGraph"
+                                        title="Drawdown Graph"
+                                        content={
+                                            <>
+                                                <p className="bold mt-3" style={{ fontWeight: 'bold', fontSize: '20px', color: 'black' }}>
+                                                    Drawdown Graph
+                                                </p>
+                                                <div style={{ width: '100%', height: '500px' }}>
+                                                    <AgChartsReact options={chartOptions2} />
+                                                </div>
+                                            </>
+                                        }
+                                    />
 
+                                    <Accordion
+                                        id="drawdownTable"
+                                        title="Drawdown Table"
+                                        content={
+                                            <GridExample columns={columns6()} data={getDropDownData.data} onRowSelect={handleRowSelect} checkBox={false} />
+                                        }
+                                    />
 
+                                    <Accordion
+                                        id="pnlGraph"
+                                        title="Profit and Loss Graph"
+                                        content={
+                                            <>
+                                                <p className="bold mt-3" style={{ fontWeight: 'bold', fontSize: '20px', color: 'black' }}>
+                                                    Profit and Loss Graph
+                                                </p>
+                                                <div style={{ width: '100%', height: '500px' }}>
+                                                    <AgChartsReact options={chartOptions} />
+                                                </div>
+                                            </>
+                                        }
+                                    />
 
-                                {/* EquityCurve  Graph show */}
-                                <p className='bold mt-3' style={{ fontWeight: 'bold', fontSize: '20px', color: 'black' }}>
-                                    Drawdown Graph
-                                </p>
-                                <div style={{ width: '100%', height: '500px' }}>
-                                    <AgChartsReact options={chartOptions2} />
-                                </div>
-
-
-
-                                <div className='mb-3 mt-3'>
-                                    <div className="accordion" id="accordionExample">
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header" id="headingTwo">
-                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" style={{ fontWeight: 'bold' }}>
-                                                    Drawdown Table
-                                                </button>
-
-                                            </h2>
-                                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                                <div class="accordion-body">
-                                                    <GridExample
-                                                        columns={columns6()}
-                                                        data={getDropDownData.data}
-                                                        onRowSelect={handleRowSelect}
-                                                        checkBox={false}
-                                                    />
+                                    <Accordion
+                                        id="topTrades"
+                                        title="5 Most Profit and Loss Trades"
+                                        content={
+                                            <div className="d-flex">
+                                                <div id="chart" style={{ width: '50%', height: '300px' }}>
+                                                    <p className="bold mt-3" style={{ fontWeight: 'bold', fontSize: '20px', color: 'black' }}>
+                                                        5 most Profit Trade
+                                                    </p>
+                                                    <ApexCharts options={options} series={options.series} type="pie" width={options.chart.width} />
+                                                </div>
+                                                <div id="chart" style={{ width: '50%', height: '300px' }}>
+                                                    <p className="bold mt-3" style={{ fontWeight: 'bold', fontSize: '20px', color: 'black' }}>
+                                                        5 most Loss Trade
+                                                    </p>
+                                                    <ApexCharts options={options1} series={options1.series} type="pie" width={options1.chart.width} />
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* PnL Graph Table */}
-                                {/* <p className='bold mt-3' style={{ fontWeight: 'bold', fontSize: '20px', color: 'black' }}>
-                                    Profit and Loss Table
-                                </p>
-                                <div className=''>
-                                    <GridExample
-                                        columns={columns4()}
-                                        data={getPnLData.data2}
-                                        onRowSelect={handleRowSelect}
-                                        checkBox={false}
+                                        }
                                     />
-                                </div> */}
 
-
-                                {/* PnL Graph show */}
-                                <p className='bold mt-3' style={{ fontWeight: 'bold', fontSize: '20px', color: 'black' }}>
-                                    Profit and Loss Graph
-                                </p>
-                                <div style={{ width: '100%', height: '500px' }}>
-                                    <AgChartsReact options={chartOptions} />
-                                </div>
-
-                                {/* 5 Most profit and loss graph */}
-
-                                <div className='d-flex'>
-                                    <div id="chart" style={{ width: '50%', height: '300px' }}>
-
-                                        <p className='bold mt-3' style={{ fontWeight: 'bold', fontSize: '20px', color: 'black' }}>
-                                            5 most Profit Trade
-                                        </p>
-                                        <ApexCharts
-                                            options={options}
-                                            series={options.series}
-                                            type="pie"
-                                            width={options.chart.width}
-                                        />
-                                    </div>
-                                    <div id="chart" style={{ width: '50%', height: '300px' }}>
-                                        <p className='bold mt-3' style={{ fontWeight: 'bold', fontSize: '20px', color: 'black' }}>
-                                            5 most Loss Trade
-                                        </p>
-                                        <ApexCharts
-                                            options={options1}
-                                            series={options1.series}
-                                            type="pie"
-                                            width={options1.chart.width}
-                                        />
-                                    </div>
-                                </div>
-
-                                {/*  Consistent Loss & Profit-Making Trades: */}
-
-                                <div>
-                                    <p className='bold mt-3' style={{ fontWeight: 'bold', fontSize: '20px', color: 'black' }}>
-                                        Consistent Loss & Profit-Making Trades:
-                                    </p>
-                                </div>
-
-                                <div className='row'>
-                                    <div className='col-lg-6'>
-                                        {/* <p>Consistant Profit : <spam>{parseFloat(getAllTradeData.data1).toFixed(4)}</spam></p>
-                                        <p>Count Consistant Profit : <spam>{parseFloat(getAllTradeData.data2).toFixed(4)}</spam></p> */}
-
-                                        <p>Consistant Profit : <spam>{getAllTradeData.data1}</spam></p>
-                                        <p>Count Consistant Profit : <spam>{getAllTradeData.data2}</spam></p>
-
-
-
-                                    </div>
-                                    <div className='col-lg-6'>
-                                        {/* <p>Consistant Loss : <spam>{parseFloat(getAllTradeData.data4).toFixed(4)}</spam></p>
-                                        <p>Count Consistant Loss : <spam>{parseFloat(getAllTradeData.data3).toFixed(4)}</spam></p> */}
-
-
-                                        <p>Consistant Loss : <spam>{getAllTradeData.data4}</spam></p>
-                                        <p>Count Consistant Loss : <spam>{getAllTradeData.data3}</spam></p>
-
-                                    </div>
-
-                                </div>
-
-                                {/* EquityCurve */}
-
-                                <div>
-
-                                    {/* EquityCurve  Graph show */}
-                                    <p className='bold mt-3' style={{ fontWeight: 'bold', fontSize: '20px', color: 'black' }}>
-                                        EquityCurve
-                                    </p>
-                                    <div style={{ width: '100%', height: '500px' }}>
-                                        <AgChartsReact options={chartOptions1} />
-                                    </div>
-
-                                    <div>
-                                        <div className="accordion" id="accordionExample">
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header" id="headingTwo">
-                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" style={{ fontWeight: 'bold' }}>
-                                                        Equity Curve Table
-                                                    </button>
-                                                </h2>
-                                                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                                    <div class="accordion-body">
-                                                        <GridExample
-                                                            columns={columns5(selectStrategyType)}
-                                                            data={getEquityCurveDetails.data}
-                                                            onRowSelect={handleRowSelect}
-                                                            checkBox={false}
-                                                        />
+                                    <Accordion
+                                        id="consistentTrades"
+                                        title="Consistent Loss & Profit-Making Trades"
+                                        content={
+                                            <>
+                                                <p className="bold mt-3" style={{ fontWeight: 'bold', fontSize: '20px', color: 'black' }}>
+                                                    Consistent Loss & Profit-Making Trades:
+                                                </p>
+                                                <div className="row">
+                                                    <div className="col-lg-6">
+                                                        <p>Consistent Profit: <span>{getAllTradeData.data1}</span></p>
+                                                        <p>Count Consistent Profit: <span>{getAllTradeData.data2}</span></p>
+                                                    </div>
+                                                    <div className="col-lg-6">
+                                                        <p>Consistent Loss: <span>{getAllTradeData.data4}</span></p>
+                                                        <p>Count Consistent Loss: <span>{getAllTradeData.data3}</span></p>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </>}
+                                            </>
+                                        }
+                                    />
+
+                                    <Accordion
+                                        id="equityCurveGraph"
+                                        title="EquityCurve Graph"
+                                        content={
+                                            <>
+                                                <p className="bold mt-3" style={{ fontWeight: 'bold', fontSize: '20px', color: 'black' }}>
+                                                    EquityCurve
+                                                </p>
+                                                <div style={{ width: '100%', height: '500px' }}>
+                                                    <AgChartsReact options={chartOptions1} />
+                                                </div>
+                                            </>
+                                        }
+                                    />
+
+                                    <Accordion
+                                        id="equityCurveTable"
+                                        title="Equity Curve Table"
+                                        content={
+                                            <GridExample columns={columns5(selectStrategyType)} data={getEquityCurveDetails.data} onRowSelect={handleRowSelect} checkBox={false} />
+                                        }
+                                    />
+
+                                    <ChartComponent/>
+                                </>
+                            )}
+
 
                         </div>
                     </div>

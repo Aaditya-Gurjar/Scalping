@@ -7,13 +7,26 @@ import DropdownMultiselect from "react-multiselect-dropdown-bootstrap";
 import { useNavigate } from 'react-router-dom';
 import Loader from '../../../ExtraComponent/Loader';
 import { Get_All_Plans } from "../../CommonAPI/User";
+import Select from 'react-select';
+
 
 const Adduser = () => {
     const navigate = useNavigate()
     const [getBroker, setBroker] = useState({ loading: true, data: [] })
     const [getGroupData, setGroupData] = useState({ loading: true, data: [] })
     const [selectedOptions, setSelectedOptions] = useState([]);
-    const [optionsArray, setoptionsArray] = useState([]);
+    // console.log("selectedOptions", selectedOptions);
+
+    const [optionsArray, setOptionsArray] = useState([]);
+    // console.log("optionsArray", optionsArray);
+
+    const [selectedIndex, setSelectedIndex] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+
+
+
+
+
     const [GetAllPlans, setAllPlans] = useState({ LivePlanName: [], DemoPlanName: [], data: [] });
 
 
@@ -52,38 +65,62 @@ const Adduser = () => {
             })
     }
 
+    // const GetAllGroupDetails = async () => {
+    //     try {
+    //         await GetGroupNames()
+    //             .then((response) => {
+    //                 if (response.Status) {
+    //                     const options = response.Data.map(item => ({
+    //                         label: item.GroupName,
+    //                         key: item.GroupName
+    //                     }));
+    //                     setOptionsArray(options);
+    //                     setGroupData({
+    //                         loading: false,
+    //                         data: response.Data
+    //                     })
+    //                 }
+    //                 else {
+    //                     setGroupData({
+    //                         loading: false,
+    //                         data: []
+    //                     })
+    //                 }
+    //             })
+    //             .catch((err) => {
+    //                 console.log("Error in data fetch", err)
+    //             })
+    //     }
+    //     catch {
+    //         console.log("Error group data fetch")
+    //     }
+    // }
+
+
     const GetAllGroupDetails = async () => {
         try {
-            await GetGroupNames()
-                .then((response) => {
-                    if (response.Status) {
-                        const arr = response.Data.map(item => ({
-                            label: item.GroupName,
-                            key: item.GroupName
-                        }));
-                        setoptionsArray(arr);
-
-
-                        setGroupData({
-                            loading: false,
-                            data: response.Data
-                        })
-                    }
-                    else {
-                        setGroupData({
-                            loading: false,
-                            data: []
-                        })
-                    }
+            const response = await GetGroupNames();
+            if (response.Status) {
+                const options = response.Data.map((item) => ({
+                    label: item.GroupName,
+                    value: item.GroupName,
+                }));
+                setOptionsArray(options);
+                setGroupData({
+                    loading: false,
+                    data: response.Data
                 })
-                .catch((err) => {
-                    console.log("Error in data fetch", err)
+            } else {
+                setOptionsArray([]);
+                setGroupData({
+                    loading: false,
+                    data: []
                 })
+            }
+        } catch (err) {
+            console.log("Error fetching group names", err);
         }
-        catch {
-            console.log("Error group data fetch")
-        }
-    }
+    };
 
     const GetAllPlansData = async () => {
         await Get_All_Plans()
@@ -113,7 +150,7 @@ const Adduser = () => {
             ClientAmmount: 0,
             planname: "",
             bname: "",
-            groupName: "",
+            groupName: [],
         },
         validate: (values) => {
             let errors = {};
@@ -283,18 +320,38 @@ const Adduser = () => {
             col_size: 6,
             disable: false,
         },
+        // {
+        //     name: "planname",
+        //     label: "Plan Name",
+        //     type: "select1",
+        //     options: formik.values.Select_License == '' ? [] : formik.values.Select_License == 1 ? GetAllPlans.DemoPlanName && GetAllPlans.DemoPlanName.map((item) => ({
+        //         label: item.PlanName,
+        //         value: item.PlanName
+        //     })) :
+        //         GetAllPlans.LivePlanName && GetAllPlans.LivePlanName.map((item) => ({
+        //             label: item.PlanName,
+        //             value: item.PlanName
+        //         })),
+        //     label_size: 12,
+        //     hiding: false,
+        //     col_size: 6,
+        //     disable: false,
+        // },
         {
             name: "planname",
             label: "Plan Name",
             type: "select1",
-            options: formik.values.Select_License == '' ? [] : formik.values.Select_License == 1 ? GetAllPlans.DemoPlanName && GetAllPlans.DemoPlanName.map((item) => ({
-                label: item.PlanName,
-                value: item.PlanName
-            })) :
-                GetAllPlans.LivePlanName && GetAllPlans.LivePlanName.map((item) => ({
+            options: formik.values.Select_License === '1'
+                ? GetAllPlans.DemoPlanName.map((item) => ({
                     label: item.PlanName,
-                    value: item.PlanName
-                })),
+                    value: item.PlanName,
+                }))
+                : formik.values.Select_License === '2'
+                    ? GetAllPlans.LivePlanName.map((item) => ({
+                        label: item.PlanName,
+                        value: item.PlanName,
+                    }))
+                    : [],
             label_size: 12,
             hiding: false,
             col_size: 6,
@@ -319,12 +376,25 @@ const Adduser = () => {
 
     ];
 
-    useEffect(() => {
-        formik.setFieldValue('bname', "")
-        formik.setFieldValue('ClientAmmount', 0)
-        formik.setFieldValue('planname', "")
+    // useEffect(() => {
+    //     formik.setFieldValue('bname', "")
+    //     formik.setFieldValue('ClientAmmount', 0)
+    //     formik.setFieldValue('planname', "")
+    //     setSelectedOptions(showModal && selectedIndex.Planname)
 
-    }, [formik.values.Select_License])
+    // }, [formik.values.Select_License])
+    useEffect(() => {
+        if (formik.values.Select_License === '1') {
+            formik.setFieldValue('bname', "DEMO");
+            formik.setFieldValue('ClientAmmount', 0);
+            formik.setFieldValue('planname', "");
+        } else if (formik.values.Select_License === '2') {
+            formik.setFieldValue('bname', "");
+            formik.setFieldValue('ClientAmmount', "");
+            formik.setFieldValue('planname', "");
+        }
+    }, [formik.values.Select_License]);
+
 
     return (
         <>
@@ -339,17 +409,48 @@ const Adduser = () => {
                         btn_name1="Cancel"
                         formik={formik}
                         btn_name1_route={"/admin/clientservice"}
+                        // additional_field={
+                        //     <div className='col-lg-6 mt-2 dropdownuser' >
+                        //         <h6>Select Group</h6>
+
+
+                        //         <Select
+                        //             defaultValue={selectedIndex?.Planname?.map((item) => ({
+                        //                  value: item, label: item 
+                        //             }))}
+                        //             isMulti
+                        //             options={optionsArray}
+                        //             // selected={showModal ? selectedIndex.Group : ""}
+                        //             onChange={(selected) =>{
+                        //                 setSelectedOptions(selected);
+                        //                 formik.setFieldValue('groupName', selected.map((option) => option.value));
+                        //             }}
+                        //             className="basic-multi-select"
+                        //             classNamePrefix="select"
+
+                        //         />
+                        //     </div>
+                        // }
+
                         additional_field={
-                            <div className='col-lg-6 mt-2 dropdownuser' >
+                            <div className="col-lg-6 mt-2 dropdownuser">
                                 <h6>Select Group</h6>
-                                <DropdownMultiselect
+                                <Select
+                                    defaultValue={selectedIndex?.Planname?.map((item) => ({
+                                        value: item,
+                                        label: item,
+                                    }))}
+                                    isMulti
                                     options={optionsArray}
-                                    name="groupName"
-                                    handleOnChange={(selected) => {
-                                        setSelectedOptions(selected)
+                                    onChange={(selected) => {
+                                        setSelectedOptions(selected);
+                                        formik.setFieldValue('groupName', selected.map((option) => option.value));
                                     }}
+                                    className="basic-multi-select"
+                                    classNamePrefix="select"
                                 />
                             </div>
+
                         }
                     />
                 )}
