@@ -1461,19 +1461,19 @@ Buttons
   border-color: #089bab;
 }
 
-.btn-secondary {
-  color: #ffffff;
-  background: rgba(120, 125, 118, 1);
-  background: -moz-linear-gradient(left, rgba(120, 125, 118, 1) 0%, rgba(171, 171, 171, 1) 100%);
-  background: -webkit-gradient(left top, right top, color-stop(0%, rgba(120, 125, 118, 1)), color-stop(100%, rgba(171, 171, 171, 1)));
-  background: -webkit-linear-gradient(left, rgba(120, 125, 118, 1) 0%, rgba(171, 171, 171, 1) 100%);
-  background: -o-linear-gradient(left, rgba(120, 125, 118, 1) 0%, rgba(171, 171, 171, 1) 100%);
-  background: -ms-linear-gradient(left, rgba(120, 125, 118, 1) 0%, rgba(171, 171, 171, 1) 100%);
-  background: linear-gradient(to right, rgba(120, 125, 118, 1) 0%, rgba(171, 171, 171, 1) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#787d76', endColorstr='#ababab', GradientType=1);
-  border-color: #a09e9e;
-}
 
+.btn-secondary {
+    color: #92a6be !important;
+    background: rgb(0 0 0 / 28%) !important;
+    background: -moz-linear-gradient(left, rgba(120, 125, 118, 1) 0%, rgba(171, 171, 171, 1) 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(120, 125, 118, 1)), color-stop(100%, rgba(171, 171, 171, 1)));
+    /* background: -webkit-linear-gradient(left, rgba(120, 125, 118, 1) 0%, rgba(171, 171, 171, 1) 100%); */
+    background: -o-linear-gradient(left, rgba(120, 125, 118, 1) 0%, rgba(171, 171, 171, 1) 100%);
+    background: -ms-linear-gradient(left, rgba(120, 125, 118, 1) 0%, rgba(171, 171, 171, 1) 100%);
+    /* background: linear-gradient(to right, rgba(120, 125, 118, 1) 0%, rgba(171, 171, 171, 1) 100%); */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#787d76', endColorstr='#ababab', GradientType=1);
+    /* border-color: #a09e9e; */
+}
 .btn-success {
   color: #ffffff;
   background: rgba(49, 192, 44, 1);

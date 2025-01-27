@@ -5671,15 +5671,16 @@ tbody.MuiTableBody-root.css-apqrd9-MuiTableBody-root, tfoot.MuiTableFooter-root,
 .MuiTableHead-root {
   background-color: #2f3239 !important;
 }
-p, h1,h2,h3,h4,h5, body
+p, h1,h2,h3,h4,h5, body, .table td, .table th
 {
   color: #bdbec0 !important;
 }
-.modal-content, .setApi .card-body, .setApi .card , .modal .form-control , .modal .form-select{
+.modal-content, .setApi .card-body, .setApi .card , .modal .form-control , .modal .form-select, .table{
 
-  background-color: #1e293b !important;
-  --bs-card-bg: #1e293b !important;
+  background-color: #1a1e23 !important;
+  --bs-card-bg: #1a1e23 !important;
   color: #bdbec0 !important;
+  --bs-table-bg:#1a1e23 !important;
   
 }
 ::placeholder {
