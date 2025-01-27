@@ -5596,15 +5596,14 @@ option[value='Reject'] {
 
 /* Trading Icon */
 .trading-icon {
-
-  background-color: rgba(255, 255, 255, 0.7);
-  padding: 5px;
-  border-radius: 50%;
+  background-color: #363c44;
+  padding: 8px 0px;
+  border-radius: 5px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .trading-icon svg {
-  color: #333;
+  color: #ffffff;
 }
 
 /* Responsive Layout */
@@ -5700,8 +5699,9 @@ p, h1,h2,h3,h4,h5, body
 .plan-data {
   text-align: center;
 }
-.card.broker-card {
+.card.broker-card, .card {
   background: #1a1e23;
+  --bs-card-bg:#1a1e23 !important
 }
 button.btn.btn-primary {
   background: #1ccc8a !important;
@@ -5714,4 +5714,7 @@ button.btn.btn-primary {
 .bg-transparent {
   background-color: transparent !important;
   --bs-table-bg:  transparent !important;
+}
+.broker-card .card-title {
+  font-size: 1rem ;
 }

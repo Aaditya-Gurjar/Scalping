@@ -66,16 +66,23 @@ const ApiCreateInfo = () => {
                     {brokers.map((item, index) => (
                         <div className="col" key={index}>
                             <div className="card broker-card">
-                                <div className="trading-icon">
-                                    <BarChart2 size={20} />
-                                </div>
+                               
 
                                 <div className="card-body text-center">
-                                    <h5 className="card-title">{item.BrokerName}</h5>
-                                    <div className="card-actions mt-3">
-                                        <Eye size={24} className="action-icon edit-icon" onClick={() => { handleShow(); setBrokerName(item.BrokerName) }} />
-                                        <Trash2 size={24} className="action-icon delete-icon" />
+                                    <div className="row">
+                                        <div className="col-3 pe-0"> <div className="trading-icon">
+                                    <BarChart2 size={20} />
+                                </div></div>
+                                        <div className="col-9 text-end">   
+                                             <h5 className="card-title text-white">{item.BrokerName}</h5>
+                                             <div className="card-actions justify-content-end  mt-3">
+                                        <Eye size={24} className="action-icon edit-icon text-warning" onClick={() => { handleShow(); setBrokerName(item.BrokerName) }} />
+                                        <Trash2 size={24} className="action-icon delete-icon text-danger" />
                                     </div>
+                                             </div>
+                                    </div>
+                                
+                                 
                                 </div>
                             </div>
                         </div>
