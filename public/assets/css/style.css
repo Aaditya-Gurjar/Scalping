@@ -5704,8 +5704,10 @@ p, h1,h2,h3,h4,h5, body
   --bs-card-bg:#1a1e23 !important
 }
 button.btn.btn-primary {
-  background: #1ccc8a !important;
-  border-color: #1ccc8a !important;
+  /* background: #1ccc8a !important; */
+  /* border-color: #1ccc8a !important; */
+  background: rgba(46, 213, 115, 0.2) !important;
+  color: #2ed573;
 }
 .navbar-nav li a, .navbar-nav li i{
   color: #fff !important;
