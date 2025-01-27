@@ -10,6 +10,7 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 
 import { useEffect } from "react";
+import { text } from "@fortawesome/fontawesome-svg-core";
 
 const Card = styled.div`
   border: 1px solid #ccc;
@@ -137,24 +138,33 @@ const ServicesList = () => {
 
     const HandleBuyPlan = async (index, type, isCharting) => {
         try {
-            const planDetails = isCharting ? GetAllPlans?.data1[index] :  GetAllPlans?.data[index];
-            
+            const planDetails = isCharting ? GetAllPlans?.data1[index] : GetAllPlans?.data[index];
+
             console.log("planDetails", planDetails);
             const req1 = { Username: username, transactiontype: 'Purchase', money: planDetails.payment };
             const result = await Swal.fire({
+                background: "#1a1e23 ",
+                backdrop:"#121010ba",
                 title: 'Are you sure?',
                 text: `Do you want to buy the plan: ${planDetails.PlanName} for ₹${planDetails.payment}?`,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Yes, Buy it!',
                 cancelButtonText: 'No, Cancel',
-                reverseButtons: true
+                reverseButtons: true,
+                background: "#1a1e23",
+                backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
+
+
             });
 
             if (result.isConfirmed) {
                 const CheckBalanceResponse = await AddBalance(req1);
                 if (CheckBalanceResponse.Status && type == 0) {
                     const result = await Swal.fire({
+                        background: "#1a1e23 ",
+                        backdrop:"#121010ba",
                         title: 'What do you want to do?',
                         text: `This is your Scubscribed Script so what do you do Extend the EndDate or Extend the Number of Scripts`,
                         icon: 'warning',
@@ -180,6 +190,8 @@ const ServicesList = () => {
                         if (buyPlanResponse.Status) {
                             AllBuyedPlans();
                             Swal.fire({
+                                background: "#1a1e23 ",
+                                backdrop:"#121010ba",
                                 title: "Success!",
                                 text: buyPlanResponse.message,
                                 icon: "success",
@@ -188,11 +200,14 @@ const ServicesList = () => {
                             });
                         } else {
                             Swal.fire({
+                                background: "#1a1e23 ",
+                                backdrop:"#121010ba",
                                 title: "Error!",
                                 text: buyPlanResponse.message,
                                 icon: "error",
                                 timer: 1500,
                                 timerProgressBar: true,
+
                             });
                         }
 
@@ -214,6 +229,9 @@ const ServicesList = () => {
                         if (buyPlanResponse.Status) {
                             AllBuyedPlans();
                             Swal.fire({
+                                background: "#1a1e23 ",
+                                backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                                 title: "Success!",
                                 text: buyPlanResponse.message,
                                 icon: "success",
@@ -222,6 +240,9 @@ const ServicesList = () => {
                             });
                         } else {
                             Swal.fire({
+                                background: "#1a1e23 ",
+                                backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                                 title: "Error!",
                                 text: buyPlanResponse.message,
                                 icon: "error",
@@ -248,6 +269,9 @@ const ServicesList = () => {
                     if (buyPlanResponse.Status) {
                         AllBuyedPlans();
                         Swal.fire({
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                             title: "Success!",
                             text: buyPlanResponse.message,
                             icon: "success",
@@ -259,6 +283,9 @@ const ServicesList = () => {
                         }, 1500);
                     } else {
                         Swal.fire({
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                             title: "Error!",
                             text: buyPlanResponse.message,
                             icon: "error",
@@ -269,6 +296,9 @@ const ServicesList = () => {
                 }
                 else {
                     Swal.fire({
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         title: "Error!",
                         text: CheckBalanceResponse.message,
                         icon: "worning",
@@ -279,6 +309,9 @@ const ServicesList = () => {
 
             } else {
                 Swal.fire({
+                    background: "#1a1e23 ",
+                    backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                     title: 'Cancelled',
                     text: 'Your purchase has been cancelled.',
                     icon: 'info',
@@ -289,6 +322,9 @@ const ServicesList = () => {
         } catch (error) {
             console.error('Error in transaction:', error);
             Swal.fire({
+                background: "#1a1e23 ",
+                backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                 title: "Error",
                 text: "An unexpected error occurred",
                 icon: "error",
@@ -321,12 +357,12 @@ const ServicesList = () => {
     });
 
     return (
-        <>
+        <div className="container-fluid">
             <div className='row'>
                 <div className='col-sm-12'>
                     <div className='iq-card'>
-                        <div className='iq-card-header row'>
-                            <div className='iq-header-title col-lg-3'>
+                        <div className='iq-card-header d-flex justify-content-between'>
+                            <div className='iq-header-title '>
                                 <h4 className='card-title'>All Plans</h4>
                             </div>
                             {
@@ -342,7 +378,7 @@ const ServicesList = () => {
                                 <Tabs
                                     defaultActiveKey="Scalping"
                                     id="fill-tab-example"
-                                    className="mb-3 custom-tabs w-50"
+                                    className="mb-3 custom-tabs "
                                     fill>
                                     <Tab eventKey="Scalping" title="Scalping">
                                         <div className="">
@@ -351,9 +387,9 @@ const ServicesList = () => {
                                                     <div style={styles.container} className="row">
                                                         {getUpdatedPlans?.map((plan, index) => (
                                                             plan.PlanName == "Three Days Live" || plan.PlanName == "One Week Demo" || plan.PlanName == "Two Days Demo" ? "" :
-                                                                <Card key={index}  className="col-lg-3 col-md-6 mb-3 all-plan-card">
-                                                                    <div className="d-flex flex-column justify-content-between h-100 p-3 border">
-                                                                        <div>
+                                                                <div key={index} className="col-lg-3 col-md-6 mb-3 ">
+                                                                    <div className="d-flex flex-column justify-content-center h-100 all-plan-card">
+                                                                        <div className="plan-data">
                                                                             <div style={styles.content}>
                                                                                 <h2 style={styles.title}>
                                                                                     {plan.PlanName} {SetPlan(plan.PlanName)}
@@ -380,18 +416,18 @@ const ServicesList = () => {
                                                                         </div>
                                                                         <div style={styles.buttonContainer}>
                                                                             {SetPlan(plan.PlanName) == null ? (
-                                                                                <Button primary style={styles.button} onClick={() => HandleBuyPlan(index, 1 , false )}>
+                                                                                <Button primary style={styles.button} onClick={() => HandleBuyPlan(index, 1, false)}>
                                                                                     BUY NOW
                                                                                 </Button>
                                                                             )
                                                                                 :
-                                                                                <Button style={styles.subscribedButton} onClick={() => HandleBuyPlan(index, 0 , false)}>
+                                                                                <Button style={styles.subscribedButton} onClick={() => HandleBuyPlan(index, 0, false)}>
                                                                                     BUY AGAIN
                                                                                 </Button>
                                                                             }
                                                                         </div>
                                                                     </div>
-                                                                </Card>
+                                                                </div>
                                                         ))}
                                                     </div>
                                                 </div>
@@ -404,8 +440,8 @@ const ServicesList = () => {
                                             <div style={styles.container} className="row">
                                                 {getUpdatedPlans1?.map((plan, index) => (
                                                     plan.PlanName == "Three Days Live" || plan.PlanName == "One Week Demo" || plan.PlanName == "Two Days Demo" ? "" :
-                                                        <Card key={index} style={styles.card} className="col-lg-3 col-md-6 mb-3 all-plan-card">
-                                                            <div className="d-flex flex-column justify-content-between h-100 p-3 border">
+                                                        <div key={index} style={styles.card} className="col-lg-3 col-md-6 mb-3 ">
+                                                            <div className="d-flex flex-column justify-content-between h-100 all-plan-card">
                                                                 <div>
                                                                     <div style={styles.content}>
                                                                         <h2 style={styles.title}>
@@ -433,18 +469,18 @@ const ServicesList = () => {
                                                                 </div>
                                                                 <div style={styles.buttonContainer}>
                                                                     {SetPlan(plan.PlanName) == null ? (
-                                                                        <Button primary style={styles.button} onClick={() => HandleBuyPlan(index, 1 , true)}>
+                                                                        <Button primary style={styles.button} onClick={() => HandleBuyPlan(index, 1, true)}>
                                                                             BUY NOW
                                                                         </Button>
                                                                     )
                                                                         :
-                                                                        <Button style={styles.subscribedButton} onClick={() => HandleBuyPlan(index, 0 , true)}>
+                                                                        <Button style={styles.subscribedButton} onClick={() => HandleBuyPlan(index, 0, true)}>
                                                                             BUY AGAIN
                                                                         </Button>
                                                                     }
                                                                 </div>
                                                             </div>
-                                                        </Card>
+                                                        </div>
                                                 ))}
                                             </div>
                                         </div>
@@ -458,14 +494,14 @@ const ServicesList = () => {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 
 
 const styles = {
     // container: {
-     
+
     //     overflowX: "auto",
     //     padding: "5px",
     //     gap: "20px",
@@ -482,28 +518,32 @@ const styles = {
         margin: "10px 0",
         color: "rgb(15 164 32)",
         fontWeight: "bold",
+        textAlign: "center",
     },
     subtitle: {
         fontSize: "1.2rem",
         margin: "5px 0",
+        textAlign: "center",
     },
     description: {
         fontSize: "1rem",
         margin: "10px 0",
+
     },
     prices: {
         display: "flex",
         flexDirection: "column",
-        alignItems: "flex-start",
+        alignItems: "center",
         margin: "10px 0",
         color: "#555",
         padding: "0",
         listStyle: "none",
         fontSize: "1rem",
+        textAlign: "center",
     },
     priceItem: {
         margin: "5px 0",
-        textAlign: "left",
+
     },
     buttonContainer: {
         marginTop: "15px",

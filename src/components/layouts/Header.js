@@ -121,6 +121,9 @@ const Header = () => {
           // Assuming the status is in response.data.Status
 
           Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
             title: "Success!",
             text: "Trading On successfully.",
             icon: "success",
@@ -133,6 +136,9 @@ const Header = () => {
           });
         } else {
           Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
             title: "Success!",
             text: "Trading Off successfully.",
             icon: "success",
@@ -147,6 +153,9 @@ const Header = () => {
       } catch (err) {
         console.error("Error in ConnectBroker request", err);
         Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
           title: "Error!",
           text: "An error occurred. Please try again later.",
           icon: "error",
@@ -295,6 +304,9 @@ const Header = () => {
     await AutoLogin().then((response) => {
       if (response.Status) {
         Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
           title: "Auto Login On !",
           text: response.message,
           icon: "success",
@@ -303,6 +315,9 @@ const Header = () => {
         });
       } else {
         Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
           title: "Error !",
           text: response.message,
           icon: "error",
@@ -317,6 +332,9 @@ const Header = () => {
     await DataStart().then((response) => {
       if (response.Status) {
         Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
           title: "Data Start !",
           text: response.message,
           icon: "success",
@@ -325,6 +343,9 @@ const Header = () => {
         });
       } else {
         Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
           title: "Error !",
           text: response.message,
           icon: "error",
@@ -338,6 +359,9 @@ const Header = () => {
     await LastPattern().then((response) => {
       if (response.Status) {
         Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
           title: "Last Pattern On !",
           text: response.message,
           icon: "success",
@@ -346,6 +370,9 @@ const Header = () => {
         });
       } else {
         Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
           title: "Error !",
           text: response.message,
           icon: "error",
@@ -407,6 +434,9 @@ const Header = () => {
 
     if (addBrokerName == "") {
       Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
         title: "Warning!",
         text: "Please enter Broker Name.",
         icon: "warning",
@@ -418,6 +448,9 @@ const Header = () => {
       .then((response) => {
         if (response.Status) {
           Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
             title: "Success!",
             text: "Broker Added successfully.",
             icon: "success",
@@ -428,6 +461,9 @@ const Header = () => {
           setShowAddBrokerModal(false);
         } else {
           Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
             title: "Error!",
             text: response.message,
             icon: "error",
@@ -521,7 +557,7 @@ const Header = () => {
                   <li className="nav-item">
                     <button
                       type="button"
-                      className="btn btn-primary mt-3 mx-3 btn1"
+                      className="btn btn-primary  mx-3 btn1"
                       onClick={(e) => navigate("/admin/transectionrequest")}>
                       Transaction Requests
                     </button>
@@ -689,7 +725,7 @@ const Header = () => {
                     <li className="nav-item">
                       <button
                         type="button"
-                        className="btn btn-primary mt-4 btn1">
+                        className="btn btn-primary  btn1">
                         Demo Account
                       </button>
                     </li>
@@ -710,7 +746,7 @@ const Header = () => {
                     <button
                       type="button"
                       data-bs-dismiss="modal"
-                      className="btn btn-primary mt-4 btn1">
+                      className="btn btn-primary mt-0 btn1">
                       {showFunds ? (
                         <span>
                           <IndianRupee
@@ -858,7 +894,7 @@ const Header = () => {
                 <ul className="navbar-nav ms-auto navbar-list align-items-center">
                   <li className="nav-item">
                     <button
-                      className="btn btn-primary mt-3 mx-3 btn1"
+                      className="btn btn-primary  mx-3 btn1"
                       style={{ pointerEvents: "none" }}>
                       Hello, {userName}
                     </button>

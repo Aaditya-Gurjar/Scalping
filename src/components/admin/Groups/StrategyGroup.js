@@ -161,6 +161,9 @@ const Strategygroup = () => {
                     if (response.Status) {
                         setRefresh(!refresh)
                         Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                             title: 'Created successfully!',
                             text:  response.message,
                             icon: 'success',
@@ -173,6 +176,9 @@ const Strategygroup = () => {
                         }, 1500);
                     } else {
                         Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                             title: 'Error',
                             text: response.message,
                             icon: 'error',
@@ -184,6 +190,9 @@ const Strategygroup = () => {
                 .catch((err) => {
                     console.log('Error in group creation...');
                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         title: 'Error',
                         text: 'Group creation error!',
                         icon: 'error',

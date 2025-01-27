@@ -75,6 +75,7 @@
 //                 .then((response) => {
 //                     if (response.Status) {
 //                         Swal.fire({
+
 //                             title: "Success!",
 //                             text: response.message,
 //                             icon: "success",
@@ -87,6 +88,7 @@
 //                     }
 //                     else {
 //                         Swal.fire({
+ 
 //                             title: "Error!",
 //                             text: response.message,
 //                             icon: "error",
@@ -278,6 +280,9 @@ const AddPlanPage = () => {
 
     const showError = (title, message = "") => {
         Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
             title: title,
             text: message || "An error occurred.",
             icon: "error",
@@ -323,6 +328,9 @@ const AddPlanPage = () => {
                 const response = await AddPlan(req);
                 if (response.Status) {
                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         title: "Success!",
                         text: response.message,
                         icon: "success",

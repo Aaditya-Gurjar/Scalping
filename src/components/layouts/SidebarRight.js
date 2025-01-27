@@ -180,54 +180,7 @@ const Sidebar = () => {
 
 
     const adminSideBaar = [
-        {
-            path: '/admin/dashboard',
-            icon: 'ri-home-fill', // Dashboard icon
-            label: 'Dashboard',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/strategygroup',
-            icon: 'la la-sellsy', // Icon for Strategy Group
-            label: 'Strategy Group',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/clientservice',
-            icon: 'ri-group-fill', // Client Service icon
-            label: 'Client Service',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/allSubadmin',
-            icon: 'ri-group-fill', // SubAdmin icon
-            label: 'SubAdmin',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/allplan',
-            icon: 'la la-sellsy', // Plan icon
-            label: 'Plan',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/allscript',
-            icon: 'ri-home-8-fill', // Add Script icon
-            label: 'Add Script',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/userlogs',
-            icon: 'la la-envelope-open', // User Panel Log icon
-            label: 'User Panel Log',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/servicreport',
-            icon: 'la la-cog', // Service Report icon
-            label: 'Service Report',
-            permission: [] // No restriction
-        },
+       
         {
             path: '/admin/tradehistory',
             icon: 'las la-history', // Trade History icon
@@ -326,36 +279,7 @@ const Sidebar = () => {
 
 
     const userSidebarItems = [
-        {
-            path: '/user/dashboard',
-            icon: <i className="ri-home-fill" />,
-            label: 'Dashboard',
-            permission: [] // No restriction
-        },
-        {
-            path: 'technical/pattern',
-            icon: <i className="lab la-joget" />,
-            label: 'Technical Patterns',
-            permission: [] // No restriction
-        },
-        {
-            path: 'lastpattern',
-            icon: <i className="lab la-ioxhost" />,
-            label: 'Last Patterns',
-            permission: [] // No restriction
-        },
-        {
-            path: 'all/plan',
-            icon: <i className="lab la-ioxhost" />,
-            label: 'All Plans',
-            permission: [] // No restriction
-        },
-        {
-            path: 'tradereport',
-            icon: <i className="la la-sellsy" />,
-            label: 'Trade Report',
-            permission: [] // No restriction
-        },
+       
         {
             path: 'tradehistory',
             icon: <i className="la la-palette" />,
@@ -390,7 +314,7 @@ const Sidebar = () => {
 
 
     return (
-        <div className="iq-sidebar">
+        <div className="iq-sidebar sidebar-right">
             <div className="iq-sidebar-logo d-flex justify-content-between">
               
                 {/* <div className="iq-menu-bt-sidebar">
@@ -428,7 +352,9 @@ const Sidebar = () => {
                                                 onClick={(e) => handleSidebarClick(e, item.path)}
                                             >
                                                 <Link to={item.path} className="iq-waves-effect">
-                                                    <i className={item.icon} />
+                                                <div data-toggle="tooltip" data-placement="left" title={item.label}>
+                                                <i className={item.icon} />
+                                                        </div>
                                                     <span>{item.label}</span>
                                                 </Link>
                                             </li>
@@ -485,7 +411,9 @@ const Sidebar = () => {
                                                     onClick={(e) => handleSidebarClick(e, item.path)}
                                                 >
                                                     <Link to={expire?.includes(1) ? "/user/all/plan" : item.path} className="iq-waves-effect">
-                                                        {item.icon}
+                                                    <div  data-toggle="tooltip" data-placement="left" title={item.label}>
+{item.icon}
+</div>
                                                         <span style={{ marginLeft: '8px' }}>{item.label}</span>
                                                     </Link>
                                                 </li>

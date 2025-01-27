@@ -141,6 +141,9 @@ const TradeResponse = () => {
     const handleSubmit = async () => {
         if (comapnyName == '') {
             Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                 title: "Please Select the Company Name",
                 icon: "info",
                 timer: 1500,
@@ -150,6 +153,9 @@ const TradeResponse = () => {
         }
         if (selectStrategyType == '') {
             Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                 title: "Please Select the Strategy Type",
                 icon: "info",
                 timer: 1500,
@@ -186,6 +192,9 @@ const TradeResponse = () => {
                 }
                 else {
                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         title: "No Records found",
                         icon: "info",
                         timer: 1500,

@@ -36,6 +36,9 @@ const AddChartingScript = () => {
       .then((response) => {
         if (response.Status) {
           Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
             icon: "success",
             title: "Success",
             text: response.message,
@@ -45,6 +48,9 @@ const AddChartingScript = () => {
           getChartingData();
         } else {
           Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
             icon: "error",
             title: "Error",
             text: response.message,

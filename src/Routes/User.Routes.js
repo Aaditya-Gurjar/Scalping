@@ -35,6 +35,7 @@ const UserRoute = () => {
     <>
       <div className='wrapper'>
         <Sidebar />
+        
         <div id="content-page" className="content-page">
           <Header />
           <Routes>
@@ -64,6 +65,7 @@ const UserRoute = () => {
           </Routes>
 
         </div>
+       
         <SidebarRight />
       </div>
       {/* )} */}

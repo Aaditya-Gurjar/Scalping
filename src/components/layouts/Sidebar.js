@@ -228,42 +228,7 @@ const Sidebar = () => {
             label: 'Service Report',
             permission: [] // No restriction
         },
-        {
-            path: '/admin/tradehistory',
-            icon: 'las la-history', // Trade History icon
-            label: 'Trade History',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/clientactivity',
-            icon: 'las la-radiation-alt', // Client Activity icon
-            label: 'Client Activity',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/clientreport',
-            icon: 'la la-map-marker', // Client Thread Report icon
-            label: 'Client Trade Report',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/smtp',
-            icon: 'la la-palette', // SMTP Details icon
-            label: 'SMTP Details',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/system',
-            icon: 'la la-cog', // System icon
-            label: 'System',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/api-create-info',
-            icon: 'la la-cog', // API Create Info icon
-            label: 'ApiCreateInfo',
-            permission: [] // No restriction
-        }
+        
     ];
 
 
@@ -328,7 +293,7 @@ const Sidebar = () => {
     const userSidebarItems = [
         {
             path: '/user/dashboard',
-            icon: <i className="ri-home-fill" />,
+            icon: <i className="ri-home-8-line" />,
             label: 'Dashboard',
             permission: [] // No restriction
         },
@@ -356,36 +321,7 @@ const Sidebar = () => {
             label: 'Trade Report',
             permission: [] // No restriction
         },
-        {
-            path: 'tradehistory',
-            icon: <i className="la la-palette" />,
-            label: 'Trade History',
-            permission: [] // No restriction
-        },
-        {
-            path: 'traderesponse',
-            icon: <i className="la la-sellsy" />,
-            label: 'Trade Response',
-            permission: [] // No restriction
-        },
-        {
-            path: 'profitandloss',
-            icon: <i className="las la-universal-access" />,
-            label: 'Net P&L',
-            permission: [] // No restriction
-        },
-        {
-            path: 'pannel',
-            icon: <i className="lab la-ello" />,
-            label: 'Panel Track',
-            permission: [] // No restriction
-        },
-        {
-            path: 'discription',
-            icon: <i className="lab la-get-pocket" />,
-            label: 'Description',
-            permission: [] // No restriction
-        }
+        
     ];
 
 
@@ -431,7 +367,10 @@ const Sidebar = () => {
                                                 onClick={(e) => handleSidebarClick(e, item.path)}
                                             >
                                                 <Link to={item.path} className="iq-waves-effect">
-                                                    <i className={item.icon} />
+                                                <div data-toggle="tooltip" data-placement="left" title={item.label}>
+                                                <i className={item.icon} />
+                                                        </div>
+                                                 
                                                     <span>{item.label}</span>
                                                 </Link>
                                             </li>
@@ -488,7 +427,11 @@ const Sidebar = () => {
                                                     onClick={(e) => handleSidebarClick(e, item.path)}
                                                 >
                                                     <Link to={expire?.includes(1) ? "/user/all/plan" : item.path} className="iq-waves-effect">
-                                                        {item.icon}
+
+                                                        <div data-toggle="tooltip" data-placement="left" title={item.label}>
+                                                            {item.icon}
+                                                        </div>
+
                                                         <span style={{ marginLeft: '8px' }}>{item.label}</span>
                                                     </Link>
                                                 </li>

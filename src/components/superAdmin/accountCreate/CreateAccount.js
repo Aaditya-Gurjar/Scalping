@@ -48,6 +48,9 @@ const Adduser = () => {
 
                 } else {
                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         title: "Error!",
                         text: response.message,
                         icon: "error",
@@ -138,6 +141,9 @@ const Adduser = () => {
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                             title: "Admin Created!",
                             text: response.message,
                             icon: "success",
@@ -150,6 +156,9 @@ const Adduser = () => {
                     }
                     else {
                         Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                             title: "Error!",
                             text: response.message,
                             icon: "error",

@@ -6,6 +6,7 @@ import Login from './components/auth/Login';
 import SuperAdminRoute from './Routes/SuperAdmin.Routes'
 import Register from './components/auth/Register'
 import SubAdminRoutes from './Routes/SubAdminRoutes'
+import Swal from "sweetalert2";
 
 
 const App = () => {
