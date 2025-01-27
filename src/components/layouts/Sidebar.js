@@ -228,42 +228,7 @@ const Sidebar = () => {
             label: 'Service Report',
             permission: [] // No restriction
         },
-        {
-            path: '/admin/tradehistory',
-            icon: 'las la-history', // Trade History icon
-            label: 'Trade History',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/clientactivity',
-            icon: 'las la-radiation-alt', // Client Activity icon
-            label: 'Client Activity',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/clientreport',
-            icon: 'la la-map-marker', // Client Thread Report icon
-            label: 'Client Trade Report',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/smtp',
-            icon: 'la la-palette', // SMTP Details icon
-            label: 'SMTP Details',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/system',
-            icon: 'la la-cog', // System icon
-            label: 'System',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/api-create-info',
-            icon: 'la la-cog', // API Create Info icon
-            label: 'ApiCreateInfo',
-            permission: [] // No restriction
-        }
+        
     ];
 
 
@@ -402,7 +367,10 @@ const Sidebar = () => {
                                                 onClick={(e) => handleSidebarClick(e, item.path)}
                                             >
                                                 <Link to={item.path} className="iq-waves-effect">
-                                                    <i className={item.icon} />
+                                                <div data-toggle="tooltip" data-placement="left" title={item.label}>
+                                                <i className={item.icon} />
+                                                        </div>
+                                                 
                                                     <span>{item.label}</span>
                                                 </Link>
                                             </li>

@@ -631,7 +631,7 @@ a:hover {
 -----------------------------------------------------------------------*/
 .iq-sidebar {
   position: fixed;
-  z-index: 999;
+  z-index: 9;
   top: 70px;
   width: 260px;
   height: 100%;
@@ -722,6 +722,7 @@ ul.iq-menu a span {
   white-space: nowrap;
   display: block;
   color: #ffffff;
+  justify-content: center;
   position: relative;
   padding: 15px;
   line-height: 17px;
@@ -5386,9 +5387,9 @@ a {
   /* z-index: 99; */
 }
 
-button.btn.btn-primary.btn1 {
+/* button.btn.btn-primary.btn1 {
   margin-top: 21px !important;
-}
+} */
 
 .react-datepicker-wrapper {
   width: 100% !important;
@@ -5530,9 +5531,6 @@ select:focus {
   outline: none;
 }
 
-option {
-  color: #333;
-}
 
 option:disabled {
   color: #999;
@@ -5598,9 +5596,7 @@ option[value='Reject'] {
 
 /* Trading Icon */
 .trading-icon {
-  position: absolute;
-  top: 10px;
-  left: 10px;
+
   background-color: rgba(255, 255, 255, 0.7);
   padding: 5px;
   border-radius: 50%;
@@ -5661,8 +5657,9 @@ ul.nav.nav-tabs.justify-content-center ,  .nav-tabs.nav-fill, .nav.nav-pills{
 {
   color: #495057;
 }
-tbody.MuiTableBody-root.css-apqrd9-MuiTableBody-root , tfoot.MuiTableFooter-root{
+tbody.MuiTableBody-root.css-apqrd9-MuiTableBody-root, tfoot.MuiTableFooter-root, .MuiTableCell-body, .MuiCheckbox-root {
   background: #1a1e23;
+  color: #bdbec0 !important;
 }
 .MuiPaper-root
 {
@@ -5679,11 +5676,15 @@ p, h1,h2,h3,h4,h5, body
 {
   color: #bdbec0 !important;
 }
-.modal-content, .setApi .card-body, .setApi .card{
+.modal-content, .setApi .card-body, .setApi .card , .modal .form-control , .modal .form-select{
 
   background-color: #1e293b !important;
   --bs-card-bg: #1e293b !important;
+  color: #bdbec0 !important;
   
+}
+::placeholder {
+  color: #bdbec0 !important;
 }
 .setApi .iq-card.content.container-fluid {
  padding-left: 0px !important;
@@ -5698,4 +5699,19 @@ p, h1,h2,h3,h4,h5, body
 }
 .plan-data {
   text-align: center;
+}
+.card.broker-card {
+  background: #1a1e23;
+}
+button.btn.btn-primary {
+  background: #1ccc8a !important;
+  border-color: #1ccc8a !important;
+}
+.navbar-nav li a, .navbar-nav li i{
+  color: #fff !important;
+  text-decoration: none;
+}
+.bg-transparent {
+  background-color: transparent !important;
+  --bs-table-bg:  transparent !important;
 }

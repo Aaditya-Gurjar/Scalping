@@ -357,12 +357,12 @@ confirmButtonColor: "#1ccc8a",
     });
 
     return (
-        <>
+        <div className="container-fluid">
             <div className='row'>
                 <div className='col-sm-12'>
                     <div className='iq-card'>
-                        <div className='iq-card-header row'>
-                            <div className='iq-header-title col-lg-3'>
+                        <div className='iq-card-header d-flex justify-content-between'>
+                            <div className='iq-header-title '>
                                 <h4 className='card-title'>All Plans</h4>
                             </div>
                             {
@@ -494,7 +494,7 @@ confirmButtonColor: "#1ccc8a",
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 

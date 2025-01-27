@@ -180,54 +180,7 @@ const Sidebar = () => {
 
 
     const adminSideBaar = [
-        {
-            path: '/admin/dashboard',
-            icon: 'ri-home-fill', // Dashboard icon
-            label: 'Dashboard',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/strategygroup',
-            icon: 'la la-sellsy', // Icon for Strategy Group
-            label: 'Strategy Group',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/clientservice',
-            icon: 'ri-group-fill', // Client Service icon
-            label: 'Client Service',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/allSubadmin',
-            icon: 'ri-group-fill', // SubAdmin icon
-            label: 'SubAdmin',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/allplan',
-            icon: 'la la-sellsy', // Plan icon
-            label: 'Plan',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/allscript',
-            icon: 'ri-home-8-fill', // Add Script icon
-            label: 'Add Script',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/userlogs',
-            icon: 'la la-envelope-open', // User Panel Log icon
-            label: 'User Panel Log',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/servicreport',
-            icon: 'la la-cog', // Service Report icon
-            label: 'Service Report',
-            permission: [] // No restriction
-        },
+       
         {
             path: '/admin/tradehistory',
             icon: 'las la-history', // Trade History icon
@@ -399,7 +352,9 @@ const Sidebar = () => {
                                                 onClick={(e) => handleSidebarClick(e, item.path)}
                                             >
                                                 <Link to={item.path} className="iq-waves-effect">
-                                                    <i className={item.icon} />
+                                                <div data-toggle="tooltip" data-placement="left" title={item.label}>
+                                                <i className={item.icon} />
+                                                        </div>
                                                     <span>{item.label}</span>
                                                 </Link>
                                             </li>

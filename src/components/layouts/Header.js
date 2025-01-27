@@ -557,7 +557,7 @@ confirmButtonColor: "#1ccc8a",
                   <li className="nav-item">
                     <button
                       type="button"
-                      className="btn btn-primary mt-3 mx-3 btn1"
+                      className="btn btn-primary  mx-3 btn1"
                       onClick={(e) => navigate("/admin/transectionrequest")}>
                       Transaction Requests
                     </button>
@@ -725,7 +725,7 @@ confirmButtonColor: "#1ccc8a",
                     <li className="nav-item">
                       <button
                         type="button"
-                        className="btn btn-primary mt-4 btn1">
+                        className="btn btn-primary  btn1">
                         Demo Account
                       </button>
                     </li>
@@ -746,7 +746,7 @@ confirmButtonColor: "#1ccc8a",
                     <button
                       type="button"
                       data-bs-dismiss="modal"
-                      className="btn btn-primary mt-4 btn1">
+                      className="btn btn-primary mt-0 btn1">
                       {showFunds ? (
                         <span>
                           <IndianRupee
@@ -894,7 +894,7 @@ confirmButtonColor: "#1ccc8a",
                 <ul className="navbar-nav ms-auto navbar-list align-items-center">
                   <li className="nav-item">
                     <button
-                      className="btn btn-primary mt-3 mx-3 btn1"
+                      className="btn btn-primary  mx-3 btn1"
                       style={{ pointerEvents: "none" }}>
                       Hello, {userName}
                     </button>

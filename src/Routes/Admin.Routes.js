@@ -27,7 +27,7 @@ import AddSubadmin from '../components/admin/SubAdmin/AddSubadmin';
 import AllSubadmin from '../components/admin/SubAdmin/AllSubadmin';
 import EditSubadmin from '../components/admin/SubAdmin/EditSubadmin';
 import ApiCreateInfo from '../components/admin/apicreateInfo/ApiCreateInfo';
-
+import SidebarRight from '../components/layouts/SidebarRight';
 
 
 
@@ -66,6 +66,7 @@ const AdminRoute = () => {
             <Route path="/api-create-info" element={<ApiCreateInfo/>} />
           </Routes>
         </div>
+        <SidebarRight/>
       </div>
     </>
   );
