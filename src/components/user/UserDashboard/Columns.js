@@ -1,7 +1,7 @@
 import React from 'react';
 import { CopyPlus } from 'lucide-react';
 import Checkbox from '@mui/material/Checkbox';
-import { SquarePen } from 'lucide-react';
+import { SquarePen, EllipsisVertical } from 'lucide-react';
 
 
 export const getColumns = (handleAddScript1) => [
@@ -24,7 +24,7 @@ export const getColumns = (handleAddScript1) => [
             filter: true,
             sort: true,
             customBodyRender: (value, tableMeta, updateValue) => {
-                return <CopyPlus onClick={(e) => handleAddScript1(tableMeta , 1)} />
+                return <CopyPlus onClick={(e) => handleAddScript1(tableMeta, 1)} />
             }
         }
     },
@@ -227,7 +227,7 @@ export const getColumns7 = (handleAddScript1) => [
             filter: true,
             sort: true,
             customBodyRender: (value, tableMeta, updateValue) => {
-                return <CopyPlus onClick={(e) => handleAddScript1(tableMeta , 2)} />
+                return <CopyPlus onClick={(e) => handleAddScript1(tableMeta, 2)} />
             }
         }
     },
@@ -838,7 +838,7 @@ export const getColumns2 = (handleAddScript3) => [
 
 ];
 
-export const getColumns3 = (handleDelete, handleEdit, handleContinutyDiscontinuty) => [
+export const getColumns3 = (handleDelete, handleEdit, handleContinutyDiscontinuty, handleMiniMenu) => [
     {
         name: "S.No",
         label: "S.No",
@@ -851,20 +851,20 @@ export const getColumns3 = (handleDelete, handleEdit, handleContinutyDiscontinut
             }
         },
     },
-    {
-        name: "Action",
-        label: "Action",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value, tableMeta, updateValue) => {
-                return <><button className='btn btn-primary' onClick={() => handleDelete(tableMeta, 1)}>
-                    Square Off
-                </button>
-                </>
-            }
-        }
-    },
+    // {
+    //     name: "Action",
+    //     label: "Action ",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //         customBodyRender: (value, tableMeta, updateValue) => {
+    //             return <><button className='btn btn-primary' onClick={() => handleDelete(tableMeta, 1)}>
+    //                 Square Off
+    //             </button>
+    //             </>
+    //         }
+    //     }
+    // },
     {
         name: "Edit",
         label: "Edit",
@@ -913,6 +913,27 @@ export const getColumns3 = (handleDelete, handleEdit, handleContinutyDiscontinut
         options: {
             filter: true,
             sort: true,
+        }
+    },
+    {
+        name: "Action",
+        label: "Action",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value, tableMeta, updateValue) => {
+                console.log("tableMeta", tableMeta); // Ye data tumhe dega jaise row ki information.
+
+                return (
+                    <>
+                        <button onClick={() => handleMiniMenu(tableMeta)}>
+                            <EllipsisVertical />
+                        </button>
+                        
+                        {/* Tumhare button ko onClick ke sath handleMiniMenu ko call karo */}
+                    </>
+                );
+            }
         }
     },
     {
@@ -1896,7 +1917,7 @@ export const getColumns8 = (handleContinutyDiscontinuty) => [
             }
         },
     },
-    
+
     {
         name: "Trading",
         label: "Trading",

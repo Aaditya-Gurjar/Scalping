@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Bar } from "react-chartjs-2"; // Import Bar chart instead of Line chart
+import { Bar } from "react-chartjs-2"; 
 import {
   Chart as ChartJS,
   CategoryScale,

@@ -7,6 +7,8 @@ import { getColumns3, getColumns4, getColumns5, getColumns6, getColumns8 } from 
 import Swal from 'sweetalert2';
 import Formikform from "../../../ExtraComponent/FormData";
 import { useFormik } from 'formik';
+import { Dropdown } from 'react-bootstrap';
+
 
 
 const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
@@ -21,6 +23,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
     const [allScripts, setAllScripts] = useState({ data: [], len: 0 })
     const [editCharting, setEditCharting] = useState();
     const [getCharting, setGetCharting] = useState([]);
+
+    const [menuData, setMenuData] = useState([]);
+    const [showModal, setShowModal] = useState(false);
 
     const [getAllService, setAllservice] = useState({
         loading: true,
@@ -40,6 +45,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         if (data == "ChartingPlatform")
             getChartingScript();
     }, [data]);
+
 
 
 
@@ -84,9 +90,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
     const SweentAlertFun = (text) => {
         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+            background: "#1a1e23 ",
+            backdrop: "#121010ba",
+            confirmButtonColor: "#1ccc8a",
             title: "Error",
             text: text,
             icon: "error",
@@ -157,9 +163,9 @@ confirmButtonColor: "#1ccc8a",
 
 
         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+            background: "#1a1e23 ",
+            backdrop: "#121010ba",
+            confirmButtonColor: "#1ccc8a",
             title: "Are you sure?",
             text: "You won't be able to revert this!",
             icon: "warning",
@@ -173,9 +179,9 @@ confirmButtonColor: "#1ccc8a",
                     .then((response) => {
                         if (response.Status) {
                             Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                                background: "#1a1e23 ",
+                                backdrop: "#121010ba",
+                                confirmButtonColor: "#1ccc8a",
                                 title: "Square off Successfully!",
                                 text: response.message,
                                 icon: "success",
@@ -190,9 +196,9 @@ confirmButtonColor: "#1ccc8a",
                             }, 1500)
                         } else {
                             Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                                background: "#1a1e23 ",
+                                backdrop: "#121010ba",
+                                confirmButtonColor: "#1ccc8a",
                                 title: "Error !",
                                 text: response.message,
                                 icon: "error",
@@ -257,9 +263,9 @@ confirmButtonColor: "#1ccc8a",
         // console.log("getCharting[index]?.AccType", getCharting[index]?.AccType)
         if (trading) {
             Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                background: "#1a1e23 ",
+                backdrop: "#121010ba",
+                confirmButtonColor: "#1ccc8a",
                 title: "Do you want to Discontinue",
                 text: "You won't be able to revert this!",
                 icon: "info",
@@ -338,9 +344,9 @@ confirmButtonColor: "#1ccc8a",
                             .then((response) => {
                                 if (response.Status) {
                                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                                        background: "#1a1e23 ",
+                                        backdrop: "#121010ba",
+                                        confirmButtonColor: "#1ccc8a",
                                         title: "Success",
                                         text: response.message,
                                         icon: "success",
@@ -352,9 +358,9 @@ confirmButtonColor: "#1ccc8a",
                                 }
                                 else {
                                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                                        background: "#1a1e23 ",
+                                        backdrop: "#121010ba",
+                                        confirmButtonColor: "#1ccc8a",
                                         title: "Error !",
                                         text: response.message,
                                         icon: "error",
@@ -370,9 +376,9 @@ confirmButtonColor: "#1ccc8a",
                                 console.log("response", response)
                                 if (response.Status) {
                                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                                        background: "#1a1e23 ",
+                                        backdrop: "#121010ba",
+                                        confirmButtonColor: "#1ccc8a",
                                         title: "Success",
                                         text: response.message,
                                         icon: "success",
@@ -385,9 +391,9 @@ confirmButtonColor: "#1ccc8a",
                                 }
                                 else {
                                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                                        background: "#1a1e23 ",
+                                        backdrop: "#121010ba",
+                                        confirmButtonColor: "#1ccc8a",
                                         title: "Error !",
                                         text: response.message,
                                         icon: "error",
@@ -416,9 +422,9 @@ confirmButtonColor: "#1ccc8a",
         else {
             {
                 Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                    background: "#1a1e23 ",
+                    backdrop: "#121010ba",
+                    confirmButtonColor: "#1ccc8a",
                     title: "Do you want to Continue",
                     text: "You won't be able to revert this!",
                     icon: "info",
@@ -493,9 +499,9 @@ confirmButtonColor: "#1ccc8a",
                             .then((response) => {
                                 if (response.Status) {
                                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                                        background: "#1a1e23 ",
+                                        backdrop: "#121010ba",
+                                        confirmButtonColor: "#1ccc8a",
                                         title: "Success",
                                         text: response.message,
                                         icon: "success",
@@ -507,9 +513,9 @@ confirmButtonColor: "#1ccc8a",
                                 }
                                 else {
                                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                                        background: "#1a1e23 ",
+                                        backdrop: "#121010ba",
+                                        confirmButtonColor: "#1ccc8a",
                                         title: "Error !",
                                         text: response.message,
                                         icon: 'error',
@@ -530,12 +536,40 @@ confirmButtonColor: "#1ccc8a",
 
     }
 
+    const handleMiniMenu = (menuOption) => {
+        if (menuOption === 'Square Off') {
+            setMenuData(getAllService.SquareOffData);
+        } else if (menuOption === 'Trade History') {
+            setMenuData(getAllService.TradeHistoryData);
+        } else if (menuOption === 'Trade Report') {
+            setMenuData(getAllService.TradeReportData);
+        } else if (menuOption === 'Trade Response') {
+            setMenuData(getAllService.TradeResponseData);
+        } else if (menuOption === 'Net P&L') {
+            setMenuData(getAllService.NetPnLData);
+        } else {
+            setMenuData([]); // Default case if no valid option
+        }
+    
+        setShowModal(true); // Open modal
+      };
+    
+      const closeModal = () => {
+        setShowModal(false); // Close modal
+      };
+
+
+    // Close modal
+    const handleCloseModal = () => setShowModal(false);
+
+
+
     const AddScript = (data) => {
         if (data2.status == false) {
             Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                background: "#1a1e23 ",
+                backdrop: "#121010ba",
+                confirmButtonColor: "#1ccc8a",
                 title: "Error",
                 text: data2.msg,
                 icon: "error",
@@ -550,9 +584,9 @@ confirmButtonColor: "#1ccc8a",
                 }
                 else {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Warning",
                         text: "Don't have any script left Please buy some Scripts",
                         icon: "warning",
@@ -568,9 +602,9 @@ confirmButtonColor: "#1ccc8a",
                 }
                 else {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Warning",
                         text: "Don't have any script left Please buy some Scripts",
                         icon: "warning",
@@ -586,9 +620,9 @@ confirmButtonColor: "#1ccc8a",
                 }
                 else {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Warning",
                         text: "Don't have any script left Please buy some Scripts",
                         icon: "warning",
@@ -608,9 +642,9 @@ confirmButtonColor: "#1ccc8a",
                 }
                 else {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Warning",
                         text: "Don't have any script left Please buy some Scripts",
                         icon: "warning",
@@ -792,9 +826,9 @@ confirmButtonColor: "#1ccc8a",
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Updated",
                             text: response.message,
                             icon: "success",
@@ -807,9 +841,9 @@ confirmButtonColor: "#1ccc8a",
                         }, 1500)
                     } else {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Error !",
                             text: response.message,
                             icon: "error",
@@ -936,9 +970,9 @@ confirmButtonColor: "#1ccc8a",
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Updated",
                             text: response.message,
                             icon: "success",
@@ -951,9 +985,9 @@ confirmButtonColor: "#1ccc8a",
                         }, 1500)
                     } else {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Error !",
                             text: response.message,
                             icon: "error",
@@ -1079,9 +1113,9 @@ confirmButtonColor: "#1ccc8a",
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Updated",
                             text: response.message,
                             icon: "success",
@@ -1094,9 +1128,9 @@ confirmButtonColor: "#1ccc8a",
                         }, 1500)
                     } else {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Error !",
                             text: response.message,
                             icon: "error",
@@ -1438,7 +1472,7 @@ confirmButtonColor: "#1ccc8a",
                                                     }
                                                 </div>
                                                 <div className='d-flex justify-content-end'>
-                                                    <button className='btn btn-primary mt-1' style={{ fontSize: '18px', padding: '6px 14px', height: "47px" }} onClick={() => AddScript(data )}>Add Script</button>
+                                                    <button className='btn btn-primary mt-1' style={{ fontSize: '18px', padding: '6px 14px', height: "47px" }} onClick={() => AddScript(data)}>Add Script</button>
                                                 </div>
 
                                             </div>
@@ -1449,7 +1483,7 @@ confirmButtonColor: "#1ccc8a",
                                                     {getAllService.loading ? <Loader /> :
 
                                                         (tableType === "Scalping" && <FullDataTable
-                                                            columns={data === "Scalping" && tableType === "Scalping" ? getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue) : data === "Option Strategy" ? getColumns4(handleDelete, handleEdit, HandleContinueDiscontinue) : data === "Pattern" ? getColumns5(handleDelete, handleEdit, HandleContinueDiscontinue) : data == "ChartingPlatform" ? getColumns8(HandleContinueDiscontinue) : getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue)}
+                                                            columns={data === "Scalping" && tableType === "Scalping" ? getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue, handleMiniMenu) : data === "Option Strategy" ? getColumns4(handleDelete, handleEdit, HandleContinueDiscontinue) : data === "Pattern" ? getColumns5(handleDelete, handleEdit, HandleContinueDiscontinue) : data == "ChartingPlatform" ? getColumns8(HandleContinueDiscontinue) : getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue, handleMiniMenu)}
                                                             data={data === "Scalping" ? getAllService.ScalpingData : data === "Option Strategy" ? getAllService.OptionData : data === "Pattern" ? getAllService.PatternData : data == "ChartingPlatform" ? getCharting : []}
                                                             checkBox={false}
                                                         />)}
@@ -1527,6 +1561,38 @@ confirmButtonColor: "#1ccc8a",
                     </div>
                 </div>
             </div>}
+
+            <div>
+      <Dropdown align="end" show={showModal}>
+        <Dropdown.Toggle variant="success" id="dropdown-custom-components">
+          Open Menu
+        </Dropdown.Toggle>
+
+        <Dropdown.Menu>
+          <Dropdown.Item onClick={() => handleMiniMenu('Square Off')}>Square Off</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleMiniMenu('Trade History')}>Trade History</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleMiniMenu('Trade Report')}>Trade Report</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleMiniMenu('Trade Response')}>Trade Response</Dropdown.Item>
+          <Dropdown.Item onClick={() => handleMiniMenu('Net P&L')}>Net P&L</Dropdown.Item>
+
+          {/* Render data dynamically based on the selected option */}
+          <div className="menu-data">
+            <h5>Menu Data:</h5>
+            <ul>
+              {menuData && menuData.length > 0 ? (
+                menuData.map((item, index) => <li key={index}>{item}</li>)
+              ) : (
+                <li>No data available</li>
+              )}
+            </ul>
+          </div>
+
+          {/* Close the dropdown when clicking anywhere else */}
+          <Dropdown.Item onClick={closeModal}>Close Menu</Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+    </div>
+
         </div>
     );
 }
