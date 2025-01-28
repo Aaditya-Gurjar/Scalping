@@ -5630,10 +5630,10 @@ a.nav-link.active, .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.activ
   background-color: transparent !important; 
 
 }
-.form-select, .form-control {
+.form-select, .form-control, .MuiInputBase-root {
   background-color: #1a1e23 !important;
   color: #bdbec0 !important;
-  border-color: #4b5055 !important;
+  border:1px solid #4b5055 !important;
 }
 ul.nav.nav-tabs.justify-content-center ,  .nav-tabs.nav-fill, .nav.nav-pills{
   background: #0e1218;
@@ -5704,11 +5704,11 @@ p, h1,h2,h3,h4,h5, body, .table td, .table th
   background: #1a1e23;
   --bs-card-bg:#1a1e23 !important
 }
-button.btn.btn-primary {
+button.btn.btn-primary , .swal2-confirm , .all-plan-card button{
   /* background: #1ccc8a !important; */
   /* border-color: #1ccc8a !important; */
   background: rgba(46, 213, 115, 0.2) !important;
-  color: #2ed573;
+  color: #2ed573 !important;
 }
 .navbar-nav li a, .navbar-nav li i{
   color: #fff !important;
@@ -5720,4 +5720,15 @@ button.btn.btn-primary {
 }
 .broker-card .card-title {
   font-size: 1rem ;
+}
+.dark-card {
+  background: #0e1218;
+  border: 1px dashed #e2e8f0;
+  border-radius: 23px;
+}
+.swal2-show {
+
+  border: 1px dashed #e2e8f0;
+  border-radius: 20px;
+  background: #1a1e23 !important;
 }
