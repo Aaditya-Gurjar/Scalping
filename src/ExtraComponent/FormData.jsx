@@ -51,10 +51,10 @@ const DynamicForm = ({
 
   return (
     <>
-      <div className="iq-card content container-fluid" data-aos="fade-left">
+      <div className="iq-card content " data-aos="fade-left">
         <div className="card mb-0">
           {page_title ? (
-            <div className="card-header" style={{ backgroundColor: '#fff' }}>
+            <div className="card-header" >
               {page_title ? (
                 <h5 className="card-title mb-0 w-auto mt-2 mb-2" style={{ fontWeight: '600', fontSize: '23px' }}>
                   <i className="fa-regular fa-circle-user pe-2" ></i>
@@ -97,14 +97,14 @@ const DynamicForm = ({
                         {field.label === "Symbol_Selection" && (
                           <>
                             <div className="iq-card-header d-flex justify-content-between "
-                              style={{ borderBottom: '1px solid gray' }}
+                              
                             >
                               <div className="iq-header-title">
                                 <h4 className="card-title" style={{ color: '#000', fontWeight: '450' }}>Symbol Selection</h4>
                               </div>
                             </div>
 
-                            <div className="iq-card-body row ">
+                            <div className="iq-card-body row dark-card">
                               {field.data.map((item, index) => {
                                 switch (item.type) {
                                   case "text":
@@ -271,13 +271,13 @@ const DynamicForm = ({
                             <>
                               <div
                                 className="iq-card-header d-flex justify-content-between"
-                                style={{ borderBottom: '1px solid gray' }}
+                                
                               >
                                 <div className="iq-header-title">
                                   <h4 className="card-title" style={{ color: '#000', fontWeight: '450' }}>Entry Rule</h4>
                                 </div>
                               </div>
-                              <div className="iq-card-body row">
+                              <div className="iq-card-body row dark-card">
                                 {field.data.map((item, index) => {
                                   return (
                                     <>
@@ -576,13 +576,13 @@ const DynamicForm = ({
                               <>
                                 <div
                                   className="iq-card-header d-flex justify-content-between"
-                                  style={{ borderBottom: '1px solid gray' }}
+                                  
                                 >
                                   <div className="iq-header-title">
                                     <h4 className="card-title" style={{ color: '#000', fontWeight: '450' }}>Exit Rule</h4>
                                   </div>
                                 </div>
-                                <div className="iq-card-body row">
+                                <div className="iq-card-body row dark-card">
                                   {field.data.map((item, index) => {
                                     return (
                                       <>
@@ -761,13 +761,13 @@ const DynamicForm = ({
                                 <>
                                   <div
                                     className="iq-card-header d-flex justify-content-between"
-                                    style={{ borderBottom: '1px solid gray' }}
+                                   
                                   >
                                     <div className="iq-header-title">
                                       <h4 className="card-title" style={{ color: '#000', fontWeight: '450' }}>Risk Management</h4>
                                     </div>
                                   </div>
-                                  <div className="iq-card-body row">
+                                  <div className="iq-card-body row dark-card">
                                     {field.data.map((item, index) => {
                                       return (
                                         <>
@@ -903,13 +903,13 @@ const DynamicForm = ({
                                   <>
                                     <div
                                       className="iq-card-header d-flex justify-content-between"
-                                      style={{ borderBottom: '1px solid gray' }}
+                                      
                                     >
                                       <div className="iq-header-title">
                                         <h4 className="card-title" style={{ color: '#000', fontWeight: '450' }}>Time Duration</h4>
                                       </div>
                                     </div>
-                                    <div className="iq-card-body row">
+                                    <div className="iq-card-body row dark-card">
                                       {field.data.map((item, index) => (
                                         <>
                                           {item.type === "text" ? (
@@ -1059,13 +1059,13 @@ const DynamicForm = ({
                                     <>
                                       <div
                                         className="iq-card-header d-flex justify-content-between"
-                                        style={{ borderBottom: '1px solid gray' }}
+                                        
                                       >
                                         <div className="iq-header-title">
                                           <h4 className="card-title" style={{ color: '#000', fontWeight: '450' }}>Other Parameters</h4>
                                         </div>
                                       </div>
-                                      <div className="iq-card-body row">
+                                      <div className="iq-card-body row dark-card">
                                         {field.data.map((item, index) => (
                                           <>
                                             {item.type === "text3" ? (

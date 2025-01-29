@@ -232,7 +232,7 @@ const LastPattern = () => {
                   <div className="form-group">
                     <label>Select Technical pattern</label>
                     <select
-                      className="form-control form-control-lg mt-2"
+                      className="form-control  mt-2"
                       onChange={(e) => setSelectedPatternType(e.target.value)}
                       value={selectedPatternType}>
                       <option value="Candlestick Patterns" selected>
@@ -250,7 +250,7 @@ const LastPattern = () => {
                       <>
                         <label>Pattern</label>
                         <select
-                          className="form-control form-control-lg mt-2"
+                          className="form-control  mt-2"
                           onChange={(e) =>
                             setCandlestickPattern(e.target.value)
                           }
@@ -268,7 +268,7 @@ const LastPattern = () => {
                       <>
                         <label>Pattern</label>
                         <select
-                          className="form-control form-control-lg mt-2"
+                          className="form-control  mt-2"
                           onChange={(e) => setChartingPattern(e.target.value)}
                           value={chartingPattern}>
                           <option value="">Please Select Pattern</option>
@@ -291,7 +291,7 @@ const LastPattern = () => {
                     <div className="form-group">
                       <label>Script</label>
                       <select
-                        className="form-control form-control-lg mt-2"
+                        className="form-control  mt-2"
                         onChange={(e) => setScriptType(e.target.value)}
                         value={scriptType}>
                         <option value="">Please Select Script</option>
@@ -308,7 +308,7 @@ const LastPattern = () => {
                   <div className="form-group">
                     <label>Time Frame</label>
                     <select
-                      className="form-control form-control-lg mt-2"
+                      className="form-control  mt-2"
                       onChange={(e) => setSelectedTimeFrame(e.target.value)}
                       value={selectedTimeFrame}>
                       <option value="">Please Select Time Frame</option>
@@ -325,7 +325,7 @@ const LastPattern = () => {
                   <div className="form-group">
                     <label>Select Specific Pattern</label>
                     <select
-                      className="form-control form-control-lg mt-2"
+                      className="form-control  mt-2"
                       onChange={(e) => setChartPattern(e.target.value)}
                       value={chartPattern}>
                       {allSymbols.length === 0 ? (
