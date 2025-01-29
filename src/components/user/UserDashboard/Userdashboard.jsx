@@ -10,11 +10,14 @@ import {
 import { ExpriyEndDate } from "../../CommonAPI/Admin";
 import FullDataTable from "../../../ExtraComponent/CommanDataTable";
 import Swal from "sweetalert2";
+
 const Userdashboard = () => {
   const userName = localStorage.getItem("name");
   const [activeTab1, setActiveTab1] = useState("CurrentPosition");
   const [activeTab, setActiveTab] = useState("currentScript");
   const [subTab, setSubTab] = useState("Scalping");
+  console.log("subTab",subTab);
+  
   const [refresh, setRefresh] = useState(false);
   const [getGroup, setGroup] = useState("");
   const [strategyType, setStrategyType] = useState([]);

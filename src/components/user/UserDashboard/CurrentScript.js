@@ -7,6 +7,8 @@ import { getColumns3, getColumns4, getColumns5, getColumns6, getColumns8 } from 
 import Swal from 'sweetalert2';
 import Formikform from "../../../ExtraComponent/FormData";
 import { useFormik } from 'formik';
+import { Dropdown } from 'react-bootstrap';
+
 
 
 const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
@@ -21,6 +23,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
     const [allScripts, setAllScripts] = useState({ data: [], len: 0 })
     const [editCharting, setEditCharting] = useState();
     const [getCharting, setGetCharting] = useState([]);
+
+    const [menuData, setMenuData] = useState([]);
+    const [showModal, setShowModal] = useState(false);
 
     const [getAllService, setAllservice] = useState({
         loading: true,
@@ -40,6 +45,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         if (data == "ChartingPlatform")
             getChartingScript();
     }, [data]);
+
 
 
 
@@ -84,9 +90,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
     const SweentAlertFun = (text) => {
         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+            background: "#1a1e23 ",
+            backdrop: "#121010ba",
+            confirmButtonColor: "#1ccc8a",
             title: "Error",
             text: text,
             icon: "error",
@@ -157,9 +163,9 @@ confirmButtonColor: "#1ccc8a",
 
 
         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+            background: "#1a1e23 ",
+            backdrop: "#121010ba",
+            confirmButtonColor: "#1ccc8a",
             title: "Are you sure?",
             text: "You won't be able to revert this!",
             icon: "warning",
@@ -173,9 +179,9 @@ confirmButtonColor: "#1ccc8a",
                     .then((response) => {
                         if (response.Status) {
                             Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                                background: "#1a1e23 ",
+                                backdrop: "#121010ba",
+                                confirmButtonColor: "#1ccc8a",
                                 title: "Square off Successfully!",
                                 text: response.message,
                                 icon: "success",
@@ -190,9 +196,9 @@ confirmButtonColor: "#1ccc8a",
                             }, 1500)
                         } else {
                             Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                                background: "#1a1e23 ",
+                                backdrop: "#121010ba",
+                                confirmButtonColor: "#1ccc8a",
                                 title: "Error !",
                                 text: response.message,
                                 icon: "error",
@@ -257,9 +263,9 @@ confirmButtonColor: "#1ccc8a",
         // console.log("getCharting[index]?.AccType", getCharting[index]?.AccType)
         if (trading) {
             Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                background: "#1a1e23 ",
+                backdrop: "#121010ba",
+                confirmButtonColor: "#1ccc8a",
                 title: "Do you want to Discontinue",
                 text: "You won't be able to revert this!",
                 icon: "info",
@@ -338,9 +344,9 @@ confirmButtonColor: "#1ccc8a",
                             .then((response) => {
                                 if (response.Status) {
                                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                                        background: "#1a1e23 ",
+                                        backdrop: "#121010ba",
+                                        confirmButtonColor: "#1ccc8a",
                                         title: "Success",
                                         text: response.message,
                                         icon: "success",
@@ -352,9 +358,9 @@ confirmButtonColor: "#1ccc8a",
                                 }
                                 else {
                                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                                        background: "#1a1e23 ",
+                                        backdrop: "#121010ba",
+                                        confirmButtonColor: "#1ccc8a",
                                         title: "Error !",
                                         text: response.message,
                                         icon: "error",
@@ -370,9 +376,9 @@ confirmButtonColor: "#1ccc8a",
                                 console.log("response", response)
                                 if (response.Status) {
                                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                                        background: "#1a1e23 ",
+                                        backdrop: "#121010ba",
+                                        confirmButtonColor: "#1ccc8a",
                                         title: "Success",
                                         text: response.message,
                                         icon: "success",
@@ -385,9 +391,9 @@ confirmButtonColor: "#1ccc8a",
                                 }
                                 else {
                                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                                        background: "#1a1e23 ",
+                                        backdrop: "#121010ba",
+                                        confirmButtonColor: "#1ccc8a",
                                         title: "Error !",
                                         text: response.message,
                                         icon: "error",
@@ -416,9 +422,9 @@ confirmButtonColor: "#1ccc8a",
         else {
             {
                 Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                    background: "#1a1e23 ",
+                    backdrop: "#121010ba",
+                    confirmButtonColor: "#1ccc8a",
                     title: "Do you want to Continue",
                     text: "You won't be able to revert this!",
                     icon: "info",
@@ -493,9 +499,9 @@ confirmButtonColor: "#1ccc8a",
                             .then((response) => {
                                 if (response.Status) {
                                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                                        background: "#1a1e23 ",
+                                        backdrop: "#121010ba",
+                                        confirmButtonColor: "#1ccc8a",
                                         title: "Success",
                                         text: response.message,
                                         icon: "success",
@@ -507,9 +513,9 @@ confirmButtonColor: "#1ccc8a",
                                 }
                                 else {
                                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                                        background: "#1a1e23 ",
+                                        backdrop: "#121010ba",
+                                        confirmButtonColor: "#1ccc8a",
                                         title: "Error !",
                                         text: response.message,
                                         icon: 'error',
@@ -530,12 +536,16 @@ confirmButtonColor: "#1ccc8a",
 
     }
 
+
+
+
+
     const AddScript = (data) => {
         if (data2.status == false) {
             Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                background: "#1a1e23 ",
+                backdrop: "#121010ba",
+                confirmButtonColor: "#1ccc8a",
                 title: "Error",
                 text: data2.msg,
                 icon: "error",
@@ -550,9 +560,9 @@ confirmButtonColor: "#1ccc8a",
                 }
                 else {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Warning",
                         text: "Don't have any script left Please buy some Scripts",
                         icon: "warning",
@@ -568,9 +578,9 @@ confirmButtonColor: "#1ccc8a",
                 }
                 else {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Warning",
                         text: "Don't have any script left Please buy some Scripts",
                         icon: "warning",
@@ -586,9 +596,9 @@ confirmButtonColor: "#1ccc8a",
                 }
                 else {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Warning",
                         text: "Don't have any script left Please buy some Scripts",
                         icon: "warning",
@@ -608,9 +618,9 @@ confirmButtonColor: "#1ccc8a",
                 }
                 else {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Warning",
                         text: "Don't have any script left Please buy some Scripts",
                         icon: "warning",
@@ -792,9 +802,9 @@ confirmButtonColor: "#1ccc8a",
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Updated",
                             text: response.message,
                             icon: "success",
@@ -807,9 +817,9 @@ confirmButtonColor: "#1ccc8a",
                         }, 1500)
                     } else {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Error !",
                             text: response.message,
                             icon: "error",
@@ -936,9 +946,9 @@ confirmButtonColor: "#1ccc8a",
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Updated",
                             text: response.message,
                             icon: "success",
@@ -951,9 +961,9 @@ confirmButtonColor: "#1ccc8a",
                         }, 1500)
                     } else {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Error !",
                             text: response.message,
                             icon: "error",
@@ -1079,9 +1089,9 @@ confirmButtonColor: "#1ccc8a",
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Updated",
                             text: response.message,
                             icon: "success",
@@ -1094,9 +1104,9 @@ confirmButtonColor: "#1ccc8a",
                         }, 1500)
                     } else {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Error !",
                             text: response.message,
                             icon: "error",
@@ -1433,12 +1443,12 @@ confirmButtonColor: "#1ccc8a",
                                         <>
                                             <div className="iq-card-header d-flex justify-content-between">
                                                 <div className="iq-header-title">
-                                                    {console.log("data Is", data)}
+                                                    {/* {console.log("data Is", data)} */}
                                                     {tableType === "MultiCondition" ? "" : <h4 className="card-title">{data}</h4>
                                                     }
                                                 </div>
                                                 <div className='d-flex justify-content-end'>
-                                                    <button className='btn btn-primary mt-1' style={{ fontSize: '18px', padding: '6px 14px', height: "47px" }} onClick={() => AddScript(data )}>Add Script</button>
+                                                    <button className='btn btn-primary mt-1' style={{ fontSize: '18px', padding: '6px 14px', height: "47px" }} onClick={() => AddScript(data)}>Add Script</button>
                                                 </div>
 
                                             </div>
@@ -1527,6 +1537,11 @@ confirmButtonColor: "#1ccc8a",
                     </div>
                 </div>
             </div>}
+
+            <div>
+      
+    </div>
+
         </div>
     );
 }

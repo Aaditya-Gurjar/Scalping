@@ -1,17 +1,17 @@
-// import React, { useState, useEffect } from "react";
-// import { Bar } from "react-chartjs-2"; // Import Bar chart instead of Line chart
-// import {
-//   Chart as ChartJS,
-//   CategoryScale,
-//   LinearScale,
-//   BarElement,
-//   Title,
-//   Tooltip,
-//   Legend,
-//   TimeScale,
-// } from "chart.js";
-// import zoomPlugin from "chartjs-plugin-zoom"; // Import zoom plugin
-// import 'chartjs-adapter-date-fns'; // Import the date-fns adapter for Chart.js
+import React, { useState, useEffect } from "react";
+import { Bar } from "react-chartjs-2"; // Import Bar chart instead of Line chart
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  TimeScale,
+} from "chart.js";
+import zoomPlugin from "chartjs-plugin-zoom"; // Import zoom plugin
+import 'chartjs-adapter-date-fns'; // Import the date-fns adapter for Chart.js
 
 // // Registering necessary components, including zoomPlugin
 // ChartJS.register(

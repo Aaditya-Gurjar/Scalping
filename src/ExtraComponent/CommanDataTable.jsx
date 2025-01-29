@@ -1,8 +1,15 @@
 // import React, { useState } from "react";
 // import MUIDataTable from "mui-datatables";
+// import { useEffect } from "react";
 
-// const FullDataTable = ({ data, columns, onRowSelect, checkBox }) => {
+
+
+
+// const FullDataTable = ({ data, columns, onRowSelect, checkBox,isChecked }) => {
+
 //     const [selectedRowData, setSelectedRowData] = useState(null);
+
+//   const [checkedRows, setCheckedRows] = useState(isChecked !== undefined ? [isChecked] : []);
 
 //     const NoDataIndication = () => (
 //         <div className="d-flex justify-content-start">
@@ -60,6 +67,12 @@
 //         rowsPerPageOptions: [10, 25, 50, 100],
 //     };
 
+//   useEffect(() => {
+//     // Update the checked rows when `isChecked` prop changes
+//     if (isChecked !== undefined) {
+//       setCheckedRows([isChecked]);
+//     }
+//   }, [isChecked]);
 //     const customizedColumns = columns.map(column => ({
 //         ...column,
 //         options: {
@@ -197,6 +210,7 @@
 // import MUIDataTable from "mui-datatables";
 // import Modal from "react-bootstrap/Modal";
 // import Button from "react-bootstrap/Button";
+
 
 // const FullDataTable = ({ data, columns, onRowSelect, checkBox }) => {
 //   const [selectedRowData, setSelectedRowData] = useState(null);
@@ -394,7 +408,7 @@ import MUIDataTable from "mui-datatables";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
-const FullDataTable = ({ data, columns, onRowSelect, checkBox }) => {
+const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
   const [selectedRowData, setSelectedRowData] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedColumns, setSelectedColumns] = useState(columns.slice(0, 7));
@@ -440,12 +454,14 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox }) => {
           const rowData = data[selectedIndex];
           setSelectedRowData(rowData);
           if (onRowSelect) onRowSelect(rowData);
+          setCheckedRows(allRowsSelected.map(row => row.index)); // Update checked rows state
         } else {
           setSelectedRowData(null);
           if (onRowSelect) onRowSelect(null);
+          setCheckedRows([]); // Reset checked rows
         }
       },
-      rowsSelected: selectedRowData ? [data.indexOf(selectedRowData)] : [],
+      rowsSelected: checkedRows, // Manage the selected rows directly from local state
       download: false,
       print: false,
       viewColumns: false,
@@ -473,7 +489,7 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox }) => {
         };
       },
     }),
-    [data, selectedRowData, onRowSelect, checkBox]
+    [data, selectedRowData, onRowSelect, checkBox, checkedRows]
   );
 
   const visibleColumns = useMemo(
@@ -491,6 +507,9 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox }) => {
               padding: "5px 10px",
               cursor: "pointer",
             }}>
+              
+          
+          
             Expand Columns
           </button>
         ),
@@ -589,7 +608,8 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox }) => {
                   />
                   <label
                     className="form-check-label"
-                    htmlFor={`column-${column.name}`}>
+                    htmlFor={`column-${column.name}`}
+                  >
                     {column.label || column.name}
                   </label>
                 </div>
@@ -609,7 +629,8 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox }) => {
                   />
                   <label
                     className="form-check-label"
-                    htmlFor={`column-${column.name}`}>
+                    htmlFor={`column-${column.name}`}
+                  >
                     {column.label || column.name}
                   </label>
                 </div>
