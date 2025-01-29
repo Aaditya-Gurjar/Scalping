@@ -5694,6 +5694,9 @@ p, h1,h2,h3,h4,h5, body, .table td, .table th
   border-radius: 10px;
   width: 100%;
   padding: 20px 20px;
+  background: #0e1218;
+  border: 1px dashed #e2e8f0;
+  border-radius: 23px;
 }
 .plan-data {
   text-align: center;
