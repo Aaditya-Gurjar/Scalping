@@ -1,10 +1,13 @@
+
 import { useLocation, useNavigate } from "react-router-dom"
-import AddForm from "../../../ExtraComponent/FormData";
+import AddForm from "../../../ExtraComponent/FormData2";
 import { useFormik } from "formik";
 import { useState, useEffect } from "react";
 import Swal from 'sweetalert2';
 import { Get_Symbol, Get_StrikePrice, GET_EXPIRY_DATE, GetExchange } from '../../CommonAPI/Admin'
 import { AddScript } from '../../CommonAPI/User'
+import { text } from "../../../ExtraComponent/IconTexts"
+
 
 const AddClient = () => {
   const userName = localStorage.getItem('name')
@@ -17,9 +20,6 @@ const AddClient = () => {
 
   const SweentAlertFun = (text) => {
     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
       title: "Warning !",
       text: text,
       icon: "warning",
@@ -91,6 +91,15 @@ confirmButtonColor: "#1ccc8a",
       quantityselection: "Addition",
       quantityvalue: 0,
       Targetselection: "Fixed Target",
+      RepeatationCount: 0,
+      Profit: 0,
+      Loss: 0,
+      RollOver: "",
+      NumberOfDays: 0,
+      RollOverExitTime: "00:00:00",
+      TargetExit: false,
+      WorkingDay: []
+
     },
     validate: (values) => {
       let errors = {};
@@ -191,14 +200,27 @@ confirmButtonColor: "#1ccc8a",
       if (!values.Targetvalue) {
         errors.Targetvalue = values.position_type == "Single" && values.Strategy == "Multi_Conditional" ? "Please Enter  Target Price  1" : values.Strategy == "Fixed Price" ? "Please Enter A Target Price." : "Please Enter Target Value.";
       }
-      if (!values.LowerRange && values.Strategy != 'Fixed Price' && values.LowerRange != 0) {
+
+      if (
+        !values.LowerRange &&
+        (values.Strategy == "Multi Directional" ||
+          values.Strategy == "One Directional") &&
+        values.LowerRange == "" && values.LowerRange !== 0
+      ) {
         errors.LowerRange = "Please Enter The Lower Range.";
       }
-      if (!values.HigherRange && values.Strategy != 'Fixed Price' && values.HigherRange != 0) {
+      if (
+        !values.HigherRange &&
+        (values.Strategy == "Multi Directional" ||
+          values.Strategy == "One Directional") &&
+        values.HigherRange == "" && values.HigherRange !== 0
+      ) {
         errors.HigherRange = "Please Enter The Higher Range.";
       }
-      if (!values.Group && (values.Strategy === "Fixed Price" || (values.Strategy == "Multi_Conditional" && values.position_type == "Single"))) {
-        errors.Group = "Please Select A Unique ID.";
+
+
+      if (!values.Group) {
+        errors.Group = "Please Enter Unique Name.";
       }
       if (!values.HoldExit && values.Strategy != "Fixed Price") {
         errors.HoldExit = "Please Select Whether To Hold Or Exit.";
@@ -232,6 +254,64 @@ confirmButtonColor: "#1ccc8a",
       if (values.Strategy == "Multi_Conditional" && !values.position_type) {
         errors.position_type = "Please Select Position Type";
       }
+      if (
+        !values.RepeatationCount &&
+        values.Strategy == "Multi_Conditional" &&
+        values.position_type == "Multiple"
+      ) {
+        errors.RepeatationCount = "Please Enter No. of Repeatation";
+      }
+      if (
+        !values.Loss &&
+        values.Strategy == "Multi_Conditional" &&
+        values.position_type == "Multiple"
+      ) {
+        errors.Loss = "Please Enter Maximum Loss";
+      }
+
+      if (
+        !values.Profit &&
+        values.Strategy == "Multi_Conditional" &&
+        values.position_type == "Multiple"
+      ) {
+        errors.Profit = "Please Enter Maximum Loss";
+      }
+      if (
+        !values.RollOver &&
+        values.Strategy == "Multi_Conditional" &&
+        values.position_type == "Multiple"
+      ) {
+        errors.RollOver = "Please Enter No. of Repeatation";
+      }
+      if (
+        !values.NumberOfDays &&
+        values.Strategy == "Multi_Conditional" &&
+        values.position_type == "Multiple" && values.RollOver == true
+      ) {
+        errors.NumberOfDays = "Please Enter No. of Days";
+      }
+
+      if (
+        !values.RollOverExitTime &&
+        values.Strategy == "Multi_Conditional" &&
+        values.position_type == "Multiple" && values.RollOver == true
+      ) {
+        errors.RollOverExitTime = "Please Enter RollOver Exit Time";
+      }
+      if (
+        !values.TargetExit &&
+        values.Strategy == "Multi_Conditional" &&
+        values.position_type == "Multiple"
+      ) {
+        errors.TargetExit = "Please select Continue After Cycle Exit";
+      }
+      if (
+        !values.WorkingDay.length > 0 &&
+        values.Strategy == "Multi_Conditional" &&
+        values.position_type == "Multiple"
+      ) {
+        errors.WorkingDay = "Please select Working day";
+      }
 
       return errors;
     },
@@ -258,8 +338,8 @@ confirmButtonColor: "#1ccc8a",
           ExitTime: values.ExitTime,
           EntryPrice: Number(values.EntryPrice),
           EntryRange: Number(values.EntryRange),
-          LowerRange: values.Strategy === "Fixed Price" && values.position_type == "Single" ? 0 : Number(values.LowerRange),
-          HigherRange: values.Strategy === "Fixed Price" && values.position_type == "Single" ? 0 : Number(values.HigherRange),
+          LowerRange: values.Strategy === "Fixed Price" || values.Strategy == "Multi_Conditional" ? 0 : Number(values.LowerRange),
+          HigherRange: values.Strategy === "Fixed Price" || values.Strategy == "Multi_Conditional" ? 0 : Number(values.HigherRange),
           ETPattern: "",
           Timeframe: "",
           Quantity: values.Quantity,
@@ -269,7 +349,7 @@ confirmButtonColor: "#1ccc8a",
           Striketype: "",
           DepthofStrike: 0,
           DeepStrike: 0,
-          Group: values.Strategy == "Fixed Price" || (formik.values.Strategy == "Multi_Conditional" && values.position_type == "Single") ? values.Group : '',
+          Group: values.Group,
           CEDepthLower: 0.0,
           CEDepthHigher: 0.0,
           PEDepthLower: 0.0,
@@ -288,8 +368,36 @@ confirmButtonColor: "#1ccc8a",
           quantityselection: values.position_type == "Multiple" && values.Strategy == "Multi_Conditional" ? values.quantityselection : "",
           quantityvalue: values.position_type == "Multiple" && values.Strategy == "Multi_Conditional" ? Number(values.quantityvalue) : 0,
           targetselection: values.position_type == "Multiple" && values.Strategy == "Multi_Conditional" ? values.Targetselection : "Single",
-        }
+          RepeatationCount:
+            values.position_type == "Multiple" &&
+              values.Strategy == "Multi_Conditional"
+              ? Number(values.RepeatationCount)
+              : 0,
+          Loss:
+            values.position_type == "Multiple" &&
+              values.Strategy == "Multi_Conditional"
+              ? Number(values.Loss)
+              : 0,
 
+          Profit:
+            values.position_type == "Multiple" &&
+              values.Strategy == "Multi_Conditional"
+              ? Number(values.Profit)
+              : 0,
+          RollOver:
+            values.position_type = "Multiple" && values.Strategy == "Multi_Conditional" ? values.RollOver : false,
+          NumberOfDays:
+            values.position_type == "Multiple" && values.Strategy == "Multi_Conditional" && values.RollOver == true ? values.NumberOfDays : 0,
+          RollOverExitTime:
+            values.position_type == "Multiple" && values.Strategy == "Multi_Conditional" && values.RollOver == true ? values.RollOverExitTime : "00:00:00",
+          TargetExit:
+            values.position_type == "Multiple" && values.Strategy == "Multi_Conditional" ? values.TargetExit : false,
+          WorkingDay:
+            values.position_type == "Multiple" && values.Strategy == "Multi_Conditional" ? values.WorkingDay : []
+        }
+        console.log("values.WorkingDay", values.WorkingDay)
+        console.log("reqqqqqqqqqq", req)
+        return;
 
         if ((Number(values.EntryPrice) > 0 || Number(values.EntryRange) > 0) &&
           (Number(values.EntryPrice) >= Number(values.EntryRange))) {
@@ -300,7 +408,7 @@ confirmButtonColor: "#1ccc8a",
           );
         }
         if (
-          values.Strategy !== 'Fixed Price' &&
+          (values.Strategy !== 'Fixed Price' || values.Strategy !== "Multi_Conditional") &&
           Number(values.LowerRange) >= Number(values.HigherRange) &&
           (Number(values.LowerRange) > 0 || Number(values.HigherRange) > 0)
         ) {
@@ -356,9 +464,6 @@ confirmButtonColor: "#1ccc8a",
           .then((response) => {
             if (response.Status) {
               Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
                 title: "Script Added !",
                 text: response.message,
                 icon: "success",
@@ -371,9 +476,6 @@ confirmButtonColor: "#1ccc8a",
             }
             else {
               Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
                 title: "Error !",
                 text: response.message,
                 icon: "error",
@@ -392,7 +494,6 @@ confirmButtonColor: "#1ccc8a",
     },
   });
 
-  console.log("values.Strategy", formik.values.Strategy)
 
   useEffect(() => {
     formik.setFieldValue('Strategy', location?.state?.data?.scriptType?.data?.[location?.state?.data?.scriptType?.len]?.CombineScalping[0])
@@ -417,6 +518,7 @@ confirmButtonColor: "#1ccc8a",
       headingtype: 1,
       col_size: formik.values.Exchange == 'NFO' && (formik.values.Instrument === "FUTSTK" || formik.values.Instrument === "FUTIDX") ? 3 : formik.values.Exchange == 'NFO' && (formik.values.Instrument === "OPTIDX" || formik.values.Instrument === "OPTSTK") ? 4 : formik.values.Exchange == 'NSE' && formik.values.Instrument == 'FUTIDX' ? 6 : 6,
       disable: false,
+      // iconText: text.Lower_Price
     },
     {
       name: "Instrument",
@@ -549,6 +651,7 @@ confirmButtonColor: "#1ccc8a",
       col_size: formik.values.Strategy == 'Fixed Price' || formik.values.Strategy == 'Multi_Conditional' ? 3 : 4,
       disable: false,
       headingtype: 2,
+      iconText: formik.values.Strategy == 'Fixed Price' || (formik.values.position_type == "Single" && formik.values.Strategy == "Multi_Conditional") ? text.Lower_Price : text.First_Trade_Lower_Range,
       hiding: false,
     },
     {
@@ -559,49 +662,24 @@ confirmButtonColor: "#1ccc8a",
       headingtype: 2,
       col_size: formik.values.Strategy == 'Fixed Price' || formik.values.Strategy == 'Multi_Conditional' ? 3 : 4,
       disable: false,
+      iconText: formik.values.Strategy == 'Fixed Price' || (formik.values.position_type == "Single" && formik.values.Strategy == "Multi_Conditional") ? text.Higher_Price : text.First_Trade_Higher_Range,
       hiding: false,
     },
     {
       name: "Group",
-      label: "Unique ID",
-      type: "select",
-      options: [
-        { label: "A", value: "A" },
-        { label: "B", value: "B" },
-        { label: "C", value: "C" },
-        { label: "D", value: "D" },
-        { label: "E", value: "E" },
-        { label: "F", value: "F" },
-        { label: "G", value: "G" },
-        { label: "H", value: "H" },
-        { label: "I", value: "I" },
-        { label: "J", value: "J" },
-      ],
-      showWhen: (values) => values.Strategy == "Fixed Price" || (formik.values.Strategy == "Multi_Conditional" && values.position_type == "Single"),
+      label: "Unique Name",
+      type: "text",
       label_size: 12,
       col_size: 3,
       headingtype: 2,
+      iconText: text.Unique_Name,
       disable: false,
       hiding: false,
     },
   ]
 
   const ExitRuleArr = [
-    {
-      name: "TStype",
-      label: "Measurement Type",
-      type: "select",
-      options: [
-        { label: "Percentage", value: "Percentage" },
-        { label: "Point", value: "Point" },
-      ],
-      showWhen: (values) => values.Strategy == "One Directional" || values.Strategy == "Multi Directional" || (values.Strategy == "Multi_Conditional"),
-      label_size: 12,
-      headingtype: 4,
-      col_size: formik.values.position_type == "Multiple" ? 3 : 4,
-      hiding: false,
-      disable: false,
-    },
+
     {
       name: "Targetselection",
       label: "Target Type",
@@ -619,7 +697,21 @@ confirmButtonColor: "#1ccc8a",
       disable: false,
       hiding: false,
     },
-
+    {
+      name: "TStype",
+      label: "Measurement Type",
+      type: "select",
+      options: [
+        { label: "Percentage", value: "Percentage" },
+        { label: "Point", value: "Point" },
+      ],
+      showWhen: (values) => values.Strategy == "One Directional" || values.Strategy == "Multi Directional" || (values.Strategy == "Multi_Conditional"),
+      label_size: 12,
+      headingtype: 4,
+      col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+      hiding: false,
+      disable: false,
+    },
     {
       name: "Targetvalue",
       label: formik.values.position_type == "Single" && formik.values.Strategy == "Multi_Conditional" ? "Target Price 1" : formik.values.Strategy == "Fixed Price" ? "Target Price" : formik.values.Strategy == "One Directional" ? "Fixed Target" : formik.values.Strategy == "Multi_Conditional" && formik.values.position_type == "Multiple" && formik.values.Targetselection == "Fixed Target" ? "Fixed Target" : "Booking Point",
@@ -666,7 +758,6 @@ confirmButtonColor: "#1ccc8a",
 
 
   ]
-
   const RiskManagementArr = [
     {
       name: "Quantity",
@@ -707,19 +798,21 @@ confirmButtonColor: "#1ccc8a",
       label_size: 12,
       col_size: formik.values.position_type == "Multiple" ? 3 : 4,
       headingtype: 4,
-      showWhen: (values) => values.Strategy == "Multi Directional" || values.Strategy == "One Directional" || (values.Strategy == "Multi_Conditional" && values.position_type != "Single"),
+      showWhen: (values) => values.Strategy == "Multi Directional" || values.Strategy == "One Directional",
       disable: false,
+      iconText: text.Lower_Range,
       hiding: false,
     },
     {
       name: "HigherRange",
-      label: "Higher Range",
+      label: "Higher Range ",
       type: "text3",
       label_size: 12,
       col_size: formik.values.position_type == "Multiple" ? 3 : 4,
       headingtype: 4,
-      showWhen: (values) => values.Strategy == "Multi Directional" || values.Strategy == "One Directional" || (values.Strategy == "Multi_Conditional" && values.position_type != "Single"),
+      showWhen: (values) => values.Strategy == "Multi Directional" || values.Strategy == "One Directional",
       disable: false,
+      iconText: text.Higher_Range,
       hiding: false,
     },
     {
@@ -744,7 +837,135 @@ confirmButtonColor: "#1ccc8a",
       label_size: 12,
       col_size: formik.values.position_type == "Multiple" ? 3 : 4,
       headingtype: 4,
+      iconText: text.Trade_Count,
       disable: false,
+      hiding: false,
+    },
+    {
+      name: "RepeatationCount",
+      label: "Repeatation Count",
+      type: "text3",
+      label_size: 12,
+      col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+      headingtype: 4,
+      showWhen: (values) =>
+        values.Strategy == "Multi_Conditional" &&
+        values.position_type == "Multiple",
+      disable: false,
+      hiding: false,
+    },
+    {
+      name: "Loss",
+      label: "Max Loss ",
+      type: "text3",
+      label_size: 12,
+      col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+      headingtype: 4,
+      showWhen: (values) =>
+        values.Strategy == "Multi_Conditional" &&
+        values.position_type == "Multiple",
+      disable: false,
+      hiding: false,
+    },
+
+    {
+      name: "Profit",
+      label: "Max Profit ",
+      type: "text3",
+      label_size: 12,
+      col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+      headingtype: 4,
+      showWhen: (values) =>
+        values.Strategy == "Multi_Conditional" &&
+        values.position_type == "Multiple",
+      disable: false,
+      hiding: false,
+    },
+    {
+      name: "RollOver",
+      label: "RollOver",
+      type: "select",
+      options: [
+        { label: "True", value: true },
+        { label: "False", value: false },
+      ],
+
+      label_size: 12,
+      col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+      headingtype: 4,
+      showWhen: (values) =>
+        values.Strategy == "Multi_Conditional" &&
+        values.position_type == "Multiple",
+      disable: false,
+      hiding: false,
+    },
+
+    {
+      name: "NumberOfDays",
+      label: "No. of Days",
+      type: "text3",
+      label_size: 12,
+      showWhen: (values) => {
+        const rollOverBoolean = values.RollOver === "true";
+        return rollOverBoolean && values.Strategy == "Multi_Conditional" &&
+          values.position_type == "Multiple";
+      },
+
+      col_size: 3,
+      headingtype: 4,
+      disable: false,
+      hiding: false,
+    },
+
+
+    {
+      name: "RollOverExitTime",
+      label: "RollOver Exit Time",
+      type: "timepiker",
+      label_size: 12,
+      showWhen: (values) => {
+        const rollOverBoolean = values.RollOver === "true";
+        return rollOverBoolean && values.Strategy == "Multi_Conditional" &&
+          values.position_type == "Multiple";
+      },
+      col_size: 3,
+      headingtype: 4,
+      disable: false,
+      hiding: false,
+    },
+    {
+      name: "TargetExit",
+      label: "Continue after cycle exit",
+      type: "select",
+      options: [
+        { label: "True", value: true },
+        { label: "False", value: false },
+      ],
+      showWhen: (values) => values.position_type == "Multiple" && values.Strategy == "Multi_Conditional",
+      label_size: 12,
+      col_size: formik.values.position_type == "Single" ? 3 : 3,
+      headingtype: 4,
+      disable: false,
+      // iconText: text.Increment_Type,
+      hiding: false,
+    },
+
+    {
+      name: "WorkingDay",
+      label: "Working Day",
+      type: "multiselect",
+      options: [
+        { label: "Monday", value: "Monday" },
+        { label: "Tuesday", value: "Tuesday" },
+        { label: "Wednesday", value: "Wednesday" },
+        { label: "Thursday", value: "Thursday" },
+        { label: "Friday", value: "Friday" },
+      ],
+      label_size: 12,
+      col_size: 4,
+      headingtype: 4,
+      disable: false,
+      iconText: text.Increment_Type,
       hiding: false,
     },
 
@@ -757,8 +978,11 @@ confirmButtonColor: "#1ccc8a",
       col_size: 3,
       headingtype: 4,
       disable: false,
+      iconText: text.Step_up,
       hiding: false,
     },
+
+
     {
       name: "quantityselection",
       label: "Increment Type",
@@ -772,8 +996,11 @@ confirmButtonColor: "#1ccc8a",
       col_size: formik.values.position_type == "Single" ? 3 : 3,
       headingtype: 4,
       disable: false,
+      iconText: text.Increment_Type,
       hiding: false,
     },
+
+
     {
       name: "quantityvalue",
       label: "Increment Value",
@@ -783,6 +1010,7 @@ confirmButtonColor: "#1ccc8a",
       col_size: 3,
       headingtype: 4,
       disable: false,
+      iconText: text.Increment_Value,
       hiding: false,
     },
 
