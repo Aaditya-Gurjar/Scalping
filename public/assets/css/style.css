@@ -489,7 +489,9 @@ a:hover {
 .sign-in-page {
   height: 100%;
 }
-
+section.sign-in-page {
+  background: #1e293b;
+}
 .sign-in-detail {
   padding: 100px;
   height: 100vh;
@@ -504,18 +506,14 @@ a:hover {
 .sign-in-logo img {
   height: 100px;
 }
-
-.sign-in-from {
-  padding: 20px 60px;
-  border-radius: 37px;
-  position: absolute;
-  top: 10%;
-  bottom: 21%;
-  left: 0;
-  right: 0;
-  z-index: 9;
-  background: #fff;
+section.sign-in-page {
+  background: #1e293b;
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  justify-content: center;
 }
+
 
 .sign-info {
   border-top: 1px solid #cdd1f3;

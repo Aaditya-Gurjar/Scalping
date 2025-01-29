@@ -269,160 +269,14 @@ confirmButtonColor: "#1ccc8a",
 
     return (
         <section className="sign-in-page">
-            <div className="container sign-in-page-bg mt-5 mb-md-5 mb-0 p-0">
+            <div className="container ">
                 <div className="row no-gutters">
-                    <div className="col-md-6 text-center">
-                        <div className="sign-in-detail text-white">
-                            <a className="sign-in-logo mb-5" href="index.html">
-                                <img className="img-fluid" alt="logo" id="imglogo" />
-                            </a>
-                            <div
-                                className="owl-carousel owl-loaded owl-drag"
-                                data-autoplay="true"
-                                data-loop="true"
-                                data-nav="false"
-                                data-dots="true"
-                                data-items={1}
-                                data-items-laptop={1}
-                                data-items-tab={1}
-                                data-items-mobile={1}
-                                data-items-mobile-sm={1}
-                                data-margin={0}
-                            >
-                                <div className="owl-stage-outer">
-                                    <div
-                                        className="owl-stage"
-                                        style={{
-                                            transform: "translate3d(-1432px, 0px, 0px)",
-                                            transition: "all 0.25s ease 0s",
-                                            width: 2506
-                                        }}
-                                    >
-                                        <div className="owl-item cloned" style={{ width: 358 }}>
-                                            <div className="item">
-                                                <img
-                                                    src="assets/images/tradesoft.jpg"
-                                                    className="img-fluid mb-4"
-                                                    alt="logo"
-                                                />
-                                                <h4 className="mb-1 text-white">Manage your orders</h4>
-                                                <p>
-                                                    It is a long established fact that a reader will be
-                                                    distracted by the readable content.
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div className="owl-item cloned" style={{ width: 358 }}>
-                                            <div className="item">
-                                                <img
-                                                    src="assets/images/login/3.png"
-                                                    className="img-fluid mb-4"
-                                                    alt="logo"
-                                                />
-                                                <h4 className="mb-1 text-white">Manage your orders</h4>
-                                                <p>
-                                                    It is a long established fact that a reader will be
-                                                    distracted by the readable content.
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div className="owl-item" style={{ width: 358 }}>
-                                            {/* <div className="item">
-                                                <img
-                                                    src="assets/images/login/1.png"
-                                                    className="img-fluid mb-4"
-                                                    alt="logo"
-                                                />
-                                                <h4 className="mb-1 text-white">Manage your orders</h4>
-                                                <p>
-                                                    It is a long established fact that a reader will be
-                                                    distracted by the readable content.
-                                                </p>
-                                            </div> */}
-                                        </div>
-                                        <div className="owl-item" style={{ width: 358 }}>
-                                            {/* <div className="item">
-                                                <img
-                                                    src="assets/images/login/2.png"
-                                                    className="img-fluid mb-4"
-                                                    alt="logo"
-                                                />
-                                                <h4 className="mb-1 text-white">Manage your orders</h4>
-                                                <p>
-                                                    It is a long established fact that a reader will be
-                                                    distracted by the readable content.
-                                                </p>
-                                            </div> */}
-                                        </div>
-                                        <div className="owl-item active" style={{ width: 358 }}>
-                                            <div className="item">
-                                                <img
-                                                    src="/assets/images/tradesoft.jpg"
-                                                    className="img-fluid mb-4"
-                                                    alt="logo"
-                                                    style={{ borderRadius: "20px", }}
-                                                />
-                                                {/* <h4 className="mb-1 text-white">Manage your orders</h4>
-                                                <p>
-                                                    It is a long established fact that a reader will be
-                                                    distracted by the readable content.
-                                                </p> */}
-                                            </div>
-                                        </div>
-                                        <div className="owl-item cloned" style={{ width: 358 }}>
-                                            {/* <div className="item">
-                                                <img
-                                                    src="assets/images/login/1.png"
-                                                    className="img-fluid mb-4"
-                                                    alt="logo"
-                                                />
-                                                <h4 className="mb-1 text-white">Manage your orders</h4>
-                                                <p>
-                                                    It is a long established fact that a reader will be
-                                                    distracted by the readable content.
-                                                </p>
-                                            </div> */}
-                                        </div>
-                                        <div className="owl-item cloned" style={{ width: 358 }}>
-                                            {/* <div className="item">
-                                                <img
-                                                    src="assets/images/login/2.png"
-                                                    className="img-fluid mb-4"
-                                                    alt="logo"
-                                                />
-                                                <h4 className="mb-1 text-white">Manage your orders</h4>
-                                                <p>
-                                                    It is a long established fact that a reader will be
-                                                    distracted by the readable content.
-                                                </p>
-                                            </div> */}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="owl-nav disabled">
-                                    <button type="button" role="presentation" className="owl-prev">
-                                        <i className="fa fa-angle-left fa-2x" />
-                                    </button>
-                                    <button type="button" role="presentation" className="owl-next">
-                                        <i className="fa fa-angle-right fa-2x" />
-                                    </button>
-                                </div>
-                                <div className="owl-dots">
-                                    {/* <button role="button" className="owl-dot">
-                                        <span />
-                                    </button>
-                                    <button role="button" className="owl-dot">
-                                        <span />
-                                    </button>
-                                    <button role="button" className="owl-dot active">
-                                        <span />
-                                    </button> */}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-md-6 position-relative">
-                        <div className="sign-in-from">
+                <p className="sign-in-logo  text-center">
+                                <img className="" alt="logo" id="imglogo" style={{width:'200px',height:'50px', objectFit:'cover'}} />
+                            </p>
+                    <div className="col-md-7 dark-card mx-auto p-5">
+                    <div className="">
+                  
                             <h1 className="mb-0">Sign in</h1>
                             <p>Enter your email address and password to access admin panel.</p>
                             <div> {/* Wrap inputs in a form */}
@@ -485,9 +339,9 @@ confirmButtonColor: "#1ccc8a",
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
+          
 
 
             {showModal && (
