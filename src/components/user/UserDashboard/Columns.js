@@ -1,8 +1,127 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { CopyPlus } from 'lucide-react';
 import Checkbox from '@mui/material/Checkbox';
 import { SquarePen, EllipsisVertical } from 'lucide-react';
+import { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
+// DropdownComponent as a separate component
+const DropdownComponent = ({ tableMeta, handleDelete, type }) => {
+
+console.log("this is type",type);
+
+
+    // console.log("tableMeta orignal type", type)
+    const navigate = useNavigate();
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const dropdownRef = useRef(null); // Ref for the dropdown
+
+    const handleDropdownToggle = () => {
+        setIsDropdownOpen((prev) => !prev);
+    };
+
+    const handleOptionSelect = (option) => {
+
+
+        setIsDropdownOpen(false);
+    };
+
+    const handleOutsideClick = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setIsDropdownOpen(false);
+        }
+    };
+
+
+    useEffect(() => {
+        if (isDropdownOpen) {
+            document.addEventListener("mousedown", handleOutsideClick);
+        } else {
+            document.removeEventListener("mousedown", handleOutsideClick);
+        }
+
+        // Cleanup on component unmount
+        return () => {
+            document.removeEventListener("mousedown", handleOutsideClick);
+        };
+    }, [isDropdownOpen]);
+
+    return (
+        <div style={{ position: "relative", display: "inline-block" }} ref={dropdownRef}>
+            {/* EllipsisVertical as the dropdown trigger */}
+            <button
+                onClick={handleDropdownToggle}
+                style={{
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    padding: 0,
+                }}
+            >
+                <EllipsisVertical style={{ color: "white" }} />
+            </button>
+
+            {/* Dropdown menu */}
+            {isDropdownOpen && (
+                <div
+                    style={{
+                        position: "static",
+                        right: 0,
+                        marginRight: "135px",
+                        transform: "translateY(-10px)", // Add space above the table row
+                        background: "#fff",
+                        border: "1px solid #ccc",
+                        borderRadius: "4px",
+                        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                        zIndex: 1000,
+                        maxHeight: "200px",
+                        overflowY: "auto",
+                    }}
+                >
+                    <ul style={{ listStyle: "none", margin: 0, padding: "8px 0" }}>
+                        <li
+                            // onClick={() => handleOptionSelect("Square Off", handleDelete)}
+                            onClick={handleDelete}
+                            style={{
+                                padding: "8px 16px",
+                                cursor: "pointer",
+                                hover: { backgroundColor: "#f0f0f0" },
+                            }}
+
+                        >
+                            Square Off
+                        </li>
+                        <li
+                            onClick={() => navigate("/user/tradehistory", { state: { type: type, RowIndex: tableMeta?.rowIndex, goto: "dashboard" } })}
+                            style={{ padding: "8px 16px", cursor: "pointer" }}
+                        >
+                            Trade History
+                        </li>
+                        <li
+                            onClick={() => navigate("/user/tradereport", { state: { RowIndex: tableMeta?.rowIndex, goto: "dashboard" } })}
+                            style={{ padding: "8px 16px", cursor: "pointer" }}
+                        >
+                            Trade Report
+                        </li>
+                        <li
+                            onClick={() => navigate("/user/traderesponse", { state: { RowIndex: tableMeta?.rowIndex, goto: "dashboard" } })}
+                            style={{ padding: "8px 16px", cursor: "pointer" }}
+                        >
+                            Trade Response
+                        </li>
+                        <li
+                            onClick={() => navigate("/user/profitandloss", { state: { RowIndex: tableMeta?.rowIndex, goto: "dashboard" } })}
+                            style={{ padding: "8px 16px", cursor: "pointer" }}
+                        >
+                            Net P&L
+                        </li>
+
+                    </ul>
+                </div>
+            )}
+        </div>
+    );
+};
 
 export const getColumns = (handleAddScript1) => [
     {
@@ -838,7 +957,7 @@ export const getColumns2 = (handleAddScript3) => [
 
 ];
 
-export const getColumns3 = (handleDelete, handleEdit, handleContinutyDiscontinuty, handleMiniMenu) => [
+export const getColumns3 = (handleDelete, handleEdit, handleContinutyDiscontinuty) => [
     {
         name: "S.No",
         label: "S.No",
@@ -872,11 +991,13 @@ export const getColumns3 = (handleDelete, handleEdit, handleContinutyDiscontinut
             filter: true,
             sort: true,
             customBodyRender: (value, tableMeta, updateValue) => {
-                return <><button className='btn' onClick={() => handleEdit(tableMeta)}>
-                    <SquarePen />
-
-                </button>
-                </>
+                return (
+                    <>
+                        <button className='btn' onClick={() => handleEdit(tableMeta)}>
+                            <SquarePen style={{ color: "white" }} />
+                        </button>
+                    </>
+                );
             }
         }
     },
@@ -922,19 +1043,13 @@ export const getColumns3 = (handleDelete, handleEdit, handleContinutyDiscontinut
             filter: true,
             sort: true,
             customBodyRender: (value, tableMeta, updateValue) => {
-                console.log("tableMeta", tableMeta); // Ye data tumhe dega jaise row ki information.
-
                 return (
-                    <>
-                        <button onClick={() => handleMiniMenu(tableMeta)}>
-                            <EllipsisVertical />
-                        </button>
-                        
-                        {/* Tumhare button ko onClick ke sath handleMiniMenu ko call karo */}
-                    </>
+                    <div>
+                        <DropdownComponent tableMeta={tableMeta} handleDelete={() => handleDelete(tableMeta, 1)} type="Scalping" />
+                    </div>
                 );
-            }
-        }
+            },
+        },
     },
     {
         name: "Symbol",
@@ -1111,21 +1226,7 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
             }
         },
     },
-    {
-        name: "Action",
-        label: "Action",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value, tableMeta, updateValue) => {
-                return <><button className='btn btn-primary' onClick={() => handleDelete(tableMeta, 2)}>
-                    Square Off
-                </button>
-
-                </>
-            }
-        }
-    },
+   
     {
         name: "Edit",
         label: "Edit",
@@ -1184,7 +1285,21 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
-
+    {
+        name: "Action",
+        label: "Action",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value, tableMeta, updateValue) => {
+                return (
+                    <div>
+                        <DropdownComponent tableMeta={tableMeta} handleDelete={() => handleDelete(tableMeta, 1)}  type="Option Strategy"/>
+                    </div>
+                );
+            }
+        }
+    },
     {
         name: "Instrument Type",
         label: "Instrument Type",
@@ -1614,20 +1729,20 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             }
         },
     },
-    {
-        name: "Action",
-        label: "Action",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value, tableMeta, updateValue) => {
-                return <><button className='btn btn-primary' onClick={() => handleDelete(tableMeta, 2)}>
-                    Square Off
-                </button>
-                </>
-            }
-        }
-    },
+    // {
+    //     name: "Action",
+    //     label: "Action",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //         customBodyRender: (value, tableMeta, updateValue) => {
+    //             return <><button className='btn btn-primary' onClick={() => handleDelete(tableMeta, 2)}>
+    //                 Square Off
+    //             </button>
+    //             </>
+    //         }
+    //     }
+    // },
     {
         name: "Edit",
         label: "Edit",
@@ -1636,7 +1751,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
             customBodyRender: (value, tableMeta, updateValue) => {
                 return <><button className='btn' onClick={() => handleEdit(tableMeta)}>
-                    <SquarePen />
+                    <SquarePen style={{ color: "white" }} />
 
                 </button>
                 </>
@@ -1677,6 +1792,21 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             filter: true,
             sort: true,
         }
+    },
+    {
+        name: "Action",
+        label: "Action",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value, tableMeta, updateValue) => {
+                return (
+                    <div>
+                        <DropdownComponent tableMeta={tableMeta} handleDelete={() => handleDelete(tableMeta, 2)} type="MultiCondition" />
+                    </div>
+                );
+            },
+        },
     },
     {
         name: "Symbol",

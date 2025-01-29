@@ -7,13 +7,15 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Swal from 'sweetalert2';
 import { getColumns3, getColumns2, getColumns1, getColumns, getColumns4, getColumns5, getColumns8, getColumns7, getColumns6, getColumns9, getColumns10, getColumns12 } from './ReportColumn'
+import { useLocation } from 'react-router-dom';
 
 const TradeReport = () => {
+    const location = useLocation();
     const userName = localStorage.getItem("name");
     const [selectStrategyType, setStrategyType] = useState('Scalping');
     const [strategyNames, setStrategyNames] = useState([])
     const [tradeReport, setTradeReport] = useState({ data: [], data1: [], })
-    const [selectedRowData, setSelectedRowData] = useState('');
+    
     const [getCharting, setGetCharting] = useState([]);
     const [ToDate, setToDate] = useState('');
     const [FromDate, setFromDate] = useState('');
@@ -23,6 +25,15 @@ const TradeReport = () => {
     const [tableType, setTableType] = useState('Scalping');
     const Username = localStorage.getItem('name')
     const adminPermission = localStorage.getItem('adminPermission')
+
+    //this state for default autoselect redirected from dashboard
+    const [selectedRowData, setSelectedRowData] = useState("");
+    const [checkedRows, setCheckedRows] = useState([]);
+
+    const [tradeHistory, setTradeHistory] = useState({
+        data: [],
+        data1: [],
+      });
 
     // set Defult Date 
     const currentDate = new Date();
@@ -97,9 +108,22 @@ const TradeReport = () => {
             GetTradeReport()
     }, [selectStrategyType])
 
-    const handleRowSelect = (rowData) => {
+    // const handleRowSelect = (rowData) => {
+    //     setSelectedRowData(rowData);
+    // };
+
+      useEffect(() => {
+        if(location?.state?.goto && location?.state?.goto === 'dashboard'){
+          setSelectedRowData(tradeHistory.data?.[location?.state?.RowIndex])
+    
+      }
+      }, [tradeHistory, location?.state?.RowIndex]);  
+    
+    
+    
+      const handleRowSelect = (rowData) => {
         setSelectedRowData(rowData);
-    };
+      };
 
 
     const getChartingData = async () => {
@@ -386,6 +410,7 @@ confirmButtonColor: "#1ccc8a",
                                                 data={selectStrategyType === "ChartingPlatform" ? chartingData : tradeReport.data}
                                                 onRowSelect={handleRowSelect}
                                                 checkBox={selectStrategyType === "ChartingPlatform" ? false : true}
+                                                isChecked = {location?.state?.RowIndex}
                                             />)
 
 

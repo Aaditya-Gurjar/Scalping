@@ -536,31 +536,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
     }
 
-    const handleMiniMenu = (menuOption) => {
-        if (menuOption === 'Square Off') {
-            setMenuData(getAllService.SquareOffData);
-        } else if (menuOption === 'Trade History') {
-            setMenuData(getAllService.TradeHistoryData);
-        } else if (menuOption === 'Trade Report') {
-            setMenuData(getAllService.TradeReportData);
-        } else if (menuOption === 'Trade Response') {
-            setMenuData(getAllService.TradeResponseData);
-        } else if (menuOption === 'Net P&L') {
-            setMenuData(getAllService.NetPnLData);
-        } else {
-            setMenuData([]); // Default case if no valid option
-        }
-    
-        setShowModal(true); // Open modal
-      };
-    
-      const closeModal = () => {
-        setShowModal(false); // Close modal
-      };
 
-
-    // Close modal
-    const handleCloseModal = () => setShowModal(false);
 
 
 
@@ -1467,7 +1443,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                         <>
                                             <div className="iq-card-header d-flex justify-content-between">
                                                 <div className="iq-header-title">
-                                                    {console.log("data Is", data)}
+                                                    {/* {console.log("data Is", data)} */}
                                                     {tableType === "MultiCondition" ? "" : <h4 className="card-title">{data}</h4>
                                                     }
                                                 </div>
@@ -1483,7 +1459,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                                     {getAllService.loading ? <Loader /> :
 
                                                         (tableType === "Scalping" && <FullDataTable
-                                                            columns={data === "Scalping" && tableType === "Scalping" ? getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue, handleMiniMenu) : data === "Option Strategy" ? getColumns4(handleDelete, handleEdit, HandleContinueDiscontinue) : data === "Pattern" ? getColumns5(handleDelete, handleEdit, HandleContinueDiscontinue) : data == "ChartingPlatform" ? getColumns8(HandleContinueDiscontinue) : getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue, handleMiniMenu)}
+                                                            columns={data === "Scalping" && tableType === "Scalping" ? getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue) : data === "Option Strategy" ? getColumns4(handleDelete, handleEdit, HandleContinueDiscontinue) : data === "Pattern" ? getColumns5(handleDelete, handleEdit, HandleContinueDiscontinue) : data == "ChartingPlatform" ? getColumns8(HandleContinueDiscontinue) : getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue)}
                                                             data={data === "Scalping" ? getAllService.ScalpingData : data === "Option Strategy" ? getAllService.OptionData : data === "Pattern" ? getAllService.PatternData : data == "ChartingPlatform" ? getCharting : []}
                                                             checkBox={false}
                                                         />)}
@@ -1563,34 +1539,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             </div>}
 
             <div>
-      <Dropdown align="end" show={showModal}>
-        <Dropdown.Toggle variant="success" id="dropdown-custom-components">
-          Open Menu
-        </Dropdown.Toggle>
-
-        <Dropdown.Menu>
-          <Dropdown.Item onClick={() => handleMiniMenu('Square Off')}>Square Off</Dropdown.Item>
-          <Dropdown.Item onClick={() => handleMiniMenu('Trade History')}>Trade History</Dropdown.Item>
-          <Dropdown.Item onClick={() => handleMiniMenu('Trade Report')}>Trade Report</Dropdown.Item>
-          <Dropdown.Item onClick={() => handleMiniMenu('Trade Response')}>Trade Response</Dropdown.Item>
-          <Dropdown.Item onClick={() => handleMiniMenu('Net P&L')}>Net P&L</Dropdown.Item>
-
-          {/* Render data dynamically based on the selected option */}
-          <div className="menu-data">
-            <h5>Menu Data:</h5>
-            <ul>
-              {menuData && menuData.length > 0 ? (
-                menuData.map((item, index) => <li key={index}>{item}</li>)
-              ) : (
-                <li>No data available</li>
-              )}
-            </ul>
-          </div>
-
-          {/* Close the dropdown when clicking anywhere else */}
-          <Dropdown.Item onClick={closeModal}>Close Menu</Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
+      
     </div>
 
         </div>

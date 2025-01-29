@@ -35,16 +35,32 @@ import {
   columns,
   getColumns10,
 } from "./TradeHistoryColumn";
+import { useLocation } from "react-router-dom";
 const Tradehistory = () => {
+  const location = useLocation();
+  console.log("state location data", location);
+
   const adminPermission = localStorage.getItem("adminPermission");
 
   const [selectStrategyType, setStrategyType] = useState("");
+  console.log("selectStrategyType", selectStrategyType);
+
   const [strategyNames, setStrategyNames] = useState([]);
   const [tradeHistory, setTradeHistory] = useState({
     data: [],
     data1: [],
   });
+  // console.log("tradeHistorytradeHistory tradeHistorytradeHistory", tradeHistory.data);
+
   const [selectedRowData, setSelectedRowData] = useState("");
+  // console.log("selectedRowData selectedRowData selectedRowData123", selectedRowData);
+
+
+  const [preSelectTableType, setPreSelectTableType] = useState("");
+
+  const [checkedRows, setCheckedRows] = useState([]);
+
+
   const [ToDate, setToDate] = useState("");
   const [FromDate, setFromDate] = useState("");
   const [showTable, setShowTable] = useState(false);
@@ -77,6 +93,7 @@ const Tradehistory = () => {
   const [getChartingSegments, setChartingSegments] = useState([]);
   const [tableType, setTableType] = useState("Scalping");
 
+
   const [getAllTradeData, setAllTradeData] = useState({
     loading: true,
     data: [],
@@ -86,6 +103,9 @@ const Tradehistory = () => {
     data4: "",
     Overall: []
   })
+
+
+
 
   const Username = localStorage.getItem("name");
 
@@ -161,20 +181,19 @@ const Tradehistory = () => {
   const GetTradeHistory = async () => {
     const data = { Data: selectStrategyType, Username: Username };
     //GET TRADEHISTORY
-    await get_User_Data(data)
-      .then((response) => {
-        if (response.Status) {
-          setTradeHistory({
-            data: response.Data,
-            data1: response.NewScalping,
-          });
-        } else {
-          setTradeHistory({
-            data: [],
-            data1: [],
-          });
-        }
-      })
+    await get_User_Data(data).then((response) => {
+      if (response.Status) {
+        setTradeHistory({
+          data: response?.Data,
+          data1: response?.NewScalping,
+        });
+      } else {
+        setTradeHistory({
+          data: [],
+          data1: [],
+        });
+      }
+    })
       .catch((err) => {
         console.log("Error in finding the user data", err);
       });
@@ -197,27 +216,52 @@ const Tradehistory = () => {
     GetTradeHistory();
   }, [selectStrategyType]);
 
+
+
+
+  useEffect(() => {
+    if (location?.state?.goto && location?.state?.goto === 'dashboard') {
+
+      if (location?.state?.type == "MultiCondition") {
+        setSelectedRowData(tradeHistory.data1?.[location?.state?.RowIndex])
+      } else {
+        setSelectedRowData(tradeHistory.data?.[location?.state?.RowIndex])
+      }
+      setPreSelectTableType(location?.state?.type)
+
+    }
+  }, [tradeHistory, location?.state?.RowIndex]);
+
+
   const handleRowSelect = (rowData) => {
     setSelectedRowData(rowData);
   };
+
+  useEffect(() => {
+    if (location?.state?.type) {
+      setTableType(location?.state?.type)
+    }
+  }, [preSelectTableType])
+  console.log("location?.state?.type", location?.state?.type);
+
 
   const handleSubmit = async () => {
     const data = {
       MainStrategy:
         selectStrategyType == "Scalping" &&
-        selectedRowData.ScalpType == "Multi_Conditional"
+          selectedRowData.ScalpType == "Multi_Conditional"
           ? "NewScalping"
           : selectStrategyType,
       Strategy:
         selectStrategyType == "Scalping" &&
-        selectedRowData.ScalpType != "Multi_Conditional"
+          selectedRowData.ScalpType != "Multi_Conditional"
           ? selectedRowData && selectedRowData.ScalpType
           : selectStrategyType == "Option Strategy"
             ? selectedRowData && selectedRowData.STG
             : selectStrategyType == "Pattern"
               ? selectedRowData && selectedRowData.TradePattern
               : selectStrategyType == "Scalping" &&
-                  selectedRowData.ScalpType == "Multi_Conditional"
+                selectedRowData.ScalpType == "Multi_Conditional"
                 ? selectedRowData && selectedRowData.Targetselection
                 : "Cash",
       Symbol:
@@ -245,7 +289,7 @@ const Tradehistory = () => {
       To_date: convertDateFormat(ToDate == "" ? Defult_To_Date : ToDate),
       Group:
         selectStrategyType == "Scalping" ||
-        selectStrategyType == "Option Strategy"
+          selectStrategyType == "Option Strategy"
           ? selectedRowData && selectedRowData.GroupN
           : "",
       TradePattern: "",
@@ -266,9 +310,9 @@ const Tradehistory = () => {
           setShowTable(true);
         } else {
           Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+            background: "#1a1e23 ",
+            backdrop: "#121010ba",
+            confirmButtonColor: "#1ccc8a",
             title: "No Records found",
             icon: "info",
             timer: 1500,
@@ -511,6 +555,8 @@ confirmButtonColor: "#1ccc8a",
     selectSegmentType,
   ]);
 
+
+
   return (
     <div>
       <div className="container-fluid">
@@ -620,6 +666,7 @@ confirmButtonColor: "#1ccc8a",
                       }
                       onRowSelect={handleRowSelect}
                       checkBox={true}
+                      isChecked={location?.state?.RowIndex}
                     />
                   </div>
                 )
@@ -646,7 +693,7 @@ confirmButtonColor: "#1ccc8a",
                     <div className="iq-header-title mt-4">
                       <h4 className="card-title">Multi Conditional</h4>
                     </div>
-                    <div className="modal-body">
+                    {/* <div className="modal-body">
                       {tradeHistory.data1 && tradeHistory.data1.length > 0 ? (
                         <GridExample
                           columns={columns()}
@@ -669,7 +716,40 @@ confirmButtonColor: "#1ccc8a",
                           />
                         </div>
                       )}
+                    </div> */}
+                    <div className="modal-body">
+                      {tradeHistory.data1 && tradeHistory.data1.length > 0 ? (
+
+                        <GridExample
+                          columns={columns()}
+                          data={tradeHistory.data1.map((item, index) => ({
+                            ...item,
+                            isChecked: checkedRows[index] || false,
+                          }))}
+                          onRowSelect={handleRowSelect}
+                          checkBox={true}
+                          isChecked={location?.state?.RowIndex}
+
+                        />
+
+                      ) : (
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            textAlign: "center",
+                          }}
+                        >
+                          <img
+                            src="/assets/images/no-record-found.png"
+                            width="30%"
+                            alt=""
+                          />
+                        </div>
+                      )}
                     </div>
+
                   </div>
                 )}
 
@@ -691,7 +771,7 @@ confirmButtonColor: "#1ccc8a",
                         style={{
                           color:
                             getAllTradeData &&
-                            getAllTradeData?.Overall[0]?.PnL < 0
+                              getAllTradeData?.Overall[0]?.PnL < 0
                               ? "red"
                               : "green",
                         }}>
@@ -760,7 +840,7 @@ confirmButtonColor: "#1ccc8a",
                           data-bs-parent="#accordionExample">
                           <div class="accordion-body">
                             {getDropDownData.data &&
-                            getDropDownData.data.length > 0 ? (
+                              getDropDownData.data.length > 0 ? (
                               <GridExample
                                 columns={columns6()}
                                 data={getDropDownData.data}
@@ -959,7 +1039,7 @@ confirmButtonColor: "#1ccc8a",
                           data-bs-parent="#accordionExample">
                           <div class="accordion-body">
                             {getEquityCurveDetails.data &&
-                            getEquityCurveDetails.data.length > 0 ? (
+                              getEquityCurveDetails.data.length > 0 ? (
                               <GridExample
                                 columns={columns5(selectStrategyType)}
                                 data={getEquityCurveDetails.data}
