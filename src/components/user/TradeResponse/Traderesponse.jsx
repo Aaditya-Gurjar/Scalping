@@ -147,15 +147,15 @@ const TradeResponse = () => {
     await get_User_Data(data)
       .then((response) => {
         if (response.Status) {
-          const filterLiveTrade = response.Data.filter((item) => {
-            return item.TradeExecution == "Live Trade";
-          });
+          const filterLiveTrade = response.Data;
+          // .filter((item) => {
+          //   return item.TradeExecution == "Live Trade";
+          // });
           const filterLiveTrade1 =
-            selectStrategyType != "Scalping"
-              ? []
-              : response?.NewScalping?.filter((item) => {
-                  return item.TradeExecution == "Live Trade";
-                });
+            selectStrategyType != "Scalping" ? [] : response?.NewScalping;
+          // ?.filter((item) => {
+          //     return item.TradeExecution == "Live Trade";
+          //   });
           // console.log("filterLiveTrade", filterLiveTrade);
           setTradeHistory({
             loading: false,
