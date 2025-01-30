@@ -16,10 +16,9 @@ import {
 import Swal from "sweetalert2";
 import { useLocation } from "react-router-dom";
 
-
 const Tradehistory = () => {
   const location = useLocation();
-  console.log("location", location);
+  console.log("location", location.state);
 
   const [selectStrategyType, setStrategyType] = useState("Scalping");
   const [strategyNames, setStrategyNames] = useState([]);
@@ -34,7 +33,6 @@ const Tradehistory = () => {
     data2: [],
   });
   const Username = localStorage.getItem("name");
-
 
   // set Defult Date
   const currentDate = new Date();
@@ -75,9 +73,7 @@ const Tradehistory = () => {
     //GET PNL DATA
     await getNetPnLData(data)
       .then((response) => {
-
         if (response.Status) {
-        
           setPnlData({
             loading: false,
             data: response.data,
@@ -113,23 +109,17 @@ const Tradehistory = () => {
     setStrategyNames(res.Data);
   };
 
-
   useEffect(() => {
     if (location?.state?.type && location?.state?.type != "MultiCondition") {
-      console.log("sss")
+      console.log("sss");
       setStrategyType(location?.state?.type);
-    }
-    else if (location?.state?.type == "MultiCondition") {
+    } else if (location?.state?.type == "MultiCondition") {
       // setTableType("MultiCondition")
       setStrategyType("Scalping");
-    }
-    else {
+    } else {
       // setTableType("Scalping");
     }
-  }, [])
-
-
-
+  }, []);
 
   useEffect(() => {
     fetchStrategyType();
@@ -138,7 +128,6 @@ const Tradehistory = () => {
   useEffect(() => {
     setShowTable(false);
   }, [selectStrategyType, FromDate, ToDate]);
-
 
   return (
     <div>

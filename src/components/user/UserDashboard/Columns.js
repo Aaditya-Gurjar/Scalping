@@ -124,7 +124,7 @@ const DropdownComponent = ({ tableMeta, handleDelete, type }) => {
                                 Trade History
                             </li>
                             <li
-                                onClick={() => navigate("/user/tradereport", { state: { RowIndex: tableMeta?.rowIndex, goto: "dashboard" } })}
+                                onClick={() => navigate("/user/tradereport", { state: { type, RowIndex: tableMeta?.rowIndex, goto: "dashboard" } })}
                                 style={{ padding: "8px 16px", cursor: "pointer", color: "#fff" }}
                                 onMouseEnter={(e) => (e.target.style.backgroundColor = "#444")}
                                 onMouseLeave={(e) => (e.target.style.backgroundColor = "#333")}
@@ -132,7 +132,7 @@ const DropdownComponent = ({ tableMeta, handleDelete, type }) => {
                                 Trade Report
                             </li>
                             <li
-                                onClick={() => navigate("/user/traderesponse", { state: { RowIndex: tableMeta?.rowIndex, goto: "dashboard" } })}
+                                onClick={() => navigate("/user/traderesponse", { state: { type, RowIndex: tableMeta?.rowIndex, goto: "dashboard" } })}
                                 style={{ padding: "8px 16px", cursor: "pointer", color: "#fff" }}
                                 onMouseEnter={(e) => (e.target.style.backgroundColor = "#444")}
                                 onMouseLeave={(e) => (e.target.style.backgroundColor = "#333")}
@@ -140,7 +140,7 @@ const DropdownComponent = ({ tableMeta, handleDelete, type }) => {
                                 Trade Response
                             </li>
                             <li
-                                onClick={() => navigate("/user/profitandloss", { state: { RowIndex: tableMeta?.rowIndex, goto: "dashboard" } })}
+                                onClick={() => navigate("/user/profitandloss", { state: { type, RowIndex: tableMeta?.rowIndex, goto: "dashboard" } })}
                                 style={{ padding: "8px 16px", cursor: "pointer", color: "#fff" }}
                                 onMouseEnter={(e) => (e.target.style.backgroundColor = "#444")}
                                 onMouseLeave={(e) => (e.target.style.backgroundColor = "#333")}
