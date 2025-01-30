@@ -21,11 +21,18 @@ import {
   columns6,
   columns8,
 } from "./TradeReponseColumn";
+import { useLocation } from 'react-router-dom';
+
 const TradeResponse = () => {
+  const location = useLocation();
+  // console.log("location", location);
+
   const Username = localStorage.getItem("name");
 
-  const [selectStrategyType, setSelectStrategyType] = useState("Scalping");
+  const [selectStrategyType, setSelectStrategyType] = useState("");
   const [strategyType, setStrategyType] = useState([]);
+  // console.log("strategyType1 strategyType1 strategyType15555",strategyType);
+  
   const [tradeHistory, setTradeHistory] = useState({ loading: true, data: [], data1: [], });
   const [selectedRowData, setSelectedRowData] = useState("");
   const [ToDate, setToDate] = useState("");
@@ -36,6 +43,11 @@ const TradeResponse = () => {
   const [getChartingSegments, setChartingSegments] = useState([])
   const [getCharting, setGetCharting] = useState([]);
   const [tableType, setTableType] = useState('Scalping')
+  // console.log("tableType555555",tableType);
+  
+
+  const [preSelectTableType, setPreSelectTableType] = useState("");
+  // console.log("preSelectTableType", preSelectTableType);
 
 
   const currentDate = new Date();
@@ -58,7 +70,7 @@ const TradeResponse = () => {
     if (selectSegmentType)
       getChartingScript();
   }, [selectSegmentType]);
-  
+
   useEffect(() => {
     if (selectStrategyType == "ChartingPlatform")
       getChartingData();
@@ -115,6 +127,7 @@ const TradeResponse = () => {
   const GetTradeStrategyType = async () => {
     try {
       const res = await getStrategyType();
+      
       if (res) {
         setStrategyType(res.Data);
       }
@@ -162,6 +175,31 @@ const TradeResponse = () => {
   useEffect(() => {
     GetTradeResposne();
   }, [selectStrategyType, FromDate, ToDate]);
+
+  useEffect(() => {
+    if (location?.state?.goto && location?.state?.goto === 'dashboard') {
+      if (location?.state?.type == "MultiCondition") {
+        setSelectedRowData(tradeHistory.data1?.[location?.state?.RowIndex])
+        console.log("data for check rowIndex", location?.state?.RowIndex);
+      } else {
+        setSelectedRowData(tradeHistory.data?.[location?.state?.RowIndex])
+      }
+      setPreSelectTableType(location?.state?.type)
+    }
+  }, [tradeHistory, location?.state?.RowIndex]);
+
+  useEffect(() => {
+      if (location?.state?.type && location?.state?.type != "MultiCondition") {
+        setSelectStrategyType(location?.state?.type);
+      }
+      else if (location?.state?.type == "MultiCondition") {
+          setTableType("MultiCondition")
+          setSelectStrategyType("Scalping");
+      }
+      else {
+        setTableType("Scalping");
+      }
+  }, [preSelectTableType])
 
   const handleRowSelect = (rowData) => {
     setSelectedRowData(rowData);
@@ -232,9 +270,9 @@ const TradeResponse = () => {
           setShowTable(true);
         } else {
           Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+            background: "#1a1e23 ",
+            backdrop: "#121010ba",
+            confirmButtonColor: "#1ccc8a",
             title: "No Records found",
             icon: "info",
             timer: 1500,
@@ -281,7 +319,7 @@ confirmButtonColor: "#1ccc8a",
                       required
                       onChange={(e) => setSelectStrategyType(e.target.value)}
                       value={selectStrategyType}>
-                      {strategyType.map((item, index) => (
+                      {strategyType?.map((item, index) => (
                         <option key={index} value={item}>
                           {item}
                         </option>
@@ -369,6 +407,7 @@ confirmButtonColor: "#1ccc8a",
                         }
                         onRowSelect={handleRowSelect}
                         checkBox={true}
+                        isChecked={location?.state?.RowIndex}
                       />
                     )
                   ) : (
@@ -398,12 +437,13 @@ confirmButtonColor: "#1ccc8a",
                     {
                       <div className="modal-body">
                         {tradeHistory?.data1 &&
-                        tradeHistory?.data1.length > 0 ? (
+                          tradeHistory?.data1.length > 0 ? (
                           <GridExample
                             columns={columns6}
                             data={tradeHistory?.data1}
                             onRowSelect={handleRowSelect}
                             checkBox={true}
+                            isChecked={location?.state?.RowIndex}
                           />
                         ) : (
                           <div

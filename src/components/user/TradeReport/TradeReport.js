@@ -11,11 +11,14 @@ import { useLocation } from 'react-router-dom';
 
 const TradeReport = () => {
     const location = useLocation();
+    // console.log("state location data", location?.state?.type);
     const userName = localStorage.getItem("name");
-    const [selectStrategyType, setStrategyType] = useState('Scalping');
+    const [selectStrategyType, setStrategyType] = useState('');
     const [strategyNames, setStrategyNames] = useState([])
     const [tradeReport, setTradeReport] = useState({ data: [], data1: [], })
-    
+    // console.log("tradeReport",tradeReport);
+
+
     const [getCharting, setGetCharting] = useState([]);
     const [ToDate, setToDate] = useState('');
     const [FromDate, setFromDate] = useState('');
@@ -30,10 +33,14 @@ const TradeReport = () => {
     const [selectedRowData, setSelectedRowData] = useState("");
     const [checkedRows, setCheckedRows] = useState([]);
 
+    const [preSelectTableType, setPreSelectTableType] = useState("");
+    // console.log("preSelectTableType", preSelectTableType);
+
     const [tradeHistory, setTradeHistory] = useState({
         data: [],
         data1: [],
-      });
+    });
+    
 
     // set Defult Date 
     const currentDate = new Date();
@@ -71,8 +78,10 @@ const TradeReport = () => {
             .then((response) => {
                 if (response.Status) {
                     setTradeReport({
-                        data: response.Data,
-                        data1: selectStrategyType == "Scalping" ? response.NewScalping : []
+                        // data: response.Data,
+                        // data1: selectStrategyType == "Scalping" ? response.NewScalping : []
+                        data: response?.Data,
+                        data1: response?.NewScalping,
                     })
                 }
                 else {
@@ -91,6 +100,8 @@ const TradeReport = () => {
     const strategyType = async () => {
         try {
             const res = await getStrategyType()
+            console.log("response response response",res.Data);
+            
             if (res.Data && Array.isArray(res.Data)) {
                 setStrategyNames(res.Data)
             }
@@ -112,18 +123,38 @@ const TradeReport = () => {
     //     setSelectedRowData(rowData);
     // };
 
-      useEffect(() => {
-        if(location?.state?.goto && location?.state?.goto === 'dashboard'){
-          setSelectedRowData(tradeHistory.data?.[location?.state?.RowIndex])
+     useEffect(() => {
+        if (location?.state?.goto && location?.state?.goto === 'dashboard') {
+          if (location?.state?.type == "MultiCondition") {
+            setSelectedRowData(tradeHistory.data1?.[location?.state?.RowIndex])
+            console.log("data for check rowIndex",location?.state?.RowIndex);
+            
+          } else {
+            setSelectedRowData(tradeHistory.data?.[location?.state?.RowIndex])
+          }
+          setPreSelectTableType(location?.state?.type)
     
-      }
-      }, [tradeHistory, location?.state?.RowIndex]);  
-    
-    
-    
-      const handleRowSelect = (rowData) => {
+        }
+      }, [tradeHistory, location?.state?.RowIndex]);
+
+    useEffect(() => {
+        if (location?.state?.type && location?.state?.type != "MultiCondition") {
+            setStrategyType(location?.state?.type);
+        }
+        else if (location?.state?.type == "MultiCondition") {
+            setTableType("MultiCondition")
+            setStrategyType("Scalping");
+        }
+        else {
+            setStrategyType("Scalping");
+        }
+    }, [preSelectTableType])
+
+
+
+    const handleRowSelect = (rowData) => {
         setSelectedRowData(rowData);
-      };
+    };
 
 
     const getChartingData = async () => {
@@ -167,9 +198,9 @@ const TradeReport = () => {
                 }
                 else {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "No Records found",
                         icon: "info",
                         timer: 1500,
@@ -187,6 +218,8 @@ confirmButtonColor: "#1ccc8a",
                 console.log("Error in finding the All TradeData", err)
             })
     }
+
+
 
 
     useEffect(() => {
@@ -410,7 +443,7 @@ confirmButtonColor: "#1ccc8a",
                                                 data={selectStrategyType === "ChartingPlatform" ? chartingData : tradeReport.data}
                                                 onRowSelect={handleRowSelect}
                                                 checkBox={selectStrategyType === "ChartingPlatform" ? false : true}
-                                                isChecked = {location?.state?.RowIndex}
+                                                isChecked={location?.state?.RowIndex}
                                             />)
 
 
@@ -446,6 +479,7 @@ confirmButtonColor: "#1ccc8a",
                                                 data={tradeReport?.data1}
                                                 onRowSelect={handleRowSelect}
                                                 checkBox={true}
+                                                isChecked={location?.state?.RowIndex}
                                             />
                                         </div>)
                                         : (<div

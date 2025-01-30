@@ -98,19 +98,19 @@ console.log("this is type",type);
                             Trade History
                         </li>
                         <li
-                            onClick={() => navigate("/user/tradereport", { state: { RowIndex: tableMeta?.rowIndex, goto: "dashboard" } })}
+                            onClick={() => navigate("/user/tradereport", { state: { type: type, RowIndex: tableMeta?.rowIndex, goto: "dashboard" } })}
                             style={{ padding: "8px 16px", cursor: "pointer" }}
                         >
                             Trade Report
                         </li>
                         <li
-                            onClick={() => navigate("/user/traderesponse", { state: { RowIndex: tableMeta?.rowIndex, goto: "dashboard" } })}
+                            onClick={() => navigate("/user/traderesponse", { state: { type: type, RowIndex: tableMeta?.rowIndex, goto: "dashboard" } })}
                             style={{ padding: "8px 16px", cursor: "pointer" }}
                         >
                             Trade Response
                         </li>
                         <li
-                            onClick={() => navigate("/user/profitandloss", { state: { RowIndex: tableMeta?.rowIndex, goto: "dashboard" } })}
+                            onClick={() => navigate("/user/profitandloss", { state: { type: type, RowIndex: tableMeta?.rowIndex, goto: "dashboard" } })}
                             style={{ padding: "8px 16px", cursor: "pointer" }}
                         >
                             Net P&L
