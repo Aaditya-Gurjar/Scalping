@@ -5737,3 +5737,7 @@ button.btn.btn-primary , .swal2-confirm , .all-plan-card button{
 .css-1ps6pg7-MuiPaper-root {
   display: none !important;
 }
+
+.css-13cymwt-control{
+  background-color: #1a1e23 !important;
+}
