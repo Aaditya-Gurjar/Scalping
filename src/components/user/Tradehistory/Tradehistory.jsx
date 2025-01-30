@@ -52,7 +52,7 @@ const Tradehistory = () => {
   // console.log("tradeHistorytradeHistory tradeHistorytradeHistory", tradeHistory.data);
 
   const [selectedRowData, setSelectedRowData] = useState("");
-  // console.log("selectedRowData selectedRowData selectedRowData123", selectedRowData);
+  console.log("selectedRowData selectedRowData selectedRowData123", selectedRowData);
 
 
   const [preSelectTableType, setPreSelectTableType] = useState("");
