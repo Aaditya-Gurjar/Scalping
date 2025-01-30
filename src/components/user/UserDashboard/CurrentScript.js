@@ -7,8 +7,6 @@ import { getColumns3, getColumns4, getColumns5, getColumns6, getColumns8 } from 
 import Swal from 'sweetalert2';
 import Formikform from "../../../ExtraComponent/FormData";
 import { useFormik } from 'formik';
-import { Dropdown } from 'react-bootstrap';
-
 
 
 const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
@@ -23,9 +21,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
     const [allScripts, setAllScripts] = useState({ data: [], len: 0 })
     const [editCharting, setEditCharting] = useState();
     const [getCharting, setGetCharting] = useState([]);
-
-    const [menuData, setMenuData] = useState([]);
-    const [showModal, setShowModal] = useState(false);
 
     const [getAllService, setAllservice] = useState({
         loading: true,
@@ -45,8 +40,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         if (data == "ChartingPlatform")
             getChartingScript();
     }, [data]);
-
-
 
 
 
@@ -73,7 +66,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 if (response.Status) {
                     setAllScripts({
                         data: response.data,
-                        len: response.data.length - 1
+                        len: response.data?.length - 1
                     })
                 }
                 else {
@@ -90,9 +83,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
     const SweentAlertFun = (text) => {
         Swal.fire({
-            background: "#1a1e23 ",
-            backdrop: "#121010ba",
-            confirmButtonColor: "#1ccc8a",
             title: "Error",
             text: text,
             icon: "error",
@@ -163,9 +153,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
 
         Swal.fire({
-            background: "#1a1e23 ",
-            backdrop: "#121010ba",
-            confirmButtonColor: "#1ccc8a",
             title: "Are you sure?",
             text: "You won't be able to revert this!",
             icon: "warning",
@@ -179,9 +166,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                     .then((response) => {
                         if (response.Status) {
                             Swal.fire({
-                                background: "#1a1e23 ",
-                                backdrop: "#121010ba",
-                                confirmButtonColor: "#1ccc8a",
                                 title: "Square off Successfully!",
                                 text: response.message,
                                 icon: "success",
@@ -196,9 +180,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                             }, 1500)
                         } else {
                             Swal.fire({
-                                background: "#1a1e23 ",
-                                backdrop: "#121010ba",
-                                confirmButtonColor: "#1ccc8a",
                                 title: "Error !",
                                 text: response.message,
                                 icon: "error",
@@ -263,9 +244,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         // console.log("getCharting[index]?.AccType", getCharting[index]?.AccType)
         if (trading) {
             Swal.fire({
-                background: "#1a1e23 ",
-                backdrop: "#121010ba",
-                confirmButtonColor: "#1ccc8a",
                 title: "Do you want to Discontinue",
                 text: "You won't be able to revert this!",
                 icon: "info",
@@ -344,9 +322,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                             .then((response) => {
                                 if (response.Status) {
                                     Swal.fire({
-                                        background: "#1a1e23 ",
-                                        backdrop: "#121010ba",
-                                        confirmButtonColor: "#1ccc8a",
                                         title: "Success",
                                         text: response.message,
                                         icon: "success",
@@ -358,9 +333,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                 }
                                 else {
                                     Swal.fire({
-                                        background: "#1a1e23 ",
-                                        backdrop: "#121010ba",
-                                        confirmButtonColor: "#1ccc8a",
                                         title: "Error !",
                                         text: response.message,
                                         icon: "error",
@@ -376,9 +348,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                 console.log("response", response)
                                 if (response.Status) {
                                     Swal.fire({
-                                        background: "#1a1e23 ",
-                                        backdrop: "#121010ba",
-                                        confirmButtonColor: "#1ccc8a",
                                         title: "Success",
                                         text: response.message,
                                         icon: "success",
@@ -391,9 +360,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                 }
                                 else {
                                     Swal.fire({
-                                        background: "#1a1e23 ",
-                                        backdrop: "#121010ba",
-                                        confirmButtonColor: "#1ccc8a",
                                         title: "Error !",
                                         text: response.message,
                                         icon: "error",
@@ -422,9 +388,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         else {
             {
                 Swal.fire({
-                    background: "#1a1e23 ",
-                    backdrop: "#121010ba",
-                    confirmButtonColor: "#1ccc8a",
                     title: "Do you want to Continue",
                     text: "You won't be able to revert this!",
                     icon: "info",
@@ -499,9 +462,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                             .then((response) => {
                                 if (response.Status) {
                                     Swal.fire({
-                                        background: "#1a1e23 ",
-                                        backdrop: "#121010ba",
-                                        confirmButtonColor: "#1ccc8a",
                                         title: "Success",
                                         text: response.message,
                                         icon: "success",
@@ -513,9 +473,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                 }
                                 else {
                                     Swal.fire({
-                                        background: "#1a1e23 ",
-                                        backdrop: "#121010ba",
-                                        confirmButtonColor: "#1ccc8a",
                                         title: "Error !",
                                         text: response.message,
                                         icon: 'error',
@@ -536,16 +493,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
     }
 
-
-
-
-
     const AddScript = (data) => {
         if (data2.status == false) {
             Swal.fire({
-                background: "#1a1e23 ",
-                backdrop: "#121010ba",
-                confirmButtonColor: "#1ccc8a",
                 title: "Error",
                 text: data2.msg,
                 icon: "error",
@@ -560,9 +510,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 }
                 else {
                     Swal.fire({
-                        background: "#1a1e23 ",
-                        backdrop: "#121010ba",
-                        confirmButtonColor: "#1ccc8a",
                         title: "Warning",
                         text: "Don't have any script left Please buy some Scripts",
                         icon: "warning",
@@ -578,9 +525,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 }
                 else {
                     Swal.fire({
-                        background: "#1a1e23 ",
-                        backdrop: "#121010ba",
-                        confirmButtonColor: "#1ccc8a",
                         title: "Warning",
                         text: "Don't have any script left Please buy some Scripts",
                         icon: "warning",
@@ -596,9 +540,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 }
                 else {
                     Swal.fire({
-                        background: "#1a1e23 ",
-                        backdrop: "#121010ba",
-                        confirmButtonColor: "#1ccc8a",
                         title: "Warning",
                         text: "Don't have any script left Please buy some Scripts",
                         icon: "warning",
@@ -618,9 +559,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 }
                 else {
                     Swal.fire({
-                        background: "#1a1e23 ",
-                        backdrop: "#121010ba",
-                        confirmButtonColor: "#1ccc8a",
                         title: "Warning",
                         text: "Don't have any script left Please buy some Scripts",
                         icon: "warning",
@@ -802,9 +740,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
-                            background: "#1a1e23 ",
-                            backdrop: "#121010ba",
-                            confirmButtonColor: "#1ccc8a",
                             title: "Updated",
                             text: response.message,
                             icon: "success",
@@ -817,9 +752,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                         }, 1500)
                     } else {
                         Swal.fire({
-                            background: "#1a1e23 ",
-                            backdrop: "#121010ba",
-                            confirmButtonColor: "#1ccc8a",
                             title: "Error !",
                             text: response.message,
                             icon: "error",
@@ -946,9 +878,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
-                            background: "#1a1e23 ",
-                            backdrop: "#121010ba",
-                            confirmButtonColor: "#1ccc8a",
                             title: "Updated",
                             text: response.message,
                             icon: "success",
@@ -961,9 +890,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                         }, 1500)
                     } else {
                         Swal.fire({
-                            background: "#1a1e23 ",
-                            backdrop: "#121010ba",
-                            confirmButtonColor: "#1ccc8a",
                             title: "Error !",
                             text: response.message,
                             icon: "error",
@@ -1089,9 +1015,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
-                            background: "#1a1e23 ",
-                            backdrop: "#121010ba",
-                            confirmButtonColor: "#1ccc8a",
                             title: "Updated",
                             text: response.message,
                             icon: "success",
@@ -1104,9 +1027,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                         }, 1500)
                     } else {
                         Swal.fire({
-                            background: "#1a1e23 ",
-                            backdrop: "#121010ba",
-                            confirmButtonColor: "#1ccc8a",
                             title: "Error !",
                             text: response.message,
                             icon: "error",
@@ -1443,7 +1363,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                         <>
                                             <div className="iq-card-header d-flex justify-content-between">
                                                 <div className="iq-header-title">
-                                                    {/* {console.log("data Is", data)} */}
+                                                    {console.log("data Is", data)}
                                                     {tableType === "MultiCondition" ? "" : <h4 className="card-title">{data}</h4>
                                                     }
                                                 </div>
@@ -1455,32 +1375,90 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                             <div className="iq-card-body " style={{ padding: '3px' }}>
                                                 <div className="table-responsive">
 
+                                                    {
+                                                        getAllService.loading ? (
+                                                            <Loader />
+                                                        ) : (
+                                                            (() => {
+                                                                const hasPrimaryTableData =
+                                                                    tableType === "Scalping" &&
+                                                                    (
+                                                                        (data === "Scalping" && getAllService.ScalpingData?.length > 0) ||
+                                                                        (data === "Option Strategy" && getAllService.OptionData?.length > 0) ||
+                                                                        (data === "Pattern" && getAllService.PatternData?.length > 0) ||
+                                                                        (data === "ChartingPlatform" && getCharting?.length > 0)
+                                                                    );
 
-                                                    {getAllService.loading ? <Loader /> :
+                                                                const hasSecondaryTableData =
+                                                                    data === "Scalping" &&
+                                                                    tableType === "MultiCondition" &&
+                                                                    getAllService.NewScalping?.length > 0;
 
-                                                        (tableType === "Scalping" && <FullDataTable
-                                                            columns={data === "Scalping" && tableType === "Scalping" ? getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue) : data === "Option Strategy" ? getColumns4(handleDelete, handleEdit, HandleContinueDiscontinue) : data === "Pattern" ? getColumns5(handleDelete, handleEdit, HandleContinueDiscontinue) : data == "ChartingPlatform" ? getColumns8(HandleContinueDiscontinue) : getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue)}
-                                                            data={data === "Scalping" ? getAllService.ScalpingData : data === "Option Strategy" ? getAllService.OptionData : data === "Pattern" ? getAllService.PatternData : data == "ChartingPlatform" ? getCharting : []}
-                                                            checkBox={false}
-                                                        />)}
+                                                                if (!hasPrimaryTableData && !hasSecondaryTableData) {
+                                                                    return (
+                                                                        <div
+                                                                            style={{
+                                                                                display: "flex",
+                                                                                justifyContent: "center",
+                                                                                alignItems: "center",
+                                                                                textAlign: "center",
+                                                                                height: "200px",
+                                                                            }}
+                                                                        >
+                                                                            <img src="/assets/images/no-record-found.png" width="30%" alt="No Record Found" />
+                                                                        </div>
+                                                                    );
+                                                                }
 
-                                                    {data === "Scalping" && tableType === "MultiCondition" && (
-                                                        <div>
-                                                            <div className="iq-header-title mt-4">
-                                                                <h4 className="card-title">Multi Conditional</h4>
-                                                            </div>
-                                                            {getAllService.loading ? (
-                                                                <Loader />
-                                                            ) : (
-                                                                tableType === "MultiCondition" &&
-                                                                <FullDataTable
-                                                                    columns={getColumns6(handleDelete, handleEdit, HandleContinueDiscontinue)}
-                                                                    data={getAllService.NewScalping}
-                                                                    checkBox={false}
-                                                                />
-                                                            )}
-                                                        </div>
-                                                    )}
+                                                                return (
+                                                                    <>
+                                                                        {hasPrimaryTableData && (
+                                                                            <FullDataTable
+                                                                                columns={
+                                                                                    data === "Scalping"
+                                                                                        ? getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue)
+                                                                                        : data === "Option Strategy"
+                                                                                            ? getColumns4(handleDelete, handleEdit, HandleContinueDiscontinue)
+                                                                                            : data === "Pattern"
+                                                                                                ? getColumns5(handleDelete, handleEdit, HandleContinueDiscontinue)
+                                                                                                : data === "ChartingPlatform"
+                                                                                                    ? getColumns8(HandleContinueDiscontinue)
+                                                                                                    : getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue)
+                                                                                }
+                                                                                data={
+                                                                                    data === "Scalping"
+                                                                                        ? getAllService.ScalpingData
+                                                                                        : data === "Option Strategy"
+                                                                                            ? getAllService.OptionData
+                                                                                            : data === "Pattern"
+                                                                                                ? getAllService.PatternData
+                                                                                                : data === "ChartingPlatform"
+                                                                                                    ? getCharting
+                                                                                                    : []
+                                                                                }
+                                                                                checkBox={false}
+                                                                            />
+                                                                        )}
+
+                                                                        {hasSecondaryTableData && (
+                                                                            <div>
+                                                                                <div className="iq-header-title mt-4">
+                                                                                    <h4 className="card-title">Multi Conditional</h4>
+                                                                                </div>
+                                                                                <FullDataTable
+                                                                                    columns={getColumns6(handleDelete, handleEdit, HandleContinueDiscontinue)}
+                                                                                    data={getAllService.NewScalping}
+                                                                                    checkBox={false}
+                                                                                />
+                                                                            </div>
+                                                                        )}
+                                                                    </>
+                                                                );
+                                                            })()
+                                                        )
+                                                    }
+
+
                                                 </div>
                                             </div>
                                         </>
@@ -1537,11 +1515,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                     </div>
                 </div>
             </div>}
-
-            <div>
-      
-    </div>
-
         </div>
     );
 }

@@ -834,7 +834,7 @@ const AddClient = () => {
     },
     {
       name: "Loss",
-      label: "Loss ",
+      label: "Max Loss ",
       type: "text3",
       label_size: 12,
       col_size: formik.values.position_type == "Multiple" ? 3 : 4,
@@ -848,7 +848,7 @@ const AddClient = () => {
 
     {
       name: "Profit",
-      label: "Profit ",
+      label: " MAx Profit ",
       type: "text3",
       label_size: 12,
       col_size: formik.values.position_type == "Multiple" ? 3 : 4,
@@ -861,55 +861,7 @@ const AddClient = () => {
     },
 
 
-    {
-      name: "RollOver",
-      label: "RollOver ",
-      type: "select",
-      options: [
-        { label: "True", value: true },
-        { label: "False", value: false },
-      ],
-
-      label_size: 12,
-      col_size: formik.values.position_type == "Multiple" ? 3 : 4,
-      headingtype: 4,
-      showWhen: (values) =>
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple",
-      disable: false,
-      hiding: false,
-    },
-
-    {
-      name: "NumberOfDays",
-      label: "No. of Days",
-      type: "text3",
-      label_size: 12,
-      showWhen: (values) => {
-        console.log("values", values.RollOver);
-        const rollOverBoolean = values.RollOver === "true";
-        return rollOverBoolean;
-      },
-      col_size: 3,
-      headingtype: 4,
-      disable: false,
-      hiding: false,
-    },
-
-    {
-      name: "RollOverExitTime",
-      label: "RollOver Exit Time",
-      type: "timepiker",
-      label_size: 12,
-      showWhen: (values) => {
-        const rollOverBoolean = values.RollOver === "true";
-        return rollOverBoolean;
-      },
-      col_size: 3,
-      headingtype: 4,
-      disable: false,
-      hiding: false,
-    },
+    
     {
       name: "TargetExit",
       label: "Continue after cycle exit",
@@ -1020,7 +972,65 @@ const AddClient = () => {
       headingtype: 5,
       disable: false,
       hiding: false,
-    }
+    },
+    {
+      name: "RollOver",
+      label: "RollOver",
+      type: "select",
+      options: [
+        { label: "True", value: true },
+        { label: "False", value: false },
+      ],
+      label_size: 12,
+      col_size: 4,
+      headingtype: 4,
+      showWhen: (values) =>
+        values.ExitDay == "Delivery" &&
+        values.Strategy == "Multi_Conditional" &&
+        values.position_type == "Multiple",
+      disable: false,
+      hiding: false,
+    },
+
+    {
+      name: "NumberOfDays",
+      label: "No. of Days",
+      type: "text3",
+      label_size: 12,
+      showWhen: (values) => {
+        const rollOverBoolean = values.RollOver === "true";
+        return (
+          rollOverBoolean &&
+          values.Strategy == "Multi_Conditional" &&
+          values.ExitDay == "Delivery" &&
+          values.position_type == "Multiple"
+        );
+      },
+      col_size: 4,
+      headingtype: 4,
+      disable: false,
+      hiding: false,
+    },
+
+    {
+      name: "RollOverExitTime",
+      label: "RollOver Exit Time",
+      type: "timepiker",
+      label_size: 12,
+      showWhen: (values) => {
+        const rollOverBoolean = values.RollOver === "true";
+        return (
+          rollOverBoolean &&
+          values.Strategy == "Multi_Conditional" &&
+          values.ExitDay == "Delivery" &&
+          values.position_type == "Multiple"
+        );
+      },
+      col_size: 4,
+      headingtype: 4,
+      disable: false,
+      hiding: false,
+    },
 
   ]
 

@@ -466,6 +466,10 @@ const Tradehistory = () => {
     setStrategyType("Scalping");
   }, []);
 
+    useEffect(() => {
+      setTableType("Scalping");
+    }, [selectStrategyType]);
+
   const chartOptions = {
     zoom: { enabled: true },
     data: getPnLData && getPnLData.data,
@@ -561,6 +565,13 @@ const Tradehistory = () => {
   ]);
 
 
+    useEffect(() => {
+      if (selectStrategyType == "Scalping") {
+        setTableType("MultiCondition");
+      } else {
+        setTableType("Scalping");
+      }
+    }, [selectStrategyType]);
 
   return (
     <div>

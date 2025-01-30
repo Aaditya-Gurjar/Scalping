@@ -63,7 +63,7 @@ const DynamicForm = ({
       <div className="iq-card content " data-aos="fade-left">
         <div className="card mb-0">
           {page_title ? (
-            <div className="card-header" >
+            <div className="card-header">
               {page_title ? (
                 <h5
                   className="card-title mb-0 w-auto mt-2 mb-2"
@@ -111,9 +111,7 @@ const DynamicForm = ({
                         }}>
                         {field.label === "Symbol_Selection" && (
                           <>
-                            <div
-                              className="iq-card-header d-flex justify-content-between "
-                              >
+                            <div className="iq-card-header d-flex justify-content-between ">
                               <div className="iq-header-title">
                                 <h4
                                   className="card-title"
@@ -385,9 +383,7 @@ const DynamicForm = ({
                         {/* {console.log("field.label", field.label)} */}
                         {field.label === "Entry_Rule" && (
                           <>
-                            <div
-                              className="iq-card-header d-flex justify-content-between"
-                              >
+                            <div className="iq-card-header d-flex justify-content-between">
                               <div className="iq-header-title">
                                 <h4
                                   className="card-title"
@@ -809,9 +805,7 @@ const DynamicForm = ({
                         }}>
                         {field.label === "Exit_Rule" && (
                           <>
-                            <div
-                              className="iq-card-header d-flex justify-content-between"
-                              >
+                            <div className="iq-card-header d-flex justify-content-between">
                               <div className="iq-header-title">
                                 <h4
                                   className="card-title"
@@ -1030,9 +1024,7 @@ const DynamicForm = ({
                         }}>
                         {field.label === "Risk_Management" && (
                           <>
-                            <div
-                              className="iq-card-header d-flex justify-content-between"
-                              >
+                            <div className="iq-card-header d-flex justify-content-between">
                               <div className="iq-header-title">
                                 <h4
                                   className="card-title"
@@ -1329,9 +1321,7 @@ const DynamicForm = ({
                         }}>
                         {field.label === "Time_Duration" && (
                           <>
-                            <div
-                              className="iq-card-header d-flex justify-content-between"
-                              >
+                            <div className="iq-card-header d-flex justify-content-between">
                               <div className="iq-header-title">
                                 <h4
                                   className="card-title"
@@ -1371,7 +1361,7 @@ const DynamicForm = ({
                                           )}
                                       </div>
                                     </div>
-                                  ) : field.type === "timepiker" ? (
+                                  ) : item.type === "timepiker" ? (
                                     <>
                                       <div
                                         className={`col-lg-${item.col_size}`}>
@@ -1540,9 +1530,7 @@ const DynamicForm = ({
                         }}>
                         {field.label === "Other_Parameters" && (
                           <>
-                            <div
-                              className="iq-card-header d-flex justify-content-between"
-                              >
+                            <div className="iq-card-header d-flex justify-content-between">
                               <div className="iq-header-title">
                                 <h4
                                   className="card-title"

@@ -59,8 +59,6 @@ const TradeResponse = () => {
   const day1 = String(DefultToDate.getDate()).padStart(2, "0");
   const Defult_To_Date = `${year1}.${month1}.${day1}`;
 
-    
-
   useEffect(() => {
     if (selectSegmentType) getChartingScript();
   }, [selectSegmentType]);
@@ -142,12 +140,13 @@ const TradeResponse = () => {
               : response?.NewScalping?.filter((item) => {
                   return item.TradeExecution == "Live Trade";
                 });
-
+          // console.log("filterLiveTrade", filterLiveTrade);
           setTradeHistory({
             loading: false,
             data: filterLiveTrade,
             data1: filterLiveTrade1,
           });
+          
         } else {
           setTradeHistory({
             loading: false,
@@ -161,9 +160,9 @@ const TradeResponse = () => {
       });
   };
 
-   useEffect(() => {
-     setTableType("Scalping");
-   }, [selectStrategyType]);
+  useEffect(() => {
+    setTableType("Scalping");
+  }, [selectStrategyType]);
 
   useEffect(() => {
     GetTradeResposne();
@@ -272,6 +271,14 @@ const TradeResponse = () => {
     selectSegmentType,
   ]);
 
+  useEffect(() => {
+    if (selectStrategyType == "Scalping") {
+      setTableType("MultiCondition");
+    } else {
+      setTableType("Scalping");
+    }
+  }, [selectStrategyType]);
+
   return (
     <div>
       <div className="container-fluid">
@@ -354,47 +361,50 @@ const TradeResponse = () => {
                   </div>
                 </div>
               </div>
-              {
-                <div className="modal-body">
-                  {tableType === "Scalping" &&
-                    (getCharting.length > 0 || tradeHistory?.data.length > 0 ? (
-                      <GridExample
-                        columns={
-                          selectStrategyType === "Scalping"
-                            ? columns
-                            : selectStrategyType === "Option Strategy"
-                              ? columns1
-                              : selectStrategyType === "Pattern"
-                                ? columns2
-                                : selectStrategyType === "ChartingPlatform"
-                                  ? columns8
-                                  : columns
-                        }
-                        data={
-                          selectStrategyType === "ChartingPlatform"
-                            ? getCharting
-                            : tradeHistory?.data
-                        }
-                        onRowSelect={handleRowSelect}
-                        checkBox={true}
+              <div className="modal-body">
+                {console.log(
+                  "getCharting || tradeHistory?.data ",
+                  getCharting.length,
+                  tradeHistory?.data
+                )}
+                {tableType === "Scalping" && // Check if the tableType is Scalping
+                  (getCharting.length > 0 || tradeHistory?.data.length > 0 ? ( // Check if there is any data available
+                    <GridExample
+                      columns={
+                        selectStrategyType === "Scalping"
+                          ? columns
+                          : selectStrategyType === "Option Strategy"
+                            ? columns1
+                            : selectStrategyType === "Pattern"
+                              ? columns2
+                              : selectStrategyType === "ChartingPlatform"
+                                ? columns8
+                                : columns
+                      }
+                      data={
+                        selectStrategyType === "ChartingPlatform"
+                          ? getCharting
+                          : tradeHistory?.data
+                      }
+                      onRowSelect={handleRowSelect}
+                      checkBox={true}
+                    />
+                  ) : (
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        textAlign: "center",
+                      }}>
+                      <img
+                        src="/assets/images/no-record-found.png"
+                        width="30%"
+                        alt="No Records Found"
                       />
-                    ) : (
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          textAlign: "center",
-                        }}>
-                        <img
-                          src="/assets/images/no-record-found.png"
-                          width="30%"
-                          alt="No Records Found"
-                        />
-                      </div>
-                    ))}
-                </div>
-              }
+                    </div>
+                  ))}
+              </div>
 
               {tableType === "MultiCondition" &&
                 selectStrategyType == "Scalping" && (

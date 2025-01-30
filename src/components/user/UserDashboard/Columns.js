@@ -4,34 +4,51 @@ import Checkbox from '@mui/material/Checkbox';
 import { SquarePen, EllipsisVertical } from 'lucide-react';
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { createPortal } from "react-dom";
+
 
 // DropdownComponent as a separate component
 const DropdownComponent = ({ tableMeta, handleDelete, type }) => {
-
-console.log("this is type",type);
-
-
-    // console.log("tableMeta orignal type", type)
     const navigate = useNavigate();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const dropdownRef = useRef(null); // Ref for the dropdown
+    const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
+    const dropdownRef = useRef(null);
+    const buttonRef = useRef(null); // Ref for the button trigger
 
     const handleDropdownToggle = () => {
-        setIsDropdownOpen((prev) => !prev);
-    };
+        if (isDropdownOpen) {
+            setIsDropdownOpen(false);
+            return;
+        }
 
-    const handleOptionSelect = (option) => {
+        if (buttonRef.current) {
+            const rect = buttonRef.current.getBoundingClientRect();
+            const dropdownHeight = 200; // Approximate height of the dropdown
 
+            let top = rect.bottom + window.scrollY;
+            let left = rect.left + window.scrollX;
 
-        setIsDropdownOpen(false);
+            // If dropdown will overflow below, position it above
+            if (top + dropdownHeight > window.innerHeight) {
+                top = rect.top + window.scrollY - dropdownHeight;
+            }
+
+            setDropdownPosition({ top, left });
+        }
+
+        setIsDropdownOpen(true);
     };
 
     const handleOutsideClick = (event) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        if (
+            dropdownRef.current &&
+            !dropdownRef.current.contains(event.target) &&
+            buttonRef.current &&
+            !buttonRef.current.contains(event.target)
+        ) {
             setIsDropdownOpen(false);
         }
     };
-
 
     useEffect(() => {
         if (isDropdownOpen) {
@@ -40,16 +57,16 @@ console.log("this is type",type);
             document.removeEventListener("mousedown", handleOutsideClick);
         }
 
-        // Cleanup on component unmount
         return () => {
             document.removeEventListener("mousedown", handleOutsideClick);
         };
     }, [isDropdownOpen]);
 
     return (
-        <div style={{ position: "relative", display: "inline-block" }} ref={dropdownRef}>
-            {/* EllipsisVertical as the dropdown trigger */}
+        <>
+            {/* Dropdown Trigger */}
             <button
+                ref={buttonRef}
                 onClick={handleDropdownToggle}
                 style={{
                     background: "none",
@@ -61,65 +78,80 @@ console.log("this is type",type);
                 <EllipsisVertical style={{ color: "white" }} />
             </button>
 
-            {/* Dropdown menu */}
-            {isDropdownOpen && (
-                <div
-                    style={{
-                        position: "static",
-                        right: 0,
-                        marginRight: "135px",
-                        transform: "translateY(-10px)", // Add space above the table row
-                        background: "#fff",
-                        border: "1px solid #ccc",
-                        borderRadius: "4px",
-                        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                        zIndex: 1000,
-                        maxHeight: "200px",
-                        overflowY: "auto",
-                    }}
-                >
-                    <ul style={{ listStyle: "none", margin: 0, padding: "8px 0" }}>
-                        <li
-                            // onClick={() => handleOptionSelect("Square Off", handleDelete)}
-                            onClick={handleDelete}
-                            style={{
-                                padding: "8px 16px",
-                                cursor: "pointer",
-                                hover: { backgroundColor: "#f0f0f0" },
-                            }}
-
-                        >
-                            Square Off
-                        </li>
-                        <li
-                            onClick={() => navigate("/user/tradehistory", { state: { type: type, RowIndex: tableMeta?.rowIndex, goto: "dashboard" } })}
-                            style={{ padding: "8px 16px", cursor: "pointer" }}
-                        >
-                            Trade History
-                        </li>
-                        <li
-                            onClick={() => navigate("/user/tradereport", { state: { RowIndex: tableMeta?.rowIndex, goto: "dashboard" } })}
-                            style={{ padding: "8px 16px", cursor: "pointer" }}
-                        >
-                            Trade Report
-                        </li>
-                        <li
-                            onClick={() => navigate("/user/traderesponse", { state: { RowIndex: tableMeta?.rowIndex, goto: "dashboard" } })}
-                            style={{ padding: "8px 16px", cursor: "pointer" }}
-                        >
-                            Trade Response
-                        </li>
-                        <li
-                            onClick={() => navigate("/user/profitandloss", { state: { RowIndex: tableMeta?.rowIndex, goto: "dashboard" } })}
-                            style={{ padding: "8px 16px", cursor: "pointer" }}
-                        >
-                            Net P&L
-                        </li>
-
-                    </ul>
-                </div>
-            )}
-        </div>
+            {/* Dropdown Menu using Portal to prevent clipping */}
+            {isDropdownOpen &&
+                createPortal(
+                    <div
+                        ref={dropdownRef}
+                        style={{
+                            position: "absolute",
+                            top: `${dropdownPosition.top}px`,
+                            left: `${dropdownPosition.left}px`,
+                            background: "#333",
+                            color: "#fff",
+                            border: "1px solid #555",
+                            borderRadius: "4px",
+                            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
+                            zIndex: 1000,
+                            maxHeight: "200px",
+                            overflowY: "auto",
+                            minWidth: "150px",
+                        }}
+                    >
+                        <ul style={{ listStyle: "none", margin: 0, padding: "8px 0" }}>
+                            <li
+                                onClick={handleDelete}
+                                style={{ padding: "8px 16px", cursor: "pointer", backgroundColor: "#333", color: "#fff" }}
+                                onMouseEnter={(e) => (e.target.style.backgroundColor = "#444")}
+                                onMouseLeave={(e) => (e.target.style.backgroundColor = "#333")}
+                            >
+                                Square Off
+                            </li>
+                            <li
+                                onClick={() => navigate("/user/profitandloss", { state: { RowIndex: tableMeta?.rowIndex, goto: "dashboard" } })}
+                                style={{ padding: "8px 16px", cursor: "pointer", color: "#fff" }}
+                                onMouseEnter={(e) => (e.target.style.backgroundColor = "#444")}
+                                onMouseLeave={(e) => (e.target.style.backgroundColor = "#333")}
+                            >
+                                Match Position
+                            </li>
+                            <li
+                                onClick={() => navigate("/user/tradehistory", { state: { type, RowIndex: tableMeta?.rowIndex, goto: "dashboard" } })}
+                                style={{ padding: "8px 16px", cursor: "pointer", color: "#fff" }}
+                                onMouseEnter={(e) => (e.target.style.backgroundColor = "#444")}
+                                onMouseLeave={(e) => (e.target.style.backgroundColor = "#333")}
+                            >
+                                Trade History
+                            </li>
+                            <li
+                                onClick={() => navigate("/user/tradereport", { state: { RowIndex: tableMeta?.rowIndex, goto: "dashboard" } })}
+                                style={{ padding: "8px 16px", cursor: "pointer", color: "#fff" }}
+                                onMouseEnter={(e) => (e.target.style.backgroundColor = "#444")}
+                                onMouseLeave={(e) => (e.target.style.backgroundColor = "#333")}
+                            >
+                                Trade Report
+                            </li>
+                            <li
+                                onClick={() => navigate("/user/traderesponse", { state: { RowIndex: tableMeta?.rowIndex, goto: "dashboard" } })}
+                                style={{ padding: "8px 16px", cursor: "pointer", color: "#fff" }}
+                                onMouseEnter={(e) => (e.target.style.backgroundColor = "#444")}
+                                onMouseLeave={(e) => (e.target.style.backgroundColor = "#333")}
+                            >
+                                Trade Response
+                            </li>
+                            <li
+                                onClick={() => navigate("/user/profitandloss", { state: { RowIndex: tableMeta?.rowIndex, goto: "dashboard" } })}
+                                style={{ padding: "8px 16px", cursor: "pointer", color: "#fff" }}
+                                onMouseEnter={(e) => (e.target.style.backgroundColor = "#444")}
+                                onMouseLeave={(e) => (e.target.style.backgroundColor = "#333")}
+                            >
+                                Net P&L
+                            </li>
+                        </ul>
+                    </div>,
+                    document.body // Portal target
+                )}
+        </>
     );
 };
 
@@ -1226,7 +1258,7 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
             }
         },
     },
-   
+
     {
         name: "Edit",
         label: "Edit",
@@ -1294,7 +1326,7 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
             customBodyRender: (value, tableMeta, updateValue) => {
                 return (
                     <div>
-                        <DropdownComponent tableMeta={tableMeta} handleDelete={() => handleDelete(tableMeta, 1)}  type="Option Strategy"/>
+                        <DropdownComponent tableMeta={tableMeta} handleDelete={() => handleDelete(tableMeta, 1)} type="Option Strategy" />
                     </div>
                 );
             }

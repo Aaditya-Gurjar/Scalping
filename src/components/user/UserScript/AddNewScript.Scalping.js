@@ -395,8 +395,7 @@ const AddClient = () => {
           WorkingDay:
             values.position_type == "Multiple" && values.Strategy == "Multi_Conditional" ? values.WorkingDay : []
         }
-        console.log("values.WorkingDay", values.WorkingDay)
-        console.log("reqqqqqqqqqq", req)
+
         return;
 
         if ((Number(values.EntryPrice) > 0 || Number(values.EntryRange) > 0) &&
@@ -697,21 +696,7 @@ const AddClient = () => {
       disable: false,
       hiding: false,
     },
-    {
-      name: "TStype",
-      label: "Measurement Type",
-      type: "select",
-      options: [
-        { label: "Percentage", value: "Percentage" },
-        { label: "Point", value: "Point" },
-      ],
-      showWhen: (values) => values.Strategy == "One Directional" || values.Strategy == "Multi Directional" || (values.Strategy == "Multi_Conditional"),
-      label_size: 12,
-      headingtype: 4,
-      col_size: formik.values.position_type == "Multiple" ? 3 : 4,
-      hiding: false,
-      disable: false,
-    },
+
     {
       name: "Targetvalue",
       label: formik.values.position_type == "Single" && formik.values.Strategy == "Multi_Conditional" ? "Target Price 1" : formik.values.Strategy == "Fixed Price" ? "Target Price" : formik.values.Strategy == "One Directional" ? "Fixed Target" : formik.values.Strategy == "Multi_Conditional" && formik.values.position_type == "Multiple" && formik.values.Targetselection == "Fixed Target" ? "Fixed Target" : "Booking Point",
@@ -743,6 +728,21 @@ const AddClient = () => {
       headingtype: 3,
       disable: false,
       hiding: false,
+    },
+    {
+      name: "TStype",
+      label: "Measurement Type",
+      type: "select",
+      options: [
+        { label: "Percentage", value: "Percentage" },
+        { label: "Point", value: "Point" },
+      ],
+      showWhen: (values) => values.Strategy == "One Directional" || values.Strategy == "Multi Directional" || (values.Strategy == "Multi_Conditional"),
+      label_size: 12,
+      headingtype: 4,
+      col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+      hiding: false,
+      disable: false,
     },
     {
       name: "Slvalue",
@@ -831,16 +831,23 @@ const AddClient = () => {
       hiding: false,
     },
     {
-      name: "Trade_Count",
-      label: "Trade Count",
-      type: "text3",
+      name: "TargetExit",
+      label: "Continue after cycle exit",
+      type: "select",
+      options: [
+        { label: "True", value: true },
+        { label: "False", value: false },
+      ],
+      showWhen: (values) => values.position_type == "Multiple" && values.Strategy == "Multi_Conditional",
       label_size: 12,
-      col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+      col_size: formik.values.position_type == "Single" ? 3 : 3,
       headingtype: 4,
-      iconText: text.Trade_Count,
       disable: false,
+      // iconText: text.Increment_Type,
       hiding: false,
     },
+
+
     {
       name: "RepeatationCount",
       label: "Repeatation Count",
@@ -882,78 +889,23 @@ const AddClient = () => {
       hiding: false,
     },
     {
-      name: "RollOver",
-      label: "RollOver",
-      type: "select",
-      options: [
-        { label: "True", value: true },
-        { label: "False", value: false },
-      ],
-
+      name: "Trade_Count",
+      label: "Trade Count",
+      type: "text3",
       label_size: 12,
       col_size: formik.values.position_type == "Multiple" ? 3 : 4,
       headingtype: 4,
-      showWhen: (values) =>
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple",
+      iconText: text.Trade_Count,
       disable: false,
       hiding: false,
     },
-
-    {
-      name: "NumberOfDays",
-      label: "No. of Days",
-      type: "text3",
-      label_size: 12,
-      showWhen: (values) => {
-        const rollOverBoolean = values.RollOver === "true";
-        return rollOverBoolean && values.Strategy == "Multi_Conditional" &&
-          values.position_type == "Multiple";
-      },
-
-      col_size: 3,
-      headingtype: 4,
-      disable: false,
-      hiding: false,
-    },
-
-
-    {
-      name: "RollOverExitTime",
-      label: "RollOver Exit Time",
-      type: "timepiker",
-      label_size: 12,
-      showWhen: (values) => {
-        const rollOverBoolean = values.RollOver === "true";
-        return rollOverBoolean && values.Strategy == "Multi_Conditional" &&
-          values.position_type == "Multiple";
-      },
-      col_size: 3,
-      headingtype: 4,
-      disable: false,
-      hiding: false,
-    },
-    {
-      name: "TargetExit",
-      label: "Continue after cycle exit",
-      type: "select",
-      options: [
-        { label: "True", value: true },
-        { label: "False", value: false },
-      ],
-      showWhen: (values) => values.position_type == "Multiple" && values.Strategy == "Multi_Conditional",
-      label_size: 12,
-      col_size: formik.values.position_type == "Single" ? 3 : 3,
-      headingtype: 4,
-      disable: false,
-      // iconText: text.Increment_Type,
-      hiding: false,
-    },
-
     {
       name: "WorkingDay",
       label: "Working Day",
       type: "multiselect",
+      showWhen: (values) => {
+        return values.Strategy == "Multi_Conditional" && values.position_type == "Multiple";
+      },
       options: [
         { label: "Monday", value: "Monday" },
         { label: "Tuesday", value: "Tuesday" },
@@ -962,12 +914,15 @@ const AddClient = () => {
         { label: "Friday", value: "Friday" },
       ],
       label_size: 12,
-      col_size: 4,
+      col_size: 3,
       headingtype: 4,
       disable: false,
       iconText: text.Increment_Type,
       hiding: false,
     },
+
+
+
 
     {
       name: "stepup",
@@ -975,7 +930,7 @@ const AddClient = () => {
       type: "text3",
       label_size: 12,
       showWhen: (values) => values.position_type == "Multiple" && values.Strategy == "Multi_Conditional",
-      col_size: 3,
+      col_size: 4,
       headingtype: 4,
       disable: false,
       iconText: text.Step_up,
@@ -993,7 +948,7 @@ const AddClient = () => {
       ],
       showWhen: (values) => values.position_type == "Multiple" && values.Strategy == "Multi_Conditional",
       label_size: 12,
-      col_size: formik.values.position_type == "Single" ? 3 : 3,
+      col_size: 4,
       headingtype: 4,
       disable: false,
       iconText: text.Increment_Type,
@@ -1007,7 +962,7 @@ const AddClient = () => {
       type: "text3",
       label_size: 12,
       showWhen: (values) => values.position_type == "Multiple" && values.Strategy == "Multi_Conditional",
-      col_size: 3,
+      col_size: 4,
       headingtype: 4,
       disable: false,
       iconText: text.Increment_Value,
@@ -1028,6 +983,7 @@ const AddClient = () => {
       disable: false,
       hiding: false,
     },
+
     {
       name: "ExitTime",
       label: "Exit Time",
@@ -1038,6 +994,7 @@ const AddClient = () => {
       disable: false,
       hiding: false,
     },
+
     {
       name: "ExitDay",
       label: "Exit Day",
@@ -1051,7 +1008,60 @@ const AddClient = () => {
       headingtype: 5,
       disable: false,
       hiding: false,
-    }
+    },
+
+    {
+      name: "RollOver",
+      label: "RollOver",
+      type: "select",
+      options: [
+        { label: "True", value: true },
+        { label: "False", value: false },
+      ],
+      label_size: 12,
+      col_size:  4,
+      headingtype: 4,
+      showWhen: (values) =>
+        values.ExitDay == "Delivery" &&
+        values.Strategy == "Multi_Conditional" &&
+        values.position_type == "Multiple",
+      disable: false,
+      hiding: false,
+    },
+
+    {
+      name: "NumberOfDays",
+      label: "No. of Days",
+      type: "text3",
+      label_size: 12,
+      showWhen: (values) => {
+        const rollOverBoolean = values.RollOver === "true";
+        return rollOverBoolean && values.Strategy == "Multi_Conditional" && values.ExitDay == "Delivery" &&
+        values.position_type == "Multiple";
+      },
+      col_size: 4,
+      headingtype: 4,
+      disable: false,
+      hiding: false,
+    },
+
+
+    {
+      name: "RollOverExitTime",
+      label: "RollOver Exit Time",
+      type: "timepiker",
+      label_size: 12,
+      showWhen: (values) => {
+        const rollOverBoolean = values.RollOver === "true";
+        return rollOverBoolean && values.Strategy == "Multi_Conditional" && values.ExitDay == "Delivery" &&
+        values.position_type == "Multiple";
+      },
+      col_size: 4,
+      headingtype: 4,
+      disable: false,
+      hiding: false,
+    },
+
   ]
 
   const OtherParameterArr = [

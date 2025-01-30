@@ -2,9 +2,6 @@
 // import MUIDataTable from "mui-datatables";
 // import { useEffect } from "react";
 
-
-
-
 // const FullDataTable = ({ data, columns, onRowSelect, checkBox,isChecked }) => {
 
 //     const [selectedRowData, setSelectedRowData] = useState(null);
@@ -211,7 +208,6 @@
 // import Modal from "react-bootstrap/Modal";
 // import Button from "react-bootstrap/Button";
 
-
 // const FullDataTable = ({ data, columns, onRowSelect, checkBox }) => {
 //   const [selectedRowData, setSelectedRowData] = useState(null);
 //   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -415,6 +411,7 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
   const [tempSelectedColumns, setTempSelectedColumns] = useState(
     columns.slice(0, 7)
   );
+  const [checkedRows, setCheckedRows] = useState([]);
 
   useEffect(() => {
     setSelectedColumns(columns.slice(0, 7)); // Reset selected columns to default
@@ -454,7 +451,7 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
           const rowData = data[selectedIndex];
           setSelectedRowData(rowData);
           if (onRowSelect) onRowSelect(rowData);
-          setCheckedRows(allRowsSelected.map(row => row.index)); // Update checked rows state
+          setCheckedRows(allRowsSelected.map((row) => row.index)); // Update checked rows state
         } else {
           setSelectedRowData(null);
           if (onRowSelect) onRowSelect(null);
@@ -507,9 +504,6 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
               padding: "5px 10px",
               cursor: "pointer",
             }}>
-              
-          
-          
             Expand Columns
           </button>
         ),
@@ -608,8 +602,7 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
                   />
                   <label
                     className="form-check-label"
-                    htmlFor={`column-${column.name}`}
-                  >
+                    htmlFor={`column-${column.name}`}>
                     {column.label || column.name}
                   </label>
                 </div>
@@ -629,8 +622,7 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
                   />
                   <label
                     className="form-check-label"
-                    htmlFor={`column-${column.name}`}
-                  >
+                    htmlFor={`column-${column.name}`}>
                     {column.label || column.name}
                   </label>
                 </div>

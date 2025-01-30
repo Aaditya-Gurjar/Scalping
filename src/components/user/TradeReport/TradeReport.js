@@ -15,14 +15,14 @@ const TradeReport = () => {
     const [selectStrategyType, setStrategyType] = useState('Scalping');
     const [strategyNames, setStrategyNames] = useState([])
     const [tradeReport, setTradeReport] = useState({ data: [], data1: [], })
-    
+
     const [getCharting, setGetCharting] = useState([]);
     const [ToDate, setToDate] = useState('');
     const [FromDate, setFromDate] = useState('');
     const [showTable, setShowTable] = useState(false)
     const [getAllTradeData, setAllTradeData] = useState({ loading: true, data1: [], data2: [] })
     const [chartingData, setChartingData] = useState([]);
-    const [tableType, setTableType] = useState('Scalping');
+    const [tableType, setTableType] = useState('MultiCondition');
     const Username = localStorage.getItem('name')
     const adminPermission = localStorage.getItem('adminPermission')
 
@@ -33,7 +33,7 @@ const TradeReport = () => {
     const [tradeHistory, setTradeHistory] = useState({
         data: [],
         data1: [],
-      });
+    });
 
     // set Defult Date 
     const currentDate = new Date();
@@ -104,6 +104,15 @@ const TradeReport = () => {
     }
 
     useEffect(() => {
+        setStrategyType("Scalping");
+    }, []);
+
+    useEffect(() => {
+        setTableType("Scalping");
+    }, [selectStrategyType]);
+
+
+    useEffect(() => {
         if (selectStrategyType != "ChartingPlatform")
             GetTradeReport()
     }, [selectStrategyType])
@@ -112,18 +121,18 @@ const TradeReport = () => {
     //     setSelectedRowData(rowData);
     // };
 
-      useEffect(() => {
-        if(location?.state?.goto && location?.state?.goto === 'dashboard'){
-          setSelectedRowData(tradeHistory.data?.[location?.state?.RowIndex])
-    
-      }
-      }, [tradeHistory, location?.state?.RowIndex]);  
-    
-    
-    
-      const handleRowSelect = (rowData) => {
+    useEffect(() => {
+        if (location?.state?.goto && location?.state?.goto === 'dashboard') {
+            setSelectedRowData(tradeHistory.data?.[location?.state?.RowIndex])
+
+        }
+    }, [tradeHistory, location?.state?.RowIndex]);
+
+
+
+    const handleRowSelect = (rowData) => {
         setSelectedRowData(rowData);
-      };
+    };
 
 
     const getChartingData = async () => {
@@ -137,6 +146,14 @@ const TradeReport = () => {
         getChartingData();
         setStrategyType('Scalping')
     }, []);
+
+     useEffect(() => {
+         if (selectStrategyType == "Scalping") {
+          setTableType("MultiCondition");
+        } else {
+          setTableType("Scalping");
+        }
+     }, [selectStrategyType, ]);
 
 
 
@@ -167,9 +184,9 @@ const TradeReport = () => {
                 }
                 else {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "No Records found",
                         icon: "info",
                         timer: 1500,
@@ -410,7 +427,7 @@ confirmButtonColor: "#1ccc8a",
                                                 data={selectStrategyType === "ChartingPlatform" ? chartingData : tradeReport.data}
                                                 onRowSelect={handleRowSelect}
                                                 checkBox={selectStrategyType === "ChartingPlatform" ? false : true}
-                                                isChecked = {location?.state?.RowIndex}
+                                                isChecked={location?.state?.RowIndex}
                                             />)
 
 

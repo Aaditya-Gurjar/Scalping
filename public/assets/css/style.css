@@ -5733,3 +5733,7 @@ button.btn.btn-primary , .swal2-confirm , .all-plan-card button{
   border-radius: 20px;
   background: #1a1e23 !important;
 }
+
+.css-1ps6pg7-MuiPaper-root {
+  display: none !important;
+}
