@@ -237,7 +237,7 @@ const TradeResponse = () => {
       location?.state?.type &&
       location?.state?.type != "MultiCondition"
     ) {
-      setStrategyType(location?.state?.type);
+      setSelectStrategyType(location?.state?.type);
     } else if (location?.state?.type == "MultiCondition") {
       setTableType("MultiCondition");
       setSelectStrategyType("Scalping");
@@ -463,6 +463,7 @@ const TradeResponse = () => {
                       }
                       onRowSelect={handleRowSelect}
                       checkBox={true}
+                      isChecked={location?.state?.RowIndex}
                     />
                   ) : (
                     <div
