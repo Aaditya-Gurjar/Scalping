@@ -25,7 +25,7 @@ const TradeReport = () => {
     const [showTable, setShowTable] = useState(false)
     const [getAllTradeData, setAllTradeData] = useState({ loading: true, data1: [], data2: [] })
     const [chartingData, setChartingData] = useState([]);
-    const [tableType, setTableType] = useState('Scalping');
+    const [tableType, setTableType] = useState('MultiCondition');
     const Username = localStorage.getItem('name')
     const adminPermission = localStorage.getItem('adminPermission')
 
@@ -115,6 +115,15 @@ const TradeReport = () => {
     }
 
     useEffect(() => {
+        setStrategyType("Scalping");
+    }, []);
+
+    useEffect(() => {
+        setTableType("Scalping");
+    }, [selectStrategyType]);
+
+
+    useEffect(() => {
         if (selectStrategyType != "ChartingPlatform")
             GetTradeReport()
     }, [selectStrategyType])
@@ -168,6 +177,14 @@ const TradeReport = () => {
         getChartingData();
         setStrategyType('Scalping')
     }, []);
+
+     useEffect(() => {
+         if (selectStrategyType == "Scalping") {
+          setTableType("MultiCondition");
+        } else {
+          setTableType("Scalping");
+        }
+     }, [selectStrategyType, ]);
 
 
 

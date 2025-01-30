@@ -35,6 +35,7 @@ import {
   columns,
   getColumns10,
 } from "./TradeHistoryColumn";
+import NoDataFound from "../../../ExtraComponent/NoDataFound";
 import { useLocation } from "react-router-dom";
 const Tradehistory = () => {
   const location = useLocation();
@@ -100,8 +101,8 @@ const Tradehistory = () => {
     data2: "",
     data3: "",
     data4: "",
-    Overall: []
-  })
+    Overall: [],
+  });
 
 
 
@@ -148,6 +149,7 @@ const Tradehistory = () => {
     await getChargingPlatformDataApi(Username)
       .then((res) => {
         if (res.Status) {
+          console.log("resssss", res);
           setChartingSegments(res.Client);
           setSegmentType(res?.Client?.[0]?.Segment);
         } else {
@@ -468,6 +470,10 @@ const Tradehistory = () => {
 
 
 
+    useEffect(() => {
+      setTableType("Scalping");
+    }, [selectStrategyType]);
+
   const chartOptions = {
     zoom: { enabled: true },
     data: getPnLData && getPnLData.data,
@@ -550,6 +556,9 @@ const Tradehistory = () => {
   };
 
   useEffect(() => {
+    setTableType("Scalping");
+  }, [selectStrategyType]);
+  useEffect(() => {
     setShowTable(false);
   }, [
     selectStrategyType,
@@ -560,6 +569,13 @@ const Tradehistory = () => {
   ]);
 
 
+    useEffect(() => {
+      if (selectStrategyType == "Scalping") {
+        setTableType("MultiCondition");
+      } else {
+        setTableType("Scalping");
+      }
+    }, [selectStrategyType]);
 
   return (
     <div>
@@ -605,7 +621,7 @@ const Tradehistory = () => {
                       </select>
                     </div>
                   )}
-
+                  {console.log("getChartingSegments", getChartingSegments)}
                   {selectStrategyType == "ChartingPlatform" && (
                     <div className="form-group col-lg-3">
                       <label>Select Segment Type</label>
@@ -645,13 +661,14 @@ const Tradehistory = () => {
                   </div>
                 </div>
               </div>
-              {(
+              {/* {(
                 selectStrategyType == "ChartingPlatform"
                   ? getCharting
                   : tradeHistory.data
               ) ? (
                 tableType === "Scalping" && (
                   <div className="modal-body">
+                    
                     <GridExample
                       columns={
                         selectStrategyType === "Scalping"
@@ -689,7 +706,51 @@ const Tradehistory = () => {
                     alt=""
                   />
                 </div>
-              )}
+              )} */}
+
+              {tableType === "Scalping" ? (
+                (selectStrategyType === "ChartingPlatform" &&
+                  getCharting.length > 0) ||
+                (selectStrategyType !== "ChartingPlatform" &&
+                  tradeHistory.data.length > 0) ? (
+                  <div className="modal-body">
+                    <GridExample
+                      columns={
+                        selectStrategyType === "Scalping"
+                          ? columns()
+                          : selectStrategyType === "Option Strategy"
+                            ? columns1()
+                            : selectStrategyType === "Pattern"
+                              ? columns2()
+                              : selectStrategyType === "ChartingPlatform"
+                                ? getColumns10()
+                                : columns()
+                      }
+                      data={
+                        selectStrategyType === "ChartingPlatform"
+                          ? getCharting
+                          : tradeHistory.data
+                      }
+                      onRowSelect={handleRowSelect}
+                      checkBox={true}
+                    />
+                  </div>
+                ) : (
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      textAlign: "center",
+                    }}>
+                    <img
+                      src="/assets/images/no-record-found.png"
+                      width="30%"
+                      alt="No record found"
+                    />
+                  </div>
+                )
+              ) : null}
 
               {tableType === "MultiCondition" &&
                 selectStrategyType === "Scalping" &&
@@ -763,310 +824,330 @@ const Tradehistory = () => {
               </button>
               {showTable && (
                 <>
-                  <div>
-                    <p
-                      className="bold mt-4"
-                      style={{
-                        fontWeight: "bold",
-                        fontSize: "20px",
-                        color: "black",
-                      }}>
-                      Total Profit and Loss :{" "}
-                      <span
+                  <div className="accordion" id="accordionExample">
+                    {/* Drawdown Total Profit & Loss */}
+                    <div>
+                      <p
+                        className="bold mt-4"
                         style={{
+                          fontWeight: "bold",
+                          fontSize: "20px",
+                          color: "black",
                           color:
                             getAllTradeData &&
                               getAllTradeData?.Overall[0]?.PnL < 0
                               ? "red"
                               : "green",
                         }}>
-                        {getAllTradeData && getAllTradeData.Overall[0].PnL}
-                      </span>
-                    </p>
-                  </div>
-                  <div className="mt-3">
-                    {getAllTradeData.data && getAllTradeData.data.length > 0 ? (
-                      <GridExample
-                        columns={columns3(selectStrategyType)}
-                        data={getAllTradeData.data}
-                        onRowSelect={handleRowSelect}
-                        checkBox={false}
-                      />
-                    ) : (
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          textAlign: "center",
-                        }}>
-                        <img
-                          src="/assets/images/no-record-found.png"
-                          width="30%"
-                          alt=""
+                        Total Profit and Loss:{" "}
+                        <span
+                          style={{
+                            color:
+                              getAllTradeData?.Overall[0]?.PnL < 0
+                                ? "red"
+                                : "green",
+                          }}>
+                          {getAllTradeData?.Overall[0]?.PnL}
+                        </span>
+                      </p>
+                    </div>
+                    <div className="mt-3">
+                      {getAllTradeData?.data?.length > 0 ? (
+                        <GridExample
+                          columns={columns3(selectStrategyType)}
+                          data={getAllTradeData.data}
+                          onRowSelect={handleRowSelect}
+                          checkBox={false}
                         />
-                      </div>
-                    )}
-                  </div>
-
-                  {/* EquityCurve  Graph show */}
-                  <p
-                    className="bold mt-3"
-                    style={{
-                      fontWeight: "bold",
-                      fontSize: "20px",
-                      color: "black",
-                    }}>
-                    Drawdown Graph
-                  </p>
-                  <div style={{ width: "100%", height: "500px" }}>
-                    <AgChartsReact options={chartOptions2} />
-                  </div>
-
-                  <div className="mb-3 mt-3">
-                    <div className="accordion" id="accordionExample">
-                      <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingTwo">
-                          <button
-                            class="accordion-button collapsed"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#collapseTwo"
-                            aria-expanded="false"
-                            aria-controls="collapseTwo"
-                            style={{ fontWeight: "bold" }}>
-                            Drawdown Table
-                          </button>
-                        </h2>
+                      ) : (
                         <div
-                          id="collapseTwo"
-                          class="accordion-collapse collapse"
-                          aria-labelledby="headingTwo"
-                          data-bs-parent="#accordionExample">
-                          <div class="accordion-body">
-                            {getDropDownData.data &&
-                              getDropDownData.data.length > 0 ? (
-                              <GridExample
-                                columns={columns6()}
-                                data={getDropDownData.data}
-                                onRowSelect={handleRowSelect}
-                                checkBox={false}
-                              />
-                            ) : (
-                              <div
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                  textAlign: "center",
-                                }}>
-                                <img
-                                  src="/assets/images/no-record-found.png"
-                                  width="30%"
-                                  alt=""
-                                />
-                              </div>
-                            )}
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            textAlign: "center",
+                          }}>
+                          <img
+                            src="/assets/images/no-record-found.png"
+                            width="30%"
+                            alt="No Record Found"
+                          />
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Drawdown Graph */}
+                    <div className="accordion-item">
+                      <h2 className="accordion-header" id="headingTwo">
+                        <button
+                          className="accordion-button collapsed"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#collapseTwo"
+                          aria-expanded="false"
+                          aria-controls="collapseTwo"
+                          style={{ fontWeight: "bold" }}>
+                          Drawdown Graph
+                        </button>
+                      </h2>
+                      <div
+                        id="collapseTwo"
+                        className="accordion-collapse collapse"
+                        aria-labelledby="headingTwo"
+                        data-bs-parent="#accordionExample">
+                        <div className="accordion-body">
+                          <div style={{ width: "100%", height: "500px" }}>
+                            <AgChartsReact options={chartOptions2} />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Drawdown Table */}
+                    <div className="accordion-item">
+                      <h2 className="accordion-header" id="headingThree">
+                        <button
+                          className="accordion-button collapsed"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#collapseThree"
+                          aria-expanded="false"
+                          aria-controls="collapseThree"
+                          style={{ fontWeight: "bold" }}>
+                          Drawdown Table
+                        </button>
+                      </h2>
+                      <div
+                        id="collapseThree"
+                        className="accordion-collapse collapse"
+                        aria-labelledby="headingThree"
+                        data-bs-parent="#accordionExample">
+                        <div className="accordion-body">
+                          {getDropDownData?.data?.length > 0 ? (
+                            <GridExample
+                              columns={columns6()}
+                              data={getDropDownData.data}
+                              onRowSelect={handleRowSelect}
+                              checkBox={false}
+                            />
+                          ) : (
+                            ""
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Profit and Loss Graph */}
+                    <div className="accordion-item">
+                      <h2 className="accordion-header" id="headingFour">
+                        <button
+                          className="accordion-button collapsed"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#collapseFour"
+                          aria-expanded="false"
+                          aria-controls="collapseFour"
+                          style={{ fontWeight: "bold" }}>
+                          Profit and Loss Graph
+                        </button>
+                      </h2>
+                      <div
+                        id="collapseFour"
+                        className="accordion-collapse collapse"
+                        aria-labelledby="headingFour"
+                        data-bs-parent="#accordionExample">
+                        <div className="accordion-body">
+                          <p
+                            className="bold mt-3"
+                            style={{
+                              fontWeight: "bold",
+                              fontSize: "20px",
+                              color: "black",
+                            }}>
+                            Profit and Loss Graph
+                          </p>
+                          <div style={{ width: "100%", height: "500px" }}>
+                            <AgChartsReact options={chartOptions} />
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className="mt-3">
-                    {report.data1 && report.data1.length > 0 ? (
-                      <GridExample
-                        columns={columns7()}
-                        data={report.data1}
-                        onRowSelect={handleRowSelect}
-                        checkBox={false}
-                      />
-                    ) : (
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          textAlign: "center",
-                        }}>
-                        <img
-                          src="/assets/images/no-record-found.png"
-                          width="30%"
-                          alt=""
-                        />
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="mt-3">
-                    {report.data2 && report.data2.length > 0 ? (
-                      <GridExample
-                        columns={columns8()}
-                        data={report.data2}
-                        onRowSelect={handleRowSelect}
-                        checkBox={false}
-                      />
-                    ) : (
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          textAlign: "center",
-                        }}>
-                        <img
-                          src="/assets/images/no-record-found.png"
-                          width="30%"
-                          alt=""
-                        />
-                      </div>
-                    )}
-                  </div>
-
-                  {/* PnL Graph show */}
-                  <p
-                    className="bold mt-3"
-                    style={{
-                      fontWeight: "bold",
-                      fontSize: "20px",
-                      color: "black",
-                    }}>
-                    Profit and Loss Graph
-                  </p>
-                  <div style={{ width: "100%", height: "500px" }}>
-                    <AgChartsReact options={chartOptions} />
-                  </div>
 
                   {/* 5 Most profit and loss graph */}
 
-                  <div className="d-flex">
-                    <div id="chart" style={{ width: "50%", height: "300px" }}>
-                      <p
-                        className="bold mt-3"
-                        style={{
-                          fontWeight: "bold",
-                          fontSize: "20px",
-                          color: "black",
-                        }}>
-                        5 most Profit Trade
-                      </p>
-                      <ApexCharts
-                        options={options}
-                        series={options.series}
-                        type="pie"
-                        width={options.chart.width}
-                      />
-                    </div>
-                    <div id="chart" style={{ width: "50%", height: "300px" }}>
-                      <p
-                        className="bold mt-3"
-                        style={{
-                          fontWeight: "bold",
-                          fontSize: "20px",
-                          color: "black",
-                        }}>
-                        5 most Loss Trade
-                      </p>
-                      <ApexCharts
-                        options={options1}
-                        series={options1.series}
-                        type="pie"
-                        width={options1.chart.width}
-                      />
-                    </div>
-                  </div>
-
-                  {/*  Consistent Loss & Profit-Making Trades: */}
-                  <div>
-                    <p
-                      className="bold mt-3"
-                      style={{
-                        fontWeight: "bold",
-                        fontSize: "20px",
-                        color: "black",
-                      }}>
-                      Consistent Loss & Profit-Making Trades:
-                    </p>
-                  </div>
-
-                  <div className="row">
-                    <div className="col-lg-6">
-                      <p>
-                        Consistant Profit : <spam>{getAllTradeData.data1}</spam>
-                      </p>
-                      <p>
-                        Count Consistant Profit :{" "}
-                        <spam>{getAllTradeData.data2}</spam>
-                      </p>
-                    </div>
-                    <div className="col-lg-6">
-                      <p>
-                        Consistant Loss : <spam>{getAllTradeData.data4}</spam>
-                      </p>
-                      <p>
-                        Count Consistant Loss :{" "}
-                        <spam>{getAllTradeData.data3}</spam>
-                      </p>
-                    </div>
-                  </div>
-
-                  <p
-                    className="bold mt-3"
-                    style={{
-                      fontWeight: "bold",
-                      fontSize: "20px",
-                      color: "black",
-                    }}>
-                    EquityCurve
-                  </p>
-                  <div style={{ width: "100%", height: "500px" }}>
-                    <AgChartsReact options={chartOptions1} />
-                  </div>
-
-                  <div>
-                    <div className="accordion" id="accordionExample">
-                      <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingTwo">
-                          <button
-                            class="accordion-button collapsed"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#collapseThree"
-                            aria-expanded="false"
-                            aria-controls="collapseThree"
-                            style={{ fontWeight: "bold" }}>
-                            Equity Curve Table
-                          </button>
-                        </h2>
-                        <div
-                          id="collapseThree"
-                          class="accordion-collapse collapse"
-                          aria-labelledby="headingTwo"
-                          data-bs-parent="#accordionExample">
-                          <div class="accordion-body">
-                            {getEquityCurveDetails.data &&
-                              getEquityCurveDetails.data.length > 0 ? (
-                              <GridExample
-                                columns={columns5(selectStrategyType)}
-                                data={getEquityCurveDetails.data}
-                                onRowSelect={handleRowSelect}
-                                checkBox={false}
-                              />
-                            ) : (
-                              <div
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                  textAlign: "center",
-                                }}>
-                                <img
-                                  src="/assets/images/no-record-found.png"
-                                  width="30%"
-                                  alt=""
-                                />
-                              </div>
-                            )}
+                  <div className="accordion" id="accordionExample">
+                    {/* 5 Most Profit & Loss Trades */}
+                    <div className="accordion-item">
+                      <h2 className="accordion-header" id="headingFive">
+                        <button
+                          className="accordion-button collapsed"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#collapseFive"
+                          aria-expanded="false"
+                          aria-controls="collapseFive"
+                          style={{ fontWeight: "bold" }}>
+                          5 Most Profit & Loss Trades
+                        </button>
+                      </h2>
+                      <div
+                        id="collapseFive"
+                        className="accordion-collapse collapse"
+                        aria-labelledby="headingFive"
+                        data-bs-parent="#accordionExample">
+                        <div className="accordion-body d-flex">
+                          <div style={{ width: "50%", height: "300px" }}>
+                            <p
+                              className="bold mt-3"
+                              style={{
+                                fontWeight: "bold",
+                                fontSize: "20px",
+                                color: "black",
+                              }}>
+                              5 Most Profit Trade
+                            </p>
+                            <ApexCharts
+                              options={options}
+                              series={options.series}
+                              type="pie"
+                              width={options.chart.width}
+                            />
                           </div>
+                          <div style={{ width: "50%", height: "300px" }}>
+                            <p
+                              className="bold mt-3"
+                              style={{
+                                fontWeight: "bold",
+                                fontSize: "20px",
+                                color: "black",
+                              }}>
+                              5 Most Loss Trade
+                            </p>
+                            <ApexCharts
+                              options={options1}
+                              series={options1.series}
+                              type="pie"
+                              width={options1.chart.width}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Consistent Loss & Profit-Making Trades */}
+                    <div className="accordion-item">
+                      <h2 className="accordion-header" id="headingSix">
+                        <button
+                          className="accordion-button collapsed"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#collapseSix"
+                          aria-expanded="false"
+                          aria-controls="collapseSix"
+                          style={{ fontWeight: "bold" }}>
+                          Consistent Loss & Profit-Making Trades
+                        </button>
+                      </h2>
+                      <div
+                        id="collapseSix"
+                        className="accordion-collapse collapse"
+                        aria-labelledby="headingSix"
+                        data-bs-parent="#accordionExample">
+                        <div className="accordion-body row">
+                          <div className="col-lg-6">
+                            <p>
+                              Consistent Profit:{" "}
+                              <span>{getAllTradeData?.data1}</span>
+                            </p>
+                            <p>
+                              Count Consistent Profit:{" "}
+                              <span>{getAllTradeData?.data2}</span>
+                            </p>
+                          </div>
+                          <div className="col-lg-6">
+                            <p>
+                              Consistent Loss:{" "}
+                              <span>{getAllTradeData?.data4}</span>
+                            </p>
+                            <p>
+                              Count Consistent Loss:{" "}
+                              <span>{getAllTradeData?.data3}</span>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Equity Curve */}
+                    <div className="accordion-item">
+                      <h2 className="accordion-header" id="headingSeven">
+                        <button
+                          className="accordion-button collapsed"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#collapseSeven"
+                          aria-expanded="false"
+                          aria-controls="collapseSeven"
+                          style={{ fontWeight: "bold" }}>
+                          Equity Curve
+                        </button>
+                      </h2>
+                      <div
+                        id="collapseSeven"
+                        className="accordion-collapse collapse"
+                        aria-labelledby="headingSeven"
+                        data-bs-parent="#accordionExample">
+                        <div className="accordion-body">
+                          <div style={{ width: "100%", height: "500px" }}>
+                            <AgChartsReact options={chartOptions1} />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Equity Curve Table */}
+                    <div className="accordion-item">
+                      <h2 className="accordion-header" id="headingEight">
+                        <button
+                          className="accordion-button collapsed"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#collapseEight"
+                          aria-expanded="false"
+                          aria-controls="collapseEight"
+                          style={{ fontWeight: "bold" }}>
+                          Equity Curve Table
+                        </button>
+                      </h2>
+                      <div
+                        id="collapseEight"
+                        className="accordion-collapse collapse"
+                        aria-labelledby="headingEight"
+                        data-bs-parent="#accordionExample">
+                        <div className="accordion-body">
+                          {getEquityCurveDetails?.data?.length > 0 ? (
+                            <GridExample
+                              columns={columns5(selectStrategyType)}
+                              data={getEquityCurveDetails.data}
+                              onRowSelect={handleRowSelect}
+                              checkBox={false}
+                            />
+                          ) : (
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                textAlign: "center",
+                              }}>
+                              <img
+                                src="/assets/images/no-record-found.png"
+                                width="30%"
+                                alt="No Record Found"
+                              />
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>

@@ -38,9 +38,9 @@ const AddClient = () => {
 
     const SweentAlertFun = (text) => {
         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+            background: "#1a1e23 ",
+            backdrop: "#121010ba",
+            confirmButtonColor: "#1ccc8a",
             title: "Error",
             text: text,
             icon: "error",
@@ -114,6 +114,11 @@ confirmButtonColor: "#1ccc8a",
             quantityselection: "",
             quantityvalue: 0.0,
             targetselection: "",
+            Profit: 0,
+            Loss: 0,
+            RollOver: "",
+            NumberOfDays: 0,
+            RollOverExitTime: "00:00:00",
 
         },
         validate: (values) => {
@@ -245,6 +250,47 @@ confirmButtonColor: "#1ccc8a",
                     errors.Shifting_Value = "Please Enter Number of Shifts Between 1-5"
                 }
             }
+            if (
+                !values.Loss &&
+                values.Strategy == "Multi_Conditional" &&
+                values.position_type == "Multiple"
+            ) {
+                errors.Loss = "Please Enter Maximum Loss";
+            }
+
+            if (
+                !values.Profit &&
+                values.Strategy == "Multi_Conditional" &&
+                values.position_type == "Multiple"
+            ) {
+                errors.Profit = "Please Enter Maximum Loss";
+            }
+
+            if (
+                !values.RollOver &&
+                values.Strategy == "Multi_Conditional" &&
+                values.position_type == "Multiple"
+            ) {
+                errors.RollOver = "Please Enter No. of Repeatation";
+            }
+            if (
+                !values.NumberOfDays &&
+                values.Strategy == "Multi_Conditional" &&
+                values.position_type == "Multiple" &&
+                values.RollOver == ""
+            ) {
+                errors.NumberOfDays = "Please Enter No. of Days";
+            }
+
+            if (
+                !values.RollOverExitTime &&
+                values.Strategy == "Multi_Conditional" &&
+                values.position_type == "Multiple" &&
+                values.RollOver == true
+            ) {
+                errors.RollOverExitTime = "Please Enter RollOver Exit Time";
+            }
+
             return errors;
         },
         onSubmit: async (values) => {
@@ -299,6 +345,33 @@ confirmButtonColor: "#1ccc8a",
                 quantityselection: "",
                 quantityvalue: 0.0,
                 targetselection: "",
+                Loss:
+                    values.position_type == "Multiple" &&
+                        values.Strategy == "Multi_Conditional"
+                        ? values.Loss
+                        : 0,
+
+                Profit:
+                    values.position_type == "Multiple" &&
+                        values.Strategy == "Multi_Conditional"
+                        ? values.Profit
+                        : 0,
+                RollOver: (values.position_type ==
+                    "Multiple" && values.Strategy == "Multi_Conditional"
+                    ? values.RollOver
+                    : false),
+                NumberOfDays:
+                    values.position_type == "Multiple" &&
+                        values.Strategy == "Multi_Conditional" &&
+                        values.RollOver == true
+                        ? values.NumberOfDays
+                        : 0,
+                RollOverExitTime:
+                    values.position_type == "Multiple" &&
+                        values.Strategy == "Multi_Conditional" &&
+                        values.RollOver == true
+                        ? values.RollOverExitTime
+                        : "00:00:00",
             }
 
             if (values.Striketype == "Depth_of_Strike" && (Number(values.DepthofStrike) < 0 || Number(values.DepthofStrike) > 10)) {
@@ -346,9 +419,9 @@ confirmButtonColor: "#1ccc8a",
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Script Added !",
                             text: response.message,
                             icon: "success",
@@ -361,9 +434,9 @@ confirmButtonColor: "#1ccc8a",
                     }
                     else {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Error !",
                             text: response.message,
                             icon: "error",
@@ -793,6 +866,27 @@ confirmButtonColor: "#1ccc8a",
             disable: false,
             hiding: false,
         },
+        {
+            name: "Loss",
+            label: "Max Loss ",
+            type: "text3",
+            label_size: 12,
+            col_size: 4,
+            headingtype: 4,
+            disable: false,
+            hiding: false,
+        },
+
+        {
+            name: "Profit",
+            label: " Max Profit ",
+            type: "text3",
+            label_size: 12,
+            col_size: 4,
+            headingtype: 4,
+            disable: false,
+            hiding: false,
+        },
     ]
 
     const TimeDurationArr = [
@@ -831,6 +925,57 @@ confirmButtonColor: "#1ccc8a",
             col_size: 4,
             headingtype: 5,
             disable: false,
+        },
+        {
+            name: "RollOver",
+            label: "RollOver",
+            type: "select",
+            options: [
+                { label: "True", value: true },
+                { label: "False", value: false },
+            ],
+            label_size: 12,
+            col_size: 4,
+            headingtype: 4,
+            showWhen: (values) => values.ExitDay == "Delivery",
+            disable: false,
+            hiding: false,
+        },
+
+        {
+            name: "NumberOfDays",
+            label: "No. of Days",
+            type: "text3",
+            label_size: 12,
+            showWhen: (values) => {
+                const rollOverBoolean = values.RollOver === "true";
+                return (
+                    rollOverBoolean &&
+                    values.ExitDay == "Delivery"
+                );
+            },
+            col_size: 4,
+            headingtype: 4,
+            disable: false,
+            hiding: false,
+        },
+
+        {
+            name: "RollOverExitTime",
+            label: "RollOver Exit Time",
+            type: "timepiker",
+            label_size: 12,
+            showWhen: (values) => {
+                const rollOverBoolean = values.RollOver === "true";
+                return (
+                    rollOverBoolean &&
+                    values.ExitDay == "Delivery"
+                );
+            },
+            col_size: 4,
+            headingtype: 4,
+            disable: false,
+            hiding: false,
         },
 
     ]

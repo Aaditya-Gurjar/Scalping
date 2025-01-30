@@ -119,7 +119,7 @@ const LastPattern = () => {
                       <div className="form-group">
                         <label>Select Pattern</label>
                         <select
-                          className="form-control form-control-lg mt-2"
+                          className="form-control  mt-2"
                           onChange={(e) => setSelectPattern(e.target.value)}
                           value={selectPattern}>
                           <option value="">Please Select Patterns</option>
@@ -136,7 +136,7 @@ const LastPattern = () => {
                       <div className="form-group">
                         <label>Select Specific Pattern</label>
                         <select
-                          className="form-control form-control-lg mt-2"
+                          className="form-control  mt-2"
                           onChange={(e) => setPatternType(e.target.value)}
                           value={getPatternType}>
                           <option value="">
