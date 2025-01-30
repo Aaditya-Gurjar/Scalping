@@ -44,7 +44,6 @@ const Tradehistory = () => {
   const adminPermission = localStorage.getItem("adminPermission");
 
   const [selectStrategyType, setStrategyType] = useState("");
-  console.log("selectStrategyType", selectStrategyType);
 
   const [strategyNames, setStrategyNames] = useState([]);
   const [tradeHistory, setTradeHistory] = useState({
@@ -240,12 +239,19 @@ const Tradehistory = () => {
   };
 
   useEffect(() => {
-    if (location?.state?.type) {
-      setTableType(location?.state?.type)
+    if (location?.state?.type && location?.state?.type != "MultiCondition") {
+      setStrategyType(location?.state?.type);
+    }
+    else if (location?.state?.type == "MultiCondition") {
+      setTableType("MultiCondition")
+      setStrategyType("Scalping");
+    }
+    else {
+      setStrategyType("Scalping");
     }
   }, [preSelectTableType])
-  console.log("location?.state?.type", location?.state?.type);
 
+ 
 
   const handleSubmit = async () => {
     const data = {
@@ -462,9 +468,7 @@ const Tradehistory = () => {
       });
   };
 
-  useEffect(() => {
-    setStrategyType("Scalping");
-  }, []);
+
 
     useEffect(() => {
       setTableType("Scalping");
@@ -605,6 +609,7 @@ const Tradehistory = () => {
                   </div>
                   {selectStrategyType == "Scalping" && (
                     <div className="form-group col-lg-3">
+                      {/* {console.log("selectStrategyType == Scalping", selectStrategyType == "Scalping")} */}
                       <label>Table Type</label>
                       <select
                         className="form-select"

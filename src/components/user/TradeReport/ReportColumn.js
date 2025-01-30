@@ -145,7 +145,7 @@ export const getColumns = () => [
 export const getColumns1 = () => [
     {
         name: "S.No",
-        label: "S.No",
+        label: "S.No", 
         options: {
             filter: true,
             sort: true,

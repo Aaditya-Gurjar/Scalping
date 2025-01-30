@@ -14,9 +14,14 @@ import {
   columns7,
 } from "./PnLColumn";
 import Swal from "sweetalert2";
+import { useLocation } from "react-router-dom";
+
 
 const Tradehistory = () => {
-  const [selectStrategyType, setStrategyType] = useState("");
+  const location = useLocation();
+  console.log("location", location);
+
+  const [selectStrategyType, setStrategyType] = useState("Scalping");
   const [strategyNames, setStrategyNames] = useState([]);
   const [ToDate, setToDate] = useState("");
   const [FromDate, setFromDate] = useState("");
@@ -72,16 +77,7 @@ const Tradehistory = () => {
       .then((response) => {
 
         if (response.Status) {
-          Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
-            title: "Success",
-            icon: "success",
-            text: response.message,
-            timer: 1500,
-            timerProgressBar: true,
-          });
+        
           setPnlData({
             loading: false,
             data: response.data,
@@ -91,9 +87,9 @@ confirmButtonColor: "#1ccc8a",
           setShowTable(true);
         } else {
           Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+            background: "#1a1e23 ",
+            backdrop: "#121010ba",
+            confirmButtonColor: "#1ccc8a",
             title: "No Records found",
             icon: "info",
             text: response.message,
@@ -117,9 +113,26 @@ confirmButtonColor: "#1ccc8a",
     setStrategyNames(res.Data);
   };
 
+
+  useEffect(() => {
+    if (location?.state?.type && location?.state?.type != "MultiCondition") {
+      console.log("sss")
+      setStrategyType(location?.state?.type);
+    }
+    else if (location?.state?.type == "MultiCondition") {
+      // setTableType("MultiCondition")
+      setStrategyType("Scalping");
+    }
+    else {
+      // setTableType("Scalping");
+    }
+  }, [])
+
+
+
+
   useEffect(() => {
     fetchStrategyType();
-    // setStrategyType('Scalping')
   }, []);
 
   useEffect(() => {
