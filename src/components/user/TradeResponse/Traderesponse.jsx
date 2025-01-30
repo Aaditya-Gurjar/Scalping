@@ -21,7 +21,7 @@ import {
   columns6,
   columns8,
 } from "./TradeReponseColumn";
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 
 const TradeResponse = () => {
   const location = useLocation();
@@ -32,8 +32,12 @@ const TradeResponse = () => {
   const [selectStrategyType, setSelectStrategyType] = useState("");
   const [strategyType, setStrategyType] = useState([]);
   // console.log("strategyType1 strategyType1 strategyType15555",strategyType);
-  
-  const [tradeHistory, setTradeHistory] = useState({ loading: true, data: [], data1: [], });
+
+  const [tradeHistory, setTradeHistory] = useState({
+    loading: true,
+    data: [],
+    data1: [],
+  });
   const [selectedRowData, setSelectedRowData] = useState("");
   const [ToDate, setToDate] = useState("");
   const [FromDate, setFromDate] = useState("");
@@ -45,13 +49,11 @@ const TradeResponse = () => {
   });
   const [getChartingSegments, setChartingSegments] = useState([]);
   const [getCharting, setGetCharting] = useState([]);
-  const [tableType, setTableType] = useState('Scalping')
+  const [tableType, setTableType] = useState("Scalping");
   // console.log("tableType555555",tableType);
-  
 
   const [preSelectTableType, setPreSelectTableType] = useState("");
   // console.log("preSelectTableType", preSelectTableType);
-
 
   const currentDate = new Date();
   currentDate.setDate(currentDate.getDate());
@@ -73,13 +75,11 @@ const TradeResponse = () => {
   }, [selectSegmentType]);
 
   useEffect(() => {
-    if (selectSegmentType)
-      getChartingScript();
+    if (selectSegmentType) getChartingScript();
   }, [selectSegmentType]);
 
   useEffect(() => {
-    if (selectStrategyType == "ChartingPlatform")
-      getChartingData();
+    if (selectStrategyType == "ChartingPlatform") getChartingData();
   }, [selectStrategyType]);
 
   const getChartingScript = async () => {
@@ -130,7 +130,7 @@ const TradeResponse = () => {
   const GetTradeStrategyType = async () => {
     try {
       const res = await getStrategyType();
-      
+
       if (res) {
         setStrategyType(res.Data);
       }
@@ -162,7 +162,6 @@ const TradeResponse = () => {
             data: filterLiveTrade,
             data1: filterLiveTrade1,
           });
-          
         } else {
           setTradeHistory({
             loading: false,
@@ -184,34 +183,66 @@ const TradeResponse = () => {
     GetTradeResposne();
   }, [selectStrategyType, FromDate, ToDate]);
 
-  useEffect(() => {
-    if (location?.state?.goto && location?.state?.goto === 'dashboard') {
-      if (location?.state?.type == "MultiCondition") {
-        setSelectedRowData(tradeHistory.data1?.[location?.state?.RowIndex])
-        console.log("data for check rowIndex", location?.state?.RowIndex);
-      } else {
-        setSelectedRowData(tradeHistory.data?.[location?.state?.RowIndex])
-      }
-      setPreSelectTableType(location?.state?.type)
-    }
-  }, [tradeHistory, location?.state?.RowIndex]);
+  // useEffect(() => {
+  //   if (location?.state?.goto && location?.state?.goto === 'dashboard') {
+  //     if (location?.state?.type == "MultiCondition") {
+  //       setSelectedRowData(tradeHistory.data1?.[location?.state?.RowIndex])
+  //       console.log("data for check rowIndex", location?.state?.RowIndex);
+  //     } else {
+  //       setSelectedRowData(tradeHistory.data?.[location?.state?.RowIndex])
+  //     }
+  //     setPreSelectTableType(location?.state?.type)
+  //   }
+  // }, [tradeHistory, location?.state?.RowIndex]);
+
+  // useEffect(() => {
+  //     if (location?.state?.type && location?.state?.type != "MultiCondition") {
+  //       setSelectStrategyType(location?.state?.type);
+  //     }
+  //     else if (location?.state?.type == "MultiCondition") {
+  //         setTableType("MultiCondition")
+  //         setSelectStrategyType("Scalping");
+  //     }
+  //     else {
+  //       setTableType("Scalping");
+  //     }
+  // }, [preSelectTableType])
 
   useEffect(() => {
-      if (location?.state?.type && location?.state?.type != "MultiCondition") {
-        setSelectStrategyType(location?.state?.type);
+    if (location?.state?.goto && location?.state?.goto === "dashboard") {
+      if (location?.state?.type == "MultiCondition") {
+        setSelectedRowData(tradeHistory.data1?.[location?.state?.RowIndex]);
+      } else {
+        setSelectedRowData(tradeHistory.data?.[location?.state?.RowIndex]);
       }
-      else if (location?.state?.type == "MultiCondition") {
-          setTableType("MultiCondition")
-          setSelectStrategyType("Scalping");
-      }
-      else {
-        setTableType("Scalping");
-      }
-  }, [preSelectTableType])
+      setPreSelectTableType(location?.state?.type);
+    }
+  }, [tradeHistory, location?.state?.RowIndex]);
 
   const handleRowSelect = (rowData) => {
     setSelectedRowData(rowData);
   };
+  useEffect(() => {
+    setTableType("Scalping");
+  }, []);
+
+  useEffect(() => {
+    if (!location?.state?.RowIndex) {
+      if (selectStrategyType == "Scalping") {
+        setTableType("MultiCondition");
+      } else {
+        setTableType("Scalping");
+      }
+    } else if (
+      location?.state?.type &&
+      location?.state?.type != "MultiCondition"
+    ) {
+      setStrategyType(location?.state?.type);
+    } else if (location?.state?.type == "MultiCondition") {
+      setTableType("MultiCondition");
+      setSelectStrategyType("Scalping");
+    }
+  }, [preSelectTableType, selectStrategyType]);
 
   const handleSubmit = async () => {
     const data = {
@@ -315,13 +346,13 @@ const TradeResponse = () => {
     selectSegmentType,
   ]);
 
-  useEffect(() => {
-    if (selectStrategyType == "Scalping") {
-      setTableType("MultiCondition");
-    } else {
-      setTableType("Scalping");
-    }
-  }, [selectStrategyType]);
+  // useEffect(() => {
+  //   if (selectStrategyType == "Scalping") {
+  //     setTableType("MultiCondition");
+  //   } else {
+  //     setTableType("Scalping");
+  //   }
+  // }, [selectStrategyType]);
 
   return (
     <div>
@@ -459,7 +490,7 @@ const TradeResponse = () => {
                     {
                       <div className="modal-body">
                         {tradeHistory?.data1 &&
-                          tradeHistory?.data1.length > 0 ? (
+                        tradeHistory?.data1.length > 0 ? (
                           <GridExample
                             columns={columns6}
                             data={tradeHistory?.data1}

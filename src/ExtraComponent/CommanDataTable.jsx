@@ -411,7 +411,10 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
   const [tempSelectedColumns, setTempSelectedColumns] = useState(
     columns.slice(0, 7)
   );
-  const [checkedRows, setCheckedRows] = useState([]);
+  const [checkedRows, setCheckedRows] = useState(
+    isChecked !== undefined ? [isChecked] : []
+  );
+  console.log("---------", checkBox);
 
   useEffect(() => {
     setSelectedColumns(columns.slice(0, 7)); // Reset selected columns to default
@@ -546,7 +549,12 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
       setTempSelectedColumns(columns);
     }
   }, [columns, tempSelectedColumns]);
-
+  useEffect(() => {
+    // Update the checked rows when `isChecked` prop changes
+    if (isChecked !== undefined) {
+      setCheckedRows([isChecked]);
+    }
+  }, [isChecked]);
   return (
     <div className="modal-body">
       <div

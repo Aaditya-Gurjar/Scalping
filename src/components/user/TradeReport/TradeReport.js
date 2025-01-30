@@ -132,39 +132,40 @@ const TradeReport = () => {
     //     setSelectedRowData(rowData);
     // };
 
-     useEffect(() => {
-        if (location?.state?.goto && location?.state?.goto === 'dashboard') {
+    useEffect(() => {
+        if (location?.state?.goto && location?.state?.goto === "dashboard") {
           if (location?.state?.type == "MultiCondition") {
-            setSelectedRowData(tradeHistory.data1?.[location?.state?.RowIndex])
-            console.log("data for check rowIndex",location?.state?.RowIndex);
-            
+            setSelectedRowData(tradeHistory.data1?.[location?.state?.RowIndex]);
           } else {
-            setSelectedRowData(tradeHistory.data?.[location?.state?.RowIndex])
+            setSelectedRowData(tradeHistory.data?.[location?.state?.RowIndex]);
           }
-          setPreSelectTableType(location?.state?.type)
-    
+          setPreSelectTableType(location?.state?.type);
         }
       }, [tradeHistory, location?.state?.RowIndex]);
-
-    useEffect(() => {
-        if (location?.state?.type && location?.state?.type != "MultiCondition") {
-            setStrategyType(location?.state?.type);
-        }
-        else if (location?.state?.type == "MultiCondition") {
-            setTableType("MultiCondition")
-            setStrategyType("Scalping");
-        }
-        else {
-            setStrategyType("Scalping");
-        }
-    }, [preSelectTableType])
-
-
-
-    const handleRowSelect = (rowData) => {
+    
+      const handleRowSelect = (rowData) => {
         setSelectedRowData(rowData);
-    };
+      };
+    
+      useEffect(() => {
+          if (!location?.state?.type) {
+          if (selectStrategyType == "Scalping") {
+            setTableType("MultiCondition");
+          } 
+        } else if (
+          location?.state?.type &&
+          location?.state?.type != "MultiCondition"
+        ) {
+          setStrategyType(location?.state?.type);
+        } else if (location?.state?.type == "MultiCondition") {
+          setTableType("MultiCondition");
+          setStrategyType("Scalping");
+        }
+      }, [preSelectTableType]);
 
+
+
+ 
 
     const getChartingData = async () => {
         const res = await getChargingPlatformDataApi(userName);
@@ -178,13 +179,7 @@ const TradeReport = () => {
         setStrategyType('Scalping')
     }, []);
 
-     useEffect(() => {
-         if (selectStrategyType == "Scalping") {
-          setTableType("MultiCondition");
-        } else {
-          setTableType("Scalping");
-        }
-     }, [selectStrategyType, ]);
+  
 
 
 
