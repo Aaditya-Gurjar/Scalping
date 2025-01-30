@@ -219,6 +219,7 @@ const Tradehistory = () => {
 
                     <p
                       className="bold mt-4"
+                      
                       style={{
                         fontWeight: "bold",
                         fontSize: "20px",
@@ -229,7 +230,7 @@ const Tradehistory = () => {
                         style={{
                           color: getPnLData.data2 < 0 ? "red" : "green",
                         }}>
-                        {getPnLData.data2}
+                        {getPnLData.data2.toFixed(2)}
                       </span>
                     </p>
                   </div>
