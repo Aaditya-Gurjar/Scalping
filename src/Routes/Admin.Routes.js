@@ -29,6 +29,7 @@ import AllSubadmin from '../components/admin/SubAdmin/AllSubadmin';
 import EditSubadmin from '../components/admin/SubAdmin/EditSubadmin';
 import ApiCreateInfo from '../components/admin/apicreateInfo/ApiCreateInfo';
 import SidebarRight from '../components/layouts/SidebarRight';
+import ChartComponent from '../components/admin/AdvanceChart/ChartComponent';
 
 // const Dashboards = lazy(() => import('../components/admin/Dashboard/Dashboards'));
 // const Sidebar = lazy(() => import('../components/layouts/Sidebar'));
@@ -93,8 +94,8 @@ const AdminRoute = () => {
             <Route path="/allSubadmin" element={<AllSubadmin />} />
             <Route path="/editSubadmin" element={<EditSubadmin />} />
             <Route path="/api-create-info" element={<ApiCreateInfo />} />
+            <Route path="/chart" element={<ChartComponent />} />
           </Routes>
-
         </div>
         <SidebarRight />
       </div >
