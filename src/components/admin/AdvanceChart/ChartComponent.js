@@ -80,7 +80,7 @@ const ChartComponent = () => {
           pinch: {
             enabled: true,
           },
-          mode: "xy",
+          mode: "x",
         },
       },
     },
