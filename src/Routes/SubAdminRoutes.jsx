@@ -38,6 +38,7 @@ import Loader from '../ExtraComponent/Loader';
 // import ChangePassword from '../components/subadmin/Password/ChangePassword';
 
 const Sidebar = lazy(() => import('../components/layouts/Sidebar'));
+const SidebarRight = lazy(() => import('../components/layouts/SidebarRight'));
 const Header = lazy(() => import('../components/layouts/Header'));
 const Dashboard = lazy(() => import('../components/subadmin/subadminDashboard/Dashboard'));
 const AddClient = lazy(() => import('../components/subadmin/Client/AddClient'));
@@ -74,6 +75,7 @@ const SubAdminRoutes = () => {
           <Route path="/change-password" element={<ChangePassword />} />
         </Routes>
       </div>
+      <SidebarRight />
     </div>
   );
 };

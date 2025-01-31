@@ -16,6 +16,7 @@ import Loader from '../ExtraComponent/Loader';
 
 const Dashboards = lazy(() => import('../components/superAdmin/dashboard/Dashboard'));
 const Sidebar = lazy(() => import('../components/layouts/Sidebar'));
+const SidebarRight = lazy(() => import('../components/layouts/SidebarRight'));
 const Header = lazy(() => import('../components/layouts/Header'));
 const AdminDetails = lazy(() => import('../components/superAdmin/adminDetails/Admindetails'));
 const CreateAdmin = lazy(() => import('../components/superAdmin/accountCreate/CreateAccount'));
@@ -51,6 +52,7 @@ const SuperAdminRoute = () => {
             <Route path='/new-update' element={<NewUpdate />} />
           </Routes>
         </div>
+        <SidebarRight />
       </div>
     </>
   );

@@ -134,24 +134,7 @@ const Sidebar = () => {
 
 
     const subadminSideBaar = [
-        {
-            path: '/subadmin/dashboard',
-            icon: 'ri-dashboard-fill', // Dashboard icon
-            label: 'Dashboard',
-            permission: [] // No restriction
-        },
-        {
-            path: '/subadmin/allclient',
-            icon: 'ri-group-fill', // Group or users icon for All Clients
-            label: 'All Clients',
-            permission: [] // No restriction
-        },
-        {
-            path: '/subadmin/groups',
-            icon: 'ri-group-fill', // Teams icon for Sub Admin Groups
-            label: 'Sub Admin Groups',
-            permission: [] // No restriction
-        },
+    
         {
             path: '/subadmin/all-script',
             icon: 'ri-file-edit-fill', // Script icon for Add Script
@@ -221,36 +204,8 @@ const Sidebar = () => {
 
 
     const superAdmin = [
-        {
-            path: '/superadmin/dashboard',
-            icon: <i className="ri-home-fill" />, // Default icon
-            label: 'Dashboard',
-            permission: [] // No restriction
-        },
-        {
-            path: '/superadmin/create-admin',
-            icon: <Users />, // Custom icon
-            label: 'Create Admin',
-            permission: [] // No restriction
-        },
-        {
-            path: '/superadmin/admin-details',
-            icon: <ListCollapse />, // Custom icon
-            label: 'Admin Details',
-            permission: [] // No restriction
-        },
-        {
-            path: '/superadmin/amount-details',
-            icon: <BadgeDollarSign />, // Custom icon
-            label: 'Amount Details',
-            permission: [] // No restriction
-        },
-        {
-            path: '/superadmin/client-thread-report',
-            icon: <Pyramid />, // Custom icon
-            label: 'Client Trade Report',
-            permission: [] // No restriction
-        },
+       
+       
         {
             path: '/superadmin/client-trade-response',
             icon: <MessageCircleReply />, // Custom icon
@@ -374,7 +329,10 @@ const Sidebar = () => {
                                                     onClick={(e) => handleSidebarClick(e, item.path)}
                                                 >
                                                     <Link to={item.path} className="iq-waves-effect">
-                                                        {item.icon}
+                                                    <div data-toggle="tooltip" data-placement="left" title={item.label}>
+                                                   <i className={item.icon}> {item.icon} </i>
+                                                        </div>
+                                                       
                                                         <span style={{ marginLeft: '8px' }}>{item.label}</span>
                                                     </Link>
                                                 </li>
