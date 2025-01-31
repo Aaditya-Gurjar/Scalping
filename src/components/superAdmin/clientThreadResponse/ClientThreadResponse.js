@@ -7,7 +7,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Swal from 'sweetalert2';
 import { columns3, columns2, columns1, columns, columns5, columns4 } from './TradeReponseColumn'
-import { getCompanyName, getClientName , getClientScript , ClientTradeResponse } from '../../CommonAPI/SuperAdmin'
+import { getCompanyName, getClientName, getClientScript, ClientTradeResponse } from '../../CommonAPI/SuperAdmin'
+import NoDataFound from '../../../ExtraComponent/NoDataFound';
 const TradeResponse = () => {
     const [selectStrategyType, setStrategyType] = useState('')
     const [clientAllScript, setClientAllScript] = useState({ loading: true, data: [] })
@@ -94,7 +95,7 @@ const TradeResponse = () => {
                 console.log("Error in fainding the service", err)
             })
     }
-    
+
 
 
     const GetTradeResposne = async () => {
@@ -102,7 +103,7 @@ const TradeResponse = () => {
             return
         }
 
-        const data = { Data: selectStrategyType, Username: clientName , Companyname : comapnyName }
+        const data = { Data: selectStrategyType, Username: clientName, Companyname: comapnyName }
         await getClientScript(data)
             .then((response) => {
                 if (response.Status) {
@@ -137,13 +138,13 @@ const TradeResponse = () => {
     };
 
 
-   
+
     const handleSubmit = async () => {
         if (comapnyName == '') {
             Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                background: "#1a1e23 ",
+                backdrop: "#121010ba",
+                confirmButtonColor: "#1ccc8a",
                 title: "Please Select the Company Name",
                 icon: "info",
                 timer: 1500,
@@ -153,9 +154,9 @@ confirmButtonColor: "#1ccc8a",
         }
         if (selectStrategyType == '') {
             Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                background: "#1a1e23 ",
+                backdrop: "#121010ba",
+                confirmButtonColor: "#1ccc8a",
                 title: "Please Select the Strategy Type",
                 icon: "info",
                 timer: 1500,
@@ -163,7 +164,7 @@ confirmButtonColor: "#1ccc8a",
             });
             return
         }
-       
+
         const data = {
             Companyname: comapnyName,
             MainStrategy: selectStrategyType,
@@ -192,9 +193,9 @@ confirmButtonColor: "#1ccc8a",
                 }
                 else {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "No Records found",
                         icon: "info",
                         timer: 1500,
@@ -262,11 +263,11 @@ confirmButtonColor: "#1ccc8a",
                                         </select>
                                     </div>
                                     <div className="form-group col-lg-2">
-                                        <label>Select Strategy Type</label>
+                                        <label>Strategy Type</label>
                                         <select className="form-select" required=""
                                             onChange={(e) => setStrategyType(e.target.value)}
                                             value={selectStrategyType}>
-                                                
+
                                             <option value={"Scalping"}>Scalping</option>
                                             <option value={"Option Strategy"}>Option Strategy</option>
                                             <option value={"Pattern"}>Pattern Script</option>
@@ -285,15 +286,21 @@ confirmButtonColor: "#1ccc8a",
                             </div>
                             {
                                 <div className="modal-body">
-                                    <GridExample
-                                        columns={selectStrategyType === "Scalping" ? columns :
-                                            selectStrategyType === "Option Strategy" ? columns1 :
-                                                selectStrategyType === "Pattern" ? columns2 : columns
-                                        }
-                                        data={clientAllScript.data}
-                                        onRowSelect={handleRowSelect}
-                                        checkBox={true}
-                                    />
+                                    {
+                                        clientAllScript.data && clientAllScript.data?.length > 0 ?
+                                            (<GridExample
+                                                columns={selectStrategyType === "Scalping" ? columns :
+                                                    selectStrategyType === "Option Strategy" ? columns1 :
+                                                        selectStrategyType === "Pattern" ? columns2 : columns
+                                                }
+                                                data={clientAllScript.data}
+                                                onRowSelect={handleRowSelect}
+                                                checkBox={true}
+                                            />)
+                                            :
+                                            (<NoDataFound />)
+                                    }
+
                                 </div>
                             }
                             <button className='btn btn-primary mt-2' onClick={handleSubmit}>Submit</button>

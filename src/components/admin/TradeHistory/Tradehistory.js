@@ -10,6 +10,7 @@ import ApexCharts from 'react-apexcharts';
 import Swal from 'sweetalert2';
 import "react-datepicker/dist/react-datepicker.css";
 import ChartComponent from '../AdvanceChart/ChartComponent'
+import NoDataFound from '../../../ExtraComponent/NoDataFound';
 
 
 const Tradehistory = () => {
@@ -518,37 +519,55 @@ confirmButtonColor: "#1ccc8a",
                                     </div>
                                 </div>
                             </div>
-                            {
-                                <div className="modal-body">
-                                    <GridExample
-                                        columns={selectStrategyType === "Scalping" ? columns() :
-                                            selectStrategyType === "Option Strategy" ? columns1() :
-                                                selectStrategyType === "Pattern" ? columns2() : columns()
-                                        }
-                                        data={tradeHistory.data}
-                                        onRowSelect={handleRowSelect}
-                                        checkBox={true}
-                                    />
-                                </div>
-                            }
 
-                            {selectStrategyType === "Scalping" &&
-                                adminPermission.includes("Charting Platform") && (
-                                    <div>
-                                        <div className="iq-header-title mt-4">
-                                            <h4 className="card-title">Multi Conditional</h4>
-                                        </div>
-                                        <div className="modal-body">
+
+                            {tradeHistory?.data?.length > 0 && tradeHistory?.data1?.length > 0 ? (
+                                <>
+                                    <div className="modal-body">
+                                        {tradeHistory.data && (
                                             <GridExample
-                                                columns={columns7()}
-                                                data={tradeHistory.data1}
+                                                columns={
+                                                    selectStrategyType === "Scalping"
+                                                        ? columns()
+                                                        : selectStrategyType === "Option Strategy"
+                                                            ? columns1()
+                                                            : selectStrategyType === "Pattern"
+                                                                ? columns2()
+                                                                : columns()
+                                                }
+                                                data={tradeHistory.data}
                                                 onRowSelect={handleRowSelect}
                                                 checkBox={true}
                                             />
-                                        </div>
+                                        )}
                                     </div>
-                                )}
-                            <button className='btn btn-primary mt-2' onClick={handleSubmit}>Submit</button>
+
+                                    {selectStrategyType === "Scalping" &&
+                                        adminPermission.includes("Charting Platform") &&
+                                        tradeHistory.data1 && (
+                                            <div>
+                                                <div className="iq-header-title mt-4">
+                                                    <h4 className="card-title">Multi Conditional</h4>
+                                                </div>
+                                                <div className="modal-body">
+                                                    <GridExample
+                                                        columns={columns7()}
+                                                        data={tradeHistory.data1}
+                                                        onRowSelect={handleRowSelect}
+                                                        checkBox={true}
+                                                    />
+                                                </div>
+                                            </div>
+                                        )}
+
+                                    <button className="btn btn-primary mt-2" onClick={handleSubmit}>
+                                        Submit
+                                    </button>
+                                </>
+                            ) : (
+                                <NoDataFound />
+                            )}
+
 
                             {showTable && (
                                 <>

@@ -5,6 +5,7 @@ import GridExample from '../../../ExtraComponent/CommanDataTable'
 import { SquarePen, RotateCcw, Eye, UserPlus, Earth, UserSearch, Trash2 } from 'lucide-react';
 import { useFormik } from "formik";
 import AddForm from "../../../ExtraComponent/FormData";
+import NoDataFound from '../../../ExtraComponent/NoDataFound';
 
 
 
@@ -96,9 +97,9 @@ const Strategygroup = () => {
         let Companyname = getAdminDetails[index].Companyname;
 
         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+            background: "#1a1e23 ",
+            backdrop: "#121010ba",
+            confirmButtonColor: "#1ccc8a",
             title: "Are you sure?",
             text: "You want to change the status?",
             icon: "warning",
@@ -114,9 +115,9 @@ confirmButtonColor: "#1ccc8a",
                             adminDetailsData();
                             e.target.checked = status;
                             Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                                background: "#1a1e23 ",
+                                backdrop: "#121010ba",
+                                confirmButtonColor: "#1ccc8a",
                                 title: "Changed!",
                                 text: "Your status has been changed.",
                                 icon: "success",
@@ -140,9 +141,9 @@ confirmButtonColor: "#1ccc8a",
         let Companyname = getAdminDetails[index].Companyname;
 
         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+            background: "#1a1e23 ",
+            backdrop: "#121010ba",
+            confirmButtonColor: "#1ccc8a",
             title: "Are you sure?",
             text: "You want to Reload server",
             icon: "warning",
@@ -158,9 +159,9 @@ confirmButtonColor: "#1ccc8a",
                             adminDetailsData();
 
                             Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                                background: "#1a1e23 ",
+                                backdrop: "#121010ba",
+                                confirmButtonColor: "#1ccc8a",
                                 title: "Changed!",
                                 text: "Your Server has been Reloaded.",
                                 icon: "success",
@@ -206,9 +207,9 @@ confirmButtonColor: "#1ccc8a",
 
                 } else {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Error!",
                         text: response.message,
                         icon: "error",
@@ -251,7 +252,7 @@ confirmButtonColor: "#1ccc8a",
         setCompanyName(Companyname); // Save company name for modal title
         try {
             const response = await allClientListDetails(Companyname); // Fetch client list
-           
+
             setAllClientList(response.Data); // Update the state with fetched data
         } catch (error) {
             setAllClientList([])
@@ -265,11 +266,11 @@ confirmButtonColor: "#1ccc8a",
         const index = tableMeta.rowIndex; // Get the row index
         const Companyname = getAdminDetails[index].Companyname; // Get the Companyname for the selected row
 
-       
-        setCompanyName(Companyname); 
+
+        setCompanyName(Companyname);
         try {
-            const response = await seeAllSubAdminList(Companyname); 
-            setAllSubAdminList(response.Data || []); 
+            const response = await seeAllSubAdminList(Companyname);
+            setAllSubAdminList(response.Data || []);
         } catch (error) {
             setAllSubAdminList([])
             console.log("Error To Fetch data", error);
@@ -284,9 +285,9 @@ confirmButtonColor: "#1ccc8a",
             const response = await deleteSubAdminData(dataRequest);
             if (response.Status) {
                 Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                    background: "#1a1e23 ",
+                    backdrop: "#121010ba",
+                    confirmButtonColor: "#1ccc8a",
                     title: "Deleted!",
                     text: response.message,
                     icon: "success",
@@ -298,9 +299,9 @@ confirmButtonColor: "#1ccc8a",
             }
             else {
                 Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                    background: "#1a1e23 ",
+                    backdrop: "#121010ba",
+                    confirmButtonColor: "#1ccc8a",
                     title: "Error!",
                     text: response.message,
                     icon: "error",
@@ -534,9 +535,9 @@ confirmButtonColor: "#1ccc8a",
     const handleSubmitFund = async () => {
         if (amount === '') {
             Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                background: "#1a1e23 ",
+                backdrop: "#121010ba",
+                confirmButtonColor: "#1ccc8a",
                 icon: 'error',
                 title: 'Oops...',
                 text: 'Please enter the amount',
@@ -552,9 +553,9 @@ confirmButtonColor: "#1ccc8a",
             .then((response) => {
                 if (response.Status) {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         icon: 'success',
                         title: 'Success',
                         text: response.Message,
@@ -563,9 +564,9 @@ confirmButtonColor: "#1ccc8a",
                 }
                 else {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         icon: 'error',
                         title: 'Oops...',
                         text: response.Message,
@@ -625,9 +626,9 @@ confirmButtonColor: "#1ccc8a",
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Admin Updated!",
                             text: response.message,
                             icon: "success",
@@ -640,9 +641,9 @@ confirmButtonColor: "#1ccc8a",
                     }
                     else {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Error!",
                             text: response.message,
                             icon: "error",
@@ -698,9 +699,9 @@ confirmButtonColor: "#1ccc8a",
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Broker Updated!",
                             text: response.message,
                             icon: "success",
@@ -713,9 +714,9 @@ confirmButtonColor: "#1ccc8a",
                     }
                     else {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Error!",
                             text: response.message,
                             icon: "error",
@@ -768,9 +769,9 @@ confirmButtonColor: "#1ccc8a",
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Permission Updated!",
                             text: response.message,
                             icon: "success",
@@ -783,9 +784,9 @@ confirmButtonColor: "#1ccc8a",
                     }
                     else {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Error!",
                             text: response.message,
                             icon: "error",
@@ -830,11 +831,17 @@ confirmButtonColor: "#1ccc8a",
 
                         <div className="iq-card-body">
                             <div className="table-responsive customtable">
-                                <GridExample
-                                    columns={columns}
-                                    data={getAdminDetails}
-                                    checkBox={false}
-                                />
+                                {
+                                    getAdminDetails.length > 0 ?
+                                        (<GridExample
+                                            columns={columns}
+                                            data={getAdminDetails}
+                                            checkBox={false}
+                                        />)
+                                        :
+                                        (<NoDataFound />)
+                                }
+
                             </div>
                         </div>
                     </div>
@@ -950,7 +957,7 @@ confirmButtonColor: "#1ccc8a",
                             <div className="modal-header">
                                 <h5 className="modal-title" id="exampleModalLabel">
                                     Update Broker : {singleAdminData?.Companyname}
-                                
+
                                 </h5>
 
                                 <button

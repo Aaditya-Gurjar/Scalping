@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { getCompanyName, companyDetails } from '../../CommonAPI/SuperAdmin'
 import FullDataTable from '../../../ExtraComponent/CommanDataTable'
+import NoDataFound from '../../../ExtraComponent/NoDataFound'
 
 const AmountDetails = () => {
 
@@ -135,11 +136,17 @@ const AmountDetails = () => {
                                     </div>
                                 </div>
                             </div>
-                            <FullDataTable
-                                columns={columns}
-                                data={getAmountDetails}
-                                checkBox={false}
-                            />
+                            {
+                                getAmountDetails.length > 0 ?
+                                    (<FullDataTable
+                                        columns={columns}
+                                        data={getAmountDetails}
+                                        checkBox={false}
+                                    />)
+                                    :
+                                    (<NoDataFound />)
+                            }
+
                         </div>
                     </div>
                 </div>

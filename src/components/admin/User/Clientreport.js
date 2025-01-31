@@ -3,6 +3,7 @@ import { Get_Client_Report } from '../../CommonAPI/Admin'
 import FullDataTable from '../../../ExtraComponent/CommanDataTable';
 import Checkbox from '@mui/material/Checkbox';
 import {ClientReportColumn} from './UserAllColumn'
+import NoDataFound from '../../../ExtraComponent/NoDataFound';
 
 
 
@@ -75,11 +76,17 @@ const Clientreport = () => {
                                         </div>
                                     </div>
                                     <div className="modal-body">
-                                        <FullDataTable
-                                            columns={ClientReportColumn()}
-                                            data={getTableData.data}
-                                            checkBox={false}
-                                        />
+                                        {
+                                            getTableData.data && getTableData.data.length > 0 ? 
+                                                (<FullDataTable
+                                                    columns={ClientReportColumn()}
+                                                    data={getTableData.data}
+                                                    checkBox={false}
+                                                />)
+                                            :
+                                            (<NoDataFound />)
+                                        }
+                                       
                                     </div>
                                 </div>
                             </div>

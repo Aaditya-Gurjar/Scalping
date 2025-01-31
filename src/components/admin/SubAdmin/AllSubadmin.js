@@ -7,6 +7,7 @@ import { useFormik } from 'formik';
 import DropdownMultiselect from 'react-multiselect-dropdown-bootstrap';
 import AddForm from '../../../ExtraComponent/FormData';
 import Swal from 'sweetalert2';
+import NoDataFound from '../../../ExtraComponent/NoDataFound';
 
 
 
@@ -14,14 +15,14 @@ const AllSubadmin = () => {
 
     const navigate = useNavigate();
 
-    const [clientService, setClientService] = useState({ loading: true, data: [] }); 
-    
+    const [clientService, setClientService] = useState({ loading: true, data: [] });
+
 
     const [searchInput, setSearchInput] = useState('')
 
 
 
-    useEffect(() => {        
+    useEffect(() => {
         fetchAllSubadmin();
     }, [searchInput]);
 
@@ -59,13 +60,13 @@ const AllSubadmin = () => {
             console.log('Error in fetching Subadmin', error);
         }
     };
-    
+
 
 
     const EditSubadmindetail = (value, tableMeta) => {
         // console.log("clientService",value);
-        
-        
+
+
         const rowIndex = tableMeta.rowIndex;
 
         const rowData = tableMeta.rowData;
@@ -75,7 +76,7 @@ const AllSubadmin = () => {
             state: { rowIndex, rowData },
         });
     };
-    
+
 
 
 
@@ -99,7 +100,7 @@ const AllSubadmin = () => {
         //         sort: true,
         //         customBodyRender: (value, tableMeta) => (
         //             console.log("value",value),
-                    
+
         //             <SquarePen
         //             onClick={() => EditSubadmindetail(value, tableMeta)}  />
 
@@ -110,26 +111,26 @@ const AllSubadmin = () => {
             name: 'Edit',
             label: 'Edit',
             options: {
-              filter: true,
-              sort: true,
-              customBodyRender: (value, tableMeta) => {
-                // console.log("rowData nnnnnnnn",clientService);
-                  
-                const rowData = clientService.data[tableMeta.rowIndex]; // Row ka pura object
-                // console.log("clientService clientService clientService",rowData);
+                filter: true,
+                sort: true,
+                customBodyRender: (value, tableMeta) => {
+                    // console.log("rowData nnnnnnnn",clientService);
 
-                
-                return (
-                  <SquarePen
-                    onClick={() => {
-                      console.log("Row Data:", rowData); // Row ka pura object log karna
-                      EditSubadmindetail(value, tableMeta); // Navigate karna ya handle karna
-                    }}
-                  />
-                );
-              },
+                    const rowData = clientService.data[tableMeta.rowIndex]; // Row ka pura object
+                    // console.log("clientService clientService clientService",rowData);
+
+
+                    return (
+                        <SquarePen
+                            onClick={() => {
+                                console.log("Row Data:", rowData); // Row ka pura object log karna
+                                EditSubadmindetail(value, tableMeta); // Navigate karna ya handle karna
+                            }}
+                        />
+                    );
+                },
             },
-          },
+        },
         {
             name: 'Username',
             label: 'Username',
@@ -190,7 +191,12 @@ const AllSubadmin = () => {
                             <div className='mb-3 col-lg-3'>
                                 <input type="text" className=' form-control rounded p-1 px-2' placeholder="Search..." onChange={(e) => setSearchInput(e.target.value)} value={searchInput} />
                             </div>
-                            <FullDataTable columns={columns} data={clientService.data} checkBox={false} />
+                            {
+                                clientService.data && clientService.data.length > 0 ?
+                                    (<FullDataTable columns={columns} data={clientService.data} checkBox={false} />)
+                                    :
+                                    (<NoDataFound />)
+                            }
                         </div>
                     </div>
                 </div>
