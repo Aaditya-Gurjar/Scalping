@@ -374,10 +374,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
                     }
 
-
-
-
-
                 }
             })
         }
@@ -1363,7 +1359,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                         <>
                                             <div className="iq-card-header d-flex justify-content-between">
                                                 <div className="iq-header-title">
-                                                    {console.log("data Is", data)}
+                                                    {/* {console.log("data Is", data)} */}
                                                     {tableType === "MultiCondition" ? "" : <h4 className="card-title">{data}</h4>
                                                     }
                                                 </div>

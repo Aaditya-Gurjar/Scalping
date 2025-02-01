@@ -16,6 +16,7 @@ const AllSubadmin = () => {
 
     const [clientService, setClientService] = useState({ loading: true, data: [] }); 
     
+    
 
     const [searchInput, setSearchInput] = useState('')
 
@@ -62,13 +63,11 @@ const AllSubadmin = () => {
     
 
 
-    const EditSubadmindetail = (value, tableMeta) => {
-        // console.log("clientService",value);
-        
+    const EditSubadmindetail = (value, tableMeta) => {    
         
         const rowIndex = tableMeta.rowIndex;
-
         const rowData = tableMeta.rowData;
+       
         // return
 
         navigate(`/admin/editSubadmin`, {
@@ -116,13 +115,13 @@ const AllSubadmin = () => {
                 // console.log("rowData nnnnnnnn",clientService);
                   
                 const rowData = clientService.data[tableMeta.rowIndex]; // Row ka pura object
-                // console.log("clientService clientService clientService",rowData);
+                // console.log("clientService rowData rowData",rowData);
 
                 
                 return (
                   <SquarePen
                     onClick={() => {
-                      console.log("Row Data:", rowData); // Row ka pura object log karna
+                    //   console.log("Row Data:", rowData); // Row ka pura object log karna
                       EditSubadmindetail(value, tableMeta); // Navigate karna ya handle karna
                     }}
                   />

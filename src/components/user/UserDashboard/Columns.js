@@ -1033,6 +1033,25 @@ export const getColumns3 = (handleDelete, handleEdit, handleContinutyDiscontinut
             }
         }
     },
+    // {
+    //     name: "Trading",
+    //     label: "Trading",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //         customBodyRender: (value, tableMeta, updateValue) => {
+    //             const isChecked = Boolean(value);
+
+    //             return (
+    //                 <Checkbox
+    //                     checked={isChecked}
+    //                     onClick={() => handleContinutyDiscontinuty(tableMeta, 1)}
+    //                 />
+
+    //             );
+    //         }
+    //     }
+    // },
     {
         name: "Trading",
         label: "Trading",
@@ -1040,14 +1059,18 @@ export const getColumns3 = (handleDelete, handleEdit, handleContinutyDiscontinut
             filter: true,
             sort: true,
             customBodyRender: (value, tableMeta, updateValue) => {
-                const isChecked = Boolean(value);
-
+                // console.log("page ma kya value aa rhe hai ", value);
+                
+                const label = value ? "Continue" : "Discontinue";
+                const labelStyle = value ? { color: 'green' } : { color: 'red' };
+    
                 return (
-                    <Checkbox
-                        checked={isChecked}
-                        onClick={() => handleContinutyDiscontinuty(tableMeta, 1)}
-                    />
-
+                    <span 
+                        onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} 
+                        style={labelStyle}
+                    >
+                        {label}
+                    </span>
                 );
             }
         }
@@ -1274,6 +1297,24 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
             }
         }
     },
+    // {
+    //     name: "Trading",
+    //     label: "Trading",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //         customBodyRender: (value, tableMeta, updateValue) => {
+    //             const isChecked = Boolean(value);
+    //             return (
+    //                 <Checkbox
+    //                     checked={isChecked}
+    //                     onClick={() => handleContinutyDiscontinuty(tableMeta, 1)}
+    //                 />
+
+    //             );
+    //         }
+    //     }
+    // },
     {
         name: "Trading",
         label: "Trading",
@@ -1281,13 +1322,18 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
             filter: true,
             sort: true,
             customBodyRender: (value, tableMeta, updateValue) => {
-                const isChecked = Boolean(value);
+                // console.log("page ma kya value aa rhe hai ", value);
+                
+                const label = value ? "Continue" : "Discontinue";
+                const labelStyle = value ? { color: 'green' } : { color: 'red' };
+    
                 return (
-                    <Checkbox
-                        checked={isChecked}
-                        onClick={() => handleContinutyDiscontinuty(tableMeta, 1)}
-                    />
-
+                    <span 
+                        onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} 
+                        style={labelStyle}
+                    >
+                        {label}
+                    </span>
                 );
             }
         }
@@ -1564,6 +1610,25 @@ export const getColumns5 = (handleDelete, handleEdit, handleContinutyDiscontinut
             }
         }
     },
+    // {
+    //     name: "Trading",
+    //     label: "Trading",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //         customBodyRender: (value, tableMeta, updateValue) => {
+    //             const isChecked = Boolean(value);
+    //             return (
+    //                 <Checkbox
+    //                     checked={isChecked}
+    //                     onClick={() => handleContinutyDiscontinuty(tableMeta, 1)}
+
+    //                 />
+
+    //             );
+    //         }
+    //     }
+    // },
     {
         name: "Trading",
         label: "Trading",
@@ -1571,14 +1636,18 @@ export const getColumns5 = (handleDelete, handleEdit, handleContinutyDiscontinut
             filter: true,
             sort: true,
             customBodyRender: (value, tableMeta, updateValue) => {
-                const isChecked = Boolean(value);
+                // console.log("page ma kya value aa rhe hai ", value);
+                
+                const label = value ? "Continue" : "Discontinue";
+                const labelStyle = value ? { color: 'green' } : { color: 'red' };
+    
                 return (
-                    <Checkbox
-                        checked={isChecked}
-                        onClick={() => handleContinutyDiscontinuty(tableMeta, 1)}
-
-                    />
-
+                    <span 
+                        onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} 
+                        style={labelStyle}
+                    >
+                        {label}
+                    </span>
                 );
             }
         }
@@ -1790,6 +1859,25 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             }
         }
     },
+    // {
+    //     name: "Trading",
+    //     label: "Trading",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //         customBodyRender: (value, tableMeta, updateValue) => {
+    //             const isChecked = Boolean(value);
+
+    //             return (
+    //                 <Checkbox
+    //                     checked={isChecked}
+    //                     onClick={() => handleContinutyDiscontinuty(tableMeta, 2)}
+    //                 />
+
+    //             );
+    //         }
+    //     }
+    // },
     {
         name: "Trading",
         label: "Trading",
@@ -1797,18 +1885,20 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             filter: true,
             sort: true,
             customBodyRender: (value, tableMeta, updateValue) => {
-                const isChecked = Boolean(value);
-
+                const label = value ? "Continue" : "Discontinue";
+                const labelStyle = value ? { backgroundColor: 'green', color: 'white' } : { backgroundColor: 'red', color: 'white' };
+    
                 return (
-                    <Checkbox
-                        checked={isChecked}
-                        onClick={() => handleContinutyDiscontinuty(tableMeta, 2)}
-                    />
-
+                    <button 
+                        onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} 
+                        style={{ ...labelStyle, border: 'none', padding: '5px 10px', cursor: 'pointer', borderRadius: '5px' }}
+                    >
+                        {label}
+                    </button>
                 );
             }
         }
-    },
+    },    
     {
         name: "ScalpType",
         label: "Scalp Type",
@@ -2080,6 +2170,25 @@ export const getColumns8 = (handleContinutyDiscontinuty) => [
         },
     },
 
+    // {
+    //     name: "Trading",
+    //     label: "Trading",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //         customBodyRender: (value, tableMeta, updateValue) => {
+    //             const isChecked = Boolean(value);
+
+    //             return (
+    //                 <Checkbox
+    //                     checked={isChecked}
+    //                     onClick={() => handleContinutyDiscontinuty(tableMeta, 2)}
+    //                 />
+
+    //             );
+    //         }
+    //     }
+    // },
     {
         name: "Trading",
         label: "Trading",
@@ -2087,14 +2196,18 @@ export const getColumns8 = (handleContinutyDiscontinuty) => [
             filter: true,
             sort: true,
             customBodyRender: (value, tableMeta, updateValue) => {
-                const isChecked = Boolean(value);
-
+                // console.log("page ma kya value aa rhe hai ", value);
+                
+                const label = value ? "Continue" : "Discontinue";
+                const labelStyle = value ? { color: 'green' } : { color: 'red' };
+    
                 return (
-                    <Checkbox
-                        checked={isChecked}
-                        onClick={() => handleContinutyDiscontinuty(tableMeta, 2)}
-                    />
-
+                    <span 
+                        onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} 
+                        style={labelStyle}
+                    >
+                        {label}
+                    </span>
                 );
             }
         }

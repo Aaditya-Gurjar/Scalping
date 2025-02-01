@@ -47,6 +47,8 @@ const Header = () => {
   const [getTradingStatus, setTradingStatus] = useState(false);
   const [getBrokerName, setBrokerName] = useState("");
   const [walletBalance, setWalletBalance] = useState("");
+  // console.log("walletBalance",walletBalance);
+  
   const [showAddBrokerModal, setShowAddBrokerModal] = useState(false);
   const [addBrokerName, setAddBrokerName] = useState("");
   const [userName, setUserName] = useState("");
@@ -222,6 +224,7 @@ confirmButtonColor: "#1ccc8a",
   };
 
   useEffect(() => {
+    GetBalence()
     clearSession();
   }, []);
 
@@ -388,6 +391,8 @@ confirmButtonColor: "#1ccc8a",
     await GetUserBalence(req)
       .then((response) => {
         if (response.Status) {
+          console.log("response.Balance",response);
+          
           setWalletBalance(response.Balance);
         } else {
           setWalletBalance("");
