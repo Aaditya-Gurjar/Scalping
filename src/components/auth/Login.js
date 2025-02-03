@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom'
 import { LoginPage, ForgotPassword } from '../CommonAPI/Common'
-import { GetHeaderImg2, GetLogo, GetPanleName, GetHeaderImg1, Getfaviconimage, SubAdminPermission , AdminPermission } from '../CommonAPI/Admin'
+import { GetHeaderImg2, GetLogo, GetPanleName, GetHeaderImg1, Getfaviconimage, SubAdminPermission, AdminPermission } from '../CommonAPI/Admin'
 
 const Login = () => {
     const [Username, setUserName] = useState('');
@@ -33,15 +33,15 @@ const Login = () => {
                     localStorage.setItem("name", Username)
                     localStorage.setItem("token", response.access_token)
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Login!",
                         text: "User Login  successfully!",
                         icon: "success",
                         timer: 1500,
                         timerProgressBar: true
-                    });
+                    }); 
 
                     setTimeout(() => {
                         if (response.Role === 'Admin') {
@@ -58,9 +58,9 @@ confirmButtonColor: "#1ccc8a",
                 }
                 else {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Error!",
                         text: response.message,
                         icon: "error",
@@ -122,9 +122,9 @@ confirmButtonColor: "#1ccc8a",
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Success",
                             text: response.Data,
                             icon: "success",
@@ -135,9 +135,9 @@ confirmButtonColor: "#1ccc8a",
                     }
                     else {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Error",
                             text: response.Data,
                             icon: "error",
@@ -271,12 +271,12 @@ confirmButtonColor: "#1ccc8a",
         <section className="sign-in-page">
             <div className="container ">
                 <div className="row no-gutters">
-                <p className="sign-in-logo  text-center">
-                                <img className="" alt="logo" id="imglogo" style={{width:'200px',height:'50px', objectFit:'cover'}} />
-                            </p>
+                    <p className="sign-in-logo  text-center">
+                        <img className="" alt="logo" id="imglogo" style={{ width: '200px', height: '50px', objectFit: 'cover' }} />
+                    </p>
                     <div className="col-md-7 dark-card mx-auto p-5">
-                    <div className="">
-                  
+                        <div className="">
+
                             <h1 className="mb-0">Sign in</h1>
                             <p>Enter your email address and password to access admin panel.</p>
                             <div> {/* Wrap inputs in a form */}
@@ -341,7 +341,7 @@ confirmButtonColor: "#1ccc8a",
                     </div>
                 </div>
             </div>
-          
+
 
 
             {showModal && (

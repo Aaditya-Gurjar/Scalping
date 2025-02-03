@@ -7,6 +7,8 @@ const Profile = () => {
         loading: false,
         data: []
     })
+    console.log("chaking active plan name",data);
+    
 
     const getprofiledata = async () => {
         const data = {
@@ -14,6 +16,8 @@ const Profile = () => {
         }
         await Get_Profile_Data(data).then((response) => {
             if (response.Status) {
+                console.log("Get_Profile_Data",response);
+                
                 localStorage.setItem("expire", false)
                 setData({
                     loading: true,

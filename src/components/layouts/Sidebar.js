@@ -179,58 +179,109 @@ const Sidebar = () => {
     ];
 
 
+    // const adminSideBaar = [
+    //     {
+    //         path: '/admin/dashboard',
+    //         icon: 'ri-home-8-fill', // Dashboard icon
+    //         label: 'Dashboard',
+    //         permission: [] // No restriction
+    //     },
+    //     {
+    //         path: '/admin/strategygroup',
+    //         icon: 'la la-sellsy', // Icon for Strategy Group
+    //         label: 'Strategy Group',
+    //         permission: [] // No restriction
+    //     },
+    //     {
+    //         path: '/admin/clientservice',
+    //         icon: 'ri-group-fill', // Client Service icon
+    //         label: 'Client Service',
+    //         permission: [] // No restriction
+    //     },
+    //     {
+    //         path: '/admin/allSubadmin',
+    //         icon: 'ri-group-fill', // SubAdmin icon
+    //         label: 'SubAdmin',
+    //         permission: [] // No restriction
+    //     },
+    //     {
+    //         path: '/admin/allplan',
+    //         icon: 'la la-sellsy', // Plan icon
+    //         label: 'Plan',
+    //         permission: [] // No restriction
+    //     },
+    //     {
+    //         path: '/admin/allscript',
+    //         icon: 'ri-home-fill', // Add Script icon
+    //         label: 'Add Script',
+    //         permission: [] // No restriction
+    //     },
+    //     {
+    //         path: '/admin/userlogs',
+    //         icon: 'la la-envelope-open', // User Panel Log icon
+    //         label: 'User Panel Log',
+    //         permission: [] // No restriction
+    //     },
+    //     {
+    //         path: '/admin/servicreport',
+    //         icon: 'la la-cog', // Service Report icon
+    //         label: 'Service Report',
+    //         permission: [] // No restriction
+    //     },
+
+    // ];
+
     const adminSideBaar = [
         {
             path: '/admin/dashboard',
-            icon: 'ri-home-fill', // Dashboard icon
+            icon: 'ri-home-8-line', // Dashboard icon
             label: 'Dashboard',
             permission: [] // No restriction
         },
         {
             path: '/admin/strategygroup',
-            icon: 'la la-sellsy', // Icon for Strategy Group
+            icon: 'la la-sellsy', // Icon for Strategy Group (Project Diagram)
             label: 'Strategy Group',
             permission: [] // No restriction
         },
         {
             path: '/admin/clientservice',
-            icon: 'ri-group-fill', // Client Service icon
+            icon: 'fa fa-users', // Client Service icon (Users)
             label: 'Client Service',
             permission: [] // No restriction
         },
         {
             path: '/admin/allSubadmin',
-            icon: 'ri-group-fill', // SubAdmin icon
+            icon: 'ri-group-fill', // SubAdmin icon (Shield icon for admin-like users)
             label: 'SubAdmin',
             permission: [] // No restriction
         },
         {
             path: '/admin/allplan',
-            icon: 'la la-sellsy', // Plan icon
+            icon: 'fa fa-list-alt', // Plan icon (List icon)
             label: 'Plan',
             permission: [] // No restriction
         },
         {
             path: '/admin/allscript',
-            icon: 'ri-home-8-fill', // Add Script icon
+            icon: 'fa fa-code', // Add Script icon (Code icon)
             label: 'Add Script',
             permission: [] // No restriction
         },
         {
             path: '/admin/userlogs',
-            icon: 'la la-envelope-open', // User Panel Log icon
+            icon: 'fa fa-history', // User Panel Log icon (History icon)
             label: 'User Panel Log',
             permission: [] // No restriction
         },
         {
             path: '/admin/servicreport',
-            icon: 'la la-cog', // Service Report icon
+            icon: 'fa fa-clipboard-list', // Service Report icon (Clipboard List)
             label: 'Service Report',
             permission: [] // No restriction
         },
-        
-    ];
 
+    ];
 
     const superAdmin = [
         {
@@ -290,6 +341,40 @@ const Sidebar = () => {
     ];
 
 
+    // const userSidebarItems = [
+    //     {
+    //         path: '/user/dashboard',
+    //         icon: <i className="ri-home-8-line" />,
+    //         label: 'Dashboard',
+    //         permission: [] // No restriction
+    //     },
+    //     {
+    //         path: 'technical/pattern',
+    //         icon: <i className="lab la-joget" />,
+    //         label: 'Technical Patterns',
+    //         permission: [] // No restriction
+    //     },
+    //     {
+    //         path: 'lastpattern',
+    //         icon: <i className="lab la-ioxhost" />,
+    //         label: 'Last Patterns',
+    //         permission: [] // No restriction
+    //     },
+    //     {
+    //         path: 'all/plan',
+    //         icon: <i className="lab la-ioxhost" />,
+    //         label: 'All Plans',
+    //         permission: [] // No restriction
+    //     },
+    //     {
+    //         path: 'tradereport',
+    //         icon: <i className="la la-sellsy" />,
+    //         label: 'Trade Report',
+    //         permission: [] // No restriction
+    //     },
+
+    // ];
+
     const userSidebarItems = [
         {
             path: '/user/dashboard',
@@ -299,19 +384,19 @@ const Sidebar = () => {
         },
         {
             path: 'technical/pattern',
-            icon: <i className="lab la-joget" />,
+            icon: <i className="fa fa-puzzle-piece" />, // Changed icon to puzzle piece for patterns
             label: 'Technical Patterns',
             permission: [] // No restriction
         },
         {
             path: 'lastpattern',
-            icon: <i className="lab la-ioxhost" />,
+            icon: <i className="fa fa-random" />, // Random icon for last patterns
             label: 'Last Patterns',
             permission: [] // No restriction
         },
         {
             path: 'all/plan',
-            icon: <i className="lab la-ioxhost" />,
+            icon: <i className="fa fa-sitemap" />, // Sitemap icon for all plans
             label: 'All Plans',
             permission: [] // No restriction
         },
@@ -321,8 +406,8 @@ const Sidebar = () => {
             label: 'Trade Report',
             permission: [] // No restriction
         },
-        
     ];
+
 
 
     return (
@@ -367,10 +452,10 @@ const Sidebar = () => {
                                                 onClick={(e) => handleSidebarClick(e, item.path)}
                                             >
                                                 <Link to={item.path} className="iq-waves-effect">
-                                                <div data-toggle="tooltip" data-placement="left" title={item.label}>
-                                                <i className={item.icon} />
-                                                        </div>
-                                                 
+                                                    <div data-toggle="tooltip" data-placement="left" title={item.label}>
+                                                        <i className={item.icon} />
+                                                    </div>
+
                                                     <span>{item.label}</span>
                                                 </Link>
                                             </li>

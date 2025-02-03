@@ -79,7 +79,7 @@ const Strategygroup = () => {
             }
         },
         {
-            name: "Message",
+            name: "Message ",
             label: "Message",
             options: {
                 filter: true,

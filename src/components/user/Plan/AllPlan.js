@@ -396,7 +396,7 @@ confirmButtonColor: "#1ccc8a",
                                                                                 </h2>
                                                                                 <h4 style={styles.subtitle}><FaRupeeSign className="m-1" /><strong>{plan.payment}</strong></h4>
                                                                                 <h4 style={styles.subtitle}>Duration: {plan?.['Plan Validity']}</h4>
-                                                                                <h4 style={styles.subtitle}>No of Scripts: {plan?.NumberofScript}</h4>
+                                                                                {/* <h4 style={styles.subtitle}>No of Scripts: {plan?.NumberofScript}</h4> */}
 
                                                                                 <div style={styles.prices}>
                                                                                     <p style={styles.priceItem}>
@@ -449,7 +449,7 @@ confirmButtonColor: "#1ccc8a",
                                                                         </h2>
                                                                         <h4 style={styles.subtitle}><FaRupeeSign className="m-1" /><strong>{plan.payment}</strong></h4>
                                                                         <h4 style={styles.subtitle}>Duration: {plan?.['Plan Validity']}</h4>
-                                                                        <h4 style={styles.subtitle}>No of Scripts: {plan?.NumberofScript}</h4>
+                                                                        {/* <h4 style={styles.subtitle}>No of Scripts: {plan?.NumberofScript}</h4> */}
 
                                                                         <div style={styles.prices}>
                                                                             {/* <p style={styles.priceItem}>

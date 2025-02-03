@@ -173,9 +173,10 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                 timer: 1500,
                                 timerProgressBar: true,
                                 didClose: () => {
-                                    setRefresh(!refresh);
+                                  setRefresh(!refresh);
                                 }
-                            });
+                              });
+                              
                             setTimeout(() => {
                                 window.location.reload()
                             }, 1500)
@@ -377,10 +378,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                             })
 
                     }
-
-
-
-
 
                 }
             })
@@ -1342,7 +1339,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
         {
             name: "Slvalue",
-            label: "Stoploss",
+            label: "Re-entry",
             type: "text5",
             label_size: 12,
             col_size: 6,
@@ -1414,7 +1411,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         },
         {
             name: "Slvalue",
-            label: "Stoploss",
+            label: "Re-entry",
             type: "text5",
             label_size: 12,
             col_size: 6,
@@ -1742,7 +1739,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                         <>
                                             <div className="iq-card-header d-flex justify-content-between">
                                                 <div className="iq-header-title">
-                                                    {console.log("data Is", data)}
+                                                    {/* {console.log("data Is", data)} */}
                                                     {tableType === "MultiCondition" ? "" : <h4 className="card-title">{data}</h4>
                                                     }
                                                 </div>

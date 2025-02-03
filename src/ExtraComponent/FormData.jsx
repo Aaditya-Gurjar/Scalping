@@ -1880,6 +1880,7 @@ const DynamicForm = ({
                                                 htmlFor={field.name}
                                               >
                                                 {field.label}
+                                              <span className="text-danger">*</span>
                                               </label>
                                               <textarea
                                                 className="form-control"

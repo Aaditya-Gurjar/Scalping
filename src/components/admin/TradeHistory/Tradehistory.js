@@ -10,7 +10,12 @@ import ApexCharts from 'react-apexcharts';
 import Swal from 'sweetalert2';
 import "react-datepicker/dist/react-datepicker.css";
 import ChartComponent from '../AdvanceChart/ChartComponent'
+
 import NoDataFound from '../../../ExtraComponent/NoDataFound';
+
+import DrawdownChartComponent from '../AdvanceChart/DrawdownChartComponent';
+import ProfitAndLossGraph from '../AdvanceChart/ProfitAndLossGraph';
+
 
 
 const Tradehistory = () => {
@@ -206,9 +211,9 @@ const Tradehistory = () => {
                 }
                 else {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "No Records found",
                         icon: "info",
                         timer: 1500,
@@ -376,6 +381,8 @@ confirmButtonColor: "#1ccc8a",
         data: getEquityCurveDetails && getEquityCurveDetails.data,
         series: [{ type: 'line', xKey: selectStrategyType == "Pattern" ? "ETime" : 'ExitTime', yKey: selectStrategyType == "Scalping" ? "EquityCurve" : 'PnL' }],
     }
+
+
 
     const chartOptions2 = {
         zoom: { enabled: true },
@@ -587,6 +594,8 @@ confirmButtonColor: "#1ccc8a",
                                         }
                                     />
 
+                                    {/* import DrawdownChartComponent from '../DrawdownChartComponent/DrawdownChartComponent'; // Import the new component */}
+
                                     <Accordion
                                         id="drawdownGraph"
                                         title="Drawdown Graph"
@@ -596,11 +605,26 @@ confirmButtonColor: "#1ccc8a",
                                                     Drawdown Graph
                                                 </p>
                                                 <div style={{ width: '100%', height: '500px' }}>
-                                                    <AgChartsReact options={chartOptions2} />
+                                                    <DrawdownChartComponent data={getDropDownData.data} /> {/* Pass the correct data here */}
                                                 </div>
                                             </>
                                         }
                                     />
+
+                                    {/* <Accordion
+                                        id="drawdownGraph1"
+                                        title="Drawdown Graph1"
+                                        content={
+                                            <>
+                                                <p className="bold mt-3" style={{ fontWeight: 'bold', fontSize: '20px', color: 'black' }}>
+                                                    Drawdown Graph1
+                                                </p>
+                                                <div style={{ width: '100%', height: '500px' }}>
+                                                    <AgChartsReact options={chartOptions2} />
+                                                </div>
+                                            </>
+                                        }
+                                    /> */}
 
                                     <Accordion
                                         id="drawdownTable"
@@ -609,6 +633,21 @@ confirmButtonColor: "#1ccc8a",
                                             <GridExample columns={columns6()} data={getDropDownData.data} onRowSelect={handleRowSelect} checkBox={false} />
                                         }
                                     />
+
+                                    {/* <Accordion
+                                        id="pnlGraph1"
+                                        title="Profit and Loss Graph 1"
+                                        content={
+                                            <>
+                                                <p className="bold mt-3" style={{ fontWeight: 'bold', fontSize: '20px', color: 'black' }}>
+                                                    Profit and Loss Graph 1
+                                                </p>
+                                                <div style={{ width: '100%', height: '500px' }}>
+                                                    <AgChartsReact options={chartOptions} />
+                                                </div>
+                                            </>
+                                        }
+                                    /> */}
 
                                     <Accordion
                                         id="pnlGraph"
@@ -619,12 +658,11 @@ confirmButtonColor: "#1ccc8a",
                                                     Profit and Loss Graph
                                                 </p>
                                                 <div style={{ width: '100%', height: '500px' }}>
-                                                    <AgChartsReact options={chartOptions} />
+                                                    <ProfitAndLossGraph data={getPnLData.data} />
                                                 </div>
                                             </>
                                         }
                                     />
-
                                     <Accordion
                                         id="topTrades"
                                         title="5 Most Profit and Loss Trades"
@@ -677,11 +715,26 @@ confirmButtonColor: "#1ccc8a",
                                                     EquityCurve
                                                 </p>
                                                 <div style={{ width: '100%', height: '500px' }}>
-                                                    <AgChartsReact options={chartOptions1} />
+                                                    <ChartComponent data={getEquityCurveDetails.data} />
                                                 </div>
                                             </>
                                         }
                                     />
+
+                                    {/* <Accordion
+                                        id="equityCurveGraph"
+                                        title="EquityCurve Graph"
+                                        content={
+                                            <>
+                                                <p className="bold mt-3" style={{ fontWeight: 'bold', fontSize: '20px', color: 'black' }}>
+                                                    EquityCurve
+                                                </p>
+                                                <div style={{ width: '100%', height: '500px' }}>
+                                                    <AgChartsReact options={chartOptions1} />
+                                                </div>
+                                            </>
+                                        }
+                                    /> */}
 
                                     <Accordion
                                         id="equityCurveTable"
@@ -691,12 +744,10 @@ confirmButtonColor: "#1ccc8a",
                                         }
                                     />
 
-                                    <ChartComponent/>
+
                                 </>
                             )}
 
-
-                            
 
 
                         </div>

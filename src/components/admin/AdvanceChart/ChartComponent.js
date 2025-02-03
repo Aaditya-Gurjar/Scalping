@@ -1,95 +1,112 @@
-// import React, { useState, useEffect } from "react";
-// import { Bar } from "react-chartjs-2"; // Import Bar chart instead of Line chart
-// import {
-//   Chart as ChartJS,
-//   CategoryScale,
-//   LinearScale,
-//   BarElement,
-//   Title,
-//   Tooltip,
-//   Legend,
-//   TimeScale,
-// } from "chart.js";
-// import zoomPlugin from "chartjs-plugin-zoom"; // Import zoom plugin
-// import 'chartjs-adapter-date-fns'; // Import the date-fns adapter for Chart.js
+import React, { useState, useEffect } from "react";
+import { Line } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
+  Legend,
+  TimeScale,
+} from "chart.js";
+import zoomPlugin from "chartjs-plugin-zoom";
+import "chartjs-adapter-date-fns"; // Ensure date-fns is imported for time scale
 
-// // Registering necessary components, including zoomPlugin
-// ChartJS.register(
-//   CategoryScale,
-//   LinearScale,
-//   BarElement, // Change from LineElement to BarElement
-//   Title,
-//   Tooltip,
-//   Legend,
-//   TimeScale,
-//   zoomPlugin // Register the zoom plugin
-// );
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
+  Legend,
+  TimeScale,
+  zoomPlugin
+);
 
-// const ChartComponent = () => {
-//   const [data, setData] = useState([]);
+const ChartComponent = ({ data }) => {
+  const [timeFormat, setTimeFormat] = useState("minute");
 
-//   useEffect(() => {
-//     const fetchedData = generateData();
-//     setData(fetchedData);
-//   }, []);
+  // Chart data from passed `data` prop
+  const chartData = {
+    labels: data.map((item) => new Date(item?.ETime || item?.ExitTime || Date.now())), // Fallback to current time if ETime or ExitTime is missing
+    datasets: [
+      {
+        label: "Equity Curve",
+        data: data.map((item) => item?.EquityCurve || item?.PnL || 0), // Fallback to 0 if EquityCurve or PnL is missing
+        borderColor: "rgba(75, 192, 192, 1)",
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        borderWidth: 2,
+        tension: 0.4,
+        pointRadius: 3,
+      },
+    ],
+  };
 
-//   const generateData = () => {
-//     let dataPoints = [];
-//     let startTime = new Date();
-//     for (let i = 0; i < 50; i++) {
-//       dataPoints.push({
-//         x: new Date(startTime.getTime() + i * 60000), // 1 minute gap
-//         y: Math.random() * 100,
-//       });
-//     }
-//     return dataPoints;
-//   };
+  // Update time format based on zoom level
+  const updateTimeFormat = (chart) => {
+    // Get the current range of the chart (zoom level)
+    const { min, max } = chart.chartArea;
+    const timeRange = max - min;
+    
+    if (timeRange > 86400000) { // 86400000ms = 24 hours
+      setTimeFormat("day"); // Show date if more than 24 hours
+    } else {
+      setTimeFormat("minute"); // Show time in minutes if less than 24 hours
+    }
+  };
 
-//   const chartOptions = {
-//     responsive: true,
-//     scales: {
-//       x: {
-//         type: "time", // Time scale on the x-axis
-//         time: {
-//           unit: "minute",
-//           tooltipFormat: "PP HH:mm", // Corrected format
-//         },
-//         ticks: {
-//           autoSkip: true,
-//           maxTicksLimit: 10, // To avoid overcrowding of labels
-//         },
-//       },
-//     },
-//     plugins: {
-//       zoom: {
-//         zoom: {
-//           wheel: {
-//             enabled: true,
-//           },
-//           pinch: {
-//             enabled: true,
-//           },
-//           mode: "xy",
-//         },
-//       },
-//     },
-//   };
+  // Chart options
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      zoom: {
+        zoom: {
+          wheel: { enabled: true }, // Enable zoom using mouse wheel
+          pinch: { enabled: true }, // Enable pinch zoom
+          mode: "xy", // Zoom along both x and y axes
+        },
+        pan: {
+          enabled: true, // Enable panning
+          mode: "xy", // Allow panning on both x and y axes (horizontal + vertical panning)
+          speed: 10, // Set pan speed
+        },
+      },
+    },
+    scales: {
+      x: {
+        type: "time", // Use 'time' scale for x-axis
+        time: {
+          unit: timeFormat, // Dynamic time format based on zoom level
+          tooltipFormat: "yyyy-MM-dd hh:mm a", // Updated format for tooltip with AM/PM
+          displayFormats: {
+            minute: "hh:mm a", // Show time in hours and minutes with AM/PM when zoomed in
+            day: "MMM D", // Show day when zoomed out (24 hours or more)
+          },
+        },
+        ticks: {
+          autoSkip: true,
+          maxTicksLimit: 15, // Limit visible labels to avoid overlap
+          font: { size: 12 },
+        },
+      },
+      y: {
+        beginAtZero: true, // Start y-axis from zero
+        ticks: {
+          autoSkip: true, // Auto skip y-axis labels if necessary
+          font: { size: 12 },
+        },
+      },
+    },
+    // Update time format whenever the chart is zoomed or panned
+    onZoom: updateTimeFormat,
+    onPan: updateTimeFormat,
+  };
 
-//   const chartData = {
-//     datasets: [
-//       {
-//         label: "My Data",
-//         data: data,
-//         borderColor: "rgba(75, 192, 192, 1)", // Solid border color for clarity
-//         backgroundColor: "rgba(75, 192, 192, 0.7)", // Reduced transparency
-//         fill: true, // Fill the bars
-//         barThickness: 10, // Set the thickness of bars for better clarity
-//         borderWidth: 1, // Border width to make bars stand out
-//       },
-//     ],
-//   };
+  return <Line data={chartData} options={chartOptions} />;
+};
 
-//   return <Bar data={data} options={chartOptions} />; // Use Bar chart here
-// };
-
-// export default ChartComponent;
+export default ChartComponent;

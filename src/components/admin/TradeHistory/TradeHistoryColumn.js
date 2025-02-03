@@ -650,7 +650,8 @@ export const columns2 = ()=> [
     },
     {
         name: "SL value",
-        label: "Stoploss",
+        // label: "Re-entry",
+        label: "Re-entry",
         options: {
             filter: true,
             sort: true,

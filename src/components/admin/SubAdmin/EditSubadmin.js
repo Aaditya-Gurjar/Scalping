@@ -227,7 +227,11 @@ import { Get_All_Plans } from "../../CommonAPI/User";
 const EditSubadmin = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  
   const { rowData,rowIndex } = location.state || {};
+
+
+
   
 
   const Name_regex = (name) => {
@@ -245,30 +249,15 @@ const EditSubadmin = () => {
 
   const [permissions, setPermissions] = useState([]);
 
-  useEffect(() => {
-    const GetAllSubadminData = async () => {
-      const response = await GetAllSubadmin();
-      const matchuser = response.Data.find((item) => {
-        return item.Username === rowData?.Username; // Match by Username
-      });
-
-      if (matchuser) {
-        setPermissions(matchuser.Permission); // Set the permissions array if match is found
-      }
-    };
-
-    GetAllSubadminData();
-  }, [rowData]);
-
-  
-  // console.log("Permissions", permissions);
+  const [subAdminDetails,setSubAdminDetails] = useState({})
 
   const formik = useFormik({
+
     initialValues: {
-      Username: rowData?.Username || "",
-      Name: rowData?.Name || "",
-      SignEmail: rowData?.EmailId || "",
-      mobile_no: rowData?.Mobile_No || "",
+      Username: subAdminDetails?.Username || "",
+      Name: subAdminDetails?.Name || "",
+      SignEmail: subAdminDetails?.EmailId || "",
+      mobile_no: subAdminDetails?.Mobile_No || "",
       permissions: permissions || [], // Ensure permissions is set here
     },
 
@@ -276,7 +265,7 @@ const EditSubadmin = () => {
       let errors = {};
       if (!values.Username) {
         errors.Username = "Please Enter Username";
-      } else if (!Name_regex(values.username)) {
+      } else if (!Name_regex(values.Username)) {
         errors.username = "Please Enter Valid Username";
       }
       if (!values.Name) {
@@ -341,8 +330,46 @@ confirmButtonColor: "#1ccc8a",
     },
   });
 
+  
+
+  useEffect(() => {
+    const GetAllSubadminData = async () => {
+      const response = await GetAllSubadmin();
+
+      const matchuser = response.Data.find((item,index) => {        
+        // return item.Username === rowIndex?.Username; 
+        if(index === rowIndex){
+          return item
+        }
+      });
+      
+
+      if (matchuser) {
+        
+        setPermissions(matchuser.Permission); // Set the permissions array if match is found
+        setSubAdminDetails(matchuser)
+
+        if (matchuser && Object.keys(matchuser).length > 0) {
+          formik.setValues({
+            Username: matchuser.Username || "",
+            Name: matchuser.Name || "",
+            SignEmail: matchuser.EmailId || "",
+            mobile_no: matchuser.Mobile_No || "",
+            permissions: matchuser.Permission || [],
+          });
+        }
+      }
+    };
+
+    GetAllSubadminData();
+  }, [rowIndex]);
+
+
+  
+
   useEffect(() => {
     if (permissions.length) {
+
       formik.setFieldValue("permissions", permissions); // Sync permissions when state changes
     }
   }, [permissions]);

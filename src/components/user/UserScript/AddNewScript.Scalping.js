@@ -315,6 +315,7 @@ const AddClient = () => {
         errors.WorkingDay = "Please select Working day";
       }
 
+
       if (
         !values.OrderType &&
         values.Strategy == "Multi_Conditional" &&
@@ -322,6 +323,7 @@ const AddClient = () => {
       ) {
         errors.OrderType = "Please select Order Type";
       }
+
 
       return errors;
     },

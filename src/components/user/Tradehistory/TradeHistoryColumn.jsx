@@ -38,7 +38,7 @@ export const columns =()=> [
     },
     {
         name: "Re-entry Point",
-        label: "Stoploss",
+        label: "Re-entry",
         options: {
             filter: true,
             sort: true,
@@ -162,7 +162,7 @@ export const columns1 =()=> [
     },
     {
         name: "SL value",
-        label: "stoploss",
+        label: "Re-entry",
         options: {
             filter: true,
             sort: true,
@@ -394,7 +394,7 @@ export const columns2 =()=> [
     },
     {
         name: "SL value",
-        label: "stoploss",
+        label: "Re-entry",
         options: {
             filter: true,
             sort: true,
@@ -887,7 +887,7 @@ export const getColumns10 = () => [
     },
     {
         name: "Sl",
-        label: "Stoploss",
+        label: "Re-entry",
         options: {
             filter: true,
             sort: true,
