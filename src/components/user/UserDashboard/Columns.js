@@ -15,6 +15,7 @@ const DropdownComponent = ({ tableMeta, handleDelete, type }) => {
     const dropdownRef = useRef(null);
     const buttonRef = useRef(null); // Ref for the button trigger
 
+
     const handleDropdownToggle = () => {
         if (isDropdownOpen) {
             setIsDropdownOpen(false);
@@ -51,6 +52,8 @@ const DropdownComponent = ({ tableMeta, handleDelete, type }) => {
     };
 
     useEffect(() => {
+        console.log("tableMeta", tableMeta)
+
         if (isDropdownOpen) {
             document.addEventListener("mousedown", handleOutsideClick);
         } else {
@@ -1782,7 +1785,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             filter: true,
             sort: true,
             customBodyRender: (value, tableMeta, updateValue) => {
-                return <><button className='btn' onClick={() => handleEdit(tableMeta)}>
+                return <><button className='btn' onClick={() => handleEdit(tableMeta, 2)}>
                     <SquarePen style={{ color: "white" }} />
 
                 </button>
