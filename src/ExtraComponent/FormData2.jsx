@@ -185,6 +185,7 @@ const DynamicForm = ({
                                                 aria-describedby="basic-addon1"
                                                 className="form-control"
                                                 id={item.name}
+                                                ref={item?.inputRef}
                                                 placeholder={`Enter ${item.label}`}
                                                 {...formik.getFieldProps(
                                                   item.name

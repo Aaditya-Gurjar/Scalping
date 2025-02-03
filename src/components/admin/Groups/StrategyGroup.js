@@ -41,7 +41,7 @@ const Strategygroup = () => {
             options: {
                 filter: true,
                 sort: true,
-                customBodyRender: (value) => value=='' ? "Admin" : value,
+                customBodyRender: (value) => value == '' ? "Admin" : value,
             }
         },
         {
@@ -68,7 +68,7 @@ const Strategygroup = () => {
                 sort: true,
             }
         },
-        
+
         {
             name: "PRtype",
             label: "Product Type",
@@ -78,7 +78,7 @@ const Strategygroup = () => {
             }
         },
         {
-            name: "Message",
+            name: "Message ",
             label: "Message",
             options: {
                 filter: true,
@@ -161,11 +161,11 @@ const Strategygroup = () => {
                     if (response.Status) {
                         setRefresh(!refresh)
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: 'Created successfully!',
-                            text:  response.message,
+                            text: response.message,
                             icon: 'success',
                             timer: 1500,
                             timerProgressBar: true
@@ -176,9 +176,9 @@ confirmButtonColor: "#1ccc8a",
                         }, 1500);
                     } else {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: 'Error',
                             text: response.message,
                             icon: 'error',
@@ -190,9 +190,9 @@ confirmButtonColor: "#1ccc8a",
                 .catch((err) => {
                     console.log('Error in group creation...');
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: 'Error',
                         text: 'Group creation error!',
                         icon: 'error',
@@ -313,7 +313,7 @@ confirmButtonColor: "#1ccc8a",
                                 ></button>
                             </div>
                             <hr />
-                            
+
                             <AddForm
                                 fields={fields.filter(
                                     field => !field.showWhen || field.showWhen(formik.values)

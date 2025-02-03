@@ -262,7 +262,8 @@ export const columns =()=> [
     },
     {
         name: "Re-entry Point",
-        label: "Stoploss",
+        // label: "Re-entry",,
+        label: "Re-entry",
         options: {
             filter: true,
             sort: true,
@@ -1084,7 +1085,8 @@ export const columns3 =()=> [
     },
     {
         name: "Re-entry Point",
-        label: "Stoploss",
+        // label: "Re-entry",,
+        label: "Re-entry",
         options: {
             filter: true,
             sort: true,

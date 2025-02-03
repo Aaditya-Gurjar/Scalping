@@ -229,7 +229,7 @@ export const getColumns = (handleAddScript1) => [
     },
     {
         name: "Re-entry Point",
-        label: "Stoploss",
+        label: "Re-entry",,
         options: {
             filter: true,
             sort: true,
@@ -432,7 +432,7 @@ export const getColumns7 = (handleAddScript1) => [
     },
     {
         name: "Re-entry Point",
-        label: "Stoploss",
+        label: "Re-entry",,
         options: {
             filter: true,
             sort: true,
@@ -670,7 +670,7 @@ export const getColumns1 = (handleAddScript2) => [
     },
     {
         name: "SL value",
-        label: "Stoploss",
+        label: "Re-entry",,
         options: {
             filter: true,
             sort: true,
@@ -914,7 +914,7 @@ export const getColumns2 = (handleAddScript3) => [
     },
     {
         name: "SL value",
-        label: "Stoploss",
+        label: "Re-entry",,
         options: {
             filter: true,
             sort: true,
@@ -1140,7 +1140,7 @@ export const getColumns3 = (handleDelete, handleEdit, handleContinutyDiscontinut
     },
     {
         name: "Re-entry Point",
-        label: "Stoploss",
+        label: "Re-entry",,
         options: {
             filter: true,
             sort: true,
@@ -1437,7 +1437,7 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
     },
     {
         name: "SL value",
-        label: "Stoploss",
+        label: "Re-entry",,
         options: {
             filter: true,
             sort: true,
@@ -1743,7 +1743,7 @@ export const getColumns5 = (handleDelete, handleEdit, handleContinutyDiscontinut
     },
     {
         name: "SL value",
-        label: "Stoploss",
+        label: "Re-entry",,
         options: {
             filter: true,
             sort: true,
@@ -1964,7 +1964,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
     },
     {
         name: "Re-entry Point",
-        label: "Stoploss",
+        label: "Re-entry",,
         options: {
             filter: true,
             sort: true,
@@ -2270,7 +2270,7 @@ export const getColumns8 = (handleContinutyDiscontinuty) => [
     },
     {
         name: "Sl",
-        label: "Stoploss",
+        label: "Re-entry",,
         options: {
             filter: true,
             sort: true,

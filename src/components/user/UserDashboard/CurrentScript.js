@@ -172,9 +172,10 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                 timer: 1500,
                                 timerProgressBar: true,
                                 didClose: () => {
-                                    setRefresh(!refresh);
+                                  setRefresh(!refresh);
                                 }
-                            });
+                              });
+                              
                             setTimeout(() => {
                                 window.location.reload()
                             }, 1500)
@@ -1197,7 +1198,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
         {
             name: "Slvalue",
-            label: "Stoploss",
+            label: "Re-entry",,
             type: "text5",
             label_size: 12,
             col_size: 6,
@@ -1269,7 +1270,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         },
         {
             name: "Slvalue",
-            label: "Stoploss",
+            label: "Re-entry",,
             type: "text5",
             label_size: 12,
             col_size: 6,

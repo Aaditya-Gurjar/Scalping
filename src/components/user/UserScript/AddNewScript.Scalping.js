@@ -312,7 +312,8 @@ const AddClient = () => {
       ) {
         errors.WorkingDay = "Please select Working day";
       }
-
+      // console.log("errors : ",errors);
+      
       return errors;
     },
 
@@ -396,7 +397,7 @@ const AddClient = () => {
             values.position_type == "Multiple" && values.Strategy == "Multi_Conditional" ? values.WorkingDay : []
         }
 
-        return;
+        // return;
 
         if ((Number(values.EntryPrice) > 0 || Number(values.EntryRange) > 0) &&
           (Number(values.EntryPrice) >= Number(values.EntryRange))) {

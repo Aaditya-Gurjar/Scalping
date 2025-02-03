@@ -391,7 +391,7 @@ confirmButtonColor: "#1ccc8a",
     await GetUserBalence(req)
       .then((response) => {
         if (response.Status) {
-          console.log("response.Balance",response);
+          // console.log("response.Balance",response);
           
           setWalletBalance(response.Balance);
         } else {

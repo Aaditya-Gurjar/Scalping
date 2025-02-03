@@ -82,7 +82,8 @@ export const columns = (handleDelete)=>[
     },
     {
         name: "Re-entry Point",
-        label: "Stoploss",
+        // label: "Re-entry",,
+        label: "Re-entry",
         options: {
             filter: true,
             sort: true,
@@ -296,7 +297,8 @@ export const columns2 = (handleDelete)=> [
     },
     {
         name: "SL value",
-        label: "Stoploss",
+        // label: "Re-entry",,
+        label: "Re-entry",
         options: {
             filter: true,
             sort: true,
@@ -461,7 +463,8 @@ export const columns1 =(handleDelete)=> [
     },
     {
         name: "SL value",
-        label: "Stoploss",
+        // label: "Re-entry",,
+        label: "Re-entry",
         options: {
             filter: true,
             sort: true,

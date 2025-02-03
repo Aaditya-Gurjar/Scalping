@@ -39,9 +39,9 @@ const Addscript = () => {
         }
 
         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+            background: "#1a1e23 ",
+            backdrop: "#121010ba",
+            confirmButtonColor: "#1ccc8a",
             title: "Are you sure?",
             text: "You won't be able to revert this!",
             icon: "warning",
@@ -56,9 +56,9 @@ confirmButtonColor: "#1ccc8a",
                     if (response.Status) {
                         setRefresh(!refresh);
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Deleted!",
                             text: response.message,
                             icon: "success",
@@ -67,9 +67,9 @@ confirmButtonColor: "#1ccc8a",
                         });
                     } else {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Error!",
                             text: response.message,
                             icon: "error",
@@ -80,9 +80,9 @@ confirmButtonColor: "#1ccc8a",
                 } catch (err) {
                     console.error("Error in delete script", err);
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Error!",
                         text: "Something went wrong while deleting.",
                         icon: "error",
@@ -156,7 +156,7 @@ confirmButtonColor: "#1ccc8a",
                         loading: false,
                         data: [],
                         data1: []
-                        
+
                     })
                 }
             })

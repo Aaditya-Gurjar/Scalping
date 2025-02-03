@@ -96,7 +96,7 @@ export const columns4 = () => [
   },
   {
     name: "SL",
-    label: "Stoploss",
+    label: "Re-entry",,
     options: {
       filter: true,
       sort: true,
@@ -309,7 +309,7 @@ export const columns2 = () => [
   },
   {
     name: "SL",
-    label: "Stoploss",
+    label: "Re-entry",,
     options: {
       filter: true,
       sort: true,
@@ -524,7 +524,7 @@ export const columns = () => [
   },
   {
     name: "SL",
-    label: "Stoploss",
+    label: "Re-entry",,
     options: {
       filter: true,
       sort: true,
@@ -684,7 +684,7 @@ export const columns7 = () => [
   },
   {
     name: "SL",
-    label: "Stoploss",
+    label: "Re-entry",,
     options: {
       filter: true,
       sort: true,
