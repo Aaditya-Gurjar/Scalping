@@ -234,7 +234,7 @@ export const getColumns1 = () => [
     },
     {
         name: "SL value",
-        // label: "Re-entry",,
+        // label: "Re-entry",
         label: "Re-entry",
         options: {
             filter: true,
@@ -507,7 +507,7 @@ export const getColumns2 = () => [
     },
     {
         name: "SL value",
-        // label: "Re-entry",,
+        // label: "Re-entry",
         label: "Re-entry",
         options: {
             filter: true,
@@ -677,7 +677,7 @@ export const getColumns3 = () => [
     },
     {
         name: "SL",
-        // label: "Re-entry",,
+        // label: "Re-entry",
         label: "Re-entry",
         options: {
             filter: true,
@@ -794,7 +794,7 @@ export const getColumns6 = () => [
     },
     {
         name: "SL",
-        // label: "Re-entry",,
+        // label: "Re-entry",
         label: "Re-entry",
         options: {
             filter: true,
@@ -906,7 +906,7 @@ export const getColumns4 = () => [
     },
     {
         name: "SL",
-        // label: "Re-entry",,
+        // label: "Re-entry",
         label: "Re-entry",
         options: {
             filter: true,
@@ -1064,7 +1064,7 @@ export const getColumns7 = () => [
     },
     {
         name: "SL",
-        // label: "Re-entry",,
+        // label: "Re-entry",
         label: "Re-entry",
         options: {
             filter: true,
@@ -1210,7 +1210,7 @@ export const getColumns5 = () => [
     },
     {
         name: "SL",
-        // label: "Re-entry",,
+        // label: "Re-entry",
         label: "Re-entry",
         options: {
             filter: true,
@@ -1362,7 +1362,7 @@ export const getColumns8 = () => [
     },
     {
         name: "SL",
-        // label: "Re-entry",,
+        // label: "Re-entry",
         label: "Re-entry",
         options: {
             filter: true,

@@ -262,7 +262,7 @@ export const columns =()=> [
     },
     {
         name: "Re-entry Point",
-        // label: "Re-entry",,
+        // label: "Re-entry",
         label: "Re-entry",
         options: {
             filter: true,
@@ -1085,7 +1085,7 @@ export const columns3 =()=> [
     },
     {
         name: "Re-entry Point",
-        // label: "Re-entry",,
+        // label: "Re-entry",
         label: "Re-entry",
         options: {
             filter: true,

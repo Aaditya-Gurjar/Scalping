@@ -1198,7 +1198,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
         {
             name: "Slvalue",
-            label: "Re-entry",,
+            label: "Re-entry",
             type: "text5",
             label_size: 12,
             col_size: 6,
@@ -1270,7 +1270,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         },
         {
             name: "Slvalue",
-            label: "Re-entry",,
+            label: "Re-entry",
             type: "text5",
             label_size: 12,
             col_size: 6,

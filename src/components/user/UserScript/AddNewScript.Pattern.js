@@ -487,7 +487,7 @@ confirmButtonColor: "#1ccc8a",
         },
         {
             name: "Slvalue",
-            label: "Re-entry",,
+            label: "Re-entry",
             type: "text3",
             label_size: 12,
             headingtype: 3,
