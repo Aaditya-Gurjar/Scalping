@@ -5,7 +5,7 @@ import { GetAllUserScript, DeleteUserScript, GetUserScripts } from '../../Common
 import Loader from '../../../ExtraComponent/Loader';
 import { getColumns, getColumns1, getColumns2, getColumns7 } from './Columns';
 import Swal from 'sweetalert2';
-
+ 
 const Coptyscript = ({ data, selectedType, data2 }) => {
     const userName = localStorage.getItem('name')
     const adminPermission = localStorage.getItem('adminPermission')

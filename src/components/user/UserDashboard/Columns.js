@@ -1570,21 +1570,7 @@ export const getColumns5 = (handleDelete, handleEdit, handleContinutyDiscontinut
             }
         },
     },
-    {
-        name: "Action",
-        label: "Action",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value, tableMeta, updateValue) => {
-                return <><button className='btn btn-primary ' onClick={() => handleDelete(tableMeta, 2)}>
-                    Square Off
-                </button>
-
-                </>
-            }
-        }
-    },
+   
     {
         name: "Edit",
         label: "Edit",
@@ -1666,6 +1652,21 @@ export const getColumns5 = (handleDelete, handleEdit, handleContinutyDiscontinut
             filter: true,
             sort: true,
         }
+    },
+    {
+        name: "Action",
+        label: "Action",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value, tableMeta, updateValue) => {
+                return (
+                    <div>
+                        <DropdownComponent tableMeta={tableMeta} handleDelete={() => handleDelete(tableMeta, 2)} type="MultiCondition" />
+                    </div>
+                );
+            },
+        },
     },
     {
         name: "Token",
@@ -1891,7 +1892,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
     },    
     {
         name: "ScalpType",
-        label: "Scalp Type",
+        label: "Target Selection",
         options: {
             filter: true,
             sort: true,

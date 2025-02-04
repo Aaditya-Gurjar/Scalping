@@ -63,25 +63,16 @@ const DrawdownChartComponent = ({ data }) => {
     maintainAspectRatio: false,
     plugins: {
       zoom: {
-        limits: {
-          x: { min: new Date(data[0]?.ETime).getTime(), max: new Date(data[data.length - 1]?.ETime).getTime() },
-        },
         pan: {
           enabled: true,
-          mode: "xy",
+          mode: "x", // Allow panning in x-axis only
           speed: 10,
         },
         zoom: {
-          wheel: { enabled: true },
-          pinch: { enabled: true },
-          mode: "xy",
-          onZoom: ({ chart }) => {
-            const { min, max } = chart.scales.x;
-            const newFilteredData = data.filter(
-              (item) => new Date(item.ETime || item.ExitTime).getTime() >= min && new Date(item.ETime || item.ExitTime).getTime() <= max
-            );
-            setFilteredData(newFilteredData);
-          },
+          wheel: { enabled: true, speed: 0.05 }, // Smooth zoom on mouse wheel
+          pinch: { enabled: true }, // Zoom on pinch (mobile)
+          mode: "xy", // Zoom only in x direction
+          scaleMode: "xy", // Prevent y-axis zooming
         },
       },
     },

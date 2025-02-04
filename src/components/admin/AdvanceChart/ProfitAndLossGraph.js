@@ -50,23 +50,23 @@ const ProfitAndLossGraph = ({ data }) => {
     }
   }, [data]);
 
-  const handleZoom = ({ chart }) => {
-    const { min, max } = chart.scales.x;
-    const newFilteredData = originalData.filter((item) => {
-      const [hour, minute] = item.ETime.split(":").map(Number);
-      const itemTime = new Date(new Date().setHours(hour, minute, 0, 0)).getTime();
-      return itemTime >= min && itemTime <= max;
-    });
+  // const handleZoom = ({ chart }) => {
+  //   const { min, max } = chart.scales.x;
+  //   const newFilteredData = originalData.filter((item) => {
+  //     const [hour, minute] = item.ETime.split(":").map(Number);
+  //     const itemTime = new Date(new Date().setHours(hour, minute, 0, 0)).getTime();
+  //     return itemTime >= min && itemTime <= max;
+  //   });
 
-    console.log("🔄 Updated Filtered Data (After Zoom):", newFilteredData);
+  //   console.log("🔄 Updated Filtered Data (After Zoom):", newFilteredData);
 
-    if (newFilteredData.length === 0) {
-      console.warn("⚠️ Zoomed too much! Resetting to last state.");
-      return;
-    }
+  //   if (newFilteredData.length === 0) {
+  //     console.warn("⚠️ Zoomed too much! Resetting to last state.");
+  //     return;
+  //   }
 
-    setFilteredData(newFilteredData);
-  };
+  //   setFilteredData(newFilteredData);
+  // };
 
   const resetZoom = () => {
     if (chartRef.current) {
@@ -100,10 +100,11 @@ const ProfitAndLossGraph = ({ data }) => {
       zoom: {
         pan: { enabled: true, mode: "xy", speed: 10 },
         zoom: {
-          wheel: { enabled: true },
-          pinch: { enabled: true },
+          wheel: { enabled: true, speed: 0.05 }, // Smooth zoom on mouse wheel
+          pinch: { enabled: true }, // Zoom on pinch (mobile)
           mode: "xy",
-          onZoom: handleZoom,
+          scaleMode: "xy",
+          // onZoom: handleZoom,
         },
       },
     },

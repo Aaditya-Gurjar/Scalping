@@ -15,6 +15,8 @@ const Profile = () => {
             username: username,
         }
         await Get_Profile_Data(data).then((response) => {
+            console.log("Get_Profile_Data",response);
+            
             if (response.Status) {
                 console.log("Get_Profile_Data",response);
                 

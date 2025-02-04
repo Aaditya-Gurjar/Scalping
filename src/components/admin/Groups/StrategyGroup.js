@@ -130,6 +130,8 @@ const Strategygroup = () => {
             const errors = {};
             if (!values.Message) {
                 errors.Message = 'Please Enter Message';
+            } else if (!/^[A-Za-z\s]+$/.test(values.Message)) {
+                errors.Message = 'Only letters are allowed in Message';
             }
             if (!values.ProductType) {
                 errors.ProductType = 'Please Select Product Type';
