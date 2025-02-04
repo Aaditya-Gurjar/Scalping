@@ -1,41 +1,41 @@
 
-import React, { lazy, Suspense } from "react";
-import { Route, Routes } from "react-router-dom";
-import Loader from "../ExtraComponent/Loader";
-import Sidebar from "../components/layouts/Sidebar";
-import Header from "../components/layouts/Header";
-// import Dashboard from "../components/subAdmin/subadminDashboard/Dashboard";
-import Dashboard from "../components/subadmin/subadminDashboard/Dashboard";
+// import React, { lazy, Suspense } from "react";
+// import { Route, Routes } from "react-router-dom";
+// import Loader from "../ExtraComponent/Loader";
+// import Sidebar from "../components/layouts/Sidebar";
+// import Header from "../components/layouts/Header";
+// // import Dashboard from "../components/subAdmin/subadminDashboard/Dashboard";
+// import Dashboard from "../components/subadmin/subadminDashboard/Dashboard";
 
-// import AddClient from "../components/subAdmin/Client/AddClient";
-import AddClient from "../components/subadmin/Client/AddClient";
+// // import AddClient from "../components/subAdmin/Client/AddClient";
+// import AddClient from "../components/subadmin/Client/AddClient";
 
-// import AllClient from "../components/subAdmin/Client/Allclient";
-import AllClient from "../components/subadmin/Client/Allclient";
+// // import AllClient from "../components/subAdmin/Client/Allclient";
+// import AllClient from "../components/subadmin/Client/Allclient";
 
-// import SubAdminGroups from "../components/subAdmin/Groups/StrategyGroup";
-import SubAdminGroups from "../components/subadmin/Groups/StrategyGroup";
+// // import SubAdminGroups from "../components/subAdmin/Groups/StrategyGroup";
+// import SubAdminGroups from "../components/subadmin/Groups/StrategyGroup";
 
-// import TradeHistory from "../components/subAdmin/TradeHistory/Tradehistory";
-import TradeHistory from "../components/subadmin/TradeHistory/Tradehistory";
+// // import TradeHistory from "../components/subAdmin/TradeHistory/Tradehistory";
+// import TradeHistory from "../components/subadmin/TradeHistory/Tradehistory";
 
-// import Signals from "../components/subAdmin/Signals/TradeReport";
-import Signals from "../components/subadmin/Signals/TradeReport";
+// // import Signals from "../components/subAdmin/Signals/TradeReport";
+// import Signals from "../components/subadmin/Signals/TradeReport";
 
-// import AddscriptScalping from "../components/subAdmin/SubAdminScript/Addscript.Scalping";
-import AddscriptScalping from "../components/subadmin/SubAdminScript/Addscript.Scalping";
+// // import AddscriptScalping from "../components/subAdmin/SubAdminScript/Addscript.Scalping";
+// import AddscriptScalping from "../components/subadmin/SubAdminScript/Addscript.Scalping";
 
-// import PatternScript from "../components/subAdmin/SubAdminScript/AddScript.Pattern";
-import PatternScript from "../components/subadmin/SubAdminScript/AddScript.Pattern";
+// // import PatternScript from "../components/subAdmin/SubAdminScript/AddScript.Pattern";
+// import PatternScript from "../components/subadmin/SubAdminScript/AddScript.Pattern";
 
-// import AddScriptOption from "../components/subAdmin/SubAdminScript/AddScript.Option";
-import AddScriptOption from "../components/subadmin/SubAdminScript/AddScript.Option";
+// // import AddScriptOption from "../components/subAdmin/SubAdminScript/AddScript.Option";
+// import AddScriptOption from "../components/subadmin/SubAdminScript/AddScript.Option";
 
-// import AllScript from "../components/subAdmin/SubAdminScript/AllScript";
-import AllScript from "../components/subadmin/SubAdminScript/AllScript";
+// // import AllScript from "../components/subAdmin/SubAdminScript/AllScript";
+// import AllScript from "../components/subadmin/SubAdminScript/AllScript";
 
-// import ChangePassword from "../components/subAdmin/Password/ChangePassword";
-import ChangePassword from "../components/subadmin/Password/ChangePassword";
+// // import ChangePassword from "../components/subAdmin/Password/ChangePassword";
+// import ChangePassword from "../components/subadmin/Password/ChangePassword";
 
 // const Sidebar = lazy(() => import('../components/layouts/Sidebar'));
 // const Header = lazy(() => import('../components/layouts/Header'));

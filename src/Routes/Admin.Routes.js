@@ -21,7 +21,6 @@ import AddScriptOption from '../components/admin/AdminScript/AddScript.Option'
 import PatternScript from '../components/admin/AdminScript/AddScript.Pattern'
 import System from '../components/admin/System/System';
 import AllPlan from '../components/admin/Plan/AllPlan';
-import CPP from '../components/user/Patterns/CPP';
 import AddPlan from '../components/admin/Plan/AddPlan';
 import TransectionRequest from '../components/admin/Requests/TransectionRequests';
 import AddSubadmin from '../components/admin/SubAdmin/AddSubadmin';
@@ -49,7 +48,6 @@ import ChartComponent from '../components/admin/AdvanceChart/ChartComponent';
 // const PatternScript = lazy(() => import('../components/admin/AdminScript/AddScript.Pattern'));
 // const System = lazy(() => import('../components/admin/System/System'));
 // const AllPlan = lazy(() => import('../components/admin/Plan/AllPlan'));
-// const CPP = lazy(() => import('../components/user/Patterns/CPP'));
 // const AddPlan = lazy(() => import('../components/admin/Plan/AddPlan'));
 // const TransectionRequest = lazy(() => import('../components/admin/Requests/TransectionRequests'));
 // const AddSubadmin = lazy(() => import('../components/admin/SubAdmin/AddSubadmin'));
@@ -87,7 +85,6 @@ const AdminRoute = () => {
             <Route path="/servicreport" element={<ServiceReport />} />
             <Route path="/system" element={<System />} />
             <Route path="/allplan" element={<AllPlan />} />
-            <Route path="/cpp" element={<CPP />} />
             <Route path="/addplan" element={<AddPlan />} />
             <Route path="/transectionrequest" element={<TransectionRequest />} />
             <Route path="/addSubadmin" element={<AddSubadmin />} />
