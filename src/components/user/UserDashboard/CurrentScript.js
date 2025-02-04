@@ -31,6 +31,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         Marketwise: [],
         PremiumRotation: []
     });
+    console.log("getAllService",getAllService);
+    
     useEffect(() => {
         GetUserAllScripts()
 
@@ -172,10 +174,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                 timer: 1500,
                                 timerProgressBar: true,
                                 didClose: () => {
-                                  setRefresh(!refresh);
+                                    setRefresh(!refresh);
                                 }
-                              });
-                              
+                            });
                             setTimeout(() => {
                                 window.location.reload()
                             }, 1500)
@@ -574,6 +575,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
         await GetAllUserScript(data)
             .then((response) => {
+                console.log("GetAllUserScript GetAllUserScript GetAllUserScript",response);
+                
                 if (response.Status) {
                     setAllservice({
                         loading: false,
@@ -1035,10 +1038,12 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         }
     });
 
+    console.log("EditDataScalping",EditDataScalping,showEditModal);
+    
     const fields = [
         {
             name: "Targetvalue",
-            label: showEditModal && EditDataScalping.ScalpType == "Fixed Price" ? "Target Price" : formik.values.Strategy == "One Directional" ? "Fixed Target" : "Booking Point",
+            label: showEditModal && EditDataScalping?.ScalpType == "Fixed Price" ? "Target Price" : formik.values.Strategy == "One Directional" ? "Fixed Target" : "Booking Point",
             type: "text5",
             label_size: 12,
             col_size: 6,
@@ -1198,7 +1203,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
         {
             name: "Slvalue",
-            label: "Re-entry",
+            label: "Stoploss",
             type: "text5",
             label_size: 12,
             col_size: 6,
@@ -1270,7 +1275,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         },
         {
             name: "Slvalue",
-            label: "Re-entry",
+            label: "Stoploss",
             type: "text5",
             label_size: 12,
             col_size: 6,

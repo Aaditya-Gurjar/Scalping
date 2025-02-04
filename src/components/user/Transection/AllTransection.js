@@ -313,7 +313,7 @@ confirmButtonColor: "#1ccc8a",
                                     <button to='/admin/adduser' className='btn btn-primary rounded'
                                         onClick={() => setShowWithdrawalModal(true)}
                                     >
-                                        Withdrawal
+                                        Withdraw Amount
                                     </button>
                                 </div>
                             </div>

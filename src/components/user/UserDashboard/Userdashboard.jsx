@@ -9,7 +9,7 @@ import {
 } from "../../CommonAPI/User";
 import { ExpriyEndDate } from "../../CommonAPI/Admin";
 import FullDataTable from "../../../ExtraComponent/CommanDataTable";
-import NoDataFound from "../../../ExtraComponent/NoDataFound";
+import NoDataFound from "../../../ExtraComponent/NoDataFound"; 
 const Userdashboard = () => {
   const userName = localStorage.getItem("name");
   const [activeTab1, setActiveTab1] = useState("CurrentPosition");
