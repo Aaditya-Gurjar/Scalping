@@ -98,7 +98,9 @@ const AddClient = () => {
       NumberOfDays: 0,
       RollOverExitTime: "00:00:00",
       TargetExit: false,
-      WorkingDay: []
+      WorkingDay: [],
+      OrderType: "Pending",
+
 
     },
     validate: (values) => {
@@ -312,8 +314,17 @@ const AddClient = () => {
       ) {
         errors.WorkingDay = "Please select Working day";
       }
-      // console.log("errors : ",errors);
-      
+
+
+      if (
+        !values.OrderType &&
+        values.Strategy == "Multi_Conditional" &&
+        values.Trade_Execution == "Live Trade"
+      ) {
+        errors.OrderType = "Please select Order Type";
+      }
+
+
       return errors;
     },
 
@@ -394,10 +405,11 @@ const AddClient = () => {
           TargetExit:
             values.position_type == "Multiple" && values.Strategy == "Multi_Conditional" ? values.TargetExit : false,
           WorkingDay:
-            values.position_type == "Multiple" && values.Strategy == "Multi_Conditional" ? values.WorkingDay : []
+            values.position_type == "Multiple" && values.Strategy == "Multi_Conditional" ? values.WorkingDay : [],
+          OrderType: values.OrderType,
+
         }
 
-        // return;
 
         if ((Number(values.EntryPrice) > 0 || Number(values.EntryRange) > 0) &&
           (Number(values.EntryPrice) >= Number(values.EntryRange))) {
@@ -1020,7 +1032,7 @@ const AddClient = () => {
         { label: "False", value: false },
       ],
       label_size: 12,
-      col_size:  4,
+      col_size: 4,
       headingtype: 4,
       showWhen: (values) =>
         values.ExitDay == "Delivery" &&
@@ -1038,7 +1050,7 @@ const AddClient = () => {
       showWhen: (values) => {
         const rollOverBoolean = values.RollOver === "true";
         return rollOverBoolean && values.Strategy == "Multi_Conditional" && values.ExitDay == "Delivery" &&
-        values.position_type == "Multiple";
+          values.position_type == "Multiple";
       },
       col_size: 4,
       headingtype: 4,
@@ -1055,7 +1067,7 @@ const AddClient = () => {
       showWhen: (values) => {
         const rollOverBoolean = values.RollOver === "true";
         return rollOverBoolean && values.Strategy == "Multi_Conditional" && values.ExitDay == "Delivery" &&
-        values.position_type == "Multiple";
+          values.position_type == "Multiple";
       },
       col_size: 4,
       headingtype: 4,
@@ -1077,6 +1089,23 @@ const AddClient = () => {
 
       label_size: 12,
       col_size: 4,
+      disable: false,
+      hiding: false,
+    },
+    {
+      name: "OrderType",
+      label: "OrderType",
+      type: "select",
+      options: [
+        { label: "Pending", value: "Pending" },
+        { label: "Market", value: "Market" },
+      ],
+      showWhen: (values) =>
+        values.Trade_Execution == "Live Trade" &&
+        values.Strategy == "Multi_Conditional",
+      label_size: 12,
+      col_size: 4,
+      headingtype: 4,
       disable: false,
       hiding: false,
     },

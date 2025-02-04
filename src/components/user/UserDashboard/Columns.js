@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { createPortal } from "react-dom";
 
 
+
 // DropdownComponent as a separate component
 const DropdownComponent = ({ tableMeta, handleDelete, type }) => {
     const navigate = useNavigate();
@@ -14,6 +15,7 @@ const DropdownComponent = ({ tableMeta, handleDelete, type }) => {
     const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
     const dropdownRef = useRef(null);
     const buttonRef = useRef(null); // Ref for the button trigger
+
 
     const handleDropdownToggle = () => {
         if (isDropdownOpen) {
@@ -51,6 +53,8 @@ const DropdownComponent = ({ tableMeta, handleDelete, type }) => {
     };
 
     useEffect(() => {
+        console.log("tableMeta", tableMeta)
+
         if (isDropdownOpen) {
             document.addEventListener("mousedown", handleOutsideClick);
         } else {
@@ -1002,20 +1006,6 @@ export const getColumns3 = (handleDelete, handleEdit, handleContinutyDiscontinut
             }
         },
     },
-    // {
-    //     name: "Action",
-    //     label: "Action ",
-    //     options: {
-    //         filter: true,
-    //         sort: true,
-    //         customBodyRender: (value, tableMeta, updateValue) => {
-    //             return <><button className='btn btn-primary' onClick={() => handleDelete(tableMeta, 1)}>
-    //                 Square Off
-    //             </button>
-    //             </>
-    //         }
-    //     }
-    // },
     {
         name: "Edit",
         label: "Edit",
@@ -1852,7 +1842,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             filter: true,
             sort: true,
             customBodyRender: (value, tableMeta, updateValue) => {
-                return <><button className='btn' onClick={() => handleEdit(tableMeta)}>
+                return <><button className='btn' onClick={() => handleEdit(tableMeta, 2)}>
                     <SquarePen style={{ color: "white" }} />
 
                 </button>

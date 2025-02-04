@@ -4,6 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import FullDataTable from '../../../ExtraComponent/CommanDataTable';
 import {ClientActivityPage} from './UserAllColumn'
+import NoDataFound from '../../../ExtraComponent/NoDataFound';
 
 const Clientactivity = () => {
     const [ToDate, setToDate] = useState('');
@@ -147,17 +148,21 @@ const Clientactivity = () => {
                                             <div className="form-group col-lg-4">
                                                 <label>Select To Date</label>
                                                 <DatePicker className="form-select" selected={ToDate=="" ? Defult_To_Date : ToDate} onChange={(date) => setToDate(date)} />
-
                                             </div>
                                         </div>
 
                                     </form>
                                     <div className="modal-body">
-                                        <FullDataTable
+                                      {  
+                                        getClientActivityDetails.data && getClientActivityDetails.data.length > 0 ? 
+                                        (<FullDataTable
                                             columns={ClientActivityPage()}
                                             data={getClientActivityDetails.data}
                                             checkBox={false}
-                                        />
+                                        />)
+                                        :
+                                        (<NoDataFound/>)
+                                        }
                                     </div>
 
                                 </div>

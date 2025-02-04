@@ -4,10 +4,11 @@ import { Eye, Trash2 } from 'lucide-react';
 import Loader from '../../../ExtraComponent/Loader'
 import FullDataTable from '../../../ExtraComponent/CommanDataTable'
 import { ReportColumns5, ReportColumns4, ReportColumns3 } from './UserAllColumn'
+import NoDataFound from '../../../ExtraComponent/NoDataFound';
 
 const Userlog = () => {
 
-    
+
     const [showModal, setShowModal] = useState(false)
     const [getServiceDetails, setServiceDetails] = useState({
         loading: true,
@@ -174,7 +175,7 @@ const Userlog = () => {
             options: {
                 filter: true,
                 sort: true,
-                customBodyRender: (value, tableMeta, updateValue) => { 
+                customBodyRender: (value, tableMeta, updateValue) => {
                     return <Eye onClick={(e) => {
                         setShowModal(!showModal);
                         const rowDataWithKeys = {};
@@ -184,7 +185,7 @@ const Userlog = () => {
                         handleModal(rowDataWithKeys)
                     }} />
 
-                        
+
                 }
             }
         },
@@ -501,7 +502,7 @@ const Userlog = () => {
     }, []);
 
 
-    const handleModal = async (rowIndex) => { 
+    const handleModal = async (rowIndex) => {
         const data = { Data: selectStrategyType, Username: rowIndex?.Username }
 
 
@@ -611,12 +612,19 @@ const Userlog = () => {
                                     />
                                 </div>
                                 <div className="modal-body">
+                                    {
+                                        getUserData.data && getUserData.data.length > 0 ?
+                                            (
+                                                <FullDataTable
+                                                    columns={selectStrategyType == "Scalping" ? ReportColumns3() : selectStrategyType == "Option Strategy" ? ReportColumns4() : selectStrategyType == "Pattern" ? ReportColumns5() : []}
+                                                    data={getUserData.data}
+                                                    checkBox={false}
+                                                />
+                                            )
+                                            :
+                                            (<NoDataFound />)
+                                    }
 
-                                    <FullDataTable
-                                        columns={selectStrategyType == "Scalping" ? ReportColumns3() : selectStrategyType == "Option Strategy" ? ReportColumns4() : selectStrategyType == "Pattern" ? ReportColumns5() : []}
-                                        data={getUserData.data}
-                                        checkBox={false}
-                                    />
                                 </div>
                             </div>
                         </div>

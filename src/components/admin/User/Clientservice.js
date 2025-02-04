@@ -9,6 +9,7 @@ import AddForm from '../../../ExtraComponent/FormData';
 import Swal from 'sweetalert2';
 import { Get_All_Plans, GetUserBalence } from "../../CommonAPI/User";
 import Select from 'react-select';
+import NoDataFound from '../../../ExtraComponent/NoDataFound';
 
 
 
@@ -390,11 +391,17 @@ confirmButtonColor: "#1ccc8a",
                                     value={searchInput}
                                 />
                             </div>
-                            <FullDataTable
-                                columns={columns}
-                                data={clientService.data}
-                                checkBox={false}
-                            />
+                            {
+                                clientService.data && clientService.data.length > 0 ? 
+                                    (<FullDataTable
+                                        columns={columns}
+                                        data={clientService.data}
+                                        checkBox={false}
+                                    />)
+                                :
+                                (<NoDataFound />)
+                            }
+                            
                         </div>
                     </div>
                 </div>

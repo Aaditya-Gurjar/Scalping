@@ -103,6 +103,7 @@ const AddClient = () => {
       RollOverExitTime: "00:00:00",
       TargetExit: false,
       WorkingDay: [],
+      OrderType: "Pending",
     },
     validate: (values) => {
       let errors = {};
@@ -322,6 +323,14 @@ const AddClient = () => {
         errors.WorkingDay = "Please select Working day";
       }
 
+      if (
+        !values.OrderType &&
+        values.Strategy == "Multi_Conditional" &&
+        values.Trade_Execution == "Live Trade"
+      ) {
+        errors.OrderType = "Please select Order Type";
+      }
+
       // console.log("err", errors);
       return errors;
     },
@@ -485,6 +494,7 @@ const AddClient = () => {
           values.Strategy == "Multi_Conditional"
             ? values.WorkingDay
             : [],
+        OrderType: values.OrderType,
       };
 
       if (
@@ -1365,6 +1375,23 @@ const AddClient = () => {
 
       label_size: 12,
       col_size: 4,
+      disable: false,
+      hiding: false,
+    },
+    {
+      name: "OrderType",
+      label: "OrderType",
+      type: "select",
+      options: [
+        { label: "Pending", value: "Pending" },
+        { label: "Market", value: "Market" },
+      ],
+      showWhen: (values) =>
+        values.Trade_Execution == "Live Trade" &&
+        values.Strategy == "Multi_Conditional",
+      label_size: 12,
+      col_size: 4,
+      headingtype: 4,
       disable: false,
       hiding: false,
     },

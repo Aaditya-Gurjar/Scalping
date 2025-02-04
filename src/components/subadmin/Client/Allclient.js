@@ -8,6 +8,7 @@ import AddForm from '../../../ExtraComponent/FormData';
 import { useFormik } from 'formik';
 import Swal from 'sweetalert2';
 import Select from 'react-select';
+import NoDataFound from '../../../ExtraComponent/NoDataFound';
 
 
 
@@ -103,6 +104,11 @@ const AllClient = () => {
 
 
 
+    const maskValue = (value) => {
+        if (!value || value.length < 2) return "*****";  // Handle edge cases
+        return `${value.charAt(0)}*****${value.charAt(value.length - 1)}`;
+    };
+
     const columns = [
         {
             name: 'S.No',
@@ -120,19 +126,28 @@ const AllClient = () => {
                 filter: true,
                 sort: false,
                 customBodyRender: (value, tableMeta) => (
-                    editClient ? <SquarePen
-                        onClick={() => EditSubadmindetail(value, tableMeta)} /> : "*****"
+                    <SquarePen
+                        onClick={() => {
+                            if (editClient) {
+                                EditSubadmindetail(value, tableMeta);
+                            } else {
+                                Swal.fire("You don't have permission to edit!");
+                            }
+                        }}
+                    /> 
                 ),
             },
         },
+
+        
         {
             name: 'Username',
             label: 'Username',
             options: {
                 filter: true,
                 sort: false,
-                customBodyRender: (value) => viewClient ? value || '-' : '*****'
-            }
+                customBodyRender: (value) => viewClient ? value || '-' : maskValue(value),
+            },
         },
         {
             name: 'EmailId',
@@ -140,8 +155,8 @@ const AllClient = () => {
             options: {
                 filter: true,
                 sort: false,
-                customBodyRender: (value) => viewClient ? value || '-' : '*****'
-            }
+                customBodyRender: (value) => viewClient ? value || '-' : maskValue(value),
+            },
         },
         {
             name: 'Mobile_No',
@@ -149,8 +164,8 @@ const AllClient = () => {
             options: {
                 filter: true,
                 sort: false,
-                customBodyRender: (value) => viewClient ? value || '-' : '*****'
-            }
+                customBodyRender: (value) => viewClient ? value || '-' : maskValue(value),
+            },
         },
         {
             name: 'BrokerName',
@@ -158,18 +173,17 @@ const AllClient = () => {
             options: {
                 filter: true,
                 sort: false,
-                customBodyRender: (value) => viewClient ? value || '-' : '*****'
-            }
+                customBodyRender: (value) => viewClient ? value || '-' : maskValue(value),
+            },
         },
-     
         {
             name: 'CreateDate',
             label: 'Create Date',
             options: {
                 filter: true,
                 sort: false,
-                customBodyRender: (value) => viewClient ? value || '-' : '*****'
-            }
+                customBodyRender: (value) => viewClient ? value || '-' : maskValue(value),
+            },
         },
         {
             name: 'ServiceStartDate',
@@ -177,8 +191,8 @@ const AllClient = () => {
             options: {
                 filter: true,
                 sort: false,
-                customBodyRender: (value) => viewClient ? value || '-' : '*****'
-            }
+                customBodyRender: (value) => viewClient ? value || '-' : maskValue(value),
+            },
         },
         {
             name: 'ServiceEndDate',
@@ -186,8 +200,8 @@ const AllClient = () => {
             options: {
                 filter: true,
                 sort: false,
-                customBodyRender: (value) => viewClient ? value || '-' : '*****'
-            }
+                customBodyRender: (value) => viewClient ? value || '-' : maskValue(value),
+            },
         },
         {
             name: 'Group',
@@ -195,8 +209,8 @@ const AllClient = () => {
             options: {
                 filter: true,
                 sort: false,
-                customBodyRender: (value) => viewClient ? value?.join(', ') || '-' : '*****'
-            }
+                customBodyRender: (value) => viewClient ? value?.join(', ') || '-' : maskValue(value?.join(', ')),
+            },
         },
         {
             name: 'Planname',
@@ -204,12 +218,11 @@ const AllClient = () => {
             options: {
                 filter: true,
                 sort: false,
-                customBodyRender: (value) => viewClient ? value?.join(', ') || '-' : '*****'
-            }
+                customBodyRender: (value) => viewClient ? value?.join(', ') || '-' : maskValue(value?.join(', ')),
+            },
         },
-
-
     ];
+
 
     const formik = useFormik({
         initialValues: {
@@ -314,7 +327,17 @@ confirmButtonColor: "#1ccc8a",
                             <div className='mb-3 col-lg-3'>
                                 <input type="text" className=' form-control rounded p-1 px-2' placeholder="Search..." onChange={(e) => setSearchInput(e.target.value)} value={searchInput} />
                             </div>
-                            <FullDataTable columns={columns} data={clientService.data} checkBox={false} />
+                            {console.log("clientService.data", clientService.data)}
+                             
+                            {
+                                clientService.data && clientService.data.length > 0 ? 
+                                (
+                                    <FullDataTable columns={columns} data={clientService.data} checkBox={false} />
+                                )
+                                :
+                                (<NoDataFound /> )
+                            }
+                            
                         </div>
                     </div>
                 </div>

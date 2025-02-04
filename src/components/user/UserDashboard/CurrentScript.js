@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import Formikform from "../../../ExtraComponent/FormData";
 import { useFormik } from 'formik';
 import NoDataFound from '../../../ExtraComponent/NoDataFound';
+import { text } from '../../../ExtraComponent/IconTexts';
 
 
 const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
@@ -43,7 +44,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             getChartingScript();
     }, [data]);
 
-
+    console.log("EditDataScalping", EditDataScalping)
 
     const getChartingScript = async () => {
         const req = { Username: userName, Planname: "Chart" }
@@ -199,12 +200,15 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
     }
 
-    const handleEdit = async (rowData) => {
+    const handleEdit = async (rowData, type = 1) => {
         setShowEditModal(true)
         const index = rowData.rowIndex
-        if (data == 'Scalping') {
+        if (data == 'Scalping' && type == 1) {
             setEditDataScalping(getAllService.ScalpingData[index])
-            setEditCharting(getAllService.NewScalping[index])
+            // setEditCharting(getAllService.NewScalping[index])
+        }
+        else if (data == "Scalping" && type == 2) {
+            setEditDataScalping(getAllService.NewScalping[index])
         }
         else if (data == 'Option Strategy') {
             setEditDataOption(getAllService.OptionData[index])
@@ -1062,134 +1066,269 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         }
     });
 
-    // console.log("EditDataScalping",EditDataScalping,showEditModal);
+    const MultiConditionFormik = useFormik({
+        initialValues: {
+            MainStrategy: "",
+            Strategy: "",
+            Symbol: "",
+            Username: "",
+            ETPattern: "",
+            Timeframe: "",
+            Targetvalue: 0,
+            Slvalue: 0,
+            TStype: "",
+            Quantity: 0,
+            LowerRange: 0.0,
+            HigherRange: 0.0,
+            HoldExit: "",
+            EntryPrice: 0.0,
+            EntryRange: 0.0,
+            EntryTime: "",
+            ExitTime: "",
+            ExitDay: "",
+            TradeExecution: "",
+            Group: "",
+            CEDepthLower: 0.0,
+            CEDepthHigher: 0.0,
+            PEDepthLower: 0.0,
+            PEDepthHigher: 0.0,
+            CEDeepLower: 0.0,
+            CEDeepHigher: 0.0,
+            PEDeepLower: 0.0,
+            PEDeepHigher: 0.0,
+            DepthofStrike: 0,
+            TradeCount: "",
+        },
+        validate: (values) => {
+            let errors = {};
+            const maxTime = "15:29:59";
+            const minTime = "09:15:00";
+            if (!values.TStype) {
+                errors.TStype = "Please Select Measurement Type."
+            }
+            if (!values.Quantity) {
+                errors.Quantity = "Please Enter Lot Size."
+            }
+            if (!values.Targetvalue) {
+                errors.Targetvalue = "Please Enter Target Value."
+            }
+            if (!values.Slvalue) {
+                errors.Slvalue = "Please Enter Stoploss."
+            }
 
-    const fields = [
-        {
-            name: "Targetvalue",
-            label: showEditModal && EditDataScalping?.ScalpType == "Fixed Price" ? "Target Price" : formik.values.Strategy == "One Directional" ? "Fixed Target" : "Booking Point",
-            type: "text5",
-            label_size: 12,
-            col_size: 6,
-            disable: false,
-            hiding: false,
-        },
-        {
-            name: "Slvalue",
-            label: showEditModal && EditDataScalping.ScalpType == "Fixed Price" ? "Stoploss Price" : "Re-Entry Point",
-            type: "text5",
-            label_size: 12,
-            col_size: 6,
-            disable: false,
-            hiding: false,
-        },
-        {
-            name: "EntryPrice",
-            label: showEditModal && EditDataScalping.ScalpType != "Fixed Price" ? "First Trade Lower Range" : "Lower Price",
-            type: "text3",
+            if (values.ExitTime == '') {
+                errors.ExitTime = "Please Select Exit Time.";
+            } else if (values.ExitTime > maxTime) {
+                errors.ExitTime = "Exit Time Must be Before 15:29:59.";
+            }
+            else if (values.ExitTime < minTime) {
+                errors.ExitTime = "Exit Time Must be After 09:15:00.";
+            }
+            if (values.EntryTime == '') {
+                errors.EntryTime = "Please Select Entry Time.";
+            } else if (values.EntryTime < minTime) {
+                errors.EntryTime = "Entry Time Must be After 09:15:00.";
+            }
+            else if (values.EntryTime > maxTime) {
+                errors.EntryTime = "Entry Time Must be Before 15:29:59.";
+            }
 
-            col_size: 6,
-            disable: false,
-            hiding: false,
-        },
-        {
-            name: "EntryRange",
-            label: showEditModal && EditDataScalping.ScalpType != "Fixed Price" ? "First Trade Higher Range" : "Higher Price",
-            type: "text3",
+            if (!values.TradeCount) {
+                errors.TradeCount = "Please Enter Trade Count."
+            }
 
-            label_size: 12,
-            col_size: 6,
-            disable: false,
-            hiding: false,
+            return errors;
         },
-        {
-            name: "LowerRange",
-            label: "Lower Range",
-            type: "text3",
-            showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
-            label_size: 12,
-            col_size: 6,
-            disable: false,
-            hiding: false,
-        },
-        {
-            name: "HigherRange",
-            label: "Higher Range",
-            type: "text5",
-            showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
-            label_size: 12,
-            col_size: 6,
-            disable: false,
-            hiding: false,
-        },
-        {
-            name: "Quantity",
-            label: showEditModal && EditDataScalping.Exchange == "NFO" ? "Lot" : "Quantity",
-            type: "text5",
-            label_size: 12,
-            col_size: 6,
-            hiding: false,
-            disable: false,
-        },
-        {
-            name: "HoldExit",
-            label: "Hold/Exit",
-            type: "select",
-            options: [
-                { label: "Hold", value: "Hold" },
-                { label: "Exit", value: "Exit" },
-            ],
-            showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
+        onSubmit: async (values) => {
+            const req = {
+                MainStrategy: data,
+                Strategy: EditDataPattern.TradePattern,
+                Symbol: EditDataPattern.Symbol,
+                Username: userName,
+                ETPattern: EditDataPattern.Pattern,
+                Timeframe: EditDataPattern.TimeFrame,
+                Targetvalue: Number(values.Targetvalue),
+                Slvalue: Number(values.Slvalue),
+                TStype: EditDataPattern.TStype,
+                Quantity: Number(values.Quantity),
+                LowerRange: 0.0,
+                HigherRange: 0.0,
+                HoldExit: "",
+                EntryPrice: 0.0,
+                EntryRange: 0.0,
+                EntryTime: values.EntryTime,
+                ExitTime: values.ExitTime,
+                ExitDay: EditDataPattern.ExitDay,
+                TradeExecution: EditDataPattern.TradeExecution,
+                Group: "",
+                CEDepthLower: 0.0,
+                CEDepthHigher: 0.0,
+                PEDepthLower: 0.0,
+                PEDepthHigher: 0.0,
+                CEDeepLower: 0.0,
+                CEDeepHigher: 0.0,
+                PEDeepLower: 0.0,
+                PEDeepHigher: 0.0,
+                DepthofStrike: 1,
+                TradeCount: Number(values.TradeCount)
+            }
 
-            label_size: 12,
-            col_size: 6,
-            disable: false,
-            hiding: false,
-        },
-        {
-            name: "TStype",
-            label: "Measurement Type",
-            type: "select",
-            options: [
-                { label: "Percentage", value: "Percentage" },
-                { label: "Point", value: "Point" },
-            ],
-            showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
-            label_size: 12,
-            col_size: 6,
-            hiding: false,
-            disable: false,
-        },
-        {
-            name: "TradeCount",
-            label: "Trade Count",
-            type: "text5",
-            label_size: 12,
-            col_size: 6,
-            disable: false,
-            hiding: false,
-        },
+            if (values.EntryTime >= values.ExitTime) {
+                return SweentAlertFun("Exit Time should be greater than Entry Time")
+            }
+            await UpdateUserScript(req)
+                .then((response) => {
+                    if (response.Status) {
+                        Swal.fire({
+                            title: "Updated",
+                            text: response.message,
+                            icon: "success",
+                            timer: 1500,
+                            timerProgressBar: true,
+                        });
+                        setTimeout(() => {
+                            setShowEditModal(false)
+                            formik.resetForm()
+                        }, 1500)
+                    } else {
+                        Swal.fire({
+                            title: "Error !",
+                            text: response.message,
+                            icon: "error",
+                            timer: 1500,
+                            timerProgressBar: true
+                        });
+                    }
+                })
+        }
+    });
 
-        {
-            name: "EntryTime",
-            label: "Entry Time",
-            type: "timepiker",
-            label_size: 12,
-            col_size: 6,
-            disable: false,
-            hiding: false,
-        },
-        {
-            name: "ExitTime",
-            label: "Exit Time",
-            type: "timepiker",
-            label_size: 12,
-            col_size: 6,
-            disable: false,
-            hiding: false,
-        },
+    // const fields = [
+    //     {
+    //         name: "Targetvalue",
+    //         label: showEditModal && EditDataScalping.ScalpType == "Fixed Price" ? "Target Price" : formik.values.Strategy == "One Directional" ? "Fixed Target" : "Booking Point",
+    //         type: "text5",
+    //         label_size: 12,
+    //         col_size: 6,
+    //         disable: false,
+    //         hiding: false,
+    //     },
+    //     {
+    //         name: "Slvalue",
+    //         label: showEditModal && EditDataScalping.ScalpType == "Fixed Price" ? "Stoploss Price" : "Re-Entry Point",
+    //         type: "text5",
+    //         label_size: 12,
+    //         col_size: 6,
+    //         disable: false,
+    //         hiding: false,
+    //     },
+    //     {
+    //         name: "EntryPrice",
+    //         label: showEditModal && EditDataScalping.ScalpType != "Fixed Price" ? "First Trade Lower Range" : "Lower Price",
+    //         type: "text3",
 
-    ];
+    //         col_size: 6,
+    //         disable: false,
+    //         hiding: false,
+    //     },
+    //     {
+    //         name: "EntryPrice",
+    //         label: showEditModal && EditDataScalping.ScalpType != "Fixed Price" ? "First Trade Higher Range" : "Higher Price",
+    //         type: "text3",
+
+    //         label_size: 12,
+    //         col_size: 6,
+    //         disable: false,
+    //         hiding: false,
+    //     },
+    //     {
+    //         name: "LowerRange",
+    //         label: "Lower Range",
+    //         type: "text3",
+    //         showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
+    //         label_size: 12,
+    //         col_size: 6,
+    //         disable: false,
+    //         hiding: false,
+    //     },
+    //     {
+    //         name: "HigherRange",
+    //         label: "Higher Range",
+    //         type: "text5",
+    //         showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
+    //         label_size: 12,
+    //         col_size: 6,
+    //         disable: false,
+    //         hiding: false,
+    //     },
+    //     {
+    //         name: "Quantity",
+    //         label: showEditModal && EditDataScalping.Exchange == "NFO" ? "Lot" : "Quantity",
+    //         type: "text5",
+    //         label_size: 12,
+    //         col_size: 6,
+    //         hiding: false,
+    //         disable: false,
+    //     },
+    //     {
+    //         name: "HoldExit",
+    //         label: "Hold/Exit",
+    //         type: "select",
+    //         options: [
+    //             { label: "Hold", value: "Hold" },
+    //             { label: "Exit", value: "Exit" },
+    //         ],
+    //         showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
+
+    //         label_size: 12,
+    //         col_size: 6,
+    //         disable: false,
+    //         hiding: false,
+    //     },
+    //     {
+    //         name: "TStype",
+    //         label: "Measurement Type",
+    //         type: "select",
+    //         options: [
+    //             { label: "Percentage", value: "Percentage" },
+    //             { label: "Point", value: "Point" },
+    //         ],
+    //         showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
+    //         label_size: 12,
+    //         col_size: 6,
+    //         hiding: false,
+    //         disable: false,
+    //     },
+    //     {
+    //         name: "TradeCount",
+    //         label: "Trade Count",
+    //         type: "text5",
+    //         label_size: 12,
+    //         col_size: 6,
+    //         disable: false,
+    //         hiding: false,
+    //     },
+
+    //     {
+    //         name: "EntryTime",
+    //         label: "Entry Time",
+    //         type: "timepiker",
+    //         label_size: 12,
+    //         col_size: 6,
+    //         disable: false,
+    //         hiding: false,
+    //     },
+    //     {
+    //         name: "ExitTime",
+    //         label: "Exit Time",
+    //         type: "timepiker",
+    //         label_size: 12,
+    //         col_size: 6,
+    //         disable: false,
+    //         hiding: false,
+    //     },
+
+    // ];
 
     const fields1 = [
         {
@@ -1208,7 +1347,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         },
         {
             name: "Quantity",
-            label: "Lot Size",
+            label: showEditModal && EditDataScalping.Exchange == "NFO" ? "Lot" : "Quantity",
             type: "text5",
             label_size: 12,
             col_size: 6,
@@ -1335,6 +1474,244 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             hiding: false,
         },
 
+    ];
+
+    
+
+    const EntryRuleArr = [
+
+        {
+            name: "EntryPrice",
+            label: showEditModal && EditDataScalping.ScalpType != "Fixed Price" ? "First Trade Lower Range" : "Lower Price",
+            type: "text3",
+            col_size: 4,
+            disable: false,
+            headingtype: 2,
+            hiding: false,
+        },
+
+        {
+            name: "EntryRange",
+            label: showEditModal && EditDataScalping.ScalpType != "Fixed Price" ? "First Trade Higher Range" : "Higher Price",
+            type: "text3",
+            label_size: 12,
+            headingtype: 2,
+            col_size: 4,
+            disable: false,
+            hiding: false,
+        },
+
+
+    ];
+
+    const ExitRuleArr = [
+
+        {
+            name: "TStype",
+            label: "Measurement Type",
+            type: "select",
+            options: [
+                { label: "Percentage", value: "Percentage" },
+                { label: "Point", value: "Point" },
+            ],
+            showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
+            label_size: 12,
+            headingtype: 4,
+            col_size: 4,
+            hiding: false,
+            disable: false,
+        },
+
+        {
+            name: "Targetvalue",
+            label: showEditModal && EditDataScalping.ScalpType == "Fixed Price" ? "Target Price" : formik.values.Strategy == "One Directional" ? "Fixed Target" : "Booking Point",
+            type: "text3",
+            label_size: 12,
+            col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+            headingtype: 3,
+            disable: false,
+            hiding: false,
+        },
+
+
+        {
+            name: "Slvalue",
+            label: showEditModal && EditDataScalping.ScalpType == "Fixed Price" ? "Stoploss Price" : "Re-Entry Point",
+            type: "text3",
+            label_size: 12,
+            col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+            headingtype: 3,
+            disable: false,
+            hiding: false,
+        },
+    ];
+    const RiskManagementArr = [
+        {
+            name: "Quantity",
+            label: showEditModal && EditDataScalping.Exchange == "NFO" ? "Lot" : "Quantity",
+            type: "text3",
+            label_size: 12,
+            col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+            headingtype: 4,
+            hiding: false,
+            disable: false,
+        },
+
+        {
+            name: "LowerRange",
+            label: "Lower Range",
+            type: "text3",
+            label_size: 12,
+            col_size: 4,
+            showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
+            headingtype: 4,
+            disable: false,
+            hiding: false,
+        },
+
+        {
+            name: "HigherRange",
+            label: "Higher Range",
+            type: "text3",
+            label_size: 12,
+            col_size: 4,
+            headingtype: 4,
+            showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
+            disable: false,
+            hiding: false,
+        },
+
+        {
+            name: "HoldExit",
+            label: "Hold/Exit",
+            type: "select",
+            options: [
+                { label: "Hold", value: "Hold" },
+                { label: "Exit", value: "Exit" },
+            ],
+            showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
+            label_size: 12,
+            col_size: 4,
+            headingtype: 4,
+            disable: false,
+            hiding: false,
+        },
+        {
+            name: "Trade_Count",
+            label: "Trade Count",
+            type: "text3",
+            label_size: 12,
+            col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+            headingtype: 4,
+            disable: false,
+            hiding: false,
+        },
+
+        {
+            name: "TradeCount",
+            label: "Trade Count",
+            type: "text5",
+            label_size: 12,
+            col_size: 6,
+            disable: false,
+            hiding: false,
+        },
+    ];
+
+    const TimeDurationArr = [
+        {
+            name: "EntryTime",
+            label: "Entry Time",
+            type: "timepiker",
+            label_size: 12,
+            col_size: 4,
+            headingtype: 5,
+            disable: false,
+            hiding: false,
+        },
+        {
+            name: "ExitTime",
+            label: "Exit Time",
+            type: "timepiker",
+            label_size: 12,
+            col_size: 4,
+            headingtype: 5,
+            disable: false,
+            hiding: false,
+        },
+
+    ];
+
+
+
+    const fields = [
+
+
+        {
+            name: "Heading",
+            label: "Entry_Rule",
+            type: "heading",
+            hiding: false,
+            label_size: 12,
+            headingtype: 2,
+            col_size: 12,
+            data: EntryRuleArr.filter(
+                (item) => !item.showWhen || item.showWhen(formik.values)
+            ),
+            disable: false,
+        },
+        {
+            name: "Heading",
+            label: "Risk_Management",
+            type: "heading",
+            hiding: false,
+            label_size: 12,
+            headingtype: 4,
+            col_size: 12,
+            data: RiskManagementArr.filter(
+                (item) => !item.showWhen || item.showWhen(formik.values)
+            ),
+            disable: false,
+        },
+        {
+            name: "Heading",
+            label: "Exit_Rule",
+            type: "heading",
+            hiding: false,
+            label_size: 12,
+            col_size: 12,
+            headingtype: 3,
+            data: ExitRuleArr.filter(
+                (item) => !item.showWhen || item.showWhen(formik.values)
+            ),
+            disable: false,
+        },
+        {
+            name: "Heading",
+            label: "Time_Duration",
+            type: "heading",
+            hiding: false,
+            label_size: 12,
+            col_size: 12,
+            headingtype: 5,
+            data: TimeDurationArr.filter(
+                (item) => !item.showWhen || item.showWhen(formik.values)
+            ),
+            disable: false,
+        },
+        // {
+        //     name: "Heading",
+        //     label: "Other_Parameters",
+        //     type: "heading",
+        //     hiding: false,
+        //     label_size: 12,
+        //     col_size: 12,
+        //     headingtype: 6,
+        //     data: OtherParameterArr.filter(
+        //         (item) => !item.showWhen || item.showWhen(formik.values)
+        //     ),
+        //     disable: false,
+        // },
     ];
 
     useEffect(() => {

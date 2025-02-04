@@ -5,6 +5,7 @@ import { SquarePen, Trash2 } from 'lucide-react';
 import { useFormik } from 'formik';
 import Swal from 'sweetalert2';
 import AddForm from '../../../ExtraComponent/FormData';
+import NoDataFound from '../../../ExtraComponent/NoDataFound';
 
 const ClientThreadReport = () => {
 
@@ -68,9 +69,9 @@ const ClientThreadReport = () => {
             .then((response) => {
                 if (response.Status) {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Success",
                         text: response.message,
                         icon: "success",
@@ -82,9 +83,9 @@ confirmButtonColor: "#1ccc8a",
                 else {
 
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Error",
                         text: response.message,
                         icon: "error",
@@ -262,9 +263,9 @@ confirmButtonColor: "#1ccc8a",
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Success",
                             text: response.message,
                             icon: "success",
@@ -353,11 +354,19 @@ confirmButtonColor: "#1ccc8a",
 
                                 </div>
                             </div>
-                            <FullDataTable
-                                columns={columns}
-                                data={getAllClientdetails}
-                                checkBox={false}
-                            />
+                            {
+                                getAllClientdetails && getAllClientdetails.length > 0 ?
+                                    (
+                                        <FullDataTable
+                                            columns={columns}
+                                            data={getAllClientdetails}
+                                            checkBox={false}
+                                        />
+                                    )
+                                    :
+                                    (<NoDataFound />)
+                            }
+
                         </div>
                     </div>
                 </div>

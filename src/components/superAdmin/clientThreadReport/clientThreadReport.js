@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { getCompanyName, clientThreadeReport } from '../../CommonAPI/SuperAdmin'
 import FullDataTable from '../../../ExtraComponent/CommanDataTable'
+import NoDataFound from '../../../ExtraComponent/NoDataFound'
 
 const ClientThreadReport = () => {
 
@@ -181,11 +182,17 @@ const ClientThreadReport = () => {
                                     </div> */}
                                 </div>
                             </div>
-                            <FullDataTable
-                                columns={columns}
-                                data={getAllClientThreadeReport}
-                                checkBox={false}
-                            />
+                            {
+                                getAllClientThreadeReport?.length > 0 ?
+                                    (<FullDataTable
+                                        columns={columns}
+                                        data={getAllClientThreadeReport}
+                                        checkBox={false}
+                                    />)
+                                    :
+                                    (<NoDataFound />)
+                            }
+
                         </div>
                     </div>
                 </div>

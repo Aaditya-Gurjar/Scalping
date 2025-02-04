@@ -5,6 +5,7 @@ import GridExample from '../../../ExtraComponent/CommanDataTable'
 import AddForm from '../../../ExtraComponent/FormData'
 import { useFormik } from 'formik';
 import { width } from '@fortawesome/free-solid-svg-icons/fa0';
+import NoDataFound from '../../../ExtraComponent/NoDataFound';
 
 const Strategygroup = () => {
     const [getGroupData, setGroupData] = useState({
@@ -286,13 +287,19 @@ const Strategygroup = () => {
                         </div>
 
                         <div className="iq-card-body">
-                            <div className="table-responsive customtable">
-                                <GridExample
-                                    columns={columns}
-                                    data={getGroupData.data}
-                                    checkBox={false}
-                                />
-                            </div>
+                            {
+                                getGroupData.data && getGroupData.data.length > 0 ?
+                                    (<div className="table-responsive customtable">
+                                        <GridExample
+                                            columns={columns}
+                                            data={getGroupData.data}
+                                            checkBox={false}
+                                        />
+                                    </div>)
+                                    :
+                                    (<NoDataFound />)
+                            }
+
                         </div>
                     </div>
                 </div>
