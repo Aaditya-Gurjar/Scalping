@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import FullDataTable from '../../../ExtraComponent/CommanDataTable'
 import { GetAllTaskStatus, GetClientService, Get_All_Client_Logs } from '../../CommonAPI/Admin'
 import { columns3, columns2, columns1, columns } from './UserAllColumn'
+import NoDataFound from '../../../ExtraComponent/NoDataFound'
 
 const Pannel = () => {
 
@@ -159,21 +160,36 @@ const Pannel = () => {
                                 </div>
                             </div>
                             <div className="table-responsive">
-                                <FullDataTable
-                                    columns={getScript == 'Scalping' ? columns() : getScript == 'Option Strategy' ? columns1() : getScript == 'Pattern' ? columns2() : columns()}
-                                    data={getPanleData.data}
-                                    checkBox={false}
-                                />
-                                {getScript == 'Scalping' ?
+                                {getPanleData?.data?.length > 0 || getPanleData?.data1?.length > 0 ? (
                                     <>
-                                        <h4 className='mt-3' >Multi Condition</h4>
-                                        <FullDataTable
+                                        {getPanleData.data && (
+                                            <FullDataTable
+                                                columns={
+                                                    getScript === "Scalping"
+                                                        ? columns()
+                                                        : getScript === "Option Strategy"
+                                                            ? columns1()
+                                                            : getScript === "Pattern"
+                                                                ? columns2()
+                                                                : columns()
+                                                }
+                                                data={getPanleData.data}
+                                                checkBox={false}
+                                            />
+                                        )}
 
-                                            columns={columns3()}
-                                            data={getPanleData.data1}
-                                            checkBox={false}
-                                        />
-                                    </> : ""}
+                                        {getScript === "Scalping" && getPanleData.data1 && (
+                                            <div>
+                                                <h4 className="mt-3">Multi Condition</h4>
+                                                <FullDataTable columns={columns3()} data={getPanleData.data1} checkBox={false} />
+                                            </div>
+                                        )}
+                                    </>
+                                ) : (
+                                    <NoDataFound />
+                                )}
+
+
                             </div >
                         </div>
                     </div >
@@ -184,4 +200,3 @@ const Pannel = () => {
 }
 export default Pannel
 
-    

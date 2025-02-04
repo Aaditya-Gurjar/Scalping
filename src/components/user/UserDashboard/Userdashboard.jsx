@@ -54,7 +54,7 @@ const Userdashboard = () => {
   const fetchStrategyType = async () => {
     try {
       const res = await getStrategyType();
-      if (res.Data) {
+      if (res.Data) { 
         setStrategyType(res.Data);
       }
     } catch (error) {
@@ -82,7 +82,7 @@ const Userdashboard = () => {
         console.log("Error in finding the group name", err);
       });
   };
-  console.log("serviceStatus", serviceStatus);
+  // console.log("serviceStatus", serviceStatus);
   const GetExpriyEndDate = async () => {
     const data = { Username: userName };
     await ExpriyEndDate(data)

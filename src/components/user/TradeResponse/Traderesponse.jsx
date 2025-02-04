@@ -222,9 +222,9 @@ const TradeResponse = () => {
   const handleRowSelect = (rowData) => {
     setSelectedRowData(rowData);
   };
-  useEffect(() => {
-    setTableType("Scalping");
-  }, []);
+  // useEffect(() => {
+  //   setTableType("Scalping");
+  // }, []);
 
   useEffect(() => {
     if (!location?.state?.RowIndex) {

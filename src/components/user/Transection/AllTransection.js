@@ -49,7 +49,7 @@ const Clientservice = () => {
         await GetUserBalence(req)
             .then((response) => {
                 if (response.Status) {
-                    setWalletBalance(response.Balance)
+                    setWalletBalance(response.Balance) 
                 }
                 else {
                     setWalletBalance('')
@@ -300,7 +300,7 @@ confirmButtonColor: "#1ccc8a",
                         <div className='iq-card-body'>
                             <div className='d-flex justify-content-between'>
                                 <div className="wallet-balance-container">
-                                    <span className="balance-label">Remaining Balance:</span>
+                                    <span className="balance-label" style={{color:'white'}}>Remaining Balance:</span>
                                     <span className="balance-amount"> ₹ {walletBalance}</span>
                                 </div>
 

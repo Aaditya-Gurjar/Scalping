@@ -119,7 +119,7 @@ const TradeReport = () => {
     }, []);
 
     useEffect(() => {
-        setTableType("Scalping");
+        setTableType("MultiCondition");
     }, [selectStrategyType]);
 
 

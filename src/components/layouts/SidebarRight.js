@@ -183,37 +183,37 @@ const Sidebar = () => {
        
         {
             path: '/admin/tradehistory',
-            icon: 'las la-history', // Trade History icon
+            icon: 'la la-history', // Trade History icon
             label: 'Trade History',
             permission: [] // No restriction
         },
         {
             path: '/admin/clientactivity',
-            icon: 'las la-radiation-alt', // Client Activity icon
+            icon: 'la la-fingerprint', // Client Activity icon
             label: 'Client Activity',
             permission: [] // No restriction
         },
         {
             path: '/admin/clientreport',
-            icon: 'la la-map-marker', // Client Thread Report icon
+            icon: 'la la-briefcase', // Client Thread Report icon
             label: 'Client Trade Report',
             permission: [] // No restriction
         },
         {
             path: '/admin/smtp',
-            icon: 'la la-palette', // SMTP Details icon
+            icon: 'la la-envelope', // SMTP Details icon
             label: 'SMTP Details',
             permission: [] // No restriction
         },
         {
             path: '/admin/system',
-            icon: 'la la-cog', // System icon
+            icon: 'la la-desktop', // System icon
             label: 'System',
             permission: [] // No restriction
         },
         {
             path: '/admin/api-create-info',
-            icon: 'la la-cog', // API Create Info icon
+            icon: 'la la-rocket', // API Create Info icon
             label: 'ApiCreateInfo',
             permission: [] // No restriction
         }
@@ -282,7 +282,7 @@ const Sidebar = () => {
        
         {
             path: 'tradehistory',
-            icon: <i className="la la-palette" />,
+            icon: <i className="la la-history" />,
             label: 'Trade History',
             permission: [] // No restriction
         },

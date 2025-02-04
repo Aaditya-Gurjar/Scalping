@@ -7,6 +7,7 @@ import Loader from '../../../ExtraComponent/Loader'
 import Swal from 'sweetalert2';
 import Checkbox from '@mui/material/Checkbox';
 import { columns2, columns1, columns } from './ScriptColumns'
+import NoDataFound from '../../../ExtraComponent/NoDataFound';
 
 
 const Addscript = () => {
@@ -39,9 +40,9 @@ const Addscript = () => {
         }
 
         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+            background: "#1a1e23 ",
+            backdrop: "#121010ba",
+            confirmButtonColor: "#1ccc8a",
             title: "Are you sure?",
             text: "You won't be able to revert this!",
             icon: "warning",
@@ -56,9 +57,9 @@ confirmButtonColor: "#1ccc8a",
                     if (response.Status) {
                         setRefresh(!refresh);
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Deleted!",
                             text: response.message,
                             icon: "success",
@@ -67,9 +68,9 @@ confirmButtonColor: "#1ccc8a",
                         });
                     } else {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Error!",
                             text: response.message,
                             icon: "error",
@@ -80,9 +81,9 @@ confirmButtonColor: "#1ccc8a",
                 } catch (err) {
                     console.error("Error in delete script", err);
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Error!",
                         text: "Something went wrong while deleting.",
                         icon: "error",
@@ -156,7 +157,7 @@ confirmButtonColor: "#1ccc8a",
                         loading: false,
                         data: [],
                         data1: []
-                        
+
                     })
                 }
             })
@@ -258,31 +259,50 @@ confirmButtonColor: "#1ccc8a",
                                 </div>
                             </form>
 
+                           { getAllService?.data?.length > 0 || getAllService?.data1?.length > 0 ? (
+                            <>
+                                {getAllService.loading ? (
+                                    <Loader />
+                                ) : (
+                                    <FullDataTable
+                                        columns={
+                                            selectStrategyType === "Scalping"
+                                                ? columns(handleDelete)
+                                                : selectStrategyType === "Option Strategy"
+                                                    ? columns1(handleDelete)
+                                                    : selectStrategyType === "Pattern"
+                                                        ? columns2(handleDelete)
+                                                        : columns(handleDelete)
+                                        }
+                                        data={getAllService.data}
+                                        checkBox={false}
+                                    />
+                                )}
 
-                            {getAllService.loading ? <Loader /> :
-                                <FullDataTable
-                                    columns={selectStrategyType == "Scalping" ? columns(handleDelete) : selectStrategyType == "Option Strategy" ? columns1(handleDelete) : selectStrategyType == "Pattern" ? columns2(handleDelete) : columns(handleDelete)}
-                                    data={getAllService.data}
-                                    checkBox={false}
-                                />
-                            }
-
-                            {getAllService.loading ? (
-                                <Loader />
+                                {getAllService.loading ? (
+                                    <Loader />
+                                ) : (
+                                    selectStrategyType === "Scalping" && (
+                                            getAllService.data1 &&
+                                        <>
+                                            <div>
+                                                <h4 className="bold mt-3 mb-2">Multi Condition</h4>
+                                            </div>
+                                            <FullDataTable
+                                                columns={columns(handleDelete)}
+                                                data={getAllService.data1}
+                                                checkBox={false}
+                                            />
+                                        </>
+                                    )
+                                )}
+                            </>
                             ) : (
-                                selectStrategyType === "Scalping" && (
-                                    <>
-                                        <div>
-                                            <h4 className="bold mt-3 mb-2">Multi Condition</h4>
-                                        </div>
-                                        <FullDataTable
-                                            columns={columns(handleDelete)}
-                                            data={getAllService.data1}
-                                            checkBox={false}
-                                        />
-                                    </>
-                                )
-                            )}
+                            <NoDataFound />
+                            )
+}
+
+
                         </div>
                     </div>
                 </div>

@@ -162,11 +162,24 @@ const Adduser = () => {
             }
             if (!values.email) {
                 errors.email = "Please Enter Email ID";
-            }
-            else {
-                const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail|yahoo|ymail|rediffmail|hotmail|outlook|aol|icloud|protonmail|example).(com|co.in|in|net|org|edu|gov|uk|us|info|biz|io|...)[a-zA-Z]{0,}$/;
-                if (!emailRegex.test(values.email)) {
-                    errors.email = "Please Enter valid Email ID";
+            } else {
+                const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|co\.in|in|net|org|edu|gov|uk|us|info|biz|io|co)$/i;
+                
+                // Trim spaces
+                const trimmedEmail = values.email.trim();
+                
+                if (!emailRegex.test(trimmedEmail)) {
+                    errors.email = "Please Enter a Valid Email ID";
+                } 
+                
+                // Check for multiple dots in domain like "abc@gmail..com"
+                else if (/\.\./.test(trimmedEmail)) {
+                    errors.email = "Invalid Email Format";
+                }
+        
+                // Check if email starts or ends with a special character
+                else if (/^[._%+-]|[._%+-]$/.test(trimmedEmail)) {
+                    errors.email = "Email cannot start or end with special characters";
                 }
             }
             if (!values.password) {

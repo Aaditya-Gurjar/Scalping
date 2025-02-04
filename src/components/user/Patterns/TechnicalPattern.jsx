@@ -255,7 +255,7 @@ const LastPattern = () => {
                             setCandlestickPattern(e.target.value)
                           }
                           value={candlestickPattern}>
-                          <option value="">Please Select Pattern</option>
+                          {/* <option value="">Please Select Pattern</option> */}
                           {patternNames.data &&
                             patternNames.data.map((item) => (
                               <option value={item} key={item}>
@@ -271,7 +271,7 @@ const LastPattern = () => {
                           className="form-control  mt-2"
                           onChange={(e) => setChartingPattern(e.target.value)}
                           value={chartingPattern}>
-                          <option value="">Please Select Pattern</option>
+                          {/* <option value="">Please Select Pattern</option> */}
                           {chartingPatternNames.data.map((item) => (
                             <option value={item} key={item}>
                               {item}
@@ -294,7 +294,7 @@ const LastPattern = () => {
                         className="form-control  mt-2"
                         onChange={(e) => setScriptType(e.target.value)}
                         value={scriptType}>
-                        <option value="">Please Select Script</option>
+                        {/* <option value="">Please Select Script</option> */}
                         <option value="AvailableScript">
                           Available Script
                         </option>
@@ -311,7 +311,7 @@ const LastPattern = () => {
                       className="form-control  mt-2"
                       onChange={(e) => setSelectedTimeFrame(e.target.value)}
                       value={selectedTimeFrame}>
-                      <option value="">Please Select Time Frame</option>
+                      {/* <option value="">Please Select Time Frame</option> */}
                       {timeFrameData?.data?.map((item) => (
                         <option value={item} key={item}>
                           {item}
