@@ -175,9 +175,9 @@ const TradeResponse = () => {
       });
   };
 
-  useEffect(() => {
-    setTableType("Scalping");
-  }, [selectStrategyType]);
+  // useEffect(() => {
+  //   setTableType("Scalping");
+  // }, [selectStrategyType]);
 
   useEffect(() => {
     GetTradeResposne();
@@ -227,22 +227,20 @@ const TradeResponse = () => {
   // }, []);
 
   useEffect(() => {
-    if (!location?.state?.RowIndex) {
-      if (selectStrategyType == "Scalping") {
-        setTableType("MultiCondition");
-      } else {
-        setTableType("Scalping");
-      }
-    } else if (
-      location?.state?.type &&
-      location?.state?.type != "MultiCondition"
-    ) {
-      setSelectStrategyType(location?.state?.type);
-    } else if (location?.state?.type == "MultiCondition") {
-      setTableType("MultiCondition");
-      setSelectStrategyType("Scalping");
-    }
-  }, [preSelectTableType, selectStrategyType]);
+          if (!location?.state?.type) {
+          if (selectStrategyType == "Scalping") {
+            setTableType("MultiCondition");
+          } 
+        } else if (
+          location?.state?.type &&
+          location?.state?.type != "MultiCondition"
+        ) {
+          setSelectStrategyType(location?.state?.type);
+        } else if (location?.state?.type == "MultiCondition") {
+          setTableType("MultiCondition");
+          setSelectStrategyType("Scalping");
+        }
+      }, [preSelectTableType]);
 
   const handleSubmit = async () => {
     const data = {

@@ -8,7 +8,7 @@ import { createPortal } from "react-dom";
 
 
 // DropdownComponent as a separate component
-const DropdownComponent = ({ tableMeta, handleDelete, type }) => {
+const DropdownComponent = ({ tableMeta, handleDelete, type, handleMatchPosition }) => {
     const navigate = useNavigate();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
@@ -39,6 +39,7 @@ const DropdownComponent = ({ tableMeta, handleDelete, type }) => {
 
         setIsDropdownOpen(true);
     };
+
 
     const handleOutsideClick = (event) => {
         if (
@@ -110,14 +111,15 @@ const DropdownComponent = ({ tableMeta, handleDelete, type }) => {
                             >
                                 Square Off
                             </li>
+                           { type == "MultiCondition" && 
                             <li
-                                onClick={() => navigate("/user/profitandloss", { state: { RowIndex: tableMeta?.rowIndex, goto: "dashboard" } })}
+                                onClick={handleMatchPosition}
                                 style={{ padding: "8px 16px", cursor: "pointer", color: "#fff" }}
                                 onMouseEnter={(e) => (e.target.style.backgroundColor = "#444")}
                                 onMouseLeave={(e) => (e.target.style.backgroundColor = "#333")}
                             >
                                 Match Position
-                            </li>
+                            </li>}
                             <li
                                 onClick={() => navigate("/user/tradehistory", { state: { type, RowIndex: tableMeta?.rowIndex, goto: "dashboard" } })}
                                 style={{ padding: "8px 16px", cursor: "pointer", color: "#fff" }}
@@ -1063,13 +1065,13 @@ export const getColumns3 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
             customBodyRender: (value, tableMeta, updateValue) => {
                 // console.log("page ma kya value aa rhe hai ", value);
-                
+
                 const label = value ? "Continue" : "Discontinue";
                 const labelStyle = value ? { color: 'green' } : { color: 'red' };
-    
+
                 return (
-                    <span 
-                        onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} 
+                    <span
+                        onClick={() => handleContinutyDiscontinuty(tableMeta, 2)}
                         style={labelStyle}
                     >
                         {label}
@@ -1103,7 +1105,7 @@ export const getColumns3 = (handleDelete, handleEdit, handleContinutyDiscontinut
             customBodyRender: (value, tableMeta, updateValue) => {
                 return (
                     <div>
-                        <DropdownComponent tableMeta={tableMeta} handleDelete={() => handleDelete(tableMeta, 1)} type="Scalping" />
+                        <DropdownComponent tableMeta={tableMeta} handleDelete={() => handleDelete(tableMeta, 1)}  type="Scalping" />
                     </div>
                 );
             },
@@ -1326,13 +1328,13 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
             customBodyRender: (value, tableMeta, updateValue) => {
                 // console.log("page ma kya value aa rhe hai ", value);
-                
+
                 const label = value ? "Continue" : "Discontinue";
                 const labelStyle = value ? { color: 'green' } : { color: 'red' };
-    
+
                 return (
-                    <span 
-                        onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} 
+                    <span
+                        onClick={() => handleContinutyDiscontinuty(tableMeta, 2)}
                         style={labelStyle}
                     >
                         {label}
@@ -1583,21 +1585,21 @@ export const getColumns5 = (handleDelete, handleEdit, handleContinutyDiscontinut
             }
         },
     },
-    {
-        name: "Action",
-        label: "Action",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value, tableMeta, updateValue) => {
-                return <><button className='btn btn-primary ' onClick={() => handleDelete(tableMeta, 2)}>
-                    Square Off
-                </button>
+    // {
+    //     name: "Action",
+    //     label: "Action",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //         customBodyRender: (value, tableMeta, updateValue) => {
+    //             return <><button className='btn btn-primary ' onClick={() => handleDelete(tableMeta, 2)}>
+    //                 Square Off
+    //             </button>
 
-                </>
-            }
-        }
-    },
+    //             </>
+    //         }
+    //     }
+    // },
     {
         name: "Edit",
         label: "Edit",
@@ -1640,17 +1642,32 @@ export const getColumns5 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
             customBodyRender: (value, tableMeta, updateValue) => {
                 // console.log("page ma kya value aa rhe hai ", value);
-                
+
                 const label = value ? "Continue" : "Discontinue";
                 const labelStyle = value ? { color: 'green' } : { color: 'red' };
-    
+
                 return (
-                    <span 
-                        onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} 
+                    <span
+                        onClick={() => handleContinutyDiscontinuty(tableMeta, 2)}
                         style={labelStyle}
                     >
                         {label}
                     </span>
+                );
+            }
+        }
+    },
+    {
+        name: "Action",
+        label: "Action",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value, tableMeta, updateValue) => {
+                return (
+                    <div>
+                        <DropdownComponent tableMeta={tableMeta} handleDelete={() => handleDelete(tableMeta, 1)}   type="Option Strategy" />
+                    </div>
                 );
             }
         }
@@ -1820,7 +1837,7 @@ export const getColumns5 = (handleDelete, handleEdit, handleContinutyDiscontinut
 ];
 
 
-export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinuty) => [
+export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinuty, handleMatchPosition) => [
     {
         name: "S.No",
         label: "S.No",
@@ -1890,10 +1907,10 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             customBodyRender: (value, tableMeta, updateValue) => {
                 const label = value ? "Continue" : "Discontinue";
                 const labelStyle = value ? { backgroundColor: 'green', color: 'white' } : { backgroundColor: 'red', color: 'white' };
-    
+
                 return (
-                    <button 
-                        onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} 
+                    <button
+                        onClick={() => handleContinutyDiscontinuty(tableMeta, 2)}
                         style={{ ...labelStyle, border: 'none', padding: '5px 10px', cursor: 'pointer', borderRadius: '5px' }}
                     >
                         {label}
@@ -1901,7 +1918,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
                 );
             }
         }
-    },    
+    },
     {
         name: "ScalpType",
         label: "Scalp Type",
@@ -1925,11 +1942,14 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             filter: true,
             sort: true,
             customBodyRender: (value, tableMeta, updateValue) => {
-                return (
-                    <div>
-                        <DropdownComponent tableMeta={tableMeta} handleDelete={() => handleDelete(tableMeta, 2)} type="MultiCondition" />
-                    </div>
-                );
+                
+                    return (
+                        <div>
+                            <DropdownComponent tableMeta={tableMeta} handleDelete={() => handleDelete(tableMeta, 2)} handleMatchPosition={() => handleMatchPosition(tableMeta, 2)}  type="MultiCondition" />
+                        </div>
+                    );
+               
+               
             },
         },
     },
@@ -2200,13 +2220,13 @@ export const getColumns8 = (handleContinutyDiscontinuty) => [
             sort: true,
             customBodyRender: (value, tableMeta, updateValue) => {
                 // console.log("page ma kya value aa rhe hai ", value);
-                
+
                 const label = value ? "Continue" : "Discontinue";
                 const labelStyle = value ? { color: 'green' } : { color: 'red' };
-    
+
                 return (
-                    <span 
-                        onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} 
+                    <span
+                        onClick={() => handleContinutyDiscontinuty(tableMeta, 2)}
                         style={labelStyle}
                     >
                         {label}
