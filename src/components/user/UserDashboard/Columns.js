@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { createPortal } from "react-dom";
 
 
+
 // DropdownComponent as a separate component
 const DropdownComponent = ({ tableMeta, handleDelete, type }) => {
     const navigate = useNavigate();
@@ -1002,20 +1003,6 @@ export const getColumns3 = (handleDelete, handleEdit, handleContinutyDiscontinut
             }
         },
     },
-    // {
-    //     name: "Action",
-    //     label: "Action ",
-    //     options: {
-    //         filter: true,
-    //         sort: true,
-    //         customBodyRender: (value, tableMeta, updateValue) => {
-    //             return <><button className='btn btn-primary' onClick={() => handleDelete(tableMeta, 1)}>
-    //                 Square Off
-    //             </button>
-    //             </>
-    //         }
-    //     }
-    // },
     {
         name: "Edit",
         label: "Edit",

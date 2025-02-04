@@ -312,7 +312,7 @@ const LastPattern = () => {
                       onChange={(e) => setSelectedTimeFrame(e.target.value)}
                       value={selectedTimeFrame}>
                       <option value="">Please Select Time Frame</option>
-                      {timeFrameData.data.map((item) => (
+                      {timeFrameData?.data?.map((item) => (
                         <option value={item} key={item}>
                           {item}
                         </option>
