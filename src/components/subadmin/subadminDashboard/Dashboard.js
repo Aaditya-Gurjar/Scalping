@@ -10,7 +10,7 @@ const Dashboard = () => {
     try {
       const req = {userName:userName};
       const response = await subAdminDashboard(req);
-      console.log("Dashboard Response: ", response);
+      console.log("Dashboard Response: ", response.Data);
       
       if (response?.Status) {
         setData({ loading: false, data: response.Data });
@@ -42,7 +42,11 @@ const Dashboard = () => {
           <div className="col-sm-12">
             <div className="row">
               {data.data.map((item, index) => (
+
+               
+                
                 <>
+                {console.log("item",item.Total_Live_Account)}
                 <div className="col-lg-4" >
                   <div className="iq-card">
                     <div className="iq-card-header d-flex justify-content-between">
@@ -61,7 +65,7 @@ const Dashboard = () => {
                           style={{ width: `${item.progress || 40}%` }}
                         />
                       </div>
-                      <div className="table-responsive mt-4">
+                      <div className="table-responsive mt-4 new-font-color">
                         <table className="table mb-0 table-borderless">
                           <tbody>
                             <tr>
@@ -72,7 +76,7 @@ const Dashboard = () => {
                                 <h4>Total:</h4>
                               </td>
                               <td>
-                                <span className="text-muted">{item.Total_Live_Account}</span>
+                                <span className="text-white" >{item.Total_Live_Account}</span>
                               </td>
                             </tr>
                             <tr>
@@ -83,7 +87,7 @@ const Dashboard = () => {
                                 <h4>Active:</h4>
                               </td>
                               <td>
-                                <span className="text-muted">{item.Active_Live_Account}</span>
+                                <span className="text-white">{item.Active_Live_Account}</span>
                               </td>
                             </tr>
                             
@@ -95,7 +99,7 @@ const Dashboard = () => {
                                 <h4>Expired:</h4>
                               </td>
                               <td>
-                                <span className="text-muted">{item.Expired_Live_Account}</span>
+                                <span className="text-white">{item.Expired_Live_Account}</span>
                               </td>
                             </tr>                               
                           </tbody>
@@ -135,7 +139,7 @@ const Dashboard = () => {
                                <h4>Total:</h4>
                              </td>
                              <td>
-                               <span className="text-muted">{item.Total_Free_Demo_Account}</span>
+                               <span className="text-white">{item.Total_Free_Demo_Account}</span>
                              </td>
                            </tr>
                            <tr>
@@ -146,7 +150,7 @@ const Dashboard = () => {
                                <h4>Active:</h4>
                              </td>
                              <td>
-                               <span className="text-muted">{item.Active_Free_Demo_Account}</span>
+                               <span className="text-white">{item.Active_Free_Demo_Account}</span>
                              </td>
                            </tr>
                            
@@ -158,7 +162,7 @@ const Dashboard = () => {
                                <h4>Expired:</h4>
                              </td>
                              <td>
-                               <span className="text-muted">{item.Expired_Free_Demo_Account}</span>
+                               <span className="text-white">{item.Expired_Free_Demo_Account}</span>
                              </td>
                            </tr>                               
                          </tbody>
@@ -199,7 +203,7 @@ const Dashboard = () => {
                                <h4>Total:</h4>
                              </td>
                              <td>
-                               <span className="text-muted">{item.Total_Two_Days_Live_Account}</span>
+                               <span className="text-white">{item.Total_Two_Days_Live_Account}</span>
                              </td>
                            </tr>
                            <tr>
@@ -210,7 +214,7 @@ const Dashboard = () => {
                                <h4>Active:</h4>
                              </td>
                              <td>
-                               <span className="text-muted">{item.Active_Two_Days_Live_Account}</span>
+                               <span className="text-white">{item.Active_Two_Days_Live_Account}</span>
                              </td>
                            </tr>
                            
@@ -222,7 +226,7 @@ const Dashboard = () => {
                                <h4>Expired:</h4>
                              </td>
                              <td>
-                               <span className="text-muted">{item.Expired_Two_Days_Live_Account}</span>
+                               <span className="text-white">{item.Expired_Two_Days_Live_Account}</span>
                              </td>
                            </tr>                               
                          </tbody>
@@ -262,7 +266,7 @@ const Dashboard = () => {
                                <h4>Total:</h4>
                              </td>
                              <td>
-                               <span className="text-muted">{item.Total_Service_Count_1}</span>
+                               <span className="text-white">{item.Total_Service_Count_1}</span>
                              </td>
                            </tr>
                            <tr>
@@ -273,7 +277,7 @@ const Dashboard = () => {
                                <h4>Active:</h4>
                              </td>
                              <td>
-                               <span className="text-muted">{item.Active_Service_Count_1}</span>
+                               <span className="text-white">{item.Active_Service_Count_1}</span>
                              </td>
                            </tr>
                            
@@ -285,7 +289,7 @@ const Dashboard = () => {
                                <h4>Expired:</h4>
                              </td>
                              <td>
-                               <span className="text-muted">{item.Expired_Service_Count_1}</span>
+                               <span className="text-white">{item.Expired_Service_Count_1}</span>
                              </td>
                            </tr>                               
                          </tbody>
@@ -325,7 +329,7 @@ const Dashboard = () => {
                                <h4>Total:</h4>
                              </td>
                              <td>
-                               <span className="text-muted">{item.Total_Service_Count_2}</span>
+                               <span className="text-white">{item.Total_Service_Count_2}</span>
                              </td>
                            </tr>
                            <tr>
@@ -336,7 +340,7 @@ const Dashboard = () => {
                                <h4>Active:</h4>
                              </td>
                              <td>
-                               <span className="text-muted">{item.Active_Service_Count_2}</span>
+                               <span className="text-white">{item.Active_Service_Count_2}</span>
                              </td>
                            </tr>
                            
@@ -348,7 +352,7 @@ const Dashboard = () => {
                                <h4>Expired:</h4>
                              </td>
                              <td>
-                               <span className="text-muted">{item.Expired_Service_Count_2}</span>
+                               <span className="text-white">{item.Expired_Service_Count_2}</span>
                              </td>
                            </tr>                               
                          </tbody>
@@ -388,7 +392,7 @@ const Dashboard = () => {
                                <h4>Total:</h4>
                              </td>
                              <td>
-                               <span className="text-muted">{item.Total_Service_Count_5}</span>
+                               <span className="text-white">{item.Total_Service_Count_5}</span>
                              </td>
                            </tr>
                            <tr>
@@ -399,7 +403,7 @@ const Dashboard = () => {
                                <h4>Active:</h4>
                              </td>
                              <td>
-                               <span className="text-muted">{item.Active_Service_Count_5}</span>
+                               <span className="text-white">{item.Active_Service_Count_5}</span>
                              </td>
                            </tr>
                            
@@ -411,7 +415,7 @@ const Dashboard = () => {
                                <h4>Expired:</h4>
                              </td>
                              <td>
-                               <span className="text-muted">{item.Expired_Service_Count_5}</span>
+                               <span className="text-white">{item.Expired_Service_Count_5}</span>
                              </td>
                            </tr>                               
                          </tbody>

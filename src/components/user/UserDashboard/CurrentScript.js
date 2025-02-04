@@ -7,6 +7,7 @@ import { getColumns3, getColumns4, getColumns5, getColumns6, getColumns8 } from 
 import Swal from 'sweetalert2';
 import Formikform from "../../../ExtraComponent/FormData";
 import { useFormik } from 'formik';
+import NoDataFound from '../../../ExtraComponent/NoDataFound';
 
 
 const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
@@ -31,8 +32,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         Marketwise: [],
         PremiumRotation: []
     });
-    console.log("getAllService",getAllService);
-    
+
     useEffect(() => {
         GetUserAllScripts()
 
@@ -324,6 +324,14 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                             .then((response) => {
                                 if (response.Status) {
                                     Swal.fire({
+                                        // title: "Success",
+                                        // text: response.message,
+                                        // icon: "success",
+                                        // timer: 2000,
+                                        // timerProgressBar: true
+
+                                        background: "#1a1e23 ",
+                                        backdrop: "#121010ba",
                                         title: "Success",
                                         text: response.message,
                                         icon: "success",
@@ -350,6 +358,13 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                 console.log("response", response)
                                 if (response.Status) {
                                     Swal.fire({
+                                        // title: "Success",
+                                        // text: response.message,
+                                        // icon: "success",
+                                        // timer: 2000,
+                                        // timerProgressBar: true
+                                        background: "#1a1e23 ",
+                                        backdrop: "#121010ba",
                                         title: "Success",
                                         text: response.message,
                                         icon: "success",
@@ -459,15 +474,25 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                         await Continue(req)
                             .then((response) => {
                                 if (response.Status) {
+                                    // Swal.fire({
+                                    //     title: "Success",
+                                    //     text: response.message,
+                                    //     icon: "success",
+                                    //     timer: 1500,
+                                    //     timerProgressBar: true
+                                    // })
                                     Swal.fire({
+                                        background: "#1a1e23 ",
+                                        backdrop: "#121010ba",
                                         title: "Success",
                                         text: response.message,
                                         icon: "success",
                                         timer: 1500,
                                         timerProgressBar: true
-                                    }).then(() => {
-                                        setRefresh(!refresh)
-                                    });
+                                    })
+                                        .then(() => {
+                                            setRefresh(!refresh)
+                                        });
                                 }
                                 else {
                                     Swal.fire({
@@ -575,8 +600,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
         await GetAllUserScript(data)
             .then((response) => {
-                console.log("GetAllUserScript GetAllUserScript GetAllUserScript",response);
-                
+
                 if (response.Status) {
                     setAllservice({
                         loading: false,
@@ -1038,8 +1062,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         }
     });
 
-    console.log("EditDataScalping",EditDataScalping,showEditModal);
-    
+    // console.log("EditDataScalping",EditDataScalping,showEditModal);
+
     const fields = [
         {
             name: "Targetvalue",
@@ -1398,17 +1422,18 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
                                                                 if (!hasPrimaryTableData && !hasSecondaryTableData) {
                                                                     return (
-                                                                        <div
-                                                                            style={{
-                                                                                display: "flex",
-                                                                                justifyContent: "center",
-                                                                                alignItems: "center",
-                                                                                textAlign: "center",
-                                                                                height: "200px",
-                                                                            }}
-                                                                        >
-                                                                            <img src="/assets/images/no-record-found.png" width="30%" alt="No Record Found" />
-                                                                        </div>
+                                                                        // <div
+                                                                        //     style={{
+                                                                        //         display: "flex",
+                                                                        //         justifyContent: "center",
+                                                                        //         alignItems: "center",
+                                                                        //         textAlign: "center",
+                                                                        //         height: "200px",
+                                                                        //     }}
+                                                                        // >
+                                                                        //     <img src="/assets/images/no-record-found.png" width="30%" alt="No Record Found" />
+                                                                        // </div>
+                                                                        <NoDataFound/>
                                                                     );
                                                                 }
 

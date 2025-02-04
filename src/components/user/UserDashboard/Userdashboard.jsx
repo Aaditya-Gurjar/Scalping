@@ -9,10 +9,12 @@ import {
 } from "../../CommonAPI/User";
 import { ExpriyEndDate } from "../../CommonAPI/Admin";
 import FullDataTable from "../../../ExtraComponent/CommanDataTable";
-import NoDataFound from "../../../ExtraComponent/NoDataFound"; 
+import NoDataFound from "../../../ExtraComponent/NoDataFound";
 const Userdashboard = () => {
   const userName = localStorage.getItem("name");
   const [activeTab1, setActiveTab1] = useState("CurrentPosition");
+  
+
   const [activeTab, setActiveTab] = useState("currentScript");
   const [subTab, setSubTab] = useState("Scalping");
   const [refresh, setRefresh] = useState(false);
@@ -54,7 +56,7 @@ const Userdashboard = () => {
   const fetchStrategyType = async () => {
     try {
       const res = await getStrategyType();
-      if (res.Data) { 
+      if (res.Data) {
         setStrategyType(res.Data);
       }
     } catch (error) {
@@ -799,7 +801,7 @@ const Userdashboard = () => {
                   </div>
                 )}
               </div>
-              <div className="">
+              {/* <div className="">
                 {activeTab1 === "CurrentPosition" && (
                   <>
                     {activeTab === "group" && (
@@ -844,15 +846,51 @@ const Userdashboard = () => {
                     )}
                   </>
                 )}
+              </div> */}
+              <div className="">
+                {activeTab1 === "CurrentPosition" ? (
+                  <>
+                    {activeTab === "group" ? (
+                      <div className="tab-pane fade show active" id="home-justify" role="tabpanel">
+                        <div className="mt-3">
+                          {subTab && serviceStatus ? (
+                            getGroup === "copyScript" ? (
+                              <Coptyscript data={subTab} selectedType={activeTab} data2={serviceStatus} />
+                            ) : (
+                              <GroupScript data={subTab} selectedType={activeTab} GroupName={getGroup} data2={serviceStatus} />
+                            )
+                          ) : (
+                            <NoDataFound />
+                          )}
+                        </div>
+                      </div>
+                    ) : activeTab === "currentScript" ? (
+                      <div className="tab-pane fade show active" id="home-justify" role="tabpanel">
+                        <div className="tab-content mt-3">
+                          {subTab && serviceStatus ? (
+                            <CurrentScript tableType={tableType} data={subTab} selectedType={activeTab} data2={serviceStatus} />
+                          ) : (
+                            <NoDataFound />
+                          )}
+                        </div>
+                      </div>
+                    ) : (
+                      <NoDataFound />
+                    )}
+                  </>
+                ) : (
+                  <NoDataFound />
+                )}
               </div>
+
 
               <div className="tab-content">
                 {activeTab1 === "OpenPosition" &&
                   (getPositionData.Scalping &&
-                  getPositionData.NewScalping &&
-                  getPositionData.Option &&
-                  getPositionData.Pattern &&
-                  getPositionData.ChartingData ? (
+                    getPositionData.NewScalping &&
+                    getPositionData.Option &&
+                    getPositionData.Pattern &&
+                    getPositionData.ChartingData ? (
                     <>
                       {getPositionData.Scalping &&
                         getPositionData.Scalping.length > 0 && (

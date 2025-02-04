@@ -8,6 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Swal from 'sweetalert2';
 import { getColumns3, getColumns2, getColumns1, getColumns, getColumns4, getColumns5, getColumns8, getColumns7, getColumns6, getColumns9, getColumns10, getColumns12 } from './ReportColumn'
 import { useLocation } from 'react-router-dom';
+import NoDataFound from '../../../ExtraComponent/NoDataFound';
 
 const TradeReport = () => {
     const location = useLocation();
@@ -40,7 +41,7 @@ const TradeReport = () => {
         data: [],
         data1: [],
     });
-    
+
 
     // set Defult Date 
     const currentDate = new Date();
@@ -100,8 +101,8 @@ const TradeReport = () => {
     const strategyType = async () => {
         try {
             const res = await getStrategyType()
-            console.log("response response response",res.Data);
-            
+            console.log("response response response", res.Data);
+
             if (res.Data && Array.isArray(res.Data)) {
                 setStrategyNames(res.Data)
             }
@@ -134,38 +135,38 @@ const TradeReport = () => {
 
     useEffect(() => {
         if (location?.state?.goto && location?.state?.goto === "dashboard") {
-          if (location?.state?.type == "MultiCondition") {
-            setSelectedRowData(tradeHistory.data1?.[location?.state?.RowIndex]);
-          } else {
-            setSelectedRowData(tradeHistory.data?.[location?.state?.RowIndex]);
-          }
-          setPreSelectTableType(location?.state?.type);
+            if (location?.state?.type == "MultiCondition") {
+                setSelectedRowData(tradeHistory.data1?.[location?.state?.RowIndex]);
+            } else {
+                setSelectedRowData(tradeHistory.data?.[location?.state?.RowIndex]);
+            }
+            setPreSelectTableType(location?.state?.type);
         }
-      }, [tradeHistory, location?.state?.RowIndex]);
-    
-      const handleRowSelect = (rowData) => {
+    }, [tradeHistory, location?.state?.RowIndex]);
+
+    const handleRowSelect = (rowData) => {
         setSelectedRowData(rowData);
-      };
-    
-      useEffect(() => {
-          if (!location?.state?.type) {
-          if (selectStrategyType == "Scalping") {
-            setTableType("MultiCondition");
-          } 
+    };
+
+    useEffect(() => {
+        if (!location?.state?.type) {
+            if (selectStrategyType == "Scalping") {
+                setTableType("MultiCondition");
+            }
         } else if (
-          location?.state?.type &&
-          location?.state?.type != "MultiCondition"
+            location?.state?.type &&
+            location?.state?.type != "MultiCondition"
         ) {
-          setStrategyType(location?.state?.type);
+            setStrategyType(location?.state?.type);
         } else if (location?.state?.type == "MultiCondition") {
-          setTableType("MultiCondition");
-          setStrategyType("Scalping");
+            setTableType("MultiCondition");
+            setStrategyType("Scalping");
         }
-      }, [preSelectTableType]);
+    }, [preSelectTableType]);
 
 
 
- 
+
 
     const getChartingData = async () => {
         const res = await getChargingPlatformDataApi(userName);
@@ -179,7 +180,7 @@ const TradeReport = () => {
         setStrategyType('Scalping')
     }, []);
 
-  
+
 
 
 
@@ -461,20 +462,21 @@ const TradeReport = () => {
 
 
                                     ) : (
-                                        <div
-                                            style={{
-                                                display: "flex",
-                                                justifyContent: "center",
-                                                alignItems: "center",
-                                                textAlign: "center",
-                                            }}
-                                        >
-                                            <img
-                                                src="/assets/images/no-record-found.png"
-                                                width="30%"
-                                                alt=""
-                                            />
-                                        </div>
+                                        // <div
+                                        //     style={{
+                                        //         display: "flex",
+                                        //         justifyContent: "center",
+                                        //         alignItems: "center",
+                                        //         textAlign: "center",
+                                        //     }}
+                                        // >
+                                        //     <img
+                                        //         src="/assets/images/no-record-found.png"
+                                        //         width="30%"
+                                        //         alt=""
+                                        //     />
+                                        // </div>
+                                        <NoDataFound />
                                     )}
                                 </div>
 
@@ -494,24 +496,38 @@ const TradeReport = () => {
                                                 isChecked={location?.state?.RowIndex}
                                             />
                                         </div>)
-                                        : (<div
-                                            style={{
-                                                display: "flex",
-                                                justifyContent: "center",
-                                                alignItems: "center",
-                                                textAlign: "center",
-                                            }}>
-                                            <img
-                                                src="/assets/images/no-record-found.png"
-                                                width="30%"
-                                                alt=""
-                                            />
-                                        </div>)
+                                        : (
+                                            // <div
+                                            //     style={{
+                                            //         display: "flex",
+                                            //         justifyContent: "center",
+                                            //         alignItems: "center",
+                                            //         textAlign: "center",
+                                            //     }}>
+                                            //     <img
+                                            //         src="/assets/images/no-record-found.png"
+                                            //         width="30%"
+                                            //         alt=""
+                                            //     />
+                                            // </div>
+                                            <NoDataFound />
+                                            
+                                        )
                                 }
                             </div>
                             }
 
-                            {selectStrategyType === "ChartingPlatform" ? "" : <button className='btn btn-primary mt-2' onClick={handleSubmit}>Submit</button>}
+                            {/* {selectStrategyType === "ChartingPlatform" ? "" : <button className='btn btn-primary mt-2' onClick={handleSubmit}>Submit</button>} */}
+                            {(selectStrategyType !== "ChartingPlatform") &&
+                                (
+                                    (selectStrategyType === "ChartingPlatform" ? chartingData : tradeReport.data) &&
+                                    (selectStrategyType === "ChartingPlatform" ? chartingData : tradeReport.data).length > 0 ||
+                                    (tableType === "MultiCondition" && selectStrategyType === "Scalping" && tradeReport?.data1?.length > 0)
+                                ) && (
+                                    <button className='btn btn-primary mt-2' onClick={handleSubmit}>Submit</button>
+                                )
+                            }
+
 
 
                             {

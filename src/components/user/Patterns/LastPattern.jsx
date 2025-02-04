@@ -5,6 +5,7 @@ import Loader from '../../../ExtraComponent/Loader'
 import "ag-charts-enterprise";
 import AgChartsReact from "./LastPatternCandle";
 import { columns2, columns3 } from './PatternsColumns'
+import NoDataFound from '../../../ExtraComponent/NoDataFound';
 const LastPattern = () => {
     const [showCandle, setShowCandle] = useState(false)
     const [getLastPatternData, setLastPatternData] = useState({ loading: true, data: [] })
@@ -173,19 +174,20 @@ const LastPattern = () => {
                         />
                       )
                     ) : (
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          textAlign: "center",
-                        }}>
-                        <img
-                          src="/assets/images/no-record-found.png"
-                          width="30%"
-                          alt=""
-                        />
-                      </div>
+                      // <div
+                      //   style={{
+                      //     display: "flex",
+                      //     justifyContent: "center",
+                      //     alignItems: "center",
+                      //     textAlign: "center",
+                      //   }}>
+                      //   <img
+                      //     src="/assets/images/no-record-found.png"
+                      //     width="30%"
+                      //     alt=""
+                      //   />
+                      // </div>
+                      <NoDataFound/>
                     )}
                   </div>
 

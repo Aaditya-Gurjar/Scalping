@@ -29,7 +29,7 @@ confirmButtonColor: "#1ccc8a",
 
   const formik = useFormik({
     initialValues: {
-      MainStrategy: location.state.data.selectStrategyType,
+      MainStrategy: location.state.data?.selectStrategyType,
       Username: "",
       Strategy: "",
       ETPattern: "",

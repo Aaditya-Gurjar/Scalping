@@ -1,4 +1,4 @@
-import React, { useState ,useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { RegistorUser } from '../CommonAPI/Common'
 import Swal from 'sweetalert2'
@@ -29,11 +29,11 @@ const Register = () => {
             .then((response) => {
                 if (response.Status) {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Success!",
-                        text:  response.message,
+                        text: response.message,
                         icon: "success",
                         timer: 1500,
                         timerProgressBar: true
@@ -44,11 +44,11 @@ confirmButtonColor: "#1ccc8a",
                 }
                 else {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Error!",
-                        text:  response.message,
+                        text: response.message,
                         icon: "error",
                         timer: 1500,
                         timerProgressBar: true
@@ -63,9 +63,10 @@ confirmButtonColor: "#1ccc8a",
     const GetLogoimage = async () => {
         await GetLogo()
             .then((response) => {
-                if (response.status) { 
-                    document.getElementById('imglogo1').src = "data:image/png;base64," + response.image_data
-                } else { 
+                if (response.status) {
+                    document.getElementById('imglogo').src = "data:image/png;base64," + response.image_data
+                    localStorage.setItem("logo", "data:image/png;base64," + response.image_data)
+                } else {
                 }
             })
             .catch((err) => {
@@ -86,11 +87,11 @@ confirmButtonColor: "#1ccc8a",
         <div>
             <section className="sign-in-page">
                 <div className="container ">
-                <p className="sign-in-logo  text-center">
-                                <img className="" alt="logo" id="imglogo" style={{width:'200px',height:'50px', objectFit:'cover'}} />
-                            </p>
+                    <p className="sign-in-logo  text-center">
+                        <img className="" alt="logo" id="imglogo" style={{ width: '200px', height: '50px', objectFit: 'cover' }} />
+                    </p>
                     <div className="row no-gutters">
-                       
+
 
                         <div className="col-md-7 p-5 dark-card mx-auto">
                             <div className="">

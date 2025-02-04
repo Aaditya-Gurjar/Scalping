@@ -161,9 +161,9 @@ const Clientservice = () => {
     const handleApprovalChange = async (e, row) => {
         const value = e.target.value;
         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+            background: "#1a1e23 ",
+            backdrop: "#121010ba",
+            confirmButtonColor: "#1ccc8a",
             title: "Are you sure?",
             text: "Do you want to change the status?",
             icon: "warning",
@@ -185,9 +185,9 @@ confirmButtonColor: "#1ccc8a",
                     const response = await ApprovwRequest(req);
                     if (response.Status) {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Success",
                             text: response.message,
                             icon: "success",
@@ -199,9 +199,9 @@ confirmButtonColor: "#1ccc8a",
                         fetchClientService();
                     } else {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Error",
                             text: response.message,
                             icon: "error",
@@ -211,9 +211,9 @@ confirmButtonColor: "#1ccc8a",
                 } catch (error) {
                     console.error('Error in approval request:', error); // Log error for debugging
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Error",
                         text: "An error occurred while updating the status.",
                         icon: "error",

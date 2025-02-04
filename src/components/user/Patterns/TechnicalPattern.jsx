@@ -15,6 +15,7 @@ import FullDataTable from "../../../ExtraComponent/CommanDataTable";
 import { columns, columns1 } from "./PatternsColumns";
 import "ag-charts-enterprise";
 import AgChartsReact from "./TechnicalPatternCandle";
+import NoDataFound from "../../../ExtraComponent/NoDataFound";
 
 const LastPattern = () => {
   const Username = localStorage.getItem("name");
@@ -370,19 +371,20 @@ const LastPattern = () => {
                     checkBox={false}
                   />
                 ) : (
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      textAlign: "center",
-                    }}>
-                    <img
-                      src="/assets/images/no-record-found.png"
-                      width="30%"
-                      alt=""
-                    />
-                  </div>
+                  // <div
+                  //   style={{
+                  //     display: "flex",
+                  //     justifyContent: "center",
+                  //     alignItems: "center",
+                  //     textAlign: "center",
+                  //   }}>
+                  //   <img
+                  //     src="/assets/images/no-record-found.png"
+                  //     width="30%"
+                  //     alt=""
+                  //   />
+                  // </div>
+                  <NoDataFound/>
                 )
               ) : ChartPatternTableData?.PatternData &&
                 ChartPatternTableData.PatternData.length > 0 ? (
@@ -393,19 +395,20 @@ const LastPattern = () => {
                   checkBox={true}
                 />
               ) : (
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    textAlign: "center",
-                  }}>
-                  <img
-                    src="/assets/images/no-record-found.png"
-                    width="30%"
-                    alt=""
-                  />
-                </div>
+                // <div
+                //   style={{
+                //     display: "flex",
+                //     justifyContent: "center",
+                //     alignItems: "center",
+                //     textAlign: "center",
+                //   }}>
+                //   <img
+                //     src="/assets/images/no-record-found.png"
+                //     width="30%"
+                //     alt=""
+                //   />
+                // </div>
+                <NoDataFound/>
               )}
             </div>
 
