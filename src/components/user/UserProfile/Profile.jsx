@@ -120,7 +120,7 @@ const ProfilePage = () => {
                       icon: <FaRegStar />,
                       text: (
                         <>
-                        Group: {""}
+                        Plan Name: {""}
                           {data.loading && data && data?.data?.Planname?.length >
                           0 ? (
                           <div className="col-8">
@@ -150,13 +150,13 @@ const ProfilePage = () => {
                   ))}
                 </Row>
                 {/* Action Button */}
-                <div className="text-center mt-4">
+                {/* <div className="text-center mt-4">
                   <Button
                     variant="outline-light"
                     className="glow-button rounded-pill px-4 py-2">
                     Edit Profile
                   </Button>
-                </div>
+                </div> */}
               </Card.Body>
             </Card>
           </Col>
