@@ -25,6 +25,8 @@ const AddClient = () => {
     });
   }
 
+
+
   const formik = useFormik({
     initialValues: {
       MainStrategy: location?.state?.data?.selectStrategyType,
@@ -227,21 +229,25 @@ const AddClient = () => {
       ) {
         errors.RepeatationCount = "Please Enter No. of Repeatation";
       }
-      if (
-        !values.Loss &&
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple"
-      ) {
-        errors.Loss = "Please Enter Maximum Loss";
-      }
 
-      if (
-        !values.Profit &&
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple"
-      ) {
-        errors.Profit = "Please Enter Maximum Loss";
-      }
+
+      // if (
+      //   !values.Loss &&
+      //   values.Strategy == "Multi_Conditional" &&
+      //   values.position_type == "Multiple"
+      // ) {
+      //   errors.Loss = "Please Enter Maximum Loss";
+      // }
+
+      // if (
+      //   !values.Profit &&
+      //   values.Strategy == "Multi_Conditional" &&
+      //   values.position_type == "Multiple"
+      // ) {
+      //   errors.Profit = "Please Enter Maximum Loss";
+      // }
+
+      // ----------
 
       // if (
       //   !values.RollOver &&
@@ -251,7 +257,7 @@ const AddClient = () => {
       //   errors.RollOver = "Please Enter RollOver";
       // }
 
-      
+
       if (
         !values.NumberOfDays &&
         values.Strategy == "Multi_Conditional" &&
@@ -495,6 +501,16 @@ const AddClient = () => {
     formik.setFieldValue("HoldExit", "Hold")
     formik.setFieldValue("TStype", "Point")
   }, [])
+
+  useEffect(() => {
+    console.log("testing")
+    if (formik.values.Exchange === 'NSE') {
+      formik.setFieldValue('ExitTime', '15:15:00');
+    } else {
+      formik.setFieldValue('ExitTime', '15:25:00');
+    }
+  }, [formik.values.Exchange]);
+
 
   const SymbolSelectionArr = [
     {
@@ -879,10 +895,6 @@ const AddClient = () => {
       hiding: false,
     },
 
-
-
-    ,
-
     {
       name: "WorkingDay",
       label: "Working Day",
@@ -893,9 +905,11 @@ const AddClient = () => {
         { label: "Wednesday", value: "Wednesday" },
         { label: "Thursday", value: "Thursday" },
         { label: "Friday", value: "Friday" },
+        { label: "Saturday", value: "Saturday" },
+
       ],
       label_size: 12,
-      col_size: 4,
+      col_size: formik.values.position_type == "Multiple" ? 4 : 3,
       headingtype: 4,
       disable: false,
       hiding: false,

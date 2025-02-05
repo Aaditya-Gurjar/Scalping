@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom"
-import AddForm from "../../../ExtraComponent/FormData";
+import AddForm from "../../../ExtraComponent/FormData2";
 import { useFormik } from "formik";
 import { useState, useEffect } from "react";
 import Swal from 'sweetalert2';
@@ -226,21 +226,21 @@ const AddClient = () => {
       ) {
         errors.RepeatationCount = "Please Enter No. of Repeatation";
       }
-      if (
-        !values.Loss &&
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple"
-      ) {
-        errors.Loss = "Please Enter Maximum Loss";
-      }
+      // if (
+      //   !values.Loss &&
+      //   values.Strategy == "Multi_Conditional" &&
+      //   values.position_type == "Multiple"
+      // ) {
+      //   errors.Loss = "Please Enter Maximum Loss";
+      // }
 
-      if (
-        !values.Profit &&
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple"
-      ) {
-        errors.Profit = "Please Enter Maximum Loss";
-      }
+      // if (
+      //   !values.Profit &&
+      //   values.Strategy == "Multi_Conditional" &&
+      //   values.position_type == "Multiple"
+      // ) {
+      //   errors.Profit = "Please Enter Maximum Loss";
+      // }
 
       // if (
       //   !values.RollOver &&
@@ -267,13 +267,13 @@ const AddClient = () => {
       ) {
         errors.RollOverExitTime = "Please Enter RollOver Exit Time";
       }
-      if (
-        !values.TargetExit &&
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple"
-      ) {
-        errors.TargetExit = "Please select Continue After Cycle Exit";
-      }
+      // if (
+        
+      //   values.Strategy == "Multi_Conditional" &&
+      //   values.position_type == "Multiple"
+      // ) {
+      //   errors.TargetExit = "Please select Continue After Cycle Exit";
+      // }
       if (
         !values.WorkingDay.length > 0 &&
         values.Strategy == "Multi_Conditional" &&
@@ -375,11 +375,11 @@ const AddClient = () => {
             values.RollOver == true
             ? values.RollOverExitTime
             : "00:00:00",
-        TargetExit:
-          values.position_type == "Multiple" &&
-            values.Strategy == "Multi_Conditional"
-            ? values.TargetExit
-            : false,
+        // TargetExit:
+        //   values.position_type == "Multiple" &&
+        //     values.Strategy == "Multi_Conditional"
+        //     ? values.TargetExit
+        //     : false,
         WorkingDay:
           values.position_type == "Multiple" &&
             values.Strategy == "Multi_Conditional"
@@ -493,6 +493,16 @@ const AddClient = () => {
     formik.setFieldValue("HoldExit", "Hold")
     formik.setFieldValue("TStype", "Point")
   }, [])
+
+  useEffect(() => {
+    console.log("testing")
+    if (formik.values.Exchange === 'NSE') {
+      formik.setFieldValue('ExitTime', '15:15:00');
+    } else {
+      formik.setFieldValue('ExitTime', '15:25:00');
+    }
+  }, [formik.values.Exchange]);
+
 
   const SymbolSelectionArr = [
     {
@@ -867,7 +877,7 @@ const AddClient = () => {
 
     {
       name: "Profit",
-      label: " MAx Profit ",
+      label: " Max Profit ",
       type: "text3",
       label_size: 12,
       col_size: formik.values.position_type == "Multiple" ? 3 : 4,
@@ -880,9 +890,6 @@ const AddClient = () => {
     },
 
 
-
-    ,
-
     {
       name: "WorkingDay",
       label: "Working Day",
@@ -893,6 +900,7 @@ const AddClient = () => {
         { label: "Wednesday", value: "Wednesday" },
         { label: "Thursday", value: "Thursday" },
         { label: "Friday", value: "Friday" },
+        { label: "Saturday", value: "Saturday" },
       ],
       label_size: 12,
       col_size: 4,

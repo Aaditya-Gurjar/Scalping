@@ -1217,6 +1217,7 @@ const AddClient = () => {
         { label: "Wednesday", value: "Wednesday" },
         { label: "Thursday", value: "Thursday" },
         { label: "Friday", value: "Friday" },
+        { label: "Saturday", value: "Saturday" },
       ],
       label_size: 12,
       col_size: 4,
