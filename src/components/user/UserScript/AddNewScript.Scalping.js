@@ -263,21 +263,25 @@ const AddClient = () => {
       ) {
         errors.RepeatationCount = "Please Enter No. of Repeatation";
       }
-      if (
-        !values.Loss &&
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple"
-      ) {
-        errors.Loss = "Please Enter Maximum Loss";
-      }
 
-      if (
-        !values.Profit &&
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple"
-      ) {
-        errors.Profit = "Please Enter Maximum Loss";
-      }
+      // _____Max Profit and Max loss now can acccept 0 values that's why i commented below code ____
+      // if (
+      //   values.Strategy == "Multi_Conditional" &&
+      //   values.position_type == "Multiple"
+      // ) {
+      //   errors.Loss = "Please Enter Maximum Loss";
+      // }
+
+      // if (
+      //   values.Strategy == "Multi_Conditional" &&
+      //   values.position_type == "Multiple"
+      // ) {
+      //   errors.Profit = "Please Enter Maximum Loss";
+      // }
+      
+
+
+
       // if (
       //   !values.RollOver &&
       //   values.Strategy == "Multi_Conditional" &&
@@ -927,6 +931,8 @@ const AddClient = () => {
         { label: "Wednesday", value: "Wednesday" },
         { label: "Thursday", value: "Thursday" },
         { label: "Friday", value: "Friday" },
+        { label: "Saturday", value: "Saturday" },
+
       ],
       label_size: 12,
       col_size: 3,
@@ -1320,6 +1326,16 @@ const AddClient = () => {
       formik.setFieldValue('Optiontype', "")
     }
   }, [formik.values.Instrument, formik.values.Exchange])
+
+  useEffect(() => {
+    console.log("testing")
+    if (formik.values.Exchange === 'NSE') {
+      formik.setFieldValue('ExitTime', '15:15:00');
+    } else {
+      formik.setFieldValue('ExitTime', '15:25:00');
+    }
+  }, [formik.values.Exchange]);
+
 
   useEffect(() => {
     formik.setFieldValue('Group', "")

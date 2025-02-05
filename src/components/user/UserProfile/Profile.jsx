@@ -61,7 +61,6 @@ const ProfilePage = () => {
                   <div className="gradient-blob"></div>
                   <div className="gradient-blob"></div>
                 </div>
-
                 {/* Profile Header */}
                 <div className="text-center mb-4 position-relative">
                   <div className="avatar-container">
@@ -74,6 +73,7 @@ const ProfilePage = () => {
                   <h3 className="mt-3 text-gradient">{username}</h3>
                 </div>
 
+                {console.log("data?.data?.BrokerName", data?.data?.Group)}
                 {/* Info Grid */}
                 <Row className="g-4">
                   {[
@@ -87,6 +87,7 @@ const ProfilePage = () => {
                       text: (data && data?.data?.EmailId) || "-",
                       color: "#8f94fb",
                     },
+
                     {
                       icon: <FaUserTie />,
                       text: `Broker: ${(data && data?.data?.BrokerName) || " - "}`,
@@ -99,32 +100,34 @@ const ProfilePage = () => {
                     },
                     {
                       icon: <FaUsers />,
-                      text: `Group: ${
-                        data?.loading &&
-                        data &&
-                        data?.data?.Group?.length > 0 ? (
-                          <div className="col-8">
-                            {data && data?.data?.Group.join(" , ")}
-                          </div>
-                        ) : (
-                          <div className="col-8">No Group Available</div>
-                        )
-                      }`,
+                      text: (
+                        <>
+                          Group:{" "}
+                          {data?.loading && data?.data?.Group?.length > 0 ? (
+                            <div className="col-8">
+                              {data?.data?.Group.join(" , ")}
+                            </div>
+                          ) : (
+                            <div className="col-8">No Group Available</div>
+                          )}
+                        </>
+                      ),
                       color: "#9d4edd",
                     },
                     {
                       icon: <FaRegStar />,
-                      text: `Plan: ${
-                        data.loading &&
-                        data &&
-                        data?.data?.Planname?.length > 0 ? (
+                      text: (
+                        <>
+                        Group: {""}
+                          {data.loading && data && data?.data?.Planname?.length >
+                          0 ? (
                           <div className="col-8">
                             {data && data?.data?.Planname.join(" , ")}
                           </div>
-                        ) : (
-                          <div className="col-8">No Plan Available</div>
-                        )
-                      }`,
+                          ) : (<div className="col-8">No Plan Available</div>)}
+                        </>
+                      ),
+
                       color: "#ff9e00",
                     },
                   ].map((item, index) => (
@@ -144,7 +147,6 @@ const ProfilePage = () => {
                     </Col>
                   ))}
                 </Row>
-
                 {/* Action Button */}
                 <div className="text-center mt-4">
                   <Button
