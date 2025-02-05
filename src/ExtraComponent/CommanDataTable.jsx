@@ -507,7 +507,7 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
               padding: "5px 10px",
               cursor: "pointer",
             }}>
-            Expand Columns
+            {">>"}
           </button>
         ),
         options: {

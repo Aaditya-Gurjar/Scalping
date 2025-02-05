@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FullDataTable from '../../../ExtraComponent/CommanDataTable';
-import { GetAllUserScript, DeleteUserScript, Discontinue, Continue, UpdateUserScript, GetUserScripts, getUserChartingScripts, DeleteSingleChartingScript } from '../../CommonAPI/User';
+import { GetAllUserScript, DeleteUserScript, Discontinue, Continue, UpdateUserScript, GetUserScripts, getUserChartingScripts, DeleteSingleChartingScript, MatchPosition } from '../../CommonAPI/User';
 import Loader from '../../../ExtraComponent/Loader';
 import { getColumns3, getColumns4, getColumns5, getColumns6, getColumns8 } from './Columns';
 import Swal from 'sweetalert2';
@@ -199,6 +199,79 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         });
 
     }
+
+    const handleMatchPosition = async (rowData, type) => {
+        console.log("matchPosition", rowData.rowIndex)
+        const index = rowData.rowIndex
+        console.log("data is ", getAllService.NewScalping[index])
+
+        const req = {
+            // Username: userName,
+            // MainStrategy: "NewScalping",
+            // Strategy: getAllService.NewScalping[index].Targetselection,
+            // Symbol: getAllService.NewScalping[index].Symbol,
+            // ETPattern: "",
+            // Timeframe: "",
+            // TType: "",
+            // Group: getAllService.NewScalping[index].GroupN,
+            // TradePattern: "",
+            // TSymbol: "",
+            // PatternName: ""
+
+
+
+
+            MainStrategy: "NewScalping",
+            Strategy: getAllService.NewScalping[index].Targetselection,
+            Symbol: getAllService.NewScalping[index].Symbol,
+            Username: getAllService.NewScalping[index].Username,
+            ETPattern: "",
+            Timeframe: "",
+            MatchPosition: true,
+            Group: getAllService.NewScalping[index].GroupN,
+            TSymbol: "",
+            TradePattern: "",
+            PatternName: "",
+        }
+        console.log("outside")
+        if (req) {
+            try {
+                console.log("inside")
+                const response = await MatchPosition(req);
+                console.log("response is ", response)
+                if (response.status) {
+                    Swal.fire({
+                        title: response.Status ? "Success" : "Error !",
+                        text: response.message,
+                        icon: response.Status ? "success" : "error",
+                        timer: 1500,
+                        timerProgressBar: true
+                    });
+
+                }
+                else{
+                    Swal.fire({
+                        title: "Error !",
+                        text: "Something went wrong!",
+                        icon: "error",
+                        timer: 1500,
+                        timerProgressBar: true
+                    });
+                }
+
+            } catch (error) {
+                Swal.fire({
+                    title: "Error !",
+                    text: error.message || "Something went wrong!",
+                    icon: "error",
+                    timer: 1500,
+                    timerProgressBar: true
+                });
+            }
+        }
+
+    }
+
 
     const handleEdit = async (rowData, type = 1) => {
         setShowEditModal(true)
@@ -1066,269 +1139,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         }
     });
 
-    const MultiConditionFormik = useFormik({
-        initialValues: {
-            MainStrategy: "",
-            Strategy: "",
-            Symbol: "",
-            Username: "",
-            ETPattern: "",
-            Timeframe: "",
-            Targetvalue: 0,
-            Slvalue: 0,
-            TStype: "",
-            Quantity: 0,
-            LowerRange: 0.0,
-            HigherRange: 0.0,
-            HoldExit: "",
-            EntryPrice: 0.0,
-            EntryRange: 0.0,
-            EntryTime: "",
-            ExitTime: "",
-            ExitDay: "",
-            TradeExecution: "",
-            Group: "",
-            CEDepthLower: 0.0,
-            CEDepthHigher: 0.0,
-            PEDepthLower: 0.0,
-            PEDepthHigher: 0.0,
-            CEDeepLower: 0.0,
-            CEDeepHigher: 0.0,
-            PEDeepLower: 0.0,
-            PEDeepHigher: 0.0,
-            DepthofStrike: 0,
-            TradeCount: "",
-        },
-        validate: (values) => {
-            let errors = {};
-            const maxTime = "15:29:59";
-            const minTime = "09:15:00";
-            if (!values.TStype) {
-                errors.TStype = "Please Select Measurement Type."
-            }
-            if (!values.Quantity) {
-                errors.Quantity = "Please Enter Lot Size."
-            }
-            if (!values.Targetvalue) {
-                errors.Targetvalue = "Please Enter Target Value."
-            }
-            if (!values.Slvalue) {
-                errors.Slvalue = "Please Enter Stoploss."
-            }
-
-            if (values.ExitTime == '') {
-                errors.ExitTime = "Please Select Exit Time.";
-            } else if (values.ExitTime > maxTime) {
-                errors.ExitTime = "Exit Time Must be Before 15:29:59.";
-            }
-            else if (values.ExitTime < minTime) {
-                errors.ExitTime = "Exit Time Must be After 09:15:00.";
-            }
-            if (values.EntryTime == '') {
-                errors.EntryTime = "Please Select Entry Time.";
-            } else if (values.EntryTime < minTime) {
-                errors.EntryTime = "Entry Time Must be After 09:15:00.";
-            }
-            else if (values.EntryTime > maxTime) {
-                errors.EntryTime = "Entry Time Must be Before 15:29:59.";
-            }
-
-            if (!values.TradeCount) {
-                errors.TradeCount = "Please Enter Trade Count."
-            }
-
-            return errors;
-        },
-        onSubmit: async (values) => {
-            const req = {
-                MainStrategy: data,
-                Strategy: EditDataPattern.TradePattern,
-                Symbol: EditDataPattern.Symbol,
-                Username: userName,
-                ETPattern: EditDataPattern.Pattern,
-                Timeframe: EditDataPattern.TimeFrame,
-                Targetvalue: Number(values.Targetvalue),
-                Slvalue: Number(values.Slvalue),
-                TStype: EditDataPattern.TStype,
-                Quantity: Number(values.Quantity),
-                LowerRange: 0.0,
-                HigherRange: 0.0,
-                HoldExit: "",
-                EntryPrice: 0.0,
-                EntryRange: 0.0,
-                EntryTime: values.EntryTime,
-                ExitTime: values.ExitTime,
-                ExitDay: EditDataPattern.ExitDay,
-                TradeExecution: EditDataPattern.TradeExecution,
-                Group: "",
-                CEDepthLower: 0.0,
-                CEDepthHigher: 0.0,
-                PEDepthLower: 0.0,
-                PEDepthHigher: 0.0,
-                CEDeepLower: 0.0,
-                CEDeepHigher: 0.0,
-                PEDeepLower: 0.0,
-                PEDeepHigher: 0.0,
-                DepthofStrike: 1,
-                TradeCount: Number(values.TradeCount)
-            }
-
-            if (values.EntryTime >= values.ExitTime) {
-                return SweentAlertFun("Exit Time should be greater than Entry Time")
-            }
-            await UpdateUserScript(req)
-                .then((response) => {
-                    if (response.Status) {
-                        Swal.fire({
-                            title: "Updated",
-                            text: response.message,
-                            icon: "success",
-                            timer: 1500,
-                            timerProgressBar: true,
-                        });
-                        setTimeout(() => {
-                            setShowEditModal(false)
-                            formik.resetForm()
-                        }, 1500)
-                    } else {
-                        Swal.fire({
-                            title: "Error !",
-                            text: response.message,
-                            icon: "error",
-                            timer: 1500,
-                            timerProgressBar: true
-                        });
-                    }
-                })
-        }
-    });
-
-    // const fields = [
-    //     {
-    //         name: "Targetvalue",
-    //         label: showEditModal && EditDataScalping.ScalpType == "Fixed Price" ? "Target Price" : formik.values.Strategy == "One Directional" ? "Fixed Target" : "Booking Point",
-    //         type: "text5",
-    //         label_size: 12,
-    //         col_size: 6,
-    //         disable: false,
-    //         hiding: false,
-    //     },
-    //     {
-    //         name: "Slvalue",
-    //         label: showEditModal && EditDataScalping.ScalpType == "Fixed Price" ? "Stoploss Price" : "Re-Entry Point",
-    //         type: "text5",
-    //         label_size: 12,
-    //         col_size: 6,
-    //         disable: false,
-    //         hiding: false,
-    //     },
-    //     {
-    //         name: "EntryPrice",
-    //         label: showEditModal && EditDataScalping.ScalpType != "Fixed Price" ? "First Trade Lower Range" : "Lower Price",
-    //         type: "text3",
-
-    //         col_size: 6,
-    //         disable: false,
-    //         hiding: false,
-    //     },
-    //     {
-    //         name: "EntryPrice",
-    //         label: showEditModal && EditDataScalping.ScalpType != "Fixed Price" ? "First Trade Higher Range" : "Higher Price",
-    //         type: "text3",
-
-    //         label_size: 12,
-    //         col_size: 6,
-    //         disable: false,
-    //         hiding: false,
-    //     },
-    //     {
-    //         name: "LowerRange",
-    //         label: "Lower Range",
-    //         type: "text3",
-    //         showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
-    //         label_size: 12,
-    //         col_size: 6,
-    //         disable: false,
-    //         hiding: false,
-    //     },
-    //     {
-    //         name: "HigherRange",
-    //         label: "Higher Range",
-    //         type: "text5",
-    //         showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
-    //         label_size: 12,
-    //         col_size: 6,
-    //         disable: false,
-    //         hiding: false,
-    //     },
-    //     {
-    //         name: "Quantity",
-    //         label: showEditModal && EditDataScalping.Exchange == "NFO" ? "Lot" : "Quantity",
-    //         type: "text5",
-    //         label_size: 12,
-    //         col_size: 6,
-    //         hiding: false,
-    //         disable: false,
-    //     },
-    //     {
-    //         name: "HoldExit",
-    //         label: "Hold/Exit",
-    //         type: "select",
-    //         options: [
-    //             { label: "Hold", value: "Hold" },
-    //             { label: "Exit", value: "Exit" },
-    //         ],
-    //         showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
-
-    //         label_size: 12,
-    //         col_size: 6,
-    //         disable: false,
-    //         hiding: false,
-    //     },
-    //     {
-    //         name: "TStype",
-    //         label: "Measurement Type",
-    //         type: "select",
-    //         options: [
-    //             { label: "Percentage", value: "Percentage" },
-    //             { label: "Point", value: "Point" },
-    //         ],
-    //         showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
-    //         label_size: 12,
-    //         col_size: 6,
-    //         hiding: false,
-    //         disable: false,
-    //     },
-    //     {
-    //         name: "TradeCount",
-    //         label: "Trade Count",
-    //         type: "text5",
-    //         label_size: 12,
-    //         col_size: 6,
-    //         disable: false,
-    //         hiding: false,
-    //     },
-
-    //     {
-    //         name: "EntryTime",
-    //         label: "Entry Time",
-    //         type: "timepiker",
-    //         label_size: 12,
-    //         col_size: 6,
-    //         disable: false,
-    //         hiding: false,
-    //     },
-    //     {
-    //         name: "ExitTime",
-    //         label: "Exit Time",
-    //         type: "timepiker",
-    //         label_size: 12,
-    //         col_size: 6,
-    //         disable: false,
-    //         hiding: false,
-    //     },
-
-    // ];
 
     const fields1 = [
         {
@@ -1476,7 +1286,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
     ];
 
-    
+
 
     const EntryRuleArr = [
 
@@ -1824,7 +1634,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                                                                         : data === "Option Strategy"
                                                                                             ? getColumns4(handleDelete, handleEdit, HandleContinueDiscontinue)
                                                                                             : data === "Pattern"
-                                                                                                ? getColumns5(handleDelete, handleEdit, HandleContinueDiscontinue)
+                                                                                                ? getColumns5(handleDelete, handleEdit, HandleContinueDiscontinue,)
                                                                                                 : data === "ChartingPlatform"
                                                                                                     ? getColumns8(HandleContinueDiscontinue)
                                                                                                     : getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue)
@@ -1850,7 +1660,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                                                                     <h4 className="card-title">Multi Conditional</h4>
                                                                                 </div>
                                                                                 <FullDataTable
-                                                                                    columns={getColumns6(handleDelete, handleEdit, HandleContinueDiscontinue)}
+                                                                                    columns={getColumns6(handleDelete, handleEdit, HandleContinueDiscontinue, handleMatchPosition,)}
                                                                                     data={getAllService.NewScalping}
                                                                                     checkBox={false}
                                                                                 />
