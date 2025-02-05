@@ -111,6 +111,8 @@ const ProfilePage = () => {
                             <div className="col-8">No Group Available</div>
                           )}
                         </>
+
+                        
                       ),
                       color: "#9d4edd",
                     },
