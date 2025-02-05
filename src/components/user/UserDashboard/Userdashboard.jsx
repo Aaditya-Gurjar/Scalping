@@ -20,6 +20,8 @@ const Userdashboard = () => {
   const [refresh, setRefresh] = useState(false);
   const [getGroup, setGroup] = useState("");
   const [strategyType, setStrategyType] = useState([]);
+  console.log("strategyType",strategyType);
+  
   const [tableType, setTableType] = useState("MultiCondition");
   const [serviceStatus, setServiceStatus] = useState({
     status: false,
@@ -801,52 +803,7 @@ const Userdashboard = () => {
                   </div>
                 )}
               </div>
-              {/* <div className="">
-                {activeTab1 === "CurrentPosition" && (
-                  <>
-                    {activeTab === "group" && (
-                      <div
-                        className="tab-pane fade show active"
-                        id="home-justify"
-                        role="tabpanel">
-                        <div className="mt-3">
-                          {getGroup == "copyScript"
-                            ? subTab && (
-                                <Coptyscript
-                                  data={subTab}
-                                  selectedType={activeTab}
-                                  data2={serviceStatus && serviceStatus}
-                                />
-                              )
-                            : subTab && (
-                                <GroupScript
-                                  data={subTab}
-                                  selectedType={activeTab}
-                                  GroupName={getGroup}
-                                  data2={serviceStatus && serviceStatus}
-                                />
-                              )}
-                        </div>
-                      </div>
-                    )}
-                    {activeTab === "currentScript" && (
-                      <div
-                        className="tab-pane fade show active"
-                        id="home-justify"
-                        role="tabpanel">
-                        <div className="tab-content mt-3">
-                          <CurrentScript
-                            tableType={tableType}
-                            data={subTab}
-                            selectedType={activeTab}
-                            data2={serviceStatus && serviceStatus}
-                          />
-                        </div>
-                      </div>
-                    )}
-                  </>
-                )}
-              </div> */}
+             
               <div className="">
                 {activeTab1 === "CurrentPosition" ? (
                   <>

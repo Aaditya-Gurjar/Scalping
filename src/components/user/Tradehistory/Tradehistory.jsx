@@ -40,6 +40,8 @@ import { useLocation } from "react-router-dom";
 import DrawdownChartComponent from "../../admin/AdvanceChart/DrawdownChartComponent";
 import ProfitAndLossGraph from "../../admin/AdvanceChart/ProfitAndLossGraph";
 import ChartComponent from "../../admin/AdvanceChart/ChartComponent";
+
+
 const Tradehistory = () => {
   const location = useLocation();
   console.log("state location data", location);
