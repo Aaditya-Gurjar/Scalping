@@ -136,24 +136,24 @@
 // export default SubAdminRoutes;
 
 
-import React, { lazy, Suspense, startTransition } from 'react';
-import { Route, Routes } from 'react-router-dom';
-import Loader from '../ExtraComponent/Loader';
+// import React, { lazy, Suspense, startTransition } from 'react';
+// import { Route, Routes } from 'react-router-dom';
+// import Loader from '../ExtraComponent/Loader';
 
 // Lazy load components
-const Sidebar = lazy(() => import('../components/layouts/Sidebar'));
-const Header = lazy(() => import('../components/layouts/Header'));
-const Dashboard = lazy(() => import('../components/subadmin/subadminDashboard/Dashboard'));
-const AddClient = lazy(() => import('../components/subadmin/Client/AddClient'));
-const AllClient = lazy(() => import('../components/subadmin/Client/Allclient'));
-const SubAdminGroups = lazy(() => import('../components/subadmin/Groups/StrategyGroup'));
-const TradeHistory = lazy(() => import('../components/subadmin/TradeHistory/Tradehistory'));
-const Signals = lazy(() => import('../components/subadmin/Signals/TradeReport'));
-const AddscriptScalping = lazy(() => import('../components/subadmin/SubAdminScript/Addscript.Scalping'));
-const PatternScript = lazy(() => import('../components/subadmin/SubAdminScript/AddScript.Pattern'));
-const AddScriptOption = lazy(() => import('../components/subadmin/SubAdminScript/AddScript.Option'));
-const AllScript = lazy(() => import('../components/subadmin/SubAdminScript/AllScript'));
-const ChangePassword = lazy(() => import('../components/subadmin/Password/ChangePassword'));
+// const Sidebar = lazy(() => import('../components/layouts/Sidebar'));
+// const Header = lazy(() => import('../components/layouts/Header'));
+// const Dashboard = lazy(() => import('../components/subadmin/subadminDashboard/Dashboard'));
+// const AddClient = lazy(() => import('../components/subadmin/Client/AddClient'));
+// const AllClient = lazy(() => import('../components/subadmin/Client/Allclient'));
+// const SubAdminGroups = lazy(() => import('../components/subadmin/Groups/StrategyGroup'));
+// const TradeHistory = lazy(() => import('../components/subadmin/TradeHistory/Tradehistory'));
+// const Signals = lazy(() => import('../components/subadmin/Signals/TradeReport'));
+// const AddscriptScalping = lazy(() => import('../components/subadmin/SubAdminScript/Addscript.Scalping'));
+// const PatternScript = lazy(() => import('../components/subadmin/SubAdminScript/AddScript.Pattern'));
+// const AddScriptOption = lazy(() => import('../components/subadmin/SubAdminScript/AddScript.Option'));
+// const AllScript = lazy(() => import('../components/subadmin/SubAdminScript/AllScript'));
+// const ChangePassword = lazy(() => import('../components/subadmin/Password/ChangePassword'));
 
 const SubAdminRoutes = () => {
 
@@ -185,3 +185,5 @@ const SubAdminRoutes = () => {
 };
 
 export default SubAdminRoutes;
+
+
