@@ -3,6 +3,7 @@ import FullDataTable from '../../../ExtraComponent/CommanDataTable'
 import { Get_Panle_Logs, GetName } from '../../CommonAPI/User'
 import DatePicker from "react-datepicker";
 import { Eye } from 'lucide-react';
+import NoDataFound from '../../../ExtraComponent/NoDataFound';
 
 const Pannel = () => {
     const userName = localStorage.getItem('name')
@@ -216,19 +217,20 @@ const Pannel = () => {
                       checkBox={false}
                     />
                   ) : (
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        textAlign: "center",
-                      }}>
-                      <img
-                        src="/assets/images/no-record-found.png"
-                        width="30%"
-                        alt=""
-                      />
-                    </div>
+                    // <div
+                    //   style={{
+                    //     display: "flex",
+                    //     justifyContent: "center",
+                    //     alignItems: "center",
+                    //     textAlign: "center",
+                    //   }}>
+                    //   <img
+                    //     src="/assets/images/no-record-found.png"
+                    //     width="30%"
+                    //     alt=""
+                    //   />
+                    // </div>
+                    <NoDataFound/>
                   )}
                 </div>
               </div>
@@ -309,19 +311,20 @@ const Pannel = () => {
                     checkBox={false}
                   />
                 ) : (
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      textAlign: "center",
-                    }}>
-                    <img
-                      src="/assets/images/no-record-found.png"
-                      width="30%"
-                      alt=""
-                    />
-                  </div>
+                  // <div
+                  //   style={{
+                  //     display: "flex",
+                  //     justifyContent: "center",
+                  //     alignItems: "center",
+                  //     textAlign: "center",
+                  //   }}>
+                  //   <img
+                  //     src="/assets/images/no-record-found.png"
+                  //     width="30%"
+                  //     alt=""
+                  //   />
+                  // </div>
+                  <NoDataFound/>
                 )}
               </div>
             </div>

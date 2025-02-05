@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { GetClientService, get_User_Data, get_Trade_History, get_PnL_Data, get_EQuityCurveData, get_DrapDownData, get_FiveMostProfitTrade, get_FiveMostLossTrade } from '../../CommonAPI/Admin'
+import { GetClientService, get_User_Data, get_Trade_History, get_PnL_Data, get_EQuityCurveData, get_DrapDownData, get_FiveMostProfitTrade, get_FiveMostLossTrade, getStrategyType } from '../../CommonAPI/Admin'
 import Loader from '../../../ExtraComponent/Loader'
 import GridExample from '../../../ExtraComponent/CommanDataTable'
 import DatePicker from "react-datepicker";
@@ -21,13 +21,23 @@ import ProfitAndLossGraph from '../AdvanceChart/ProfitAndLossGraph';
 const Tradehistory = () => {
     const adminPermission = localStorage.getItem("adminPermission");
     const [selectGroup, setSelectGroup] = useState('')
-    const [selectStrategyType, setStrategyType] = useState('')
+    const [selectStrategyType, setStrategyType] = useState('Scalping')
     const [selectStrategyName, setStrategyName] = useState('')
+    const [tableType, setTableType] = useState("Scalping");
+    console.log("tableType", tableType);
+
     const [tradeHistory, setTradeHistory] = useState({ loading: true, data: [], data1: [] })
+    console.log("tradeHistory",tradeHistory);
+    
     const [selectedRowData, setSelectedRowData] = useState('');
     const [ToDate, setToDate] = useState('');
     const [FromDate, setFromDate] = useState('');
     const [showTable, setShowTable] = useState(false)
+
+    const [strategyNames, setStrategyNames] = useState([]);
+
+
+
     const [getAllTradeData, setAllTradeData] = useState({
         loading: true,
         data: [],
@@ -156,16 +166,29 @@ const Tradehistory = () => {
             .catch((err) => {
                 console.log("Error in finding the user data", err)
             })
-
-
-
-        //
-
-
     }
+
+    const strategyType = async () => {
+        try {
+            const res = await getStrategyType();
+            if (res.Data) {
+                setStrategyNames(res.Data);
+            } else {
+                console.log("Error in getting the StrategyType");
+            }
+        } catch (error) {
+            console.log("Error in getting the StrategyType", error);
+        }
+    };
+
+
     useEffect(() => {
         GetTradeHistory()
     }, [selectStrategyType, selectGroup])
+
+    useEffect(() => {
+        strategyType()
+    }, [selectStrategyType])
 
 
 
@@ -490,7 +513,8 @@ const Tradehistory = () => {
                         <div className="iq-card-body">
                             <div className="was-validated ">
                                 <div className='row'>
-                                    <div className="form-group col-md-3 col-sm-6">
+                                    <div
+                                        className={`form-group  ${selectStrategyType == "Scalping" ? "col-lg-2" : "col-lg-3"}`}>
                                         <label>Select Username</label>
                                         <select className="form-select" required=""
                                             onChange={(e) => setSelectGroup(e.target.value)}
@@ -504,17 +528,35 @@ const Tradehistory = () => {
                                             })}
                                         </select>
                                     </div>
-                                    <div className="form-group col-md-3  col-sm-6">
+                                    <div className={`form-group  ${selectStrategyType == "Scalping" ? "col-lg-2" : "col-lg-3"}`}>
                                         <label>Select Strategy Type</label>
                                         <select className="form-select" required=""
                                             onChange={(e) => setStrategyType(e.target.value)}
                                             value={selectStrategyType}>
-                                            <option value={"Scalping"}>Scalping</option>
-                                            <option value={"Option Strategy"}>Option Strategy</option>
-                                            <option value={"Pattern"}>Pattern Script</option>
+                                            {strategyNames.map((item, index) => {
+                                                return (
+                                                    <option key={index} value={item}>
+                                                        {item}
+                                                    </option>
+                                                );
+                                            })}
 
                                         </select>
                                     </div>
+                                    {selectStrategyType == "Scalping" && (
+                                        <div className={`form-group  ${selectStrategyType == "Scalping" ? "col-lg-2" : "col-lg-3"}`}>
+                                            {/* {console.log("selectStrategyType == Scalping", selectStrategyType == "Scalping")} */}
+                                            <label>Table Type</label>
+                                            <select
+                                                className="form-select"
+                                                required=""
+                                                onChange={(e) => setTableType(e.target.value)}
+                                                value={tableType}>
+                                                <option value="Scalping">Scalping</option>
+                                                <option value="MultiCondition">Multi Condition</option>
+                                            </select>
+                                        </div>
+                                    )}
                                     <div className="form-group col-md-3 col-sm-6">
                                         <label>Select form Date</label>
                                         <DatePicker className="form-select" selected={FromDate == '' ? formattedDate : FromDate} onChange={(date) => setFromDate(date)} />
@@ -528,7 +570,7 @@ const Tradehistory = () => {
                             </div>
 
 
-                            {tradeHistory?.data?.length > 0 && tradeHistory?.data1?.length > 0 ? (
+                            {/* {tradeHistory?.data?.length > 0 && tradeHistory?.data1?.length > 0 ? (
                                 <>
                                     <div className="modal-body">
                                         {tradeHistory.data && (
@@ -573,6 +615,39 @@ const Tradehistory = () => {
                                 </>
                             ) : (
                                 <NoDataFound />
+                            )} */}
+
+                            {tableType === "Scalping" ? (
+                                tradeHistory?.data?.length > 0 ? (
+                                    <>
+                                    <h4 className="mt-3">Scalping</h4>
+                                    <GridExample
+                                        columns={
+                                            selectStrategyType === "Scalping"
+                                                ? columns()
+                                                : selectStrategyType === "Option Strategy"
+                                                    ? columns1()
+                                                    : selectStrategyType === "Pattern"
+                                                        ? columns2()
+                                                        : columns()
+                                        }
+                                        data={tradeHistory.data}
+                                        checkBox={false}
+                                    />
+                                    </>
+                                ) : (
+                                    <NoDataFound />
+                                )
+                            ) : (
+
+                                tableType === "MultiCondition" && tradeHistory?.data1?.length > 0 ? (
+                                    <>
+                                        <h4 className="mt-3">Multi Condition</h4>
+                                        <GridExample columns={columns3()} data={tradeHistory.data1} checkBox={false} />
+                                    </>
+                                ) : (
+                                    <NoDataFound />
+                                )
                             )}
 
 

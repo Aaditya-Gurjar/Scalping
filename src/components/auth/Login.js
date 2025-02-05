@@ -278,7 +278,7 @@ const Login = () => {
                         <div className="">
 
                             <h1 className="mb-0">Sign in</h1>
-                            <p>Enter your email address and password to access admin panel.</p>
+                            {/* <p>Enter your email address and password to access admin panel.</p> */}
                             <div> {/* Wrap inputs in a form */}
                                 <div className="mt-4">
                                     <div className="form-group">
@@ -380,7 +380,7 @@ const Login = () => {
                                                 )}
                                             </div>
                                         </div>
-                                        <div className="col-lg-12 col-sm-12">
+                                        {/* <div className="col-lg-12 col-sm-12">
                                             <div className="input-block mb-3">
                                                 <label>Username</label>
                                                 <input
@@ -396,7 +396,7 @@ const Login = () => {
                                                     </div>
                                                 )}
                                             </div>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
                                 <div className="modal-footer">

@@ -40,6 +40,8 @@ import { useLocation } from "react-router-dom";
 import DrawdownChartComponent from "../../admin/AdvanceChart/DrawdownChartComponent";
 import ProfitAndLossGraph from "../../admin/AdvanceChart/ProfitAndLossGraph";
 import ChartComponent from "../../admin/AdvanceChart/ChartComponent";
+
+
 const Tradehistory = () => {
   const location = useLocation();
   console.log("state location data", location);
@@ -746,19 +748,20 @@ const Tradehistory = () => {
                     />
                   </div>
                 ) : (
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      textAlign: "center",
-                    }}>
-                    <img
-                      src="/assets/images/no-record-found.png"
-                      width="30%"
-                      alt="No record found"
-                    />
-                  </div>
+                  // <div
+                  //   style={{
+                  //     display: "flex",
+                  //     justifyContent: "center",
+                  //     alignItems: "center",
+                  //     textAlign: "center",
+                  //   }}>
+                  //   <img
+                  //     src="/assets/images/no-record-found.png"
+                  //     width="30%"
+                  //     alt="No record found"
+                  //   />
+                  // </div>
+                  <NoDataFound/>
                 )
               ) : null}
 
@@ -806,19 +809,20 @@ const Tradehistory = () => {
                           isChecked={location?.state?.RowIndex}
                         />
                       ) : (
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            textAlign: "center",
-                          }}>
-                          <img
-                            src="/assets/images/no-record-found.png"
-                            width="30%"
-                            alt=""
-                          />
-                        </div>
+                        // <div
+                        //   style={{
+                        //     display: "flex",
+                        //     justifyContent: "center",
+                        //     alignItems: "center",
+                        //     textAlign: "center",
+                        //   }}>
+                        //   <img
+                        //     src="/assets/images/no-record-found.png"
+                        //     width="30%"
+                        //     alt=""
+                        //   />
+                        // </div>
+                        <NoDataFound/>
                       )}
                     </div>
                   </div>

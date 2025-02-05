@@ -20,7 +20,7 @@ const TradeReport = () => {
     const [getClientName, setClientName] = useState({ loading: true, data: [] })
     const [SelectClientName, setSelectClientName] = useState('')
 
- 
+
 
     const [getAllTradeData, setAllTradeData] = useState({
         loading: true,
@@ -135,6 +135,8 @@ const TradeReport = () => {
         await get_Trade_Report(data)
 
             .then((response) => {
+                console.log("get_Trade_Report", response);
+
                 if (response.Status) {
                     setAllTradeData({
                         loading: false,
@@ -145,9 +147,9 @@ const TradeReport = () => {
                 }
                 else {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "No Records found",
                         icon: "info",
                         timer: 1500,

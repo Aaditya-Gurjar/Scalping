@@ -22,6 +22,7 @@ import {
   columns8,
 } from "./TradeReponseColumn";
 import { useLocation } from "react-router-dom";
+import NoDataFound from "../../../ExtraComponent/NoDataFound";
 
 const TradeResponse = () => {
   const location = useLocation();
@@ -246,26 +247,26 @@ const TradeResponse = () => {
     const data = {
       MainStrategy:
         selectStrategyType == "Scalping" &&
-        selectedRowData.ScalpType == "Multi_Conditional"
+          selectedRowData.ScalpType == "Multi_Conditional"
           ? "NewScalping"
           : selectStrategyType,
       Strategy:
         selectStrategyType == "Scalping" &&
-        selectedRowData.ScalpType != "Multi_Conditional"
+          selectedRowData.ScalpType != "Multi_Conditional"
           ? selectedRowData && selectedRowData.ScalpType
           : selectStrategyType == "Option Strategy"
             ? selectedRowData && selectedRowData.STG
             : selectStrategyType == "Pattern"
               ? selectedRowData && selectedRowData.TradePattern
               : selectStrategyType == "Scalping" &&
-                  selectedRowData.ScalpType == "Multi_Conditional"
+                selectedRowData.ScalpType == "Multi_Conditional"
                 ? selectedRowData && selectedRowData.Targetselection
                 : selectStrategyType == "ChartingPlatform" &&
-                    (selectedRowData.Optiontype == " " ||
-                      selectedRowData?.Optiontype == "")
+                  (selectedRowData.Optiontype == " " ||
+                    selectedRowData?.Optiontype == "")
                   ? "Cash"
                   : selectStrategyType == "ChartingPlatform" &&
-                      selectedRowData?.Optiontype == "SX"
+                    selectedRowData?.Optiontype == "SX"
                     ? "Future"
                     : "Option",
       Symbol:
@@ -293,7 +294,7 @@ const TradeResponse = () => {
       To_date: convertDateFormat(ToDate == "" ? Defult_To_Date : ToDate),
       Group:
         selectStrategyType == "Scalping" ||
-        selectStrategyType == "Option Strategy"
+          selectStrategyType == "Option Strategy"
           ? selectedRowData && selectedRowData.GroupN
           : "",
       TradePattern: "",
@@ -464,19 +465,20 @@ const TradeResponse = () => {
                       isChecked={location?.state?.RowIndex}
                     />
                   ) : (
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        textAlign: "center",
-                      }}>
-                      <img
-                        src="/assets/images/no-record-found.png"
-                        width="30%"
-                        alt="No Records Found"
-                      />
-                    </div>
+                    // <div
+                    //   style={{
+                    //     display: "flex",
+                    //     justifyContent: "center",
+                    //     alignItems: "center",
+                    //     textAlign: "center",
+                    //   }}>
+                    //   <img
+                    //     src="/assets/images/no-record-found.png"
+                    //     width="30%"
+                    //     alt="No Records Found"
+                    //   />
+                    // </div>
+                    <NoDataFound/>
                   ))}
               </div>
 
@@ -489,7 +491,7 @@ const TradeResponse = () => {
                     {
                       <div className="modal-body">
                         {tradeHistory?.data1 &&
-                        tradeHistory?.data1.length > 0 ? (
+                          tradeHistory?.data1.length > 0 ? (
                           <GridExample
                             columns={columns6}
                             data={tradeHistory?.data1}
@@ -498,28 +500,37 @@ const TradeResponse = () => {
                             isChecked={location?.state?.RowIndex}
                           />
                         ) : (
-                          <div
-                            style={{
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              textAlign: "center",
-                            }}>
-                            <img
-                              src="/assets/images/no-record-found.png"
-                              width="30%"
-                              alt=""
-                            />
-                          </div>
+                          // <div
+                          //   style={{
+                          //     display: "flex",
+                          //     justifyContent: "center",
+                          //     alignItems: "center",
+                          //     textAlign: "center",
+                          //   }}>
+                          //   <img
+                          //     src="/assets/images/no-record-found.png"
+                          //     width="30%"
+                          //     alt=""
+                          //   />
+                          // </div>
+                          <NoDataFound/>
                         )}
                       </div>
                     }
                   </div>
                 )}
 
-              <button className="btn btn-primary mt-2" onClick={handleSubmit}>
+              {/* <button className="btn btn-primary mt-2" onClick={handleSubmit}>
                 Submit
-              </button>
+              </button> */}
+
+              {(tableType === "Scalping" && (getCharting.length > 0 || tradeHistory?.data?.length > 0)) ||
+                (tableType === "MultiCondition" && selectStrategyType == "Scalping" && tradeHistory?.data1?.length > 0) ? (
+                <button className="btn btn-primary mt-2" onClick={handleSubmit}>
+                  Submit
+                </button>
+              ) : null}
+
 
               {showTable && (
                 <>
@@ -540,19 +551,20 @@ const TradeResponse = () => {
                         checkBox={false}
                       />
                     ) : (
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          textAlign: "center",
-                        }}>
-                        <img
-                          src="/assets/images/no-record-found.png"
-                          width="30%"
-                          alt=""
-                        />
-                      </div>
+                      // <div
+                      //   style={{
+                      //     display: "flex",
+                      //     justifyContent: "center",
+                      //     alignItems: "center",
+                      //     textAlign: "center",
+                      //   }}>
+                      //   <img
+                      //     src="/assets/images/no-record-found.png"
+                      //     width="30%"
+                      //     alt=""
+                      //   />
+                      // </div>
+                      <NoDataFound/>
                     )}
                   </div>
                 </>
