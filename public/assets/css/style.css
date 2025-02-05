@@ -6012,3 +6012,12 @@ button.btn.btn-primary , .swal2-confirm , .all-plan-card button{
 }
 
 /* _____________tooltip stying ends here_________ */
+.form-select
+{
+  --bs-form-select-bg-icon:unset !important
+}
+.btn-close {
+ 
+  background: #ffffffd4 var(--bs-btn-close-bg) center / 1em auto no-repeat !important;
+
+}

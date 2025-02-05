@@ -152,30 +152,8 @@ const Sidebar = () => {
             label: 'Sub Admin Groups',
             permission: [] // No restriction
         },
-        {
-            path: '/subadmin/all-script',
-            icon: 'ri-file-edit-fill', // Script icon for Add Script
-            label: 'Add Script',
-            permission: [] // No restriction
-        },
-        {
-            path: '/subadmin/signals',
-            icon: 'ri-bar-chart-fill', // Chart or report icon for Trade Report
-            label: 'Trade Report',
-            permission: ['TradeReport']
-        },
-        {
-            path: '/subadmin/trade-history',
-            icon: 'ri-bar-chart-fill', // History icon for Trade History
-            label: 'Trade History',
-            permission: ['TradeHistory']
-        },
-        {
-            path: '/subadmin/change-password',
-            icon: 'ri-lock-password-fill', // Lock or password icon for Change Password
-            label: 'Change Password',
-            permission: [] // No restriction
-        }
+        
+        
     ];
 
 
@@ -314,66 +292,8 @@ const Sidebar = () => {
             label: 'Client Trade Report',
             permission: [] // No restriction
         },
-        {
-            path: '/superadmin/client-trade-response',
-            icon: <MessageCircleReply />, // Custom icon
-            label: 'Client Trade Response',
-            permission: [] // No restriction
-        },
-        {
-            path: '/superadmin/update-client-details',
-            icon: <BookUser />, // Custom icon
-            label: 'Update Client Details',
-            permission: [] // No restriction
-        },
-        {
-            path: '/superadmin/api-create-info',
-            icon: <Webhook />, // Custom icon
-            label: 'ApiCreateInfo',
-            permission: [] // No restriction
-        },
-        {
-            path: '/superadmin/New-Update',
-            icon: <BadgePlus />, // Custom icon
-            label: 'New-Update',
-            permission: [] // No restriction
-        }
+        
     ];
-
-
-    // const userSidebarItems = [
-    //     {
-    //         path: '/user/dashboard',
-    //         icon: <i className="ri-home-8-line" />,
-    //         label: 'Dashboard',
-    //         permission: [] // No restriction
-    //     },
-    //     {
-    //         path: 'technical/pattern',
-    //         icon: <i className="lab la-joget" />,
-    //         label: 'Technical Patterns',
-    //         permission: [] // No restriction
-    //     },
-    //     {
-    //         path: 'lastpattern',
-    //         icon: <i className="lab la-ioxhost" />,
-    //         label: 'Last Patterns',
-    //         permission: [] // No restriction
-    //     },
-    //     {
-    //         path: 'all/plan',
-    //         icon: <i className="lab la-ioxhost" />,
-    //         label: 'All Plans',
-    //         permission: [] // No restriction
-    //     },
-    //     {
-    //         path: 'tradereport',
-    //         icon: <i className="la la-sellsy" />,
-    //         label: 'Trade Report',
-    //         permission: [] // No restriction
-    //     },
-
-    // ];
 
     const userSidebarItems = [
         {
