@@ -94,7 +94,7 @@ const AddClient = () => {
       RepeatationCount: 0,
       Profit: 0,
       Loss: 0,
-      RollOver: "",
+      RollOver: false,
       NumberOfDays: 0,
       RollOverExitTime: "00:00:00",
       TargetExit: false,
@@ -278,13 +278,13 @@ const AddClient = () => {
       ) {
         errors.Profit = "Please Enter Maximum Loss";
       }
-      if (
-        !values.RollOver &&
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple"
-      ) {
-        errors.RollOver = "Please Enter No. of Repeatation";
-      }
+      // if (
+      //   !values.RollOver &&
+      //   values.Strategy == "Multi_Conditional" &&
+      //   values.position_type == "Multiple"
+      // ) {
+      //   errors.RollOver = "Please Enter RollOver";
+      // }
       if (
         !values.NumberOfDays &&
         values.Strategy == "Multi_Conditional" &&
@@ -300,13 +300,13 @@ const AddClient = () => {
       ) {
         errors.RollOverExitTime = "Please Enter RollOver Exit Time";
       }
-      if (
-        !values.TargetExit &&
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple"
-      ) {
-        errors.TargetExit = "Please select Continue After Cycle Exit";
-      }
+      // if (
+      //   !values.TargetExit &&
+      //   values.Strategy == "Multi_Conditional" &&
+      //   values.position_type == "Multiple"
+      // ) {
+      //   errors.TargetExit = "Please select Continue After Cycle Exit";
+      // }
       if (
         !values.WorkingDay.length > 0 &&
         values.Strategy == "Multi_Conditional" &&
@@ -324,7 +324,7 @@ const AddClient = () => {
         errors.OrderType = "Please select Order Type";
       }
 
-
+      console.log("errors", errors)
       return errors;
     },
 
@@ -700,6 +700,8 @@ const AddClient = () => {
         { label: "Fixed Target", value: "Fixed Target" },
         { label: "Entry Wise Target", value: "Entry Wise Target" },
         { label: "Average Target", value: "Average Target" },
+        { label: "Entry Wise Target Reverse", value: "Entry Wise Target Reverse" },
+
 
       ],
       showWhen: (values) => values.position_type == "Multiple" && values.Strategy == "Multi_Conditional",

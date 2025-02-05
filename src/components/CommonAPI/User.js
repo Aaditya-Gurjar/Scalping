@@ -281,6 +281,7 @@ export const MatchPosition = async (data) => {
     }
 }
 
+
 export const OpenPosition = async (data) => {
     var token = localStorage.getItem('token')
     try {
