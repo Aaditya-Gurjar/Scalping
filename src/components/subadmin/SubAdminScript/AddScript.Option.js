@@ -28,6 +28,23 @@ confirmButtonColor: "#1ccc8a",
 
     }
 
+    const ScrollToViewFirstError = (newErrors) => {
+        if (Object.keys(newErrors).length !== 0) {
+            const errorField = Object.keys(newErrors)[0];
+
+            const errorElement = document.getElementById(errorField);
+            if (errorElement) {
+                const elementPosition = errorElement.getBoundingClientRect().top + window.pageYOffset;
+
+                const offset = 100;
+                window.scrollTo({
+                    top: elementPosition - offset,
+                    behavior: 'smooth'
+                });
+            }
+        }
+    }
+
 
     const formik = useFormik({
         initialValues: {
@@ -195,6 +212,8 @@ confirmButtonColor: "#1ccc8a",
             }
 
             console.log("Errors", errors);
+            ScrollToViewFirstError(errors)
+
             return errors;
         },
 

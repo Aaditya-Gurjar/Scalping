@@ -72,6 +72,14 @@ const TradeResponse = () => {
   const Defult_To_Date = `${year1}.${month1}.${day1}`;
 
   useEffect(() => {
+    if (selectStrategyType == "Scalping") {
+      setTableType("MultiCondition");
+    } else {
+      setTableType("Scalping");
+    }
+  }, [selectStrategyType]);
+
+  useEffect(() => {
     if (selectSegmentType) getChartingScript();
   }, [selectSegmentType]);
 
@@ -228,20 +236,20 @@ const TradeResponse = () => {
   // }, []);
 
   useEffect(() => {
-          if (!location?.state?.type) {
-          if (selectStrategyType == "Scalping") {
-            setTableType("MultiCondition");
-          } 
-        } else if (
-          location?.state?.type &&
-          location?.state?.type != "MultiCondition"
-        ) {
-          setSelectStrategyType(location?.state?.type);
-        } else if (location?.state?.type == "MultiCondition") {
-          setTableType("MultiCondition");
-          setSelectStrategyType("Scalping");
-        }
-      }, [preSelectTableType]);
+    if (!location?.state?.type) {
+      if (selectStrategyType == "Scalping") {
+        setTableType("MultiCondition");
+      }
+    } else if (
+      location?.state?.type &&
+      location?.state?.type != "MultiCondition"
+    ) {
+      setSelectStrategyType(location?.state?.type);
+    } else if (location?.state?.type == "MultiCondition") {
+      setTableType("MultiCondition");
+      setSelectStrategyType("Scalping");
+    }
+  }, [preSelectTableType]);
 
   const handleSubmit = async () => {
     const data = {
@@ -520,17 +528,23 @@ const TradeResponse = () => {
                   </div>
                 )}
 
-              {/* <button className="btn btn-primary mt-2" onClick={handleSubmit}>
-                Submit
-              </button> */}
+              {selectStrategyType === "Scalping" &&
+              tableType === "MultiCondition" &&
+              tradeHistory.data1?.length > 0 ? (
+                <button className="btn btn-primary mt-2" onClick={handleSubmit}>
+                  Submit
+                </button>
+              ) : (
+                ""
+              )}
 
-              {(tableType === "Scalping" && (getCharting.length > 0 || tradeHistory?.data?.length > 0)) ||
-                (tableType === "MultiCondition" && selectStrategyType == "Scalping" && tradeHistory?.data1?.length > 0) ? (
+              {(selectStrategyType === "ChartingPlatform" &&
+                getCharting?.length > 0) ||
+              tradeHistory?.data?.length > 0 ? (
                 <button className="btn btn-primary mt-2" onClick={handleSubmit}>
                   Submit
                 </button>
               ) : null}
-
 
               {showTable && (
                 <>

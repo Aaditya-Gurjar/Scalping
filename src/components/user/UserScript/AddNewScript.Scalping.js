@@ -54,6 +54,8 @@ const AddClient = () => {
   }
 
 
+ 
+
   const formik = useFormik({
     initialValues: {
       MainStrategy: "",
@@ -331,7 +333,6 @@ const AddClient = () => {
     },
 
     onSubmit: async (values) => {
-
       try {
         const req = {
           MainStrategy: formik.values.Strategy == "Multi_Conditional" ? "NewScalping" : location?.state?.data?.selectStrategyType,

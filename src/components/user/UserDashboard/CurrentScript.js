@@ -44,7 +44,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             getChartingScript();
     }, [data]);
 
-    console.log("EditDataScalping", EditDataScalping)
+
 
     const getChartingScript = async () => {
         const req = { Username: userName, Planname: "Chart" }
@@ -249,7 +249,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                     });
 
                 }
-                else{
+                else {
                     Swal.fire({
                         title: "Error !",
                         text: "Something went wrong!",
@@ -332,9 +332,12 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 confirmButtonText: "Yes"
             }).then(async (result) => {
                 if (result.isConfirmed) {
+                    console.log("####", data, type)
                     const req =
                         data == 'Scalping' && type == 1 ?
+
                             {
+
                                 Username: userName,
                                 MainStrategy: data,
                                 Strategy: getAllService.ScalpingData[index].ScalpType == "Multi_Conditional" ? getAllService.NewScalping[index].Targetselection : getAllService.ScalpingData[index].ScalpType,
@@ -487,6 +490,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                     confirmButtonText: "Yes"
                 }).then(async (result) => {
                     if (result.isConfirmed) {
+                        console.log("####", data, type)
                         const req =
                             data == 'Scalping' && type == 1 ?
                                 {
@@ -1629,7 +1633,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                                                         {hasPrimaryTableData && (
                                                                             <FullDataTable
                                                                                 columns={
-                                                                                    data === "Scalping"
+                                                                                    data === "Scalping" && tableType == "Scalping"
                                                                                         ? getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue)
                                                                                         : data === "Option Strategy"
                                                                                             ? getColumns4(handleDelete, handleEdit, HandleContinueDiscontinue)
