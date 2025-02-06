@@ -50,8 +50,10 @@
     "react-select": "^5.9.0",
     "react-spinners": "^0.13.8",
     "react-tooltip": "^5.28.0",
+    "recharts": "^2.15.1",
     "styled-components": "^6.1.13",
     "sweetalert2": "^11.15.10",
+    "victory": "^37.3.6",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

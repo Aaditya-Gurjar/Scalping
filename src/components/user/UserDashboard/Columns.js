@@ -1044,6 +1044,29 @@ export const getColumns3 = (handleDelete, handleEdit, handleContinutyDiscontinut
     //         }
     //     }
     // },
+    // {
+    //     name: "Trading",
+    //     label: "Trading",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //         customBodyRender: (value, tableMeta, updateValue) => {
+    //             // console.log("page ma kya value aa rhe hai ", value);
+
+    //             const label = value ? "Continue" : "Discontinue";
+    //             const labelStyle = value ? { color: 'green' } : { color: 'red' };
+
+    //             return (
+    //                 <span
+    //                     onClick={() => handleContinutyDiscontinuty(tableMeta, 2)}
+    //                     style={labelStyle}
+    //                 >
+    //                     {label}
+    //                 </span>
+    //             );
+    //         }
+    //     }
+    // },
     {
         name: "Trading",
         label: "Trading",
@@ -1051,22 +1074,20 @@ export const getColumns3 = (handleDelete, handleEdit, handleContinutyDiscontinut
             filter: true,
             sort: true,
             customBodyRender: (value, tableMeta, updateValue) => {
-                // console.log("page ma kya value aa rhe hai ", value);
-
                 const label = value ? "Continue" : "Discontinue";
-                const labelStyle = value ? { color: 'green' } : { color: 'red' };
+                const labelStyle = value ? { backgroundColor: 'green', color: 'white' } : { backgroundColor: 'red', color: 'white' };
 
                 return (
-                    <span
-                        onClick={() => handleContinutyDiscontinuty(tableMeta, 2)}
-                        style={labelStyle}
+                    <button
+                        onClick={() => handleContinutyDiscontinuty(tableMeta, 1)}
+                        style={{ ...labelStyle, border: 'none', padding: '5px 10px', cursor: 'pointer', borderRadius: '5px' }}
                     >
                         {label}
-                    </span>
+                    </button>
                 );
             }
         }
-    },
+    },    
     {
         name: "ScalpType",
         label: "Scalp Type",
@@ -1282,7 +1303,7 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
             customBodyRender: (value, tableMeta, updateValue) => {
                 return <><button className='btn' onClick={() => handleEdit(tableMeta)}>
-                    <SquarePen />
+                    <SquarePen style={{ color: "white" }} />
                 </button>
 
                 </>
@@ -1307,6 +1328,29 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
     //         }
     //     }
     // },
+    // {
+    //     name: "Trading",
+    //     label: "Trading",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //         customBodyRender: (value, tableMeta, updateValue) => {
+    //             // console.log("page ma kya value aa rhe hai ", value);
+
+    //             const label = value ? "Continue" : "Discontinue";
+    //             const labelStyle = value ? { color: 'green' } : { color: 'red' };
+
+    //             return (
+    //                 <button
+    //                     onClick={() => handleContinutyDiscontinuty(tableMeta, 2)}
+    //                     style={labelStyle}
+    //                 >
+    //                     {label}
+    //                 </button>
+    //             );
+    //         }
+    //     }
+    // },
     {
         name: "Trading",
         label: "Trading",
@@ -1314,18 +1358,16 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
             filter: true,
             sort: true,
             customBodyRender: (value, tableMeta, updateValue) => {
-                // console.log("page ma kya value aa rhe hai ", value);
-
                 const label = value ? "Continue" : "Discontinue";
-                const labelStyle = value ? { color: 'green' } : { color: 'red' };
+                const labelStyle = value ? { backgroundColor: 'green', color: 'white' } : { backgroundColor: 'red', color: 'white' };
 
                 return (
-                    <span
+                    <button
                         onClick={() => handleContinutyDiscontinuty(tableMeta, 2)}
-                        style={labelStyle}
+                        style={{ ...labelStyle, border: 'none', padding: '5px 10px', cursor: 'pointer', borderRadius: '5px' }}
                     >
                         {label}
-                    </span>
+                    </button>
                 );
             }
         }
@@ -1581,7 +1623,7 @@ export const getColumns5 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
             customBodyRender: (value, tableMeta, updateValue) => {
                 return <><button className='btn ' onClick={() => handleEdit(tableMeta)}>
-                    <SquarePen />
+                    <SquarePen style={{ color: "white" }} />
                 </button>
 
                 </>

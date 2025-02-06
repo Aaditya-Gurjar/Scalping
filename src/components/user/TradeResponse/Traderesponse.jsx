@@ -367,7 +367,7 @@ const TradeResponse = () => {
               <div className="was-validated ">
                 <div className="row">
                   <div
-                    className={`form-group ${selectStrategyType == "ChartingPlatform" || "Scalping" ? "col-lg-3" : "col-lg-4"}`}>
+                    className={`form-group ${selectStrategyType == "ChartingPlatform" || selectStrategyType == "Scalping" ? "col-lg-3" : "col-lg-4"}`}>
                     <label>Select Strategy Type</label>
                     <select
                       className="form-select"
@@ -383,7 +383,7 @@ const TradeResponse = () => {
                   </div>
 
                   {selectStrategyType == "Scalping" && (
-                    <div className="form-group col-lg-3">
+                    <div className={`form-group ${selectStrategyType == "ChartingPlatform" || selectStrategyType == "Scalping" ? "col-lg-3" : "col-lg-4"}`}>
                       <label>Select Table Type</label>
                       <select
                         className="form-select"
@@ -397,7 +397,7 @@ const TradeResponse = () => {
                   )}
 
                   {selectStrategyType == "ChartingPlatform" && (
-                    <div className="form-group col-lg-3">
+                    <div className={`form-group ${selectStrategyType == "ChartingPlatform" || selectStrategyType == "Scalping" ? "col-lg-3" : "col-lg-4"}`}>
                       <label>Select Segment Type</label>
                       <select
                         className="form-select"
@@ -416,7 +416,7 @@ const TradeResponse = () => {
                   )}
 
                   <div
-                    className={`form-group ${selectStrategyType == "ChartingPlatform" || "Scalping" ? "col-lg-3" : "col-lg-4"}`}>
+                    className={`form-group ${selectStrategyType == "ChartingPlatform" || selectStrategyType == "Scalping" ? "col-lg-3" : "col-lg-4"}`}>
                     <label>Select form Date</label>
                     <DatePicker
                       className="form-select"
@@ -425,7 +425,7 @@ const TradeResponse = () => {
                     />
                   </div>
                   <div
-                    className={`form-group ${selectStrategyType == "ChartingPlatform" || "Scalping" ? "col-lg-3" : "col-lg-4"}`}>
+                    className={`form-group ${selectStrategyType == "ChartingPlatform" || selectStrategyType == "Scalping" ? "col-lg-3" : "col-lg-4"}`}>
                     <label>Select To Date</label>
                     <DatePicker
                       className="form-select"
@@ -443,6 +443,10 @@ const TradeResponse = () => {
                 )}
                 {tableType === "Scalping" && // Check if the tableType is Scalping
                   (getCharting.length > 0 || tradeHistory?.data.length > 0 ? ( // Check if there is any data available
+                    <div>
+                    <div className="iq-header-title mt-4">
+                      <h4 className="card-title">{selectStrategyType}</h4>
+                    </div>
                     <GridExample
                       columns={
                         selectStrategyType === "Scalping"
@@ -464,6 +468,7 @@ const TradeResponse = () => {
                       checkBox={true}
                       isChecked={location?.state?.RowIndex}
                     />
+                    </div>
                   ) : (
                     // <div
                     //   style={{

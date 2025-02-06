@@ -600,7 +600,7 @@ const Tradehistory = () => {
               <div className="was-validated ">
                 <div className="row">
                   <div
-                    className={`form-group  ${selectStrategyType == "ChartingPlatform" || "Scalping" ? "col-lg-3" : "col-lg-4"}`}>
+                    className={`form-group  ${selectStrategyType == "ChartingPlatform" || selectStrategyType =="Scalping" ? "col-lg-3" : "col-lg-4"}`}>
                     <label>Select Strategy Type</label>
                     <select
                       className="form-select"
@@ -617,8 +617,8 @@ const Tradehistory = () => {
                     </select>
                   </div>
                   {selectStrategyType == "Scalping" && (
-                    <div className="form-group col-lg-3">
-                      {/* {console.log("selectStrategyType == Scalping", selectStrategyType == "Scalping")} */}
+                    <div className={`form-group  ${selectStrategyType == "ChartingPlatform" || selectStrategyType == "Scalping" ? "col-lg-3" : "col-lg-4"}`}>
+                     
                       <label>Table Type</label>
                       <select
                         className="form-select"
@@ -632,7 +632,7 @@ const Tradehistory = () => {
                   )}
                   {console.log("getChartingSegments", getChartingSegments)}
                   {selectStrategyType == "ChartingPlatform" && (
-                    <div className="form-group col-lg-3">
+                    <div className={`form-group  ${selectStrategyType == "ChartingPlatform" || selectStrategyType =="Scalping" ? "col-lg-3" : "col-lg-4"}`}>
                       <label>Select Segment Type</label>
                       <select
                         className="form-select"
@@ -651,7 +651,7 @@ const Tradehistory = () => {
                   )}
 
                   <div
-                    className={`form-group ${selectStrategyType == "ChartingPlatform" || "Scalping" ? "col-lg-3" : "col-lg-4"}`}>
+                    className={`form-group ${selectStrategyType == "ChartingPlatform" || selectStrategyType =="Scalping" ? "col-lg-3" : "col-lg-4"}`}>
                     <label>Select form Date</label>
                     <DatePicker
                       className="form-select"
@@ -660,7 +660,7 @@ const Tradehistory = () => {
                     />
                   </div>
                   <div
-                    className={`form-group ${selectStrategyType == "ChartingPlatform" || "Scalping" ? "col-lg-3" : "col-lg-4"}`}>
+                    className={`form-group ${selectStrategyType == "ChartingPlatform" || selectStrategyType =="Scalping" ? "col-lg-3" : "col-lg-4"}`}>
                     <label>Select To Date</label>
                     <DatePicker
                       className="form-select custom-date"
@@ -670,58 +670,16 @@ const Tradehistory = () => {
                   </div>
                 </div>
               </div>
-              {/* {(
-                selectStrategyType == "ChartingPlatform"
-                  ? getCharting
-                  : tradeHistory.data
-              ) ? (
-                tableType === "Scalping" && (
-                  <div className="modal-body">
-                    
-                    <GridExample
-                      columns={
-                        selectStrategyType === "Scalping"
-                          ? columns()
-                          : selectStrategyType === "Option Strategy"
-                            ? columns1()
-                            : selectStrategyType === "Pattern"
-                              ? columns2()
-                              : selectStrategyType == "ChartingPlatform"
-                                ? getColumns10()
-                                : columns()
-                      }
-                      data={
-                        selectStrategyType == "ChartingPlatform"
-                          ? getCharting
-                          : tradeHistory.data
-                      }
-                      onRowSelect={handleRowSelect}
-                      checkBox={true}
-                      isChecked={location?.state?.RowIndex}
-                    />
-                  </div>
-                )
-              ) : (
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    textAlign: "center",
-                  }}>
-                  <img
-                    src="/assets/images/no-record-found.png"
-                    width="30%"
-                    alt=""
-                  />
-                </div>
-              )} */}
 
               {tableType == "Scalping" ? (
                 (selectStrategyType === "ChartingPlatform" &&
                   getCharting.length > 0) ||
                   (selectStrategyType !== "ChartingPlatform" &&
                     tradeHistory.data.length > 0) ? (
+                      <div>
+                      <div className="iq-header-title mt-4">
+                      <h4 className="card-title">{selectStrategyType}</h4>
+                    </div>
                   <div className="modal-body">
                     <GridExample
                       columns={
@@ -746,6 +704,7 @@ const Tradehistory = () => {
                       onRowSelect={handleRowSelect}
                       checkBox={true}
                     />
+                  </div>
                   </div>
                 ) : (
                   // <div
