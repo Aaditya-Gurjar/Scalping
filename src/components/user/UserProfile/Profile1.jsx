@@ -1,75 +1,130 @@
+import React, { useState, useEffect } from "react";
+import { Get_Profile_Data } from "../../CommonAPI/User";
 
+const Profile = () => {
+  var username = localStorage.getItem("name");
+  const [data, setData] = useState({
+    loading: false,
+    data: [],
+  });
+  console.log("chaking active plan name", data);
 
+  const getprofiledata = async () => {
+    const data = {
+      username: username,
+    };
+    await Get_Profile_Data(data).then((response) => {
+      if (response.Status) {
+        console.log("Get_Profile_Data", response);
 
-import React from "react";
-import { Container, Card, ListGroup } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
+        localStorage.setItem("expire", false);
+        setData({
+          loading: true,
+          data: response?.Data[0],
+        });
+      } else {
+        if (response.message === "Client Expired") {
+          localStorage.setItem("expire", true);
+        }
+        setData({
+          loading: true,
+          data: [],
+        });
+      }
+    });
+  };
 
-const userProfile = {
-  username: "Komal",
-  mobile: "1232143213",
-  email: "komalmalvi@gmail.com",
-  brokerName: "ALICEBLUE",
-  numberOfScripts: 29,
-  group: "New, GP 1, Shubh",
-  planName:
-    "One Week Demo, New, New Plan, Three Days Live, Chart, New Plan 23, Chartt",
-};
+  useEffect(() => {
+    getprofiledata();
+  }, []);
 
-const ProfileCard = () => {
   return (
-    <Container
-      fluid
-      className="d-flex justify-content-center align-items-center min-vh-100 bg-dark text-light">
-      <Card
-        className="profile-card text-center shadow-lg p-4 rounded border-0"
-        style={{
-          maxWidth: "450px",
-          width: "100%",
-          backgroundColor: "#2c2f36",
-          borderColor: "#444",
-          transition: "transform 0.3s ease, box-shadow 0.3s ease",
-        }}>
-        <div className="profile-header d-flex justify-content-center mb-4">
-          <img
-            src="https://randomuser.me/api/portraits/women/79.jpg"
-            alt="Profile"
-            className="rounded-circle border border-4 border-light shadow-lg"
-            style={{
-              width: "130px",
-              height: "130px",
-              objectFit: "cover",
-              transition: "transform 0.3s ease",
-            }}
-          />
+    <div>
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-lg-4">
+            <div className="iq-card">
+              <div className="iq-card-body ps-0 pe-0 pt-0">
+                <div className="docter-details-block">
+                  <div
+                    className="doc-profile-bg bg-primary"
+                    style={{ height: "46px" }}></div>
+                  <div className="docter-profile text-center">
+                    <img
+                      src="assets/images/user/11.png"
+                      alt="profile-img"
+                      className="avatar-130 img-fluid"
+                    />
+                  </div>
+                  <div className="text-center mt-3 ps-3 pe-3">
+                    <h4>
+                      <b>{data?.Username}</b>
+                    </h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+
+          <div className="col-lg-8">
+            <div className="iq-card">
+              <div className="iq-card-header d-flex justify-content-between">
+                <div className="iq-header-title">
+                  <h4 className="card-title">Personal Information</h4>
+                </div>
+              </div>
+              <div className="iq-card-body">
+                <div className="about-info m-0 p-0">
+                  <div className="row">
+                    <div className="col-4">Username:</div>
+                    <div className="col-8">
+                      {(data && data?.data?.Username) || "-"}{" "}
+                    </div>
+                    <div className="col-4">Mobile No :</div>
+                    <div className="col-8">
+                      {(data && data?.data?.Mobile_No) || "-"}{" "}
+                    </div>
+                    <div className="col-4">Email Id:</div>
+                    <div className="col-8">
+                      {(data && data?.data?.EmailId) || "-"}
+                    </div>
+                    <div className="col-4">BrokerName :</div>
+                    <div className="col-8">
+                      {(data && data?.data?.BrokerName) || "-"}
+                    </div>
+                    <div className="col-4">Number of Script :</div>
+                    <div className="col-8">
+                      {(data && data?.data?.NumberofScript) || "-"}
+                    </div>
+                    <div className="col-4">Group :</div>
+                    {data?.loading && data && data?.data?.Group?.length > 0 ? (
+                      <div className="col-8">
+                        {data && data?.data?.Group.join(" , ")}
+                      </div>
+                    ) : (
+                      <div className="col-8">No Group Available</div>
+                    )}
+                    <div className="col-4">Plan Name :</div>
+                    {data.loading &&
+                    data &&
+                    data?.data?.Planname?.length > 0 ? (
+                      <div className="col-8">
+                        {data && data?.data?.Planname.join(" , ")}
+                      </div>
+                    ) : (
+                      <div className="col-8">No Plan Available</div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <Card.Body>
-          <h3 className="text-light mb-3 fw-bold">{userProfile.username}</h3>
-          <ListGroup variant="flush" className="bg-transparent text-start">
-            <ListGroup.Item className="bg-transparent text-light border-0 py-2">
-              <strong>📱</strong> Mobile No: {userProfile.mobile}
-            </ListGroup.Item>
-            <ListGroup.Item className="bg-transparent text-light border-0 py-2">
-              <strong>✉️</strong> Email Id: {userProfile.email}
-            </ListGroup.Item>
-            <ListGroup.Item className="bg-transparent text-light border-0 py-2">
-              <strong>🏢</strong> Broker Name: {userProfile.brokerName}
-            </ListGroup.Item>
-            <ListGroup.Item className="bg-transparent text-light border-0 py-2">
-              <strong>📊</strong> Number of Scripts:{" "}
-              {userProfile.numberOfScripts}
-            </ListGroup.Item>
-            <ListGroup.Item className="bg-transparent text-light border-0 py-2">
-              <strong>📝</strong> Group: {userProfile.group}
-            </ListGroup.Item>
-            <ListGroup.Item className="bg-transparent text-light border-0 py-2">
-              <strong>🎯</strong> Plan Name: {userProfile.planName}
-            </ListGroup.Item>
-          </ListGroup>
-        </Card.Body>
-      </Card>
-    </Container>
+      </div>
+    </div>
+    
   );
 };
 
-export default ProfileCard;
+export default Profile;

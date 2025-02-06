@@ -237,6 +237,9 @@ const Clientservice = () => {
                         </div>
                         <div className='iq-card-body'>
                             <div className="container mt-4">
+                                {
+                                    console.log("getAllRequest", getAllRequest)
+                                }
                                 <Tabs
                                     defaultActiveKey="PendingRequest"
                                     id="fill-tab-example"

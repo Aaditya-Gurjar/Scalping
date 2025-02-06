@@ -1,7 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import {
+  FaUserCircle,
+  FaPhone,
+  FaEnvelope,
+  FaUserTie,
+  FaClipboardList,
+  FaUsers,
+  FaRegStar,
+} from "react-icons/fa";
+import "bootstrap/dist/css/bootstrap.min.css";
 import { Get_Profile_Data } from "../../CommonAPI/User";
 
-const Profile = () => {
+const ProfilePage = () => {
   var username = localStorage.getItem("name");
   const [data, setData] = useState({
     loading: false,
@@ -39,89 +50,120 @@ const Profile = () => {
   }, []);
 
   return (
-    <div>
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-lg-4">
-            <div className="iq-card">
-              <div className="iq-card-body ps-0 pe-0 pt-0">
-                <div className="docter-details-block">
-                  <div
-                    className="doc-profile-bg bg-primary"
-                    style={{ height: "46px" }}></div>
-                  <div className="docter-profile text-center">
-                    <img
-                      src="assets/images/user/11.png"
-                      alt="profile-img"
-                      className="avatar-130 img-fluid"
+    <div className="profile-page min-vh-100 d-flex align-items-center justify-content-center">
+      <Container fluid>
+        <Row className="justify-content-center">
+          <Col md={10} lg={8} xl={6}>
+            <Card className="glass-card shadow-lg border-0 rounded-4 overflow-hidden">
+              <Card.Body className="p-4">
+                {/* Animated Background Elements */}
+                <div className="animated-bg">
+                  <div className="gradient-blob"></div>
+                  <div className="gradient-blob"></div>
+                </div>
+                {/* Profile Header */}
+                <div className="text-center mb-4 position-relative">
+                  <div className="avatar-container">
+                    <FaUserCircle
+                      size={100}
+                      className="text-light profile-avatar"
                     />
+                    <div className="avatar-glow"></div>
                   </div>
-                  <div className="text-center mt-3 ps-3 pe-3">
-                    <h4>
-                      <b>{data?.Username}</b>
-                    </h4>
-                  </div>
+                  <h3 className="mt-3 text-gradient">{username}</h3>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-8">
-            <div className="iq-card">
-              <div className="iq-card-header d-flex justify-content-between">
-                <div className="iq-header-title">
-                  <h4 className="card-title">Personal Information</h4>
-                </div>
-              </div>
-              <div className="iq-card-body">
-                <div className="about-info m-0 p-0">
-                  <div className="row">
-                    <div className="col-4">Username:</div>
-                    <div className="col-8">
-                      {(data && data?.data?.Username) || "-"}{" "}
-                    </div>
-                    <div className="col-4">Mobile No :</div>
-                    <div className="col-8">
-                      {(data && data?.data?.Mobile_No) || "-"}{" "}
-                    </div>
-                    <div className="col-4">Email Id:</div>
-                    <div className="col-8">
-                      {(data && data?.data?.EmailId) || "-"}
-                    </div>
-                    <div className="col-4">BrokerName :</div>
-                    <div className="col-8">
-                      {(data && data?.data?.BrokerName) || "-"}
-                    </div>
-                    <div className="col-4">Number of Script :</div>
-                    <div className="col-8">
-                      {(data && data?.data?.NumberofScript) || "-"}
-                    </div>
-                    <div className="col-4">Group :</div>
-                    {data?.loading && data && data?.data?.Group?.length > 0 ? (
-                      <div className="col-8">
-                        {data && data?.data?.Group.join(" , ")}
-                      </div>
-                    ) : (
-                      <div className="col-8">No Group Available</div>
-                    )}
-                    <div className="col-4">Plan Name :</div>
-                    {data.loading &&
-                    data &&
-                    data?.data?.Planname?.length > 0 ? (
-                      <div className="col-8">
-                        {data && data?.data?.Planname.join(" , ")}
-                      </div>
-                    ) : (
-                      <div className="col-8">No Plan Available</div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+
+                {console.log("data?.data?.BrokerName", data?.data?.Group)}
+                {/* Info Grid */}
+                <Row className="g-4">
+                  {[
+                    {
+                      icon: <FaPhone />,
+                      text: (data && data?.data?.Mobile_No) || "-",
+                      color: "#4e54c8",
+                    },
+                    {
+                      icon: <FaEnvelope />,
+                      text: (data && data?.data?.EmailId) || "-",
+                      color: "#8f94fb",
+                    },
+
+                    {
+                      icon: <FaUserTie />,
+                      text: `Broker: ${(data && data?.data?.BrokerName) || " - "}`,
+                      color: "#00b4d8",
+                    },
+                    {
+                      icon: <FaClipboardList />,
+                      text: `Scripts: ${(data && data?.data?.NumberofScript) || "-"}`,
+                      color: "#00f5d4",
+                    },
+                    {
+                      icon: <FaUsers />,
+                      text: (
+                        <>
+                          Group:{" "}
+                          {data?.loading && data?.data?.Group?.length > 0 ? (
+                            <div className="col-8">
+                              {data?.data?.Group.join(" , ")}
+                            </div>
+                          ) : (
+                            <div className="col-8">No Group Available</div>
+                          )}
+                        </>
+
+                        
+                      ),
+                      color: "#9d4edd",
+                    },
+                    {
+                      icon: <FaRegStar />,
+                      text: (
+                        <>
+                        Plan Name: {""}
+                          {data.loading && data && data?.data?.Planname?.length >
+                          0 ? (
+                          <div className="col-8">
+                            {data && data?.data?.Planname.join(" , ")}
+                          </div>
+                          ) : (<div className="col-8">No Plan Available</div>)}
+                        </>
+                      ),
+
+                      color: "#ff9e00",
+                    },
+                  ].map((item, index) => (
+                    <Col xs={12} md={6} key={index}>
+                      <Card
+                        className="info-card hover-transform"
+                        style={{ "--hover-color": item.color }}>
+                        <Card.Body className="d-flex align-items-center">
+                          <span
+                            className="icon-wrapper me-3"
+                            style={{ color: item.color }}>
+                            {item.icon}
+                          </span>
+                          <span className="text-light">{item.text}</span>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                  ))}
+                </Row>
+                {/* Action Button */}
+                {/* <div className="text-center mt-4">
+                  <Button
+                    variant="outline-light"
+                    className="glow-button rounded-pill px-4 py-2">
+                    Edit Profile
+                  </Button>
+                </div> */}
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 };
 
-export default Profile;
+export default ProfilePage;

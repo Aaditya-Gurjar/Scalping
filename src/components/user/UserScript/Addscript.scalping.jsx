@@ -929,6 +929,10 @@ const AddClient = () => {
         { label: "Fixed Target", value: "Fixed Target" },
         { label: "Entry Wise Target", value: "Entry Wise Target" },
         { label: "Average Target", value: "Average Target" },
+        {
+          label: "Entry Wise Target Reverse",
+          value: "Entry Wise Target Reverse",
+        },
       ],
       showWhen: (values) =>
         values.position_type == "Multiple" &&
@@ -1213,6 +1217,7 @@ const AddClient = () => {
         { label: "Wednesday", value: "Wednesday" },
         { label: "Thursday", value: "Thursday" },
         { label: "Friday", value: "Friday" },
+        { label: "Saturday", value: "Saturday" },
       ],
       label_size: 12,
       col_size: 4,

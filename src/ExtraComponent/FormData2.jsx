@@ -271,14 +271,18 @@ const DynamicForm = ({
                                             {item.label}
 
                                             {item.iconText && (
-                                              <span
-                                                data-toggle="tooltip"
-                                                data-placement="top"
-                                                title={item.iconText}>
-                                                <Info
-                                                  style={{ width: "15px" }}
-                                                  className="mx-1"
-                                                />
+                                              <span className="custom-tooltip-wrapper">
+                                                <span
+                                                  className="info-icon-container"
+                                                  data-tooltip={item.iconText}>
+                                                  <Info
+                                                    style={{
+                                                      width: "15px",
+                                                      fill: "#ffffff",
+                                                    }}
+                                                    className="mx-1"
+                                                  />
+                                                </span>
                                               </span>
                                             )}
 
@@ -401,19 +405,24 @@ const DynamicForm = ({
                                       <div
                                         className={`col-lg-${item.col_size}`}>
                                         <div className="input-block mb-3 flex-column">
-                                          <label
-                                            className={`col-lg-${item.label_size}`}>
+                                          <label htmlFor={item.name}>
                                             {item.label}
-                                            <span
-                                              data-toggle="tooltip"
-                                              data-placement="top"
-                                              title={item.iconText}>
-                                              <Info
-                                                style={{ width: "15px" }}
-                                                className="mx-1"
-                                              />
-                                            </span>
                                           </label>
+                                          {item.iconText && (
+                                            <span className="custom-tooltip-wrapper">
+                                              <span
+                                                className="info-icon-container"
+                                                data-tooltip={item.iconText}>
+                                                <Info
+                                                  style={{
+                                                    width: "15px",
+                                                    fill: "#ffffff",
+                                                  }}
+                                                  className="mx-1"
+                                                />
+                                              </span>
+                                            </span>
+                                          )}
 
                                           <input
                                             type="text"
@@ -500,14 +509,20 @@ const DynamicForm = ({
                                                   {item.label}
                                                 </label>
                                                 {item.iconText && (
-                                                  <span
-                                                    data-toggle="tooltip"
-                                                    data-placement="top"
-                                                    title={item.iconText}>
-                                                    <Info
-                                                      style={{ width: "15px" }}
-                                                      className="mx-1"
-                                                    />
+                                                  <span className="custom-tooltip-wrapper">
+                                                    <span
+                                                      className="info-icon-container"
+                                                      data-tooltip={
+                                                        item.iconText
+                                                      }>
+                                                      <Info
+                                                        style={{
+                                                          width: "15px",
+                                                          fill: "#ffffff",
+                                                        }}
+                                                        className="mx-1"
+                                                      />
+                                                    </span>
                                                   </span>
                                                 )}
 
@@ -542,19 +557,23 @@ const DynamicForm = ({
                                             className={`col-lg-${item.label_size}`}
                                             htmlFor={item.name}>
                                             {item.label}
-                                            {console.log(
+                                            {/* {console.log(
                                               "item.iconText",
                                               item.iconText
-                                            )}
+                                            )} */}
                                             {item.iconText && (
-                                              <span
-                                                data-toggle="tooltip"
-                                                data-placement="top"
-                                                title={item.iconText}>
-                                                <Info
-                                                  style={{ width: "15px" }}
-                                                  className="mx-1"
-                                                />
+                                              <span className="custom-tooltip-wrapper">
+                                                <span
+                                                  className="info-icon-container"
+                                                  data-tooltip={item.iconText}>
+                                                  <Info
+                                                    style={{
+                                                      width: "15px",
+                                                      fill: "#ffffff",
+                                                    }}
+                                                    className="mx-1"
+                                                  />
+                                                </span>
                                               </span>
                                             )}
                                           </label>
@@ -663,14 +682,20 @@ const DynamicForm = ({
                                                   {item.label}
                                                 </label>
                                                 {item.iconText && (
-                                                  <span
-                                                    data-toggle="tooltip"
-                                                    data-placement="top"
-                                                    title={item.iconText}>
-                                                    <Info
-                                                      style={{ width: "15px" }}
-                                                      className="mx-1"
-                                                    />
+                                                  <span className="custom-tooltip-wrapper">
+                                                    <span
+                                                      className="info-icon-container"
+                                                      data-tooltip={
+                                                        item.iconText
+                                                      }>
+                                                      <Info
+                                                        style={{
+                                                          width: "15px",
+                                                          fill: "#ffffff",
+                                                        }}
+                                                        className="mx-1"
+                                                      />
+                                                    </span>
                                                   </span>
                                                 )}
                                                 <input
@@ -729,14 +754,20 @@ const DynamicForm = ({
                                                   {item.label}
                                                 </label>
                                                 {item.iconText && (
-                                                  <span
-                                                    data-toggle="tooltip"
-                                                    data-placement="top"
-                                                    title={item.iconText}>
-                                                    <Info
-                                                      style={{ width: "15px" }}
-                                                      className="mx-1"
-                                                    />
+                                                  <span className="custom-tooltip-wrapper">
+                                                    <span
+                                                      className="info-icon-container"
+                                                      data-tooltip={
+                                                        item.iconText
+                                                      }>
+                                                      <Info
+                                                        style={{
+                                                          width: "15px",
+                                                          fill: "#ffffff",
+                                                        }}
+                                                        className="mx-1"
+                                                      />
+                                                    </span>
                                                   </span>
                                                 )}
                                                 <input
@@ -915,14 +946,20 @@ const DynamicForm = ({
                                               htmlFor={item.name}>
                                               {item.label}
                                               {item.iconText && (
-                                                <span
-                                                  data-toggle="tooltip"
-                                                  data-placement="top"
-                                                  title={item.iconText}>
-                                                  <Info
-                                                    style={{ width: "15px" }}
-                                                    className="mx-1"
-                                                  />
+                                                <span className="custom-tooltip-wrapper">
+                                                  <span
+                                                    className="info-icon-container"
+                                                    data-tooltip={
+                                                      item.iconText
+                                                    }>
+                                                    <Info
+                                                      style={{
+                                                        width: "15px",
+                                                        fill: "#ffffff",
+                                                      }}
+                                                      className="mx-1"
+                                                    />
+                                                  </span>
                                                 </span>
                                               )}
                                             </label>
@@ -1129,14 +1166,20 @@ const DynamicForm = ({
                                                   {item.label}
                                                 </label>
                                                 {item.iconText && (
-                                                  <span
-                                                    data-toggle="tooltip"
-                                                    data-placement="top"
-                                                    title={item.iconText}>
-                                                    <Info
-                                                      style={{ width: "15px" }}
-                                                      className="mx-1"
-                                                    />
+                                                  <span className="custom-tooltip-wrapper">
+                                                    <span
+                                                      className="info-icon-container"
+                                                      data-tooltip={
+                                                        item.iconText
+                                                      }>
+                                                      <Info
+                                                        style={{
+                                                          width: "15px",
+                                                          fill: "#ffffff",
+                                                        }}
+                                                        className="mx-1"
+                                                      />
+                                                    </span>
                                                   </span>
                                                 )}
                                                 <input
@@ -1251,14 +1294,20 @@ const DynamicForm = ({
                                               {item.label}
 
                                               {item.iconText && (
-                                                <span
-                                                  data-toggle="tooltip"
-                                                  data-placement="top"
-                                                  title={item.iconText}>
-                                                  <Info
-                                                    style={{ width: "15px" }}
-                                                    className="mx-1"
-                                                  />
+                                                <span className="custom-tooltip-wrapper">
+                                                  <span
+                                                    className="info-icon-container"
+                                                    data-tooltip={
+                                                      item.iconText
+                                                    }>
+                                                    <Info
+                                                      style={{
+                                                        width: "15px",
+                                                        fill: "#ffffff",
+                                                      }}
+                                                      className="mx-1"
+                                                    />
+                                                  </span>
                                                 </span>
                                               )}
                                             </label>
