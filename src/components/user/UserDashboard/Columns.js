@@ -1058,7 +1058,7 @@ export const getColumns3 = (handleDelete, handleEdit, handleContinutyDiscontinut
 
                 return (
                     <span
-                        onClick={() => handleContinutyDiscontinuty(tableMeta, 2)}
+                        onClick={() => handleContinutyDiscontinuty(tableMeta, 1)}
                         style={labelStyle}
                     >
                         {label}

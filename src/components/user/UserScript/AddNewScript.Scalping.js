@@ -36,6 +36,22 @@ const AddClient = () => {
     return foundItem.EndDate;
   };
 
+   const ScrollToViewFirstError = (newErrors) => {
+    if (Object.keys(newErrors).length !== 0) {
+      const errorField = Object.keys(newErrors)[0];
+  
+      const errorElement = document.getElementById(errorField);
+      if (errorElement) {
+        const elementPosition = errorElement.getBoundingClientRect().top + window.pageYOffset;
+  
+        const offset = 100;
+        window.scrollTo({
+          top: elementPosition - offset,
+          behavior: 'smooth'
+        });
+      }
+    }
+  }
 
 
   const formik = useFormik({
@@ -181,20 +197,20 @@ const AddClient = () => {
       if (!values.ExitDay) {
         errors.ExitDay = "Please Select Exit Day.";
       }
-      if (!values.EntryPrice) {
-        if (values.Strategy == "Fixed Price" && values.EntryPrice == 0) {
+      if (values.EntryPrice === undefined || values.EntryPrice === null || values.EntryPrice === "") {
+        if (values.Strategy == "Fixed Price" || values.Strategy == "Multi_Conditional") {
           errors.EntryPrice = "Please Enter The Lowest Price.";
         }
-        else if (values.Strategy != "Fixed Price" && values.EntryPrice != 0) {
+        else if (values.Strategy != "Fixed Price") {
           errors.EntryPrice = "Please Enter The First Trade Lower Range";
         }
 
       }
-      if (!values.EntryRange) {
-        if (values.Strategy == "Fixed Price" && values.EntryRange == 0) {
+      if (values.EntryRange === undefined || values.EntryRange === null || values.EntryRange === "") {
+        if (values.Strategy == "Fixed Price" || values.Strategy == "Multi_Conditional") {
           errors.EntryRange = "Please Enter The Highest Price.";
         }
-        else if (values.Strategy != "Fixed Price" && values.EntryRange != 0) {
+        else if (values.Strategy != "Fixed Price") {
           errors.EntryRange = "Please Enter The First Trade Higher Range";
         }
       }
@@ -264,31 +280,17 @@ const AddClient = () => {
         errors.RepeatationCount = "Please Enter No. of Repeatation";
       }
 
-      // _____Max Profit and Max loss now can acccept 0 values that's why i commented below code ____
-      // if (
-      //   values.Strategy == "Multi_Conditional" &&
-      //   values.position_type == "Multiple"
-      // ) {
-      //   errors.Loss = "Please Enter Maximum Loss";
-      // }
+      if (!values.Loss && values.Strategy == "Multi_Conditional" && values.position_type == "Multiple" ) {
+        errors.Loss = "Please Enter Maximum Loss";
+      }
 
-      // if (
-      //   values.Strategy == "Multi_Conditional" &&
-      //   values.position_type == "Multiple"
-      // ) {
-      //   errors.Profit = "Please Enter Maximum Loss";
-      // }
-      
-
-
-
-      // if (
-      //   !values.RollOver &&
-      //   values.Strategy == "Multi_Conditional" &&
-      //   values.position_type == "Multiple"
-      // ) {
-      //   errors.RollOver = "Please Enter RollOver";
-      // }
+      if ( !values.Profit &&
+        values.Strategy == "Multi_Conditional" &&
+        values.position_type == "Multiple"
+      ) {
+        errors.Profit = "Please Enter Maximum Loss";
+      }
+    
       if (
         !values.NumberOfDays &&
         values.Strategy == "Multi_Conditional" &&
@@ -304,13 +306,7 @@ const AddClient = () => {
       ) {
         errors.RollOverExitTime = "Please Enter RollOver Exit Time";
       }
-      // if (
-      //   !values.TargetExit &&
-      //   values.Strategy == "Multi_Conditional" &&
-      //   values.position_type == "Multiple"
-      // ) {
-      //   errors.TargetExit = "Please select Continue After Cycle Exit";
-      // }
+     
       if (
         !values.WorkingDay.length > 0 &&
         values.Strategy == "Multi_Conditional" &&
@@ -328,11 +324,14 @@ const AddClient = () => {
         errors.OrderType = "Please select Order Type";
       }
 
+      
       console.log("errors", errors)
+      ScrollToViewFirstError(errors);
       return errors;
     },
 
     onSubmit: async (values) => {
+
       try {
         const req = {
           MainStrategy: formik.values.Strategy == "Multi_Conditional" ? "NewScalping" : location?.state?.data?.selectStrategyType,
