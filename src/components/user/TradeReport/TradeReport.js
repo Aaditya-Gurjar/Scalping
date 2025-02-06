@@ -8,6 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Swal from 'sweetalert2';
 import { getColumns3, getColumns2, getColumns1, getColumns, getColumns4, getColumns5, getColumns8, getColumns7, getColumns6, getColumns9, getColumns10, getColumns12 } from './ReportColumn'
 import { useLocation } from 'react-router-dom';
+import NoDataFound from '../../../ExtraComponent/NoDataFound';
 
 const TradeReport = () => {
     const location = useLocation();
@@ -40,7 +41,7 @@ const TradeReport = () => {
         data: [],
         data1: [],
     });
-    
+
 
     // set Defult Date 
     const currentDate = new Date();
@@ -100,8 +101,8 @@ const TradeReport = () => {
     const strategyType = async () => {
         try {
             const res = await getStrategyType()
-            console.log("response response response",res.Data);
-            
+            console.log("response response response", res.Data);
+
             if (res.Data && Array.isArray(res.Data)) {
                 setStrategyNames(res.Data)
             }
@@ -134,38 +135,38 @@ const TradeReport = () => {
 
     useEffect(() => {
         if (location?.state?.goto && location?.state?.goto === "dashboard") {
-          if (location?.state?.type == "MultiCondition") {
-            setSelectedRowData(tradeHistory.data1?.[location?.state?.RowIndex]);
-          } else {
-            setSelectedRowData(tradeHistory.data?.[location?.state?.RowIndex]);
-          }
-          setPreSelectTableType(location?.state?.type);
+            if (location?.state?.type == "MultiCondition") {
+                setSelectedRowData(tradeHistory.data1?.[location?.state?.RowIndex]);
+            } else {
+                setSelectedRowData(tradeHistory.data?.[location?.state?.RowIndex]);
+            }
+            setPreSelectTableType(location?.state?.type);
         }
-      }, [tradeHistory, location?.state?.RowIndex]);
-    
-      const handleRowSelect = (rowData) => {
+    }, [tradeHistory, location?.state?.RowIndex]);
+
+    const handleRowSelect = (rowData) => {
         setSelectedRowData(rowData);
-      };
-    
-      useEffect(() => {
-          if (!location?.state?.type) {
-          if (selectStrategyType == "Scalping") {
-            setTableType("MultiCondition");
-          } 
+    };
+
+    useEffect(() => {
+        if (!location?.state?.type) {
+            if (selectStrategyType == "Scalping") {
+                setTableType("MultiCondition");
+            }
         } else if (
-          location?.state?.type &&
-          location?.state?.type != "MultiCondition"
+            location?.state?.type &&
+            location?.state?.type != "MultiCondition"
         ) {
-          setStrategyType(location?.state?.type);
+            setStrategyType(location?.state?.type);
         } else if (location?.state?.type == "MultiCondition") {
-          setTableType("MultiCondition");
-          setStrategyType("Scalping");
+            setTableType("MultiCondition");
+            setStrategyType("Scalping");
         }
-      }, [preSelectTableType]);
+    }, [preSelectTableType]);
 
 
 
- 
+
 
     const getChartingData = async () => {
         const res = await getChargingPlatformDataApi(userName);
@@ -179,7 +180,15 @@ const TradeReport = () => {
         setStrategyType('Scalping')
     }, []);
 
-  
+
+    useEffect(() => {
+        if (selectStrategyType == "Scalping") {
+            setTableType("MultiCondition")
+        } else {
+            setTableType("Scalping")
+        }
+    }, [selectStrategyType])
+
 
 
 
@@ -438,12 +447,9 @@ const TradeReport = () => {
                             {
                                 <div className="modal-body">
                                     {(
-                                        selectStrategyType === "ChartingPlatform" ? chartingData : tradeReport.data
-                                    ) && (
-                                        selectStrategyType === "ChartingPlatform" ? chartingData : tradeReport.data).length > 0 ? (
-
-
-                                        (tableType === "Scalping" &&
+                                        selectStrategyType === "ChartingPlatform" ? chartingData : tradeReport?.data
+                                    )?.length > 0 ? (
+                                        tableType === "Scalping" && (
                                             <GridExample
                                                 columns={
                                                     selectStrategyType === "Scalping" ? getColumns() :
@@ -452,66 +458,57 @@ const TradeReport = () => {
                                                                 selectStrategyType === "ChartingPlatform" ? getColumns11 :
                                                                     getColumns9()
                                                 }
-                                                data={selectStrategyType === "ChartingPlatform" ? chartingData : tradeReport.data}
+                                                data={selectStrategyType === "ChartingPlatform" ? chartingData : tradeReport?.data}
                                                 onRowSelect={handleRowSelect}
-                                                checkBox={selectStrategyType === "ChartingPlatform" ? false : true}
+                                                checkBox={selectStrategyType !== "ChartingPlatform"}
                                                 isChecked={location?.state?.RowIndex}
-                                            />)
-
-
-
-                                    ) : (
-                                        <div
-                                            style={{
-                                                display: "flex",
-                                                justifyContent: "center",
-                                                alignItems: "center",
-                                                textAlign: "center",
-                                            }}
-                                        >
-                                            <img
-                                                src="/assets/images/no-record-found.png"
-                                                width="30%"
-                                                alt=""
                                             />
-                                        </div>
+                                        )
+                                    ) : (
+                                        tableType === "Scalping" && (
+                                            <NoDataFound />
+                                        )
                                     )}
                                 </div>
-
-                            }
-                            {tableType === "MultiCondition" && selectStrategyType == "Scalping" && adminPermission.includes('Charting Platform') && <div>
-                                <div className="iq-header-title mt-4">
-                                    <h4 className="card-title">Multi Conditional</h4>
-                                </div>
-                                {
-                                    tradeReport?.data1 && tradeReport?.data1.length > 0 ? (
-                                        <div className="modal-body">
-                                            <GridExample
-                                                columns={getColumns9()}
-                                                data={tradeReport?.data1}
-                                                onRowSelect={handleRowSelect}
-                                                checkBox={true}
-                                                isChecked={location?.state?.RowIndex}
-                                            />
-                                        </div>)
-                                        : (<div
-                                            style={{
-                                                display: "flex",
-                                                justifyContent: "center",
-                                                alignItems: "center",
-                                                textAlign: "center",
-                                            }}>
-                                            <img
-                                                src="/assets/images/no-record-found.png"
-                                                width="30%"
-                                                alt=""
-                                            />
-                                        </div>)
-                                }
-                            </div>
                             }
 
-                            {selectStrategyType === "ChartingPlatform" ? "" : <button className='btn btn-primary mt-2' onClick={handleSubmit}>Submit</button>}
+                            {
+                                tableType === "MultiCondition" &&
+                                selectStrategyType === "Scalping" &&
+                                adminPermission.includes("Charting Platform") && (
+                                    <div>
+                                        <div className="iq-header-title mt-4">
+                                            <h4 className="card-title">Multi Conditional</h4>
+                                        </div>
+
+                                        {tradeReport?.data1?.length > 0 ? (
+                                            <div className="modal-body">
+                                                <GridExample
+                                                    columns={getColumns9()}
+                                                    data={tradeReport?.data1}
+                                                    onRowSelect={handleRowSelect}
+                                                    checkBox={true}
+                                                    isChecked={location?.state?.RowIndex}
+                                                />
+                                            </div>
+                                        ) : (
+                                            <NoDataFound />
+
+                                        )}
+                                    </div>
+                                )
+                            }
+
+                            {selectStrategyType === "ChartingPlatform" && chartingData?.length > 0 ? <button className='btn btn-primary mt-2' onClick={handleSubmit}>Submit</button> : ""}
+                            {selectStrategyType === "Pattern" && tradeReport?.data?.length > 0 ? <button className='btn btn-primary mt-2' onClick={handleSubmit}>Submit</button> : ""}
+                            {selectStrategyType === "Option Strategy" && tradeReport?.data?.length > 0 ? <button className='btn btn-primary mt-2' onClick={handleSubmit}>Submit</button> : ""}
+                            {selectStrategyType === "Scalping" && tableType == "Scalping" && tradeReport?.data?.length > 0 ? <button className='btn btn-primary mt-2' onClick={handleSubmit}>Submit</button> : ""}
+                            {selectStrategyType === "Scalping" && tableType == "MultiCondition" && tradeReport?.data1?.length > 0 ? <button className='btn btn-primary mt-2' onClick={handleSubmit}>Submit</button> : ""}
+
+
+                            {/* {selectStrategyType === "ChartingPlatform" ? "" : <button className='btn btn-primary mt-2' onClick={handleSubmit}>Submit</button>} */}
+
+
 
 
                             {

@@ -59,6 +59,23 @@ const AddClient = () => {
         return foundItem.EndDate;
     };
 
+    const ScrollToViewFirstError = (newErrors) => {
+        if (Object.keys(newErrors).length !== 0) {
+            const errorField = Object.keys(newErrors)[0];
+
+            const errorElement = document.getElementById(errorField);
+            if (errorElement) {
+                const elementPosition = errorElement.getBoundingClientRect().top + window.pageYOffset;
+
+                const offset = 100;
+                window.scrollTo({
+                    top: elementPosition - offset,
+                    behavior: 'smooth'
+                });
+            }
+        }
+    }
+
 
     const formik = useFormik({
         initialValues: {
@@ -119,6 +136,7 @@ const AddClient = () => {
             RollOver: "",
             NumberOfDays: 0,
             RollOverExitTime: "00:00:00",
+            ExitType: ""
 
         },
         validate: (values) => {
@@ -291,6 +309,11 @@ const AddClient = () => {
                 errors.RollOverExitTime = "Please Enter RollOver Exit Time";
             }
 
+            if (!values.ExitType && values.Measurment_Type != "Shifting_FourLeg" && values.ETPattern == "Leg vice") {
+                errors.ExitType = "Please Select Exit Type";
+            }
+            ScrollToViewFirstError(errors)
+
             return errors;
         },
         onSubmit: async (values) => {
@@ -372,6 +395,8 @@ const AddClient = () => {
                         values.RollOver == true
                         ? values.RollOverExitTime
                         : "00:00:00",
+
+                ExitType: values.Measurment_Type != "Shifting_FourLeg" && values.ETPattern == "Leg vice" ? values.ExitType : ""
             }
 
             if (values.Striketype == "Depth_of_Strike" && (Number(values.DepthofStrike) < 0 || Number(values.DepthofStrike) > 10)) {
@@ -414,6 +439,9 @@ const AddClient = () => {
                     return SweentAlertFun("Enter PE Hedge Lower & PE Hedge Higher Smaller than PE Main Lower")
                 }
             }
+
+            console.log("req", req)
+
 
             await AddScript(req)
                 .then((response) => {
@@ -785,10 +813,28 @@ const AddClient = () => {
             showWhen: (value) => value.Measurment_Type != "Shifting_FourLeg",
             hiding: false,
             label_size: 12,
-            col_size: 4,
+            col_size: formik.values.Measurment_Type != "Shifting_FourLeg" ? 3 : 4,
             headingtype: 3,
             disable: false,
         },
+
+        {
+            name: "ExitType",
+            label: "Exit Type",
+            type: "select1",
+            options: [
+                { label: "Cost to cost", value: "Cost to cost" },
+                { label: "Normal", value: "Normal" },
+            ],
+            showWhen: (value) => value.Measurment_Type != "Shifting_FourLeg" && value.ETPattern == "Leg vice",
+            hiding: false,
+            label_size: 12,
+            col_size: formik.values.Measurment_Type != "Shifting_FourLeg" ? 3 : 4,
+            headingtype: 3,
+            disable: false,
+        },
+
+
         {
             name: "Targetvalue",
             label: "Target Value",
@@ -797,7 +843,7 @@ const AddClient = () => {
             label_size: 12,
             showWhen: (value) => value.Measurment_Type != "Shifting_FourLeg" || (value.Measurment_Type == "Shifting_FourLeg" && (value.Strategy == 'ShortFourLegStretegy' || value.Strategy == 'LongFourLegStretegy')),
             headingtype: 3,
-            col_size: 4,
+            col_size: formik.values.Measurment_Type != "Shifting_FourLeg" ? 3 : 4,
             disable: false,
         },
         {
@@ -807,7 +853,7 @@ const AddClient = () => {
             hiding: false,
             label_size: 12,
             showWhen: (value) => value.Measurment_Type != "Shifting_FourLeg" || (value.Measurment_Type == "Shifting_FourLeg" && (value.Strategy == 'ShortFourLegStretegy' || value.Strategy == 'LongFourLegStretegy')),
-            col_size: 4,
+            col_size: formik.values.Measurment_Type != "Shifting_FourLeg" ? 3 : 4,
             headingtype: 3,
             disable: false,
 
@@ -819,7 +865,7 @@ const AddClient = () => {
             showWhen: (value) => value.Measurment_Type == "Shifting_FourLeg" && value.Strategy != 'ShortFourLegStretegy' && value.Strategy != 'LongFourLegStretegy',
             hiding: false,
             label_size: 12,
-            col_size: 4,
+            col_size: formik.values.Measurment_Type != "Shifting_FourLeg" ? 3 : 4,
             headingtype: 3,
             disable: false,
         },
@@ -1277,6 +1323,7 @@ const AddClient = () => {
             targetselection: "",
 
         }
+
         await CheckPnL(req)
             .then((response) => {
                 if (response.Status) {

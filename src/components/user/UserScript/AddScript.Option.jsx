@@ -12,6 +12,24 @@ const AddClient = () => {
   const navigate = useNavigate();
   const [getExpiry, setExpiry] = useState({ loading: true, data: [] });
 
+    const ScrollToViewFirstError = (newErrors) => {
+      if (Object.keys(newErrors).length !== 0) {
+        const errorField = Object.keys(newErrors)[0];
+
+        const errorElement = document.getElementById(errorField);
+        if (errorElement) {
+          const elementPosition =
+            errorElement.getBoundingClientRect().top + window.pageYOffset;
+
+          const offset = 100;
+          window.scrollTo({
+            top: elementPosition - offset,
+            behavior: "smooth",
+          });
+        }
+      }
+    };
+
   const SweentAlertFun = (text) => {
     Swal.fire({
       background: "#1a1e23 ",
@@ -410,7 +428,7 @@ const AddClient = () => {
       ) {
         errors.RollOverExitTime = "Please Enter RollOver Exit Time";
       }
-
+ScrollToViewFirstError(errors);
       return errors;
     },
     onSubmit: async (values) => {
