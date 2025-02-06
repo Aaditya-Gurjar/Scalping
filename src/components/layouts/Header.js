@@ -24,7 +24,7 @@ const Header = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
   const [selectedImage, setSelectedImage] = useState(localStorage.getItem("userProfileImage") || null);
-  console.log("selectedImage",selectedImage);
+  // console.log("selectedImage",selectedImage);
   
 
   // useEffect(() => {
