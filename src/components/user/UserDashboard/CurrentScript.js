@@ -44,7 +44,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             getChartingScript();
     }, [data]);
 
-    console.log("EditDataScalping", EditDataScalping)
 
     const getChartingScript = async () => {
         const req = { Username: userName, Planname: "Chart" }

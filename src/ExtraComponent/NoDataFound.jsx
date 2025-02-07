@@ -8,6 +8,7 @@ const NoDataFound = () => {
         justifyContent: "center",
         alignItems: "center",
         textAlign: "center",
+        marginBottom:"150px"
       }}>
       <img
         src="/assets/images/no-record-found.png"

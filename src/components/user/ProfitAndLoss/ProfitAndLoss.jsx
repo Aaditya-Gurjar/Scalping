@@ -21,6 +21,13 @@ const Tradehistory = () => {
   console.log("location", location.state);
 
   const [selectStrategyType, setStrategyType] = useState("Scalping");
+  console.log("selectStrategyType", selectStrategyType);
+
+  const [tableType, setTableType] = useState("MultiCondition");
+  console.log("table type", tableType);
+
+
+
   const [strategyNames, setStrategyNames] = useState([]);
   const [ToDate, setToDate] = useState("");
   const [FromDate, setFromDate] = useState("");
@@ -65,6 +72,8 @@ const Tradehistory = () => {
   const handleSubmit = async () => {
     const data = {
       MainStrategy: selectStrategyType,
+      // MainStrategy: "NewScalping",
+
       Username: Username,
       From_date: convertDateFormat(FromDate == "" ? formattedDate : FromDate),
       To_date: convertDateFormat(ToDate == "" ? Defult_To_Date : ToDate),
@@ -142,7 +151,7 @@ const Tradehistory = () => {
             <div className="iq-card-body">
               <div className="was-validated ">
                 <div className="row">
-                  <div className="form-group col-lg-4">
+                  <div className={`form-group ${selectStrategyType === "Scalping" ? "col-lg-3" : "col-lg-4"}`}>
                     <label>Select Strategy Type</label>
                     <select
                       className="form-select"
@@ -160,7 +169,21 @@ const Tradehistory = () => {
                       <option value={"Pattern"}>Pattern Script</option> */}
                     </select>
                   </div>
-                  <div className="form-group col-lg-4">
+                  {selectStrategyType === "Scalping" && (
+                    <div className="col-lg-3">
+                      <label>Table Type</label>
+                      <select
+                        className="form-select"
+                        required=""
+                        onChange={(e) => setTableType(e.target.value)}
+                        value={tableType}
+                      >
+                        <option value="Scalping">Scalping</option>
+                        <option value="MultiCondition">Multi Condition</option>
+                      </select>
+                    </div>
+                  )}
+                  <div className={`form-group ${selectStrategyType === "Scalping" ? "col-lg-3" : "col-lg-4"}`}>
                     <label>Select form Date</label>
                     <DatePicker
                       className="form-select"
@@ -168,7 +191,7 @@ const Tradehistory = () => {
                       onChange={(date) => setFromDate(date)}
                     />
                   </div>
-                  <div className="form-group col-lg-4">
+                  <div className={`form-group ${selectStrategyType === "Scalping" ? "col-lg-3" : "col-lg-4"}`}>
                     <label>Select To Date</label>
                     <DatePicker
                       className="form-select"
@@ -208,7 +231,7 @@ const Tradehistory = () => {
 
                     <p
                       className="bold mt-4"
-                      
+
                       style={{
                         fontWeight: "bold",
                         fontSize: "20px",
