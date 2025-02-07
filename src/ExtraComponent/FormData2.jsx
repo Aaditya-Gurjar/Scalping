@@ -1148,7 +1148,7 @@ const DynamicForm = ({
                                             </div>
                                             {formik.touched[item.name] &&
                                               formik.errors[item.name] && (
-                                                <div className="error-text">
+                                                <div style={{ color: "red" }}>
                                                   {formik.errors[item.name]}
                                                 </div>
                                               )}

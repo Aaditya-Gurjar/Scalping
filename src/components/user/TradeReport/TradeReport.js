@@ -180,7 +180,7 @@ const TradeReport = () => {
         setStrategyType('Scalping')
     }, []);
 
-
+  
 
 
 
@@ -439,12 +439,9 @@ const TradeReport = () => {
                             {
                                 <div className="modal-body">
                                     {(
-                                        selectStrategyType === "ChartingPlatform" ? chartingData : tradeReport.data
-                                    ) && (
-                                        selectStrategyType === "ChartingPlatform" ? chartingData : tradeReport.data).length > 0 ? (
-
-
-                                        (tableType === "Scalping" &&
+                                        selectStrategyType === "ChartingPlatform" ? chartingData : tradeReport?.data
+                                    )?.length > 0 ? (
+                                        tableType === "Scalping" && (
                                             <GridExample
                                                 columns={
                                                     selectStrategyType === "Scalping" ? getColumns() :
@@ -453,33 +450,31 @@ const TradeReport = () => {
                                                                 selectStrategyType === "ChartingPlatform" ? getColumns11 :
                                                                     getColumns9()
                                                 }
-                                                data={selectStrategyType === "ChartingPlatform" ? chartingData : tradeReport.data}
+                                                data={selectStrategyType === "ChartingPlatform" ? chartingData : tradeReport?.data}
                                                 onRowSelect={handleRowSelect}
-                                                checkBox={selectStrategyType === "ChartingPlatform" ? false : true}
+                                                checkBox={selectStrategyType !== "ChartingPlatform"}
                                                 isChecked={location?.state?.RowIndex}
                                             />)
 
 
 
                                     ) : (
-                                        // <div
-                                        //     style={{
-                                        //         display: "flex",
-                                        //         justifyContent: "center",
-                                        //         alignItems: "center",
-                                        //         textAlign: "center",
-                                        //     }}
-                                        // >
-                                        //     <img
-                                        //         src="/assets/images/no-record-found.png"
-                                        //         width="30%"
-                                        //         alt=""
-                                        //     />
-                                        // </div>
-                                        <NoDataFound />
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                justifyContent: "center",
+                                                alignItems: "center",
+                                                textAlign: "center",
+                                            }}
+                                        >
+                                            <img
+                                                src="/assets/images/no-record-found.png"
+                                                width="30%"
+                                                alt=""
+                                            />
+                                        </div>
                                     )}
                                 </div>
-
                             }
                             {tableType === "MultiCondition" && selectStrategyType == "Scalping" && adminPermission.includes('Charting Platform') && <div>
                                 <div className="iq-header-title mt-4">
@@ -496,38 +491,24 @@ const TradeReport = () => {
                                                 isChecked={location?.state?.RowIndex}
                                             />
                                         </div>)
-                                        : (
-                                            // <div
-                                            //     style={{
-                                            //         display: "flex",
-                                            //         justifyContent: "center",
-                                            //         alignItems: "center",
-                                            //         textAlign: "center",
-                                            //     }}>
-                                            //     <img
-                                            //         src="/assets/images/no-record-found.png"
-                                            //         width="30%"
-                                            //         alt=""
-                                            //     />
-                                            // </div>
-                                            <NoDataFound />
-                                            
-                                        )
+                                        : (<div
+                                            style={{
+                                                display: "flex",
+                                                justifyContent: "center",
+                                                alignItems: "center",
+                                                textAlign: "center",
+                                            }}>
+                                            <img
+                                                src="/assets/images/no-record-found.png"
+                                                width="30%"
+                                                alt=""
+                                            />
+                                        </div>)
                                 }
                             </div>
                             }
 
-                            {/* {selectStrategyType === "ChartingPlatform" ? "" : <button className='btn btn-primary mt-2' onClick={handleSubmit}>Submit</button>} */}
-                            {(selectStrategyType !== "ChartingPlatform") &&
-                                (
-                                    (selectStrategyType === "ChartingPlatform" ? chartingData : tradeReport.data) &&
-                                    (selectStrategyType === "ChartingPlatform" ? chartingData : tradeReport.data).length > 0 ||
-                                    (tableType === "MultiCondition" && selectStrategyType === "Scalping" && tradeReport?.data1?.length > 0)
-                                ) && (
-                                    <button className='btn btn-primary mt-2' onClick={handleSubmit}>Submit</button>
-                                )
-                            }
-
+                            {selectStrategyType === "ChartingPlatform" ? "" : <button className='btn btn-primary mt-2' onClick={handleSubmit}>Submit</button>}
 
 
                             {

@@ -40,6 +40,23 @@ const AddClient = () => {
     });
     return foundItem.EndDate;
   };
+  const ScrollToViewFirstError = (newErrors) => {
+    if (Object.keys(newErrors).length !== 0) {
+      const errorField = Object.keys(newErrors)[0];
+
+      const errorElement = document.getElementById(errorField);
+      if (errorElement) {
+        const elementPosition =
+          errorElement.getBoundingClientRect().top + window.pageYOffset;
+
+        const offset = 100;
+        window.scrollTo({
+          top: elementPosition - offset,
+          behavior: "smooth",
+        });
+      }
+    }
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -332,6 +349,7 @@ const AddClient = () => {
       }
 
       // console.log("err", errors);
+      ScrollToViewFirstError(errors);
       return errors;
     },
 
@@ -468,7 +486,7 @@ const AddClient = () => {
           values.Strategy == "Multi_Conditional"
             ? values.Profit
             : 0,
-        RollOver: (values.position_type =
+        RollOver: (values.position_type ==
           "Multiple" && values.Strategy == "Multi_Conditional"
             ? values.RollOver
             : false),
