@@ -110,13 +110,14 @@ import ChartingCard from "./ChartingCard";
 const AddChartingScript = () => {
   const navigate = useNavigate();
   const userName = localStorage.getItem("name");
-  const [chartingData, setChartingData] = useState([]);
+  const [chartingData, setChartingData] = useState([
+    
+  ]);
 
   const getChartingData = async () => {
     const res = await getChargingPlatformDataApi(userName);
 
-    console.log("dataaaaa", res.Client[0]);
-
+   
     const updatedData = res.Client?.map((item) => ({
       ...item,
       TradeStatus: item.Status || "Off",
