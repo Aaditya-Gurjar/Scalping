@@ -25,7 +25,7 @@ const Header = () => {
   };
   const [selectedImage, setSelectedImage] = useState(localStorage.getItem("userProfileImage") || null);
   // console.log("selectedImage",selectedImage);
-  
+
 
   // useEffect(() => {
   //   document.body.classList.remove("sidebar-main");
@@ -51,7 +51,7 @@ const Header = () => {
   const [getBrokerName, setBrokerName] = useState("");
   const [walletBalance, setWalletBalance] = useState("");
   // console.log("walletBalance",walletBalance);
-  
+
   const [showAddBrokerModal, setShowAddBrokerModal] = useState(false);
   const [addBrokerName, setAddBrokerName] = useState("");
   const [userName, setUserName] = useState("");
@@ -126,9 +126,9 @@ const Header = () => {
           // Assuming the status is in response.data.Status
 
           Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+            background: "#1a1e23 ",
+            backdrop: "#121010ba",
+            confirmButtonColor: "#1ccc8a",
             title: "Success!",
             text: "Trading On successfully.",
             icon: "success",
@@ -141,9 +141,9 @@ confirmButtonColor: "#1ccc8a",
           });
         } else {
           Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+            background: "#1a1e23 ",
+            backdrop: "#121010ba",
+            confirmButtonColor: "#1ccc8a",
             title: "Success!",
             text: "Trading Off successfully.",
             icon: "success",
@@ -158,9 +158,9 @@ confirmButtonColor: "#1ccc8a",
       } catch (err) {
         console.error("Error in ConnectBroker request", err);
         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+          background: "#1a1e23 ",
+          backdrop: "#121010ba",
+          confirmButtonColor: "#1ccc8a",
           title: "Error!",
           text: "An error occurred. Please try again later.",
           icon: "error",
@@ -310,9 +310,9 @@ confirmButtonColor: "#1ccc8a",
     await AutoLogin().then((response) => {
       if (response.Status) {
         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+          background: "#1a1e23 ",
+          backdrop: "#121010ba",
+          confirmButtonColor: "#1ccc8a",
           title: "Auto Login On !",
           text: response.message,
           icon: "success",
@@ -321,9 +321,9 @@ confirmButtonColor: "#1ccc8a",
         });
       } else {
         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+          background: "#1a1e23 ",
+          backdrop: "#121010ba",
+          confirmButtonColor: "#1ccc8a",
           title: "Error !",
           text: response.message,
           icon: "error",
@@ -338,9 +338,9 @@ confirmButtonColor: "#1ccc8a",
     await DataStart().then((response) => {
       if (response.Status) {
         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+          background: "#1a1e23 ",
+          backdrop: "#121010ba",
+          confirmButtonColor: "#1ccc8a",
           title: "Data Start !",
           text: response.message,
           icon: "success",
@@ -349,9 +349,9 @@ confirmButtonColor: "#1ccc8a",
         });
       } else {
         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+          background: "#1a1e23 ",
+          backdrop: "#121010ba",
+          confirmButtonColor: "#1ccc8a",
           title: "Error !",
           text: response.message,
           icon: "error",
@@ -365,9 +365,9 @@ confirmButtonColor: "#1ccc8a",
     await LastPattern().then((response) => {
       if (response.Status) {
         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+          background: "#1a1e23 ",
+          backdrop: "#121010ba",
+          confirmButtonColor: "#1ccc8a",
           title: "Last Pattern On !",
           text: response.message,
           icon: "success",
@@ -376,9 +376,9 @@ confirmButtonColor: "#1ccc8a",
         });
       } else {
         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+          background: "#1a1e23 ",
+          backdrop: "#121010ba",
+          confirmButtonColor: "#1ccc8a",
           title: "Error !",
           text: response.message,
           icon: "error",
@@ -395,7 +395,7 @@ confirmButtonColor: "#1ccc8a",
       .then((response) => {
         if (response.Status) {
           // console.log("response.Balance",response);
-          
+
           setWalletBalance(response.Balance);
         } else {
           setWalletBalance("");
@@ -442,9 +442,9 @@ confirmButtonColor: "#1ccc8a",
 
     if (addBrokerName == "") {
       Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+        background: "#1a1e23 ",
+        backdrop: "#121010ba",
+        confirmButtonColor: "#1ccc8a",
         title: "Warning!",
         text: "Please enter Broker Name.",
         icon: "warning",
@@ -456,9 +456,9 @@ confirmButtonColor: "#1ccc8a",
       .then((response) => {
         if (response.Status) {
           Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+            background: "#1a1e23 ",
+            backdrop: "#121010ba",
+            confirmButtonColor: "#1ccc8a",
             title: "Success!",
             text: "Broker Added successfully.",
             icon: "success",
@@ -469,9 +469,9 @@ confirmButtonColor: "#1ccc8a",
           setShowAddBrokerModal(false);
         } else {
           Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+            background: "#1a1e23 ",
+            backdrop: "#121010ba",
+            confirmButtonColor: "#1ccc8a",
             title: "Error!",
             text: response.message,
             icon: "error",
@@ -513,10 +513,10 @@ confirmButtonColor: "#1ccc8a",
         <div className="iq-navbar-custom">
           <div className="iq-sidebar-logo">
             <div className="top-logo">
-            <a href="#">
-                    <img className="header_img1" alt="Logo" id="header_img1" />
-                    <span><img className="header_img2" alt="Logo" id='header_img2' /></span>
-                </a>
+              <a href="#">
+                <img className="header_img1" alt="Logo" id="header_img1" />
+                <span><img className="header_img2" alt="Logo" id='header_img2' /></span>
+              </a>
               {/* <a href="index.html" className="logo">
                 <img
                   src="assets/images/inalgo.png"
@@ -559,7 +559,12 @@ confirmButtonColor: "#1ccc8a",
                   </li> */}
 
                   <li className="nav-item">
-                    
+                    <button
+                      type="button"
+                      className="btn btn-primary  mx-3 btn1"
+                      onClick={(e) => setIsModalVisible(true)}>
+                      Set API Key
+                    </button>
                   </li>
 
                   <li className="nav-item">
@@ -836,10 +841,10 @@ confirmButtonColor: "#1ccc8a",
                             </div>
                           </Link>
                           <Link
-                    
-                      className="iq-sub-card iq-bg-warning-hover text-decoration-none"
-                      onClick={(e) => setIsModalVisible(true)}>
-                         <div className="media align-items-center d-flex">
+
+                            className="iq-sub-card iq-bg-warning-hover text-decoration-none"
+                            onClick={(e) => setIsModalVisible(true)}>
+                            <div className="media align-items-center d-flex">
                               <div className="rounded card-icon bg-soft-warning">
                                 <i className="ri-profile-line" />
                               </div>
@@ -847,8 +852,8 @@ confirmButtonColor: "#1ccc8a",
                                 <h6 className="mb-0 ">Set API Key</h6>
                               </div>
                             </div>
-                      
-                    </Link>
+
+                          </Link>
                           <Link
                             to="/user/editprofile"
                             className="iq-sub-card iq-bg-warning-hover text-decoration-none">
