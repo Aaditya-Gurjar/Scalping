@@ -331,7 +331,7 @@ const AddClient = () => {
 
 
       console.log("errors", errors)
-      ScrollToViewFirstError(errors);
+      // ScrollToViewFirstError(errors);
       return errors;
     },
 
@@ -345,7 +345,7 @@ const AddClient = () => {
           Instrument: values.Exchange == "NSE" ? "" : values.Instrument,
           Symbol: values.Symbol,
           Optiontype: values.Instrument == "OPTIDX" || values.Instrument == "OPTSTK" || (values.Exchange === "MCX" && values.Instrument == "OPTFUT") ? values.Optiontype : "",
-          Strike: values.Instrument == "OPTIDX" || values.Instrument == "OPTSTK"(values.Exchange === "MCX" && values.Instrument == "OPTFUT") ? values.Strike : "",
+          Strike: values.Instrument == "OPTIDX" || values.Instrument == "OPTSTK" || (values.Exchange === "MCX" && values.Instrument == "OPTFUT") ? values.Strike : "",
           expirydata1: values.Exchange == "NSE" ? getExpiryDate.data[0] : values.expirydata1,
           TType: values.TType == 0 ? "" : values.TType,
           TStype: values.Strategy == "One Directional" || values.Strategy == "Multi Directional" || (values.Strategy == "Multi_Conditional") ? values.TStype : "",
@@ -404,7 +404,7 @@ const AddClient = () => {
               ? Number(values.Profit)
               : 0,
           RollOver:
-            values.position_type = "Multiple" && values.Strategy == "Multi_Conditional" ? values.RollOver : false,
+            values.position_type == "Multiple" && values.Strategy == "Multi_Conditional" ? values.RollOver : false,
           NumberOfDays:
             values.position_type == "Multiple" && values.Strategy == "Multi_Conditional" && values.RollOver == true ? values.NumberOfDays : 0,
           RollOverExitTime:
@@ -478,7 +478,8 @@ const AddClient = () => {
             return SweentAlertFun("Please Enter Target 2")
           }
         }
-
+        console.log("req", req)
+        return
         await AddScript(req)
           .then((response) => {
             if (response.Status) {

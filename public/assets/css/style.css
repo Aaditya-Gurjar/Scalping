@@ -6021,3 +6021,23 @@ button.btn.btn-primary , .swal2-confirm , .all-plan-card button{
   background: #ffffffd4 var(--bs-btn-close-bg) center / 1em auto no-repeat !important;
 
 }
+
+
+.form-switch .form-check-input {
+  background-color: #404868;
+  border-color: #404868;
+}
+
+.form-switch .form-check-input:checked {
+  background-color: #7367f0;
+  border-color: #7367f0;
+}
+
+.form-control {
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 0.25rem rgba(115, 103, 240, 0.25);
+  border-color: #7367f0;
+}
