@@ -10,7 +10,6 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 
 import { useEffect } from "react";
-import { text } from "@fortawesome/fontawesome-svg-core";
 
 const Card = styled.div`
   border: 1px solid #ccc;
@@ -143,28 +142,19 @@ const ServicesList = () => {
             console.log("planDetails", planDetails);
             const req1 = { Username: username, transactiontype: 'Purchase', money: planDetails.payment };
             const result = await Swal.fire({
-                background: "#1a1e23 ",
-                backdrop:"#121010ba",
                 title: 'Are you sure?',
                 text: `Do you want to buy the plan: ${planDetails.PlanName} for ₹${planDetails.payment}?`,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Yes, Buy it!',
                 cancelButtonText: 'No, Cancel',
-                reverseButtons: true,
-                background: "#1a1e23",
-                backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
-
-
+                reverseButtons: true
             });
 
             if (result.isConfirmed) {
                 const CheckBalanceResponse = await AddBalance(req1);
                 if (CheckBalanceResponse.Status && type == 0) {
                     const result = await Swal.fire({
-                        background: "#1a1e23 ",
-                        backdrop:"#121010ba",
                         title: 'What do you want to do?',
                         text: `This is your Scubscribed Script so what do you do Extend the EndDate or Extend the Number of Scripts`,
                         icon: 'warning',
@@ -190,8 +180,6 @@ confirmButtonColor: "#1ccc8a",
                         if (buyPlanResponse.Status) {
                             AllBuyedPlans();
                             Swal.fire({
-                                background: "#1a1e23 ",
-                                backdrop:"#121010ba",
                                 title: "Success!",
                                 text: buyPlanResponse.message,
                                 icon: "success",
@@ -200,14 +188,11 @@ confirmButtonColor: "#1ccc8a",
                             });
                         } else {
                             Swal.fire({
-                                background: "#1a1e23 ",
-                                backdrop:"#121010ba",
                                 title: "Error!",
                                 text: buyPlanResponse.message,
                                 icon: "error",
                                 timer: 1500,
                                 timerProgressBar: true,
-
                             });
                         }
 
@@ -229,9 +214,6 @@ confirmButtonColor: "#1ccc8a",
                         if (buyPlanResponse.Status) {
                             AllBuyedPlans();
                             Swal.fire({
-                                background: "#1a1e23 ",
-                                backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
                                 title: "Success!",
                                 text: buyPlanResponse.message,
                                 icon: "success",
@@ -240,9 +222,6 @@ confirmButtonColor: "#1ccc8a",
                             });
                         } else {
                             Swal.fire({
-                                background: "#1a1e23 ",
-                                backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
                                 title: "Error!",
                                 text: buyPlanResponse.message,
                                 icon: "error",
@@ -269,9 +248,6 @@ confirmButtonColor: "#1ccc8a",
                     if (buyPlanResponse.Status) {
                         AllBuyedPlans();
                         Swal.fire({
-                            background: "#1a1e23 ",
-                            backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
                             title: "Success!",
                             text: buyPlanResponse.message,
                             icon: "success",
@@ -283,9 +259,6 @@ confirmButtonColor: "#1ccc8a",
                         }, 1500);
                     } else {
                         Swal.fire({
-                            background: "#1a1e23 ",
-                            backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
                             title: "Error!",
                             text: buyPlanResponse.message,
                             icon: "error",
@@ -296,9 +269,6 @@ confirmButtonColor: "#1ccc8a",
                 }
                 else {
                     Swal.fire({
-                        background: "#1a1e23 ",
-                        backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
                         title: "Error!",
                         text: CheckBalanceResponse.message,
                         icon: "worning",
@@ -309,9 +279,6 @@ confirmButtonColor: "#1ccc8a",
 
             } else {
                 Swal.fire({
-                    background: "#1a1e23 ",
-                    backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
                     title: 'Cancelled',
                     text: 'Your purchase has been cancelled.',
                     icon: 'info',
@@ -322,9 +289,6 @@ confirmButtonColor: "#1ccc8a",
         } catch (error) {
             console.error('Error in transaction:', error);
             Swal.fire({
-                background: "#1a1e23 ",
-                backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
                 title: "Error",
                 text: "An unexpected error occurred",
                 icon: "error",
@@ -357,12 +321,12 @@ confirmButtonColor: "#1ccc8a",
     });
 
     return (
-        <div className="container-fluid">
+        <>
             <div className='row'>
                 <div className='col-sm-12'>
                     <div className='iq-card'>
-                        <div className='iq-card-header d-flex justify-content-between'>
-                            <div className='iq-header-title '>
+                        <div className='iq-card-header row'>
+                            <div className='iq-header-title col-lg-3'>
                                 <h4 className='card-title'>All Plans</h4>
                             </div>
                             {
@@ -378,7 +342,7 @@ confirmButtonColor: "#1ccc8a",
                                 <Tabs
                                     defaultActiveKey="Scalping"
                                     id="fill-tab-example"
-                                    className="mb-3 custom-tabs "
+                                    className="mb-3 custom-tabs w-50"
                                     fill>
                                     <Tab eventKey="Scalping" title="Scalping">
                                         <div className="">
@@ -387,16 +351,16 @@ confirmButtonColor: "#1ccc8a",
                                                     <div style={styles.container} className="row">
                                                         {getUpdatedPlans?.map((plan, index) => (
                                                             plan.PlanName == "Three Days Live" || plan.PlanName == "One Week Demo" || plan.PlanName == "Two Days Demo" ? "" :
-                                                                <div key={index} className="col-lg-3 col-md-6 mb-3 ">
-                                                                    <div className="d-flex flex-column justify-content-center h-100 all-plan-card">
-                                                                        <div className="plan-data">
+                                                                <Card key={index} className="col-lg-3 col-md-6 mb-3 all-plan-card">
+                                                                    <div className="d-flex flex-column justify-content-between h-100 p-3 border">
+                                                                        <div>
                                                                             <div style={styles.content}>
                                                                                 <h2 style={styles.title}>
                                                                                     {plan.PlanName} {SetPlan(plan.PlanName)}
                                                                                 </h2>
                                                                                 <h4 style={styles.subtitle}><FaRupeeSign className="m-1" /><strong>{plan.payment}</strong></h4>
                                                                                 <h4 style={styles.subtitle}>Duration: {plan?.['Plan Validity']}</h4>
-                                                                                {/* <h4 style={styles.subtitle}>No of Scripts: {plan?.NumberofScript}</h4> */}
+                                                                                <h4 style={styles.subtitle}>No of Scripts: {plan?.NumberofScript}</h4>
 
                                                                                 <div style={styles.prices}>
                                                                                     <p style={styles.priceItem}>
@@ -427,7 +391,7 @@ confirmButtonColor: "#1ccc8a",
                                                                             }
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                </Card>
                                                         ))}
                                                     </div>
                                                 </div>
@@ -440,8 +404,8 @@ confirmButtonColor: "#1ccc8a",
                                             <div style={styles.container} className="row">
                                                 {getUpdatedPlans1?.map((plan, index) => (
                                                     plan.PlanName == "Three Days Live" || plan.PlanName == "One Week Demo" || plan.PlanName == "Two Days Demo" ? "" :
-                                                        <div key={index} style={styles.card} className="col-lg-3 col-md-6 mb-3 ">
-                                                            <div className="d-flex flex-column justify-content-between h-100 all-plan-card">
+                                                        <Card key={index} style={styles.card} className="col-lg-3 col-md-6 mb-3 all-plan-card">
+                                                            <div className="d-flex flex-column justify-content-between h-100 p-3 border">
                                                                 <div>
                                                                     <div style={styles.content}>
                                                                         <h2 style={styles.title}>
@@ -449,7 +413,7 @@ confirmButtonColor: "#1ccc8a",
                                                                         </h2>
                                                                         <h4 style={styles.subtitle}><FaRupeeSign className="m-1" /><strong>{plan.payment}</strong></h4>
                                                                         <h4 style={styles.subtitle}>Duration: {plan?.['Plan Validity']}</h4>
-                                                                        {/* <h4 style={styles.subtitle}>No of Scripts: {plan?.NumberofScript}</h4> */}
+                                                                        <h4 style={styles.subtitle}>No of Scripts: {plan?.NumberofScript}</h4>
 
                                                                         <div style={styles.prices}>
                                                                             {/* <p style={styles.priceItem}>
@@ -480,7 +444,7 @@ confirmButtonColor: "#1ccc8a",
                                                                     }
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                        </Card>
                                                 ))}
                                             </div>
                                         </div>
@@ -494,7 +458,7 @@ confirmButtonColor: "#1ccc8a",
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 
@@ -518,32 +482,28 @@ const styles = {
         margin: "10px 0",
         color: "rgb(15 164 32)",
         fontWeight: "bold",
-        textAlign: "center",
     },
     subtitle: {
         fontSize: "1.2rem",
         margin: "5px 0",
-        textAlign: "center",
     },
     description: {
         fontSize: "1rem",
         margin: "10px 0",
-
     },
     prices: {
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
+        alignItems: "flex-start",
         margin: "10px 0",
         color: "#555",
         padding: "0",
         listStyle: "none",
         fontSize: "1rem",
-        textAlign: "center",
     },
     priceItem: {
         margin: "5px 0",
-
+        textAlign: "left",
     },
     buttonContainer: {
         marginTop: "15px",

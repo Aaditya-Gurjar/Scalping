@@ -36,14 +36,14 @@ const AddClient = () => {
     return foundItem.EndDate;
   };
 
-   const ScrollToViewFirstError = (newErrors) => {
+  const ScrollToViewFirstError = (newErrors) => {
     if (Object.keys(newErrors).length !== 0) {
       const errorField = Object.keys(newErrors)[0];
-  
+
       const errorElement = document.getElementById(errorField);
       if (errorElement) {
         const elementPosition = errorElement.getBoundingClientRect().top + window.pageYOffset;
-  
+
         const offset = 100;
         window.scrollTo({
           top: elementPosition - offset,
@@ -54,7 +54,7 @@ const AddClient = () => {
   }
 
 
- 
+
 
   const formik = useFormik({
     initialValues: {
@@ -146,10 +146,13 @@ const AddClient = () => {
       if (!values.Symbol) {
         errors.Symbol = "Please Select Symbol Type.";
       }
-      if (!values.Optiontype && (values.Instrument === "OPTSTK" || values.Instrument === "OPTIDX")) {
+      if (!values.Optiontype && (values.Instrument === "OPTSTK" || values.Instrument === "OPTIDX" || (values.Instrument == "OPTFUT" && values.Exchange === "MCX"))) {
+        console.log("optioni")
+
         errors.Optiontype = "Please Select Option Type.";
       }
-      if (!values.Strike && (values.Instrument === "OPTSTK" || values.Instrument === "OPTIDX")) {
+      if (!values.Strike && (values.Instrument === "OPTSTK" || values.Instrument === "OPTIDX" || (values.Instrument == "OPTFUT" && values.Exchange === "MCX"))) {
+        console.log("strike")
         errors.Strike = "Please Select Strike Price.";
       }
       if (!values.expirydata1 && values.Exchange !== 'NSE') {
@@ -282,17 +285,17 @@ const AddClient = () => {
         errors.RepeatationCount = "Please Enter No. of Repeatation";
       }
 
-      if (!values.Loss && values.Strategy == "Multi_Conditional" && values.position_type == "Multiple" ) {
+      if (!values.Loss && values.Strategy == "Multi_Conditional" && values.position_type == "Multiple") {
         errors.Loss = "Please Enter Maximum Loss";
       }
 
-      if ( !values.Profit &&
+      if (!values.Profit &&
         values.Strategy == "Multi_Conditional" &&
         values.position_type == "Multiple"
       ) {
         errors.Profit = "Please Enter Maximum Loss";
       }
-    
+
       if (
         !values.NumberOfDays &&
         values.Strategy == "Multi_Conditional" &&
@@ -308,7 +311,7 @@ const AddClient = () => {
       ) {
         errors.RollOverExitTime = "Please Enter RollOver Exit Time";
       }
-     
+
       if (
         !values.WorkingDay.length > 0 &&
         values.Strategy == "Multi_Conditional" &&
@@ -326,7 +329,7 @@ const AddClient = () => {
         errors.OrderType = "Please select Order Type";
       }
 
-      
+
       console.log("errors", errors)
       ScrollToViewFirstError(errors);
       return errors;
@@ -341,8 +344,8 @@ const AddClient = () => {
           Exchange: values.Exchange,
           Instrument: values.Exchange == "NSE" ? "" : values.Instrument,
           Symbol: values.Symbol,
-          Optiontype: values.Instrument == "OPTIDX" || values.Instrument == "OPTSTK" ? values.Optiontype : "",
-          Strike: values.Instrument == "OPTIDX" || values.Instrument == "OPTSTK" ? values.Strike : "",
+          Optiontype: values.Instrument == "OPTIDX" || values.Instrument == "OPTSTK" || (values.Exchange === "MCX" && values.Instrument == "OPTFUT") ? values.Optiontype : "",
+          Strike: values.Instrument == "OPTIDX" || values.Instrument == "OPTSTK"(values.Exchange === "MCX" && values.Instrument == "OPTFUT") ? values.Strike : "",
           expirydata1: values.Exchange == "NSE" ? getExpiryDate.data[0] : values.expirydata1,
           TType: values.TType == 0 ? "" : values.TType,
           TStype: values.Strategy == "One Directional" || values.Strategy == "Multi Directional" || (values.Strategy == "Multi_Conditional") ? values.TStype : "",
@@ -532,7 +535,7 @@ const AddClient = () => {
       hiding: false,
       label_size: 12,
       headingtype: 1,
-      col_size: formik.values.Exchange == 'NFO' && (formik.values.Instrument === "FUTSTK" || formik.values.Instrument === "FUTIDX") ? 3 : formik.values.Exchange == 'NFO' && (formik.values.Instrument === "OPTIDX" || formik.values.Instrument === "OPTSTK") ? 4 : formik.values.Exchange == 'NSE' && formik.values.Instrument == 'FUTIDX' ? 6 : 6,
+      col_size: formik.values.Exchange == 'NFO' && (formik.values.Instrument === "FUTSTK" || formik.values.Instrument === "FUTIDX") ? 3 : formik.values.Exchange == 'NFO' && (formik.values.Instrument === "OPTIDX" || formik.values.Instrument === "OPTSTK") ? 4 : formik.values.Exchange == 'NSE' && formik.values.Instrument == 'FUTIDX' ? 6 : formik.values.Exchange == 'MCX' ? 4 : 6,
       disable: false,
       // iconText: text.Lower_Price
     },
@@ -564,7 +567,7 @@ const AddClient = () => {
       hiding: false,
       label_size: 12,
       headingtype: 1,
-      col_size: formik.values.Instrument === "FUTSTK" || formik.values.Instrument === "FUTIDX" ? 3 : formik.values.Instrument === "OPTIDX" || formik.values.Instrument === "OPTSTK" ? 4 : 3,
+      col_size: formik.values.Instrument === "FUTSTK" || formik.values.Instrument === "FUTIDX" ? 3 : formik.values.Instrument === "OPTIDX" || formik.values.Instrument === "OPTSTK" ? 4 : formik.values.Exchange == 'MCX' ? 4 : 3,
       disable: false,
     },
     {
@@ -579,7 +582,7 @@ const AddClient = () => {
       label_size: 12,
       headingtype: 1,
       hiding: false,
-      col_size: formik.values.Exchange == "NSE" ? 6 : formik.values.Instrument === "OPTIDX" || formik.values.Instrument === "OPTSTK" ? 4 : 3,
+      col_size: formik.values.Exchange == 'MCX' ? 4 : formik.values.Exchange == "NSE" ? 6 : formik.values.Instrument === "OPTIDX" || formik.values.Instrument === "OPTSTK" ? 4 : 3,
       disable: false,
     },
     {
@@ -590,7 +593,7 @@ const AddClient = () => {
         { label: "CE", value: "CE" },
         { label: "PE", value: "PE" },
       ],
-      showWhen: (values) => values.Instrument == "OPTIDX" || values.Instrument == "OPTSTK",
+      showWhen: (values) => values.Instrument == "OPTIDX" || values.Instrument == "OPTSTK" || (values.Instrument == "OPTFUT" && values.Exchange === "MCX"),
       label_size: 12,
       hiding: false,
       col_size: 4,
@@ -605,7 +608,7 @@ const AddClient = () => {
         label: item,
         value: item
       })),
-      showWhen: (values) => values.Instrument == "OPTIDX" || values.Instrument == "OPTSTK",
+      showWhen: (values) => values.Instrument == "OPTIDX" || values.Instrument == "OPTSTK" || (values.Instrument == "OPTFUT" && values.Exchange === "MCX"),
       label_size: 12,
       headingtype: 1,
       col_size: 4,
