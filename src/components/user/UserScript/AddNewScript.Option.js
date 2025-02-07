@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom"
-import AddForm from "../../../ExtraComponent/FormData";
+import AddForm from "../../../ExtraComponent/FormData2";
 import { useFormik } from "formik";
 import { useState, useEffect } from "react";
 import Swal from 'sweetalert2';
@@ -8,6 +8,7 @@ import { AddScript, CheckPnL } from '../../CommonAPI/User'
 // import { base_url } from "../../../Utils/Config";
 import axios from "axios";
 import * as Config from "../../../Utils/Config";
+import { text } from "../../../ExtraComponent/IconTexts";
 
 
 
@@ -136,7 +137,8 @@ const AddClient = () => {
             RollOver: "",
             NumberOfDays: 0,
             RollOverExitTime: "00:00:00",
-            ExitType: ""
+            ExitType: "",
+            WorkingDay: [],
 
         },
         validate: (values) => {
@@ -312,6 +314,11 @@ const AddClient = () => {
             if (!values.ExitType && values.Measurment_Type != "Shifting_FourLeg" && values.ETPattern == "Leg vice") {
                 errors.ExitType = "Please Select Exit Type";
             }
+
+            if (
+                !values.WorkingDay.length > 0) {
+                errors.WorkingDay = "Please select Working day";
+            }
             ScrollToViewFirstError(errors)
 
             return errors;
@@ -396,7 +403,8 @@ const AddClient = () => {
                         ? values.RollOverExitTime
                         : "00:00:00",
 
-                ExitType: values.Measurment_Type != "Shifting_FourLeg" && values.ETPattern == "Leg vice" ? values.ExitType : ""
+                ExitType: values.Measurment_Type != "Shifting_FourLeg" && values.ETPattern == "Leg vice" ? values.ExitType : "",
+                WorkingDay: values.WorkingDay ? values.WorkingDay : [],
             }
 
             if (values.Striketype == "Depth_of_Strike" && (Number(values.DepthofStrike) < 0 || Number(values.DepthofStrike) > 10)) {
@@ -912,6 +920,27 @@ const AddClient = () => {
             disable: false,
             hiding: false,
         },
+
+        {
+            name: "WorkingDay",
+            label: "Working Day",
+            type: "multiselect",
+            options: [
+                { label: "Monday", value: "Monday" },
+                { label: "Tuesday", value: "Tuesday" },
+                { label: "Wednesday", value: "Wednesday" },
+                { label: "Thursday", value: "Thursday" },
+                { label: "Friday", value: "Friday" },
+                { label: "Saturday", value: "Saturday" },
+
+            ],
+            label_size: 12,
+            col_size: 3,
+            headingtype: 4,
+            disable: false,
+            // iconText: text.Increment_Type,
+            hiding: false,
+        },
         {
             name: "Loss",
             label: "Max Loss ",
@@ -1323,6 +1352,7 @@ const AddClient = () => {
             targetselection: "",
 
         }
+
 
         await CheckPnL(req)
             .then((response) => {

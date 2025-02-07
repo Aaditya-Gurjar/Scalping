@@ -86,8 +86,97 @@ const Header = () => {
     AdminPermission();
   }, []);
 
-  const handleToggle = async (event) => {
-    const newStatus = event.target.checked;
+
+  // backup code for toggle live and paper trading
+  // const handleToggle = async (event) => {
+  //   const newStatus = event.target.checked;
+  //   console.log
+
+  //   if (newStatus == true) {
+  //     const requestData = {
+  //       Username: Username,
+  //       session: "",
+  //       AccToken: "",
+  //       usrid: "",
+  //       sid: "",
+  //       jwt_Token: "",
+  //       BrokerName: getBrokerName,
+  //     };
+  //     Loginwihapi(requestData);
+  //   } else {
+  //     var data = {
+  //       Username: Username,
+  //       session: "",
+  //       AccToken: "",
+  //       usrid: "",
+  //       sid: "",
+  //       jwt_Token: "",
+  //     };
+
+  //     try {
+  //       const response = await axios.post(
+  //         `${Config.base_url}ConnectBroker`,
+  //         data,
+  //         {
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //         }
+  //       );
+
+  //       if (response.data.Status) {
+  //         // Assuming the status is in response.data.Status
+
+  //         Swal.fire({
+  //           background: "#1a1e23 ",
+  //           backdrop: "#121010ba",
+  //           confirmButtonColor: "#1ccc8a",
+  //           title: "Success!",
+  //           text: "Trading On successfully.",
+  //           icon: "success",
+  //           confirmButtonText: "OK",
+  //           timer: 1000,
+  //         }).then(() => {
+  //           setTimeout(() => {
+  //             window.location.reload();
+  //           }, 1000);
+  //         });
+  //       } else {
+  //         Swal.fire({
+  //           background: "#1a1e23 ",
+  //           backdrop: "#121010ba",
+  //           confirmButtonColor: "#1ccc8a",
+  //           title: "Success!",
+  //           text: "Trading Off successfully.",
+  //           icon: "success",
+  //           confirmButtonText: "OK",
+  //           timer: 1000,
+  //         }).then(() => {
+  //           setTimeout(() => {
+  //             window.location.reload();
+  //           }, 1000);
+  //         });
+  //       }
+  //     } catch (err) {
+  //       console.error("Error in ConnectBroker request", err);
+  //       Swal.fire({
+  //         background: "#1a1e23 ",
+  //         backdrop: "#121010ba",
+  //         confirmButtonColor: "#1ccc8a",
+  //         title: "Error!",
+  //         text: "An error occurred. Please try again later.",
+  //         icon: "error",
+  //         confirmButtonText: "OK",
+  //       });
+  //     }
+  //   }
+  // };
+
+
+  const handleToggle = async (value) => {
+    const newStatus = value;
+    console.log("newStatus", newStatus)
 
     if (newStatus == true) {
       const requestData = {
@@ -169,7 +258,6 @@ const Header = () => {
       }
     }
   };
-
   const handleCloseModal = () => {
     setIsModalVisible(false);
   };
@@ -502,6 +590,7 @@ const Header = () => {
       }
     });
   };
+  const currentTradeMode = getTradingStatus ? "Live Trading" : "Paper Trading";
 
   useEffect(() => {
     getprofiledata();
@@ -710,7 +799,7 @@ const Header = () => {
               <div
                 className="collapse navbar-collapse"
                 id="navbarSupportedContent">
-                <div className="custom-control custom-switch custom-switch-text custom-switch-color custom-control-inline ms-5">
+                {/* <div className="custom-control custom-switch custom-switch-text custom-switch-color custom-control-inline ms-5">
                   <div className="custom-switch-inner">
                     <input
                       type="checkbox"
@@ -725,7 +814,55 @@ const Header = () => {
                       data-on-label="Live trading on"
                       data-off-label="Paper trading on"></label>
                   </div>
+                </div> */}
+
+
+                <div className="btn-group" role="group" style={{
+                  backgroundColor: "#2a2e32",
+                  borderRadius: "20px",
+                  padding: "2px",
+                  height: "36px",
+                  marginLeft: "1rem"
+                }}>
+                  <button
+                    type="button"
+                    className="btn border-0"
+                    style={{
+                      width: "120px",
+                      backgroundColor: getTradingStatus ? "#2a2e32" : "#7367f0",
+                      color: getTradingStatus ? "#6c7293" : "white",
+                      fontWeight: "500",
+                      padding: "6px 12px",
+                      fontSize: "13px",
+                      transition: "all 0.3s ease",
+                      borderRadius: "18px",
+                      boxShadow: getTradingStatus ? "none" : "0 2px 6px rgba(115,103,240,0.4)"
+                    }}
+                    onClick={() => handleToggle(false)}
+                  >
+                    Paper Trading
+                  </button>
+                  <button
+                    type="button"
+                    className="btn border-0"
+                    style={{
+                      width: "120px",
+                      backgroundColor: getTradingStatus ? "#7367f0" : "#2a2e32",
+                      color: getTradingStatus ? "white" : "#6c7293",
+                      fontWeight: "500",
+                      padding: "6px 12px",
+                      fontSize: "13px",
+                      transition: "all 0.3s ease",
+                      borderRadius: "18px",
+                      boxShadow: getTradingStatus ? "0 2px 6px rgba(115,103,240,0.4)" : "none"
+                    }}
+                    onClick={() => handleToggle(true)}
+                  >
+                    Live Trading
+                  </button>
                 </div>
+
+
                 <ul className="navbar-nav ms-auto navbar-list align-items-center">
                   {/* <li className="nav-item">
                     <button
