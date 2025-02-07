@@ -1016,7 +1016,7 @@ const Userdashboard = () => {
                 )}
 
                 {/* Agar dono section me kahin bhi data nahi hai to hi NoDataFound dikhao */}
-                 {!(subTab && serviceStatus) &&
+                 {!(subTab && serviceStatus) && 
                   !(getPositionData.Scalping?.length > 0 ||
                     getPositionData.NewScalping?.length > 0 ||
                     getPositionData.Option?.length > 0 ||
