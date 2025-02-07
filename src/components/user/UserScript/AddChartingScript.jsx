@@ -111,6 +111,54 @@ const AddChartingScript = () => {
   const navigate = useNavigate();
   const userName = localStorage.getItem("name");
   const [chartingData, setChartingData] = useState([
+    {
+      Username: userName,
+      Status: "Off",
+      Fund: 0,
+      Quantity: 0,
+      Segment: "Cash",
+      TradeCount: 0,
+      MaxProfit: 0,
+      MaxLoss: 0,
+      AdminStatus: "Off",
+      ExitDay: "Delivery",
+      RunningTrade: 0,
+      TradeStatus: "Off",
+      AdminSignal: "Off",
+      TradePerDay: 0
+    },
+    {
+      Username: userName,
+      Status: "Off",
+      Fund: 0,
+      Quantity: 0,
+      Segment: "Future",
+      TradeCount: 0,
+      MaxProfit: 0,
+      MaxLoss: 0,
+      AdminStatus: "Off",
+      ExitDay: "Delivery",
+      RunningTrade: 0,
+      TradeStatus: "Off",
+      AdminSignal: "Off",
+      TradePerDay: 0
+    },
+    {
+      Username: userName,
+      Status: "Off",
+      Fund: 0,
+      Quantity: 0,
+      Segment: "Option",
+      TradeCount: 0,
+      MaxProfit: 0,
+      MaxLoss: 0,
+      AdminStatus: "Off",
+      ExitDay: "Delivery",
+      RunningTrade: 0,
+      TradeStatus: "Off",
+      AdminSignal: "Off",
+      TradePerDay: 0
+    },
     
   ]);
 
@@ -134,57 +182,6 @@ const AddChartingScript = () => {
 
       }else{
 
-        const updatedData=[
-          {
-            Username: userName,
-            Status: "Off",
-            Fund: 0,
-            Quantity: 0,
-            Segment: "Cash",
-            TradeCount: 0,
-            MaxProfit: 0,
-            MaxLoss: 0,
-            AdminStatus: "Off",
-            ExitDay: "Delivery",
-            RunningTrade: 0,
-            TradeStatus: "Off",
-            AdminSignal: "Off",
-            TradePerDay: 0
-          },
-          {
-            Username: userName,
-            Status: "Off",
-            Fund: 0,
-            Quantity: 0,
-            Segment: "Future",
-            TradeCount: 0,
-            MaxProfit: 0,
-            MaxLoss: 0,
-            AdminStatus: "Off",
-            ExitDay: "Delivery",
-            RunningTrade: 0,
-            TradeStatus: "Off",
-            AdminSignal: "Off",
-            TradePerDay: 0
-          },
-          {
-            Username: userName,
-            Status: "Off",
-            Fund: 0,
-            Quantity: 0,
-            Segment: "Option",
-            TradeCount: 0,
-            MaxProfit: 0,
-            MaxLoss: 0,
-            AdminStatus: "Off",
-            ExitDay: "Delivery",
-            RunningTrade: 0,
-            TradeStatus: "Off",
-            AdminSignal: "Off",
-            TradePerDay: 0
-          },
-        ];
-        setChartingData(updatedData);
       }
     }).catch((err) => {
       console.error("Error in getting the charting data", err);
