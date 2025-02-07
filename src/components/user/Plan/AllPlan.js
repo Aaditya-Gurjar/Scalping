@@ -344,7 +344,7 @@ const ServicesList = () => {
                                     id="fill-tab-example"
                                     className="mb-3 custom-tabs w-50"
                                     fill>
-                                    <Tab eventKey="Scalping" title="Scalping">
+                                    <Tab eventKey="Scalping" title="Scalping" style={{margin:"100px"}}>
                                         <div className="">
                                             <h5 className="mb-4">
                                                 <div className="iq-card-body">
@@ -398,7 +398,7 @@ const ServicesList = () => {
                                             </h5>
                                         </div>
                                     </Tab>
-                                    <Tab eventKey="Charting" title="Charting">
+                                    <Tab eventKey="Charting" title="Charting" style={{margin:"100px"}}>
 
                                         <div className="iq-card-body">
                                             <div style={styles.container} className="row">

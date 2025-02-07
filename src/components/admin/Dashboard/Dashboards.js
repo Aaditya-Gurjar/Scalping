@@ -4,6 +4,7 @@ import Loader from '../../../ExtraComponent/Loader';
 import { createRoot } from "react-dom/client";
 import { AgCharts } from "ag-charts-react";
 import { AgChartsReact } from 'ag-charts-react';
+import AdminDashboardChart from '../AdvanceChart/AdminDashboardChart';
 
 const Dashboards = () => {
 
@@ -800,7 +801,7 @@ const Dashboards = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-lg-8">
+                                {/* <div className="col-lg-8">
                                     <div className="iq-card">
                                         <div className="iq-card-header d-flex justify-content-between">
                                             <div className="iq-header-title">
@@ -810,7 +811,8 @@ const Dashboards = () => {
                                         <AgChartsReact options={options} />
 
                                     </div>
-                                </div>
+                                </div> */}
+                                 <AdminDashboardChart />
                             </div>
 
                         </div>

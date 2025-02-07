@@ -23,6 +23,9 @@ const Header = () => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+  const [selectedImage, setSelectedImage] = useState(localStorage.getItem("userProfileImage") || null);
+  // console.log("selectedImage",selectedImage);
+  
 
   // useEffect(() => {
   //   document.body.classList.remove("sidebar-main");
@@ -791,8 +794,13 @@ confirmButtonColor: "#1ccc8a",
                       href="#"
                       className={`text-decoration-none search-toggle d-flex align-items-center iq-waves-effectt ${activeElement === "profile" ? "active" : ""}`}
                       onClick={(e) => handleClick(e, "profile")}>
-                      <img
+                      {/* <img
                         src="/assets/images/user/1.jpg"
+                        className="img-fluid rounded-circle me-3"
+                        alt="user"
+                      /> */}
+                      <img
+                        src={selectedImage || "/assets/images/user/1.jpg"}
                         className="img-fluid rounded-circle me-3"
                         alt="user"
                       />

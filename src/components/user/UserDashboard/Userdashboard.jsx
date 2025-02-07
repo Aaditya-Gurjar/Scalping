@@ -13,16 +13,18 @@ import NoDataFound from "../../../ExtraComponent/NoDataFound";
 const Userdashboard = () => {
   const userName = localStorage.getItem("name");
   const [activeTab1, setActiveTab1] = useState("CurrentPosition");
-  
+
 
   const [activeTab, setActiveTab] = useState("currentScript");
   const [subTab, setSubTab] = useState("Scalping");
   const [refresh, setRefresh] = useState(false);
   const [getGroup, setGroup] = useState("");
   const [strategyType, setStrategyType] = useState([]);
-  console.log("strategyType",strategyType);
-  
+  console.log("strategyType", strategyType);
+
   const [tableType, setTableType] = useState("MultiCondition");
+  // console.log("Table Type",tableType);
+  
   const [serviceStatus, setServiceStatus] = useState({
     status: false,
     msg: "",
@@ -723,8 +725,17 @@ const Userdashboard = () => {
               <div className="row">
                 {activeTab1 === "CurrentPosition" && (
                   <div className="d-flex">
-                    <div
-                      className={`form-group ${(activeTab == "currentScript" || activeTab == "copyScript") && subTab != "Scalping" ? "col-sm-6" : "col-md-4"}`}>
+                    <div className={`form-group ${activeTab == "currentScript" && subTab == "Scalping"
+                      ? "col-lg-4"
+                      : activeTab == "group" && subTab == "Scalping"
+                        ? "col-lg-3"
+                        : activeTab == "currentScript" ? "col-lg-6"
+                          : activeTab == "group" ? "col-lg-4" : "col-lg-3"
+                      }`}>
+
+
+
+
                       <div className="px-3">
                         <label>Add Via</label>
                         <select
@@ -740,7 +751,15 @@ const Userdashboard = () => {
                       </div>
                     </div>
                     {activeTab == "group" && (
-                      <div className={`form-group col-md-4`}>
+                      <div className={`form-group ${activeTab == "currentScript" && subTab == "Scalping"
+                        ? "col-lg-4"
+                        : activeTab == "group" && subTab == "Scalping"
+                          ? "col-lg-3"
+                          : activeTab == "currentScript" ? "col-lg-6"
+                            : activeTab == "group" ? "col-lg-4" : "col-lg-3"
+                        }`}>
+
+
                         <div className="px-3">
                           <label>Group Name</label>
                           <select
@@ -760,8 +779,17 @@ const Userdashboard = () => {
                         </div>
                       </div>
                     )}
-                    <div
-                      className={`form-group ${(activeTab == "currentScript" || activeTab == "copyScript") && subTab != "Scalping" ? "col-sm-6" : subTab === "Scalping" ? "col-md-4" : "col-md-4"}`}>
+
+                   
+                    <div className={`form-group ${activeTab == "currentScript" && subTab == "Scalping"
+                      ? "col-lg-4"
+                      : activeTab == "group" && subTab == "Scalping"
+                        ? "col-lg-3"
+                        : activeTab == "currentScript" ? "col-lg-6"
+                          : activeTab == "group" ? "col-lg-4" : "col-lg-3"
+                      }`}>
+
+
                       <div className="px-3">
                         <label>Strategy Type</label>
                         <select
@@ -781,8 +809,15 @@ const Userdashboard = () => {
                     </div>
 
                     {subTab === "Scalping" && (
-                      <div
-                        className={`form-group ${(activeTab == "currentScript" || activeTab == "copyScript") && subTab != "Scalping" ? "col-sm-6" : subTab === "Scalping" ? "col-md-4" : "col-md-4"}`}>
+                      <div className={`form-group ${activeTab == "currentScript" && subTab == "Scalping"
+                        ? "col-lg-4"
+                        : activeTab == "group" && subTab == "Scalping"
+                          ? "col-lg-3"
+                          : activeTab == "currentScript" ? "col-lg-6"
+                            : activeTab == "group" ? "col-lg-4" : "col-lg-3"
+                        }`}>
+
+
                         <div className="px-3">
                           <label>Table Type</label>
                           <select
@@ -803,7 +838,7 @@ const Userdashboard = () => {
                   </div>
                 )}
               </div>
-             
+
               <div className="">
                 {activeTab1 === "CurrentPosition" ? (
                   <>
@@ -839,6 +874,34 @@ const Userdashboard = () => {
                   <NoDataFound />
                 )}
               </div>
+
+              {/* <div className="">
+                {activeTab1 === "CurrentPosition" ? (
+                  <>
+                    {activeTab === "group" ? (
+                      <div className="tab-pane fade show active" id="home-justify" role="tabpanel">
+                        <div className="mt-3">
+                          {subTab && serviceStatus ? (
+                            getGroup === "copyScript" ? (
+                              <Coptyscript data={subTab} selectedType={activeTab} data2={serviceStatus} />
+                            ) : (
+                              <GroupScript data={subTab} selectedType={activeTab} GroupName={getGroup} data2={serviceStatus} />
+                            )
+                          ) : (
+                            <NoDataFound />
+                          )}
+                        </div>
+                      </div>
+                    ) : (
+                      <NoDataFound />
+                    )}
+                  </>
+                ) : (
+                  <NoDataFound />
+                )}
+              </div> */}
+
+
 
 
               <div className="tab-content">
