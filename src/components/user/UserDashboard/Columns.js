@@ -53,9 +53,8 @@ const DropdownComponent = ({ tableMeta, handleDelete, type, handleMatchPosition 
         }
     };
 
-    useEffect(() => {
-        console.log("tableMeta", tableMeta)
-
+    useEffect(() => { 
+        
         if (isDropdownOpen) {
             document.addEventListener("mousedown", handleOutsideClick);
         } else {
@@ -1601,7 +1600,9 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
     },
 ];
 
-export const getColumns5 = (handleDelete, handleEdit, handleContinutyDiscontinuty) => [
+export const 
+getColumns5 = (handleDelete, handleEdit, handleContinutyDiscontinuty) => [
+
     {
         name: "S.No",
         label: "S.No",
@@ -1642,13 +1643,12 @@ export const getColumns5 = (handleDelete, handleEdit, handleContinutyDiscontinut
     //                 <Checkbox
     //                     checked={isChecked}
     //                     onClick={() => handleContinutyDiscontinuty(tableMeta, 1)}
-
     //                 />
-
     //             );
     //         }
     //     }
     // },
+
     {
         name: "Trading",
         label: "Trading",

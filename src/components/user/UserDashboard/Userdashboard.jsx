@@ -859,6 +859,7 @@ const Userdashboard = () => {
                     ) : activeTab === "currentScript" ? (
                       <div className="tab-pane fade show active" id="home-justify" role="tabpanel">
                         <div className="tab-content mt-3">
+                        
                           {subTab && serviceStatus ? (
                             <CurrentScript tableType={tableType} data={subTab} selectedType={activeTab} data2={serviceStatus} />
                           ) : (
