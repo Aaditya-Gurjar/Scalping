@@ -380,7 +380,7 @@ confirmButtonColor: "#1ccc8a",
                                     id="fill-tab-example"
                                     className="mb-3 custom-tabs "
                                     fill>
-                                    <Tab eventKey="Scalping" title="Scalping">
+                                    <Tab eventKey="Scalping" title="Scalping" style={{margin:"100px"}}>
                                         <div className="">
                                             <h5 className="mb-4">
                                                 <div className="iq-card-body">
@@ -434,7 +434,7 @@ confirmButtonColor: "#1ccc8a",
                                             </h5>
                                         </div>
                                     </Tab>
-                                    <Tab eventKey="Charting" title="Charting">
+                                    <Tab eventKey="Charting" title="Charting" style={{margin:"100px"}}>
 
                                         <div className="iq-card-body">
                                             <div style={styles.container} className="row">

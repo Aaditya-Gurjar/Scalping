@@ -274,6 +274,10 @@ confirmButtonColor: "#1ccc8a",
                                         <>
                                             <div className="iq-card-body " style={{ padding: '3px' }}>
                                                 <div className="table-responsive">
+                                                <div>
+                                                            <div className="iq-header-title mt-4">
+                                                                <h4 className="card-title">{data}</h4>
+                                                            </div>
 
                                                     {getAllService.loading ? <Loader /> :
                                                         <FullDataTable
@@ -282,6 +286,7 @@ confirmButtonColor: "#1ccc8a",
                                                             checkBox={false}
                                                         />
                                                     }
+                                                </div>
                                                     {data === "Scalping" && adminPermission?.includes('Charting Platform') && (
                                                         <div>
                                                             <div className="iq-header-title mt-4">
