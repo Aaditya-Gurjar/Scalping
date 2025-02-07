@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import AddForm from "../../../ExtraComponent/FormData";
+import AddForm from "../../../ExtraComponent/FormData2";
 import { useFormik } from "formik";
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
@@ -12,23 +12,23 @@ const AddClient = () => {
   const navigate = useNavigate();
   const [getExpiry, setExpiry] = useState({ loading: true, data: [] });
 
-    const ScrollToViewFirstError = (newErrors) => {
-      if (Object.keys(newErrors).length !== 0) {
-        const errorField = Object.keys(newErrors)[0];
+  const ScrollToViewFirstError = (newErrors) => {
+    if (Object.keys(newErrors).length !== 0) {
+      const errorField = Object.keys(newErrors)[0];
 
-        const errorElement = document.getElementById(errorField);
-        if (errorElement) {
-          const elementPosition =
-            errorElement.getBoundingClientRect().top + window.pageYOffset;
+      const errorElement = document.getElementById(errorField);
+      if (errorElement) {
+        const elementPosition =
+          errorElement.getBoundingClientRect().top + window.pageYOffset;
 
-          const offset = 100;
-          window.scrollTo({
-            top: elementPosition - offset,
-            behavior: "smooth",
-          });
-        }
+        const offset = 100;
+        window.scrollTo({
+          top: elementPosition - offset,
+          behavior: "smooth",
+        });
       }
-    };
+    }
+  };
 
   const SweentAlertFun = (text) => {
     Swal.fire({
@@ -102,6 +102,7 @@ const AddClient = () => {
       RollOver: "",
       NumberOfDays: 0,
       RollOverExitTime: "00:00:00",
+      WorkingDay: [],
     },
     validate: (values) => {
       let errors = {};
@@ -428,7 +429,11 @@ const AddClient = () => {
       ) {
         errors.RollOverExitTime = "Please Enter RollOver Exit Time";
       }
-ScrollToViewFirstError(errors);
+      if (!values.WorkingDay.length > 0) {
+        errors.WorkingDay = "Please select Working day";
+      }
+
+      ScrollToViewFirstError(errors);
       return errors;
     },
     onSubmit: async (values) => {
@@ -585,7 +590,11 @@ ScrollToViewFirstError(errors);
           values.RollOver == true
             ? values.RollOverExitTime
             : "00:00:00",
+        WorkingDay: values.WorkingDay ? values.WorkingDay : [],
       };
+
+      console.log("req", req);
+
       if (
         values.Striketype == "Depth_of_Strike" &&
         (Number(values.DepthofStrike) < 0 || Number(values.DepthofStrike) > 10)
@@ -1139,6 +1148,26 @@ ScrollToViewFirstError(errors);
       col_size: 4,
       headingtype: 4,
       disable: false,
+      hiding: false,
+    },
+
+    {
+      name: "WorkingDay",
+      label: "Working Day",
+      type: "multiselect",
+      options: [
+        { label: "Monday", value: "Monday" },
+        { label: "Tuesday", value: "Tuesday" },
+        { label: "Wednesday", value: "Wednesday" },
+        { label: "Thursday", value: "Thursday" },
+        { label: "Friday", value: "Friday" },
+        { label: "Saturday", value: "Saturday" },
+      ],
+      label_size: 12,
+      col_size: 3,
+      headingtype: 4,
+      disable: false,
+      // iconText: text.Increment_Type,
       hiding: false,
     },
 
