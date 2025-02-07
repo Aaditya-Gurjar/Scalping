@@ -115,22 +115,84 @@ const AddChartingScript = () => {
   ]);
 
   const getChartingData = async () => {
-    const res = await getChargingPlatformDataApi(userName);
+    await getChargingPlatformDataApi(userName)
+    .then((res) => {
+      if(res.Status){
+         const updatedData = res.Client?.map((item) => ({
+           ...item,
+           TradeStatus: item.Status || "Off",
+           AdminSignal: item.AdminStatus || "Off",
+           TradePerDay: item.TradeCount !== undefined ? item.TradeCount : "",
+           RunningTrade: item.RunningTrade !== undefined ? item.RunningTrade : "",
+           MaxProfit: item.MaxProfit !== undefined ? item.MaxProfit : "",
+           MaxLoss: item.MaxLoss !== undefined ? item.MaxLoss : "",
+           ExitDay: item.ExitDay || "Intraday",
+           Fund: item.Fund !== undefined ? item.Fund : "",
+           Quantity: item.Quantity !== undefined ? item.Quantity : "",
+         }));
+         setChartingData(updatedData);
+
+      }else{
+
+        const updatedData=[
+          {
+            Username: userName,
+            Status: "Off",
+            Fund: 0,
+            Quantity: 0,
+            Segment: "Cash",
+            TradeCount: 0,
+            MaxProfit: 0,
+            MaxLoss: 0,
+            AdminStatus: "Off",
+            ExitDay: "Delivery",
+            RunningTrade: 0,
+            TradeStatus: "Off",
+            AdminSignal: "Off",
+            TradePerDay: 0
+          },
+          {
+            Username: userName,
+            Status: "Off",
+            Fund: 0,
+            Quantity: 0,
+            Segment: "Future",
+            TradeCount: 0,
+            MaxProfit: 0,
+            MaxLoss: 0,
+            AdminStatus: "Off",
+            ExitDay: "Delivery",
+            RunningTrade: 0,
+            TradeStatus: "Off",
+            AdminSignal: "Off",
+            TradePerDay: 0
+          },
+          {
+            Username: userName,
+            Status: "Off",
+            Fund: 0,
+            Quantity: 0,
+            Segment: "Option",
+            TradeCount: 0,
+            MaxProfit: 0,
+            MaxLoss: 0,
+            AdminStatus: "Off",
+            ExitDay: "Delivery",
+            RunningTrade: 0,
+            TradeStatus: "Off",
+            AdminSignal: "Off",
+            TradePerDay: 0
+          },
+        ];
+        setChartingData(updatedData);
+      }
+    }).catch((err) => {
+      console.error("Error in getting the charting data", err);
+    });
 
    
-    const updatedData = res.Client?.map((item) => ({
-      ...item,
-      TradeStatus: item.Status || "Off",
-      AdminSignal: item.AdminStatus || "Off",
-      TradePerDay: item.TradeCount !== undefined ? item.TradeCount : "",
-      RunningTrade: item.RunningTrade !== undefined ? item.RunningTrade : "",
-      MaxProfit: item.MaxProfit !== undefined ? item.MaxProfit : "",
-      MaxLoss: item.MaxLoss !== undefined ? item.MaxLoss : "",
-      ExitDay: item.ExitDay || "Intraday",
-      Fund: item.Fund !== undefined ? item.Fund : "",
-      Quantity: item.Quantity !== undefined ? item.Quantity : "",
-    }));
-    setChartingData(updatedData);
+  
+
   };
 
   useEffect(() => {

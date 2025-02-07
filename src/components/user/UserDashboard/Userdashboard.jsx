@@ -20,7 +20,6 @@ const Userdashboard = () => {
   const [refresh, setRefresh] = useState(false);
   const [getGroup, setGroup] = useState("");
   const [strategyType, setStrategyType] = useState([]);
-  console.log("strategyType", strategyType);
 
   const [tableType, setTableType] = useState("MultiCondition");
   // console.log("Table Type",tableType);
