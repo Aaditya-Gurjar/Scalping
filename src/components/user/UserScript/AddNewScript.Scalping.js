@@ -416,9 +416,7 @@ const AddClient = () => {
 
         }
 
-        console.log("req", req)
-        return
-
+     
         if ((Number(values.EntryPrice) > 0 || Number(values.EntryRange) > 0) &&
           (Number(values.EntryPrice) >= Number(values.EntryRange))) {
           return SweentAlertFun(
@@ -515,7 +513,6 @@ const AddClient = () => {
   });
 
 
-  console.log("formik" , )
 
   useEffect(() => {
     formik.setFieldValue('Strategy', location?.state?.data?.scriptType?.data?.[location?.state?.data?.scriptType?.len]?.CombineScalping[0])
