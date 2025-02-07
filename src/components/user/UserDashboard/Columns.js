@@ -1648,7 +1648,6 @@ getColumns5 = (handleDelete, handleEdit, handleContinutyDiscontinuty) => [
     //         }
     //     }
     // },
-
     {
         name: "Trading",
         label: "Trading",
@@ -1656,22 +1655,20 @@ getColumns5 = (handleDelete, handleEdit, handleContinutyDiscontinuty) => [
             filter: true,
             sort: true,
             customBodyRender: (value, tableMeta, updateValue) => {
-                // console.log("page ma kya value aa rhe hai ", value);
-
                 const label = value ? "Continue" : "Discontinue";
-                const labelStyle = value ? { color: 'green' } : { color: 'red' };
+                const labelStyle = value ? { backgroundColor: 'green', color: 'white' } : { backgroundColor: 'red', color: 'white' };
 
                 return (
-                    <span
-                        onClick={() => handleContinutyDiscontinuty(tableMeta, 2)}
-                        style={labelStyle}
+                    <button
+                        onClick={() => handleContinutyDiscontinuty(tableMeta, 1)}
+                        style={{ ...labelStyle, border: 'none', padding: '5px 10px', cursor: 'pointer', borderRadius: '5px' }}
                     >
                         {label}
-                    </span>
+                    </button>
                 );
             }
         }
-    },
+    },    
     {
         name: "Action",
         label: "Action",

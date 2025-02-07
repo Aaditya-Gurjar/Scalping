@@ -24,7 +24,7 @@ const Userdashboard = () => {
 
   const [tableType, setTableType] = useState("MultiCondition");
   // console.log("Table Type",tableType);
-  
+
   const [serviceStatus, setServiceStatus] = useState({
     status: false,
     msg: "",
@@ -780,7 +780,7 @@ const Userdashboard = () => {
                       </div>
                     )}
 
-                   
+
                     <div className={`form-group ${activeTab == "currentScript" && subTab == "Scalping"
                       ? "col-lg-4"
                       : activeTab == "group" && subTab == "Scalping"
@@ -839,7 +839,7 @@ const Userdashboard = () => {
                 )}
               </div>
 
-              <div className="">
+              {/* <div className="">
                 {activeTab1 === "CurrentPosition" ? (
                   <>
                     {activeTab === "group" ? (
@@ -874,38 +874,11 @@ const Userdashboard = () => {
                 ) : (
                   <NoDataFound />
                 )}
-              </div>
-
-              {/* <div className="">
-                {activeTab1 === "CurrentPosition" ? (
-                  <>
-                    {activeTab === "group" ? (
-                      <div className="tab-pane fade show active" id="home-justify" role="tabpanel">
-                        <div className="mt-3">
-                          {subTab && serviceStatus ? (
-                            getGroup === "copyScript" ? (
-                              <Coptyscript data={subTab} selectedType={activeTab} data2={serviceStatus} />
-                            ) : (
-                              <GroupScript data={subTab} selectedType={activeTab} GroupName={getGroup} data2={serviceStatus} />
-                            )
-                          ) : (
-                            <NoDataFound />
-                          )}
-                        </div>
-                      </div>
-                    ) : (
-                      <NoDataFound />
-                    )}
-                  </>
-                ) : (
-                  <NoDataFound />
-                )}
               </div> */}
 
 
 
-
-              <div className="tab-content">
+              {/* <div className="tab-content">
                 {activeTab1 === "OpenPosition" &&
                   (getPositionData.Scalping &&
                     getPositionData.NewScalping &&
@@ -975,7 +948,83 @@ const Userdashboard = () => {
                   ) : (
                     <NoDataFound />
                   ))}
-              </div>
+              </div> */}
+
+              <div className="">
+                {activeTab1 === "CurrentPosition" && (
+                  <>
+                    {activeTab === "group" ? (
+                      <div className="tab-pane fade show active" id="home-justify" role="tabpanel">
+                        <div className="mt-3">
+                          {subTab && serviceStatus ? (
+                            getGroup === "copyScript" ? (
+                              <Coptyscript data={subTab} selectedType={activeTab} data2={serviceStatus} />
+                            ) : (
+                              <GroupScript data={subTab} selectedType={activeTab} GroupName={getGroup} data2={serviceStatus} />
+                            )
+                          ) : null}
+                        </div>
+                      </div>
+                    ) : activeTab === "currentScript" ? (
+                      <div className="tab-pane fade show active" id="home-justify" role="tabpanel">
+                        <div className="tab-content mt-3">
+                          {subTab && serviceStatus ? (
+                            <CurrentScript tableType={tableType} data={subTab} selectedType={activeTab} data2={serviceStatus} />
+                          ) : null}
+                        </div>
+                      </div>
+                    ) : null}
+                  </>
+                )}
+
+                {activeTab1 === "OpenPosition" && (
+                  <>
+                    {getPositionData.Scalping?.length > 0 && (
+                      <div className="mt-4">
+                        <h4>Scalping</h4>
+                        <FullDataTable columns={columns1} data={getPositionData.Scalping} checkBox={false} />
+                      </div>
+                    )}
+
+                    {getPositionData.NewScalping?.length > 0 && (
+                      <div className="mt-4">
+                        <h4>Multi Condition</h4>
+                        <FullDataTable columns={columns4} data={getPositionData.NewScalping} checkBox={false} />
+                      </div>
+                    )}
+
+                    {getPositionData.Option?.length > 0 && (
+                      <div className="mt-4">
+                        <h4>Option</h4>
+                        <FullDataTable columns={columns2} data={getPositionData.Option} checkBox={false} />
+                      </div>
+                    )}
+
+                    {getPositionData.Pattern?.length > 0 && (
+                      <div className="mt-4">
+                        <h4>Pattern</h4>
+                        <FullDataTable columns={columns3} data={getPositionData.Pattern} checkBox={false} />
+                      </div>
+                    )}
+
+                    {getPositionData.ChartingData?.length > 0 && (
+                      <div className="mt-4">
+                        <h4>Charting Platform</h4>
+                        <FullDataTable columns={columns5} data={getPositionData.ChartingData} checkBox={false} />
+                      </div>
+                    )}
+                  </>
+                )}
+
+                {/* Agar dono section me kahin bhi data nahi hai to hi NoDataFound dikhao */}
+                 {!(subTab && serviceStatus) && 
+                  !(getPositionData.Scalping?.length > 0 ||
+                    getPositionData.NewScalping?.length > 0 ||
+                    getPositionData.Option?.length > 0 ||
+                    getPositionData.Pattern?.length > 0 ||
+                    getPositionData.ChartingData?.length > 0) && <NoDataFound />}
+              </div> 
+
             </div>
           </div>
         </div>

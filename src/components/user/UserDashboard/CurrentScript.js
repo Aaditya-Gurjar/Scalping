@@ -45,7 +45,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
     }, [data]);
 
 
-
     const getChartingScript = async () => {
         const req = { Username: userName, Planname: "Chart" }
         await getUserChartingScripts(req)
