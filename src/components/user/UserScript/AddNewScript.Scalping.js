@@ -403,7 +403,7 @@ const AddClient = () => {
               ? Number(values.Profit)
               : 0,
           RollOver:
-            values.FixedSM = "Multiple" && values.Strategy == "Multi_Conditional" ? values.RollOver : false,
+            values.FixedSM == "Multiple" && values.Strategy == "Multi_Conditional" ? values.RollOver : false,
           NumberOfDays:
             values.FixedSM == "Multiple" && values.Strategy == "Multi_Conditional" && values.RollOver == true ? values.NumberOfDays : 0,
           RollOverExitTime:

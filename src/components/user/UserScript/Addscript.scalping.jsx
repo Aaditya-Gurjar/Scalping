@@ -486,7 +486,7 @@ const AddClient = () => {
           values.Strategy == "Multi_Conditional"
             ? values.Profit
             : 0,
-        RollOver: (values.position_type =
+        RollOver: (values.position_type ==
           "Multiple" && values.Strategy == "Multi_Conditional"
             ? values.RollOver
             : false),
