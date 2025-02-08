@@ -200,7 +200,7 @@ const AddClient = () => {
       }
 
       // formik.values.Strategy == 'Fixed Price' 
-      if (values.EntryPrice === undefined || values.EntryPrice === null || values.EntryPrice === "" ) {
+      if (values.EntryPrice === undefined || values.EntryPrice === null || values.EntryPrice === "") {
         if (values.Strategy == "Fixed Price" || (values.Strategy == "Multi_Conditional" && values.FixedSM == "Single")) {
           errors.EntryPrice = "Please Enter The Lowest Price.";
         }
@@ -415,7 +415,7 @@ const AddClient = () => {
 
         }
 
-     
+
         if ((Number(values.EntryPrice) > 0 || Number(values.EntryRange) > 0) &&
           (Number(values.EntryPrice) >= Number(values.EntryRange))) {
           return SweentAlertFun(
@@ -468,33 +468,34 @@ const AddClient = () => {
         if (values.EntryTime >= values.ExitTime) {
           return SweentAlertFun("Exit Time should be greater than Entry Time")
         }
+
         if (values.Strategy == "Multi_Conditional" && values.FixedSM == "Single") {
           if (Number(values.quantity2) == 0 && Number(values.quantity3) > 0) {
             return SweentAlertFun(formik.values.Exchange == "NFO" ? "Please Enter Lot 2" : "Please Enter Quantity 2")
           }
-          else if ((Number(values.quantity2) > 0 && Number(values.tgp2) == 0) || Number(values.quantity2) == 0 && Number(values.tgp2) > 0){
-            if (Number(values.quantity2) > 0){
+          else if ((Number(values.quantity2) > 0 && Number(values.tgp2) == 0) || Number(values.quantity2) == 0 && Number(values.tgp2) > 0) {
+            if (Number(values.quantity2) > 0) {
               return SweentAlertFun("Please Enter Target price 2 ")
             }
-            else if (Number(values.tgp2) > 0){
-              return SweentAlertFun("Please Enter Lot 2 ")
+            else if (Number(values.tgp2) > 0) {
+              return SweentAlertFun(formik.values.Exchange == "NFO" ? "Please Enter Lot 2" : "Please Enter Quantity 2")
 
             }
           }
-          if (Number(values.tgp2) == 0 && Number(values.tgp3) > 0) {
-            return SweentAlertFun("Please Enter Target 2")
-          }
+          else if ((Number(values.quantity3) > 0 && Number(values.tgp3) == 0) || Number(values.quantity3) == 0 && Number(values.tgp3) > 0)
+            if (Number(values.quantity3) > 0 && Number(values.tgp3) == 0) {
+              return SweentAlertFun("Please Enter Target Price 3")
+            }
+            else {
+              return SweentAlertFun(formik.values.Exchange == "NFO" ? "Please Enter Lot 3" : "Please Enter Quantity 3")
+
+
+            }
         }
 
-        // if (values.Strategy == "Multi_Conditional" && values.FixedSM == "Single") {
-        //   if (Number(values.quantity2) == 0 && Number(values.quantity3) > 0) {
-        //     return SweentAlertFun(formik.values.Exchange == "NFO" ? "Please Enter Lot 2" : "Please Enter Quantity 2")
-        //   }
-        //   if (Number(values.tgp2) == 0 && Number(values.tgp3) > 0) {
-        //     return SweentAlertFun("Please Enter Target 2")
-        //   }
-        // }
-        
+
+
+
         await AddScript(req)
           .then((response) => {
             if (response.Status) {
