@@ -49,7 +49,7 @@ const Clientservice = () => {
         await GetUserBalence(req)
             .then((response) => {
                 if (response.Status) {
-                    setWalletBalance(response.Balance) 
+                    setWalletBalance(response.Balance)  
                 }
                 else {
                     setWalletBalance('')
