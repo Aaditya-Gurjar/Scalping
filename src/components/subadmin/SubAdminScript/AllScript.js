@@ -5,6 +5,7 @@ import FullDataTable from '../../../ExtraComponent/CommanDataTable';
 import Loader from '../../../ExtraComponent/Loader'
 import Swal from 'sweetalert2';
 import { columns2, columns1, columns } from './ScriptColumns'
+import NoDataFound from '../../../ExtraComponent/NoDataFound';
 
 
 const Addscript = () => {
@@ -42,6 +43,9 @@ const Addscript = () => {
         }
 
         Swal.fire({
+            background: "#1a1e23 ",
+            backdrop: "#121010ba",
+            confirmButtonColor: "#1ccc8a",
             title: "Are you sure?",
             text: "You won't be able to revert this!",
             icon: "warning",
@@ -56,6 +60,9 @@ const Addscript = () => {
                     if (response.Status) {
                         setRefresh(!refresh);
                         Swal.fire({
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Deleted!",
                             text: response.message,
                             icon: "success",
@@ -64,6 +71,9 @@ const Addscript = () => {
                         });
                     } else {
                         Swal.fire({
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Error!",
                             text: response.message,
                             icon: "error",
@@ -74,6 +84,9 @@ const Addscript = () => {
                 } catch (err) {
                     console.error("Error in delete script", err);
                     Swal.fire({
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Error!",
                         text: "Something went wrong while deleting.",
                         icon: "error",
@@ -86,31 +99,31 @@ const Addscript = () => {
     }
 
     // 1
-     const GetAllGroupDetails = async () => {
-            try {
-                await GetGroupNames()
-                    .then((response) => {
-                        if (response.Status) {
-                            const filter = response.Data.filter((data) => data.SubAdmin === username);
-                            
-                            setGroupData({
-                                loading: false,
-                                data: filter.map((data) => data.GroupName)
-                            });
-                        } else {
-                            setGroupData({
-                                loading: false,
-                                data: []
-                            });
-                        }
-                    })
-                    .catch((err) => {
-                        console.log("Error Group data fetch error", err);
-                    });
-            } catch {
-                console.log("Error Group data fetch error");
-            }
-        };
+    const GetAllGroupDetails = async () => {
+        try {
+            await GetGroupNames()
+                .then((response) => {
+                    if (response.Status) {
+                        const filter = response.Data.filter((data) => data.SubAdmin === username);
+
+                        setGroupData({
+                            loading: false,
+                            data: filter.map((data) => data.GroupName)
+                        });
+                    } else {
+                        setGroupData({
+                            loading: false,
+                            data: []
+                        });
+                    }
+                })
+                .catch((err) => {
+                    console.log("Error Group data fetch error", err);
+                });
+        } catch {
+            console.log("Error Group data fetch error");
+        }
+    };
 
     useEffect(() => {
         GetAllGroupDetails()
@@ -242,17 +255,24 @@ const Addscript = () => {
                                     <div className='col-md-2 ms-3 mt-4 strategy'>
                                         <button style={{ fontSize: '18px', padding: '6px 14px', height: "47px" }} className='btn btn-primary mt-1' onClick={handleAddScript}>Add Script</button>
                                     </div>
-                                    
+
                                 </div>
                             </form>
 
 
                             {getAllService.loading ? <Loader /> :
-                                <FullDataTable
-                                    columns={selectStrategyType == "Scalping" ? columns(handleDelete) : selectStrategyType == "Option Strategy" ? columns1(handleDelete) : selectStrategyType == "Pattern" ? columns2(handleDelete) : columns(handleDelete)}
-                                    data={getAllService.data}
-                                    checkBox={false}
-                                />
+
+                                
+                                    getAllService.data && getAllService.data.length > 0 ?
+                                        (<FullDataTable
+                                            columns={selectStrategyType == "Scalping" ? columns(handleDelete) : selectStrategyType == "Option Strategy" ? columns1(handleDelete) : selectStrategyType == "Pattern" ? columns2(handleDelete) : columns(handleDelete)}
+                                            data={getAllService.data}
+                                            checkBox={false}
+                                        />)
+                                        :
+                                        (<NoDataFound />)
+                                
+
                             }
 
                         </div>

@@ -86,17 +86,10 @@ body.sidebar-main-menu .iq-sidebar.sidebar-hover .iq-sidebar-menu .iq-menu li ul
 	display: none;
 }
 
-body.sidebar-main-menu .iq-sidebar:hover+div.content-page {
-	margin-left: 260px;
-}
 
-body.sidebar-main-menu .iq-sidebar:hover+div.content-page .iq-top-navbar {
-	width: calc(100% - 310px);
-}
 
-body.sidebar-main-menu .iq-sidebar:hover+div.content-page .iq-top-navbar.fixed-header {
-	width: calc(100% - 260px);
-}
+
+
 
 body.sidebar-main-menu .iq-sidebar .iq-submenu li a {
 	font-size: 0;
@@ -131,6 +124,7 @@ body.sidebar-main-menu.sidebar-main .iq-sidebar-menu .iq-menu li a .badge {
 body.sidebar-main-menu.sidebar-main .content-page {
     margin-left: 100px;
     margin-right: 100px;
+    padding: 90px 20px;
 }
 body.sidebar-main-menu.sidebar-main .iq-top-navbar {
 	width: 100%;
@@ -146,16 +140,10 @@ body.sidebar-main-menu.sidebar-main .iq-sidebar-menu .iq-menu li a .iq-arrow-rig
 }
 
 body.sidebar-main .iq-sidebar:hover+div.content-page {
-	margin-left: 260px;
+	margin-left: 100px;
 }
 
-body.sidebar-main .iq-sidebar:hover+div.content-page .iq-top-navbar {
-	width: calc(100% - 320px);
-}
 
-body.sidebar-main .iq-sidebar:hover+div.content-page .iq-top-navbar.fixed-header {
-	width: calc(100% - 260px);
-}
 
 @media (max-width: 991px) {
 
@@ -182,9 +170,6 @@ body.sidebar-main .iq-sidebar:hover+div.content-page .iq-top-navbar.fixed-header
 		display: none;
 	}
 
-	body.sidebar-main-menu.sidebar-main .content-page {
-		margin-left: 0px !important;
-	}
 
 	body.sidebar-main-menu.sidebar-main .iq-top-navbar {
 		width: calc(100% - 54px) !important;
@@ -275,9 +260,7 @@ body.sidebar-main .iq-sidebar:hover+div.content-page .iq-top-navbar.fixed-header
 		width: 100%;
 	}
 
-	body.sidebar-main-menu.sidebar-main .content-page {
-		margin-left: 80px;
-	}
+	
 
 	body.sidebar-main-menu.sidebar-main .iq-top-navbar {
 		width: calc(100% - 80px);
@@ -447,9 +430,7 @@ body.sidebar-main .iq-sidebar:hover+div.content-page .iq-top-navbar.fixed-header
 		width: 100%;
 	}
 
-	body.sidebar-main-menu.sidebar-main .content-page {
-		margin-left: 0;
-	}
+	
 
 	body.sidebar-main-menu.sidebar-main .iq-top-navbar {
 		width: 100%;

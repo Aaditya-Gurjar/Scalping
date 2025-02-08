@@ -5,7 +5,7 @@ import { GetAllUserScript, DeleteUserScript, GetUserScripts } from '../../Common
 import Loader from '../../../ExtraComponent/Loader';
 import { getColumns, getColumns1, getColumns2, getColumns7 } from './Columns';
 import Swal from 'sweetalert2';
-
+ 
 const Coptyscript = ({ data, selectedType, data2 }) => {
     const userName = localStorage.getItem('name')
     const adminPermission = localStorage.getItem('adminPermission')
@@ -64,6 +64,9 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
 
         if (data2.status == false) {
             Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                 title: "Error",
                 text: data2.msg,
                 icon: "error",
@@ -73,6 +76,9 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
         }
         else if (allScripts?.data?.[allScripts?.len]?.CombineScalping?.length == 0) {
             Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                 title: "Warning",
                 text: "Don't have any script left Please buy some Scripts",
                 icon: "warning",
@@ -84,6 +90,9 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
             const isExist = allScripts?.data?.[allScripts?.len]?.CombineScalping?.find((item) => item === selectedRow?.ScalpType) ?? ""
             if (!isExist) {
                 Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                     title: "Warning",
                     text: "This script is not available for you",
                     icon: "warning",
@@ -100,6 +109,9 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
     const handleAddScript2 = (data1) => {
         if (data2.status == false) {
             Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                 title: "Error",
                 text: data2.msg,
                 icon: "error",
@@ -109,6 +121,9 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
         }
         else if (allScripts?.data?.[allScripts?.len]?.CombineOption?.length == 0) {
             Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                 title: "Warning",
                 text: "Don't have any script left Please buy some Scripts",
                 icon: "warning",
@@ -146,6 +161,9 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
             }
             else {
                 Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                     title: "Warning",
                     text: "This script is not available for you",
                     icon: "warning",
@@ -160,6 +178,9 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
     const handleAddScript3 = (data1) => {
         if (data2.status == false) {
             Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                 title: "Error",
                 text: data2.msg,
                 icon: "error",
@@ -169,6 +190,9 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
         }
         else if (allScripts?.data?.[allScripts?.len]?.CombinePattern?.length == 0) {
             Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                 title: "Warning",
                 text: "Don't have any script left Please buy some Scripts",
                 icon: "warning",
@@ -182,6 +206,9 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
             const isExist = allScripts?.data?.[allScripts?.len]?.CombinePattern?.find((item) => item === selectedRow.TradePattern) ?? ""
             if (!isExist) {
                 Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                     title: "Warning",
                     text: "This script is not available for you",
                     icon: "warning",
@@ -247,6 +274,10 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
                                         <>
                                             <div className="iq-card-body " style={{ padding: '3px' }}>
                                                 <div className="table-responsive">
+                                                <div>
+                                                            <div className="iq-header-title mt-4">
+                                                                <h4 className="card-title">{data}</h4>
+                                                            </div>
 
                                                     {getAllService.loading ? <Loader /> :
                                                         <FullDataTable
@@ -255,6 +286,7 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
                                                             checkBox={false}
                                                         />
                                                     }
+                                                </div>
                                                     {data === "Scalping" && adminPermission?.includes('Charting Platform') && (
                                                         <div>
                                                             <div className="iq-header-title mt-4">

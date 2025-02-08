@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom"
-import AddForm from "../../../ExtraComponent/FormData";
+import AddForm from "../../../ExtraComponent/FormData2";
 import { useFormik } from "formik";
 import { useState, useEffect } from "react";
 import Swal from 'sweetalert2';
@@ -8,6 +8,7 @@ import { AddScript, CheckPnL } from '../../CommonAPI/User'
 // import { base_url } from "../../../Utils/Config";
 import axios from "axios";
 import * as Config from "../../../Utils/Config";
+import { text } from "../../../ExtraComponent/IconTexts";
 
 
 
@@ -38,6 +39,9 @@ const AddClient = () => {
 
     const SweentAlertFun = (text) => {
         Swal.fire({
+            background: "#1a1e23 ",
+            backdrop: "#121010ba",
+            confirmButtonColor: "#1ccc8a",
             title: "Error",
             text: text,
             icon: "error",
@@ -55,6 +59,23 @@ const AddClient = () => {
         });
         return foundItem.EndDate;
     };
+
+    const ScrollToViewFirstError = (newErrors) => {
+        if (Object.keys(newErrors).length !== 0) {
+            const errorField = Object.keys(newErrors)[0];
+
+            const errorElement = document.getElementById(errorField);
+            if (errorElement) {
+                const elementPosition = errorElement.getBoundingClientRect().top + window.pageYOffset;
+
+                const offset = 100;
+                window.scrollTo({
+                    top: elementPosition - offset,
+                    behavior: 'smooth'
+                });
+            }
+        }
+    }
 
 
     const formik = useFormik({
@@ -111,6 +132,13 @@ const AddClient = () => {
             quantityselection: "",
             quantityvalue: 0.0,
             targetselection: "",
+            Profit: 0,
+            Loss: 0,
+            RollOver: "",
+            NumberOfDays: 0,
+            RollOverExitTime: "00:00:00",
+            ExitType: "",
+            WorkingDay: [],
 
         },
         validate: (values) => {
@@ -242,6 +270,57 @@ const AddClient = () => {
                     errors.Shifting_Value = "Please Enter Number of Shifts Between 1-5"
                 }
             }
+            if (
+                !values.Loss &&
+                values.Strategy == "Multi_Conditional" &&
+                values.position_type == "Multiple"
+            ) {
+                errors.Loss = "Please Enter Maximum Loss";
+            }
+
+            if (
+                !values.Profit &&
+                values.Strategy == "Multi_Conditional" &&
+                values.position_type == "Multiple"
+            ) {
+                errors.Profit = "Please Enter Maximum Loss";
+            }
+
+            if (
+                !values.RollOver &&
+                values.Strategy == "Multi_Conditional" &&
+                values.position_type == "Multiple"
+            ) {
+                errors.RollOver = "Please Enter No. of Repeatation";
+            }
+            if (
+                !values.NumberOfDays &&
+                values.Strategy == "Multi_Conditional" &&
+                values.position_type == "Multiple" &&
+                values.RollOver == ""
+            ) {
+                errors.NumberOfDays = "Please Enter No. of Days";
+            }
+
+            if (
+                !values.RollOverExitTime &&
+                values.Strategy == "Multi_Conditional" &&
+                values.position_type == "Multiple" &&
+                values.RollOver == true
+            ) {
+                errors.RollOverExitTime = "Please Enter RollOver Exit Time";
+            }
+
+            if (!values.ExitType && values.Measurment_Type != "Shifting_FourLeg" && values.ETPattern == "Leg vice") {
+                errors.ExitType = "Please Select Exit Type";
+            }
+
+            if (
+                !values.WorkingDay.length > 0) {
+                errors.WorkingDay = "Please select Working day";
+            }
+            ScrollToViewFirstError(errors)
+
             return errors;
         },
         onSubmit: async (values) => {
@@ -296,6 +375,36 @@ const AddClient = () => {
                 quantityselection: "",
                 quantityvalue: 0.0,
                 targetselection: "",
+                Loss:
+                    values.position_type == "Multiple" &&
+                        values.Strategy == "Multi_Conditional"
+                        ? values.Loss
+                        : 0,
+
+                Profit:
+                    values.position_type == "Multiple" &&
+                        values.Strategy == "Multi_Conditional"
+                        ? values.Profit
+                        : 0,
+                RollOver: (values.position_type ==
+                    "Multiple" && values.Strategy == "Multi_Conditional"
+                    ? values.RollOver
+                    : false),
+                NumberOfDays:
+                    values.position_type == "Multiple" &&
+                        values.Strategy == "Multi_Conditional" &&
+                        values.RollOver == true
+                        ? values.NumberOfDays
+                        : 0,
+                RollOverExitTime:
+                    values.position_type == "Multiple" &&
+                        values.Strategy == "Multi_Conditional" &&
+                        values.RollOver == true
+                        ? values.RollOverExitTime
+                        : "00:00:00",
+
+                ExitType: values.Measurment_Type != "Shifting_FourLeg" && values.ETPattern == "Leg vice" ? values.ExitType : "",
+                WorkingDay: values.WorkingDay ? values.WorkingDay : [],
             }
 
             if (values.Striketype == "Depth_of_Strike" && (Number(values.DepthofStrike) < 0 || Number(values.DepthofStrike) > 10)) {
@@ -339,10 +448,16 @@ const AddClient = () => {
                 }
             }
 
+            console.log("req", req)
+
+
             await AddScript(req)
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Script Added !",
                             text: response.message,
                             icon: "success",
@@ -355,6 +470,9 @@ const AddClient = () => {
                     }
                     else {
                         Swal.fire({
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Error !",
                             text: response.message,
                             icon: "error",
@@ -703,10 +821,28 @@ const AddClient = () => {
             showWhen: (value) => value.Measurment_Type != "Shifting_FourLeg",
             hiding: false,
             label_size: 12,
-            col_size: 4,
+            col_size: formik.values.Measurment_Type != "Shifting_FourLeg" ? 3 : 4,
             headingtype: 3,
             disable: false,
         },
+
+        {
+            name: "ExitType",
+            label: "Exit Type",
+            type: "select1",
+            options: [
+                { label: "Cost to cost", value: "Cost to cost" },
+                { label: "Normal", value: "Normal" },
+            ],
+            showWhen: (value) => value.Measurment_Type != "Shifting_FourLeg" && value.ETPattern == "Leg vice",
+            hiding: false,
+            label_size: 12,
+            col_size: formik.values.Measurment_Type != "Shifting_FourLeg" ? 3 : 4,
+            headingtype: 3,
+            disable: false,
+        },
+
+
         {
             name: "Targetvalue",
             label: "Target Value",
@@ -715,7 +851,7 @@ const AddClient = () => {
             label_size: 12,
             showWhen: (value) => value.Measurment_Type != "Shifting_FourLeg" || (value.Measurment_Type == "Shifting_FourLeg" && (value.Strategy == 'ShortFourLegStretegy' || value.Strategy == 'LongFourLegStretegy')),
             headingtype: 3,
-            col_size: 4,
+            col_size: formik.values.Measurment_Type != "Shifting_FourLeg" ? 3 : 4,
             disable: false,
         },
         {
@@ -725,7 +861,7 @@ const AddClient = () => {
             hiding: false,
             label_size: 12,
             showWhen: (value) => value.Measurment_Type != "Shifting_FourLeg" || (value.Measurment_Type == "Shifting_FourLeg" && (value.Strategy == 'ShortFourLegStretegy' || value.Strategy == 'LongFourLegStretegy')),
-            col_size: 4,
+            col_size: formik.values.Measurment_Type != "Shifting_FourLeg" ? 3 : 4,
             headingtype: 3,
             disable: false,
 
@@ -737,7 +873,7 @@ const AddClient = () => {
             showWhen: (value) => value.Measurment_Type == "Shifting_FourLeg" && value.Strategy != 'ShortFourLegStretegy' && value.Strategy != 'LongFourLegStretegy',
             hiding: false,
             label_size: 12,
-            col_size: 4,
+            col_size: formik.values.Measurment_Type != "Shifting_FourLeg" ? 3 : 4,
             headingtype: 3,
             disable: false,
         },
@@ -784,6 +920,48 @@ const AddClient = () => {
             disable: false,
             hiding: false,
         },
+
+        {
+            name: "WorkingDay",
+            label: "Working Day",
+            type: "multiselect",
+            options: [
+                { label: "Monday", value: "Monday" },
+                { label: "Tuesday", value: "Tuesday" },
+                { label: "Wednesday", value: "Wednesday" },
+                { label: "Thursday", value: "Thursday" },
+                { label: "Friday", value: "Friday" },
+                { label: "Saturday", value: "Saturday" },
+
+            ],
+            label_size: 12,
+            col_size: 3,
+            headingtype: 4,
+            disable: false,
+            // iconText: text.Increment_Type,
+            hiding: false,
+        },
+        {
+            name: "Loss",
+            label: "Max Loss ",
+            type: "text3",
+            label_size: 12,
+            col_size: 4,
+            headingtype: 4,
+            disable: false,
+            hiding: false,
+        },
+
+        {
+            name: "Profit",
+            label: " Max Profit ",
+            type: "text3",
+            label_size: 12,
+            col_size: 4,
+            headingtype: 4,
+            disable: false,
+            hiding: false,
+        },
     ]
 
     const TimeDurationArr = [
@@ -822,6 +1000,57 @@ const AddClient = () => {
             col_size: 4,
             headingtype: 5,
             disable: false,
+        },
+        {
+            name: "RollOver",
+            label: "RollOver",
+            type: "select",
+            options: [
+                { label: "True", value: true },
+                { label: "False", value: false },
+            ],
+            label_size: 12,
+            col_size: 4,
+            headingtype: 4,
+            showWhen: (values) => values.ExitDay == "Delivery",
+            disable: false,
+            hiding: false,
+        },
+
+        {
+            name: "NumberOfDays",
+            label: "No. of Days",
+            type: "text3",
+            label_size: 12,
+            showWhen: (values) => {
+                const rollOverBoolean = values.RollOver === "true";
+                return (
+                    rollOverBoolean &&
+                    values.ExitDay == "Delivery"
+                );
+            },
+            col_size: 4,
+            headingtype: 4,
+            disable: false,
+            hiding: false,
+        },
+
+        {
+            name: "RollOverExitTime",
+            label: "RollOver Exit Time",
+            type: "timepiker",
+            label_size: 12,
+            showWhen: (values) => {
+                const rollOverBoolean = values.RollOver === "true";
+                return (
+                    rollOverBoolean &&
+                    values.ExitDay == "Delivery"
+                );
+            },
+            col_size: 4,
+            headingtype: 4,
+            disable: false,
+            hiding: false,
         },
 
     ]
@@ -1066,9 +1295,10 @@ const AddClient = () => {
         const currentTime = currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds()
 
 
-        if (weekend == 6 || weekend == 0 || currentTime >= "15:30:00" || currentTime <= "09:15:00") {
-            return SweentAlertFun("Market is off Today")
-        }
+        // if (weekend == 6 || weekend == 0 || currentTime >= "15:30:00" || currentTime <= "09:15:00") {
+        //     return SweentAlertFun("Market is off Today")
+        // }
+        
         const req = {
             MainStrategy: location.state.data.selectStrategyType,
             Strategy: formik.values.Strategy,
@@ -1123,6 +1353,8 @@ const AddClient = () => {
             targetselection: "",
 
         }
+
+
         await CheckPnL(req)
             .then((response) => {
                 if (response.Status) {

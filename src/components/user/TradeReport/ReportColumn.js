@@ -145,7 +145,7 @@ export const getColumns = () => [
 export const getColumns1 = () => [
     {
         name: "S.No",
-        label: "S.No",
+        label: "S.No", 
         options: {
             filter: true,
             sort: true,
@@ -238,7 +238,8 @@ export const getColumns1 = () => [
     },
     {
         name: "SL value",
-        label: "Stoploss",
+        // label: "Re-entry",
+        label: "Re-entry",
         options: {
             filter: true,
             sort: true,
@@ -510,7 +511,8 @@ export const getColumns2 = () => [
     },
     {
         name: "SL value",
-        label: "stoploss",
+        // label: "Re-entry",
+        label: "Re-entry",
         options: {
             filter: true,
             sort: true,
@@ -883,7 +885,8 @@ export const getColumns3 = () => [
     },
     {
         name: "SL",
-        label: "Stoploss",
+        // label: "Re-entry",
+        label: "Re-entry",
         options: {
             filter: true,
             sort: true,
@@ -999,7 +1002,8 @@ export const getColumns6 = () => [
     },
     {
         name: "SL",
-        label: "Stoploss",
+        // label: "Re-entry",
+        label: "Re-entry",
         options: {
             filter: true,
             sort: true,
@@ -1110,7 +1114,8 @@ export const getColumns4 = () => [
     },
     {
         name: "SL",
-        label: "Stoploss",
+        // label: "Re-entry",
+        label: "Re-entry",
         options: {
             filter: true,
             sort: true,
@@ -1267,7 +1272,8 @@ export const getColumns7 = () => [
     },
     {
         name: "SL",
-        label: "Stoploss",
+        // label: "Re-entry",
+        label: "Re-entry",
         options: {
             filter: true,
             sort: true,
@@ -1412,7 +1418,8 @@ export const getColumns5 = () => [
     },
     {
         name: "SL",
-        label: "Stoploss",
+        // label: "Re-entry",
+        label: "Re-entry",
         options: {
             filter: true,
             sort: true,
@@ -1563,7 +1570,8 @@ export const getColumns8 = () => [
     },
     {
         name: "SL",
-        label: "Stoploss",
+        // label: "Re-entry",
+        label: "Re-entry",
         options: {
             filter: true,
             sort: true,
@@ -1718,7 +1726,8 @@ export const getColumns10 = () => [
     },
     {
         name: "SL",
-        label: "Stoploss",
+        // label: "Re-entry",
+        label: "Re-entry",
         options: {
             filter: true,
             sort: true,
@@ -1844,7 +1853,8 @@ export const getColumns12 = () => [
     },
     {
         name: "SL",
-        label: "Stoploss",
+        // label: "Re-entry",
+        label: "Re-entry",
         options: {
             filter: true,
             sort: true,

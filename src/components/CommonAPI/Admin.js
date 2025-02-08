@@ -140,14 +140,15 @@ export const AddBrokerCredential = async (data) => {
 
 export const AdminAddBrokerCredential = async (data) => {
     const token = localStorage.getItem('token')
-   
+
     try {
-        const res = await axios.post(`${Config.base_url}AdmBroker`,data, {
-            headers: { 
-              'Content-Type': 'application/json', 
-              'Authorization': `Bearer ${token}`
-        }})
- 
+        const res = await axios.post(`${Config.base_url}AdmBroker`, data, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
+
         return res?.data
     }
     catch (err) {
@@ -352,6 +353,7 @@ export const get_User_Data = async (data) => {
                 }
             }
         )
+
         return res?.data
     }
     catch (err) {
@@ -717,7 +719,7 @@ export const Get_Broker_Details = async (data) => {
         return err
     }
 }
- 
+
 export const AdmindashboardGraph = async (data) => {
     const token = localStorage.getItem('token')
     try {
@@ -755,18 +757,19 @@ export const AdmindashboardData = async (data) => {
         return err
     }
 }
- 
- 
+
+
 export const DataStart = async (data) => {
     const token = localStorage.getItem('token')
     try {
-        
+
         const res = await axios.get(`${Config.base_url}Datastart`,
             {
-                headers: { 
-                  'Content-Type': 'application/json', 
-                  'Authorization': `Bearer ${token}`
-            }}
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
         )
         return res?.data
     }
@@ -774,17 +777,18 @@ export const DataStart = async (data) => {
         return err
     }
 }
- 
+
 export const AutoLogin = async (data) => {
     const token = localStorage.getItem('token')
     try {
-        
+
         const res = await axios.get(`${Config.base_url}AutoLogin`,
             {
-                headers: { 
-                  'Content-Type': 'application/json', 
-                  'Authorization': `Bearer ${token}`
-            }}
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
         )
         return res?.data
     }
@@ -792,17 +796,18 @@ export const AutoLogin = async (data) => {
         return err
     }
 }
- 
+
 export const LastPattern = async (data) => {
     const token = localStorage.getItem('token')
     try {
-        
+
         const res = await axios.get(`${Config.base_url}Last_Pattern`,
             {
-                headers: { 
-                  'Content-Type': 'application/json', 
-                  'Authorization': `Bearer ${token}`
-            }}
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
         )
         return res?.data
     }
@@ -919,7 +924,7 @@ export const UploadImage = async (data) => {
 
         const res = await axios.post(`${Config.base_url}uploadimagefile`, formData, {
             headers: {
-                'Content-Type': 'multipart/form-data',  
+                'Content-Type': 'multipart/form-data',
                 'Authorization': `Bearer ${token}`
             }
         });
@@ -1073,7 +1078,7 @@ export const GetAllSubadmin = async () => {
 export const viewBrokerDetails = async (data) => {
     const token = localStorage.getItem('token')
 
-  
+
     try {
         const res = await axios.get(`${Config.base_url}BrokerApiCreateGet/${data.BrokerName}`, data,
             {
@@ -1092,7 +1097,7 @@ export const viewBrokerDetails = async (data) => {
 
 }
 
-export const getStrategyType = async () => {    
+export const getStrategyType = async () => {
     const token = localStorage.getItem('token')
     try {
         const res = await axios.get(`${Config.base_url}MainStrategy`,
@@ -1111,7 +1116,7 @@ export const getStrategyType = async () => {
     }
 }
 
-export const SubAdminPermission = async (data) => { 
+export const SubAdminPermission = async (data) => {
     try {
         const res = await axios.get(`${Config.base_url}SubAdminPermission/${data.username}`)
         return res?.data
@@ -1121,7 +1126,7 @@ export const SubAdminPermission = async (data) => {
     }
 }
 
-export const AdminPermission = async (data) => { 
+export const AdminPermission = async (data) => {
     try {
         const res = await axios.get(`${Config.base_url}Permissiondata/${data.username}`)
         return res?.data

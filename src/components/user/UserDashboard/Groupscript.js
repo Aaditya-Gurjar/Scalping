@@ -6,6 +6,7 @@ import { GetUserScripts } from '../../CommonAPI/User';
 import Loader from '../../../ExtraComponent/Loader';
 import { getColumns, getColumns1, getColumns2, getColumns7 } from './Columns';
 import Swal from 'sweetalert2';
+import NoDataFound from '../../../ExtraComponent/NoDataFound';
 
 const GroupScript = ({ data, selectedType, GroupName, data2 }) => {
     const stgType = data
@@ -45,7 +46,7 @@ const GroupScript = ({ data, selectedType, GroupName, data2 }) => {
     }
 
     const handleAddScript1 = (data1, type) => {
- 
+
         const selectedRowIndex = data1.rowIndex;
         const selectedRow = type == 1 ? getAllService.data?.[selectedRowIndex] : getAllService?.data1?.[selectedRowIndex];
 
@@ -233,37 +234,47 @@ const GroupScript = ({ data, selectedType, GroupName, data2 }) => {
                         <div className="iq-card-body " style={{ padding: '3px' }}>
                             <div className="tab-content" id="myTabContent-3">
                                 <div className="tab-pane fade show active" id="home-justify" role="tabpanel" aria-labelledby="home-tab-justify">
-                                    {data && (
-                                        <>
-                                            <div className="iq-card-body " style={{ padding: '3px' }}>
-                                                <div className="table-responsive">
-                                                    {getAllService.loading ? <Loader /> :
-                                                        <FullDataTable
-                                                            columns={data === "Scalping" ? getColumns(handleAddScript1) : data === "Option Strategy" ? getColumns1(handleAddScript2) : data === "Pattern" ? getColumns2(handleAddScript3) : getColumns(handleAddScript1)}
-                                                            data={getAllService.data}
-                                                            checkBox={false}
-                                                        />
-                                                    }
-                                                </div>
+                                    {data && getAllService.data?.length > 0 ? (
+                                        <div className="iq-card-body" style={{ padding: '3px' }}>
+                                            <div className="table-responsive">
+                                                {getAllService.loading ? (
+                                                    <Loader />
+                                                ) : (
+                                                    <FullDataTable
+                                                        columns={
+                                                            data === "Scalping" ? getColumns(handleAddScript1) :
+                                                                data === "Option Strategy" ? getColumns1(handleAddScript2) :
+                                                                    data === "Pattern" ? getColumns2(handleAddScript3) :
+                                                                        getColumns(handleAddScript1)
+                                                        }
+                                                        data={getAllService.data}
+                                                        checkBox={false}
+                                                    />
+                                                )}
                                             </div>
-                                        </>
-                                    )}
 
-                                    {data === "Scalping" && (
-                                        <div>
-                                            <div className="iq-header-title mt-4">
-                                                <h4 className="card-title">Multi Conditional</h4>
-                                            </div>
-                                            {getAllService.loading ? (
-                                                <Loader />
-                                            ) : (
-                                                <FullDataTable
-                                                    columns={getColumns7(handleAddScript1)}
-                                                    data={getAllService.data1}
-                                                    checkBox={false}
-                                                />
+                                            {data === "Scalping" && (
+                                                getAllService.data1?.length > 0 &&
+                                                <div className="mt-4">
+                                                    <div className="iq-header-title">
+                                                        <h4 className="card-title">Multi Conditional</h4>
+                                                    </div>
+                                                    {getAllService.loading ? (
+                                                        <Loader />
+                                                    ) : (
+                                                        getAllService.data1?.length > 0 && (
+                                                            <FullDataTable
+                                                                columns={getColumns7(handleAddScript1)}
+                                                                data={getAllService.data1}
+                                                                checkBox={false}
+                                                            />
+                                                        )
+                                                    )}
+                                                </div>
                                             )}
                                         </div>
+                                    ) : (
+                                        <NoDataFound />
                                     )}
                                 </div>
                             </div>

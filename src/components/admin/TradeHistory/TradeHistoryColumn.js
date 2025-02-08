@@ -650,7 +650,8 @@ export const columns2 = ()=> [
     },
     {
         name: "SL value",
-        label: "Stoploss",
+        // label: "Re-entry",
+        label: "Re-entry",
         options: {
             filter: true,
             sort: true,
@@ -764,16 +765,14 @@ export const columns3 = (selectStrategyType)=> [
             filter: true,
             sort: true,
             customBodyRender: (value, tableMeta, updateValue) => {
-
                 const rowIndex = tableMeta.rowIndex;
-
                 return rowIndex + 1;
-
             }
         },
     },
     {
-        name: "ETime",
+        // name: "ETime",
+        name: "EntryTime",
         label: "Entry Time",
         options: {
             filter: true,
@@ -781,7 +780,8 @@ export const columns3 = (selectStrategyType)=> [
         }
     },
     {
-        name: "EPrice",
+        // name: "EPrice",
+        name: "EntryPrice",
         label: "Entry Price",
         options: {
             filter: true,
@@ -796,16 +796,17 @@ export const columns3 = (selectStrategyType)=> [
             sort: true,
         }
     },
+    // {
+    //     name: "ExitPrice",
+    //     label: "Exit Price",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
     {
-        name: "ExitPrice",
-        label: "Exit Price",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "TradeType",
+        // name: "TradeType",
+        name: "TType",
         label: "Trade Type",
         options: {
             filter: true,
@@ -820,38 +821,311 @@ export const columns3 = (selectStrategyType)=> [
             sort: true,
         }
     },
-    {
-        name: "Trade",
-        label: "Trade",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Target",
-        label: "Target",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "SL",
-        label: "SL",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "PnL",
-        label: "PnL",
+    // {
+    //     name: "Trade",
+    //     label: "Trade",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
+    // {
+    //     name: "Target",
+    //     label: "Target",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
+    // {
+    //     name: "SL",
+    //     label: "SL",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
+    // {
+    //     name: "PnL",
+    //     label: "PnL",
         
+    //     options: {
+    //         // customBodyRender: (value, tableMeta, updateValue) => { 
+    //         //     return parseFloat(value).toFixed(4);
+    //         // },
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
+
+    // {
+    //     name: "BookingPoint",
+    //     label: "Booking Point",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
+    // {
+    //     name: "BookingPoint2",
+    //     label: "Booking Point2",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
+    // {
+    //     name: "BookingPoint3",
+    //     label: "Booking Point3",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
+    {
+        name: "EntryRange",
+        label: "Entry Range",
         options: {
-            // customBodyRender: (value, tableMeta, updateValue) => { 
-            //     return parseFloat(value).toFixed(4);
-            // },
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "ExitDay",
+        label: "Exit Day",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "ExpiryDate",
+        label: "Expiry Date",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "GroupN",
+        label: "Group Name",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    // {
+    //     name: "HigherRange",
+    //     label: "Higher Range",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
+    // {
+    //     name: "IncrementType",
+    //     label: "Increment Type",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
+    {
+        name: "Incrementvalue",
+        label: "Increment Value",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    // {
+    //     name: "InstrumentSymbol",
+    //     label: "Instrument Symbol",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
+    // {
+    //     name: "InstrumentType",
+    //     label: "Instrument Type",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
+    {
+        name: "Lot",
+        label: "Lot",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "LowerRange",
+        label: "Lower Range",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "MainSymbol",
+        label: "Main Symbol",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "OrderType",
+        label: "Order Type",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "PositionType",
+        label: "Position Type",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Quantity",
+        label: "Quantity",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    // {
+    //     name: "ReentryPoint",
+    //     label: "Re-entry Point",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
+    {
+        name: "SEDate",
+        label: "SE Date",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "SSDate",
+        label: "SS Date",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "ScalpType",
+        label: "Scalp Type",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "StepUp",
+        label: "Step Up",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Symbol",
+        label: "Symbol",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "TStype",
+        label: "TS Type",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "TType",
+        label: "T Type",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Targetselection",
+        label: "Target Selection",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "TaskStatus",
+        label: "Task Status",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "TaskTime",
+        label: "Task Time",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Token",
+        label: "Token",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "TradeCount",
+        label: "Trade Count",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "TradeExecution",
+        label: "Trade Execution",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    // {
+    //     name: "Trading",
+    //     label: "Trading",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
+    {
+        name: "Username",
+        label: "Username",
+        options: {
             filter: true,
             sort: true,
         }

@@ -13,7 +13,7 @@ const Card = styled.div`
   border: 1px solid #ccc;
   border-radius: 10px;
   width: 300px; /* Reduced width for better horizontal scrolling */
-  padding: 15px;y
+  padding: 15px;
   background-color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -96,7 +96,7 @@ const ServicesList = () => {
   };
 
   return (
-    <>
+    <div className="container-fluid">
       <div className="row">
         <div className="col-sm-12">
           <div className="iq-card">
@@ -114,87 +114,118 @@ const ServicesList = () => {
                 <Tabs
                   defaultActiveKey="Scalping"
                   id="fill-tab-example"
-                  className="mb-3 custom-tabs"
+                  className="mb-3 custom-tabs" 
                   fill>
-                  <Tab eventKey="Scalping" title="Scalping">
+                  <Tab eventKey="Scalping" title="Scalping" style={{margin:"100px"}}>
                     <div className="">
                       <h5 className="mb-4">
                         <div className="iq-card-body">
                           <div style={styles.container} className="row">
                             {GetAllPlans?.data.map((plan, index) => (
-                              <Card
-                                key={index}
-                                style={styles.card}
-                                className="col-lg-3 col-md-6 mb-3 all-plan-card">
-                                {/* <img src={imgArr[getRandomNumber()]} alt={plan.PlanName} style={styles.image} /> */}
-                                <div style={styles.content}>
-                                  <h2 style={styles.title}>
-                                    {plan.PlanName} {SetPlan(index)}
-                                  </h2>
-                                  <h4 style={styles.subtitle}>
-                                    <FaRupeeSign className="m-1" />
-                                    <strong>{plan.payment}</strong>
-                                  </h4>
-                                  <h5 style={styles.prices}>
-                                    No of Scripts: {plan.NumberofScript}
-                                  </h5>
-                                  <h5 style={styles.prices}>
-                                    Duration: {plan?.["Plan Validity"]}
-                                  </h5>
+                              <div key={index} className="col-lg-3 col-md-6 mb-3 ">
+                                <div className="d-flex flex-column justify-content-center h-100 all-plan-card">
+                                  <div className="plan-data">
+                                    <div className="text-center" style={styles.content}>
+                                      <h2 className="text-center" style={styles.title}>
+                                        {plan.PlanName} {SetPlan(plan.PlanName)}
+                                      </h2>
+                                      <h4  className="text-center" style={styles.subtitle}><FaRupeeSign className="m-1" /><strong>{plan.payment}</strong></h4>
+                                      <h4 className="text-center" style={styles.subtitle}>Duration: {plan?.['Plan Validity']}</h4>
+                                      {/* <h4 className="text-center" style={styles.subtitle}>No of Scripts: {plan?.NumberofScript}</h4> */}
 
-                                  <div style={styles.prices}>
-                                    <p style={styles.priceItem}>
-                                      <strong>Scalping Strategy:</strong>{" "}
-                                      {plan?.Scalping?.join(", ")}
-                                    </p>
-                                    <p style={styles.priceItem}>
-                                      <strong>Option Strategy:</strong>{" "}
-                                      {plan?.["Option Strategy"]?.join(", ")}
-                                    </p>
-                                    <p style={styles.priceItem}>
-                                      <strong>Pattern Strategy:</strong>{" "}
-                                      {plan?.Pattern?.join(", ")}
-                                    </p>
-                                    {/* <p style={styles.priceItem}>
-                                      <strong>Charting Signal:</strong>{" "}
-                                      {plan?.ChartingSignal?.join(", ")}
-                                    </p> */}
+                                      <div className="text-center" style={styles.prices}>
+                                        <p style={styles.priceItem}>
+                                          <strong>Scalping Strategy:</strong> {plan?.Scalping?.join(", ")}
+                                        </p>
+                                        <p className="text-center" style={styles.priceItem}>
+                                          <strong>Option Strategy:</strong> {plan?.['Option Strategy']?.join(", ")}
+                                        </p>
+                                        <p className="text-center" style={styles.priceItem}>
+                                          <strong>Pattern Strategy:</strong> {plan?.Pattern?.join(", ")}
+                                        </p>
+                                        {/* <p style={styles.priceItem}>
+                                                                                                                      <strong>Pattern Strategy:</strong> {plan?.ChartingSignal?.join(", ")}
+                                                                                                                  </p> */}
+                                      </div>
+                                    </div>
                                   </div>
+
                                 </div>
-                              </Card>
+                              </div>
+                              // <div
+                              //   key={index}
+                              //   style={styles.card}
+                              //   className="col-lg-3 col-md-6 mb-3 all-plan-card">
+
+                              //   <div className="d-flex flex-column justify-content-center h-100 all-plan-card" >
+                              //   <div className="plan-data" style={styles.content}>
+                              //     <h2 style={styles.title}>
+                              //       {plan.PlanName} {SetPlan(index)}
+                              //     </h2>
+                              //     <h4 style={styles.subtitle}>
+                              //       <FaRupeeSign className="m-1" />
+                              //       <strong>{plan.payment}</strong>
+                              //     </h4>
+                              //     <h5 style={styles.prices}>
+                              //       No of Scripts: {plan.NumberofScript}
+                              //     </h5>
+                              //     <h5 style={styles.prices}>
+                              //       Duration: {plan?.["Plan Validity"]}
+                              //     </h5>
+
+                              //     <div style={styles.prices}>
+                              //       <p className="text-center" style={styles.priceItem}>
+                              //         <strong>Scalping Strategy:</strong>{" "}
+                              //         {plan?.Scalping?.join(", ")}
+                              //       </p>
+                              //       <p className="text-center" style={styles.priceItem}>
+                              //         <strong>Option Strategy:</strong>{" "}
+                              //         {plan?.["Option Strategy"]?.join(", ")}
+                              //       </p>
+                              //       <p className="text-center" style={styles.priceItem}>
+                              //         <strong>Pattern Strategy:</strong>{" "}
+                              //         {plan?.Pattern?.join(", ")}
+                              //       </p>
+
+                              //       </div>
+                              //     </div>
+                              //   </div>
+                              // </div>
                             ))}
                           </div>
                         </div>
                       </h5>
                     </div>
                   </Tab>
-                  <Tab eventKey="Charting" title="Charting">
-                    
-                      <div className="iq-card-body">
-                        <div style={styles.container} className="row">
-                          {GetAllPlans?.data1.map((plan, index) => (
-                            <Card
-                              key={index}
-                              style={styles.card}
-                              className="col-lg-3 col-md-6 mb-3">
-                              {/* <img src={imgArr[getRandomNumber()]} alt={plan.PlanName} style={styles.image} /> */}
-                              <div style={styles.content}>
-                                <h2 style={styles.title}>
-                                  {plan.PlanName} {SetPlan(index)}
-                                </h2>
-                                <h4 style={styles.subtitle}>
-                                  <FaRupeeSign className="m-1" />
-                                  <strong>{plan.payment}</strong>
-                                </h4>
-                                <h5 style={styles.prices}>
-                                  No of Scripts: {plan.NumberofScript}
-                                </h5>
-                                <h5 style={styles.prices}>
-                                  Duration: {plan?.["Plan Validity"]}
-                                </h5>
+                  <Tab eventKey="Charting" title="Charting" style={{margin:"100px"}}>
 
-                                <div style={styles.prices}>
-                                  {/* <p style={styles.priceItem}>
+                    <div className="iq-card-body">
+                      <div style={styles.container} className="row">
+                        {GetAllPlans?.data1.map((plan, index) => (
+                          <div
+                            key={index}
+                            style={styles.card}
+                            className="col-lg-3 col-md-6 mb-3">
+                       
+                                                            <div className="d-flex flex-column justify-content-between h-100 all-plan-card">
+                                                                <div>
+                            <div style={styles.content}>
+                              <h2 className="text-center" style={styles.title}>
+                                {plan.PlanName} {SetPlan(index)}
+                              </h2>
+                              <h4 className="text-center" style={styles.subtitle}>
+                                <FaRupeeSign className="m-1" />
+                                <strong>{plan.payment}</strong>
+                              </h4>
+                              {/* <h5 className="text-center" style={styles.prices}>
+                                No of Scripts: {plan.NumberofScript}
+                              </h5> */}
+                              <h5 className="text-center" style={styles.prices}>
+                                Duration: {plan?.["Plan Validity"]}
+                              </h5>
+
+                              <div className="text-center" style={styles.prices}>
+                                {/* <p style={styles.priceItem}>
                                     <strong>Scalping Strategy:</strong>{" "}
                                     {plan?.Scalping?.join(", ")}
                                   </p>
@@ -206,27 +237,30 @@ const ServicesList = () => {
                                     <strong>Pattern Strategy:</strong>{" "}
                                     {plan?.Pattern?.join(", ")}
                                   </p> */}
-                                  <p style={styles.priceItem}>
-                                      <strong>Charting Script:</strong>{" "}
-                                      {plan?.ChartingSignal?.join(", ")}
-                                    </p>
-                                </div>
+                                <p className="text-center" style={styles.priceItem}>
+                                  <strong>Charting Script:</strong>{" "}
+                                  {plan?.ChartingSignal?.join(", ")}
+                                </p>
                               </div>
-                            </Card>
-                          ))}
-                        </div>
+                            </div>
+                            </div>
+                            </div>
+                            </div>
+                         
+                        ))}
                       </div>
-                    
+                    </div>
+
                   </Tab>
                 </Tabs>
               </div>
             </div>
 
-            
+
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
@@ -234,9 +268,9 @@ const styles = {
   container: {
     // display: "flex",
     // flexWrap: "nowrap",
-    overflowX: "auto",
-    padding: "5px",
-    gap: "20px",
+    // overflowX: "auto",
+    // padding: "5px",
+    // gap: "20px",
   },
   image: {
     width: "100%",
@@ -262,7 +296,7 @@ const styles = {
   prices: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "flex-start",
+    alignItems: "center",
     margin: "10px 0",
     color: "#555",
     padding: "0",

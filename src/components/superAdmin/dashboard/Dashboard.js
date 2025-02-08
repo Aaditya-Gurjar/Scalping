@@ -6,7 +6,6 @@ import Loader from '../../../ExtraComponent/Loader';
 const Dashboards = () => {
     const [dashData, setData] = useState([]);
 
-
     useEffect(() => {
         SuperAdminDashboardData();
     }, []);
@@ -25,6 +24,8 @@ const Dashboards = () => {
                 console.log("Error in fatching the Dashboard Details", err)
             })
     };
+
+
 
     return (
         <div>
@@ -103,7 +104,8 @@ const Dashboards = () => {
                                                                     <h4>Total: </h4>
                                                                 </td>
                                                                 <td>
-                                                                    <span className="text-muted">{dashData?.[0]?.['Total account']}</span>
+   
+                                                                    <span >{dashData?.[0]?.['Total account']}</span>
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -182,7 +184,7 @@ const Dashboards = () => {
                                                                     <h4>Active: </h4>
                                                                 </td>
                                                                 <td>
-                                                                    <span className="text-muted">{dashData?.[0]?.['Total On account']}</span>
+                                                                    <span>{dashData?.[0]?.['Total On account']}</span>
                                                                 </td>
                                                             </tr>
 
@@ -263,7 +265,7 @@ const Dashboards = () => {
                                                                     <h4>Expired: </h4>
                                                                 </td>
                                                                 <td>
-                                                                    <span className="text-muted">{dashData?.[0]?.['Total Off account']}</span>
+                                                                    <span>{dashData?.[0]?.['Total Off account']}</span>
                                                                 </td>
                                                             </tr>
                                                         </tbody>

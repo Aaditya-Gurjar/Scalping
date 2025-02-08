@@ -14,9 +14,20 @@ import {
   columns7,
 } from "./PnLColumn";
 import Swal from "sweetalert2";
+import { useLocation } from "react-router-dom";
 
 const Tradehistory = () => {
-  const [selectStrategyType, setStrategyType] = useState("");
+  const location = useLocation();
+  console.log("location", location.state);
+
+  const [selectStrategyType, setStrategyType] = useState("Scalping");
+  console.log("selectStrategyType", selectStrategyType);
+
+  const [tableType, setTableType] = useState("MultiCondition");
+  console.log("table type", tableType);
+
+
+
   const [strategyNames, setStrategyNames] = useState([]);
   const [ToDate, setToDate] = useState("");
   const [FromDate, setFromDate] = useState("");
@@ -29,7 +40,6 @@ const Tradehistory = () => {
     data2: [],
   });
   const Username = localStorage.getItem("name");
-
 
   // set Defult Date
   const currentDate = new Date();
@@ -62,6 +72,8 @@ const Tradehistory = () => {
   const handleSubmit = async () => {
     const data = {
       MainStrategy: selectStrategyType,
+      // MainStrategy: "NewScalping",
+
       Username: Username,
       From_date: convertDateFormat(FromDate == "" ? formattedDate : FromDate),
       To_date: convertDateFormat(ToDate == "" ? Defult_To_Date : ToDate),
@@ -70,15 +82,7 @@ const Tradehistory = () => {
     //GET PNL DATA
     await getNetPnLData(data)
       .then((response) => {
-
         if (response.Status) {
-          Swal.fire({
-            title: "Success",
-            icon: "success",
-            text: response.message,
-            timer: 1500,
-            timerProgressBar: true,
-          });
           setPnlData({
             loading: false,
             data: response.data,
@@ -88,6 +92,9 @@ const Tradehistory = () => {
           setShowTable(true);
         } else {
           Swal.fire({
+            background: "#1a1e23 ",
+            backdrop: "#121010ba",
+            confirmButtonColor: "#1ccc8a",
             title: "No Records found",
             icon: "info",
             text: response.message,
@@ -112,14 +119,24 @@ const Tradehistory = () => {
   };
 
   useEffect(() => {
+    if (location?.state?.type && location?.state?.type != "MultiCondition") {
+      console.log("sss");
+      setStrategyType(location?.state?.type);
+    } else if (location?.state?.type == "MultiCondition") {
+      // setTableType("MultiCondition")
+      setStrategyType("Scalping");
+    } else {
+      // setTableType("Scalping");
+    }
+  }, []);
+
+  useEffect(() => {
     fetchStrategyType();
-    // setStrategyType('Scalping')
   }, []);
 
   useEffect(() => {
     setShowTable(false);
   }, [selectStrategyType, FromDate, ToDate]);
-
 
   return (
     <div>
@@ -134,7 +151,7 @@ const Tradehistory = () => {
             <div className="iq-card-body">
               <div className="was-validated ">
                 <div className="row">
-                  <div className="form-group col-lg-4">
+                  <div className={`form-group ${selectStrategyType === "Scalping" ? "col-lg-3" : "col-lg-4"}`}>
                     <label>Select Strategy Type</label>
                     <select
                       className="form-select"
@@ -152,7 +169,21 @@ const Tradehistory = () => {
                       <option value={"Pattern"}>Pattern Script</option> */}
                     </select>
                   </div>
-                  <div className="form-group col-lg-4">
+                  {selectStrategyType === "Scalping" && (
+                    <div className="col-lg-3">
+                      <label>Table Type</label>
+                      <select
+                        className="form-select"
+                        required=""
+                        onChange={(e) => setTableType(e.target.value)}
+                        value={tableType}
+                      >
+                        <option value="Scalping">Scalping</option>
+                        <option value="MultiCondition">Multi Condition</option>
+                      </select>
+                    </div>
+                  )}
+                  <div className={`form-group ${selectStrategyType === "Scalping" ? "col-lg-3" : "col-lg-4"}`}>
                     <label>Select form Date</label>
                     <DatePicker
                       className="form-select"
@@ -160,7 +191,7 @@ const Tradehistory = () => {
                       onChange={(date) => setFromDate(date)}
                     />
                   </div>
-                  <div className="form-group col-lg-4">
+                  <div className={`form-group ${selectStrategyType === "Scalping" ? "col-lg-3" : "col-lg-4"}`}>
                     <label>Select To Date</label>
                     <DatePicker
                       className="form-select"
@@ -200,6 +231,7 @@ const Tradehistory = () => {
 
                     <p
                       className="bold mt-4"
+
                       style={{
                         fontWeight: "bold",
                         fontSize: "20px",
@@ -210,7 +242,7 @@ const Tradehistory = () => {
                         style={{
                           color: getPnLData.data2 < 0 ? "red" : "green",
                         }}>
-                        {getPnLData.data2}
+                        {getPnLData.data2.toFixed(2)}
                       </span>
                     </p>
                   </div>

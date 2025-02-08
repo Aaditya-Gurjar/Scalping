@@ -20,6 +20,9 @@ const AddClient = () => {
 
     const SweentAlertFun = (text) => {
         Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
             title: "Error",
             text: text,
             icon: "error",
@@ -39,6 +42,23 @@ const AddClient = () => {
     useEffect(() => {
         get_Exchange()
     }, [])
+
+    const ScrollToViewFirstError = (newErrors) => {
+        if (Object.keys(newErrors).length !== 0) {
+            const errorField = Object.keys(newErrors)[0];
+
+            const errorElement = document.getElementById(errorField);
+            if (errorElement) {
+                const elementPosition = errorElement.getBoundingClientRect().top + window.pageYOffset;
+
+                const offset = 100;
+                window.scrollTo({
+                    top: elementPosition - offset,
+                    behavior: 'smooth'
+                });
+            }
+        }
+    }
 
     const formik = useFormik({
 
@@ -166,7 +186,7 @@ const AddClient = () => {
             else if (values.EntryTime > maxTime) {
                 errors.EntryTime = "Entry Time Must be Before 15:29:59.";
             }
-
+            ScrollToViewFirstError(errors)
             return errors;
         },
 
@@ -232,6 +252,9 @@ const AddClient = () => {
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                             title: "Script Added !",
                             text: response.message,
                             icon: "success",
@@ -244,6 +267,9 @@ const AddClient = () => {
                     }
                     else {
                         Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                             title: "Error !",
                             text: response.message,
                             icon: "error",
@@ -478,7 +504,7 @@ const AddClient = () => {
         },
         {
             name: "Slvalue",
-            label: "Stoploss",
+            label: "Re-entry",
             type: "text3",
             label_size: 12,
             headingtype: 3,

@@ -8,13 +8,22 @@ import DropdownMultiselect from 'react-multiselect-dropdown-bootstrap';
 import AddForm from '../../../ExtraComponent/FormData';
 import Swal from 'sweetalert2';
 import { Get_All_Plans, GetUserBalence } from "../../CommonAPI/User";
+import Select from 'react-select';
+import NoDataFound from '../../../ExtraComponent/NoDataFound';
+
 
 
 const Clientservice = () => {
     const [clientService, setClientService] = useState({ loading: true, data: [] });
     const [showModal, setShowModal] = useState(false);
-    const [selectedIndex, setSelectedIndex] = useState(0);
+    // console.log("showModal", showModal);
+
+    const [selectedIndex, setSelectedIndex] = useState([]);
+    console.log("selectedIndex", selectedIndex);
+
     const [optionsArray, setOptionsArray] = useState([]);
+    // console.log("optionsArray", optionsArray);
+
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [groupData, setGroupData] = useState({ loading: true, data: [] });
     const [brokers, setBrokers] = useState([]);
@@ -98,7 +107,7 @@ const Clientservice = () => {
             if (response.Status) {
                 const options = response.Data.map(item => ({
                     label: item.GroupName,
-                    key: item.GroupName,
+                    value: item.GroupName,
                 }));
                 setOptionsArray(options);
                 setGroupData({ loading: false, data: response.Data });
@@ -152,13 +161,19 @@ const Clientservice = () => {
         onSubmit: async (values) => {
             const req = {
                 User: values.User,
-                GroupName: selectedOptions,
+                GroupName: selectedOptions.map((values) => values.value),
                 Broker: values.Broker,
+
             }
+
+
             try {
                 const response = await EditClientPanle(req);
                 if (response.Status) {
                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         title: "Updated",
                         text: response.message,
                         icon: "success",
@@ -173,6 +188,9 @@ const Clientservice = () => {
                     fetchClientService();
                 } else {
                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         title: "Error",
                         text: response.message,
                         icon: "error",
@@ -246,7 +264,7 @@ const Clientservice = () => {
             options: {
                 filter: true,
                 sort: true,
-                customBodyRender: (value) => value == '' || value==null ? "Admin" : value,
+                customBodyRender: (value) => value == '' || value == null ? "Admin" : value,
             }
         },
         {
@@ -345,113 +363,125 @@ const Clientservice = () => {
         if (showModal) {
             formik.setFieldValue('Broker', selectedIndex.BrokerName == 'Demo' ? "" : selectedIndex.BrokerName);
             formik.setFieldValue('User', selectedIndex.Username);
-            setSelectedOptions(showModal && selectedIndex.Group)
+            setSelectedOptions(showModal && selectedIndex.Planname)
         }
     }, [showModal])
 
 
     return (
-      <>
-        <div className="row">
-          <div className="col-sm-12">
-            <div className="iq-card">
-              <div className="iq-card-header d-flex justify-content-between">
-                <div className="iq-header-title">
-                  <h4 className="card-title">Client Service</h4>
-                </div>
-                <Link to="/admin/adduser" className="btn btn-primary rounded">
-                  Create Account
-                </Link>
-              </div>
-              <div className="iq-card-body">
-                <div className="mb-3 col-lg-3">
-                  <input
-                    type="text"
-                    className=" form-control rounded p-1 px-2"
-                    placeholder="Search..."
-                    onChange={(e) => setSearchInput(e.target.value)}
-                    value={searchInput}
-                  />
-                </div>
-                <FullDataTable
-                  columns={columns}
-                  data={clientService.data}
-                  checkBox={false}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        {showModal && (
-          <>
-            {/* Darkened background overlay */}
-            <div className="modal-backdrop fade show"></div>
-
-            <div
-              className="modal fade show"
-              id="add_vendor"
-              tabIndex="-1"
-              role="dialog"
-              aria-labelledby="modalLabel"
-              aria-hidden="true"
-              style={{ display: "block" }}>
-              <div className="modal-dialog modal-dialog-centered custom-modal-width">
-                <div className="modal-content">
-                  <div className="modal-header p-3">
-                    {" "}
-                    {/* Adjusted padding */}
-                    <h5 className="modal-title" id="modalLabel">
-                      Edit Client: {selectedIndex?.Username}
-                    </h5>
-                    <button
-                      type="button"
-                      className="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                      onClick={() => {
-                        setShowModal(false);
-                        formik.resetForm();
-                        setSelectedOptions([]);
-                      }}
-                    />
-                  </div>
-                  <hr style={{ margin: "0" }} /> {/* Remove margin from hr */}
-                  <div className="modal-body p-1">
-                    {" "}
-                    {/* Adjusted padding */}
-                    <AddForm
-                      fields={fields.filter(
-                        (field) =>
-                          !field.showWhen || field.showWhen(formik.values)
-                      )}
-                      btn_name="Update"
-                      formik={formik}
-                      btn_name1_route="/admin/clientservice"
-                      additional_field={
-                        <div className="mt-2">
-                          <div className="row">
-                            <div className="col-lg-12">
-                              <h6>Select Group</h6>
-                              <DropdownMultiselect
-                                options={optionsArray}
-                                name="groupName"
-                                handleOnChange={(selected) =>
-                                  setSelectedOptions(selected)
-                                }
-                                selected={showModal ? selectedIndex.Group : ""}
-                              />
+        <>
+            <div className="row">
+                <div className="col-sm-12">
+                    <div className="iq-card">
+                        <div className="iq-card-header d-flex justify-content-between">
+                            <div className="iq-header-title">
+                                <h4 className="card-title">Client Service</h4>
                             </div>
-                          </div>
+                            <Link to="/admin/adduser" className="btn btn-primary rounded">
+                                Create Account
+                            </Link>
                         </div>
-                      }
-                    />
-                  </div>
+                        <div className="iq-card-body">
+                            <div className="mb-3 col-lg-3">
+                                <input
+                                    type="text"
+                                    className=" form-control rounded p-1 px-2"
+                                    placeholder="Search..."
+                                    onChange={(e) => setSearchInput(e.target.value)}
+                                    value={searchInput}
+                                />
+                            </div>
+                            {
+                                clientService.data && clientService.data.length > 0 ? 
+                                    (<FullDataTable
+                                        columns={columns}
+                                        data={clientService.data}
+                                        checkBox={false}
+                                    />)
+                                :
+                                (<NoDataFound />)
+                            }
+                            
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </>
-        )}
-      </>
+            {showModal && (
+                <>
+                    {/* Darkened background overlay */}
+                    <div className="modal-backdrop fade show"></div>
+
+                    <div
+                        className="modal fade show"
+                        id="add_vendor"
+                        tabIndex="-1"
+                        role="dialog"
+                        aria-labelledby="modalLabel"
+                        aria-hidden="true"
+                        style={{ display: "block" }}>
+                        <div className="modal-dialog modal-dialog-centered custom-modal-width">
+                            <div className="modal-content">
+                                <div className="modal-header p-3">
+                                    {" "}
+                                    {/* Adjusted padding */}
+                                    <h5 className="modal-title" id="modalLabel">
+                                        Edit Client: {selectedIndex?.Username}
+                                    </h5>
+                                    <button
+                                        type="button"
+                                        className="btn-close"
+                                        data-bs-dismiss="modal"
+                                        aria-label="Close"
+                                        onClick={() => {
+                                            setShowModal(false);
+                                            formik.resetForm();
+                                            setSelectedOptions([]);
+                                        }}
+                                    />
+                                </div>
+                                <hr style={{ margin: "0" }} /> {/* Remove margin from hr */}
+                                <div className="modal-body p-1">
+                                    {" "}
+                                    {/* Adjusted padding */}
+                                    <AddForm
+                                        fields={fields.filter(
+                                            (field) =>
+                                                !field.showWhen || field.showWhen(formik.values)
+                                        )}
+                                        btn_name="Update"
+                                        formik={formik}
+                                        btn_name1_route="/admin/clientservice"
+                                        additional_field={
+                                            <div className="mt-2">
+                                                <div className="row">
+                                                    <div className="col-lg-12">
+                                                        <h6>Select Group</h6>
+
+                                                        <Select
+                                                            defaultValue={selectedIndex?.Planname?.map((item) => {
+                                                                return { value: item, label: item }
+                                                            })}
+                                                            isMulti
+                                                            options={optionsArray}
+                                                            selected={showModal ? selectedIndex.Group : ""}
+                                                            onChange={(selected) =>
+                                                                setSelectedOptions(selected)
+                                                            }
+                                                            className="basic-multi-select"
+                                                            classNamePrefix="select"
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )}
+        </>
     );
 };
 

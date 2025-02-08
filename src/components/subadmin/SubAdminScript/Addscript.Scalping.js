@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom"
-import AddForm from "../../../ExtraComponent/FormData";
+import AddForm from "../../../ExtraComponent/FormData2";
 import { useFormik } from "formik";
 import { useState, useEffect } from "react";
 import Swal from 'sweetalert2';
@@ -24,9 +24,26 @@ const AddClient = () => {
     });
   }
 
+
+  const ScrollToViewFirstError = (newErrors) => {
+    if (Object.keys(newErrors).length !== 0) {
+      const errorField = Object.keys(newErrors)[0];
+
+      const errorElement = document.getElementById(errorField);
+      if (errorElement) {
+        const elementPosition = errorElement.getBoundingClientRect().top + window.pageYOffset;
+
+        const offset = 100;
+        window.scrollTo({
+          top: elementPosition - offset,
+          behavior: 'smooth'
+        });
+      }
+    }
+  }
   const formik = useFormik({
     initialValues: {
-      MainStrategy: location.state.data.selectStrategyType,
+      MainStrategy: location?.state?.data?.selectStrategyType,
       Username: "",
       Strategy: "",
       ETPattern: "",
@@ -65,8 +82,26 @@ const AddClient = () => {
       CEDeepHigher: 0.0,
       PEDeepLower: 0.0,
       PEDeepHigher: 0.0,
-    },
+      tgp2: 0,
+      tgp3: 0,
+      quantity2: 0,
+      quantity3: 0,
+      stepup: 1,
+      quantityvalue: 0,
+      Targetselection: "Fixed Target",
+      position_type: "Single",
+      quantityselection: "Addition",
+      RepeatationCount: 0,
+      Profit: 0,
+      Loss: 0,
+      RollOver: false,
+      NumberOfDays: 0,
+      RollOverExitTime: "00:00:00",
+      TargetExit: false,
+      WorkingDay: [],
 
+
+    },
     validate: (values) => {
       let errors = {};
       const maxTime = "15:29:59";
@@ -81,8 +116,12 @@ const AddClient = () => {
       if (!values.Instrument && values.Exchange !== 'NSE') {
         errors.Instrument = "Please Select Instrument Type.";
       }
+
       if (!values.Symbol) {
         errors.Symbol = "Please Select Symbol Type.";
+      }
+      if (!values.Quantity) {
+        errors.Quantity = formik.values.Exchange == "NFO" && formik.values.position_type == "Single" && formik.values.Strategy == "Multi_Conditional" ? "Please Enter Quantity 1" : formik.values.Exchange == "NFO" ? "Please Enter Lot Value." : "Please Enter Quantity Value.";
       }
       if (!values.Optiontype && (values.Instrument === "OPTSTK" || values.Instrument === "OPTIDX")) {
         errors.Optiontype = "Please Select Option Type.";
@@ -96,9 +135,7 @@ const AddClient = () => {
       if (!values.TType) {
         errors.TType = "Please Select Transaction Type.";
       }
-      if (!values.Quantity) {
-        errors.Quantity = formik.values.Exchange == "NFO" ? "Please Enter Lot Value." : "Please Enter Quantity Value.";
-      }
+
       if (!values.TStype && values.Strategy != 'Fixed Price') {
         errors.TStype = "Please Select Measurement Type.";
       }
@@ -118,34 +155,152 @@ const AddClient = () => {
       else if (values.EntryTime > maxTime) {
         errors.EntryTime = "Entry Time Must be Before 15:29:59.";
       }
+
+
       if (!values.ExitDay) {
         errors.ExitDay = "Please Select Exit Day.";
       }
 
-      if (!values.EntryPrice && values.EntryPrice != 0) {
-        errors.EntryPrice = values.Strategy == "Fixed Price" ? "Please Enter The Lowest Price." : "Please Enter The First Trade Lower Range";
-      }
-      if (!values.EntryRange && values.EntryRange != 0) {
-        errors.EntryRange = values.Strategy == "Fixed Price" ? "Please Enter The Highest Price." : "Please Enter The First Trade Higher Range";
+
+      if (!values.EntryPrice) {
+        if (values.Strategy == "Fixed Price" && values.EntryPrice == 0) {
+          errors.EntryPrice = "Please Enter The Lowest Price.";
+        }
+        else if (values.Strategy != "Fixed Price" && values.EntryPrice != 0) {
+          errors.EntryPrice = "Please Enter The First Trade Lower Range";
+        }
+
       }
       if (!values.Targetvalue) {
-        errors.Targetvalue = values.Strategy == "Fixed Price" ? "Please Enter A Target Price." : "Please Enter A Target Value.";
+        errors.Targetvalue = values.position_type == "Single" && values.Strategy == "Multi_Conditional" ? "Please Enter  Target Price  1" : values.Strategy == "Fixed Price" ? "Please Enter A Target Price." : "Please Enter Target Value.";
       }
-      if (!values.LowerRange && values.Strategy != 'Fixed Price' && values.LowerRange != 0) {
+      if (
+        !values.LowerRange &&
+        (values.Strategy == "Multi Directional" ||
+          values.Strategy == "One Directional") &&
+        values.LowerRange == "" &&
+        values.LowerRange !== 0
+      ) {
         errors.LowerRange = "Please Enter The Lower Range.";
       }
-      if (!values.HigherRange && values.Strategy != 'Fixed Price' && values.HigherRange != 0) {
+      if (
+        !values.HigherRange &&
+        (values.Strategy == "Multi Directional" ||
+          values.Strategy == "One Directional") &&
+        values.HigherRange == "" &&
+        values.HigherRange !== 0
+      ) {
         errors.HigherRange = "Please Enter The Higher Range.";
       }
-      if (!values.Group && values.Strategy === "Fixed Price") {
-        errors.Group = "Please Select A Unique ID.";
+      if (!values.Group) {
+        errors.Group = "Please Enter Unique Name.";
       }
       if (!values.HoldExit && values.Strategy != "Fixed Price") {
         errors.HoldExit = "Please Select Whether To Hold Or Exit.";
       }
       if (!values.Slvalue) {
-        errors.Slvalue = values.Strategy == "Fixed Price" ? "Please Enter Stop Loss Price." : "Please Select A Stop Loss Value.";
-      } 
+        errors.Slvalue = values.Strategy == "Fixed Price" ? "Please Enter Stop Loss Price." : "Please Select Stop Loss Value.";
+      }
+
+      if (!values.EntryRange) {
+        if (values.Strategy == "Fixed Price" && values.EntryRange == 0) {
+          errors.EntryRange = "Please Enter The Highest Price.";
+        }
+        else if (values.Strategy != "Fixed Price" && values.EntryRange != 0) {
+          errors.EntryRange = "Please Enter The First Trade Higher Range";
+        }
+      }
+
+      if (values.Strategy == "Multi_Conditional" && values.position_type == "Multiple") {
+
+        if (!values.stepup) {
+          errors.stepup = "Please Enter Step Up";
+        }
+        if (!values.quantityvalue) {
+          errors.quantityvalue = "Please Enter Increment Value";
+        }
+        if (!values.quantityselection) {
+          errors.quantityselection = "Please Select Increment Type";
+        }
+        if (!values.Targetvalue) {
+          errors.Targetvalue = "Please Enter Target Price";
+        }
+        if (!values.Targetselection) {
+          errors.Targetselection = "Please Select Target Type";
+        }
+      }
+      if (values.position_type == "Multiple" && values.Strategy == "Multi_Conditional" && !values.quantityselection) {
+        errors.quantityselection = "Please Select Target Selection";
+      }
+
+      if (values.Strategy == "Multi_Conditional" && !values.position_type) {
+        errors.position_type = "Please Select Position Type";
+      }
+      if (
+        !values.RepeatationCount &&
+        values.Strategy == "Multi_Conditional" &&
+        values.position_type == "Multiple"
+      ) {
+        errors.RepeatationCount = "Please Enter No. of Repeatation";
+      }
+      // if (
+      //   !values.Loss &&
+      //   values.Strategy == "Multi_Conditional" &&
+      //   values.position_type == "Multiple"
+      // ) {
+      //   errors.Loss = "Please Enter Maximum Loss";
+      // }
+
+      // if (
+      //   !values.Profit &&
+      //   values.Strategy == "Multi_Conditional" &&
+      //   values.position_type == "Multiple"
+      // ) {
+      //   errors.Profit = "Please Enter Maximum Loss";
+      // }
+
+      // if (
+      //   !values.RollOver &&
+      //   values.Strategy == "Multi_Conditional" &&
+      //   values.position_type == "Multiple"
+      // ) {
+      //   errors.RollOver = "Please Enter No. of Repeatation";
+      // }
+
+      if (
+        !values.NumberOfDays &&
+        values.Strategy == "Multi_Conditional" &&
+        values.position_type == "Multiple" &&
+        values.RollOver == true
+      ) {
+        errors.NumberOfDays = "Please Enter No. of Days";
+      }
+
+      if (
+        !values.RollOverExitTime &&
+        values.Strategy == "Multi_Conditional" &&
+        values.position_type == "Multiple" &&
+        values.RollOver == true
+      ) {
+        errors.RollOverExitTime = "Please Enter RollOver Exit Time";
+      }
+      // if (
+        
+      //   values.Strategy == "Multi_Conditional" &&
+      //   values.position_type == "Multiple"
+      // ) {
+      //   errors.TargetExit = "Please select Continue After Cycle Exit";
+      // }
+      if (
+        !values.WorkingDay.length > 0 &&
+        values.Strategy == "Multi_Conditional" &&
+        values.position_type == "Multiple"
+      ) {
+        errors.WorkingDay = "Please select Working day";
+      }
+      console.log("errors", errors)
+
+      ScrollToViewFirstError(errors)
 
       return errors;
     },
@@ -153,8 +308,8 @@ const AddClient = () => {
 
     onSubmit: async (values) => {
       const req = {
-        MainStrategy: location.state.data.selectStrategyType,
-        Username: location.state.data.selectGroup,
+        MainStrategy: formik.values.Strategy == "Multi_Conditional" ? "NewScalping" : location?.state?.data?.selectStrategyType,
+        Username: location?.state?.data?.selectGroup,
         Strategy: values.Strategy,
         Exchange: values.Exchange,
         Instrument: values.Exchange === "NFO" ? values.Instrument : "",
@@ -162,28 +317,36 @@ const AddClient = () => {
         Optiontype: values.Instrument == "OPTIDX" || values.Instrument == "OPTSTK" ? values.Optiontype : "",
         Strike: values.Instrument == "OPTIDX" || values.Instrument == "OPTSTK" ? values.Strike : "",
         expirydata1: values.Exchange == "NSE" ? getExpiryDate.data[0] : values.expirydata1,
-        TType: values.TType,
+        TType: values.TType == 0 ? "" : values.TType,
         EntryPrice: values.EntryPrice,
         EntryRange: values.EntryRange,
-        TStype: values.Strategy === "Fixed Price" ? "" : values.TStype,
+        TStype: values.Strategy == "One Directional" || values.Strategy == "Multi Directional" || (values.Strategy == "Multi_Conditional") ? values.TStype : "",
         Targetvalue: values.Targetvalue,
         Slvalue: values.Slvalue,
-        LowerRange: values.Strategy === "Fixed Price" ? 0 : values.LowerRange,
-        HigherRange: values.Strategy === "Fixed Price" ? 0 : values.HigherRange,
-        HoldExit: (values.Strategy === "Multi Directional" || values.Strategy === "One Directional") ? values.HoldExit : "",
+        LowerRange:
+          values.Strategy === "Fixed Price" ||
+            values.Strategy == "Multi_Conditional"
+            ? 0
+            : Number(values.LowerRange),
+        HigherRange:
+          values.Strategy === "Fixed Price" ||
+            values.Strategy == "Multi_Conditional"
+            ? 0
+            : Number(values.HigherRange),
+        HoldExit: (values.Strategy === "Multi Directional" || values.Strategy === "One Directional" || values.Strategy == "Multi_Conditional") ? values.HoldExit : "",
         ExitDay: values.ExitDay,
         EntryTime: values.EntryTime,
         ExitTime: values.ExitTime,
         ETPattern: "",
         Timeframe: "",
         Quantity: values.Quantity,
-        FixedSM: "Single",
+        FixedSM: formik.values.Strategy == "Multi_Conditional" ? formik.values.position_type : "Multiple",
         serendate: "",
         Expirytype: "",
         Striketype: "",
         DepthofStrike: 0,
         DeepStrike: 0,
-        Group: values.Strategy == "Fixed Price" ? values.Group : '',
+        Group: values.Group,
         CEDepthLower: 0.0,
         CEDepthHigher: 0.0,
         PEDepthLower: 0.0,
@@ -192,7 +355,57 @@ const AddClient = () => {
         CEDeepHigher: 0.0,
         PEDeepLower: 0.0,
         PEDeepHigher: 0.0,
-      }
+        quantity2: values.position_type == "Single" && values.Strategy == "Multi_Conditional" ? Number(values.quantity2) : 0,
+        quantity3: values.position_type == "Single" && values.Strategy == "Multi_Conditional" ? Number(values.quantity3) : 0,
+        tgp2: values.position_type == "Single" && values.Strategy == "Multi_Conditional" ? Number(values.tgp2) : 0,
+        tgp3: values.position_type == "Single" && values.Strategy == "Multi_Conditional" ? Number(values.tgp3) : 0,
+        stepup: values.position_type == "Multiple" && values.Strategy == "Multi_Conditional" ? Number(values.stepup) : 0,
+        quantityselection: values.position_type == "Multiple" && values.Strategy == "Multi_Conditional" ? values.quantityselection : "",
+        quantityvalue: values.position_type == "Multiple" && values.Strategy == "Multi_Conditional" ? Number(values.quantityvalue) : 0,
+        targetselection: values.position_type == "Multiple" && values.Strategy == "Multi_Conditional" ? values.Targetselection : "Single",
+        RepeatationCount:
+          values.position_type == "Multiple" &&
+            values.Strategy == "Multi_Conditional"
+            ? values.RepeatationCount
+            : 0,
+        Loss:
+          values.position_type == "Multiple" &&
+            values.Strategy == "Multi_Conditional"
+            ? values.Loss
+            : 0,
+
+        Profit:
+          values.position_type == "Multiple" &&
+            values.Strategy == "Multi_Conditional"
+            ? values.Profit
+            : 0,
+        RollOver: (values.position_type ==
+          "Multiple" && values.Strategy == "Multi_Conditional"
+          ? values.RollOver
+          : false),
+        NumberOfDays:
+          values.position_type == "Multiple" &&
+            values.Strategy == "Multi_Conditional" &&
+            values.RollOver == true
+            ? values.NumberOfDays
+            : 0,
+        RollOverExitTime:
+          values.position_type == "Multiple" &&
+            values.Strategy == "Multi_Conditional" &&
+            values.RollOver == true
+            ? values.RollOverExitTime
+            : "00:00:00",
+        // TargetExit:
+        //   values.position_type == "Multiple" &&
+        //     values.Strategy == "Multi_Conditional"
+        //     ? values.TargetExit
+        //     : false,
+        WorkingDay:
+          values.position_type == "Multiple" &&
+            values.Strategy == "Multi_Conditional"
+            ? values.WorkingDay
+            : [],
+      };
 
       if ((Number(values.EntryPrice) > 0 || Number(values.EntryRange) > 0) &&
         (Number(values.EntryPrice) >= Number(values.EntryRange))) {
@@ -203,11 +416,14 @@ const AddClient = () => {
         );
       }
       if (
-        values.Strategy !== 'Fixed Price' &&
+        (values.Strategy !== "Fixed Price" ||
+          values.Strategy !== "Multi_Conditional") &&
         Number(values.LowerRange) >= Number(values.HigherRange) &&
         (Number(values.LowerRange) > 0 || Number(values.HigherRange) > 0)
       ) {
-        return SweentAlertFun("Higher Price should be greater than Lower Range");
+        return SweentAlertFun(
+          "Higher Price should be greater than Lower Range"
+        );
       }
       if (
         values.Strategy === 'Fixed Price' &&
@@ -243,8 +459,18 @@ const AddClient = () => {
         return SweentAlertFun(alertMessage);
       }
 
+
       if (values.EntryTime >= values.ExitTime) {
         return SweentAlertFun("Exit Time should be greater than Entry Time")
+      }
+
+      if (values.Strategy == "Multi_Conditional" && values.position_type == "Single") {
+        if (Number(values.quantity2) == 0 && Number(values.quantity3) > 0) {
+          return SweentAlertFun(formik.values.Exchange == "NFO" ? "Please Enter Lot 2" : "Please Enter Quantity 2")
+        }
+        if (Number(values.tgp2) == 0 && Number(values.tgp3) > 0) {
+          return SweentAlertFun("Please Enter Target 2")
+        }
       }
       await AddAdminScript(req)
         .then((response) => {
@@ -257,7 +483,7 @@ const AddClient = () => {
               timerProgressBar: true
             });
             setTimeout(() => {
-              navigate('/subadmin/all-script')
+              navigate('/admin/allscript')
             }, 1500)
           }
           else {
@@ -287,6 +513,16 @@ const AddClient = () => {
     formik.setFieldValue("HoldExit", "Hold")
     formik.setFieldValue("TStype", "Point")
   }, [])
+
+  useEffect(() => {
+    console.log("testing")
+    if (formik.values.Exchange === 'NSE') {
+      formik.setFieldValue('ExitTime', '15:15:00');
+    } else {
+      formik.setFieldValue('ExitTime', '15:25:00');
+    }
+  }, [formik.values.Exchange]);
+
 
   const SymbolSelectionArr = [
     {
@@ -396,8 +632,22 @@ const AddClient = () => {
     },
 
   ]
-
   const EntryRuleArr = [
+    {
+      name: "position_type",
+      label: "Position Type",
+      type: "select1",
+      options: [
+        { label: "Single", value: "Single" },
+        { label: "Multiple", value: "Multiple" },
+      ],
+      label_size: 12,
+      headingtype: 2,
+      hiding: false,
+      col_size: formik.values.Strategy == 'Multi_Conditional' ? 3 : 4,
+      showWhen: (values) => values.Strategy == "Multi_Conditional",
+      disable: false,
+    },
     {
       name: "TType",
       label: "Transaction Type",
@@ -409,45 +659,34 @@ const AddClient = () => {
       label_size: 12,
       headingtype: 2,
       hiding: false,
-      col_size: formik.values.Strategy == 'Fixed Price' ? 3 : 4,
+      col_size: formik.values.Strategy == 'Fixed Price' || formik.values.Strategy == 'Multi_Conditional' ? 3 : 4,
       disable: false,
     },
+
     {
       name: "EntryPrice",
       label: formik.values.Strategy == 'Fixed Price' ? "Lower Price" : "First Trade Lower Range",
       type: "text3",
-      col_size: formik.values.Strategy == 'Fixed Price' ? 3 : 4,
+      col_size: formik.values.Strategy == 'Fixed Price' || formik.values.Strategy == 'Multi_Conditional' ? 3 : 4,
       disable: false,
       headingtype: 2,
       hiding: false,
     },
+
     {
       name: "EntryRange",
       label: formik.values.Strategy == 'Fixed Price' ? "Higher Price" : "First Trade Higher Range",
       type: "text3",
       label_size: 12,
       headingtype: 2,
-      col_size: formik.values.Strategy == 'Fixed Price' ? 3 : 4,
+      col_size: formik.values.Strategy == 'Fixed Price' || formik.values.Strategy == 'Multi_Conditional' ? 3 : 4,
       disable: false,
       hiding: false,
     },
     {
       name: "Group",
-      label: "Unique ID",
-      type: "select",
-      options: [
-        { label: "A", value: "A" },
-        { label: "B", value: "B" },
-        { label: "C", value: "C" },
-        { label: "D", value: "D" },
-        { label: "E", value: "E" },
-        { label: "F", value: "F" },
-        { label: "G", value: "G" },
-        { label: "H", value: "H" },
-        { label: "I", value: "I" },
-        { label: "J", value: "J" },
-      ],
-      showWhen: (values) => values.Strategy == "Fixed Price",
+      label: "Unique Name",
+      type: "text",
       label_size: 12,
       col_size: 3,
       headingtype: 2,
@@ -459,63 +698,53 @@ const AddClient = () => {
 
   const ExitRuleArr = [
     {
-      name: "Targetvalue",
-      label: formik.values.Strategy == "Fixed Price" ? "Target Price" : formik.values.Strategy == "One Directional" ? "Fixed Target" : "Booking Point",
-      type: "text3",
-      label_size: 12,
-      col_size: 3,
-      headingtype: 3,
-      disable: false,
-      hiding: false,
-    },
-    {
-      name: "Slvalue",
-      label: formik.values.Strategy == "Fixed Price" ? "Stoploss Price" : "Re-Entry Point",
-      type: "text3",
-      label_size: 12,
-      col_size: 3,
-      headingtype: 3,
-      disable: false,
-      hiding: false,
-    },
-
-  ]
-
-  const RiskManagementArr = [
-    {
-      name: "LowerRange",
-      label: "Lower Range ",
-      type: "text3",
-      label_size: 12,
-      col_size: 4,
-      headingtype: 4,
-      showWhen: (values) => values.Strategy != "Fixed Price",
-      disable: false,
-      hiding: false,
-    },
-    {
-      name: "HigherRange",
-      label: "Higher Range",
-      type: "text3",
-      label_size: 12,
-      col_size: 4,
-      headingtype: 4,
-      showWhen: (values) => values.Strategy != "Fixed Price",
-      disable: false,
-      hiding: false,
-    },
-    {
-      name: "HoldExit",
-      label: "Hold/Exit",
+      name: "Targetselection",
+      label: "Target Type",
       type: "select",
       options: [
-        { label: "Hold", value: "Hold" },
-        { label: "Exit", value: "Exit" },
+        { label: "Fixed Target", value: "Average Target" },
+        { label: "Entry Wise Target", value: "Entry Wise Target" },
+        { label: "Average Target", value: "Average Target" },
+        { label: "Entry Wise Target Reverse", value: "Entry Wise Target Reverse" },
+
+
       ],
-      showWhen: (values) => (values.Strategy == "Multi Directional" || values.Strategy == "One Directional"),
+      showWhen: (values) => values.position_type == "Multiple" && values.Strategy == "Multi_Conditional",
+      label_size: 12,
+      col_size: formik.values.position_type == "Single" || formik.values.position_type == "Multiple" ? 3 : 4,
+      headingtype: 4,
+      disable: false,
+      hiding: false,
+    },
+    {
+      name: "Targetvalue",
+      label: formik.values.position_type == "Single" && formik.values.Strategy == "Multi_Conditional" ? "Target  1" : formik.values.Strategy == "Fixed Price" ? "Target Price" : formik.values.Strategy == "One Directional" ? "Fixed Target" : formik.values.Strategy == "Multi_Conditional" && formik.values.position_type == "Multiple" && formik.values.Targetselection == "Fixed Target" ? "Fixed Target" : "Booking Point",
+      type: "text3",
+      label_size: 12,
+      col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+      headingtype: 3,
+      disable: false,
+      hiding: false,
+    },
+    {
+      name: "tgp2",
+      label: "Target 2",
+      type: "text3",
       label_size: 12,
       col_size: 4,
-      headingtype: 4,
+      showWhen: (values) => values.position_type == "Single" && values.Strategy == "Multi_Conditional",
+      headingtype: 3,
+      disable: false,
+      hiding: false,
+    },
+    {
+      name: "tgp3",
+      label: "Target 3",
+      type: "text3",
+      label_size: 12,
+      col_size: 4,
+      showWhen: (values) => values.position_type == "Single" && values.Strategy == "Multi_Conditional",
+      headingtype: 3,
       disable: false,
       hiding: false,
     },
@@ -527,28 +756,220 @@ const AddClient = () => {
         { label: "Percentage", value: "Percentage" },
         { label: "Point", value: "Point" },
       ],
-      showWhen: (values) => values.Strategy != "Fixed Price",
+      showWhen: (values) => values.Strategy == "One Directional" || values.Strategy == "Multi Directional" || (values.Strategy == "Multi_Conditional"),
       label_size: 12,
       headingtype: 4,
-      col_size: 4,
+      col_size: formik.values.position_type == "Multiple" ? 3 : 4,
       hiding: false,
       disable: false,
-    }, 
+    },
     {
-      name: "Quantity",
-      label: formik.values.Exchange == "NFO" ? "Lot" : "Quantity",
+      name: "Slvalue",
+      label: formik.values.Strategy == "Fixed Price" ? "Stoploss Price" : formik.values.position_type == "Single" && formik.values.Strategy == "Multi_Conditional" ? "Stoploss" : "Re-Entry Point",
       type: "text3",
       label_size: 12,
-      col_size: formik.values.Strategy == "Fixed Price" ? 4 : 4,
+      col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+      headingtype: 3,
+      disable: false,
+      hiding: false,
+    },
+
+
+  ]
+
+  const RiskManagementArr = [
+    {
+      name: "Quantity",
+      label: (formik.values.Exchange == "NFO" && formik.values.position_type == "Single" && formik.values.Strategy == "Multi_Conditional") ? "Lot 1" : (formik.values.Exchange == "NSE" && formik.values.position_type == "Single" && formik.values.Strategy == "Multi_Conditional") ? "Quantity 1" : formik.values.Exchange == "NFO" ? "Lot" : "Quantity",
+      type: "text3",
+      label_size: 12,
+      col_size: formik.values.position_type == "Multiple" ? 3 : 4,
       headingtype: 4,
       hiding: false,
       disable: false,
     },
+    {
+      name: "quantity2",
+      label: formik.values.Exchange == "NFO" && formik.values.position_type == "Single" && formik.values.Strategy == "Multi_Conditional" ? "Lot 2" : "Quantity 2",
+      type: "text3",
+      label_size: 12,
+      showWhen: (values) => values.position_type == "Single" && values.Strategy == "Multi_Conditional",
+      col_size: 4,
+      headingtype: 4,
+      disable: false,
+      hiding: false,
+    },
+    {
+      name: "quantity3",
+      label: formik.values.Exchange == "NFO" && formik.values.position_type == "Single" && formik.values.Strategy == "Multi_Conditional" ? "Lot 3" : "Quantity 3",
+      type: "text3",
+      label_size: 12,
+      showWhen: (values) => values.position_type == "Single" && values.Strategy == "Multi_Conditional",
+      col_size: 4,
+      headingtype: 4,
+      disable: false,
+      hiding: false,
+    },
+    {
+      name: "LowerRange",
+      label: "Lower Range ",
+      type: "text3",
+      label_size: 12,
+      col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+      headingtype: 4,
+      showWhen: (values) =>
+        values.Strategy == "Multi Directional" ||
+        values.Strategy == "One Directional",
+      disable: false,
+      hiding: false,
+    },
+    {
+      name: "HigherRange",
+      label: "Higher Range",
+      type: "text3",
+      label_size: 12,
+      col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+      headingtype: 4,
+      showWhen: (values) =>
+        values.Strategy == "Multi Directional" ||
+        values.Strategy == "One Directional",
+      disable: false,
+      hiding: false,
+    },
+    {
+      name: "HoldExit",
+      label: "Hold/Exit",
+      type: "select",
+      options: [
+        { label: "Hold", value: "Hold" },
+        { label: "Exit", value: "Exit" },
+      ],
+      showWhen: (values) => (values.Strategy == "Multi Directional" || values.Strategy == "One Directional" || (values.Strategy == "Multi_Conditional" && values.position_type == "Multiple")),
+      label_size: 12,
+      col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+      headingtype: 4,
+      disable: false,
+      hiding: false,
+    },
 
+    {
+      name: "TargetExit",
+      label: "Continue after cycle exit",
+      type: "select",
+      options: [
+        { label: "True", value: true },
+        { label: "False", value: false },
+      ],
+      showWhen: (values) => values.position_type == "Multiple" && values.Strategy == "Multi_Conditional",
+      label_size: 12,
+      col_size: formik.values.position_type == "Single" ? 3 : 3,
+      headingtype: 4,
+      disable: false,
+      // iconText: text.Increment_Type,
+      hiding: false,
+    },
+    {
+      name: "RepeatationCount",
+      label: "Repeatation Count",
+      type: "text3",
+      label_size: 12,
+      col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+      headingtype: 4,
+      showWhen: (values) =>
+        values.Strategy == "Multi_Conditional" &&
+        values.position_type == "Multiple",
+      disable: false,
+      hiding: false,
+    },
+    {
+      name: "Loss",
+      label: "Max Loss ",
+      type: "text3",
+      label_size: 12,
+      col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+      headingtype: 4,
+      showWhen: (values) =>
+        values.Strategy == "Multi_Conditional" &&
+        values.position_type == "Multiple",
+      disable: false,
+      hiding: false,
+    },
+
+    {
+      name: "Profit",
+      label: " Max Profit ",
+      type: "text3",
+      label_size: 12,
+      col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+      headingtype: 4,
+      showWhen: (values) =>
+        values.Strategy == "Multi_Conditional" &&
+        values.position_type == "Multiple",
+      disable: false,
+      hiding: false,
+    },
+
+
+    {
+      name: "WorkingDay",
+      label: "Working Day",
+      type: "multiselect",
+      options: [
+        { label: "Monday", value: "Monday" },
+        { label: "Tuesday", value: "Tuesday" },
+        { label: "Wednesday", value: "Wednesday" },
+        { label: "Thursday", value: "Thursday" },
+        { label: "Friday", value: "Friday" },
+        { label: "Saturday", value: "Saturday" },
+      ],
+      label_size: 12,
+      col_size: 4,
+      headingtype: 4,
+      disable: false,
+      hiding: false,
+    },
+
+    {
+      name: "stepup",
+      label: "Step Up",
+      type: "text3",
+      label_size: 12,
+      showWhen: (values) => values.position_type == "Multiple" && values.Strategy == "Multi_Conditional",
+      col_size: 3,
+      headingtype: 4,
+      disable: false,
+      hiding: false,
+    },
+    {
+      name: "quantityselection",
+      label: "Increment Type",
+      type: "select",
+      options: [
+        { label: "Addition", value: "Addition" },
+        { label: "Multiplication", value: "Multiplication" },
+      ],
+      showWhen: (values) => values.position_type == "Multiple" && values.Strategy == "Multi_Conditional",
+      label_size: 12,
+      col_size: formik.values.position_type == "Single" ? 3 : 3,
+      headingtype: 4,
+      disable: false,
+      hiding: false,
+    },
+    {
+      name: "quantityvalue",
+      label: "Increment Value",
+      type: "text3",
+      label_size: 12,
+      showWhen: (values) => values.position_type == "Multiple" && values.Strategy == "Multi_Conditional",
+      col_size: 3,
+      headingtype: 4,
+      disable: false,
+      hiding: false,
+    },
   ]
 
   const TimeDurationArr = [
-   
+
     {
       name: "EntryTime",
       label: "Entry Time",
@@ -582,17 +1003,76 @@ const AddClient = () => {
       headingtype: 5,
       disable: false,
       hiding: false,
-    }
+    },
+    {
+      name: "RollOver",
+      label: "RollOver",
+      type: "select",
+      options: [
+        { label: "True", value: true },
+        { label: "False", value: false },
+      ],
+      label_size: 12,
+      col_size: 4,
+      headingtype: 4,
+      showWhen: (values) =>
+        values.ExitDay == "Delivery" &&
+        values.Strategy == "Multi_Conditional" &&
+        values.position_type == "Multiple",
+      disable: false,
+      hiding: false,
+    },
+
+    {
+      name: "NumberOfDays",
+      label: "No. of Days",
+      type: "text3",
+      label_size: 12,
+      showWhen: (values) => {
+        const rollOverBoolean = values.RollOver == "true";
+        return (
+          rollOverBoolean &&
+          values.Strategy == "Multi_Conditional" &&
+          values.ExitDay == "Delivery" &&
+          values.position_type == "Multiple"
+        );
+      },
+      col_size: 4,
+      headingtype: 4,
+      disable: false,
+      hiding: false,
+    },
+
+    {
+      name: "RollOverExitTime",
+      label: "RollOver Exit Time",
+      type: "timepiker",
+      label_size: 12,
+      showWhen: (values) => {
+        const rollOverBoolean = values.RollOver == "true";
+        return (
+          rollOverBoolean &&
+          values.Strategy == "Multi_Conditional" &&
+          values.ExitDay == "Delivery" &&
+          values.position_type == "Multiple"
+        );
+      },
+      col_size: 4,
+      headingtype: 4,
+      disable: false,
+      hiding: false,
+    },
 
   ]
-
 
   const fields = [
     {
       name: "Strategy",
       label: "Scalping Type",
       type: "radio2",
-      title: [{ title: "Fixed Price", value: "Fixed Price" }, { title: "One Directional", value: "One Directional" }, { title: "Multi Directional", value: "Multi Directional" }],
+      title: [{ title: "Fixed Price", value: "Fixed Price" }, { title: "One Directional", value: "One Directional" }, { title: "Multi Directional", value: "Multi Directional" },
+      { title: "Multi Conditional", value: "Multi_Conditional" }
+      ],
       hiding: false,
       label_size: 12,
       col_size: 12,
@@ -642,7 +1122,7 @@ const AddClient = () => {
       data: ExitRuleArr.filter((item) => !item.showWhen || item.showWhen(formik.values)),
       disable: false,
     },
-    
+
     {
       name: "Heading",
       label: "Time_Duration",
@@ -656,7 +1136,6 @@ const AddClient = () => {
     },
   ];
 
-
   const getSymbol = async () => {
     if (formik.values.Exchange) {
       const data = { Exchange: formik.values.Exchange, Instrument: formik.values.Instrument }
@@ -667,7 +1146,6 @@ const AddClient = () => {
               loading: false,
               data: response.Symbol
             })
-
           }
           else {
             setSymbolData({
@@ -786,7 +1264,7 @@ const AddClient = () => {
 
 
   useEffect(() => {
-    formik.setFieldValue('Group', "") 
+    formik.setFieldValue('Group', "")
     formik.setFieldValue('HigherRange', 0)
     formik.setFieldValue('LowerRange', 0)
     formik.setFieldValue('EntryRange', 0)
@@ -803,11 +1281,11 @@ const AddClient = () => {
         fields={fields.filter(
           (field) => !field.showWhen || field.showWhen(formik.values)
         )}
-        page_title={`Add Script - Scalping  , Group Name : ${location.state.data.selectGroup}`}
+        page_title={`Add Script - Scalping  , Group Name : ${location?.state?.data?.selectGroup}`}
         btn_name="Add"
         btn_name1="Cancel"
         formik={formik}
-        btn_name1_route={"/subadmin/all-script"}
+        btn_name1_route={"/admin/allscript"}
       />
     </>
   );

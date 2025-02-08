@@ -161,6 +161,9 @@ const Clientservice = () => {
     const handleApprovalChange = async (e, row) => {
         const value = e.target.value;
         Swal.fire({
+            background: "#1a1e23 ",
+            backdrop: "#121010ba",
+            confirmButtonColor: "#1ccc8a",
             title: "Are you sure?",
             text: "Do you want to change the status?",
             icon: "warning",
@@ -182,6 +185,9 @@ const Clientservice = () => {
                     const response = await ApprovwRequest(req);
                     if (response.Status) {
                         Swal.fire({
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Success",
                             text: response.message,
                             icon: "success",
@@ -193,6 +199,9 @@ const Clientservice = () => {
                         fetchClientService();
                     } else {
                         Swal.fire({
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Error",
                             text: response.message,
                             icon: "error",
@@ -202,6 +211,9 @@ const Clientservice = () => {
                 } catch (error) {
                     console.error('Error in approval request:', error); // Log error for debugging
                     Swal.fire({
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Error",
                         text: "An error occurred while updating the status.",
                         icon: "error",
@@ -225,6 +237,9 @@ const Clientservice = () => {
                         </div>
                         <div className='iq-card-body'>
                             <div className="container mt-4">
+                                {
+                                    console.log("getAllRequest", getAllRequest)
+                                }
                                 <Tabs
                                     defaultActiveKey="PendingRequest"
                                     id="fill-tab-example"

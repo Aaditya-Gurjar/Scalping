@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import FullDataTable from '../../../ExtraComponent/CommanDataTable'
-import { GetAllTaskStatus, GetClientService, Get_All_Client_Logs } from '../../CommonAPI/Admin'
+import { GetAllTaskStatus, GetClientService, Get_All_Client_Logs, getStrategyType } from '../../CommonAPI/Admin'
 import { columns3, columns2, columns1, columns } from './UserAllColumn'
+import NoDataFound from '../../../ExtraComponent/NoDataFound'
 
 const Pannel = () => {
 
@@ -12,9 +13,21 @@ const Pannel = () => {
     })
     const [userName, setUserName] = useState('')
     const [getScript, setScript] = useState('')
+    console.log("getScript", getScript);
+
     const [getActivity, setActivity] = useState('')
     const [gettaskStatus, setAllTaskStatus] = useState([])
     const [clientService, setClientService] = useState({ loading: true, data: [] });
+
+
+    const [tableType, setTableType] = useState("MultiCondition");
+    console.log("table type ka data", tableType);
+
+
+    const [strategyType, setStrategyType] = useState([]);
+    console.log("strategyType", strategyType);
+
+
 
     const AllTaskStatus = async () => {
         await GetAllTaskStatus()
@@ -29,11 +42,24 @@ const Pannel = () => {
             .catch((err) => {
                 console.log("Error in finding the Task Status", err)
             })
-
     }
+
+    const fetchStrategyType = async () => {
+        try {
+            const res = await getStrategyType();
+            //   console.log("fetchStrategyType",res);
+
+            if (res.Data) {
+                setStrategyType(res.Data);
+            }
+        } catch (error) {
+            console.log("Error in finding the strategy type", error);
+        }
+    };
 
     useState(() => {
         AllTaskStatus()
+        fetchStrategyType()
     }, [])
 
     useEffect(() => {
@@ -101,6 +127,14 @@ const Pannel = () => {
     }
 
     useEffect(() => {
+        if (getScript == "Scalping") {
+            setTableType("MultiCondition");
+        } else {
+            setTableType("Scalping");
+        }
+    }, [getScript]);
+
+    useEffect(() => {
         getAllUserLogs()
     }, [userName, getScript, getActivity])
 
@@ -117,8 +151,9 @@ const Pannel = () => {
                         </div>
                         <div className="iq-card-body">
                             <div>
-                                <div className='row'>
-                                    <div className="form-group col-lg-4">
+                                <div className="row">
+                                   
+                                    <div className={`form-group ${getScript !== "Scalping" ? "col-lg-4" : "col-lg-3"}`}>
                                         <label>Username</label>
                                         <select
                                             className="form-select my-2"
@@ -127,55 +162,102 @@ const Pannel = () => {
                                             value={userName}
                                         >
                                             <option value="">Select Username</option>
-                                            {clientService.data && clientService.data.map((item, index) => (
+                                            {clientService.data?.map((item, index) => (
                                                 <option key={index} value={item.Username}>
                                                     {item.Username}
                                                 </option>
                                             ))}
                                         </select>
                                     </div>
-                                    <div className="form-group col-lg-4">
+
+                                   
+                                    <div className={`form-group ${getScript !== "Scalping" ? "col-lg-4" : "col-lg-3"}`}>
                                         <label>Strategy</label>
-                                        <select className="form-select my-2" required=""
+                                        <select
+                                            className="form-select my-2"
+                                            required
                                             onChange={(e) => setScript(e.target.value)}
-                                            value={getScript}>
-                                            <option value="">select Script</option>
-                                            <option value="Scalping">Scalping</option>
-                                            <option value="Option Strategy">Option Strategy</option>
-                                            <option value="Pattern">Pattern</option>
+                                            value={getScript}
+                                        >
+                                            {strategyType.map((type, index) => (
+                                                <option key={index} value={type}>
+                                                    {type}
+                                                </option>
+                                            ))}
                                         </select>
                                     </div>
-                                    <div className="form-group col-md-4">
+
+                                  
+                                    {getScript === "Scalping" && (
+                                        <div className={`form-group ${getScript !== "Scalping" ? "col-lg-4" : "col-lg-3"}`}>
+                                            <div className="px-3">
+                                                <label>Table Type</label>
+                                                <select
+                                                    className="form-select my-2"
+                                                    required
+                                                    onChange={(e) => setTableType(e.target.value)}
+                                                    value={tableType}
+                                                >
+                                                    <option value="Scalping">Scalping</option>
+                                                    <option value="MultiCondition">Multi Condition</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                   
+                                    <div className={`form-group ${getScript !== "Scalping" ? "col-lg-4" : "col-lg-3"}`}>
                                         <label htmlFor="email">Task Status</label>
-                                        <select className="form-select my-2" required=""
+                                        <select
+                                            className="form-select my-2"
+                                            required
                                             onChange={(e) => setActivity(e.target.value)}
-                                            value={getActivity}>
-                                            <option value="">Select Task Status</option>
-                                            {gettaskStatus && gettaskStatus.map((item, index) => {
-                                                return <option value={item} key={index}>{item}</option>
-                                            })}
+                                            value={getActivity}
+                                        >
+                                            {gettaskStatus?.map((item, index) => (
+                                                <option value={item} key={index}>{item}</option>
+                                            ))}
                                         </select>
                                     </div>
                                 </div>
                             </div>
-                            <div className="table-responsive">
-                                <FullDataTable
-                                    columns={getScript == 'Scalping' ? columns() : getScript == 'Option Strategy' ? columns1() : getScript == 'Pattern' ? columns2() : columns()}
-                                    data={getPanleData.data}
-                                    checkBox={false}
-                                />
-                                {getScript == 'Scalping' ?
-                                    <>
-                                        <h4 className='mt-3' >Multi Condition</h4>
-                                        <FullDataTable
 
-                                            columns={columns3()}
-                                            data={getPanleData.data1}
+                            
+                            <div className="table-responsive">
+                              
+                                {tableType === "Scalping" ? (
+                                    getPanleData?.data?.length > 0 ? (
+                                        <FullDataTable
+                                            columns={
+                                                getScript === "Scalping"
+                                                    ? columns()
+                                                    : getScript === "Option Strategy"
+                                                        ? columns1()
+                                                        : getScript === "Pattern"
+                                                            ? columns2()
+                                                            : columns()
+                                            }
+                                            data={getPanleData.data}
                                             checkBox={false}
                                         />
-                                    </> : ""}
-                            </div >
+                                    ) : (
+                                        <NoDataFound />
+                                    )
+                                ) : (
+                                    
+                                    tableType === "MultiCondition" && getPanleData?.data1?.length > 0 ? (
+                                        <>
+                                            <h4 className="mt-3">Multi Condition</h4>
+                                            <FullDataTable columns={columns3()} data={getPanleData.data1} checkBox={false} />
+                                        </>
+                                    ) : (
+                                        <NoDataFound />
+                                    )
+                                )}
+                            </div>
+
                         </div>
+
                     </div >
                 </div >
             </div>
@@ -184,4 +266,3 @@ const Pannel = () => {
 }
 export default Pannel
 
-    

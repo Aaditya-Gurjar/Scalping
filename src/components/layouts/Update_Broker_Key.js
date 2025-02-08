@@ -115,6 +115,9 @@ const Update_Broker_Key = ({ closeModal, isVisible, Role }) => {
             const response = await UpdateBrokerData(req);
             if (response.Status) {
                 Swal.fire({
+ background: "#1a1e23 ",
+ backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                     title: 'Success!',
                     text: 'Broker key updated successfully.',
                     icon: 'success',
@@ -125,6 +128,9 @@ const Update_Broker_Key = ({ closeModal, isVisible, Role }) => {
                 });
             } else {
                 Swal.fire({
+ background: "#1a1e23 ",
+ backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                     title: 'Error!',
                     text: 'Failed to update broker key.',
                     icon: 'error',
@@ -194,6 +200,9 @@ const Update_Broker_Key = ({ closeModal, isVisible, Role }) => {
                     setUpDateData({ data: response.Data });
 
                     Swal.fire({
+ background: "#1a1e23 ",
+ backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         title: "Updated successfully!",
                         text: "Broker Credential Updated successfully!",
                         icon: "success",
@@ -207,6 +216,9 @@ const Update_Broker_Key = ({ closeModal, isVisible, Role }) => {
                 else {
 
                     Swal.fire({
+ background: "#1a1e23 ",
+ backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         title: "Error",
                         text: response.message,
                         icon: "error",
@@ -432,7 +444,7 @@ const Update_Broker_Key = ({ closeModal, isVisible, Role }) => {
 
 
             {Role == "Admin" && isVisible ?
-                <div className="modal show" id="exampleModal" style={{ display: "block" }}>
+                <div className="modal show setApi" id="exampleModal" style={{ display: "block" }}>
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">
@@ -464,7 +476,7 @@ const Update_Broker_Key = ({ closeModal, isVisible, Role }) => {
                 :
                 ""}
             {Role == "User" && !userDetails.loading && isVisible && (
-                <div className="modal show" id="exampleModal" style={{ display: "block" }}>
+                <div className="modal show setApi" id="exampleModal" style={{ display: "block" }}>
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">

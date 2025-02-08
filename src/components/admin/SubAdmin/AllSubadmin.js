@@ -7,6 +7,7 @@ import { useFormik } from 'formik';
 import DropdownMultiselect from 'react-multiselect-dropdown-bootstrap';
 import AddForm from '../../../ExtraComponent/FormData';
 import Swal from 'sweetalert2';
+import NoDataFound from '../../../ExtraComponent/NoDataFound';
 
 
 
@@ -15,6 +16,9 @@ const AllSubadmin = () => {
     const navigate = useNavigate();
 
     const [clientService, setClientService] = useState({ loading: true, data: [] });
+ 
+    
+    
 
     const [searchInput, setSearchInput] = useState('')
 
@@ -23,6 +27,10 @@ const AllSubadmin = () => {
     useEffect(() => {
         fetchAllSubadmin();
     }, [searchInput]);
+
+    useEffect(() => {
+        // console.log("ClientService Updated:", clientService); // Debug clientService after state update
+    }, [clientService]);
 
 
 
@@ -56,12 +64,19 @@ const AllSubadmin = () => {
     };
 
 
-    const EditSubadmindetail = (value, tableMeta) => {
-        const rowData = clientService.data[tableMeta.rowIndex];
+
+    const EditSubadmindetail = (value, tableMeta) => {    
+
+        const rowIndex = tableMeta.rowIndex;
+        const rowData = tableMeta.rowData;
+       
+        // return
+
         navigate(`/admin/editSubadmin`, {
-            state: { rowData },
+            state: { rowIndex, rowData },
         });
     };
+
 
 
 
@@ -77,17 +92,61 @@ const AllSubadmin = () => {
                 customBodyRender: (value, tableMeta) => tableMeta.rowIndex + 1,
             },
         },
+        // {
+        //     name: 'Edit',
+        //     label: 'Edit',
+        //     options: {
+        //         filter: true,
+        //         sort: true,
+        //         customBodyRender: (value, tableMeta) => (
+        //             console.log("value",value),
+
+        //             <SquarePen
+        //             onClick={() => EditSubadmindetail(value, tableMeta)}  />
+
+        //         ),
+        //     },
+        // },
         {
             name: 'Edit',
             label: 'Edit',
             options: {
                 filter: true,
                 sort: true,
-                customBodyRender: (value, tableMeta) => (
-                    <SquarePen
-                        onClick={() => EditSubadmindetail(value, tableMeta)} />
+                customBodyRender: (value, tableMeta) => {
+                    // console.log("rowData nnnnnnnn",clientService);
 
-                ),
+                    const rowData = clientService.data[tableMeta.rowIndex]; // Row ka pura object
+                    // console.log("clientService clientService clientService",rowData);
+
+
+                    return (
+                        <SquarePen
+                            onClick={() => {
+                                console.log("Row Data:", rowData); // Row ka pura object log karna
+                                EditSubadmindetail(value, tableMeta); // Navigate karna ya handle karna
+                            }}
+                        />
+                    );
+                },
+              filter: true,
+              sort: true,
+              customBodyRender: (value, tableMeta) => {
+                // console.log("rowData nnnnnnnn",clientService);
+                  
+                const rowData = clientService.data[tableMeta.rowIndex]; // Row ka pura object
+                // console.log("clientService rowData rowData",rowData);
+
+                
+                return (
+                  <SquarePen
+                    onClick={() => {
+                    //   console.log("Row Data:", rowData); // Row ka pura object log karna
+                      EditSubadmindetail(value, tableMeta); // Navigate karna ya handle karna
+                    }}
+                  />
+                );
+              },
             },
         },
         {
@@ -150,7 +209,12 @@ const AllSubadmin = () => {
                             <div className='mb-3 col-lg-3'>
                                 <input type="text" className=' form-control rounded p-1 px-2' placeholder="Search..." onChange={(e) => setSearchInput(e.target.value)} value={searchInput} />
                             </div>
-                            <FullDataTable columns={columns} data={clientService.data} checkBox={false} />
+                            {
+                                clientService.data && clientService.data.length > 0 ?
+                                    (<FullDataTable columns={columns} data={clientService.data} checkBox={false} />)
+                                    :
+                                    (<NoDataFound />)
+                            }
                         </div>
                     </div>
                 </div>

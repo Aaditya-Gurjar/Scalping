@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FullDataTable from '../../../ExtraComponent/CommanDataTable';
-import { GetAllUserScript, DeleteUserScript, Discontinue, Continue, UpdateUserScript, GetUserScripts, getUserChartingScripts, DeleteSingleChartingScript } from '../../CommonAPI/User';
+import { GetAllUserScript, DeleteUserScript, Discontinue, Continue, UpdateUserScript, GetUserScripts, getUserChartingScripts, DeleteSingleChartingScript, MatchPosition } from '../../CommonAPI/User';
 import Loader from '../../../ExtraComponent/Loader';
 import { getColumns3, getColumns4, getColumns5, getColumns6, getColumns8 } from './Columns';
 import Swal from 'sweetalert2';
 import Formikform from "../../../ExtraComponent/FormData";
 import { useFormik } from 'formik';
+import NoDataFound from '../../../ExtraComponent/NoDataFound';
+import { text } from '../../../ExtraComponent/IconTexts';
 
 
 const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
@@ -31,6 +33,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         Marketwise: [],
         PremiumRotation: []
     });
+
     useEffect(() => {
         GetUserAllScripts()
 
@@ -40,8 +43,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         if (data == "ChartingPlatform")
             getChartingScript();
     }, [data]);
-
-
 
 
     const getChartingScript = async () => {
@@ -67,7 +68,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 if (response.Status) {
                     setAllScripts({
                         data: response.data,
-                        len: response.data.length - 1
+                        len: response.data?.length - 1
                     })
                 }
                 else {
@@ -198,12 +199,88 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
     }
 
-    const handleEdit = async (rowData) => {
+    const handleMatchPosition = async (rowData, type) => {
+        console.log("matchPosition", rowData.rowIndex)
+        const index = rowData.rowIndex
+        console.log("data is ", getAllService.NewScalping[index])
+
+        const req = {
+            // Username: userName,
+            // MainStrategy: "NewScalping",
+            // Strategy: getAllService.NewScalping[index].Targetselection,
+            // Symbol: getAllService.NewScalping[index].Symbol,
+            // ETPattern: "",
+            // Timeframe: "",
+            // TType: "",
+            // Group: getAllService.NewScalping[index].GroupN,
+            // TradePattern: "",
+            // TSymbol: "",
+            // PatternName: ""
+
+
+
+
+            MainStrategy: "NewScalping",
+            Strategy: getAllService.NewScalping[index].Targetselection,
+            Symbol: getAllService.NewScalping[index].Symbol,
+            Username: getAllService.NewScalping[index].Username,
+            ETPattern: "",
+            Timeframe: "",
+            MatchPosition: true,
+            Group: getAllService.NewScalping[index].GroupN,
+            TSymbol: "",
+            TradePattern: "",
+            PatternName: "",
+        }
+        console.log("outside")
+        if (req) {
+            try {
+                console.log("inside")
+                const response = await MatchPosition(req);
+                console.log("response is ", response)
+                if (response.status) {
+                    Swal.fire({
+                        title: response.Status ? "Success" : "Error !",
+                        text: response.message,
+                        icon: response.Status ? "success" : "error",
+                        timer: 1500,
+                        timerProgressBar: true
+                    });
+
+                }
+                else {
+                    Swal.fire({
+                        title: "Error !",
+                        text: "Something went wrong!",
+                        icon: "error",
+                        timer: 1500,
+                        timerProgressBar: true
+                    });
+                }
+
+            } catch (error) {
+                Swal.fire({
+                    title: "Error !",
+                    text: error.message || "Something went wrong!",
+                    icon: "error",
+                    timer: 1500,
+                    timerProgressBar: true
+                });
+            }
+        }
+
+    }
+
+
+    const handleEdit = async (rowData, type = 1) => {
         setShowEditModal(true)
         const index = rowData.rowIndex
-        if (data == 'Scalping') {
+        if (data == 'Scalping' && type == 1) {
             setEditDataScalping(getAllService.ScalpingData[index])
-            setEditCharting(getAllService.NewScalping[index])
+            // setEditCharting(getAllService.NewScalping[index])
+        }
+        else if (data == "Scalping" && type == 2) {
+            setEditDataScalping(getAllService.NewScalping[index])
         }
         else if (data == 'Option Strategy') {
             setEditDataOption(getAllService.OptionData[index])
@@ -254,9 +331,12 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 confirmButtonText: "Yes"
             }).then(async (result) => {
                 if (result.isConfirmed) {
+                    console.log("####", data, type)
                     const req =
                         data == 'Scalping' && type == 1 ?
+
                             {
+
                                 Username: userName,
                                 MainStrategy: data,
                                 Strategy: getAllService.ScalpingData[index].ScalpType == "Multi_Conditional" ? getAllService.NewScalping[index].Targetselection : getAllService.ScalpingData[index].ScalpType,
@@ -323,6 +403,14 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                             .then((response) => {
                                 if (response.Status) {
                                     Swal.fire({
+                                        // title: "Success",
+                                        // text: response.message,
+                                        // icon: "success",
+                                        // timer: 2000,
+                                        // timerProgressBar: true
+
+                                        background: "#1a1e23 ",
+                                        backdrop: "#121010ba",
                                         title: "Success",
                                         text: response.message,
                                         icon: "success",
@@ -349,6 +437,13 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                 console.log("response", response)
                                 if (response.Status) {
                                     Swal.fire({
+                                        // title: "Success",
+                                        // text: response.message,
+                                        // icon: "success",
+                                        // timer: 2000,
+                                        // timerProgressBar: true
+                                        background: "#1a1e23 ",
+                                        backdrop: "#121010ba",
                                         title: "Success",
                                         text: response.message,
                                         icon: "success",
@@ -375,10 +470,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
                     }
 
-
-
-
-
                 }
             })
         }
@@ -398,6 +489,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                     confirmButtonText: "Yes"
                 }).then(async (result) => {
                     if (result.isConfirmed) {
+                        console.log("####", data, type)
                         const req =
                             data == 'Scalping' && type == 1 ?
                                 {
@@ -462,15 +554,25 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                         await Continue(req)
                             .then((response) => {
                                 if (response.Status) {
+                                    // Swal.fire({
+                                    //     title: "Success",
+                                    //     text: response.message,
+                                    //     icon: "success",
+                                    //     timer: 1500,
+                                    //     timerProgressBar: true
+                                    // })
                                     Swal.fire({
+                                        background: "#1a1e23 ",
+                                        backdrop: "#121010ba",
                                         title: "Success",
                                         text: response.message,
                                         icon: "success",
                                         timer: 1500,
                                         timerProgressBar: true
-                                    }).then(() => {
-                                        setRefresh(!refresh)
-                                    });
+                                    })
+                                        .then(() => {
+                                            setRefresh(!refresh)
+                                        });
                                 }
                                 else {
                                     Swal.fire({
@@ -578,6 +680,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
         await GetAllUserScript(data)
             .then((response) => {
+
                 if (response.Status) {
                     setAllservice({
                         loading: false,
@@ -1039,132 +1142,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         }
     });
 
-    const fields = [
-        {
-            name: "Targetvalue",
-            label: showEditModal && EditDataScalping.ScalpType == "Fixed Price" ? "Target Price" : formik.values.Strategy == "One Directional" ? "Fixed Target" : "Booking Point",
-            type: "text5",
-            label_size: 12,
-            col_size: 6,
-            disable: false,
-            hiding: false,
-        },
-        {
-            name: "Slvalue",
-            label: showEditModal && EditDataScalping.ScalpType == "Fixed Price" ? "Stoploss Price" : "Re-Entry Point",
-            type: "text5",
-            label_size: 12,
-            col_size: 6,
-            disable: false,
-            hiding: false,
-        },
-        {
-            name: "EntryPrice",
-            label: showEditModal && EditDataScalping.ScalpType != "Fixed Price" ? "First Trade Lower Range" : "Lower Price",
-            type: "text3",
-
-            col_size: 6,
-            disable: false,
-            hiding: false,
-        },
-        {
-            name: "EntryRange",
-            label: showEditModal && EditDataScalping.ScalpType != "Fixed Price" ? "First Trade Higher Range" : "Higher Price",
-            type: "text3",
-
-            label_size: 12,
-            col_size: 6,
-            disable: false,
-            hiding: false,
-        },
-        {
-            name: "LowerRange",
-            label: "Lower Range",
-            type: "text3",
-            showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
-            label_size: 12,
-            col_size: 6,
-            disable: false,
-            hiding: false,
-        },
-        {
-            name: "HigherRange",
-            label: "Higher Range",
-            type: "text5",
-            showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
-            label_size: 12,
-            col_size: 6,
-            disable: false,
-            hiding: false,
-        },
-        {
-            name: "Quantity",
-            label: showEditModal && EditDataScalping.Exchange == "NFO" ? "Lot" : "Quantity",
-            type: "text5",
-            label_size: 12,
-            col_size: 6,
-            hiding: false,
-            disable: false,
-        },
-        {
-            name: "HoldExit",
-            label: "Hold/Exit",
-            type: "select",
-            options: [
-                { label: "Hold", value: "Hold" },
-                { label: "Exit", value: "Exit" },
-            ],
-            showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
-
-            label_size: 12,
-            col_size: 6,
-            disable: false,
-            hiding: false,
-        },
-        {
-            name: "TStype",
-            label: "Measurement Type",
-            type: "select",
-            options: [
-                { label: "Percentage", value: "Percentage" },
-                { label: "Point", value: "Point" },
-            ],
-            showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
-            label_size: 12,
-            col_size: 6,
-            hiding: false,
-            disable: false,
-        },
-        {
-            name: "TradeCount",
-            label: "Trade Count",
-            type: "text5",
-            label_size: 12,
-            col_size: 6,
-            disable: false,
-            hiding: false,
-        },
-
-        {
-            name: "EntryTime",
-            label: "Entry Time",
-            type: "timepiker",
-            label_size: 12,
-            col_size: 6,
-            disable: false,
-            hiding: false,
-        },
-        {
-            name: "ExitTime",
-            label: "Exit Time",
-            type: "timepiker",
-            label_size: 12,
-            col_size: 6,
-            disable: false,
-            hiding: false,
-        },
-
-    ];
 
     const fields1 = [
         {
@@ -1183,7 +1160,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         },
         {
             name: "Quantity",
-            label: "Lot Size",
+            label: showEditModal && EditDataScalping.Exchange == "NFO" ? "Lot" : "Quantity",
             type: "text5",
             label_size: 12,
             col_size: 6,
@@ -1312,6 +1289,244 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
     ];
 
+
+
+    const EntryRuleArr = [
+
+        {
+            name: "EntryPrice",
+            label: showEditModal && EditDataScalping.ScalpType != "Fixed Price" ? "First Trade Lower Range" : "Lower Price",
+            type: "text3",
+            col_size: 4,
+            disable: false,
+            headingtype: 2,
+            hiding: false,
+        },
+
+        {
+            name: "EntryRange",
+            label: showEditModal && EditDataScalping.ScalpType != "Fixed Price" ? "First Trade Higher Range" : "Higher Price",
+            type: "text3",
+            label_size: 12,
+            headingtype: 2,
+            col_size: 4,
+            disable: false,
+            hiding: false,
+        },
+
+
+    ];
+
+    const ExitRuleArr = [
+
+        {
+            name: "TStype",
+            label: "Measurement Type",
+            type: "select",
+            options: [
+                { label: "Percentage", value: "Percentage" },
+                { label: "Point", value: "Point" },
+            ],
+            showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
+            label_size: 12,
+            headingtype: 4,
+            col_size: 4,
+            hiding: false,
+            disable: false,
+        },
+
+        {
+            name: "Targetvalue",
+            label: showEditModal && EditDataScalping.ScalpType == "Fixed Price" ? "Target Price" : formik.values.Strategy == "One Directional" ? "Fixed Target" : "Booking Point",
+            type: "text3",
+            label_size: 12,
+            col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+            headingtype: 3,
+            disable: false,
+            hiding: false,
+        },
+
+
+        {
+            name: "Slvalue",
+            label: showEditModal && EditDataScalping.ScalpType == "Fixed Price" ? "Stoploss Price" : "Re-Entry Point",
+            type: "text3",
+            label_size: 12,
+            col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+            headingtype: 3,
+            disable: false,
+            hiding: false,
+        },
+    ];
+    const RiskManagementArr = [
+        {
+            name: "Quantity",
+            label: showEditModal && EditDataScalping.Exchange == "NFO" ? "Lot" : "Quantity",
+            type: "text3",
+            label_size: 12,
+            col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+            headingtype: 4,
+            hiding: false,
+            disable: false,
+        },
+
+        {
+            name: "LowerRange",
+            label: "Lower Range",
+            type: "text3",
+            label_size: 12,
+            col_size: 4,
+            showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
+            headingtype: 4,
+            disable: false,
+            hiding: false,
+        },
+
+        {
+            name: "HigherRange",
+            label: "Higher Range",
+            type: "text3",
+            label_size: 12,
+            col_size: 4,
+            headingtype: 4,
+            showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
+            disable: false,
+            hiding: false,
+        },
+
+        {
+            name: "HoldExit",
+            label: "Hold/Exit",
+            type: "select",
+            options: [
+                { label: "Hold", value: "Hold" },
+                { label: "Exit", value: "Exit" },
+            ],
+            showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
+            label_size: 12,
+            col_size: 4,
+            headingtype: 4,
+            disable: false,
+            hiding: false,
+        },
+        {
+            name: "Trade_Count",
+            label: "Trade Count",
+            type: "text3",
+            label_size: 12,
+            col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+            headingtype: 4,
+            disable: false,
+            hiding: false,
+        },
+
+        {
+            name: "TradeCount",
+            label: "Trade Count",
+            type: "text5",
+            label_size: 12,
+            col_size: 6,
+            disable: false,
+            hiding: false,
+        },
+    ];
+
+    const TimeDurationArr = [
+        {
+            name: "EntryTime",
+            label: "Entry Time",
+            type: "timepiker",
+            label_size: 12,
+            col_size: 4,
+            headingtype: 5,
+            disable: false,
+            hiding: false,
+        },
+        {
+            name: "ExitTime",
+            label: "Exit Time",
+            type: "timepiker",
+            label_size: 12,
+            col_size: 4,
+            headingtype: 5,
+            disable: false,
+            hiding: false,
+        },
+
+    ];
+
+
+
+    const fields = [
+
+
+        {
+            name: "Heading",
+            label: "Entry_Rule",
+            type: "heading",
+            hiding: false,
+            label_size: 12,
+            headingtype: 2,
+            col_size: 12,
+            data: EntryRuleArr.filter(
+                (item) => !item.showWhen || item.showWhen(formik.values)
+            ),
+            disable: false,
+        },
+        {
+            name: "Heading",
+            label: "Risk_Management",
+            type: "heading",
+            hiding: false,
+            label_size: 12,
+            headingtype: 4,
+            col_size: 12,
+            data: RiskManagementArr.filter(
+                (item) => !item.showWhen || item.showWhen(formik.values)
+            ),
+            disable: false,
+        },
+        {
+            name: "Heading",
+            label: "Exit_Rule",
+            type: "heading",
+            hiding: false,
+            label_size: 12,
+            col_size: 12,
+            headingtype: 3,
+            data: ExitRuleArr.filter(
+                (item) => !item.showWhen || item.showWhen(formik.values)
+            ),
+            disable: false,
+        },
+        {
+            name: "Heading",
+            label: "Time_Duration",
+            type: "heading",
+            hiding: false,
+            label_size: 12,
+            col_size: 12,
+            headingtype: 5,
+            data: TimeDurationArr.filter(
+                (item) => !item.showWhen || item.showWhen(formik.values)
+            ),
+            disable: false,
+        },
+        // {
+        //     name: "Heading",
+        //     label: "Other_Parameters",
+        //     type: "heading",
+        //     hiding: false,
+        //     label_size: 12,
+        //     col_size: 12,
+        //     headingtype: 6,
+        //     data: OtherParameterArr.filter(
+        //         (item) => !item.showWhen || item.showWhen(formik.values)
+        //     ),
+        //     disable: false,
+        // },
+    ];
+
     useEffect(() => {
         if (data == "Scalping") {
             formik.setFieldValue('EntryPrice', EditDataScalping.EntryPrice)
@@ -1364,44 +1579,104 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                         <>
                                             <div className="iq-card-header d-flex justify-content-between">
                                                 <div className="iq-header-title">
-                                                    {console.log("data Is", data)}
+                                                    {/* {console.log("data Is", data)} */}
                                                     {tableType === "MultiCondition" ? "" : <h4 className="card-title">{data}</h4>
                                                     }
                                                 </div>
                                                 <div className='d-flex justify-content-end'>
-                                                    <button className='btn btn-primary mt-1' style={{ fontSize: '18px', padding: '6px 14px', height: "47px" }} onClick={() => AddScript(data )}>Add Script</button>
+                                                    <button className='btn btn-primary mt-1' style={{ fontSize: '18px', padding: '6px 14px', height: "47px" }} onClick={() => AddScript(data)}>Add Script</button>
                                                 </div>
 
                                             </div>
                                             <div className="iq-card-body " style={{ padding: '3px' }}>
                                                 <div className="table-responsive">
 
+                                                    {
+                                                        getAllService.loading ? (
+                                                            <Loader />
+                                                        ) : (
+                                                            (() => {
+                                                                const hasPrimaryTableData =
+                                                                    tableType === "Scalping" &&
+                                                                    (
+                                                                        (data === "Scalping" && getAllService.ScalpingData?.length > 0) ||
+                                                                        (data === "Option Strategy" && getAllService.OptionData?.length > 0) ||
+                                                                        ((data === "Pattern" || data === "Pattern Script" )&& getAllService.PatternData?.length > 0) ||
+                                                                        (data === "ChartingPlatform" && getCharting?.length > 0)
+                                                                    );
 
-                                                    {getAllService.loading ? <Loader /> :
+                                                                const hasSecondaryTableData =
+                                                                    data === "Scalping" &&
+                                                                    tableType === "MultiCondition" &&
+                                                                    getAllService.NewScalping?.length > 0;
 
-                                                        (tableType === "Scalping" && <FullDataTable
-                                                            columns={data === "Scalping" && tableType === "Scalping" ? getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue) : data === "Option Strategy" ? getColumns4(handleDelete, handleEdit, HandleContinueDiscontinue) : data === "Pattern" ? getColumns5(handleDelete, handleEdit, HandleContinueDiscontinue) : data == "ChartingPlatform" ? getColumns8(HandleContinueDiscontinue) : getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue)}
-                                                            data={data === "Scalping" ? getAllService.ScalpingData : data === "Option Strategy" ? getAllService.OptionData : data === "Pattern" ? getAllService.PatternData : data == "ChartingPlatform" ? getCharting : []}
-                                                            checkBox={false}
-                                                        />)}
+                                                                if (!hasPrimaryTableData && !hasSecondaryTableData) {
+                                                                    return (
+                                                                        // <div
+                                                                        //     style={{
+                                                                        //         display: "flex",
+                                                                        //         justifyContent: "center",
+                                                                        //         alignItems: "center",
+                                                                        //         textAlign: "center",
+                                                                        //         height: "200px",
+                                                                        //     }}
+                                                                        // >
+                                                                        //     <img src="/assets/images/no-record-found.png" width="30%" alt="No Record Found" />
+                                                                        // </div>
+                                                                        <NoDataFound />
+                                                                    );
+                                                                }
 
-                                                    {data === "Scalping" && tableType === "MultiCondition" && (
-                                                        <div>
-                                                            <div className="iq-header-title mt-4">
-                                                                <h4 className="card-title">Multi Conditional</h4>
-                                                            </div>
-                                                            {getAllService.loading ? (
-                                                                <Loader />
-                                                            ) : (
-                                                                tableType === "MultiCondition" &&
-                                                                <FullDataTable
-                                                                    columns={getColumns6(handleDelete, handleEdit, HandleContinueDiscontinue)}
-                                                                    data={getAllService.NewScalping}
-                                                                    checkBox={false}
-                                                                />
-                                                            )}
-                                                        </div>
-                                                    )}
+                                                                return (
+                                                                    <>
+                                                                        {hasPrimaryTableData && (
+                                                                            <FullDataTable
+                                                                                columns={
+                                                                                    data === "Scalping" && tableType == "Scalping"
+                                                                                        ? getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue)
+                                                                                        : data === "Option Strategy"
+                                                                                            ? getColumns4(handleDelete, handleEdit, HandleContinueDiscontinue)
+                                                                                            : (data === "Pattern" || data === "Pattern Script")
+                                                                                                ? getColumns5(handleDelete, handleEdit, HandleContinueDiscontinue,)
+                                                                                                : data === "ChartingPlatform"
+                                                                                                    ? getColumns8(HandleContinueDiscontinue)
+                                                                                                    : getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue)
+                                                                                }
+                                                                                data={
+                                                                                    data === "Scalping"
+                                                                                        ? getAllService.ScalpingData
+                                                                                        : data === "Option Strategy"
+                                                                                            ? getAllService.OptionData
+                                                                                            : (data === "Pattern" || data === "Pattern Script")
+                                                                                                ? getAllService.PatternData
+                                                                                                : data === "ChartingPlatform"
+                                                                                                    ? getCharting
+                                                                                                    : []
+                                                                                }
+                                                                                checkBox={false}
+                                                                            />
+                                                                        )}
+
+
+                                                                        {hasSecondaryTableData && (
+                                                                            <div>
+                                                                                <div className="iq-header-title mt-4">
+                                                                                    <h4 className="card-title">Multi Conditional</h4>
+                                                                                </div>
+                                                                                <FullDataTable
+                                                                                    columns={getColumns6(handleDelete, handleEdit, HandleContinueDiscontinue, handleMatchPosition,)}
+                                                                                    data={getAllService.NewScalping}
+                                                                                    checkBox={false}
+                                                                                />
+                                                                            </div>
+                                                                        )}
+                                                                    </>
+                                                                );
+                                                            })()
+                                                        )
+                                                    }
+
+
                                                 </div>
                                             </div>
                                         </>

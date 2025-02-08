@@ -65,7 +65,12 @@ const ServicesList = () => {
     const username = localStorage.getItem("name")
     const expire = localStorage.getItem('expire');
     const [GetAllPlans, setAllPlans] = useState({ loading: true, data: [] });
+    // console.log("GetAllPlans", GetAllPlans);
+
     const [BuyedPlan, setBuyedPlan] = useState({ loading: true, data: [] });
+    // console.log("kya plan buy kiya hai", BuyedPlan);
+
+    const [getAlreadyBoughtPlans, setAlreadyBoughtPlans] = useState({ loading: true, data: [] });
 
     useEffect(() => {
         GetAllPlansData();
@@ -137,8 +142,8 @@ const ServicesList = () => {
 
     const HandleBuyPlan = async (index, type, isCharting) => {
         try {
-            const planDetails = isCharting ? GetAllPlans?.data1[index] :  GetAllPlans?.data[index];
-            
+            const planDetails = isCharting ? GetAllPlans?.data1[index] : GetAllPlans?.data[index];
+
             console.log("planDetails", planDetails);
             const req1 = { Username: username, transactiontype: 'Purchase', money: planDetails.payment };
             const result = await Swal.fire({
@@ -319,6 +324,16 @@ const ServicesList = () => {
             return plan
         }
     });
+    const getUpdatedPlans2 = GetAllPlans.data2?.filter((plan) => {
+        if (plan.PlanName == "Three Days Live" || plan.PlanName == "Two Days Demo" || plan.PlanName == "One Week Demo") {
+            if (BuyedPlan.data && BuyedPlan.data.length > 0) {
+                const isBuyed = BuyedPlan.data.find((buyedPlan) => buyedPlan.Planname == plan.PlanName);
+                return isBuyed != undefined && isBuyed
+            }
+        } else {
+            return plan
+        }
+    });
 
     return (
         <>
@@ -342,16 +357,16 @@ const ServicesList = () => {
                                 <Tabs
                                     defaultActiveKey="Scalping"
                                     id="fill-tab-example"
-                                    className="mb-3 custom-tabs w-50"
+                                    className="mb-3 custom-tabs w-90"
                                     fill>
-                                    <Tab eventKey="Scalping" title="Scalping">
+                                    <Tab eventKey="Scalping" title="Scalping" style={{ margin: "100px" }}>
                                         <div className="">
                                             <h5 className="mb-4">
                                                 <div className="iq-card-body">
                                                     <div style={styles.container} className="row">
                                                         {getUpdatedPlans?.map((plan, index) => (
                                                             plan.PlanName == "Three Days Live" || plan.PlanName == "One Week Demo" || plan.PlanName == "Two Days Demo" ? "" :
-                                                                <Card key={index}  className="col-lg-3 col-md-6 mb-3 all-plan-card">
+                                                                <Card key={index} className="col-lg-3 col-md-6 mb-3 all-plan-card">
                                                                     <div className="d-flex flex-column justify-content-between h-100 p-3 border">
                                                                         <div>
                                                                             <div style={styles.content}>
@@ -380,12 +395,12 @@ const ServicesList = () => {
                                                                         </div>
                                                                         <div style={styles.buttonContainer}>
                                                                             {SetPlan(plan.PlanName) == null ? (
-                                                                                <Button primary style={styles.button} onClick={() => HandleBuyPlan(index, 1 , false )}>
+                                                                                <Button primary style={styles.button} onClick={() => HandleBuyPlan(index, 1, false)}>
                                                                                     BUY NOW
                                                                                 </Button>
                                                                             )
                                                                                 :
-                                                                                <Button style={styles.subscribedButton} onClick={() => HandleBuyPlan(index, 0 , false)}>
+                                                                                <Button style={styles.subscribedButton} onClick={() => HandleBuyPlan(index, 0, false)}>
                                                                                     BUY AGAIN
                                                                                 </Button>
                                                                             }
@@ -398,7 +413,7 @@ const ServicesList = () => {
                                             </h5>
                                         </div>
                                     </Tab>
-                                    <Tab eventKey="Charting" title="Charting">
+                                    <Tab eventKey="Charting" title="Charting" style={{ margin: "100px" }}>
 
                                         <div className="iq-card-body">
                                             <div style={styles.container} className="row">
@@ -433,12 +448,12 @@ const ServicesList = () => {
                                                                 </div>
                                                                 <div style={styles.buttonContainer}>
                                                                     {SetPlan(plan.PlanName) == null ? (
-                                                                        <Button primary style={styles.button} onClick={() => HandleBuyPlan(index, 1 , true)}>
+                                                                        <Button primary style={styles.button} onClick={() => HandleBuyPlan(index, 1, true)}>
                                                                             BUY NOW
                                                                         </Button>
                                                                     )
                                                                         :
-                                                                        <Button style={styles.subscribedButton} onClick={() => HandleBuyPlan(index, 0 , true)}>
+                                                                        <Button style={styles.subscribedButton} onClick={() => HandleBuyPlan(index, 0, true)}>
                                                                             BUY AGAIN
                                                                         </Button>
                                                                     }
@@ -449,6 +464,52 @@ const ServicesList = () => {
                                             </div>
                                         </div>
 
+                                    </Tab>
+                                    {/* New Already Buy Plan Tab */}
+                                    <Tab eventKey="AlreadyBuy" title="Already Buy Plan" style={{ margin: "100px" }}>
+                                        <div className="iq-card-body">
+                                            <div style={styles.container} className="row">
+                                                {BuyedPlan.data?.length > 0 ? (
+                                                    BuyedPlan.data?.map((plan, index) => (
+
+
+                                                        <Card key={index} className="col-lg-3 col-md-6 mb-3 all-plan-card">
+                                                            <div className="d-flex flex-column justify-content-between h-100 p-3 border">
+                                                                <div>
+                                                                    <div style={styles.content}>
+                                                                        {/* {console.log("plan kya aa rha hai", plan)} */}
+
+                                                                        <h2 style={styles.title}>{plan.Planname}</h2>
+
+                                                                       
+                                                                        <h4 style={styles.subtitle}>No of Scripts: {plan?.NumberofScript}</h4>
+                                                                        <div style={styles.prices}>
+                                                                            <p style={styles.priceItem}>
+                                                                                <strong>Scalping Strategy:</strong> {plan?.Scalping?.join(", ")}
+                                                                            </p>
+                                                                            <p style={styles.priceItem}>
+                                                                                <strong>Option Strategy:</strong> {plan?.['Option Strategy']?.join(", ")}
+                                                                            </p>
+                                                                            <p style={styles.priceItem}>
+                                                                                <strong>Pattern Strategy:</strong> {plan?.Pattern?.join(", ")}
+                                                                            </p>
+                                                                           
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div style={styles.buttonContainer}>
+                                                                    <Button style={styles.subscribedButton} disabled>
+                                                                        ALREADY PURCHASED
+                                                                    </Button>
+                                                                </div>
+                                                            </div>
+                                                        </Card>
+                                                    ))
+                                                ) : (
+                                                    <p>No Plans Purchased Yet</p>
+                                                )}
+                                            </div>
+                                        </div>
                                     </Tab>
                                 </Tabs>
                             </div>
@@ -465,7 +526,7 @@ const ServicesList = () => {
 
 const styles = {
     // container: {
-     
+
     //     overflowX: "auto",
     //     padding: "5px",
     //     gap: "20px",
