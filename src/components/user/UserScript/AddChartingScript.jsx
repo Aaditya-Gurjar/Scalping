@@ -104,11 +104,12 @@ import {
   getChargingPlatformDataApi,
 } from "../../CommonAPI/User";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { useNavigate , useLocation } from "react-router-dom";
 import ChartingCard from "./ChartingCard";
 
 const AddChartingScript = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const userName = localStorage.getItem("name");
   const [chartingData, setChartingData] = useState([
     {
@@ -161,6 +162,9 @@ const AddChartingScript = () => {
     },
     
   ]);
+
+
+  console.log("loe",location?.state?.data?.scriptType?.data[location?.state?.data?.scriptType?.data.length-1]?.CombineChartingSignal)
 
   const getChartingData = async () => {
     await getChargingPlatformDataApi(userName)

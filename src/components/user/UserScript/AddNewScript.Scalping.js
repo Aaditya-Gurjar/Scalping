@@ -51,10 +51,7 @@ const AddClient = () => {
       }
     }
   }
-
-
-
-
+ 
   const formik = useFormik({
     initialValues: {
       MainStrategy: "",

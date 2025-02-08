@@ -1295,9 +1295,10 @@ const AddClient = () => {
         const currentTime = currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds()
 
 
-        if (weekend == 6 || weekend == 0 || currentTime >= "15:30:00" || currentTime <= "09:15:00") {
-            return SweentAlertFun("Market is off Today")
-        }
+        // if (weekend == 6 || weekend == 0 || currentTime >= "15:30:00" || currentTime <= "09:15:00") {
+        //     return SweentAlertFun("Market is off Today")
+        // }
+        
         const req = {
             MainStrategy: location.state.data.selectStrategyType,
             Strategy: formik.values.Strategy,
