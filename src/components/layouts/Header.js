@@ -765,9 +765,12 @@ const Header = () => {
                           <IndianRupee
                             style={{ height: "24px", marginRight: "10px" }}
                           />
-                          <strong>
+                          {/* <strong>
                             {formatNumber(walletBalance && walletBalance) ||
                               "-"}
+                          </strong> */}
+                          <strong>
+                            {walletBalance ||"-"}
                           </strong>
                         </span>
                       ) : (
