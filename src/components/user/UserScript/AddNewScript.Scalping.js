@@ -51,7 +51,7 @@ const AddClient = () => {
       }
     }
   }
- 
+
   const formik = useFormik({
     initialValues: {
       MainStrategy: "",
@@ -285,11 +285,11 @@ const AddClient = () => {
         errors.RepeatationCount = "Please Enter No. of Repeatation";
       }
 
-      if (!values.Loss && values.Strategy == "Multi_Conditional" && values.FixedSM == "Multiple") {
+      if ((values.Loss === undefined || values.Loss === null || values.Loss === "") && values.Strategy == "Multi_Conditional" && values.FixedSM == "Multiple") {
         errors.Loss = "Please Enter Maximum Loss";
       }
 
-      if (!values.Profit &&
+      if ((values.Profit === undefined || values.Profit === null || values.Profit === "") &&
         values.Strategy == "Multi_Conditional" &&
         values.FixedSM == "Multiple"
       ) {
@@ -502,7 +502,7 @@ const AddClient = () => {
             }
         }
         console.log("req", req);
-        
+
 
         await AddScript(req)
           .then((response) => {
