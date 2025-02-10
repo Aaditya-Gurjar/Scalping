@@ -466,7 +466,7 @@ const ServicesList = () => {
 
                                     </Tab>
                                     {/* New Already Buy Plan Tab */}
-                                    <Tab eventKey="AlreadyBuy" title="Already Buy Plan" style={{ margin: "100px" }}>
+                                    <Tab eventKey="AlreadyBuy" title="Already Purchased Plans" style={{ margin: "100px" }}>
                                         <div className="iq-card-body">
                                             <div style={styles.container} className="row">
                                                 {BuyedPlan.data?.length > 0 ? (
