@@ -114,6 +114,8 @@ const AddClient = () => {
       TargetExit: false,
       WorkingDay: [],
       OrderType: "Pending",
+      PanelTarget: 0,
+
 
 
     },
@@ -219,7 +221,7 @@ const AddClient = () => {
       }
 
       if (!values.Targetvalue) {
-        errors.Targetvalue = values.FixedSM == "Single" && values.Strategy == "Multi_Conditional" ? "Please Enter  Target Price  1" : values.Strategy == "Fixed Price" ? "Please Enter A Target Price." : "Please Enter Target Value.";
+        errors.Targetvalue = values.FixedSM == "Single" && values.Strategy == "Multi_Conditional" ? "Please Enter  Target 1" : values.Strategy == "Fixed Price" ? "Please Enter A Target." : "Please Enter Target Value.";
       }
 
       if (
@@ -262,7 +264,7 @@ const AddClient = () => {
           errors.quantityselection = "Please Select Increment Type";
         }
         if (!values.Targetvalue) {
-          errors.Targetvalue = "Please Enter Target Price";
+          errors.Targetvalue = "Please Enter Target";
         }
         if (!values.Targetselection) {
           errors.Targetselection = "Please Select Target Type";
@@ -326,6 +328,9 @@ const AddClient = () => {
       ) {
         errors.OrderType = "Please select Order Type";
       }
+      if (values.PanelTarget == undefined || values.PanelTarget == "" && (formik.values.FixedSM == "Multiple" && (formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise Target"))) {
+        errors.PanelTarget = "Please Enter Panel Target";
+      }
 
 
       console.log("errors", errors)
@@ -375,7 +380,7 @@ const AddClient = () => {
           CEDeepHigher: 0.0,
           PEDeepLower: 0.0,
           PEDeepHigher: 0.0,
-          TradeCount: values.Trade_Count,
+          TradeCount: values.Trade_Count || 1,
           TradeExecution: values.Trade_Execution,
           quantity2: values.FixedSM == "Single" && values.Strategy == "Multi_Conditional" ? Number(values.quantity2) : 0,
           quantity3: values.FixedSM == "Single" && values.Strategy == "Multi_Conditional" ? Number(values.quantity3) : 0,
@@ -407,11 +412,15 @@ const AddClient = () => {
             values.FixedSM == "Multiple" && values.Strategy == "Multi_Conditional" && values.RollOver == true ? values.NumberOfDays : 0,
           RollOverExitTime:
             values.FixedSM == "Multiple" && values.Strategy == "Multi_Conditional" && values.RollOver == true ? values.RollOverExitTime : "00:00:00",
-          TargetExit:
-            values.FixedSM == "Multiple" && values.Strategy == "Multi_Conditional" ? values.TargetExit : false,
+          TargetExit: values.Strategy == "Multi Directional" ||
+            values.Strategy == "One Directional" ||
+            (values.Strategy == "Multi_Conditional" &&
+              values.FixedSM == "Multiple") ? values.TargetExit : false,
           WorkingDay:
             values.FixedSM == "Multiple" && values.Strategy == "Multi_Conditional" ? values.WorkingDay : [],
           OrderType: values.OrderType,
+          PanelTarget: (formik.values.FixedSM == "Multiple" && formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise Target") ? Number(values.PanelTarget) : 0,
+
 
         }
 
@@ -475,7 +484,7 @@ const AddClient = () => {
           }
           else if ((Number(values.quantity2) > 0 && Number(values.tgp2) == 0) || Number(values.quantity2) == 0 && Number(values.tgp2) > 0) {
             if (Number(values.quantity2) > 0) {
-              return SweentAlertFun("Please Enter Target price 2 ")
+              return SweentAlertFun("Please Enter Target 2 ")
             }
             else if (Number(values.tgp2) > 0) {
               return SweentAlertFun(formik.values.Exchange == "NFO" ? "Please Enter Lot 2" : "Please Enter Quantity 2")
@@ -484,7 +493,7 @@ const AddClient = () => {
           }
           else if ((Number(values.quantity3) > 0 && Number(values.tgp3) == 0) || Number(values.quantity3) == 0 && Number(values.tgp3) > 0)
             if (Number(values.quantity3) > 0 && Number(values.tgp3) == 0) {
-              return SweentAlertFun("Please Enter Target Price 3")
+              return SweentAlertFun("Please Enter Target 3")
             }
             else {
               return SweentAlertFun(formik.values.Exchange == "NFO" ? "Please Enter Lot 3" : "Please Enter Quantity 3")
@@ -492,9 +501,8 @@ const AddClient = () => {
 
             }
         }
-
-
-
+        console.log("req", req);
+        
 
         await AddScript(req)
           .then((response) => {
@@ -718,6 +726,22 @@ const AddClient = () => {
   const ExitRuleArr = [
 
     {
+      name: "TStype",
+      label: "Measurement Type",
+      type: "select",
+      options: [
+        { label: "Percentage", value: "Percentage" },
+        { label: "Point", value: "Point" },
+      ],
+      showWhen: (values) => values.Strategy == "One Directional" || values.Strategy == "Multi Directional" || (values.Strategy == "Multi_Conditional"),
+      label_size: 12,
+      headingtype: 4,
+      col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
+      hiding: false,
+      disable: false,
+    },
+
+    {
       name: "Targetselection",
       label: "Target Type",
       type: "select",
@@ -738,8 +762,20 @@ const AddClient = () => {
     },
 
     {
+      name: "PanelTarget",
+      label: "Panel Target",
+      type: "text3",
+      label_size: 12,
+      showWhen: (values) => formik.values.FixedSM == "Multiple" && formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise Target Reverse",
+      col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
+      headingtype: 3,
+      disable: false,
+      hiding: false,
+    },
+
+    {
       name: "Targetvalue",
-      label: formik.values.FixedSM == "Single" && formik.values.Strategy == "Multi_Conditional" ? "Target Price 1" : formik.values.Strategy == "Fixed Price" ? "Target Price" : formik.values.Strategy == "One Directional" ? "Fixed Target" : formik.values.Strategy == "Multi_Conditional" && formik.values.FixedSM == "Multiple" && formik.values.Targetselection == "Fixed Target" ? "Fixed Target" : "Booking Point",
+      label: formik.values.FixedSM == "Single" && formik.values.Strategy == "Multi_Conditional" ? "Target 1" : formik.values.Strategy == "Fixed Price" ? "Target 1" : formik.values.Strategy == "One Directional" ? "Fixed Target" : formik.values.Strategy == "Multi_Conditional" && formik.values.FixedSM == "Multiple" && formik.values.Targetselection == "Fixed Target" ? "Fixed Target" : "Booking Point",
       type: "text3",
       label_size: 12,
       col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
@@ -749,7 +785,7 @@ const AddClient = () => {
     },
     {
       name: "tgp2",
-      label: "Target Price 2",
+      label: "Target 2",
       type: "text3",
       label_size: 12,
       col_size: 4,
@@ -760,7 +796,7 @@ const AddClient = () => {
     },
     {
       name: "tgp3",
-      label: "Target Price 3",
+      label: "Target 3",
       type: "text3",
       label_size: 12,
       col_size: 4,
@@ -769,21 +805,7 @@ const AddClient = () => {
       disable: false,
       hiding: false,
     },
-    {
-      name: "TStype",
-      label: "Measurement Type",
-      type: "select",
-      options: [
-        { label: "Percentage", value: "Percentage" },
-        { label: "Point", value: "Point" },
-      ],
-      showWhen: (values) => values.Strategy == "One Directional" || values.Strategy == "Multi Directional" || (values.Strategy == "Multi_Conditional"),
-      label_size: 12,
-      headingtype: 4,
-      col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
-      hiding: false,
-      disable: false,
-    },
+
     {
       name: "Slvalue",
       label: formik.values.Strategy == "Fixed Price" || (formik.values.FixedSM == "Single" && formik.values.Strategy == "Multi_Conditional") ? "Stoploss Price" : "Re-Entry Point",
@@ -887,6 +909,23 @@ const AddClient = () => {
       hiding: false,
     },
 
+    {
+      name: "Trade_Count",
+      label: "Trade Count",
+      type: "text3",
+      label_size: 12,
+      headingtype: 4,
+      showWhen: (values) =>
+        values.Strategy == "Multi Directional" ||
+        values.Strategy == "One Directional" ||
+        (values.Strategy == "Multi_Conditional" &&
+          values.FixedSM == "Multiple" &&
+          values.TargetExit == "true"),
+      col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
+      iconText: text.Trade_Count,
+      disable: false,
+      hiding: false,
+    },
 
     {
       name: "RepeatationCount",
@@ -901,6 +940,31 @@ const AddClient = () => {
       disable: false,
       hiding: false,
     },
+
+    {
+      name: "WorkingDay",
+      label: "Working Day",
+      type: "multiselect",
+      showWhen: (values) => {
+        return values.Strategy == "Multi_Conditional" && values.FixedSM == "Multiple";
+      },
+      options: [
+        { label: "Monday", value: "Monday" },
+        { label: "Tuesday", value: "Tuesday" },
+        { label: "Wednesday", value: "Wednesday" },
+        { label: "Thursday", value: "Thursday" },
+        { label: "Friday", value: "Friday" },
+        { label: "Saturday", value: "Saturday" },
+
+      ],
+      label_size: 12,
+      col_size: 3,
+      headingtype: 4,
+      disable: false,
+      iconText: text.Increment_Type,
+      hiding: false,
+    },
+
     {
       name: "Loss",
       label: "Max Loss ",
@@ -928,43 +992,6 @@ const AddClient = () => {
       disable: false,
       hiding: false,
     },
-    {
-      name: "Trade_Count",
-      label: "Trade Count",
-      type: "text3",
-      label_size: 12,
-      col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
-      headingtype: 4,
-      iconText: text.Trade_Count,
-      disable: false,
-      hiding: false,
-    },
-    {
-      name: "WorkingDay",
-      label: "Working Day",
-      type: "multiselect",
-      showWhen: (values) => {
-        return values.Strategy == "Multi_Conditional" && values.FixedSM == "Multiple";
-      },
-      options: [
-        { label: "Monday", value: "Monday" },
-        { label: "Tuesday", value: "Tuesday" },
-        { label: "Wednesday", value: "Wednesday" },
-        { label: "Thursday", value: "Thursday" },
-        { label: "Friday", value: "Friday" },
-        { label: "Saturday", value: "Saturday" },
-
-      ],
-      label_size: 12,
-      col_size: 3,
-      headingtype: 4,
-      disable: false,
-      iconText: text.Increment_Type,
-      hiding: false,
-    },
-
-
-
 
     {
       name: "stepup",
