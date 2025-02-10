@@ -212,7 +212,7 @@ confirmButtonColor: "#1ccc8a",
             }
 
             console.log("Errors", errors);
-            ScrollToViewFirstError(errors)
+            // ScrollToViewFirstError(errors)
 
             return errors;
         },

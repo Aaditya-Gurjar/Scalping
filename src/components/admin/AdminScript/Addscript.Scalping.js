@@ -566,6 +566,7 @@ const AddClient = () => {
   }, [formik.values.Exchange]);
 
 
+
   const SymbolSelectionArr = [
     {
       name: "Exchange",

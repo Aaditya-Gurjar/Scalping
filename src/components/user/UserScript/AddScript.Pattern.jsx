@@ -206,7 +206,7 @@ const AddClient = () => {
                 errors.EntryTime = "Entry Time Must be Before 15:29:59.";
             }
 
-            ScrollToViewFirstError(errors);
+            // ScrollToViewFirstError(errors);
             return errors;
         },
 

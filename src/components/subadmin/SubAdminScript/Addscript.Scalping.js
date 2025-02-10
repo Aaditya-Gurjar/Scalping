@@ -285,7 +285,7 @@ const AddClient = () => {
         errors.RollOverExitTime = "Please Enter RollOver Exit Time";
       }
       // if (
-        
+
       //   values.Strategy == "Multi_Conditional" &&
       //   values.position_type == "Multiple"
       // ) {
@@ -300,7 +300,7 @@ const AddClient = () => {
       }
       console.log("errors", errors)
 
-      ScrollToViewFirstError(errors)
+      // ScrollToViewFirstError(errors)
 
       return errors;
     },
