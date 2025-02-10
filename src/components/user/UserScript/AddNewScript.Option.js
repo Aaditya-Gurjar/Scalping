@@ -935,7 +935,7 @@ const AddClient = () => {
 
             ],
             label_size: 12,
-            col_size: 3,
+            col_size: 4,
             headingtype: 4,
             disable: false,
             // iconText: text.Increment_Type,
