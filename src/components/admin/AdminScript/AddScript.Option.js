@@ -260,7 +260,7 @@ const AddClient = () => {
                 errors.WorkingDay = "Please select Working day";
             }
 
-            ScrollToViewFirstError(errors)
+            // ScrollToViewFirstError(errors)
 
             return errors;
         },

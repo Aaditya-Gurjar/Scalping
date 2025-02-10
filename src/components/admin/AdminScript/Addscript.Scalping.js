@@ -559,11 +559,12 @@ const AddClient = () => {
   useEffect(() => {
     console.log("testing")
     if (formik.values.Exchange === 'NSE') {
-      formik.setFieldValue('ExitTime', '15:15:00');
+      formik.setFieldValue('ExitTime', '15:15:00');sc
     } else {
       formik.setFieldValue('ExitTime', '15:25:00');
     }
   }, [formik.values.Exchange]);
+
 
 
   const SymbolSelectionArr = [
