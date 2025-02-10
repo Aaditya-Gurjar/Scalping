@@ -275,69 +275,93 @@ import {
   getChargingPlatformDataApi,
 } from "../../CommonAPI/User";
 import Swal from "sweetalert2";
-import { useNavigate , useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import ChartingCard from "./ChartingCard";
 
 // Default values for each segment
-const defaultChartingData = (userName) => [
-  {
-    Username: userName,
-    Status: "Off",
-    Fund: 0,
-    Quantity: 0,
-    Segment: "Cash",
-    TradeCount: 0,
-    MaxProfit: 0,
-    MaxLoss: 0,
-    AdminStatus: "Off",
-    ExitDay: "Intraday",
-    RunningTrade: 0,
-    TradeStatus: "Off",
-    TradePerDay: 0,
-  },
-  {
-    Username: userName,
-    Status: "Off",
-    Fund: 0,
-    Quantity: 0,
-    Segment: "Future",
-    TradeCount: 0,
-    MaxProfit: 0,
-    MaxLoss: 0,
-    AdminStatus: "Off",
-    ExitDay: "Intraday",
-    RunningTrade: 0,
-    TradeStatus: "Off",
-    TradePerDay: 0,
-  },
-  {
-    Username: userName,
-    Status: "Off",
-    Fund: 0,
-    Quantity: 0,
-    Segment: "Option",
-    TradeCount: 0,
-    MaxProfit: 0,
-    MaxLoss: 0,
-    AdminStatus: "Off",
-    ExitDay: "Intraday",
-    RunningTrade: 0,
-    TradeStatus: "Off",
-    TradePerDay: 0,
-  },
-];
+// const defaultChartingData = (userName) => [
+//   {
+//     Username: userName,
+//     Status: "Off",
+//     Fund: 0,
+//     Quantity: 0,
+//     Segment: "Cash",
+//     TradeCount: 0,
+//     MaxProfit: 0,
+//     MaxLoss: 0,
+//     AdminStatus: "Off",
+//     ExitDay: "Intraday",
+//     RunningTrade: 0,
+//     TradeStatus: "Off",
+//     TradePerDay: 0,
+//   },
+//   {
+//     Username: userName,
+//     Status: "Off",
+//     Fund: 0,
+//     Quantity: 0,
+//     Segment: "Future",
+//     TradeCount: 0,
+//     MaxProfit: 0,
+//     MaxLoss: 0,
+//     AdminStatus: "Off",
+//     ExitDay: "Intraday",
+//     RunningTrade: 0,
+//     TradeStatus: "Off",
+//     TradePerDay: 0,
+//   },
+//   {
+//     Username: userName,
+//     Status: "Off",
+//     Fund: 0,
+//     Quantity: 0,
+//     Segment: "Option",
+//     TradeCount: 0,
+//     MaxProfit: 0,
+//     MaxLoss: 0,
+//     AdminStatus: "Off",
+//     ExitDay: "Intraday",
+//     RunningTrade: 0,
+//     TradeStatus: "Off",
+//     TradePerDay: 0,
+//   },
+// ];
+
+
+
 
 const AddChartingScript = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const userName = localStorage.getItem("name");
 
-  const [chartingData, setChartingData] = useState(
-    defaultChartingData(userName)
-  );
 
 
-  console.log("loe",location?.state?.data?.scriptType?.data[location?.state?.data?.scriptType?.data.length-1]?.CombineChartingSignal)
+  const allowedSegments = location?.state?.data?.scriptType?.data[location?.state?.data?.scriptType?.data.length - 1]?.CombineChartingSignal
+
+
+  console.log("allowedSegments" , allowedSegments)
+
+  const defaultChartingData = (userName) =>
+    allowedSegments.map((segment) => ({
+      Username: userName,
+      Status: "Off",
+      Fund: 0,
+      Quantity: 0,
+      Segment: segment,
+      TradeCount: 0,
+      MaxProfit: 0,
+      MaxLoss: 0,
+      AdminStatus: "Off",
+      ExitDay: "Intraday",
+      RunningTrade: 0,
+      TradeStatus: "Off",
+      TradePerDay: 0,
+    }));
+
+    const [chartingData, setChartingData] = useState(
+      defaultChartingData(userName)
+    );
 
   const getChartingData = async () => {
     try {
