@@ -349,7 +349,9 @@ const AddClient = () => {
           Symbol: values.Symbol,
           Optiontype: values.Instrument == "OPTIDX" || values.Instrument == "OPTSTK" || (values.Exchange === "MCX" && values.Instrument == "OPTFUT") ? values.Optiontype : "",
           Strike: values.Instrument == "OPTIDX" || values.Instrument == "OPTSTK" || (values.Exchange === "MCX" && values.Instrument == "OPTFUT") ? values.Strike : "",
-          expirydata1: values.Exchange == "NSE" ? getExpiryDate.data[0] : values.expirydata1,
+          // expirydata1: values.Exchange == "NSE" ? getExpiryDate.data[0] : values.expirydata1,
+          expirydata1: values.expirydata1 == "Monthly" ? getExpiryDate?.data?.[0] : values.expirydata1 == "Next_Month" ? getExpiryDate?.data?.[1] : values.Exchange == "NSE" ? getExpiryDate?.data?.[0] : values.expirydata1,
+
           TType: values.TType == 0 ? "" : values.TType,
           TStype: values.Strategy == "One Directional" || values.Strategy == "Multi Directional" || (values.Strategy == "Multi_Conditional") ? values.TStype : "",
           Targetvalue: values.Targetvalue,
@@ -641,13 +643,31 @@ const AddClient = () => {
       hiding: false,
       disable: false,
     },
+    // {
+    //   name: "expirydata1",
+    //   label: "Expiry Date",
+    //   type: "select",
+    //   options: getExpiryDate && getExpiryDate.data.map((item) => ({
+    //     label: item,
+    //     value: item
+    //   })),
+    //   showWhen: (values) => values.Exchange === "NFO" || values.Exchange === "CDS" || values.Exchange === "MCX",
+    //   label_size: 12,
+    //   headingtype: 1,
+    //   hiding: false,
+    //   col_size: formik.values.Instrument === "FUTSTK" || formik.values.Instrument === "FUTIDX" ? 3 : 4,
+    //   disable: false,
+    // },
     {
       name: "expirydata1",
       label: "Expiry Date",
       type: "select",
-      options: getExpiryDate && getExpiryDate.data.map((item) => ({
-        label: item,
-        value: item
+      options: formik.values.Exchange == "NFO" && (formik.values.Instrument == "FUTIDX" || formik.values.Instrument == "FUTSTK") ? [
+          { label: "Monthly", value: "Monthly" },
+          { label: "Next Month", value: "Next_Month" },
+      ] : getExpiryDate && getExpiryDate.data.map((item) => ({
+          label: item,
+          value: item
       })),
       showWhen: (values) => values.Exchange === "NFO" || values.Exchange === "CDS" || values.Exchange === "MCX",
       label_size: 12,
@@ -655,7 +675,7 @@ const AddClient = () => {
       hiding: false,
       col_size: formik.values.Instrument === "FUTSTK" || formik.values.Instrument === "FUTIDX" ? 3 : 4,
       disable: false,
-    },
+  },
   ]
 
   const EntryRuleArr = [
