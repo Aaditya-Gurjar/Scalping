@@ -78,7 +78,7 @@ const AddClient = () => {
       quantity2: 0,
       quantity3: 0,
       stepup: 1,
-      quantityvalue: "",
+      quantityvalue: 1,
       Targetselection: "",
       EntryTime: "09:15:00",
       ExitTime: "15:25:00",
@@ -103,9 +103,8 @@ const AddClient = () => {
       Trade_Count: 1,
       Trade_Execution: "Paper Trade",
       quantityselection: "Addition",
-      quantityvalue: 0,
       Targetselection: "Fixed Target",
-      RepeatationCount: 0,
+      RepeatationCount: 1,
       Profit: 0,
       Loss: 0,
       RollOver: false,
@@ -114,7 +113,7 @@ const AddClient = () => {
       TargetExit: false,
       WorkingDay: [],
       OrderType: "Pending",
-      FinalTarget: 0,
+      FinalTarget: 0.0,
 
 
 
@@ -390,13 +389,13 @@ const AddClient = () => {
           tgp3: values.FixedSM == "Single" && values.Strategy == "Multi_Conditional" ? Number(values.tgp3) : 0,
           stepup: values.FixedSM == "Multiple" && values.Strategy == "Multi_Conditional" ? Number(values.stepup) : 0,
           quantityselection: values.FixedSM == "Multiple" && values.Strategy == "Multi_Conditional" ? values.quantityselection : "",
-          quantityvalue: values.FixedSM == "Multiple" && values.Strategy == "Multi_Conditional" ? Number(values.quantityvalue) : 0,
+          quantityvalue: values.FixedSM == "Multiple" && values.Strategy == "Multi_Conditional" ? Number(values.quantityvalue) : 1,
           targetselection: values.FixedSM == "Multiple" && values.Strategy == "Multi_Conditional" ? values.Targetselection : "Single",
           RepeatationCount:
             values.FixedSM == "Multiple" &&
               values.Strategy == "Multi_Conditional"
               ? Number(values.RepeatationCount)
-              : 0,
+              : 1,
           Loss:
             values.FixedSM == "Multiple" &&
               values.Strategy == "Multi_Conditional"
@@ -421,8 +420,7 @@ const AddClient = () => {
           WorkingDay:
             values.FixedSM == "Multiple" && values.Strategy == "Multi_Conditional" ? values.WorkingDay : [],
           OrderType: values.OrderType,
-          FinalTarget: (formik.values.FixedSM == "Multiple" && formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise Target") ? Number(values.FinalTarget) : 0,
-
+          FinalTarget: (formik.values.FixedSM == "Multiple" && formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise Target") ? parseFloat(values.FinalTarget) : 0.0,
 
         }
 
@@ -563,10 +561,10 @@ const AddClient = () => {
       hiding: false,
       label_size: 12,
       headingtype: 1,
-      col_size: formik.values.Exchange == 'NFO' && (formik.values.Instrument === "FUTSTK" || formik.values.Instrument === "FUTIDX") ? 3 : formik.values.Exchange == 'NFO' && (formik.values.Instrument === "OPTIDX" || formik.values.Instrument === "OPTSTK") ? 4 : formik.values.Exchange == 'NSE' && formik.values.Instrument == 'FUTIDX' ? 6 : formik.values.Exchange == 'MCX' ? 4 : 6,
+      col_size: formik.values.Exchange == 'NFO' && (formik.values.Instrument === "FUTSTK" || formik.values.Instrument === "FUTIDX") || formik.values.Exchange == 'MCX' ? 3 : formik.values.Exchange == 'NFO' && (formik.values.Instrument === "OPTIDX" || formik.values.Instrument === "OPTSTK") ? 4 : formik.values.Exchange == 'NSE' && formik.values.Instrument == 'FUTIDX' ? 6 : formik.values.Exchange == 'MCX' ? 4 : 6,
       disable: false,
-      // iconText: text.Lower_Price
     },
+
     {
       name: "Instrument",
       label: "Instrument",
@@ -610,7 +608,7 @@ const AddClient = () => {
       label_size: 12,
       headingtype: 1,
       hiding: false,
-      col_size: formik.values.Exchange == 'MCX' ? 4 : formik.values.Exchange == "NSE" ? 6 : formik.values.Instrument === "OPTIDX" || formik.values.Instrument === "OPTSTK" ? 4 : 3,
+      col_size: formik.values.Exchange == 'MCX' ? 3 : formik.values.Exchange == "NSE" ? 6 : formik.values.Instrument === "OPTIDX" || formik.values.Instrument === "OPTSTK" ? 4 : 3,
       disable: false,
     },
     {
@@ -663,11 +661,11 @@ const AddClient = () => {
       label: "Expiry Date",
       type: "select",
       options: formik.values.Exchange == "NFO" && (formik.values.Instrument == "FUTIDX" || formik.values.Instrument == "FUTSTK") ? [
-          { label: "Monthly", value: "Monthly" },
-          { label: "Next Month", value: "Next_Month" },
+        { label: "Monthly", value: "Monthly" },
+        { label: "Next Month", value: "Next_Month" },
       ] : getExpiryDate && getExpiryDate.data.map((item) => ({
-          label: item,
-          value: item
+        label: item,
+        value: item
       })),
       showWhen: (values) => values.Exchange === "NFO" || values.Exchange === "CDS" || values.Exchange === "MCX",
       label_size: 12,
@@ -675,7 +673,7 @@ const AddClient = () => {
       hiding: false,
       col_size: formik.values.Instrument === "FUTSTK" || formik.values.Instrument === "FUTIDX" ? 3 : 4,
       disable: false,
-  },
+    },
   ]
 
   const EntryRuleArr = [

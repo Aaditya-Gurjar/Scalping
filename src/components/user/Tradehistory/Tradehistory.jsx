@@ -41,7 +41,6 @@ import DrawdownChartComponent from "../../admin/AdvanceChart/DrawdownChartCompon
 import ProfitAndLossGraph from "../../admin/AdvanceChart/ProfitAndLossGraph";
 import ChartComponent from "../../admin/AdvanceChart/ChartComponent";
 
-
 const Tradehistory = () => {
   const location = useLocation();
   console.log("state location data", location);
@@ -267,30 +266,30 @@ const Tradehistory = () => {
         selectedRowData.ScalpType != "Multi_Conditional"
           ? selectedRowData && selectedRowData.ScalpType
           : selectStrategyType == "Option Strategy"
-            ? selectedRowData && selectedRowData.STG
-            : selectStrategyType == "Pattern"
-              ? selectedRowData && selectedRowData.TradePattern
-              : selectStrategyType == "Scalping" &&
-                  selectedRowData.ScalpType == "Multi_Conditional"
-                ? selectedRowData && selectedRowData.Targetselection
-                : "Cash",
+          ? selectedRowData && selectedRowData.STG
+          : selectStrategyType == "Pattern"
+          ? selectedRowData && selectedRowData.TradePattern
+          : selectStrategyType == "Scalping" &&
+            selectedRowData.ScalpType == "Multi_Conditional"
+          ? selectedRowData && selectedRowData.Targetselection
+          : "Cash",
       Symbol:
         selectStrategyType == "Scalping" || selectStrategyType == "Pattern"
           ? selectedRowData && selectedRowData.Symbol
           : selectStrategyType == "Option Strategy"
-            ? selectedRowData && selectedRowData.IName
-            : selectStrategyType == "ChartingPlatform"
-              ? selectedRowData && selectedRowData.TSymbol
-              : "",
+          ? selectedRowData && selectedRowData.IName
+          : selectStrategyType == "ChartingPlatform"
+          ? selectedRowData && selectedRowData.TSymbol
+          : "",
       Username: Username,
       ETPattern:
         selectStrategyType == "Scalping"
           ? ""
           : selectStrategyType == "Option Strategy"
-            ? selectedRowData && selectedRowData.Targettype
-            : selectStrategyType == "Pattern"
-              ? selectedRowData && selectedRowData.Pattern
-              : "",
+          ? selectedRowData && selectedRowData.Targettype
+          : selectStrategyType == "Pattern"
+          ? selectedRowData && selectedRowData.Pattern
+          : "",
       Timeframe:
         selectStrategyType == "Pattern"
           ? selectedRowData && selectedRowData.TimeFrame
@@ -603,7 +602,12 @@ const Tradehistory = () => {
               <div className="was-validated ">
                 <div className="row">
                   <div
-                    className={`form-group  ${selectStrategyType == "ChartingPlatform" || selectStrategyType == "Scalping" ? "col-lg-3" : "col-lg-4"}`}>
+                    className={`form-group  ${
+                      selectStrategyType == "ChartingPlatform" ||
+                      selectStrategyType == "Scalping"
+                        ? "col-lg-3"
+                        : "col-lg-4"
+                    }`}>
                     <label>Select Strategy Type</label>
                     <select
                       className="form-select"
@@ -620,8 +624,13 @@ const Tradehistory = () => {
                     </select>
                   </div>
                   {selectStrategyType == "Scalping" && (
-                    <div className={`form-group  ${selectStrategyType == "ChartingPlatform" || selectStrategyType == "Scalping" ? "col-lg-3" : "col-lg-4"}`}>
-
+                    <div
+                      className={`form-group  ${
+                        selectStrategyType == "ChartingPlatform" ||
+                        selectStrategyType == "Scalping"
+                          ? "col-lg-3"
+                          : "col-lg-4"
+                      }`}>
                       <label>Table Type</label>
                       <select
                         className="form-select"
@@ -635,7 +644,13 @@ const Tradehistory = () => {
                   )}
                   {console.log("getChartingSegments", getChartingSegments)}
                   {selectStrategyType == "ChartingPlatform" && (
-                    <div className={`form-group  ${selectStrategyType == "ChartingPlatform" || selectStrategyType == "Scalping" ? "col-lg-3" : "col-lg-4"}`}>
+                    <div
+                      className={`form-group  ${
+                        selectStrategyType == "ChartingPlatform" ||
+                        selectStrategyType == "Scalping"
+                          ? "col-lg-3"
+                          : "col-lg-4"
+                      }`}>
                       <label>Select Segment Type</label>
                       <select
                         className="form-select"
@@ -654,7 +669,12 @@ const Tradehistory = () => {
                   )}
 
                   <div
-                    className={`form-group ${selectStrategyType == "ChartingPlatform" || selectStrategyType == "Scalping" ? "col-lg-3" : "col-lg-4"}`}>
+                    className={`form-group ${
+                      selectStrategyType == "ChartingPlatform" ||
+                      selectStrategyType == "Scalping"
+                        ? "col-lg-3"
+                        : "col-lg-4"
+                    }`}>
                     <label>Select form Date</label>
                     <DatePicker
                       className="form-select"
@@ -663,7 +683,12 @@ const Tradehistory = () => {
                     />
                   </div>
                   <div
-                    className={`form-group ${selectStrategyType == "ChartingPlatform" || selectStrategyType == "Scalping" ? "col-lg-3" : "col-lg-4"}`}>
+                    className={`form-group ${
+                      selectStrategyType == "ChartingPlatform" ||
+                      selectStrategyType == "Scalping"
+                        ? "col-lg-3"
+                        : "col-lg-4"
+                    }`}>
                     <label>Select To Date</label>
                     <DatePicker
                       className="form-select custom-date"
@@ -677,8 +702,8 @@ const Tradehistory = () => {
               {tableType == "Scalping" ? (
                 (selectStrategyType === "ChartingPlatform" &&
                   getCharting.length > 0) ||
-                  (selectStrategyType !== "ChartingPlatform" &&
-                    tradeHistory.data.length > 0) ? (
+                (selectStrategyType !== "ChartingPlatform" &&
+                  tradeHistory.data.length > 0) ? (
                   <div>
                     <div className="iq-header-title mt-4">
                       <h4 className="card-title">{selectStrategyType}</h4>
@@ -689,12 +714,12 @@ const Tradehistory = () => {
                           selectStrategyType === "Scalping"
                             ? columns()
                             : selectStrategyType === "Option Strategy"
-                              ? columns1()
-                              : selectStrategyType === "Pattern"
-                                ? columns2()
-                                : selectStrategyType === "ChartingPlatform"
-                                  ? getColumns10()
-                                  : columns()
+                            ? columns1()
+                            : selectStrategyType === "Pattern"
+                            ? columns2()
+                            : selectStrategyType === "ChartingPlatform"
+                            ? getColumns10()
+                            : columns()
                         }
                         data={(selectStrategyType === "ChartingPlatform"
                           ? getCharting
@@ -727,36 +752,11 @@ const Tradehistory = () => {
                 )
               ) : null}
               {tableType === "MultiCondition" &&
-                selectStrategyType === "Scalping" &&
-                adminPermission?.includes("Charting Platform") && (
+                selectStrategyType === "Scalping" && (
                   <div>
                     <div className="iq-header-title mt-4">
                       <h4 className="card-title">Multi Conditional</h4>
                     </div>
-                    {/* <div className="modal-body">
-                      {tradeHistory.data1 && tradeHistory.data1.length > 0 ? (
-                        <GridExample
-                          columns={columns()}
-                          data={tradeHistory.data1}
-                          onRowSelect={handleRowSelect}
-                          checkBox={true}
-                        />
-                      ) : (
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            textAlign: "center",
-                          }}>
-                          <img
-                            src="/assets/images/no-record-found.png"
-                            width="30%"
-                            alt=""
-                          />
-                        </div>
-                      )}
-                    </div> */}
                     <div className="modal-body">
                       {tradeHistory.data1 && tradeHistory.data1.length > 0 ? (
                         <GridExample
@@ -770,41 +770,30 @@ const Tradehistory = () => {
                           isChecked={location?.state?.RowIndex}
                         />
                       ) : (
-                        // <div
-                        //   style={{
-                        //     display: "flex",
-                        //     justifyContent: "center",
-                        //     alignItems: "center",
-                        //     textAlign: "center",
-                        //   }}>
-                        //   <img
-                        //     src="/assets/images/no-record-found.png"
-                        //     width="30%"
-                        //     alt=""
-                        //   />
-                        // </div>
                         <NoDataFound />
                       )}
                     </div>
                   </div>
                 )}
-              {selectStrategyType === "Scalping" &&
-              tableType === "MultiCondition" &&
-              tradeHistory.data1?.length > 0 ? (
-                <button className="btn btn-primary mt-2" onClick={handleSubmit}>
-                  Submit
-                </button>
-              ) : (
-                ""
-              )}
 
-              {(selectStrategyType === "ChartingPlatform" &&
-                getCharting?.length > 0) ||
-              tradeHistory?.data?.length > 0 ? (
-                <button className="btn btn-primary mt-2" onClick={handleSubmit}>
-                  Submit
-                </button>
-              ) : null}
+              {/* Submit Buttons */}
+              <div className="mt-2">
+                {selectStrategyType === "Scalping" &&
+                tableType === "MultiCondition" ? (
+                  tradeHistory.data1?.length > 0 && (
+                    <button className="btn btn-primary" onClick={handleSubmit}>
+                      Submit
+                    </button>
+                  )
+                ) : (selectStrategyType === "ChartingPlatform" &&
+                    getCharting?.length > 0) ||
+                  (tradeHistory?.data?.length > 0 &&
+                    tableType !== "MultiCondition") ? (
+                  <button className="btn btn-primary" onClick={handleSubmit}>
+                    Submit
+                  </button>
+                ) : null}
+              </div>
 
               {showTable && (
                 <>
@@ -826,16 +815,35 @@ const Tradehistory = () => {
                             {getAllTradeData && getAllTradeData.Overall[0].PnL}
                           </span>
                         </p> */}
-                        <p className="bold mt-4" style={{ fontWeight: 'bold', fontSize: '20px', color: 'black' }}>
+                        <p
+                          className="bold mt-4"
+                          style={{
+                            fontWeight: "bold",
+                            fontSize: "20px",
+                            color: "black",
+                          }}>
                           Total Profit and Loss:
-                          <span style={{ color: getAllTradeData?.Overall?.[0]?.PnL < 0 ? 'red' : 'green' }}>
+                          <span
+                            style={{
+                              color:
+                                getAllTradeData?.Overall?.[0]?.PnL < 0
+                                  ? "red"
+                                  : "green",
+                            }}>
                             {getAllTradeData?.Overall?.[0]?.PnL !== undefined
-                              ? parseFloat(getAllTradeData.Overall[0].PnL).toFixed(2)
+                              ? parseFloat(
+                                  getAllTradeData.Overall[0].PnL
+                                ).toFixed(2)
                               : "--"}
                           </span>
                         </p>
 
-                        <GridExample columns={columns3(selectStrategyType)} data={getAllTradeData.data} onRowSelect={handleRowSelect} checkBox={false} />
+                        <GridExample
+                          columns={columns3(selectStrategyType)}
+                          data={getAllTradeData.data}
+                          onRowSelect={handleRowSelect}
+                          checkBox={false}
+                        />
                       </>
                     }
                   />
@@ -990,15 +998,34 @@ const Tradehistory = () => {
                         </p>
                         <div className="row">
                           <div className="col-lg-6">
-                            <p>Consistent Profit: <span>{parseFloat(getAllTradeData.data1)?.toFixed(2)}</span></p>
-                            <p>Count Consistent Profit: <span>{parseFloat(getAllTradeData.data2)?.toFixed(2)}</span></p>
+                            <p>
+                              Consistent Profit:{" "}
+                              <span>
+                                {parseFloat(getAllTradeData.data1)?.toFixed(2)}
+                              </span>
+                            </p>
+                            <p>
+                              Count Consistent Profit:{" "}
+                              <span>
+                                {parseFloat(getAllTradeData.data2)?.toFixed(2)}
+                              </span>
+                            </p>
                           </div>
                           <div className="col-lg-6">
-                            <p>Consistent Loss: <span>{parseFloat(getAllTradeData.data4)?.toFixed(2)}</span></p>
-                            <p>Count Consistent Loss: <span>{parseFloat(getAllTradeData.data3)?.toFixed(2)}</span></p>
+                            <p>
+                              Consistent Loss:{" "}
+                              <span>
+                                {parseFloat(getAllTradeData.data4)?.toFixed(2)}
+                              </span>
+                            </p>
+                            <p>
+                              Count Consistent Loss:{" "}
+                              <span>
+                                {parseFloat(getAllTradeData.data3)?.toFixed(2)}
+                              </span>
+                            </p>
                           </div>
                         </div>
-
                       </>
                     }
                   />

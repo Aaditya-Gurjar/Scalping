@@ -85,7 +85,7 @@ const AddClient = () => {
       quantity2: 0,
       quantity3: 0,
       stepup: 1,
-      quantityvalue: "",
+      quantityvalue: 1,
       Targetselection: "",
       EntryTime: "09:15:00",
       ExitTime: "15:25:00",
@@ -111,9 +111,8 @@ const AddClient = () => {
       Trade_Count: 1,
       Trade_Execution: "Paper Trade",
       quantityselection: "Addition",
-      quantityvalue: 0,
       Targetselection: "Fixed Target",
-      RepeatationCount: 0,
+      RepeatationCount: 1,
       Profit: 0,
       Loss: 0,
       RollOver: "",
@@ -122,7 +121,7 @@ const AddClient = () => {
       TargetExit: false,
       WorkingDay: [],
       OrderType: "Pending",
-      PanelTarget: 0,
+      FinalTarget: 0,
     },
 
     validate: (values) => {
@@ -352,13 +351,13 @@ const AddClient = () => {
       }
 
       if (
-        values.PanelTarget == undefined ||
-        (values.PanelTarget == "" &&
+        values.FinalTarget == undefined ||
+        (values.FinalTarget == "" &&
           formik.values.position_type == "Multiple" &&
           formik.values.Strategy == "Multi_Conditional" &&
           formik.values.Targetselection == "Entry Wise Target")
       ) {
-        errors.PanelTarget = "Please Enter Panel Target";
+        errors.FinalTarget = "Please Enter Final Target";
       }
 
       // console.log("err", errors);
@@ -476,7 +475,7 @@ const AddClient = () => {
           values.position_type == "Multiple" &&
           values.Strategy == "Multi_Conditional"
             ? Number(values.quantityvalue)
-            : 0,
+            : 1,
         Targetselection:
           values.position_type == "Multiple" &&
           values.Strategy == "Multi_Conditional"
@@ -486,7 +485,7 @@ const AddClient = () => {
           values.position_type == "Multiple" &&
           values.Strategy == "Multi_Conditional"
             ? values.RepeatationCount
-            : 0,
+            : 1,
 
         Loss:
           values.position_type == "Multiple" &&
@@ -530,12 +529,12 @@ const AddClient = () => {
             : [],
         OrderType: values.OrderType,
 
-        PanelTarget:
+        FinalTarget:
           formik.values.position_type == "Multiple" &&
           formik.values.Strategy == "Multi_Conditional" &&
           formik.values.Targetselection == "Entry Wise Target"
-            ? Number(values.PanelTarget)
-            : 0,
+            ? parseFloat(values.FinalTarget)
+            : 0.0,
       };
 
       if (
@@ -1046,8 +1045,8 @@ const AddClient = () => {
     },
 
     {
-      name: "PanelTarget",
-      label: "Panel Target",
+      name: "FinalTarget ",
+      label: "Final Target",
       type: "text3",
       label_size: 12,
       showWhen: (values) =>
