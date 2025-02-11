@@ -114,7 +114,7 @@ const AddClient = () => {
       TargetExit: false,
       WorkingDay: [],
       OrderType: "Pending",
-      PanelTarget: 0,
+      FinalTarget: 0,
 
 
 
@@ -328,8 +328,8 @@ const AddClient = () => {
       ) {
         errors.OrderType = "Please select Order Type";
       }
-      if (values.PanelTarget == undefined || values.PanelTarget == "" && (formik.values.FixedSM == "Multiple" && (formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise Target"))) {
-        errors.PanelTarget = "Please Enter Panel Target";
+      if (values.FinalTarget == undefined || values.FinalTarget == "" && (formik.values.FixedSM == "Multiple" && (formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise Target"))) {
+        errors.FinalTarget = "Please Enter Final Target";
       }
 
 
@@ -419,7 +419,7 @@ const AddClient = () => {
           WorkingDay:
             values.FixedSM == "Multiple" && values.Strategy == "Multi_Conditional" ? values.WorkingDay : [],
           OrderType: values.OrderType,
-          PanelTarget: (formik.values.FixedSM == "Multiple" && formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise Target") ? Number(values.PanelTarget) : 0,
+          FinalTarget: (formik.values.FixedSM == "Multiple" && formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise Target") ? Number(values.FinalTarget) : 0,
 
 
         }
@@ -762,8 +762,8 @@ const AddClient = () => {
     },
 
     {
-      name: "PanelTarget",
-      label: "Panel Target",
+      name: "FinalTarget ",
+      label: "Final Target",
       type: "text3",
       label_size: 12,
       showWhen: (values) => formik.values.FixedSM == "Multiple" && formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise Target Reverse",
