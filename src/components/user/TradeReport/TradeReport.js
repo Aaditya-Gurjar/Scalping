@@ -26,7 +26,7 @@ import NoDataFound from '../../../ExtraComponent/NoDataFound';
 const TradeReport = () => {
     const location = useLocation();
     const userName = localStorage.getItem("name");
-    const [selectStrategyType, setStrategyType] = useState('');
+    const [selectStrategyType, setStrategyType] = useState('Scalping');
     const [strategyNames, setStrategyNames] = useState([]);
     const [tradeReport, setTradeReport] = useState({ data: [], data1: [] });
     const [getCharting, setGetCharting] = useState([]);
@@ -442,12 +442,16 @@ const TradeReport = () => {
                             )}
 
                             { /* Render MultiCondition table only if tableType is MultiCondition */}
-                            {tableType === "MultiCondition" && selectStrategyType === "Scalping" && adminPermission?.includes('Charting Platform') && (
+
+                            {/*  adminPermission?.includes('Charting Platform')  */}
+
+
+                            {tableType === "MultiCondition" && selectStrategyType === "Scalping" && (
                                 <div>
                                     <div className="iq-header-title mt-4">
                                         <h4 className="card-title">Multi Conditional</h4>
                                     </div>
-                                    {tradeReport?.data1 && tradeReport?.data1.length > 0 ? (
+                                    {tradeReport?.data1 && tradeReport?.data1?.length > 0 ? (
                                         <div className="modal-body">
                                             <GridExample
                                                 columns={getColumns9()}
