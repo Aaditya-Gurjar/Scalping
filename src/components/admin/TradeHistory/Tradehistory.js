@@ -620,7 +620,7 @@ const Tradehistory = () => {
                             {tableType === "Scalping" ? (
                                 tradeHistory?.data?.length > 0 ? (
                                     <>
-                                    <h4 className="mt-3">Scalping</h4>
+                                    <h4 className="mt-3">{selectStrategyType}</h4>
                                     <GridExample
                                         columns={
                                             selectStrategyType === "Scalping"

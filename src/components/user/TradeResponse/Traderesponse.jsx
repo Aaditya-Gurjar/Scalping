@@ -6,7 +6,7 @@ import {
   getChargingPlatformDataApi,
   getStrategyType,
 } from "../../CommonAPI/User";
-import GridExample from "../../../ExtraComponent/CommanDataTable";
+import GridExample from "../../../ExtraComponent/CommanDataTable(original)";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Swal from "sweetalert2";
@@ -160,9 +160,11 @@ const TradeResponse = () => {
             return item.TradeExecution == "Live Trade";
           });
           const filterLiveTrade1 =
-            selectStrategyType != "Scalping" ? [] : response?.NewScalping?.filter((item) => {
-              return item.TradeExecution == "Live Trade";
-            });
+            selectStrategyType != "Scalping"
+              ? []
+              : response?.NewScalping?.filter((item) => {
+                  return item.TradeExecution == "Live Trade";
+                });
           // console.log("filterLiveTrade", filterLiveTrade);
           setTradeHistory({
             loading: false,

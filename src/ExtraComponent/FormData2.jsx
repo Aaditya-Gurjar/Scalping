@@ -807,6 +807,70 @@ const DynamicForm = ({
                                           </div>
                                         </div>
                                       </>
+                                    ) : item.type === "OnlyCharacter" ? (
+                                      <>
+                                        <div
+                                          className={`col-lg-${item.col_size}`}>
+                                          <div className="row d-flex">
+                                            <div className="col-lg-12">
+                                              <div className="form-group input-block mb-3">
+                                                <label htmlFor={item.name}>
+                                                  {item.label}
+                                                </label>
+                                                {item.iconText && (
+                                                  <span className="custom-tooltip-wrapper">
+                                                    <span
+                                                      className="info-icon-container"
+                                                      data-tooltip={
+                                                        item.iconText
+                                                      }>
+                                                      <Info
+                                                        style={{
+                                                          width: "15px",
+                                                          fill: "#ffffff",
+                                                        }}
+                                                        className="mx-1"
+                                                      />
+                                                    </span>
+                                                  </span>
+                                                )}
+                                                <input
+                                                  type="text"
+                                                  name={item.name}
+                                                  readOnly={item.disable}
+                                                  aria-describedby="basic-addon1"
+                                                  className="form-control"
+                                                  id={item.name}
+                                                  placeholder={`Enter ${item.label}`}
+                                                  {...formik.getFieldProps(
+                                                    item.name
+                                                  )}
+                                                  onChange={(e) => {
+                                                    let value = e.target.value;
+                                                    // Only allow letters (uppercase/lowercase) and spaces.
+                                                    if (
+                                                      /^[A-Za-z\s]*$/.test(
+                                                        value
+                                                      )
+                                                    ) {
+                                                      formik.setFieldValue(
+                                                        item.name,
+                                                        value
+                                                      );
+                                                    }
+                                                  }}
+                                                />
+                                                {formik.touched[item.name] &&
+                                                formik.errors[item.name] ? (
+                                                  <div style={{ color: "red" }}>
+                                                    {formik.errors[item.name]}
+                                                  </div>
+                                                ) : null}
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </>
                                     ) : item.type === "heading" ? (
                                       <div
                                         className={`col-lg-${item.col_size}`}>

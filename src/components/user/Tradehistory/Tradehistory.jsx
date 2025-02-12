@@ -699,6 +699,7 @@ const Tradehistory = () => {
                 </div>
               </div>
 
+              
               {tableType == "Scalping" ? (
                 (selectStrategyType === "ChartingPlatform" &&
                   getCharting.length > 0) ||
@@ -735,19 +736,6 @@ const Tradehistory = () => {
                     </div>
                   </div>
                 ) : (
-                  // <div
-                  //   style={{
-                  //     display: "flex",
-                  //     justifyContent: "center",
-                  //     alignItems: "center",
-                  //     textAlign: "center",
-                  //   }}>
-                  //   <img
-                  //     src="/assets/images/no-record-found.png"
-                  //     width="30%"
-                  //     alt="No record found"
-                  //   />
-                  // </div>
                   <NoDataFound />
                 )
               ) : null}

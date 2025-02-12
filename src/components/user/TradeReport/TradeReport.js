@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { get_User_Data, getStrategyType } from '../../CommonAPI/Admin';
 import { get_Trade_Report, getChargingPlatformDataApi, getUserChartingScripts, getChartingReport } from '../../CommonAPI/User';
 import { Eye, Tablet } from "lucide-react";
-import GridExample from '../../../ExtraComponent/CommanDataTable';
+import GridExample from '../../../ExtraComponent/CommanDataTable(original)';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Swal from 'sweetalert2';

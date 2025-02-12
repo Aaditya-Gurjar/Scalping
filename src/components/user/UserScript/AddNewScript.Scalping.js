@@ -731,7 +731,7 @@ const AddClient = () => {
     {
       name: "Group",
       label: "Unique Name",
-      type: "text",
+      type: "OnlyCharacter",
       label_size: 12,
       col_size: 3,
       headingtype: 2,
