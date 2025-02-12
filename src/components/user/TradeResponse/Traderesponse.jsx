@@ -30,7 +30,7 @@ const TradeResponse = () => {
 
   const Username = localStorage.getItem("name");
 
-  const [selectStrategyType, setSelectStrategyType] = useState("");
+  const [selectStrategyType, setSelectStrategyType] = useState("Scalping");
   const [strategyType, setStrategyType] = useState([]);
   // console.log("strategyType1 strategyType1 strategyType15555",strategyType);
 
@@ -156,15 +156,13 @@ const TradeResponse = () => {
     await get_User_Data(data)
       .then((response) => {
         if (response.Status) {
-          const filterLiveTrade = response.Data;
-          // .filter((item) => {
-          //   return item.TradeExecution == "Live Trade";
-          // });
+          const filterLiveTrade = response.Data?.filter((item) => {
+            return item.TradeExecution == "Live Trade";
+          });
           const filterLiveTrade1 =
-            selectStrategyType != "Scalping" ? [] : response?.NewScalping;
-          // ?.filter((item) => {
-          //     return item.TradeExecution == "Live Trade";
-          //   });
+            selectStrategyType != "Scalping" ? [] : response?.NewScalping?.filter((item) => {
+              return item.TradeExecution == "Live Trade";
+            });
           // console.log("filterLiveTrade", filterLiveTrade);
           setTradeHistory({
             loading: false,
@@ -255,45 +253,45 @@ const TradeResponse = () => {
     const data = {
       MainStrategy:
         selectStrategyType == "Scalping" &&
-          selectedRowData.ScalpType == "Multi_Conditional"
+        selectedRowData.ScalpType == "Multi_Conditional"
           ? "NewScalping"
           : selectStrategyType,
       Strategy:
         selectStrategyType == "Scalping" &&
-          selectedRowData.ScalpType != "Multi_Conditional"
+        selectedRowData.ScalpType != "Multi_Conditional"
           ? selectedRowData && selectedRowData.ScalpType
           : selectStrategyType == "Option Strategy"
-            ? selectedRowData && selectedRowData.STG
-            : selectStrategyType == "Pattern"
-              ? selectedRowData && selectedRowData.TradePattern
-              : selectStrategyType == "Scalping" &&
-                selectedRowData.ScalpType == "Multi_Conditional"
-                ? selectedRowData && selectedRowData.Targetselection
-                : selectStrategyType == "ChartingPlatform" &&
-                  (selectedRowData.Optiontype == " " ||
-                    selectedRowData?.Optiontype == "")
-                  ? "Cash"
-                  : selectStrategyType == "ChartingPlatform" &&
-                    selectedRowData?.Optiontype == "SX"
-                    ? "Future"
-                    : "Option",
+          ? selectedRowData && selectedRowData.STG
+          : selectStrategyType == "Pattern"
+          ? selectedRowData && selectedRowData.TradePattern
+          : selectStrategyType == "Scalping" &&
+            selectedRowData.ScalpType == "Multi_Conditional"
+          ? selectedRowData && selectedRowData.Targetselection
+          : selectStrategyType == "ChartingPlatform" &&
+            (selectedRowData.Optiontype == " " ||
+              selectedRowData?.Optiontype == "")
+          ? "Cash"
+          : selectStrategyType == "ChartingPlatform" &&
+            selectedRowData?.Optiontype == "SX"
+          ? "Future"
+          : "Option",
       Symbol:
         selectStrategyType == "Scalping" || selectStrategyType == "Pattern"
           ? selectedRowData && selectedRowData.Symbol
           : selectStrategyType == "Option Strategy"
-            ? selectedRowData && selectedRowData.IName
-            : selectStrategyType == "ChartingPlatform"
-              ? selectedRowData && selectedRowData?.TSymbol
-              : "",
+          ? selectedRowData && selectedRowData.IName
+          : selectStrategyType == "ChartingPlatform"
+          ? selectedRowData && selectedRowData?.TSymbol
+          : "",
       Username: Username,
       ETPattern:
         selectStrategyType == "Scalping"
           ? ""
           : selectStrategyType == "Option Strategy"
-            ? selectedRowData && selectedRowData.Targettype
-            : selectStrategyType == "Pattern"
-              ? selectedRowData && selectedRowData.Pattern
-              : "",
+          ? selectedRowData && selectedRowData.Targettype
+          : selectStrategyType == "Pattern"
+          ? selectedRowData && selectedRowData.Pattern
+          : "",
       Timeframe:
         selectStrategyType == "Pattern"
           ? selectedRowData && selectedRowData.TimeFrame
@@ -302,7 +300,7 @@ const TradeResponse = () => {
       To_date: convertDateFormat(ToDate == "" ? Defult_To_Date : ToDate),
       Group:
         selectStrategyType == "Scalping" ||
-          selectStrategyType == "Option Strategy"
+        selectStrategyType == "Option Strategy"
           ? selectedRowData && selectedRowData.GroupN
           : "",
       TradePattern: "",
@@ -375,7 +373,12 @@ const TradeResponse = () => {
               <div className="was-validated ">
                 <div className="row">
                   <div
-                    className={`form-group ${selectStrategyType == "ChartingPlatform" || selectStrategyType == "Scalping" ? "col-lg-3" : "col-lg-4"}`}>
+                    className={`form-group ${
+                      selectStrategyType == "ChartingPlatform" ||
+                      selectStrategyType == "Scalping"
+                        ? "col-lg-3"
+                        : "col-lg-4"
+                    }`}>
                     <label>Select Strategy Type</label>
                     <select
                       className="form-select"
@@ -391,7 +394,13 @@ const TradeResponse = () => {
                   </div>
 
                   {selectStrategyType == "Scalping" && (
-                    <div className={`form-group ${selectStrategyType == "ChartingPlatform" || selectStrategyType == "Scalping" ? "col-lg-3" : "col-lg-4"}`}>
+                    <div
+                      className={`form-group ${
+                        selectStrategyType == "ChartingPlatform" ||
+                        selectStrategyType == "Scalping"
+                          ? "col-lg-3"
+                          : "col-lg-4"
+                      }`}>
                       <label>Select Table Type</label>
                       <select
                         className="form-select"
@@ -405,7 +414,13 @@ const TradeResponse = () => {
                   )}
 
                   {selectStrategyType == "ChartingPlatform" && (
-                    <div className={`form-group ${selectStrategyType == "ChartingPlatform" || selectStrategyType == "Scalping" ? "col-lg-3" : "col-lg-4"}`}>
+                    <div
+                      className={`form-group ${
+                        selectStrategyType == "ChartingPlatform" ||
+                        selectStrategyType == "Scalping"
+                          ? "col-lg-3"
+                          : "col-lg-4"
+                      }`}>
                       <label>Select Segment Type</label>
                       <select
                         className="form-select"
@@ -424,7 +439,12 @@ const TradeResponse = () => {
                   )}
 
                   <div
-                    className={`form-group ${selectStrategyType == "ChartingPlatform" || selectStrategyType == "Scalping" ? "col-lg-3" : "col-lg-4"}`}>
+                    className={`form-group ${
+                      selectStrategyType == "ChartingPlatform" ||
+                      selectStrategyType == "Scalping"
+                        ? "col-lg-3"
+                        : "col-lg-4"
+                    }`}>
                     <label>Select form Date</label>
                     <DatePicker
                       className="form-select"
@@ -433,7 +453,12 @@ const TradeResponse = () => {
                     />
                   </div>
                   <div
-                    className={`form-group ${selectStrategyType == "ChartingPlatform" || selectStrategyType == "Scalping" ? "col-lg-3" : "col-lg-4"}`}>
+                    className={`form-group ${
+                      selectStrategyType == "ChartingPlatform" ||
+                      selectStrategyType == "Scalping"
+                        ? "col-lg-3"
+                        : "col-lg-4"
+                    }`}>
                     <label>Select To Date</label>
                     <DatePicker
                       className="form-select"
@@ -452,30 +477,30 @@ const TradeResponse = () => {
                 {tableType === "Scalping" && // Check if the tableType is Scalping
                   (getCharting.length > 0 || tradeHistory?.data.length > 0 ? ( // Check if there is any data available
                     <div>
-                    <div className="iq-header-title mt-4">
-                      <h4 className="card-title">{selectStrategyType}</h4>
-                    </div>
-                    <GridExample
-                      columns={
-                        selectStrategyType === "Scalping"
-                          ? columns
-                          : selectStrategyType === "Option Strategy"
+                      <div className="iq-header-title mt-4">
+                        <h4 className="card-title">{selectStrategyType}</h4>
+                      </div>
+                      <GridExample
+                        columns={
+                          selectStrategyType === "Scalping"
+                            ? columns
+                            : selectStrategyType === "Option Strategy"
                             ? columns1
                             : selectStrategyType === "Pattern"
-                              ? columns2
-                              : selectStrategyType === "ChartingPlatform"
-                                ? columns8
-                                : columns
-                      }
-                      data={
-                        selectStrategyType === "ChartingPlatform"
-                          ? getCharting
-                          : tradeHistory?.data
-                      }
-                      onRowSelect={handleRowSelect}
-                      checkBox={true}
-                      isChecked={location?.state?.RowIndex}
-                    />
+                            ? columns2
+                            : selectStrategyType === "ChartingPlatform"
+                            ? columns8
+                            : columns
+                        }
+                        data={
+                          selectStrategyType === "ChartingPlatform"
+                            ? getCharting
+                            : tradeHistory?.data
+                        }
+                        onRowSelect={handleRowSelect}
+                        checkBox={true}
+                        isChecked={location?.state?.RowIndex}
+                      />
                     </div>
                   ) : (
                     // <div
@@ -491,7 +516,7 @@ const TradeResponse = () => {
                     //     alt="No Records Found"
                     //   />
                     // </div>
-                    <NoDataFound/>
+                    <NoDataFound />
                   ))}
               </div>
 
@@ -504,7 +529,7 @@ const TradeResponse = () => {
                     {
                       <div className="modal-body">
                         {tradeHistory?.data1 &&
-                          tradeHistory?.data1.length > 0 ? (
+                        tradeHistory?.data1.length > 0 ? (
                           <GridExample
                             columns={columns6}
                             data={tradeHistory?.data1}
@@ -526,7 +551,7 @@ const TradeResponse = () => {
                           //     alt=""
                           //   />
                           // </div>
-                          <NoDataFound/>
+                          <NoDataFound />
                         )}
                       </div>
                     }
@@ -534,22 +559,29 @@ const TradeResponse = () => {
                 )}
 
               {selectStrategyType === "Scalping" &&
-              tableType === "MultiCondition" &&
-              tradeHistory.data1?.length > 0 ? (
-                <button className="btn btn-primary mt-2" onClick={handleSubmit}>
-                  Submit
-                </button>
-              ) : (
-                ""
-              )}
+                tableType === "MultiCondition" &&
+                tradeHistory.data1?.length > 0 && (
+                  <button
+                    className="btn btn-primary mt-2"
+                    onClick={handleSubmit}>
+                    Submit
+                  </button>
+                )}
 
-              {(selectStrategyType === "ChartingPlatform" &&
-                getCharting?.length > 0) ||
-              tradeHistory?.data?.length > 0 ? (
-                <button className="btn btn-primary mt-2" onClick={handleSubmit}>
-                  Submit
-                </button>
-              ) : null}
+              {/* For other cases */}
+              {!(
+                selectStrategyType === "Scalping" &&
+                tableType === "MultiCondition"
+              ) &&
+                ((selectStrategyType === "ChartingPlatform" &&
+                  getCharting?.length > 0) ||
+                  tradeHistory?.data?.length > 0) && (
+                  <button
+                    className="btn btn-primary mt-2"
+                    onClick={handleSubmit}>
+                    Submit
+                  </button>
+                )}
 
               {showTable && (
                 <>
@@ -560,10 +592,10 @@ const TradeResponse = () => {
                           selectStrategyType === "Scalping"
                             ? columns3
                             : selectStrategyType === "Option Strategy"
-                              ? columns4
-                              : selectStrategyType === "ChartingPlatform"
-                                ? columns3
-                                : columns5
+                            ? columns4
+                            : selectStrategyType === "ChartingPlatform"
+                            ? columns3
+                            : columns5
                         }
                         data={getAllTradeData.data}
                         onRowSelect={handleRowSelect}
@@ -583,7 +615,7 @@ const TradeResponse = () => {
                       //     alt=""
                       //   />
                       // </div>
-                      <NoDataFound/>
+                      <NoDataFound />
                     )}
                   </div>
                 </>

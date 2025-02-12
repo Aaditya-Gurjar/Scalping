@@ -316,7 +316,7 @@ const Sidebar = () => {
         },
         {
             path: 'all/plan',
-            icon: <i className="fa fa-sitemap" />, // Sitemap icon for all plans
+            icon: <i className="ri-folder-chart-line" />, // Sitemap icon for all plans
             label: 'All Plans',
             permission: [] // No restriction
         },

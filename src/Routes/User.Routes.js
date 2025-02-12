@@ -31,6 +31,7 @@ import AllPlan from '../components/user/Plan/AllPlan'
 import NewStrategy from '../components/user/NewStrategy/NewStrategy';
 
 import AddChartingScript from '../components/user/UserScript/AddChartingScript';
+import MyPlans from '../components/user/Plan/MyPlans';
 
 // const Sidebar = lazy(()=> import ('../components/layouts/Sidebar'));
 // const SidebarRight =lazy (()=>import  ('../components/layouts/SidebarRight'));
@@ -74,6 +75,7 @@ const UserRoute = () => {
           <Routes>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/plans" element={<MyPlans />} />
             <Route path="/editprofile" element={<Editprofile />} />
             <Route path="/lastpattern" element={<LastPattern />} />
             <Route path="/addscript/scalping" element={<Addscript />} />

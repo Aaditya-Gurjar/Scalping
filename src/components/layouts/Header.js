@@ -980,6 +980,24 @@ const Header = () => {
                               </div>
                             </div>
                           </Link>
+
+                              <Link
+                                to="/user/plans"
+                                className="iq-sub-card iq-bg-primary-hover text-decoration-none">
+                                <div className="media align-items-center d-flex">
+                                  <div className="rounded card-icon bg-soft-primary">
+                                    <i className="ri-file-user-line" />
+                                  </div>
+                                  <div className="media-body ms-3">
+                                    <h6 className="mb-0 ">My Plans</h6>
+                                    <p className="mb-0 font-size-12 text-decoration-none">
+                                      View Purchased Plan details.
+                                    </p>
+                                  </div>
+                                </div>
+                              </Link>
+
+
                           <Link
 
                             className="iq-sub-card iq-bg-warning-hover text-decoration-none"

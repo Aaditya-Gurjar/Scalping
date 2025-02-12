@@ -22,9 +22,9 @@ const AddClient = () => {
 
     const SweentAlertFun = (text) => {
         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+            background: "#1a1e23 ",
+            backdrop: "#121010ba",
+            confirmButtonColor: "#1ccc8a",
             title: "Error",
             text: text,
             icon: "error",
@@ -41,263 +41,263 @@ confirmButtonColor: "#1ccc8a",
         return foundItem.EndDate;
     };
 
-  const ScrollToViewFirstError = (newErrors) => {
-    if (Object.keys(newErrors).length !== 0) {
-      const errorField = Object.keys(newErrors)[0];
+    const ScrollToViewFirstError = (newErrors) => {
+        if (Object.keys(newErrors).length !== 0) {
+            const errorField = Object.keys(newErrors)[0];
 
-      const errorElement = document.getElementById(errorField);
-      if (errorElement) {
-        const elementPosition =
-          errorElement.getBoundingClientRect().top + window.pageYOffset;
+            const errorElement = document.getElementById(errorField);
+            if (errorElement) {
+                const elementPosition =
+                    errorElement.getBoundingClientRect().top + window.pageYOffset;
 
-        const offset = 100;
-        window.scrollTo({
-          top: elementPosition - offset,
-          behavior: "smooth",
-        });
-      }
-    }
-  };
+                const offset = 100;
+                window.scrollTo({
+                    top: elementPosition - offset,
+                    behavior: "smooth",
+                });
+            }
+        }
+    };
 
 
     const formik = useFormik({
-      initialValues: {
-        MainStrategy: location.state.data.selectStrategyType,
-        Username: location.state.data.selectGroup,
-        Strategy: "",
-        ETPattern: "",
-        Timeframe: "",
-        Exchange: "",
-        Symbol: "",
-        Instrument: "",
-        Strike: "",
-        Optiontype: "",
-        Targetvalue: 1.0,
-        Slvalue: 1.0,
-        TStype: "",
-        Quantity: 1,
-        LowerRange: 0.0,
-        HigherRange: 0.0,
-        HoldExit: "",
-        EntryPrice: 0.0,
-        EntryRange: 0.0,
-        EntryTime: "09:15:00",
-        ExitTime: "15:25:00",
-        ExitDay: "",
-        FixedSM: "",
-        TType: "",
-        serendate: "",
-        expirydata1: "",
-        Expirytype: "",
-        Striketype: "",
-        DepthofStrike: 0,
-        DeepStrike: 0,
-        Group: "",
-        CEDepthLower: 0.0,
-        CEDepthHigher: 0.0,
-        PEDepthLower: 0.0,
-        PEDepthHigher: 0.0,
-        CEDeepLower: 0.0,
-        CEDeepHigher: 0.0,
-        PEDeepLower: 0.0,
-        PEDeepHigher: 0.0,
-        Trade_Count: 1,
-        Trade_Execution: "Paper Trade",
-      },
+        initialValues: {
+            MainStrategy: location.state.data.selectStrategyType,
+            Username: location.state.data.selectGroup,
+            Strategy: "",
+            ETPattern: "",
+            Timeframe: "",
+            Exchange: "",
+            Symbol: "",
+            Instrument: "",
+            Strike: "",
+            Optiontype: "",
+            Targetvalue: 1.0,
+            Slvalue: 1.0,
+            TStype: "",
+            Quantity: 1,
+            LowerRange: 0.0,
+            HigherRange: 0.0,
+            HoldExit: "",
+            EntryPrice: 0.0,
+            EntryRange: 0.0,
+            EntryTime: "09:15:00",
+            ExitTime: "15:25:00",
+            ExitDay: "",
+            FixedSM: "",
+            TType: "",
+            serendate: "",
+            expirydata1: "",
+            Expirytype: "",
+            Striketype: "",
+            DepthofStrike: 0,
+            DeepStrike: 0,
+            Group: "",
+            CEDepthLower: 0.0,
+            CEDepthHigher: 0.0,
+            PEDepthLower: 0.0,
+            PEDepthHigher: 0.0,
+            CEDeepLower: 0.0,
+            CEDeepHigher: 0.0,
+            PEDeepLower: 0.0,
+            PEDeepHigher: 0.0,
+            Trade_Count: 1,
+            Trade_Execution: "Paper Trade",
+        },
 
-      validate: (values) => {
-        let errors = {};
-        const maxTime = "15:29:59";
-        const minTime = "09:15:00";
+        validate: (values) => {
+            let errors = {};
+            const maxTime = "15:29:59";
+            const minTime = "09:15:00";
 
-        if (!values.Exchange) {
-          errors.Exchange = "Please Select Exchange Type.";
-        }
-        if (!values.Instrument && values.Exchange == "NFO") {
-          errors.Instrument = "Please Enter Instrument Type.";
-        }
-        if (!values.Trade_Execution || values.Trade_Execution == 0) {
-          errors.Trade_Execution = "Please Select Trade Execution.";
-        }
-        if (!values.Trade_Count || values.Trade_Count == 0) {
-          errors.Trade_Count = "Please Enter Trade Count.";
-        }
-        if (!values.Symbol) {
-          errors.Symbol = "Please Enter Symbol Type.";
-        }
-        if (
-          !values.Optiontype &&
-          (values.Instrument == "OPTIDX" || values.Instrument == "OPTSTK") &&
-          values.Exchange == "NFO"
-        ) {
-          errors.Optiontype = "Enter Option Type.";
-        }
-        if (
-          !values.Strike &&
-          (values.Instrument == "OPTIDX" || values.Instrument == "OPTSTK") &&
-          values.Exchange == "NFO"
-        ) {
-          errors.Strike = "Enter Strike Price.";
-        }
-        if (!values.expirydata1 && values.Exchange == "NFO") {
-          errors.expirydata1 = "Enter Expiry Date.";
-        }
-        if (!values.Strategy) {
-          errors.Strategy = "Please Select Pattern Type.";
-        }
-        if (!values.Timeframe) {
-          errors.Timeframe = "Please Enter Timeframe Type.";
-        }
-        if (!values.ETPattern) {
-          errors.ETPattern = "Please Select Pattern Name.";
-        }
-
-        if (!values.TStype) {
-          errors.TStype = "Please Enter Measurement Type.";
-        }
-        if (
-          !values.Slvalue ||
-          values.Slvalue == 0 ||
-          Number(values.Slvalue) < 0
-        ) {
-          errors.Slvalue =
-            values.Slvalue == 0
-              ? "Stoploss can not be Zero"
-              : Number(values.Slvalue) < 0
-                ? "Stoploss can not be Negative"
-                : "Please Enter Stoploss Value.";
-        }
-        if (
-          !values.Targetvalue ||
-          values.Targetvalue == 0 ||
-          Number(values.Targetvalue) < 0
-        ) {
-          errors.Targetvalue =
-            values.Targetvalue == 0
-              ? "Target can not be Zero"
-              : Number(values.Targetvalue) < 0
-                ? "Target can not be Negative"
-                : "Please Enter Target Value.";
-        }
-        if (!values.TType) {
-          errors.TType = "Please Enter Transaction Type.";
-        }
-        if (!values.Quantity) {
-          errors.Quantity =
-            formik.values.Exchange == "NFO"
-              ? "Please Enter Lot Value"
-              : "Please Enter Quantity Value";
-        }
-        if (!values.ExitDay) {
-          errors.ExitDay = "Please Select Exit Day.";
-        }
-        if (!values.ExitTime) {
-          errors.ExitTime = "Please Select Exit Time.";
-        } else if (values.ExitTime > maxTime) {
-          errors.ExitTime = "Exit Time Must be Before 15:29:59.";
-        } else if (values.ExitTime < minTime) {
-          errors.ExitTime = "Exit Time Must be After 09:15:00.";
-        }
-        if (!values.EntryTime) {
-          errors.EntryTime = "Please Select Entry Time.";
-        } else if (values.EntryTime < minTime) {
-          errors.EntryTime = "Entry Time Must be After 09:15:00.";
-        } else if (values.EntryTime > maxTime) {
-          errors.EntryTime = "Entry Time Must be Before 15:29:59.";
-        }
-       
-ScrollToViewFirstError(errors);
-        return errors;
-      },
-
-      onSubmit: async (values) => {
-        const req = {
-          MainStrategy: location.state.data.selectStrategyType,
-          Username: userName,
-          Strategy: values.Strategy,
-          ETPattern: values.ETPattern,
-          Timeframe: values.Timeframe,
-          Exchange: values.Exchange,
-          Symbol: values.Symbol,
-          Instrument: values.Instrument,
-          Strike: values.Strike,
-          Optiontype:
-            values.Instrument == "OPTIDX" || values.Instrument == "OPTSTK"
-              ? values.Optiontype
-              : "",
-          Targetvalue: values.Targetvalue,
-          Slvalue: values.Slvalue,
-          TStype: values.TStype,
-          Quantity: values.Quantity,
-          LowerRange: 0.0,
-          HigherRange: 0.0,
-          HoldExit: "",
-          EntryPrice: 0.0,
-          EntryRange: 0.0,
-          EntryTime: values.EntryTime,
-          ExitTime: values.ExitTime,
-          ExitDay: values.ExitDay,
-          TradeCount: Number(values.Trade_Count),
-          TradeExecution: values.Trade_Execution,
-          FixedSM: "",
-          TType: values.TType,
-          serendate: getEndData(values.Strategy),
-          expirydata1:
-            values.Exchange == "NSE"
-              ? getExpiryDate.data[0]
-              : values.expirydata1,
-          Expirytype: "",
-          Striketype: "",
-          DepthofStrike: 0,
-          DeepStrike: 0,
-          Group: "",
-          CEDepthLower: 0.0,
-          CEDepthHigher: 0.0,
-          PEDepthLower: 0.0,
-          PEDepthHigher: 0.0,
-          CEDeepLower: 0.0,
-          CEDeepHigher: 0.0,
-          PEDeepLower: 0.0,
-          PEDeepHigher: 0.0,
-          stretegytag: values.Strategy,
-        };
-        if (values.EntryTime >= values.ExitTime) {
-          return SweentAlertFun("Exit Time should be greater than Entry Time");
-        }
-
-        await AddScript(req)
-          .then((response) => {
-            if (response.Status) {
-              Swal.fire({
-                background: "#1a1e23 ",
-                backdrop: "#121010ba",
-                confirmButtonColor: "#1ccc8a",
-                title: "Script Added !",
-                text: response.message,
-                icon: "success",
-                timer: 1500,
-                timerProgressBar: true,
-              });
-              setTimeout(() => {
-                navigate("/user/dashboard");
-              }, 1500);
-            } else {
-              Swal.fire({
-                background: "#1a1e23 ",
-                backdrop: "#121010ba",
-                confirmButtonColor: "#1ccc8a",
-                title: "Error !",
-                text: response.message,
-                icon: "error",
-                timer: 1500,
-                timerProgressBar: true,
-              });
+            if (!values.Exchange) {
+                errors.Exchange = "Please Select Exchange Type.";
             }
-          })
-          .catch((err) => {
-            console.log("Error in added new Script", err);
-          });
-      },
+            if (!values.Instrument && values.Exchange == "NFO") {
+                errors.Instrument = "Please Enter Instrument Type.";
+            }
+            if (!values.Trade_Execution || values.Trade_Execution == 0) {
+                errors.Trade_Execution = "Please Select Trade Execution.";
+            }
+            if (!values.Trade_Count || values.Trade_Count == 0) {
+                errors.Trade_Count = "Please Enter Trade Count.";
+            }
+            if (!values.Symbol) {
+                errors.Symbol = "Please Enter Symbol Type.";
+            }
+            if (
+                !values.Optiontype &&
+                (values.Instrument == "OPTIDX" || values.Instrument == "OPTSTK") &&
+                values.Exchange == "NFO"
+            ) {
+                errors.Optiontype = "Enter Option Type.";
+            }
+            if (
+                !values.Strike &&
+                (values.Instrument == "OPTIDX" || values.Instrument == "OPTSTK") &&
+                values.Exchange == "NFO"
+            ) {
+                errors.Strike = "Enter Strike Price.";
+            }
+            if (!values.expirydata1 && values.Exchange == "NFO") {
+                errors.expirydata1 = "Enter Expiry Date.";
+            }
+            if (!values.Strategy) {
+                errors.Strategy = "Please Select Pattern Type.";
+            }
+            if (!values.Timeframe) {
+                errors.Timeframe = "Please Enter Timeframe Type.";
+            }
+            if (!values.ETPattern) {
+                errors.ETPattern = "Please Select Pattern Name.";
+            }
+
+            if (!values.TStype) {
+                errors.TStype = "Please Enter Measurement Type.";
+            }
+            if (
+                !values.Slvalue ||
+                values.Slvalue == 0 ||
+                Number(values.Slvalue) < 0
+            ) {
+                errors.Slvalue =
+                    values.Slvalue == 0
+                        ? "Stoploss can not be Zero"
+                        : Number(values.Slvalue) < 0
+                            ? "Stoploss can not be Negative"
+                            : "Please Enter Stoploss Value.";
+            }
+            if (
+                !values.Targetvalue ||
+                values.Targetvalue == 0 ||
+                Number(values.Targetvalue) < 0
+            ) {
+                errors.Targetvalue =
+                    values.Targetvalue == 0
+                        ? "Target can not be Zero"
+                        : Number(values.Targetvalue) < 0
+                            ? "Target can not be Negative"
+                            : "Please Enter Target Value.";
+            }
+            if (!values.TType) {
+                errors.TType = "Please Enter Transaction Type.";
+            }
+            if (!values.Quantity) {
+                errors.Quantity =
+                    formik.values.Exchange == "NFO"
+                        ? "Please Enter Lot Value"
+                        : "Please Enter Quantity Value";
+            }
+            if (!values.ExitDay) {
+                errors.ExitDay = "Please Select Exit Day.";
+            }
+            if (!values.ExitTime) {
+                errors.ExitTime = "Please Select Exit Time.";
+            } else if (values.ExitTime > maxTime) {
+                errors.ExitTime = "Exit Time Must be Before 15:29:59.";
+            } else if (values.ExitTime < minTime) {
+                errors.ExitTime = "Exit Time Must be After 09:15:00.";
+            }
+            if (!values.EntryTime) {
+                errors.EntryTime = "Please Select Entry Time.";
+            } else if (values.EntryTime < minTime) {
+                errors.EntryTime = "Entry Time Must be After 09:15:00.";
+            } else if (values.EntryTime > maxTime) {
+                errors.EntryTime = "Entry Time Must be Before 15:29:59.";
+            }
+
+            // ScrollToViewFirstError(errors);
+            return errors;
+        },
+
+        onSubmit: async (values) => {
+            const req = {
+                MainStrategy: location.state.data.selectStrategyType,
+                Username: userName,
+                Strategy: values.Strategy,
+                ETPattern: values.ETPattern,
+                Timeframe: values.Timeframe,
+                Exchange: values.Exchange,
+                Symbol: values.Symbol,
+                Instrument: values.Instrument,
+                Strike: values.Strike,
+                Optiontype:
+                    values.Instrument == "OPTIDX" || values.Instrument == "OPTSTK"
+                        ? values.Optiontype
+                        : "",
+                Targetvalue: values.Targetvalue,
+                Slvalue: values.Slvalue,
+                TStype: values.TStype,
+                Quantity: values.Quantity,
+                LowerRange: 0.0,
+                HigherRange: 0.0,
+                HoldExit: "",
+                EntryPrice: 0.0,
+                EntryRange: 0.0,
+                EntryTime: values.EntryTime,
+                ExitTime: values.ExitTime,
+                ExitDay: values.ExitDay,
+                TradeCount: Number(values.Trade_Count),
+                TradeExecution: values.Trade_Execution,
+                FixedSM: "",
+                TType: values.TType,
+                serendate: getEndData(values.Strategy),
+                expirydata1:
+                    values.Exchange == "NSE"
+                        ? getExpiryDate.data[0]
+                        : values.expirydata1,
+                Expirytype: "",
+                Striketype: "",
+                DepthofStrike: 0,
+                DeepStrike: 0,
+                Group: "",
+                CEDepthLower: 0.0,
+                CEDepthHigher: 0.0,
+                PEDepthLower: 0.0,
+                PEDepthHigher: 0.0,
+                CEDeepLower: 0.0,
+                CEDeepHigher: 0.0,
+                PEDeepLower: 0.0,
+                PEDeepHigher: 0.0,
+                stretegytag: values.Strategy,
+            };
+            if (values.EntryTime >= values.ExitTime) {
+                return SweentAlertFun("Exit Time should be greater than Entry Time");
+            }
+
+            await AddScript(req)
+                .then((response) => {
+                    if (response.Status) {
+                        Swal.fire({
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
+                            title: "Script Added !",
+                            text: response.message,
+                            icon: "success",
+                            timer: 1500,
+                            timerProgressBar: true,
+                        });
+                        setTimeout(() => {
+                            navigate("/user/dashboard");
+                        }, 1500);
+                    } else {
+                        Swal.fire({
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
+                            title: "Error !",
+                            text: response.message,
+                            icon: "error",
+                            timer: 1500,
+                            timerProgressBar: true,
+                        });
+                    }
+                })
+                .catch((err) => {
+                    console.log("Error in added new Script", err);
+                });
+        },
     });
 
 
@@ -648,22 +648,22 @@ ScrollToViewFirstError(errors);
         },
     ]
     const OtherParameterArr = [
-      {
-        name: "Trade_Execution",
-        label: "Trade Execution",
-        type: "select",
-        options: [
-          { label: "Paper Trade", value: "Paper Trade" },
-          { label: "Live Trade", value: "Live Trade" },
-        ],
+        {
+            name: "Trade_Execution",
+            label: "Trade Execution",
+            type: "select",
+            options: [
+                { label: "Paper Trade", value: "Paper Trade" },
+                { label: "Live Trade", value: "Live Trade" },
+            ],
 
-        label_size: 12,
-        col_size: 4,
-        disable: false,
-        hiding: false,
-      },
+            label_size: 12,
+            col_size: 4,
+            disable: false,
+            hiding: false,
+        },
 
-      
+
     ];
 
     const fields = [

@@ -241,69 +241,69 @@ const Addscript = () => {
                         <div className="iq-card-body">
                             <form className="was-validated ">
                                 <div className='d-md-flex'>
-                                    <div className="form-group ms-3 col-md-4">
-                                        <label>Group Name</label>
-                                        <select className="form-select "
-                                            required=""
-                                            onChange={(e) => setSelectGroup(e.target.value)}
-                                            value={selectGroup}
-                                        >
-                                            {/* <option value=''>Select Group Name</option> */}
-                                            {getGroupData.data && getGroupData.data.map((item) => {
-                                                return <>
-                                                    <option value={item.GroupName}>{item.GroupName}</option>
-                                                </>
-                                            })}
+                                    <div className={`form-group ${selectStrategyType === "Scalping" ? "col-md-4" : "col-md-5"} ms-3`}>
+                                    <label>Group Name</label>
+                                    <select className="form-select "
+                                        required=""
+                                        onChange={(e) => setSelectGroup(e.target.value)}
+                                        value={selectGroup}
+                                    >
+                                        {/* <option value=''>Select Group Name</option> */}
+                                        {getGroupData.data && getGroupData.data.map((item) => {
+                                            return <>
+                                                <option value={item.GroupName}>{item.GroupName}</option>
+                                            </>
+                                        })}
 
-                                        </select>
-                                        {GroupError && <div style={{ "color": "red" }}>
-                                            {GroupError}
-                                        </div>}
-                                    </div>
-                                    <div className="form-group col-md-3 ms-3 ">
-                                        <label>Strategy Type</label>
-                                        <select className="form-select" required=""
-                                            onChange={(e) => { setAllservice({ loading: true, data: [] }); setStrategyType(e.target.value) }}
-                                            value={selectStrategyType}>
-                                            {/* <option value=''>Select Strategy Type</option> */}
-                                            {/* <option value={"Scalping"}>Scalping</option>
+                                    </select>
+                                    {GroupError && <div style={{ "color": "red" }}>
+                                        {GroupError}
+                                    </div>}
+                                </div>
+                                <div className={`form-group ${selectStrategyType === "Scalping" ? "col-md-3" : "col-md-5"} ms-3`}>
+                                    <label>Strategy Type</label>
+                                    <select className="form-select" required=""
+                                        onChange={(e) => { setAllservice({ loading: true, data: [] }); setStrategyType(e.target.value) }}
+                                        value={selectStrategyType}>
+                                        {/* <option value=''>Select Strategy Type</option> */}
+                                        {/* <option value={"Scalping"}>Scalping</option>
                                             <option value={"Option Strategy"}>Option Strategy</option>
                                             <option value={"Pattern"}>Pattern Script</option> */}
-                                            {strategyNames.map((item, index) => {
-                                                return (
-                                                    <option key={index} value={item}>
-                                                        {item}
-                                                    </option>
-                                                );
-                                            })}
+                                        {strategyNames.map((item, index) => {
+                                            return (
+                                                <option key={index} value={item}>
+                                                    {item}
+                                                </option>
+                                            );
+                                        })}
 
-                                        </select>
-                                        {stgError && <div style={{ "color": "red" }}>
-                                            {stgError}
-                                        </div>}
-                                    </div>
-                                    {selectStrategyType == "Scalping" && (
-                                        <div className="form-group col-lg-3 ms-3">
-                                            {/* {console.log("selectStrategyType == Scalping", selectStrategyType == "Scalping")} */}
-                                            <label>Table Type</label>
-                                            <select
-                                                className="form-select"
-                                                required=""
-                                                onChange={(e) => setTableType(e.target.value)}
-                                                value={tableType}>
-                                                <option value="Scalping">Scalping</option>
-                                                <option value="MultiCondition">Multi Condition</option>
-                                            </select>
-                                        </div>
-                                    )}
-                                    <div className='col-md-2 ms-3 mt-3 strategy'>
-                                        <button style={{ fontSize: '18px', padding: '6px 14px', height: "47px" }} className='btn btn-primary mt-1' onClick={handleAddScript}>Add Script</button>
-                                    </div>
-
+                                    </select>
+                                    {stgError && <div style={{ "color": "red" }}>
+                                        {stgError}
+                                    </div>}
                                 </div>
-                            </form>
+                                {selectStrategyType == "Scalping" && (
+                                    <div className="form-group col-lg-3 ms-3">
+                                        {/* {console.log("selectStrategyType == Scalping", selectStrategyType == "Scalping")} */}
+                                        <label>Table Type</label>
+                                        <select
+                                            className="form-select"
+                                            required=""
+                                            onChange={(e) => setTableType(e.target.value)}
+                                            value={tableType}>
+                                            <option value="Scalping">Scalping</option>
+                                            <option value="MultiCondition">Multi Condition</option>
+                                        </select>
+                                    </div>
+                                )}
+                                <div className='col-md-2 ms-3 mt-3 strategy'>
+                                    <button style={{ fontSize: '18px', padding: '6px 14px', height: "47px" }} className='btn btn-primary mt-1' onClick={handleAddScript}>Add Script</button>
+                                </div>
 
-                            {/* {getAllService?.data?.length > 0 || getAllService?.data1?.length > 0 ? (
+                        </div>
+                    </form>
+
+                    {/* {getAllService?.data?.length > 0 || getAllService?.data1?.length > 0 ? (
                                 <>
                                   
                                     {getAllService.loading ? (
@@ -349,39 +349,39 @@ const Addscript = () => {
                                 <NoDataFound />
                             )} */}
 
-                            {tableType === "Scalping" ? (
-                                getAllService?.data?.length > 0 ? (
-                                    <>
-                                        <h4 className="mt-3">Scalping</h4>
-                                        <FullDataTable
-                                            columns={columns(handleDelete)}
-                                            data={getAllService.data}
-                                            checkBox={false}
-                                        />
-                                    </>
-                                ) : (
-                                    <NoDataFound />
-                                )
-                            ) : tableType === "MultiCondition" && getAllService?.data1?.length > 0 ? (
-                                <>
-                                    <h4 className="mt-3">Multi Condition</h4>
-                                    <FullDataTable
-                                        columns={columns(handleDelete)}
-                                        data={getAllService.data1}
-                                        checkBox={false}
-                                    />
-                                </>
-                            ) : (
-                                <NoDataFound />
-                            )}
+                    {tableType === "Scalping" ? (
+                        getAllService?.data?.length > 0 ? (
+                            <>
+                                <h4 className="mt-3">Scalping</h4>
+                                <FullDataTable
+                                    columns={columns(handleDelete)}
+                                    data={getAllService.data}
+                                    checkBox={false}
+                                />
+                            </>
+                        ) : (
+                            <NoDataFound />
+                        )
+                    ) : tableType === "MultiCondition" && getAllService?.data1?.length > 0 ? (
+                        <>
+                            <h4 className="mt-3">Multi Condition</h4>
+                            <FullDataTable
+                                columns={columns(handleDelete)}
+                                data={getAllService.data1}
+                                checkBox={false}
+                            />
+                        </>
+                    ) : (
+                        <NoDataFound />
+                    )}
 
 
 
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
+            </div >
+        </div >
 
     )
 }

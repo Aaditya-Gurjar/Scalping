@@ -321,7 +321,7 @@ const AddClient = () => {
                 !values.WorkingDay.length > 0) {
                 errors.WorkingDay = "Please select Working day";
             }
-            ScrollToViewFirstError(errors)
+            // ScrollToViewFirstError(errors)
 
             return errors;
         },
@@ -937,7 +937,7 @@ const AddClient = () => {
 
             ],
             label_size: 12,
-            col_size: 3,
+            col_size: 4,
             headingtype: 4,
             disable: false,
             // iconText: text.Increment_Type,
@@ -1297,9 +1297,10 @@ const AddClient = () => {
         const currentTime = currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds()
 
 
-        if (weekend == 6 || weekend == 0 || currentTime >= "15:30:00" || currentTime <= "09:15:00") {
-            return SweentAlertFun("Market is off Today")
-        }
+        // if (weekend == 6 || weekend == 0 || currentTime >= "15:30:00" || currentTime <= "09:15:00") {
+        //     return SweentAlertFun("Market is off Today")
+        // }
+        
         const req = {
             MainStrategy: location.state.data.selectStrategyType,
             Strategy: formik.values.Strategy,

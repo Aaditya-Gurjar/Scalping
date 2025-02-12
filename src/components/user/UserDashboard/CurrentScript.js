@@ -95,6 +95,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
     const handleDelete = async (rowData, type) => {
         const index = rowData.rowIndex
+        // console.log
         const req =
             data == 'Scalping' && type == 1 ?
                 {
@@ -123,10 +124,10 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                         TradePattern: "",
                         PatternName: ""
                     }
-                    : data == 'Pattern' ?
+                    : data == 'Pattern' || data == 'Pattern Script' ?
                         {
 
-                            MainStrategy: data,
+                            MainStrategy: "Pattern" ,
                             Strategy: getAllService.PatternData[index].TradePattern,
                             Symbol: getAllService.PatternData[index].Symbol,
                             Username: userName,
@@ -292,7 +293,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             setEditDataPattern(getAllService.PatternData[index])
         }
     }
-
     const HandleContinueDiscontinue = async (rowData, type) => {
 
         const index = rowData.rowIndex
@@ -1601,7 +1601,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                                                     (
                                                                         (data === "Scalping" && getAllService.ScalpingData?.length > 0) ||
                                                                         (data === "Option Strategy" && getAllService.OptionData?.length > 0) ||
-                                                                        ((data === "Pattern" || data === "Pattern Script" )&& getAllService.PatternData?.length > 0) ||
+                                                                        ((data === "Pattern" || data === "Pattern Script") && getAllService.PatternData?.length > 0) ||
                                                                         (data === "ChartingPlatform" && getCharting?.length > 0)
                                                                     );
 

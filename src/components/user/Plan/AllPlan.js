@@ -65,8 +65,10 @@
 //     const username = localStorage.getItem("name")
 //     const expire = localStorage.getItem('expire');
 //     const [GetAllPlans, setAllPlans] = useState({ loading: true, data: [] });
+//     // console.log("GetAllPlans", GetAllPlans);
 
 //     const [BuyedPlan, setBuyedPlan] = useState({ loading: true, data: [] });
+//     // console.log("kya plan buy kiya hai", BuyedPlan);
 
 //     const [getAlreadyBoughtPlans, setAlreadyBoughtPlans] = useState({ loading: true, data: [] });
 
@@ -385,7 +387,9 @@
 //                                                                                     <p style={styles.priceItem}>
 //                                                                                         <strong>Pattern Strategy:</strong> {plan?.Pattern?.join(", ")}
 //                                                                                     </p>
-
+//                                                                                     {/* <p style={styles.priceItem}>
+//                                                                                         <strong>Pattern Strategy:</strong> {plan?.ChartingSignal?.join(", ")}
+//                                                                                     </p> */}
 //                                                                                 </div>
 //                                                                             </div>
 //                                                                         </div>
@@ -427,7 +431,15 @@
 //                                                                         <h4 style={styles.subtitle}>No of Scripts: {plan?.NumberofScript}</h4>
 
 //                                                                         <div style={styles.prices}>
-
+//                                                                             {/* <p style={styles.priceItem}>
+//                                                                                 <strong>Scalping Strategy:</strong> {plan?.Scalping?.join(", ")}
+//                                                                             </p>
+//                                                                             <p style={styles.priceItem}>
+//                                                                                 <strong>Option Strategy:</strong> {plan?.['Option Strategy']?.join(", ")}
+//                                                                             </p>
+//                                                                             <p style={styles.priceItem}>
+//                                                                                 <strong>Pattern Strategy:</strong> {plan?.Pattern?.join(", ")}
+//                                                                             </p> */}
 //                                                                             <p style={styles.priceItem}>
 //                                                                                 <strong>Charting Script:</strong> {plan?.ChartingSignal?.join(", ")}
 //                                                                             </p>
@@ -454,7 +466,7 @@
 
 //                                     </Tab>
 //                                     {/* New Already Buy Plan Tab */}
-//                                     <Tab eventKey="AlreadyBuy" title="Already Buy Plan" style={{ margin: "100px" }}>
+//                                     <Tab eventKey="AlreadyBuy" title="Already Purchased Plans" style={{ margin: "100px" }}>
 //                                         <div className="iq-card-body">
 //                                             <div style={styles.container} className="row">
 //                                                 {BuyedPlan.data?.length > 0 ? (
@@ -513,7 +525,12 @@
 
 
 // const styles = {
+//     // container: {
 
+//     //     overflowX: "auto",
+//     //     padding: "5px",
+//     //     gap: "20px",
+//     // },
 //     image: {
 //         width: "100%",
 //         height: "150px",
@@ -560,211 +577,205 @@
 // };
 
 // export default ServicesList;
-
-
-//ye wala update wala code hai iske niche se
-
-import React, { useState, useEffect, useMemo, useCallback } from "react";
-import styled from "styled-components";
+import React, { useState, useEffect } from "react";
 import { FaRupeeSign } from "react-icons/fa";
 import { BadgeCheck } from "lucide-react";
 import { Get_All_Plans, Get_All_Buyed_Plans, BuyPlan, AddBalance } from "../../CommonAPI/User";
 import Swal from "sweetalert2";
-import NewsTicker from "./Expair";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-import { Button } from "react-bootstrap";
+import "./AllPlan.css";  // Import external CSS
 
 const ServicesList = () => {
     const username = localStorage.getItem("name");
-    const expire = localStorage.getItem("expire");
-    const [GetAllPlans, setAllPlans] = useState({ loading: true, data: [], chartingData: [] });
-    const [BuyedPlan, setBuyedPlan] = useState({ loading: true, data: [] });
+    const [plansData, setPlansData] = useState({ loading: true, data: [] });
+    const [purchasedPlans, setPurchasedPlans] = useState([]);
 
     useEffect(() => {
-        GetAllPlansData();
-        AllBuyedPlans();
+        fetchPlans();
+        fetchPurchasedPlans();
     }, []);
 
-    const GetAllPlansData = async () => {
-        const response = await Get_All_Plans();
-        if (response.Status) {
-            setAllPlans({
-                loading: false,
-                data: response.Admin.filter(plan => !["Three Days Live", "Two Days Demo", "One Week Demo"].includes(plan.PlanName)),
-                chartingData: response.Charting.filter(plan => !["Three Days Live", "Two Days Demo", "One Week Demo"].includes(plan.PlanName))
-            });
+    const fetchPlans = async () => {
+        try {
+            const response = await Get_All_Plans();
+            if (response.Status) {
+                const filterPlan = response?.Admin?.filter(plan =>
+                    !["Three Days Live", "Two Days Demo", "One Week Demo"].includes(plan.PlanName)
+                );
+                const filterPlanCharting = response?.Charting?.filter(plan =>
+                    !["Three Days Live", "Two Days Demo", "One Week Demo"].includes(plan.PlanName)
+                );
+                setPlansData({
+                    loading: false,
+                    data: filterPlan,
+                    data1: filterPlanCharting,
+                });
+            }
+        } catch (error) {
+            console.error("Error fetching plans:", error);
+            setPlansData({ loading: false, data: [] });
         }
     };
 
-    const AllBuyedPlans = async () => {
-        const req = { userName: username };
-        const response = await Get_All_Buyed_Plans(req);
-        setBuyedPlan({ loading: false, data: response.Status ? response.Allotplan : [] });
+    const fetchPurchasedPlans = async () => {
+        try {
+            const response = await Get_All_Buyed_Plans({ userName: username });
+            if (response.Status) {
+                setPurchasedPlans(response.Allotplan || []);
+            }
+        } catch (error) {
+            console.error("Error fetching purchased plans:", error);
+        }
     };
 
-    const SetPlan = useCallback((name) => {
-        return BuyedPlan?.data.some(plan => plan.Planname === name) ? <BadgeCheck size={24} color="green" /> : null;
-    }, [BuyedPlan]);
+    const isPlanPurchased = (planName) => {
+        return purchasedPlans.some(plan => plan.Planname === planName);
+    };
 
-    const HandleBuyPlan = async (index, isCharting = false) => {
+    const HandleBuyPlan = async (index, type, isCharting) => {
         try {
-            const planDetails = isCharting ? GetAllPlans.chartingData[index] : GetAllPlans.data[index];
+            const planDetails = isCharting ? plansData?.data1[index] : plansData?.data[index];
             const result = await Swal.fire({
                 title: "Confirm Purchase",
                 text: `Buy ${planDetails.PlanName} for ₹${planDetails.payment}?`,
-                icon: "warning",
+                icon: "question",
                 showCancelButton: true,
-                confirmButtonText: "Yes, Buy it!",
+                confirmButtonText: "Confirm",
+                cancelButtonText: "Cancel",
             });
-            if (!result.isConfirmed) return;
 
-            const req = { Username: username, transactiontype: 'Purchase', money: planDetails.payment };
-            const CheckBalanceResponse = await AddBalance(req);
+            if (result.isConfirmed) {
+                const balanceResponse = await AddBalance({
+                    Username: username,
+                    transactiontype: "Purchase",
+                    money: planDetails.payment,
+                });
 
-            if (!CheckBalanceResponse.Status) {
-                return Swal.fire({ title: "Error", text: CheckBalanceResponse.message, icon: "error" });
-            }
+                if (balanceResponse.Status) {
+                    const buyResponse = await BuyPlan({
+                        Username: username,
+                        ...planDetails,
+                        Planname: planDetails.PlanName,
+                        Duration: planDetails["Plan Validity"],
+                        Extendtype: "",
+                        Charting: planDetails.ChartingSignal,
+                    });
 
-            const buyPlanResponse = await BuyPlan({ ...planDetails, Username: username, Extendtype: "" });
-            if (buyPlanResponse.Status) {
-                AllBuyedPlans();
-                Swal.fire({ title: "Success", text: buyPlanResponse.message, icon: "success", timer: 1500 });
-            } else {
-                Swal.fire({ title: "Error", text: buyPlanResponse.message, icon: "error", timer: 1500 });
+                    if (buyResponse.Status) {
+                        await fetchPurchasedPlans();
+                        Swal.fire("Success!", buyResponse.message, "success");
+                    } else {
+                        Swal.fire("Error!", buyResponse.message, "error");
+                    }
+                } else {
+                    Swal.fire("Error!", balanceResponse.message, "error");
+                }
             }
         } catch (error) {
-            Swal.fire({ title: "Error", text: "An unexpected error occurred", icon: "error" });
+            console.error("Purchase error:", error);
+            Swal.fire("Error!", "Transaction failed", "error");
         }
     };
 
+    // Remove demo plans
+    const getUpdatedPlans = plansData.data?.filter(
+        (plan) =>
+            plan.PlanName !== "Three Days Live" &&
+            plan.PlanName !== "Two Days Demo" &&
+            plan.PlanName !== "One Week Demo"
+    );
+    const getUpdatedPlansCharting = plansData.data1?.filter(
+        (plan) =>
+            plan.PlanName !== "Three Days Live" &&
+            plan.PlanName !== "Two Days Demo" &&
+            plan.PlanName !== "One Week Demo"
+    );
+
     return (
-        <>
-            {expire?.includes(1) && <NewsTicker />}
-            <Tabs defaultActiveKey="Scalping" className="mb-3 custom-tabs">
+        <div className="allplan-container">
+            <h1 className="allplan-title">All Plans</h1>
+            <Tabs defaultActiveKey="Scalping" id="plans-tabs" className="mb-3 allplan-custom-tabs" fill>
                 <Tab eventKey="Scalping" title="Scalping">
-                    <PlanGrid>
-                        {GetAllPlans.data.map((plan, index) => (
-                            <Card key={index}>
-                                <h2>{plan.PlanName} {SetPlan(plan.PlanName)}</h2>
-                                <p><FaRupeeSign /> {plan.payment}</p>
-                                <p>Duration: {plan['Plan Validity']}</p>
-                                <p>No of Scripts: {plan.NumberofScript}</p>
-                                <div>
-                                    <p><strong>Scalping Strategy:</strong> {plan?.Scalping?.join(", ")}</p>
-                                    <p><strong>Option Strategy:</strong> {plan?.['Option Strategy']?.join(", ")}</p>
-                                    <p><strong>Pattern Strategy:</strong> {plan?.Pattern?.join(", ")}</p>
+                    <div className="allplan-grid">
+                        {plansData.loading ? (
+                            <p className="allplan-loading">Loading...</p>
+                        ) : (
+                            getUpdatedPlans?.map((plan, index) => (
+                                <div key={index} className="allplan-card">
+                                    <div className="plan-header">
+                                        <h2 className="allplan-card-title">{plan.PlanName}</h2>
+                                        {isPlanPurchased(plan.PlanName) && <BadgeCheck className="purchased-badge" />}
+                                    </div>
+                                    <h4 className="allplan-card-subtitle"><FaRupeeSign /> {plan.payment}</h4>
+                                    <h4 className="allplan-card-subtitle">Duration: {plan["Plan Validity"]}</h4>
+                                    <h4 className="allplan-card-subtitle">Scripts: {plan.NumberofScript}</h4>
+                                    <div className="plan-details">
+                                        <p><strong>Scalping:</strong> {plan.Scalping?.join(", ")}</p>
+                                        <p><strong>Options:</strong> {plan["Option Strategy"]?.join(", ")}</p>
+                                        <p><strong>Patterns:</strong> {plan.Pattern?.join(", ")}</p>
+                                    </div>
+                                    {isPlanPurchased(plan.PlanName) ? (
+                                        <button
+                                            className="allplan-button buy-again"
+                                            onClick={() => HandleBuyPlan(index, 0, false)}
+                                        >
+                                            Buy Again
+                                        </button>
+                                    ) : (
+                                        <button
+                                            className="allplan-button"
+                                            onClick={() => HandleBuyPlan(index, 1, false)}
+                                        >
+                                            Buy Now
+                                        </button>
+                                    )}
                                 </div>
-                                <Button primary onClick={() => HandleBuyPlan(index)}>
-                                    BUY NOW
-                                </Button>
-                            </Card>
-                        ))}
-                    </PlanGrid>
+                            ))
+                        )}
+                    </div>
                 </Tab>
+
                 <Tab eventKey="Charting" title="Charting">
-                    <PlanGrid>
-                        {GetAllPlans.chartingData.map((plan, index) => (
-                            <Card key={index}>
-                                <h2>{plan.PlanName} {SetPlan(plan.PlanName)}</h2>
-                                <p><FaRupeeSign /> {plan.payment}</p>
-                                <p>Duration: {plan['Plan Validity']}</p>
-                                <p>No of Scripts: {plan.NumberofScript}</p>
-                                <div>
-                                    <p><strong>Scalping Strategy:</strong> {plan?.Scalping?.join(", ")}</p>
-                                    <p><strong>Option Strategy:</strong> {plan?.['Option Strategy']?.join(", ")}</p>
-                                    <p><strong>Pattern Strategy:</strong> {plan?.Pattern?.join(", ")}</p>
+                    <div className="allplan-grid">
+                        {plansData.loading ? (
+                            <p className="allplan-loading">Loading...</p>
+                        ) : (
+                            getUpdatedPlansCharting?.map((plan, index) => (
+                                <div key={index} className="allplan-card">
+                                    <div className="plan-header">
+                                        <h2 className="allplan-card-title">{plan.PlanName}</h2>
+                                        {isPlanPurchased(plan.PlanName) && <BadgeCheck className="purchased-badge" />}
+                                    </div>
+                                    <h4 className="allplan-card-subtitle"><FaRupeeSign /> {plan.payment}</h4>
+                                    <h4 className="allplan-card-subtitle">Duration: {plan["Plan Validity"]}</h4>
+                                    <h4 className="allplan-card-subtitle">Scripts: {plan.NumberofScript}</h4>
+                                    <div className="plan-details">
+                                        <p><strong>Charting Signals:</strong> {plan.ChartingSignal?.join(", ")}</p>
+                                    </div>
+                                    {isPlanPurchased(plan.PlanName) ? (
+                                        <button
+                                            className="allplan-button buy-again"
+                                            onClick={() => HandleBuyPlan(index, 0, true)}
+                                        >
+                                            Buy Again
+                                        </button>
+                                    ) : (
+                                        <button
+                                            className="allplan-button"
+                                            onClick={() => HandleBuyPlan(index, 1, true)}
+                                        >
+                                            Buy Now
+                                        </button>
+                                    )}
                                 </div>
-                                <Button primary onClick={() => HandleBuyPlan(index, true)}>
-                                    BUY NOW
-                                </Button>
-                            </Card>
-                        ))}
-                    </PlanGrid>
-                </Tab>
-                <Tab eventKey="AlreadyBuy" title="Already Buy Plan">
-                    <PlanGrid>
-                        {BuyedPlan.data.map((plan, index) => (
-                            <Card key={index}>
-                                <h2>{plan.Planname}</h2>
-                                {/* <p><FaRupeeSign /> {plan.payment}</p> */}
-                                {/* <p>Duration: {plan['Plan Validity']}</p> */}
-                                <p>No of Scripts: {plan.NumberofScript}</p>
-                                <div>
-                                    <p><strong>Scalping Strategy:</strong> {plan?.Scalping?.join(", ")}</p>
-                                    <p><strong>Option Strategy:</strong> {plan?.['Option Strategy']?.join(", ")}</p>
-                                    <p><strong>Pattern Strategy:</strong> {plan?.Pattern?.join(", ")}</p>
-                                </div>
-                                <Button disabled>ALREADY PURCHASED</Button>
-                            </Card>
-                        ))}
-                    </PlanGrid>
+                            ))
+                        )}
+                    </div>
                 </Tab>
             </Tabs>
-        </>
+        </div>
     );
 };
 
-const PlanGrid = styled.div`
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    margin: 100px auto;
-    max-width: 1200px;
-    justify-content: center;
-`;
-
-const Card = styled.div`
-    border: 2px solid rgba(0, 255, 255, 0.3);
-    border-radius: 15px;
-    padding: 30px;
-    background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%);
-    color: #fff;
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
-    text-align: center;
-    transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
-    margin: 25px;
-    position: relative;
-    overflow: hidden;
-
-    &:hover {
-        transform: scale(1.1) rotate(-1deg);
-        box-shadow: 0 0 25px rgba(0, 255, 255, 0.8);
-    }
-
-    h2 {
-        font-size: 2rem;
-        font-weight: bold;
-        margin-bottom: 15px;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        color: #00ffff;
-    }
-
-    p {
-        font-size: 1.3rem;
-        margin-bottom: 15px;
-        color: #bbb;
-    }
-
-    &:before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(circle, rgba(0, 255, 255, 0.1) 0%, transparent 60%);
-        transform: translate(-50%, -50%) scale(0);
-        transition: transform 0.5s ease-in-out;
-    }
-
-    &:hover:before {
-        transform: translate(-50%, -50%) scale(1.2);
-    }
-`;
-
 export default ServicesList;
-
-
-
