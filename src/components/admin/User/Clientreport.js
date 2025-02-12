@@ -8,7 +8,7 @@ import NoDataFound from '../../../ExtraComponent/NoDataFound';
 
 
 const Clientreport = () => {
-    const [selectUserName, setSelectUserName] = useState('')
+    const [selectUserName, setSelectUserName] = useState('AllUser')
     const [getTableData, setTableData] = useState({
         loading: true,
         data: []

@@ -370,6 +370,8 @@ confirmButtonColor: "#1ccc8a",
 
     return (
         <>
+         <div className='container-fluid'>
+            
             <div className="row">
                 <div className="col-sm-12">
                     <div className="iq-card">
@@ -405,6 +407,7 @@ confirmButtonColor: "#1ccc8a",
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
             {showModal && (
                 <>
