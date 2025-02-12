@@ -9,6 +9,7 @@ import { AddScript, CheckPnL } from '../../CommonAPI/User'
 import axios from "axios";
 import * as Config from "../../../Utils/Config";
 import { text } from "../../../ExtraComponent/IconTexts";
+import { Modal } from "react-bootstrap";
 
 
 
@@ -24,6 +25,7 @@ const AddClient = () => {
     const [showPnl, setShowPnl] = useState(false)
     const [symbolOptions, setSymbolOptions] = useState([]);
     const [exchangeOptions, setExchangeOptions] = useState([])
+    const [openModel,setOpenModel] = useState(false)
 
 
     const [PnlData, setPnlData] = useState({
@@ -1358,6 +1360,7 @@ const AddClient = () => {
             .then((response) => {
                 if (response.Status) {
                     setShowPnl(true)
+                    setOpenModel(true)
                     setPnlData({
                         MaximumProfit: response.MaximumProfit,
                         MaximumLoss: response.MaximumLoss,
@@ -1452,6 +1455,96 @@ const AddClient = () => {
                     </div>
                 }
             />
+            
+                {openModel && (
+                    <div className="modal custom-modal d-flex" id="Balance" role="dialog">
+                      <div className="modal-dialog modal-dialog-centered" style={{ width: "30rem" }}>
+                        <div className="modal-content">
+                          <div className="modal-header border-0 pb-0">
+                            <div className="form-header modal-header-title text-start mb-0">
+                              <h4 className="mb-0 d-flex align-items-center">
+                                {/* <DollarSign className="me-2" style={{ color: "#4caf50" }} /> */}
+                                Withdrawal Balance
+                              </h4>
+                            </div>
+                            <button
+                              type="button"
+                              className="btn-close"
+                              aria-label="Close"
+                              onClick={() => setOpenModel(false)}
+                            ></button>
+                          </div>
+                          <div>
+                            <div className="modal-body">
+                              <div className="row">
+                                <div className="col-lg-12 col-sm-12">
+                                  <div className="input-block mb-3">
+                                    <label className="form-label" style={{ fontWeight: "bold", color: "#333" }}>
+                                      Maximum Profit
+                                    </label>
+                                    <input
+                                      type="text"
+                                      className="form-control"
+                                    //   value={pnlData.MaximumProfit || ""}
+                                      readOnly
+                                    />
+                                  </div>
+                                  <div className="input-block mb-3">
+                                    <label className="form-label" style={{ fontWeight: "bold", color: "#333" }}>
+                                      Maximum Loss
+                                    </label>
+                                    <input
+                                      type="text"
+                                      className="form-control"
+                                    //   value={pnlData.MaximumLoss || ""}
+                                      readOnly
+                                    />
+                                  </div>
+                                  <div className="input-block mb-3">
+                                    <label className="form-label" style={{ fontWeight: "bold", color: "#333" }}>
+                                      Spot Price Maximum Profit 1
+                                    </label>
+                                    <input
+                                      type="text"
+                                      className="form-control"
+                                    //   value={pnlData.SpotPriceMaximumProfit1 || ""}
+                                      readOnly
+                                    />
+                                  </div>
+                                  <div className="input-block mb-3">
+                                    <label className="form-label" style={{ fontWeight: "bold", color: "#333" }}>
+                                      Spot Price Maximum Loss 1
+                                    </label>
+                                    <input
+                                      type="text"
+                                      className="form-control"
+                                    //   value={pnlData.SpotPriceMaximumLoss1 || ""}
+                                      readOnly
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="modal-footer">
+                              <button
+                                type="button"
+                                className="btn btn-back cancel-btn me-2"
+                                onClick={() => setOpenModel(false)}
+                                style={{
+                                  backgroundColor: "#f44336",
+                                  color: "white",
+                                  borderRadius: "4px",
+                                }}
+                              >
+                                Close
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+            
 
         </>
     );
