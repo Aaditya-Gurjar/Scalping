@@ -14,6 +14,8 @@ const AdminServicesList = () => {
     data1: [],
   });
 
+  
+
   useEffect(() => {
     fetchPlans();
   }, []);
@@ -89,6 +91,9 @@ const AdminServicesList = () => {
                                   <h4 className="allplan-card-subtitle">
                                     Duration: {plan["Plan Validity"]}
                                   </h4>
+                                  <h4 className="allplan-card-subtitle">
+                                    Number of Script: {plan.NumberofScript}
+                                  </h4>
                                   <div className="plan-details">
                                     <p className="price-item">
                                       <strong>Scalping Strategy:</strong>{" "}
@@ -132,7 +137,7 @@ const AdminServicesList = () => {
                                   </h4>
                                   <div className="plan-details">
                                     <p className="price-item">
-                                      <strong>Charting Signal:</strong>{" "}
+                                      <strong>Segment:</strong>{" "}
                                       {plan?.ChartingSignal?.join(", ")}
                                     </p>
                                   </div>

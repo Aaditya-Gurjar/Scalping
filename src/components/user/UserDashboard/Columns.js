@@ -1658,7 +1658,7 @@ export const
                 customBodyRender: (value, tableMeta, updateValue) => {
                     const label = value ? "Continue" : "Discontinue";
                     const labelStyle = value ? { backgroundColor: 'green', color: 'white' } : { backgroundColor: 'red', color: 'white' };
-
+    
                     return (
                         <button
                             onClick={() => handleContinutyDiscontinuty(tableMeta, 1)}

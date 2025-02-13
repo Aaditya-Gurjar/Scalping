@@ -92,7 +92,7 @@ const ApiCreateInfo = () => {
                 <Modal isOpen={showModal} size="lg" title={`${brokerDetails}  API Create Information.`} hideBtn={true}
                     handleClose={() => setshowModal(false)}
                 >
-                    <h4>getBrokerAlldetails is function ki api mai data nhi aa rha hai</h4>
+                    {/* <h4>getBrokerAlldetails is function ki api mai data nhi aa rha hai</h4> */}
                     {/* <h4>API Process of {brokerDetails}: -</h4> */}
                     {/* {brokerDetails.description ?
                         <ul>

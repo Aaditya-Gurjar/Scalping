@@ -393,7 +393,7 @@ const DynamicForm = ({
                                 <h4
                                   className="card-title"
                                   style={{ color: "#000", fontWeight: "450" }}>
-                                  Entry
+                                  Entry Rule
                                 </h4>
                               </div>
                             </div>

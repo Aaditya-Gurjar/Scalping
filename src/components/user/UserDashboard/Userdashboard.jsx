@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Coptyscript from "./Copyscript";
 import GroupScript from "./Groupscript";
 import CurrentScript from "./CurrentScript";
-import {
+import { 
   GetAllUserGroup,
   OpenPosition,
   getStrategyType,

@@ -21,8 +21,8 @@ const AddClient = () => {
   const [openModel1, setOpenModel1] = useState(false)
   const [marginValue, setMarginValue] = useState('')
 
-  console.log("Model open ho rha hai ya nhi", openModel);
-  console.log("marginValue mai kya ddata aa rha hai", marginValue);
+
+  const [error, setError] = useState("");
 
 
 
@@ -1449,9 +1449,11 @@ const AddClient = () => {
     const currentTime = currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds()
 
 
-    // if (weekend == 6 || weekend == 0 || currentTime >= "15:30:00" || currentTime <= "09:15:00") {
-    //     return SweentAlertFun("Market is off Today")
-    // }
+    if (weekend == 6 || weekend == 0 || currentTime >= "15:30:00" || currentTime <= "09:15:00") {
+        return SweentAlertFun("Market is off Today")
+    }
+
+    
 
     const req = {
       MainStrategy: location?.state?.data?.selectStrategyType,
@@ -1558,70 +1560,82 @@ const AddClient = () => {
         }
       />
 
-      {openModel1 && (
-        <div className="modal custom-modal d-flex" id="Balance" role="dialog">
-          <div className="modal-dialog modal-dialog-centered" style={{ width: "30rem" }}>
-            <div className="modal-content">
-              <div className="modal-header border-0 pb-0">
-                <div className="form-header modal-header-title text-start mb-0">
-                  <h4 className="mb-0 d-flex align-items-center">
-
+{openModel1 && (
+  <div className="modal custom-modal d-flex" id="Balance" role="dialog">
+    <div className="modal-dialog modal-dialog-centered" style={{ width: "30rem" }}>
+      <div className="modal-content">
+        <div className="modal-header border-0 pb-0">
+          <div className="form-header modal-header-title text-start mb-0">
+            <h4 className="mb-0 d-flex align-items-center">Margin Value</h4>
+          </div>
+          <button
+            type="button"
+            className="btn-close"
+            aria-label="Close"
+            onClick={() => {
+              setOpenModel1(false);
+              setError(""); // Reset error
+              setMarginValue(""); // Reset input
+            }}
+          ></button>
+        </div>
+        <div>
+          <div className="modal-body">
+            <div className="row">
+              <div className="col-lg-12 col-sm-12">
+                <div className="input-block mb-3">
+                  <label className="form-label" style={{ fontWeight: "bold", color: "#fff" }}>
                     Margin Value
-                  </h4>
-                </div>
-                <button
-                  type="button"
-                  className="btn-close"
-                  aria-label="Close"
-                  onClick={() => setOpenModel1(false)}
-                ></button>
-              </div>
-              <div>
-                <div className="modal-body">
-                  <div className="row">
-                    <div className="col-lg-12 col-sm-12">
-                      <div className="input-block mb-3">
-                        <label className="form-label" style={{ fontWeight: "bold", color: "#fff" }}>
-                          Margin Value
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          // onClick={matginValue}
-                          value={marginValue}
-                          onChange={(e) => setMarginValue(e.target.value)}
-                        />
-                      </div>
-
-                    </div>
-                  </div>
-                </div>
-
-                <div style={{ textAlign: "right" }}>
-                  <button
-                    type="button"
-                    className="btn btn-success"
-                    onClick={() => {
-                      handleCheckPnl();
-                      setOpenModel1(false);
-                      setMarginValue("");
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={marginValue}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (/^\d*$/.test(value)) { // ✅ Only numbers allowed
+                        setMarginValue(value);
+                        setError(""); // Reset error if valid
+                      } else {
+                        setError("Only numbers are allowed");
+                      }
                     }}
-                    style={{
-                      backgroundColor: "#f44336",
-                      color: "white",
-                      borderRadius: "4px",
-                    }}
-                  >
-                    Submit
-                  </button>
+                  />
+                 {error && <p className="text-danger">{error}</p>}
+
                 </div>
-
-
               </div>
             </div>
           </div>
+
+          <div style={{ textAlign: "right" }}>
+            <button
+              type="button"
+              className="btn btn-success"
+              onClick={() => {
+                if (!marginValue.trim()) {
+                  setError("Margin Value required");
+                  return;
+                }
+
+                handleCheckPnl();
+                setOpenModel1(false);
+                setMarginValue("");
+              }}
+              style={{
+                backgroundColor: "#f44336",
+                color: "white",
+                borderRadius: "4px",
+              }}
+            >
+              Submit
+            </button>
+          </div>
         </div>
-      )}
+      </div>
+    </div>
+  </div>
+)}
 
 
       {/* {openModel && (

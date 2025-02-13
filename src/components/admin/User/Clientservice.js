@@ -16,14 +16,9 @@ import NoDataFound from '../../../ExtraComponent/NoDataFound';
 const Clientservice = () => {
     const [clientService, setClientService] = useState({ loading: true, data: [] });
     const [showModal, setShowModal] = useState(false);
-    // console.log("showModal", showModal);
-
     const [selectedIndex, setSelectedIndex] = useState([]);
-    console.log("selectedIndex", selectedIndex);
 
     const [optionsArray, setOptionsArray] = useState([]);
-    // console.log("optionsArray", optionsArray);
-
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [groupData, setGroupData] = useState({ loading: true, data: [] });
     const [brokers, setBrokers] = useState([]);
@@ -171,9 +166,9 @@ const Clientservice = () => {
                 const response = await EditClientPanle(req);
                 if (response.Status) {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Updated",
                         text: response.message,
                         icon: "success",
@@ -188,9 +183,9 @@ confirmButtonColor: "#1ccc8a",
                     fetchClientService();
                 } else {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Error",
                         text: response.message,
                         icon: "error",
@@ -268,15 +263,6 @@ confirmButtonColor: "#1ccc8a",
             }
         },
         {
-            name: 'Mobile_No',
-            label: 'Mobile Number',
-            options: {
-                filter: true,
-                sort: true,
-                customBodyRender: (value) => value || '-'
-            }
-        },
-        {
             name: 'BrokerName',
             label: 'Broker Name',
             options: {
@@ -299,15 +285,6 @@ confirmButtonColor: "#1ccc8a",
             }
         },
         {
-            name: 'EmailId',
-            label: 'Email ID',
-            options: {
-                filter: true,
-                sort: true,
-                customBodyRender: (value) => value || '-'
-            }
-        },
-        {
             name: 'Group',
             label: 'Strategy Group',
             options: {
@@ -317,6 +294,25 @@ confirmButtonColor: "#1ccc8a",
 
                     <span>{Array.isArray(value) ? value.join(' , ') : value ? "-" : value || '-'}</span>
                 ),
+            }
+        },
+        {
+            name: 'EmailId',
+            label: 'Email ID',
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value) => value || '-'
+            }
+        },
+
+        {
+            name: 'Mobile_No',
+            label: 'Mobile Number',
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value) => value || '-'
             }
         },
         {
@@ -370,44 +366,44 @@ confirmButtonColor: "#1ccc8a",
 
     return (
         <>
-         <div className='container-fluid'>
-            
-            <div className="row">
-                <div className="col-sm-12">
-                    <div className="iq-card">
-                        <div className="iq-card-header d-flex justify-content-between">
-                            <div className="iq-header-title">
-                                <h4 className="card-title">Client Service</h4>
+            <div className='container-fluid'>
+
+                <div className="row">
+                    <div className="col-sm-12">
+                        <div className="iq-card">
+                            <div className="iq-card-header d-flex justify-content-between">
+                                <div className="iq-header-title">
+                                    <h4 className="card-title">Client Service</h4>
+                                </div>
+                                <Link to="/admin/adduser" className="btn btn-primary rounded">
+                                    Create Account
+                                </Link>
                             </div>
-                            <Link to="/admin/adduser" className="btn btn-primary rounded">
-                                Create Account
-                            </Link>
-                        </div>
-                        <div className="iq-card-body">
-                            <div className="mb-3 col-lg-3">
-                                <input
-                                    type="text"
-                                    className=" form-control rounded p-1 px-2"
-                                    placeholder="Search..."
-                                    onChange={(e) => setSearchInput(e.target.value)}
-                                    value={searchInput}
-                                />
+                            <div className="iq-card-body">
+                                <div className="mb-3 col-lg-3">
+                                    <input
+                                        type="text"
+                                        className=" form-control rounded p-1 px-2"
+                                        placeholder="Search..."
+                                        onChange={(e) => setSearchInput(e.target.value)}
+                                        value={searchInput}
+                                    />
+                                </div>
+                                {
+                                    clientService.data && clientService.data.length > 0 ?
+                                        (<FullDataTable
+                                            columns={columns}
+                                            data={clientService.data}
+                                            checkBox={false}
+                                        />)
+                                        :
+                                        (<NoDataFound />)
+                                }
+
                             </div>
-                            {
-                                clientService.data && clientService.data.length > 0 ? 
-                                    (<FullDataTable
-                                        columns={columns}
-                                        data={clientService.data}
-                                        checkBox={false}
-                                    />)
-                                :
-                                (<NoDataFound />)
-                            }
-                            
                         </div>
                     </div>
                 </div>
-            </div>
             </div>
             {showModal && (
                 <>
@@ -458,15 +454,15 @@ confirmButtonColor: "#1ccc8a",
                                             <div className="mt-2">
                                                 <div className="row">
                                                     <div className="col-lg-12">
-                                                        <h6>Select Group</h6>
+                                                        <h6 style={{ color: "white" }}>Select Group</h6>
 
                                                         <Select
-                                                            defaultValue={selectedIndex?.Planname?.map((item) => {
+                                                            defaultValue={selectedIndex?.Group?.map((item) => {
                                                                 return { value: item, label: item }
                                                             })}
                                                             isMulti
                                                             options={optionsArray}
-                                                            selected={showModal ? selectedIndex.Group : ""}
+                                                            selected={showModal ? selectedIndex?.Group : ""}
                                                             onChange={(selected) =>
                                                                 setSelectedOptions(selected)
                                                             }
