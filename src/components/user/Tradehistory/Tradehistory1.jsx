@@ -45,8 +45,6 @@ const Tradehistory = () => {
   const location = useLocation();
   console.log("state location data", location);
 
-  const adminPermission = localStorage.getItem("adminPermission");
-
   const [selectStrategyType, setStrategyType] = useState("Scalping");
 
   const [strategyNames, setStrategyNames] = useState([]);
@@ -699,7 +697,6 @@ const Tradehistory = () => {
                 </div>
               </div>
 
-              
               {tableType == "Scalping" ? (
                 (selectStrategyType === "ChartingPlatform" &&
                   getCharting.length > 0) ||

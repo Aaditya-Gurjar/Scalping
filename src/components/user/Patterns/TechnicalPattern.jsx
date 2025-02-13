@@ -24,7 +24,8 @@ const LastPattern = () => {
   );
   const [selectedRowData, setSelectedRowData] = useState("");
   const [scriptType, setScriptType] = useState("");
-  const [candlestickPattern, setCandlestickPattern] = useState("");
+  const [candlestickPattern, setCandlestickPattern] =
+    useState("Bearish_Engulfing");
   const [selectedTimeFrame, setSelectedTimeFrame] = useState("");
   const [chartPattern, setChartPattern] = useState("");
   const [patternNames, setPatternNames] = useState([]);
@@ -49,6 +50,7 @@ const LastPattern = () => {
     loading: true,
     data: "",
   });
+  console.log("getSingleChartImg", getSingleChartImg);
   const [chartingPatternNames, setChartingPatternNames] = useState({
     loading: true,
     data: [],
@@ -198,6 +200,7 @@ const LastPattern = () => {
     await GetSingleChart(data)
       .then((response) => {
         if (response.status) {
+          console.log("response", response);
           setSingleChartImg({ loading: false, data: response.image_data });
         } else {
           setSingleChartImg({ loading: false, data: [] });
@@ -208,13 +211,28 @@ const LastPattern = () => {
       });
   };
 
+  // useEffect(() => {
+  //   setCandlestickPattern("");
+  //   setChartingPattern("");
+  //   setScriptType("");
+  //   setSelectedTimeFrame("");
+  //   setChartPattern("");
+  //   setSelectedRowData("");
+  // }, [selectedPatternType]);
+
   useEffect(() => {
-    setCandlestickPattern("");
-    setChartingPattern("");
-    setScriptType("");
-    setSelectedTimeFrame("");
-    setChartPattern("");
-    setSelectedRowData("");
+    if (selectedPatternType === "Charting Patterns") {
+      setChartingPattern("");
+      setScriptType("");
+      setSelectedTimeFrame("");
+      setChartPattern("");
+      setSelectedRowData("");
+    } else if (selectedPatternType === "Candlestick Patterns") {
+      setCandlestickPattern("Bearish_Engulfing");
+      setSelectedTimeFrame("");
+      setChartPattern("");
+      setSelectedRowData("");
+    }
   }, [selectedPatternType]);
 
   return (
@@ -288,7 +306,11 @@ const LastPattern = () => {
                   ""
                 ) : (
                   <div
-                    className={`${selectedPatternType == "Charting Patterns" ? "col-md-2" : "col-md-3"}`}>
+                    className={`${
+                      selectedPatternType == "Charting Patterns"
+                        ? "col-md-2"
+                        : "col-md-3"
+                    }`}>
                     <div className="form-group">
                       <label>Script</label>
                       <select
@@ -305,7 +327,11 @@ const LastPattern = () => {
                   </div>
                 )}
                 <div
-                  className={`${selectedPatternType == "Charting Patterns" ? "col-md-2" : "col-md-3"}`}>
+                  className={`${
+                    selectedPatternType == "Charting Patterns"
+                      ? "col-md-2"
+                      : "col-md-3"
+                  }`}>
                   <div className="form-group">
                     <label>Time Frame</label>
                     <select
@@ -322,7 +348,11 @@ const LastPattern = () => {
                   </div>
                 </div>
                 <div
-                  className={`${selectedPatternType == "Charting Patterns" ? "col-md-2" : "col-md-3"}`}>
+                  className={`${
+                    selectedPatternType == "Charting Patterns"
+                      ? "col-md-2"
+                      : "col-md-3"
+                  }`}>
                   <div className="form-group">
                     <label>Select Specific Pattern</label>
                     <select
@@ -384,7 +414,7 @@ const LastPattern = () => {
                   //     alt=""
                   //   />
                   // </div>
-                  <NoDataFound/>
+                  <NoDataFound />
                 )
               ) : ChartPatternTableData?.PatternData &&
                 ChartPatternTableData.PatternData.length > 0 ? (
@@ -408,7 +438,7 @@ const LastPattern = () => {
                 //     alt=""
                 //   />
                 // </div>
-                <NoDataFound/>
+                <NoDataFound />
               )}
             </div>
 

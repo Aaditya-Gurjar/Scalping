@@ -21,8 +21,6 @@ const AddClient = () => {
   const [openModel1, setOpenModel1] = useState(false)
   const [marginValue, setMarginValue] = useState('')
 
-  console.log("Model open ho rha hai ya nhi", openModel);
-  console.log("marginValue mai kya ddata aa rha hai", marginValue);
 
 
 
@@ -105,7 +103,6 @@ const AddClient = () => {
       quantity3: 0,
       stepup: 1,
       quantityvalue: 1,
-      Targetselection: "",
       EntryTime: "09:15:00",
       ExitTime: "15:25:00",
       ExitDay: "",
@@ -337,13 +334,13 @@ const AddClient = () => {
         errors.RollOverExitTime = "Please Enter RollOver Exit Time";
       }
 
-      if (
-        !values.WorkingDay.length > 0 &&
-        values.Strategy == "Multi_Conditional" &&
-        values.FixedSM == "Multiple"
-      ) {
-        errors.WorkingDay = "Please select Working day";
-      }
+      // if (
+      //   !values.WorkingDay.length > 0 &&
+      //   values.Strategy == "Multi_Conditional" &&
+      //   values.FixedSM == "Multiple"
+      // ) {
+      //   errors.WorkingDay = "Please select Working day";
+      // }
 
 
       if (
@@ -353,12 +350,12 @@ const AddClient = () => {
       ) {
         errors.OrderType = "Please select Order Type";
       }
-      if (values.FinalTarget == undefined || values.FinalTarget == "" && (formik.values.FixedSM == "Multiple" && (formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise Target"))) {
+      if (values.FinalTarget == undefined || values.FinalTarget == "" && (formik.values.FixedSM == "Multiple" && (formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise Target Reverse"))) {
         errors.FinalTarget = "Please Enter Final Target";
       }
 
 
-      // console.log("errors", errors)
+      console.log("errors", errors)
       // ScrollToViewFirstError(errors);
       return errors;
     },
@@ -446,7 +443,7 @@ const AddClient = () => {
           WorkingDay:
             values.FixedSM == "Multiple" && values.Strategy == "Multi_Conditional" ? values.WorkingDay : [],
           OrderType: values.OrderType,
-          FinalTarget: (formik.values.FixedSM == "Multiple" && formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise Target") ? parseFloat(values.FinalTarget) : 0.0,
+          FinalTarget: (formik.values.FixedSM == "Multiple" && formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise Target Reverse") ? parseFloat(values.FinalTarget) : 0.0,
 
         }
 
@@ -587,7 +584,7 @@ const AddClient = () => {
       hiding: false,
       label_size: 12,
       headingtype: 1,
-      col_size: formik.values.Exchange == 'NFO' && (formik.values.Instrument === "FUTSTK" || formik.values.Instrument === "FUTIDX") || formik.values.Exchange == 'MCX' ? 3 : formik.values.Exchange == 'NFO' && (formik.values.Instrument === "OPTIDX" || formik.values.Instrument === "OPTSTK") ? 4 : formik.values.Exchange == 'NSE' && formik.values.Instrument == 'FUTIDX' ? 6 : formik.values.Exchange == 'MCX' ? 4 : 6,
+      col_size: (formik.values.Exchange == 'MCX' && formik.values.Instrument == "OPTFUT") ? 4 : formik.values.Exchange == 'NFO' && (formik.values.Instrument === "FUTSTK" || formik.values.Instrument === "FUTIDX") || formik.values.Exchange == 'MCX' ? 3 : formik.values.Exchange == 'NFO' && (formik.values.Instrument === "OPTIDX" || formik.values.Instrument === "OPTSTK") ? 4 : formik.values.Exchange == 'NSE' && formik.values.Instrument == 'FUTIDX' ? 6 : formik.values.Exchange == 'MCX' ? 4 : 6,
       disable: false,
     },
 
@@ -619,7 +616,7 @@ const AddClient = () => {
       hiding: false,
       label_size: 12,
       headingtype: 1,
-      col_size: formik.values.Instrument === "FUTSTK" || formik.values.Instrument === "FUTIDX" ? 3 : formik.values.Instrument === "OPTIDX" || formik.values.Instrument === "OPTSTK" ? 4 : formik.values.Exchange == 'MCX' ? 4 : 3,
+      col_size: (formik.values.Instrument === "FUTCOM" && formik.values.Exchange === "MCX") ? 3 : formik.values.Instrument === "FUTSTK" || formik.values.Instrument === "FUTIDX" ? 3 : formik.values.Instrument === "OPTIDX" || formik.values.Instrument === "OPTSTK" ? 4 : formik.values.Exchange == 'MCX' ? 4 : 3,
       disable: false,
     },
     {
@@ -634,7 +631,7 @@ const AddClient = () => {
       label_size: 12,
       headingtype: 1,
       hiding: false,
-      col_size: formik.values.Exchange == 'MCX' ? 3 : formik.values.Exchange == "NSE" ? 6 : formik.values.Instrument === "OPTIDX" || formik.values.Instrument === "OPTSTK" ? 4 : 3,
+      col_size: (formik.values.Exchange == 'MCX' && formik.values.Instrument == "OPTFUT") ? 4 : formik.values.Exchange == 'MCX' ? 3 : formik.values.Exchange == "NSE" ? 6 : formik.values.Instrument === "OPTIDX" || formik.values.Instrument === "OPTSTK" ? 4 : 3,
       disable: false,
     },
     {
@@ -697,7 +694,7 @@ const AddClient = () => {
       label_size: 12,
       headingtype: 1,
       hiding: false,
-      col_size: formik.values.Instrument === "FUTSTK" || formik.values.Instrument === "FUTIDX" ? 3 : 4,
+      col_size: (formik.values.Instrument === "FUTCOM" && formik.values.Exchange === "MCX") ? 3 : formik.values.Instrument === "FUTSTK" || formik.values.Instrument === "FUTIDX" ? 3 : 4,
       disable: false,
     },
   ]
@@ -819,7 +816,7 @@ const AddClient = () => {
 
     {
       name: "Targetvalue",
-      label: formik.values.FixedSM == "Single" && formik.values.Strategy == "Multi_Conditional" ? "Target 1" : formik.values.Strategy == "Fixed Price" ? "Target 1" : formik.values.Strategy == "One Directional" ? "Fixed Target" : formik.values.Strategy == "Multi_Conditional" && formik.values.FixedSM == "Multiple" && formik.values.Targetselection == "Fixed Target" ? "Fixed Target" : "Booking Point",
+      label: formik.values.FixedSM == "Single" && formik.values.Strategy == "Multi_Conditional" ? "Target 1" : formik.values.Strategy == "Fixed Price" ? "Target Price" : formik.values.Strategy == "One Directional" ? "Fixed Target" : formik.values.Strategy == "Multi_Conditional" && formik.values.FixedSM == "Multiple" && formik.values.Targetselection == "Fixed Target" ? "Fixed Target" : "Booking Point",
       type: "text3",
       label_size: 12,
       col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
@@ -852,7 +849,7 @@ const AddClient = () => {
 
     {
       name: "Slvalue",
-      label: formik.values.Strategy == "Fixed Price" || (formik.values.FixedSM == "Single" && formik.values.Strategy == "Multi_Conditional") ? "Stoploss Price" : "Re-Entry Point",
+      label: formik.values.Strategy == "Fixed Price" || (formik.values.FixedSM == "Single" && formik.values.Strategy == "Multi_Conditional") ? "Stoploss" : "Re-Entry Point",
       type: "text3",
       label_size: 12,
       col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
@@ -1684,43 +1681,43 @@ const AddClient = () => {
   </div>
 )} */}
 
-{openModel && (
-  <div className="modal custom-modal d-flex" id="Balance" role="dialog">
-    <div className="modal-dialog modal-dialog-centered" style={{ width: "35rem" }}>
-      <div className="modal-content" style={{ backgroundColor: "#222", color: "white", borderRadius: "8px", padding: "15px" }}>
-        <div className="modal-header border-0 pb-0 d-flex justify-content-between align-items-center">
-          <h5 className="mb-0">Withdrawal Balance</h5>
-          <button
-            type="button"
-            className="btn-close"
-            aria-label="Close"
-            onClick={() => setOpenModel(false)}
-            style={{ filter: "invert(1)", opacity: 0.8 }}
-          ></button>
-        </div>
-        <div className="modal-body py-2">
-          {[
-            { label: "Instrument Name", value: PnlData.InstrumentName },
-            { label: "Lot Size", value: PnlData.LotSize },
-            { label: "Main Symbol", value: PnlData.MainSymbol },
-            { label: "Message", value: PnlData.Message },
-            { label: "Status", value: PnlData.Status },
-            { label: "Token", value: PnlData.Token },
-            { label: "Total Margin", value: PnlData.TotalMargin },
-            { label: "Total PnL", value: PnlData.TotalPnL },
-            { label: "Trading Symbol", value: PnlData.TradingSymbol },
-          ].map((item, index) => (
-            <div key={index} className="d-flex align-items-center py-1">
-              <label className="fw-bold text-white mb-0" style={{ fontSize: "14px", minWidth: "150px" }}>
-                {item.label}:
-              </label>
-              <span className="text-white mb-0" style={{ fontSize: "14px", fontWeight: "500" }}>
-                {item.value || "N/A"}
-              </span>
-            </div>
-          ))}
-        </div>
-        {/* <div className="modal-footer border-0 pt-1 d-flex justify-content-center">
+      {openModel && (
+        <div className="modal custom-modal d-flex" id="Balance" role="dialog">
+          <div className="modal-dialog modal-dialog-centered" style={{ width: "35rem" }}>
+            <div className="modal-content" style={{ backgroundColor: "#222", color: "white", borderRadius: "8px", padding: "15px" }}>
+              <div className="modal-header border-0 pb-0 d-flex justify-content-between align-items-center">
+                <h5 className="mb-0">Withdrawal Balance</h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  aria-label="Close"
+                  onClick={() => setOpenModel(false)}
+                  style={{ filter: "invert(1)", opacity: 0.8 }}
+                ></button>
+              </div>
+              <div className="modal-body py-2">
+                {[
+                  { label: "Instrument Name", value: PnlData.InstrumentName },
+                  { label: "Lot Size", value: PnlData.LotSize },
+                  { label: "Main Symbol", value: PnlData.MainSymbol },
+                  { label: "Message", value: PnlData.Message },
+                  { label: "Status", value: PnlData.Status },
+                  { label: "Token", value: PnlData.Token },
+                  { label: "Total Margin", value: PnlData.TotalMargin },
+                  { label: "Total PnL", value: PnlData.TotalPnL },
+                  { label: "Trading Symbol", value: PnlData.TradingSymbol },
+                ].map((item, index) => (
+                  <div key={index} className="d-flex align-items-center py-1">
+                    <label className="fw-bold text-white mb-0" style={{ fontSize: "14px", minWidth: "150px" }}>
+                      {item.label}:
+                    </label>
+                    <span className="text-white mb-0" style={{ fontSize: "14px", fontWeight: "500" }}>
+                      {item.value || "N/A"}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              {/* <div className="modal-footer border-0 pt-1 d-flex justify-content-center">
           <button
             type="button"
             className="btn btn-danger"
@@ -1730,10 +1727,10 @@ const AddClient = () => {
             Close
           </button>
         </div> */}
-      </div>
-    </div>
-  </div>
-)}
+            </div>
+          </div>
+        </div>
+      )}
 
 
 

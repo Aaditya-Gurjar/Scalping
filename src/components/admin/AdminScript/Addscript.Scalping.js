@@ -301,13 +301,16 @@ const AddClient = () => {
       // ) {
       //   errors.TargetExit = "Please select Continue After Cycle Exit";
       // }
-      if (
-        !values.WorkingDay.length > 0 &&
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple"
-      ) {
-        errors.WorkingDay = "Please select Working day";
-      }
+
+
+      // working day optional -update in bugsheet
+      // if (
+      //   !values.WorkingDay.length > 0 &&
+      //   values.Strategy == "Multi_Conditional" &&
+      //   values.position_type == "Multiple"
+      // ) {
+      //   errors.WorkingDay = "Please select Working day";
+      // }
       if (values.FinalTarget == undefined || values.FinalTarget == "" && (formik.values.position_type == "Multiple" && (formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise Target"))) {
         errors.FinalTarget = "Please Enter Final Target";
       }
@@ -844,7 +847,7 @@ const AddClient = () => {
 
     {
       name: "Slvalue",
-      label: formik.values.Strategy == "Fixed Price" ? "Stoploss Price" : formik.values.position_type == "Single" && formik.values.Strategy == "Multi_Conditional" ? "Stoploss" : "Re-Entry Point",
+      label: formik.values.Strategy == "Fixed Price" ? "Stoploss" : formik.values.position_type == "Single" && formik.values.Strategy == "Multi_Conditional" ? "Stoploss" : "Re-Entry Point",
       type: "text3",
       label_size: 12,
       col_size: formik.values.position_type == "Multiple" ? 3 : 4,

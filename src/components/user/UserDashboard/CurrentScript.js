@@ -825,7 +825,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             }
 
             if (EditDataScalping.ScalpType == "Fixed Price" && (Number(values.Targetvalue) <= Number(values.Slvalue))) {
-                return SweentAlertFun("Target Price should be greater than Stoploss Price")
+                return SweentAlertFun("Target Price should be greater than Stoploss")
             }
 
             if (EditDataScalping.ScalpType == "Fixed Price" && (Number(values.Targetvalue) <= Number(values.EntryRange))) {
@@ -833,7 +833,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             }
 
             if (EditDataScalping.ScalpType == "Fixed Price" && (Number(values.Slvalue) >= Number(values.EntryPrice))) {
-                return SweentAlertFun("Lower Price should be greater than Stoploss Price")
+                return SweentAlertFun("Lower Price should be greater than Stoploss")
             }
 
             if (values.EntryTime >= values.ExitTime) {
@@ -1349,7 +1349,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
         {
             name: "Slvalue",
-            label: showEditModal && EditDataScalping.ScalpType == "Fixed Price" ? "Stoploss Price" : "Re-Entry Point",
+            label: showEditModal && EditDataScalping.ScalpType == "Fixed Price" ? "Stoploss" : "Re-Entry Point",
             type: "text3",
             label_size: 12,
             col_size: formik.values.position_type == "Multiple" ? 3 : 4,
