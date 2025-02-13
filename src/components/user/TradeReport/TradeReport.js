@@ -92,10 +92,10 @@ const TradeReport = () => {
             });
     };
 
+    console.log("response response response", setStrategyNames);
     const strategyType = async () => {
         try {
             const res = await getStrategyType();
-            console.log("response response response", res.Data);
             if (res.Data && Array.isArray(res.Data)) {
                 setStrategyNames(res.Data);
             } else {

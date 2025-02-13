@@ -167,13 +167,14 @@ const Clientservice = () => {
             }
 
 
+
             try {
                 const response = await EditClientPanle(req);
                 if (response.Status) {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Updated",
                         text: response.message,
                         icon: "success",
@@ -188,9 +189,9 @@ confirmButtonColor: "#1ccc8a",
                     fetchClientService();
                 } else {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Error",
                         text: response.message,
                         icon: "error",
@@ -370,44 +371,44 @@ confirmButtonColor: "#1ccc8a",
 
     return (
         <>
-         <div className='container-fluid'>
-            
-            <div className="row">
-                <div className="col-sm-12">
-                    <div className="iq-card">
-                        <div className="iq-card-header d-flex justify-content-between">
-                            <div className="iq-header-title">
-                                <h4 className="card-title">Client Service</h4>
+            <div className='container-fluid'>
+
+                <div className="row">
+                    <div className="col-sm-12">
+                        <div className="iq-card">
+                            <div className="iq-card-header d-flex justify-content-between">
+                                <div className="iq-header-title">
+                                    <h4 className="card-title">Client Service</h4>
+                                </div>
+                                <Link to="/admin/adduser" className="btn btn-primary rounded">
+                                    Create Account
+                                </Link>
                             </div>
-                            <Link to="/admin/adduser" className="btn btn-primary rounded">
-                                Create Account
-                            </Link>
-                        </div>
-                        <div className="iq-card-body">
-                            <div className="mb-3 col-lg-3">
-                                <input
-                                    type="text"
-                                    className=" form-control rounded p-1 px-2"
-                                    placeholder="Search..."
-                                    onChange={(e) => setSearchInput(e.target.value)}
-                                    value={searchInput}
-                                />
+                            <div className="iq-card-body">
+                                <div className="mb-3 col-lg-3">
+                                    <input
+                                        type="text"
+                                        className=" form-control rounded p-1 px-2"
+                                        placeholder="Search..."
+                                        onChange={(e) => setSearchInput(e.target.value)}
+                                        value={searchInput}
+                                    />
+                                </div>
+                                {
+                                    clientService.data && clientService.data.length > 0 ?
+                                        (<FullDataTable
+                                            columns={columns}
+                                            data={clientService.data}
+                                            checkBox={false}
+                                        />)
+                                        :
+                                        (<NoDataFound />)
+                                }
+
                             </div>
-                            {
-                                clientService.data && clientService.data.length > 0 ? 
-                                    (<FullDataTable
-                                        columns={columns}
-                                        data={clientService.data}
-                                        checkBox={false}
-                                    />)
-                                :
-                                (<NoDataFound />)
-                            }
-                            
                         </div>
                     </div>
                 </div>
-            </div>
             </div>
             {showModal && (
                 <>

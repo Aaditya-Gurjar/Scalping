@@ -164,19 +164,19 @@ const Adduser = () => {
                 errors.email = "Please Enter Email ID";
             } else {
                 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|co\.in|in|net|org|edu|gov|uk|us|info|biz|io|co)$/i;
-                
+
                 // Trim spaces
                 const trimmedEmail = values.email.trim();
-                
+
                 if (!emailRegex.test(trimmedEmail)) {
                     errors.email = "Please Enter a Valid Email ID";
-                } 
-                
+                }
+
                 // Check for multiple dots in domain like "abc@gmail..com"
                 else if (/\.\./.test(trimmedEmail)) {
                     errors.email = "Invalid Email Format";
                 }
-        
+
                 // Check if email starts or ends with a special character
                 else if (/^[._%+-]|[._%+-]$/.test(trimmedEmail)) {
                     errors.email = "Email cannot start or end with special characters";
@@ -216,15 +216,15 @@ const Adduser = () => {
                 bname: formik.values.Select_License == 1 ? "DEMO" : values.bname,
                 ClientAmmount: formik.values.Select_License == 1 ? 0 : Number(values.ClientAmmount),
                 planname: values.planname,
-                group: selectedOptions && selectedOptions
+                group: selectedOptions && selectedOptions.map((item) => item.value),
             }
 
             const FilterPlanAmount = GetAllPlans.data.filter((item) => item.PlanName === values.planname);
             if (FilterPlanAmount[0].payment > values.ClientAmmount && FilterPlanAmount[0].payment !== '') {
                 Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                    background: "#1a1e23 ",
+                    backdrop: "#121010ba",
+                    confirmButtonColor: "#1ccc8a",
                     title: "Invalid Amount",
                     text: `The plan amount is ${FilterPlanAmount[0].payment}, but you've entered ${values.ClientAmmount}. Please enter an amount greater than the plan amount.`,
                     icon: "error",
@@ -238,9 +238,9 @@ confirmButtonColor: "#1ccc8a",
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "User Created!",
                             text: response.message,
                             icon: "success",
@@ -253,9 +253,9 @@ confirmButtonColor: "#1ccc8a",
                     }
                     else {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Error!",
                             text: response.message,
                             icon: "error",

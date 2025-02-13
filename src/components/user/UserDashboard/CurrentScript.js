@@ -94,8 +94,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
     }
 
     const handleDelete = async (rowData, type) => {
+        console.log("data" , data)
         const index = rowData.rowIndex
-        // console.log
         const req =
             data == 'Scalping' && type == 1 ?
                 {
@@ -488,8 +488,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                     cancelButtonColor: "#d33",
                     confirmButtonText: "Yes"
                 }).then(async (result) => {
-                    if (result.isConfirmed) {
-                        console.log("####", data, type)
+                    if (result.isConfirmed) { 
                         const req =
                             data == 'Scalping' && type == 1 ?
                                 {

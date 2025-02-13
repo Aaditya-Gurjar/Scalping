@@ -94,14 +94,14 @@ const AddClient = () => {
       Targetselection: "Fixed Target",
       position_type: "Single",
       quantityselection: "Addition",
-      RepeatationCount: 1,
-      Profit: 0,
-      Loss: 0,
+      // RepeatationCount: 1,
+      // Profit: 0,
+      // Loss: 0,
       RollOver: false,
       NumberOfDays: 0,
       RollOverExitTime: "00:00:00",
-      TargetExit: false,
-      WorkingDay: [],
+      // TargetExit: false,
+      // WorkingDay: [],
       FinalTarget: 0.0,
 
 
@@ -241,13 +241,13 @@ const AddClient = () => {
       if (values.Strategy == "Multi_Conditional" && !values.position_type) {
         errors.position_type = "Please Select Position Type";
       }
-      if (
-        !values.RepeatationCount &&
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple"
-      ) {
-        errors.RepeatationCount = "Please Enter No. of Repeatation";
-      }
+      // if (
+      //   !values.RepeatationCount &&
+      //   values.Strategy == "Multi_Conditional" &&
+      //   values.position_type == "Multiple"
+      // ) {
+      //   errors.RepeatationCount = "Please Enter No. of Repeatation";
+      // }
 
 
       // if (
@@ -301,13 +301,13 @@ const AddClient = () => {
       // ) {
       //   errors.TargetExit = "Please select Continue After Cycle Exit";
       // }
-      if (
-        !values.WorkingDay.length > 0 &&
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple"
-      ) {
-        errors.WorkingDay = "Please select Working day";
-      }
+      // if (
+      //   !values.WorkingDay.length > 0 &&
+      //   values.Strategy == "Multi_Conditional" &&
+      //   values.position_type == "Multiple"
+      // ) {
+      //   errors.WorkingDay = "Please select Working day";
+      // }
       if (values.FinalTarget == undefined || values.FinalTarget == "" && (formik.values.position_type == "Multiple" && (formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise Target"))) {
         errors.FinalTarget = "Please Enter Final Target";
       }
@@ -331,7 +331,7 @@ const AddClient = () => {
         // expirydata1: values.Exchange == "NSE" ? getExpiryDate.data[0] : values.expirydata1,
         expirydata1: values.expirydata1 == "Monthly" ? getExpiryDate?.data?.[0] : values.expirydata1 == "Next_Month" ? getExpiryDate?.data?.[1] : values.Exchange == "NSE" ? getExpiryDate?.data?.[0] : values.expirydata1,
 
-        TType: values.TType == 0 ? "" : values.TType,
+        TType: values.TType,
         EntryPrice: values.EntryPrice,
         EntryRange: values.EntryRange,
         TStype: values.Strategy == "One Directional" || values.Strategy == "Multi Directional" || (values.Strategy == "Multi_Conditional") ? values.TStype : "",
@@ -377,22 +377,22 @@ const AddClient = () => {
         quantityselection: values.position_type == "Multiple" && values.Strategy == "Multi_Conditional" ? values.quantityselection : "",
         quantityvalue: values.position_type == "Multiple" && values.Strategy == "Multi_Conditional" ? Number(values.quantityvalue) : 1,
         targetselection: values.position_type == "Multiple" && values.Strategy == "Multi_Conditional" ? values.Targetselection : "Single",
-        RepeatationCount:
-          values.position_type == "Multiple" &&
-            values.Strategy == "Multi_Conditional"
-            ? values.RepeatationCount
-            : 1,
-        Loss:
-          values.position_type == "Multiple" &&
-            values.Strategy == "Multi_Conditional"
-            ? values.Loss
-            : 0,
+        // RepeatationCount:
+        //   values.position_type == "Multiple" &&
+        //     values.Strategy == "Multi_Conditional"
+        //     ? values.RepeatationCount
+        //     : 1,
+        // Loss:
+        //   values.position_type == "Multiple" &&
+        //     values.Strategy == "Multi_Conditional"
+        //     ? values.Loss
+        //     : 0,
 
-        Profit:
-          values.position_type == "Multiple" &&
-            values.Strategy == "Multi_Conditional"
-            ? values.Profit
-            : 0,
+        // Profit:
+        //   values.position_type == "Multiple" &&
+        //     values.Strategy == "Multi_Conditional"
+        //     ? values.Profit
+        //     : 0,
         RollOver: (values.position_type ==
           "Multiple" && values.Strategy == "Multi_Conditional"
           ? values.RollOver
@@ -409,16 +409,16 @@ const AddClient = () => {
             values.RollOver == true
             ? values.RollOverExitTime
             : "00:00:00",
-        TargetExit:
-          values.position_type == "Multiple" &&
-            values.Strategy == "Multi_Conditional"
-            ? values.TargetExit
-            : false,
-        WorkingDay:
-          values.position_type == "Multiple" &&
-            values.Strategy == "Multi_Conditional"
-            ? values.WorkingDay
-            : [],
+        // TargetExit:
+        //   values.position_type == "Multiple" &&
+        //     values.Strategy == "Multi_Conditional"
+        //     ? values.TargetExit
+        //     : false,
+        // WorkingDay:
+        //   values.position_type == "Multiple" &&
+        //     values.Strategy == "Multi_Conditional"
+        //     ? values.WorkingDay
+        //     : [],
         FinalTarget: (formik.values.position_type == "Multiple" && formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise Target") ? parseFloat(values.FinalTarget) : 0.0,
 
       };
@@ -784,7 +784,7 @@ const AddClient = () => {
       label: "Target Type",
       type: "select",
       options: [
-        { label: "Fixed Target", value: "Average Target" },
+        { label: "Fixed Target", value: "Fixed Target" },
         { label: "Entry Wise Target", value: "Entry Wise Target" },
         { label: "Average Target", value: "Average Target" },
         { label: "Entry Wise Target Reverse", value: "Entry Wise Target Reverse" },
@@ -931,82 +931,82 @@ const AddClient = () => {
       hiding: false,
     },
 
-    {
-      name: "TargetExit",
-      label: "Continue after cycle exit",
-      type: "select",
-      options: [
-        { label: "True", value: true },
-        { label: "False", value: false },
-      ],
-      showWhen: (values) => values.position_type == "Multiple" && values.Strategy == "Multi_Conditional",
-      label_size: 12,
-      col_size: formik.values.position_type == "Single" ? 3 : 3,
-      headingtype: 4,
-      disable: false,
-      // iconText: text.Increment_Type,
-      hiding: false,
-    },
-    {
-      name: "RepeatationCount",
-      label: "Repeatation Count",
-      type: "text3",
-      label_size: 12,
-      col_size: formik.values.position_type == "Multiple" ? 3 : 4,
-      headingtype: 4,
-      showWhen: (values) =>
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple",
-      disable: false,
-      hiding: false,
-    },
-    {
-      name: "Loss",
-      label: "Max Loss ",
-      type: "text3",
-      label_size: 12,
-      col_size: formik.values.position_type == "Multiple" ? 3 : 4,
-      headingtype: 4,
-      showWhen: (values) =>
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple",
-      disable: false,
-      hiding: false,
-    },
+    // {
+    //   name: "TargetExit",
+    //   label: "Continue after cycle exit",
+    //   type: "select",
+    //   options: [
+    //     { label: "True", value: true },
+    //     { label: "False", value: false },
+    //   ],
+    //   showWhen: (values) => values.position_type == "Multiple" && values.Strategy == "Multi_Conditional",
+    //   label_size: 12,
+    //   col_size: formik.values.position_type == "Single" ? 3 : 3,
+    //   headingtype: 4,
+    //   disable: false,
+    //   // iconText: text.Increment_Type,
+    //   hiding: false,
+    // },
+    // {
+    //   name: "RepeatationCount",
+    //   label: "Repeatation Count",
+    //   type: "text3",
+    //   label_size: 12,
+    //   col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+    //   headingtype: 4,
+    //   showWhen: (values) =>
+    //     values.Strategy == "Multi_Conditional" &&
+    //     values.position_type == "Multiple",
+    //   disable: false,
+    //   hiding: false,
+    // },
+    // {
+    //   name: "Loss",
+    //   label: "Max Loss ",
+    //   type: "text3",
+    //   label_size: 12,
+    //   col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+    //   headingtype: 4,
+    //   showWhen: (values) =>
+    //     values.Strategy == "Multi_Conditional" &&
+    //     values.position_type == "Multiple",
+    //   disable: false,
+    //   hiding: false,
+    // },
 
-    {
-      name: "Profit",
-      label: " Max Profit ",
-      type: "text3",
-      label_size: 12,
-      col_size: formik.values.position_type == "Multiple" ? 3 : 4,
-      headingtype: 4,
-      showWhen: (values) =>
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple",
-      disable: false,
-      hiding: false,
-    },
+    // {
+    //   name: "Profit",
+    //   label: " Max Profit ",
+    //   type: "text3",
+    //   label_size: 12,
+    //   col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+    //   headingtype: 4,
+    //   showWhen: (values) =>
+    //     values.Strategy == "Multi_Conditional" &&
+    //     values.position_type == "Multiple",
+    //   disable: false,
+    //   hiding: false,
+    // },
 
-    {
-      name: "WorkingDay",
-      label: "Working Day",
-      type: "multiselect",
-      options: [
-        { label: "Monday", value: "Monday" },
-        { label: "Tuesday", value: "Tuesday" },
-        { label: "Wednesday", value: "Wednesday" },
-        { label: "Thursday", value: "Thursday" },
-        { label: "Friday", value: "Friday" },
-        { label: "Saturday", value: "Saturday" },
+    // {
+    //   name: "WorkingDay",
+    //   label: "Working Day",
+    //   type: "multiselect",
+    //   options: [
+    //     { label: "Monday", value: "Monday" },
+    //     { label: "Tuesday", value: "Tuesday" },
+    //     { label: "Wednesday", value: "Wednesday" },
+    //     { label: "Thursday", value: "Thursday" },
+    //     { label: "Friday", value: "Friday" },
+    //     { label: "Saturday", value: "Saturday" },
 
-      ],
-      label_size: 12,
-      col_size: formik.values.position_type == "Single" ? 4 : 3,
-      headingtype: 4,
-      disable: false,
-      hiding: false,
-    },
+    //   ],
+    //   label_size: 12,
+    //   col_size: formik.values.position_type == "Single" ? 4 : 3,
+    //   headingtype: 4,
+    //   disable: false,
+    //   hiding: false,
+    // },
 
     {
       name: "stepup",

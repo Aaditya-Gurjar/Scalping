@@ -56,6 +56,9 @@ const Userdashboard = () => {
     }
   }, [subTab]);
 
+
+
+  console.log("strategyType", strategyType)
   const fetchStrategyType = async () => {
     try {
       const res = await getStrategyType();
@@ -1013,9 +1016,7 @@ const Userdashboard = () => {
                       </div>
                     )}
                   </>
-                )}
-
-                {/* Agar dono section me kahin bhi data nahi hai to hi NoDataFound dikhao */}
+                )} 
                  {!(subTab && serviceStatus) && 
                   !(getPositionData.Scalping?.length > 0 ||
                     getPositionData.NewScalping?.length > 0 ||

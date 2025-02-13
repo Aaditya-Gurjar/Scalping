@@ -377,7 +377,7 @@ const AddClient = () => {
           // expirydata1: values.Exchange == "NSE" ? getExpiryDate.data[0] : values.expirydata1,
           expirydata1: values.expirydata1 == "Monthly" ? getExpiryDate?.data?.[0] : values.expirydata1 == "Next_Month" ? getExpiryDate?.data?.[1] : values.Exchange == "NSE" ? getExpiryDate?.data?.[0] : values.expirydata1,
 
-          TType: values.TType == 0 ? "" : values.TType,
+          TType: values.TType,
           TStype: values.Strategy == "One Directional" || values.Strategy == "Multi Directional" || (values.Strategy == "Multi_Conditional") ? values.TStype : "",
           Targetvalue: values.Targetvalue,
           Slvalue: values.Slvalue,

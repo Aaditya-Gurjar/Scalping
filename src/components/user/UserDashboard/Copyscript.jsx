@@ -5,7 +5,7 @@ import { GetAllUserScript, DeleteUserScript, GetUserScripts } from '../../Common
 import Loader from '../../../ExtraComponent/Loader';
 import { getColumns, getColumns1, getColumns2, getColumns7 } from './Columns';
 import Swal from 'sweetalert2';
- 
+
 const Coptyscript = ({ data, selectedType, data2 }) => {
     const userName = localStorage.getItem('name')
     const adminPermission = localStorage.getItem('adminPermission')
@@ -23,8 +23,7 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
         NewScalping: []
     });
 
-
-    console.log("allScripts?.data?.length", allScripts?.data)
+ 
     useEffect(() => {
         GetUserAllScripts()
     }, [])
@@ -53,20 +52,17 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
 
     const handleAddScript1 = (data1, type) => {
 
-        console.log("data1", data1)
-        console.log("type", type)
-        const selectedRowIndex = data1.rowIndex;
-        console.log("type", type)
+        
+        const selectedRowIndex = data1.rowIndex; 
 
         const selectedRow = type == 1 ? getAllService.ScalpingData[selectedRowIndex] : getAllService.NewScalping[selectedRowIndex];
-
-        console.log("selectedRow", selectedRow)
+ 
 
         if (data2.status == false) {
             Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                background: "#1a1e23 ",
+                backdrop: "#121010ba",
+                confirmButtonColor: "#1ccc8a",
                 title: "Error",
                 text: data2.msg,
                 icon: "error",
@@ -76,9 +72,9 @@ confirmButtonColor: "#1ccc8a",
         }
         else if (allScripts?.data?.[allScripts?.len]?.CombineScalping?.length == 0) {
             Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                background: "#1a1e23 ",
+                backdrop: "#121010ba",
+                confirmButtonColor: "#1ccc8a",
                 title: "Warning",
                 text: "Don't have any script left Please buy some Scripts",
                 icon: "warning",
@@ -90,9 +86,9 @@ confirmButtonColor: "#1ccc8a",
             const isExist = allScripts?.data?.[allScripts?.len]?.CombineScalping?.find((item) => item === selectedRow?.ScalpType) ?? ""
             if (!isExist) {
                 Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                    background: "#1a1e23 ",
+                    backdrop: "#121010ba",
+                    confirmButtonColor: "#1ccc8a",
                     title: "Warning",
                     text: "This script is not available for you",
                     icon: "warning",
@@ -109,9 +105,9 @@ confirmButtonColor: "#1ccc8a",
     const handleAddScript2 = (data1) => {
         if (data2.status == false) {
             Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                background: "#1a1e23 ",
+                backdrop: "#121010ba",
+                confirmButtonColor: "#1ccc8a",
                 title: "Error",
                 text: data2.msg,
                 icon: "error",
@@ -121,9 +117,9 @@ confirmButtonColor: "#1ccc8a",
         }
         else if (allScripts?.data?.[allScripts?.len]?.CombineOption?.length == 0) {
             Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                background: "#1a1e23 ",
+                backdrop: "#121010ba",
+                confirmButtonColor: "#1ccc8a",
                 title: "Warning",
                 text: "Don't have any script left Please buy some Scripts",
                 icon: "warning",
@@ -161,9 +157,9 @@ confirmButtonColor: "#1ccc8a",
             }
             else {
                 Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                    background: "#1a1e23 ",
+                    backdrop: "#121010ba",
+                    confirmButtonColor: "#1ccc8a",
                     title: "Warning",
                     text: "This script is not available for you",
                     icon: "warning",
@@ -178,9 +174,9 @@ confirmButtonColor: "#1ccc8a",
     const handleAddScript3 = (data1) => {
         if (data2.status == false) {
             Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                background: "#1a1e23 ",
+                backdrop: "#121010ba",
+                confirmButtonColor: "#1ccc8a",
                 title: "Error",
                 text: data2.msg,
                 icon: "error",
@@ -190,9 +186,9 @@ confirmButtonColor: "#1ccc8a",
         }
         else if (allScripts?.data?.[allScripts?.len]?.CombinePattern?.length == 0) {
             Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                background: "#1a1e23 ",
+                backdrop: "#121010ba",
+                confirmButtonColor: "#1ccc8a",
                 title: "Warning",
                 text: "Don't have any script left Please buy some Scripts",
                 icon: "warning",
@@ -206,9 +202,9 @@ confirmButtonColor: "#1ccc8a",
             const isExist = allScripts?.data?.[allScripts?.len]?.CombinePattern?.find((item) => item === selectedRow.TradePattern) ?? ""
             if (!isExist) {
                 Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                    background: "#1a1e23 ",
+                    backdrop: "#121010ba",
+                    confirmButtonColor: "#1ccc8a",
                     title: "Warning",
                     text: "This script is not available for you",
                     icon: "warning",
@@ -274,19 +270,19 @@ confirmButtonColor: "#1ccc8a",
                                         <>
                                             <div className="iq-card-body " style={{ padding: '3px' }}>
                                                 <div className="table-responsive">
-                                                <div>
-                                                            <div className="iq-header-title mt-4">
-                                                                <h4 className="card-title">{data}</h4>
-                                                            </div>
+                                                    <div>
+                                                        <div className="iq-header-title mt-4">
+                                                            <h4 className="card-title">{data}</h4>
+                                                        </div>
 
-                                                    {getAllService.loading ? <Loader /> :
-                                                        <FullDataTable
-                                                            columns={data === "Scalping" ? getColumns(handleAddScript1) : data === "Option Strategy" ? getColumns1(handleAddScript2) : data === "Pattern" ? getColumns2(handleAddScript3) : getColumns(handleAddScript1)}
-                                                            data={data === "Scalping" ? getAllService.ScalpingData : data === "Option Strategy" ? getAllService.OptionData : data === "Pattern" ? getAllService.PatternData : []}
-                                                            checkBox={false}
-                                                        />
-                                                    }
-                                                </div>
+                                                        {getAllService.loading ? <Loader /> :
+                                                            <FullDataTable
+                                                                columns={data === "Scalping" ? getColumns(handleAddScript1) : data === "Option Strategy" ? getColumns1(handleAddScript2) : data === "Pattern" ? getColumns2(handleAddScript3) : getColumns(handleAddScript1)}
+                                                                data={data === "Scalping" ? getAllService.ScalpingData : data === "Option Strategy" ? getAllService.OptionData : data === "Pattern" ? getAllService.PatternData : []}
+                                                                checkBox={false}
+                                                            />
+                                                        }
+                                                    </div>
                                                     {data === "Scalping" && adminPermission?.includes('Charting Platform') && (
                                                         <div>
                                                             <div className="iq-header-title mt-4">

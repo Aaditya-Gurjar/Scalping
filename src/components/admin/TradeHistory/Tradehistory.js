@@ -582,9 +582,9 @@ const Tradehistory = () => {
                                         Submit
                                     </button>
                                 </>
-                            ))}
+                            ))} */}
                         
-                 */}
+                
 
 
                             {showTable && (
