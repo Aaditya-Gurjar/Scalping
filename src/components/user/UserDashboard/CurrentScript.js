@@ -613,7 +613,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 else {
                     Swal.fire({
                         title: "Warning",
-                        text: "Don't have any script left Please buy some Scripts",
+                        text: "You don't have any valid plan to use this strategy",
                         icon: "warning",
                         timer: 2000,
                         timerProgressBar: true
@@ -628,7 +628,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 else {
                     Swal.fire({
                         title: "Warning",
-                        text: "Don't have any script left Please buy some Scripts",
+                        text: "You don't have any valid plan to use this strategy",
                         icon: "warning",
                         timer: 2000,
                         timerProgressBar: true
@@ -643,7 +643,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 else {
                     Swal.fire({
                         title: "Warning",
-                        text: "Don't have any script left Please buy some Scripts",
+                        text: "You don't have any valid plan to use this strategy",
                         icon: "warning",
                         timer: 2000,
                         timerProgressBar: true
@@ -662,7 +662,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 else {
                     Swal.fire({
                         title: "Warning",
-                        text: "Don't have any script left Please buy some Scripts",
+                        text: "You don't have any valid plan to use this strategy",
                         icon: "warning",
                         timer: 2000,
                         timerProgressBar: true

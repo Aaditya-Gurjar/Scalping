@@ -584,13 +584,14 @@ import { Get_All_Plans, Get_All_Buyed_Plans, BuyPlan, AddBalance } from "../../C
 import Swal from "sweetalert2";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
+import NewsTicker from "./Expair";
 import "./AllPlan.css";  // Import external CSS
 
 const ServicesList = () => {
     const username = localStorage.getItem("name");
     const [plansData, setPlansData] = useState({ loading: true, data: [] });
     const [purchasedPlans, setPurchasedPlans] = useState([]);
-
+    const expire = localStorage.getItem('expire');
     useEffect(() => {
         fetchPlans();
         fetchPurchasedPlans();
@@ -695,6 +696,13 @@ const ServicesList = () => {
     return (
         <div className="allplan-container">
             <h1 className="allplan-title">All Plans</h1>
+                <div className="">
+
+                  {  expire?.includes(1) ? <div className="col-lg-9"><NewsTicker /></div> : ""}
+                </div>
+            
+            
+
             <Tabs defaultActiveKey="Scalping" id="plans-tabs" className="mb-3 allplan-custom-tabs" fill>
                 <Tab eventKey="Scalping" title="Scalping">
                     <div className="allplan-grid">

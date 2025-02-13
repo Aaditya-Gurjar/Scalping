@@ -62,7 +62,7 @@ const GroupScript = ({ data, selectedType, GroupName, data2 }) => {
         else if (allScripts?.data?.[allScripts?.len]?.CombineScalping?.length == 0) {
             Swal.fire({
                 title: "Warning",
-                text: "Don't have any script left Please buy some Scripts",
+                text: "You don't have any valid plan to use this strategy",
                 icon: "warning",
                 timer: 1500,
                 timerProgressBar: true
@@ -98,7 +98,7 @@ const GroupScript = ({ data, selectedType, GroupName, data2 }) => {
         else if (allScripts.data.length == 0) {
             Swal.fire({
                 title: "Warning",
-                text: "Don't have any script left Please buy some Scripts",
+                text: "You don't have any valid plan to use this strategy",
                 icon: "warning",
                 timer: 1500,
                 timerProgressBar: true
@@ -159,7 +159,7 @@ const GroupScript = ({ data, selectedType, GroupName, data2 }) => {
         else if (allScripts.data.length == 0) {
             Swal.fire({
                 title: "Warning",
-                text: "Don't have any script left Please buy some Scripts",
+                text: "You don't have any valid plan to use this strategy",
                 icon: "warning",
                 timer: 1500,
                 timerProgressBar: true

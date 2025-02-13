@@ -76,7 +76,7 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
                 backdrop: "#121010ba",
                 confirmButtonColor: "#1ccc8a",
                 title: "Warning",
-                text: "Don't have any script left Please buy some Scripts",
+                text: "You don't have any valid plan to use this strategy",
                 icon: "warning",
                 timer: 1500,
                 timerProgressBar: true
@@ -121,7 +121,7 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
                 backdrop: "#121010ba",
                 confirmButtonColor: "#1ccc8a",
                 title: "Warning",
-                text: "Don't have any script left Please buy some Scripts",
+                text: "You don't have any valid plan to use this strategy",
                 icon: "warning",
                 timer: 1500,
                 timerProgressBar: true
@@ -190,7 +190,7 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
                 backdrop: "#121010ba",
                 confirmButtonColor: "#1ccc8a",
                 title: "Warning",
-                text: "Don't have any script left Please buy some Scripts",
+                text: "You don't have any valid plan to use this strategy",
                 icon: "warning",
                 timer: 1500,
                 timerProgressBar: true
