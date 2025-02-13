@@ -1305,9 +1305,9 @@ const AddClient = () => {
         const currentTime = currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds()
 
 
-        // if (weekend == 6 || weekend == 0 || currentTime >= "15:30:00" || currentTime <= "09:15:00") {
-        //     return SweentAlertFun("Market is off Today")
-        // }
+        if (weekend == 6 || weekend == 0 || currentTime >= "15:30:00" || currentTime <= "09:15:00") {
+            return SweentAlertFun("Market is off Today")
+        }
 
         const req = {
             MainStrategy: location.state.data.selectStrategyType,
@@ -1370,6 +1370,7 @@ const AddClient = () => {
                 if (response.Status) {
                     setShowPnl(true)
                     setOpenModel(true)
+                    setOpenModel1(true);
                     setPnlData({
                         MaximumProfit: response.MaximumProfit,
                         MaximumLoss: response.MaximumLoss,
@@ -1417,7 +1418,7 @@ const AddClient = () => {
                 additional_field={
                     <div>
                         {(formik.values.Strategy == 'CoveredCall' || formik.values.Strategy == 'CoveredPut' || formik.values.Strategy == 'LongCollar' || formik.values.Strategy == 'ShortCollar' || formik.values.Strategy == 'LongFourLegStretegy' || formik.values.Strategy == 'ShortFourLegStretegy') ? "" :
-                            <p className="btn btn-primary" onClick={() => setOpenModel1(true)}>Check PnL</p>
+                            <p className="btn btn-primary" onClick={() => handleCheckPnl()}>Check PnL</p>
                         }
 
                         {/* {
@@ -1465,7 +1466,7 @@ const AddClient = () => {
                 }
             />
 
-            {openModel1 && (
+            {/* {openModel1 && (
                 <div className="modal custom-modal d-flex" id="Balance" role="dialog">
                     <div className="modal-dialog modal-dialog-centered" style={{ width: "30rem" }}>
                         <div className="modal-content">
@@ -1540,7 +1541,7 @@ const AddClient = () => {
                         </div>
                     </div>
                 </div>
-            )}
+            )} */}
 
             {openModel && (
                 <div className="modal custom-modal d-flex" id="Balance" role="dialog">
