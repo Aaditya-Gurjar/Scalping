@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import FullDataTable from '../../../ExtraComponent/CommanDataTable';
+import FullDataTable from '../../../ExtraComponent/CommanDataTable(original)';
 import { GetAllUserScript, DeleteUserScript, Discontinue, Continue, UpdateUserScript, GetUserScripts, getUserChartingScripts, DeleteSingleChartingScript, MatchPosition } from '../../CommonAPI/User';
 import Loader from '../../../ExtraComponent/Loader';
 import { getColumns3, getColumns4, getColumns5, getColumns6, getColumns8 } from './Columns';
@@ -127,7 +127,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                     : data == 'Pattern' || data == 'Pattern Script' ?
                         {
 
-                            MainStrategy: "Pattern" ,
+                            MainStrategy: "Pattern",
                             Strategy: getAllService.PatternData[index].TradePattern,
                             Symbol: getAllService.PatternData[index].Symbol,
                             Username: userName,
@@ -1580,7 +1580,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                             <div className="iq-card-header d-flex justify-content-between">
                                                 <div className="iq-header-title">
                                                     {/* {console.log("data Is", data)} */}
-                                                    {tableType === "MultiCondition" ? "" : <h4 className="card-title">{data}</h4>
+                                                    {tableType === "MultiCondition" ? <h4 className="card-title">{"Multi Condition"}</h4> : <h4 className="card-title">{data}</h4>
                                                     }
                                                 </div>
                                                 <div className='d-flex justify-content-end'>
@@ -1660,9 +1660,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
                                                                         {hasSecondaryTableData && (
                                                                             <div>
-                                                                                <div className="iq-header-title mt-4">
+                                                                                {/* <div className="iq-header-title mt-4">
                                                                                     <h4 className="card-title">Multi Conditional</h4>
-                                                                                </div>
+                                                                                </div> */}
                                                                                 <FullDataTable
                                                                                     columns={getColumns6(handleDelete, handleEdit, HandleContinueDiscontinue, handleMatchPosition,)}
                                                                                     data={getAllService.NewScalping}

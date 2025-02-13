@@ -88,7 +88,7 @@
 //                     }
 //                     else {
 //                         Swal.fire({
- 
+
 //                             title: "Error!",
 //                             text: response.message,
 //                             icon: "error",
@@ -280,9 +280,9 @@ const AddPlanPage = () => {
 
     const showError = (title, message = "") => {
         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+            background: "#1a1e23 ",
+            backdrop: "#121010ba",
+            confirmButtonColor: "#1ccc8a",
             title: title,
             text: message || "An error occurred.",
             icon: "error",
@@ -328,9 +328,9 @@ confirmButtonColor: "#1ccc8a",
                 const response = await AddPlan(req);
                 if (response.Status) {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Success!",
                         text: response.message,
                         icon: "success",
@@ -418,7 +418,7 @@ confirmButtonColor: "#1ccc8a",
             btn_name="Add"
             btn_name1="Cancel"
             formik={formik}
-            btn_name1_route={"/admin/clientservice"}
+            btn_name1_route={"/admin/allplan"}
             additional_field={
                 <>
                     {formik.values.PlanType == "Charting" && (

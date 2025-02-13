@@ -53,8 +53,8 @@ const DropdownComponent = ({ tableMeta, handleDelete, type, handleMatchPosition 
         }
     };
 
-    useEffect(() => { 
-        
+    useEffect(() => {
+
         if (isDropdownOpen) {
             document.addEventListener("mousedown", handleOutsideClick);
         } else {
@@ -111,15 +111,15 @@ const DropdownComponent = ({ tableMeta, handleDelete, type, handleMatchPosition 
                             >
                                 Square Off
                             </li>
-                           { type == "MultiCondition" && 
-                            <li
-                                onClick={handleMatchPosition}
-                                style={{ padding: "8px 16px", cursor: "pointer", color: "#fff" }}
-                                onMouseEnter={(e) => (e.target.style.backgroundColor = "#444")}
-                                onMouseLeave={(e) => (e.target.style.backgroundColor = "#333")}
-                            >
-                                Match Position
-                            </li>}
+                            {type == "MultiCondition" &&
+                                <li
+                                    onClick={handleMatchPosition}
+                                    style={{ padding: "8px 16px", cursor: "pointer", color: "#fff" }}
+                                    onMouseEnter={(e) => (e.target.style.backgroundColor = "#444")}
+                                    onMouseLeave={(e) => (e.target.style.backgroundColor = "#333")}
+                                >
+                                    Match Position
+                                </li>}
                             <li
                                 onClick={() => navigate("/user/tradehistory", { state: { type, RowIndex: tableMeta?.rowIndex, goto: "dashboard" } })}
                                 style={{ padding: "8px 16px", cursor: "pointer", color: "#fff" }}
@@ -256,22 +256,22 @@ export const getColumns = (handleAddScript1) => [
             sort: true,
         }
     },
-    {
-        name: "LowerRange",
-        label: "Lower Range",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "HigherRange",
-        label: "Higher Range",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+    // {
+    //     name: "LowerRange",
+    //     label: "Lower Range",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
+    // {
+    //     name: "HigherRange",
+    //     label: "Higher Range",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
     {
         name: "TType",
         label: "Trade Type",
@@ -459,22 +459,22 @@ export const getColumns7 = (handleAddScript1) => [
             sort: true,
         }
     },
-    {
-        name: "LowerRange",
-        label: "Lower Range",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "HigherRange",
-        label: "Higher Range",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+    // {
+    //     name: "LowerRange",
+    //     label: "Lower Range",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
+    // {
+    //     name: "HigherRange",
+    //     label: "Higher Range",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
     {
         name: "TType",
         label: "Trade Type",
@@ -762,22 +762,22 @@ export const getColumns1 = (handleAddScript2) => [
             sort: true,
         }
     },
-    {
-        name: "LowerRange",
-        label: "Lower Range",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "HigherRange",
-        label: "Higher Range",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+    // {
+    //     name: "LowerRange",
+    //     label: "Lower Range",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
+    // {
+    //     name: "HigherRange",
+    //     label: "Higher Range",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
     {
         name: "TaskStatus",
         label: "TaskStatus",
@@ -1086,7 +1086,7 @@ export const getColumns3 = (handleDelete, handleEdit, handleContinutyDiscontinut
                 );
             }
         }
-    },    
+    },
     {
         name: "ScalpType",
         label: "Scalp Type",
@@ -1103,6 +1103,15 @@ export const getColumns3 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
+    
+    {
+        name: "Symbol",
+        label: "Symbol",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
     {
         name: "Action",
         label: "Action",
@@ -1112,19 +1121,11 @@ export const getColumns3 = (handleDelete, handleEdit, handleContinutyDiscontinut
             customBodyRender: (value, tableMeta, updateValue) => {
                 return (
                     <div>
-                        <DropdownComponent tableMeta={tableMeta} handleDelete={() => handleDelete(tableMeta, 1)}  type="Scalping" />
+                        <DropdownComponent tableMeta={tableMeta} handleDelete={() => handleDelete(tableMeta, 1)} type="Scalping" />
                     </div>
                 );
             },
         },
-    },
-    {
-        name: "Symbol",
-        label: "Symbol",
-        options: {
-            filter: true,
-            sort: true,
-        }
     },
     {
         name: "Token",
@@ -1174,22 +1175,22 @@ export const getColumns3 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
-    {
-        name: "LowerRange",
-        label: "Lower Range",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "HigherRange",
-        label: "Higher Range",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+    // {
+    //     name: "LowerRange",
+    //     label: "Lower Range",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
+    // {
+    //     name: "HigherRange",
+    //     label: "Higher Range",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
     {
         name: "TType",
         label: "Trade Type",
@@ -1558,22 +1559,22 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
-    {
-        name: "LowerRange",
-        label: "Lower Range",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "HigherRange",
-        label: "Higher Range",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+    // {
+    //     name: "LowerRange",
+    //     label: "Lower Range",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
+    // {
+    //     name: "HigherRange",
+    //     label: "Higher Range",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
     {
         name: "TaskStatus",
         label: "TaskStatus",
@@ -1600,268 +1601,255 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
     },
 ];
 
-export const 
-getColumns5 = (handleDelete, handleEdit, handleContinutyDiscontinuty) => [
+export const
+    getColumns5 = (handleDelete, handleEdit, handleContinutyDiscontinuty) => [
 
-    {
-        name: "S.No",
-        label: "S.No",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value, tableMeta, updateValue) => {
-                const rowIndex = tableMeta.rowIndex;
-                return rowIndex + 1;
-            }
-        },
-    },
-   
-    {
-        name: "Edit",
-        label: "Edit",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value, tableMeta, updateValue) => {
-                return <><button className='btn ' onClick={() => handleEdit(tableMeta)}>
-                    <SquarePen style={{ color: "white" }} />
-                </button>
-
-                </>
-            }
-        }
-    },
-    // {
-    //     name: "Trading",
-    //     label: "Trading",
-    //     options: {
-    //         filter: true,
-    //         sort: true,
-    //         customBodyRender: (value, tableMeta, updateValue) => {
-    //             const isChecked = Boolean(value);
-    //             return (
-    //                 <Checkbox
-    //                     checked={isChecked}
-    //                     onClick={() => handleContinutyDiscontinuty(tableMeta, 1)}
-    //                 />
-    //             );
-    //         }
-    //     }
-    // },
-    {
-        name: "Trading",
-        label: "Trading",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value, tableMeta, updateValue) => {
-                const label = value ? "Continue" : "Discontinue";
-                const labelStyle = value ? { backgroundColor: 'green', color: 'white' } : { backgroundColor: 'red', color: 'white' };
-
-                return (
-                    <button
-                        onClick={() => handleContinutyDiscontinuty(tableMeta, 1)}
-                        style={{ ...labelStyle, border: 'none', padding: '5px 10px', cursor: 'pointer', borderRadius: '5px' }}
-                    >
-                        {label}
-                    </button>
-                );
-            }
-        }
-    },    
-    {
-        name: "Action",
-        label: "Action",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value, tableMeta, updateValue) => {
-                return (
-                    <div>
-                        <DropdownComponent tableMeta={tableMeta} handleDelete={() => handleDelete(tableMeta, 1)}   type="Option Strategy" />
-                    </div>
-                );
-            }
-        }
-    },
-
-    {
-        name: "TradePattern",
-        label: "Trade Pattern",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Pattern",
-        label: "Pattern",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Exchange",
-        label: "Exchange",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Action",
-        label: "Action",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value, tableMeta, updateValue) => {
-                return (
-                    <div>
-                        <DropdownComponent tableMeta={tableMeta} handleDelete={() => handleDelete(tableMeta, 2)} type="MultiCondition" />
-                    </div>
-                );
+        {
+            name: "S.No",
+            label: "S.No",
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value, tableMeta, updateValue) => {
+                    const rowIndex = tableMeta.rowIndex;
+                    return rowIndex + 1;
+                }
             },
         },
-    },
-    {
-        name: "Token",
-        label: "Token",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Symbol",
-        label: "Symbol",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Expiry Date",
-        label: "Expiry Date",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Instrument Name",
-        label: "Instrument Name",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "TType",
-        label: "Trade Type",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Quantity",
-        label: "Quantity",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "TimeFrame",
-        label: "Time Frame",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Target value",
-        label: "Target value",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "SL value",
-        label: "Re-entry",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "TStype",
-        label: "Measurement Type",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "TradeExecution",
-        label: "Trade Execution",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "ExitDay",
-        label: "Exit Day",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "EntryTime",
-        label: "Entry Time",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "ExitTime",
-        label: "Exit Time",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "SSDate",
-        label: "SSDate",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "SEDate",
-        label: "SEDate",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
 
-    {
-        name: "TradeCount",
-        label: "Trade Count",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-];
+        {
+            name: "Edit",
+            label: "Edit",
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value, tableMeta, updateValue) => {
+                    return <><button className='btn ' onClick={() => handleEdit(tableMeta)}>
+                        <SquarePen style={{ color: "white" }} />
+                    </button>
+
+                    </>
+                }
+            }
+        },
+        // {
+        //     name: "Trading",
+        //     label: "Trading",
+        //     options: {
+        //         filter: true,
+        //         sort: true,
+        //         customBodyRender: (value, tableMeta, updateValue) => {
+        //             const isChecked = Boolean(value);
+        //             return (
+        //                 <Checkbox
+        //                     checked={isChecked}
+        //                     onClick={() => handleContinutyDiscontinuty(tableMeta, 1)}
+        //                 />
+        //             );
+        //         }
+        //     }
+        // },
+        {
+            name: "Trading",
+            label: "Trading",
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value, tableMeta, updateValue) => {
+                    const label = value ? "Continue" : "Discontinue";
+                    const labelStyle = value ? { backgroundColor: 'green', color: 'white' } : { backgroundColor: 'red', color: 'white' };
+
+                    return (
+                        <button
+                            onClick={() => handleContinutyDiscontinuty(tableMeta, 1)}
+                            style={{ ...labelStyle, border: 'none', padding: '5px 10px', cursor: 'pointer', borderRadius: '5px' }}
+                        >
+                            {label}
+                        </button>
+                    );
+                }
+            }
+        },
+       
+
+        {
+            name: "TradePattern",
+            label: "Trade Pattern",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "Pattern",
+            label: "Pattern",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "Exchange",
+            label: "Exchange",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "Action",
+            label: "Action",
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value, tableMeta, updateValue) => {
+                    return (
+                        <div>
+                            <DropdownComponent tableMeta={tableMeta} handleDelete={() => handleDelete(tableMeta, 2)} type="MultiCondition" />
+                        </div>
+                    );
+                },
+            },
+        },
+        {
+            name: "Token",
+            label: "Token",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+       
+        {
+            name: "Symbol",
+            label: "Symbol",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "Expiry Date",
+            label: "Expiry Date",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "Instrument Name",
+            label: "Instrument Name",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "TType",
+            label: "Trade Type",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "Quantity",
+            label: "Quantity",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "TimeFrame",
+            label: "Time Frame",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "Target value",
+            label: "Target value",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "SL value",
+            label: "Re-entry",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "TStype",
+            label: "Measurement Type",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "TradeExecution",
+            label: "Trade Execution",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "ExitDay",
+            label: "Exit Day",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "EntryTime",
+            label: "Entry Time",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "ExitTime",
+            label: "Exit Time",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "SSDate",
+            label: "SSDate",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "SEDate",
+            label: "SEDate",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+
+        {
+            name: "TradeCount",
+            label: "Trade Count",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+    ];
 
 
 export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinuty, handleMatchPosition) => [
@@ -1962,24 +1950,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
-    {
-        name: "Action",
-        label: "Action",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value, tableMeta, updateValue) => {
-                
-                    return (
-                        <div>
-                            <DropdownComponent tableMeta={tableMeta} handleDelete={() => handleDelete(tableMeta, 2)} handleMatchPosition={() => handleMatchPosition(tableMeta, 2)}  type="MultiCondition" />
-                        </div>
-                    );
-               
-               
-            },
-        },
-    },
+   
     {
         name: "Symbol",
         label: "Symbol",
@@ -1987,6 +1958,24 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             filter: true,
             sort: true,
         }
+    },
+    {
+        name: "Action",
+        label: "Action",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value, tableMeta, updateValue) => {
+
+                return (
+                    <div>
+                        <DropdownComponent tableMeta={tableMeta} handleDelete={() => handleDelete(tableMeta, 2)} handleMatchPosition={() => handleMatchPosition(tableMeta, 2)} type="MultiCondition" />
+                    </div>
+                );
+
+
+            },
+        },
     },
     {
         name: "Token",
@@ -2036,22 +2025,22 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
-    {
-        name: "LowerRange",
-        label: "Lower Range",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "HigherRange",
-        label: "Higher Range",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+    // {
+    //     name: "LowerRange",
+    //     label: "Lower Range",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
+    // {
+    //     name: "HigherRange",
+    //     label: "Higher Range",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
     {
         name: "TType",
         label: "Trade Type",

@@ -178,6 +178,7 @@ label {
 .form-control:focus {
   color: #fff;
   border-color: #089bab;
+  background-color: black;
   box-shadow: none;
 }
 
@@ -192,7 +193,31 @@ input.form-control[type="file"] {
 .form-select[multiple] {
   height: auto;
 }
+.form-control {
+  height: 45px;
+  background-color: black !important;
+  /* Ensures black stays */
+  border: 1px solid #d7dbda;
+  font-size: 14px;
+  color: #a09e9e;
+  border-radius: 10px;
+}
 
+.form-control:focus {
+  color: #fff;
+  border-color: #089bab;
+  background-color: black;
+  /* Keeps it black on focus */
+  box-shadow: none;
+}
+
+.form-control:-webkit-autofill,
+.form-control:-webkit-autofill:focus {
+  background-color: black !important;
+  color: white !important;
+  -webkit-text-fill-color: white !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
 /* Definition Lists */
 dl dd {
   margin-bottom: 15px;
