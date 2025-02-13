@@ -88,7 +88,7 @@
 //                     }
 //                     else {
 //                         Swal.fire({
- 
+
 //                             title: "Error!",
 //                             text: response.message,
 //                             icon: "error",
@@ -280,9 +280,9 @@ const AddPlanPage = () => {
 
     const showError = (title, message = "") => {
         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+            background: "#1a1e23 ",
+            backdrop: "#121010ba",
+            confirmButtonColor: "#1ccc8a",
             title: title,
             text: message || "An error occurred.",
             icon: "error",
@@ -328,9 +328,9 @@ confirmButtonColor: "#1ccc8a",
                 const response = await AddPlan(req);
                 if (response.Status) {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Success!",
                         text: response.message,
                         icon: "success",
@@ -439,7 +439,7 @@ confirmButtonColor: "#1ccc8a",
 
                     {formik.values.PlanType == "Scalping" && (
                         <CustomMultiSelect
-                            label="Scalping"
+                            label={<span style={{ color: "#fff" }}>Scalping</span>}
                             options={scalpingStratgy.map(strategy => ({ value: strategy, label: strategy }))}
                             selected={selecteScalping}
                             onChange={(selected) => handleSelectChange("scalping", selected)}
@@ -448,7 +448,7 @@ confirmButtonColor: "#1ccc8a",
 
                     {formik.values.PlanType == "Scalping" && (
                         <CustomMultiSelect
-                            label="Option"
+                            label={<span style={{ color: "#fff" }}>Option</span>}
                             options={OptionStratgy.map(strategy => ({ value: strategy, label: strategy }))}
                             selected={selecteOptions}
                             onChange={(selected) => handleSelectChange("option", selected)}
@@ -457,7 +457,7 @@ confirmButtonColor: "#1ccc8a",
 
                     {formik.values.PlanType == "Scalping" && (
                         <CustomMultiSelect
-                            label="Pattern"
+                            label={<span style={{ color: "#fff" }}>Pattern</span>}
                             options={PatternStratgy.map(strategy => ({ value: strategy, label: strategy }))}
                             selected={selectePattern}
                             onChange={(selected) => handleSelectChange("pattern", selected)}
