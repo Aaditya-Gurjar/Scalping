@@ -172,7 +172,7 @@ const AddClient = () => {
           errors.EntryPrice = "Please Enter The Lowest Price.";
         }
         else if (values.Strategy != "Fixed Price" && values.EntryPrice != 0) {
-          errors.EntryPrice = "Please Enter The First Trade Lower Range";
+          errors.EntryPrice = "Please Enter The Lower Price";
         }
 
       }
@@ -212,7 +212,7 @@ const AddClient = () => {
           errors.EntryRange = "Please Enter The Highest Price.";
         }
         else if (values.Strategy != "Fixed Price" && values.EntryRange != 0) {
-          errors.EntryRange = "Please Enter The First Trade Higher Range";
+          errors.EntryRange = "Please Enter The Higher Price";
         }
       }
 
@@ -428,7 +428,7 @@ const AddClient = () => {
         return SweentAlertFun(
           values.Strategy === 'Fixed Price'
             ? "Higher Price should be greater than Lower Price"
-            : "First Trade Higher Range should be greater than First Trade Lower Range"
+            : "Higher Price should be greater than Lower Price"
         );
       }
       if (
@@ -730,7 +730,7 @@ const AddClient = () => {
 
     {
       name: "EntryPrice",
-      label: formik.values.Strategy == 'Fixed Price' ? "Lower Price" : "First Trade Lower Range",
+      label: formik.values.Strategy == 'Fixed Price' ? "Lower Price" : "Lower Price",
       type: "text3",
       col_size: formik.values.Strategy == 'Fixed Price' || formik.values.Strategy == 'Multi_Conditional' ? 3 : 4,
       disable: false,
@@ -740,7 +740,7 @@ const AddClient = () => {
 
     {
       name: "EntryRange",
-      label: formik.values.Strategy == 'Fixed Price' ? "Higher Price" : "First Trade Higher Range",
+      label: formik.values.Strategy == 'Fixed Price' ? "Higher Price" : "Higher Price",
       type: "text3",
       label_size: 12,
       headingtype: 2,

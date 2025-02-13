@@ -100,7 +100,7 @@ const DynamicForm = ({
 
                             >
                               <div className="iq-header-title">
-                                <h4 className="card-title" style={{ color: '#000', fontWeight: '450' }}>Symbol Selection</h4>
+                                <h4 className="card-title" style={{ color: '#000', fontWeight: '450' }}>Symbol Selection </h4>
                               </div>
                             </div>
 

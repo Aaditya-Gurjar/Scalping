@@ -33,6 +33,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         Marketwise: [],
         PremiumRotation: []
     });
+    console.log("getAllService",getAllService);
+    
 
     useEffect(() => {
         GetUserAllScripts()
@@ -286,7 +288,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         else if (data == 'Option Strategy') {
             setEditDataOption(getAllService.OptionData[index])
         }
-        else if (data == 'Pattern') {
+        else if (data == 'Pattern' || data == 'Pattern Script') {
             setEditDataPattern(getAllService.PatternData[index])
         }
         else {
@@ -294,6 +296,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         }
     }
     const HandleContinueDiscontinue = async (rowData, type) => {
+        console.log("rowData",rowData.rowIndex);
+        
 
         const index = rowData.rowIndex
         let trading;
@@ -305,7 +309,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         else if (data == 'Scalping' && type == 2) {
             trading = getAllService.NewScalping[index].Trading
         }
-        else if (data == 'Pattern') {
+        else if (data == 'Pattern' ||  data == 'Pattern Script') {
             trading = getAllService.PatternData[index].Trading
         }
         else if (data == 'Option Strategy') {
@@ -319,7 +323,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             return
         }
 
-        // console.log("getCharting[index]?.AccType", getCharting[index]?.AccType)
+        // console.log("getAllService.PatternData[index].Trading", getAllService.PatternData[index].Trading)
         if (trading) {
             Swal.fire({
                 title: "Do you want to Discontinue",
@@ -362,7 +366,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                     TradePattern: "",
                                     PatternName: ""
                                 }
-                                : data == 'Pattern' ?
+                                : data == 'Pattern' || data == 'Pattern Script' ?
                                     {
 
                                         MainStrategy: data,
@@ -517,7 +521,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                         TradePattern: "",
                                         PatternName: ""
                                     }
-                                    : data == 'Pattern' ?
+                                    : data == 'Pattern' || data == "Pattern Script" ?
                                         {
 
                                             MainStrategy: data,

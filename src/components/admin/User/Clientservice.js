@@ -16,14 +16,9 @@ import NoDataFound from '../../../ExtraComponent/NoDataFound';
 const Clientservice = () => {
     const [clientService, setClientService] = useState({ loading: true, data: [] });
     const [showModal, setShowModal] = useState(false);
-    // console.log("showModal", showModal);
-
     const [selectedIndex, setSelectedIndex] = useState([]);
-    console.log("selectedIndex", selectedIndex);
 
     const [optionsArray, setOptionsArray] = useState([]);
-    // console.log("optionsArray", optionsArray);
-
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [groupData, setGroupData] = useState({ loading: true, data: [] });
     const [brokers, setBrokers] = useState([]);
@@ -269,15 +264,6 @@ const Clientservice = () => {
             }
         },
         {
-            name: 'Mobile_No',
-            label: 'Mobile Number',
-            options: {
-                filter: true,
-                sort: true,
-                customBodyRender: (value) => value || '-'
-            }
-        },
-        {
             name: 'BrokerName',
             label: 'Broker Name',
             options: {
@@ -300,15 +286,6 @@ const Clientservice = () => {
             }
         },
         {
-            name: 'EmailId',
-            label: 'Email ID',
-            options: {
-                filter: true,
-                sort: true,
-                customBodyRender: (value) => value || '-'
-            }
-        },
-        {
             name: 'Group',
             label: 'Strategy Group',
             options: {
@@ -318,6 +295,25 @@ const Clientservice = () => {
 
                     <span>{Array.isArray(value) ? value.join(' , ') : value ? "-" : value || '-'}</span>
                 ),
+            }
+        },
+        {
+            name: 'EmailId',
+            label: 'Email ID',
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value) => value || '-'
+            }
+        },
+
+        {
+            name: 'Mobile_No',
+            label: 'Mobile Number',
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value) => value || '-'
             }
         },
         {
@@ -459,15 +455,15 @@ const Clientservice = () => {
                                             <div className="mt-2">
                                                 <div className="row">
                                                     <div className="col-lg-12">
-                                                        <h6>Select Group</h6>
+                                                        <h6 style={{ color: "white" }}>Select Group</h6>
 
                                                         <Select
-                                                            defaultValue={selectedIndex?.Planname?.map((item) => {
+                                                            defaultValue={selectedIndex?.Group?.map((item) => {
                                                                 return { value: item, label: item }
                                                             })}
                                                             isMulti
                                                             options={optionsArray}
-                                                            selected={showModal ? selectedIndex.Group : ""}
+                                                            selected={showModal ? selectedIndex?.Group : ""}
                                                             onChange={(selected) =>
                                                                 setSelectedOptions(selected)
                                                             }

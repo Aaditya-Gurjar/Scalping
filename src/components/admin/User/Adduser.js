@@ -28,6 +28,8 @@ const Adduser = () => {
 
 
     const [GetAllPlans, setAllPlans] = useState({ LivePlanName: [], DemoPlanName: [], data: [] });
+    console.log("GetAllPlans",GetAllPlans);
+    
 
 
     const Name_regex = (name) => {
@@ -125,11 +127,22 @@ const Adduser = () => {
     const GetAllPlansData = async () => {
         await Get_All_Plans()
             .then((response) => {
+                console.log("GetAllPlansData",response);
+                
                 if (response.Status) {
-                    const LivePlanName = response.Admin.filter((item) => item.PlanName !== 'One Week Demo' && item.PlanName !== 'Two Days Demo');
+                    const LivePlanName = [
+                        ...response.Admin.filter((item) => item.PlanName !== 'One Week Demo' && item.PlanName !== 'Two Days Demo'),
+                        ...response.Charting // Charting array ko add kar diya
+                    ];
+                
                     const DemoPlanName = response.Admin.filter((item) => item.PlanName === 'One Week Demo' || item.PlanName === 'Two Days Demo');
-                    setAllPlans({ DemoPlanName: DemoPlanName, LivePlanName: LivePlanName, data: response.Admin });
-                }
+                
+                    setAllPlans({ 
+                        DemoPlanName: DemoPlanName, 
+                        LivePlanName: LivePlanName, 
+                        data: response.Admin 
+                    });
+                }                
                 else {
                     setAllPlans({ DemoPlanName: [], LivePlanName: [], data: [] });
                 }
@@ -456,7 +469,7 @@ const Adduser = () => {
 
                         additional_field={
                             <div className="col-lg-6 mt-2 dropdownuser">
-                                <h6>Select Group</h6>
+                                <h6 style={{color:"white"}}>Select Group</h6>
                                 <Select
                                     defaultValue={selectedIndex?.Planname?.map((item) => ({
                                         value: item,

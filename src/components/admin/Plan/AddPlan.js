@@ -296,7 +296,7 @@ const AddPlanPage = () => {
             NumberofScript: "",
             payment: "",
             planname: "",
-            Duration: "",
+            Duration: "One_Month",
             PlanType: "Scalping",
         },
         validate: (values) => {
@@ -307,7 +307,7 @@ const AddPlanPage = () => {
             if (!values.planname) errors.planname = "Please provide a plan name.";
             if (!values.Duration) errors.Duration = "Please select a plan duration.";
             if (formik.values.PlanType == "Charting" && selectedCharting.length == 0)
-                errors.Charting = "Please select at least one charting type.";
+                errors.Charting = "Please select at least one Segment.";
 
             return errors;
         },
@@ -424,7 +424,7 @@ const AddPlanPage = () => {
                     {formik.values.PlanType == "Charting" && (
                         <>
                             <CustomMultiSelect
-                                label="Charting"
+                                label={<span style={{ color: "white" }}>Segment</span>}
                                 options={[
                                     { value: "Cash", label: "Cash" },
                                     { value: "Future", label: "Future" },
