@@ -844,7 +844,7 @@ const AddClient = () => {
 
     {
       name: "Slvalue",
-      label: formik.values.Strategy == "Fixed Price" ? "Stoploss Price" : formik.values.position_type == "Single" && formik.values.Strategy == "Multi_Conditional" ? "Stoploss" : "Re-Entry Point",
+      label: formik.values.Strategy == "Fixed Price" ? "Stoploss" : formik.values.position_type == "Single" && formik.values.Strategy == "Multi_Conditional" ? "Stoploss" : "Re-Entry Point",
       type: "text3",
       label_size: 12,
       col_size: formik.values.position_type == "Multiple" ? 3 : 4,

@@ -166,6 +166,7 @@ const TradeReport = () => {
     }, [selectStrategyType]);
 
 
+    console.log("selectedRowData", selectedRowData)
 
 
     const handleSubmit = async (rowData) => {
@@ -197,12 +198,12 @@ const TradeReport = () => {
             Username: Username,
             ETPattern:
                 selectStrategyType === "Scalping"
-                    ? ''
+                    ? selectedRowData.TType
                     : selectStrategyType === "Option Strategy"
                         ? selectedRowData?.Targettype
                         : selectStrategyType === "Pattern"
                             ? selectedRowData?.Pattern
-                            : '',
+                            : "",
             Timeframe: selectStrategyType === "Pattern" ? selectedRowData?.TimeFrame : '',
             From_date: convertDateFormat(FromDate === '' ? formattedDate : FromDate),
             To_date: convertDateFormat(ToDate === '' ? Defult_To_Date : ToDate),

@@ -121,7 +121,7 @@ const AddClient = () => {
       TargetExit: false,
       WorkingDay: [],
       OrderType: "Pending",
-      FinalTarget: 0,
+      FinalTarget: 0.0,
     },
 
     validate: (values) => {
@@ -289,37 +289,48 @@ const AddClient = () => {
         errors.RepeatationCount = "Please Enter No. of Repeatation";
       }
       if (
-        !values.Loss &&
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple"
+        values.Loss === undefined ||
+        values.Loss === null ||
+        (values.Strategy === "Multi_Conditional" &&
+          values.position_type === "Multiple" &&
+          values.Loss === "")
       ) {
         errors.Loss = "Please Enter Maximum Loss";
       }
 
       if (
-        !values.Profit &&
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple"
+        values.Profit === undefined ||
+        values.Profit === null ||
+        (values.Strategy === "Multi_Conditional" &&
+          values.position_type === "Multiple" &&
+          values.Profit === "")
       ) {
-        errors.Profit = "Please Enter Maximum Loss";
+        errors.Profit = "Please Enter Maximum Profit";
+      }
+
+      if (
+        values.ExitDay == "Delivery" &&
+        (values.RollOver == "" ||
+          values.RollOver == undefined ||
+          (values.RollOver == null &&
+            values.Strategy == "Multi_Conditional" &&
+            values.position_type == "Multiple"))
+      ) {
+        errors.RollOver = "Please Enter Rollover";
       }
       if (
-        !values.RollOver &&
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple"
-      ) {
-        errors.RollOver = "Please Enter No. of Repeatation";
-      }
-      if (
-        !values.NumberOfDays &&
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple" &&
-        values.RollOver == ""
+        (values.ExitDay == "Delivery" && values.NumberOfDays == "") ||
+        values.NumberOfDays == undefined ||
+        (values.NumberOfDays == null &&
+          values.Strategy == "Multi_Conditional" &&
+          values.position_type == "Multiple" &&
+          values.RollOver == "")
       ) {
         errors.NumberOfDays = "Please Enter No. of Days";
       }
 
       if (
+        values.ExitDay == "Delivery" &&
         !values.RollOverExitTime &&
         values.Strategy == "Multi_Conditional" &&
         values.position_type == "Multiple" &&
@@ -328,19 +339,20 @@ const AddClient = () => {
         errors.RollOverExitTime = "Please Enter RollOver Exit Time";
       }
       if (
-        !values.TargetExit &&
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple"
+        (values.TargetExit === undefined || values.TargetExit === null) &&
+        values.Strategy === "Multi_Conditional" &&
+        values.position_type === "Multiple"
       ) {
         errors.TargetExit = "Please select Continue After Cycle Exit";
       }
-      if (
-        !values.WorkingDay.length > 0 &&
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple"
-      ) {
-        errors.WorkingDay = "Please select Working day";
-      }
+
+      // if (
+      //   !values.WorkingDay.length > 0 &&
+      //   values.Strategy == "Multi_Conditional" &&
+      //   values.position_type == "Multiple"
+      // ) {
+      //   errors.WorkingDay = "Please select Working day";
+      // }
 
       if (
         !values.OrderType &&
@@ -355,12 +367,12 @@ const AddClient = () => {
         (values.FinalTarget == "" &&
           formik.values.position_type == "Multiple" &&
           formik.values.Strategy == "Multi_Conditional" &&
-          formik.values.Targetselection == "Entry Wise Target")
+          formik.values.Targetselection == "Entry Wise Target Reverse")
       ) {
         errors.FinalTarget = "Please Enter Final Target";
       }
 
-      // console.log("err", errors);
+      console.log("err", errors);
       // ScrollToViewFirstError(errors);
       return errors;
     },
@@ -532,7 +544,7 @@ const AddClient = () => {
         FinalTarget:
           formik.values.position_type == "Multiple" &&
           formik.values.Strategy == "Multi_Conditional" &&
-          formik.values.Targetselection == "Entry Wise Target"
+          formik.values.Targetselection == "Entry Wise Target Reverse"
             ? parseFloat(values.FinalTarget)
             : 0.0,
       };
@@ -771,9 +783,11 @@ const AddClient = () => {
       label_size: 12,
       headingtype: 1,
       col_size:
-        formik.values.Exchange == "NFO" &&
-        (formik.values.Instrument === "FUTSTK" ||
-          formik.values.Instrument === "FUTIDX")
+        formik.values.Exchange == "MCX"
+          ? 3
+          : formik.values.Exchange == "NFO" &&
+            (formik.values.Instrument === "FUTSTK" ||
+              formik.values.Instrument === "FUTIDX")
           ? 3
           : formik.values.Exchange == "NFO" &&
             (formik.values.Instrument === "OPTIDX" ||
@@ -905,8 +919,12 @@ const AddClient = () => {
       headingtype: 1,
       hiding: false,
       col_size:
-        formik.values.Instrument === "FUTSTK" ||
-        formik.values.Instrument === "FUTIDX"
+        (formik.values.Instrument === "OPTFUT" ||
+          formik.values.Instrument === "FUTCOM") &&
+        formik.values.Exchange === "MCX"
+          ? 3
+          : formik.values.Instrument === "FUTSTK" ||
+            formik.values.Instrument === "FUTIDX"
           ? 3
           : 4,
       disable: false,
@@ -1116,7 +1134,7 @@ const AddClient = () => {
         formik.values.Strategy == "Fixed Price" ||
         (formik.values.position_type == "Single" &&
           formik.values.Strategy == "Multi_Conditional")
-          ? "Stoploss Price"
+          ? "Stoploss"
           : "Re-Entry Point",
       type: "text3",
       label_size: 12,
