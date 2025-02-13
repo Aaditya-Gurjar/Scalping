@@ -554,12 +554,10 @@ const Tradehistory = () => {
                             </div>
 
 
-                            {((tradeHistory?.data?.length == 0 && selectStrategyType !== "Scalping") &&  (selectStrategyType === "Scalping" && tradeHistory?.data1?.length == 0 ))? 
+                            {/* {((tradeHistory?.data?.length == 0 && selectStrategyType !== "Scalping") &&  (selectStrategyType === "Scalping" && tradeHistory?.data1?.length == 0 ))? 
                               (
                                 <NoDataFound />
-                            )  : 
-                            (selectStrategyType === "Scalping" && tradeHistory?.data1?.length == 0 ) ? 
-                            
+                            )  
                             (
                                 <>
                                     <div className="modal-body">
@@ -584,8 +582,9 @@ const Tradehistory = () => {
                                         Submit
                                     </button>
                                 </>
-                            )
-                        }
+                            ))}
+                        
+                 */}
 
 
                             {showTable && (
