@@ -4,7 +4,7 @@ import { useFormik } from "formik";
 import { useState, useEffect } from "react";
 import Swal from 'sweetalert2';
 import { Get_Symbol, Get_StrikePrice, GET_EXPIRY_DATE, GetExchange } from '../../CommonAPI/Admin'
-import { AddScript } from '../../CommonAPI/User'
+import { AddScript, CheckPnLScalping } from '../../CommonAPI/User'
 import { text } from "../../../ExtraComponent/IconTexts"
 
 
@@ -16,6 +16,32 @@ const AddClient = () => {
   const [getSymbolData, setSymbolData] = useState({ loading: true, data: [] })
   const [getStricke, setStricke] = useState({ loading: true, data: [] })
   const [getExpiryDate, setExpiryDate] = useState({ loading: true, data: [] })
+
+  const [openModel, setOpenModel] = useState(false)
+  const [openModel1, setOpenModel1] = useState(false)
+  const [marginValue, setMarginValue] = useState('')
+
+  console.log("Model open ho rha hai ya nhi", openModel);
+  console.log("marginValue mai kya ddata aa rha hai", marginValue);
+
+
+
+  const [showPnl, setShowPnl] = useState(false)
+
+  const [PnlData, setPnlData] = useState({
+    InstrumentName: "",
+    LotSize: "",
+    MainSymbol: "",
+    Message: "",
+    Status: "",
+    Token: "",
+    TotalMargin: "",
+    TotalPnL: "",
+    TradingSymbol: "",
+  })
+
+
+
 
   const SweentAlertFun = (text) => {
     Swal.fire({
@@ -332,7 +358,7 @@ const AddClient = () => {
       }
 
 
-      console.log("errors", errors)
+      // console.log("errors", errors)
       // ScrollToViewFirstError(errors);
       return errors;
     },
@@ -1394,7 +1420,7 @@ const AddClient = () => {
   }, [formik.values.Instrument, formik.values.Exchange])
 
   useEffect(() => {
-    console.log("testing")
+    // console.log("testing")
     if (formik.values.Exchange === 'NSE') {
       formik.setFieldValue('ExitTime', '15:15:00');
     } else {
@@ -1415,6 +1441,102 @@ const AddClient = () => {
     formik.setFieldValue('expirydata1', "")
   }, [formik.values.Symbol])
 
+
+  const handleCheckPnl = async () => {
+
+    const weekend = (new Date()).getDay()
+    const currentDate = new Date()
+    const currentTime = currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds()
+
+
+    // if (weekend == 6 || weekend == 0 || currentTime >= "15:30:00" || currentTime <= "09:15:00") {
+    //     return SweentAlertFun("Market is off Today")
+    // }
+
+    const req = {
+      MainStrategy: location?.state?.data?.selectStrategyType,
+      Username: userName,
+      Strategy: formik?.values.Strategy,
+      Exchange: formik?.values.Exchange,
+      Instrument: formik.values.Exchange == "NSE" ? "" : formik.values.Instrument,
+      Symbol: formik?.values.Symbol,
+      Optiontype: formik.values.Instrument == "OPTIDX" || formik.values.Instrument == "OPTSTK" || (formik.values.Exchange === "MCX" && formik.values.Instrument == "OPTFUT") ? formik.values.Optiontype : "",
+      Strike: formik.values.Instrument == "OPTIDX" || formik.values.Instrument == "OPTSTK" || (formik.values.Exchange === "MCX" && formik.values.Instrument == "OPTFUT") ? formik.values.Strike : 0,
+      expirydata1: formik.values.expirydata1 == "Monthly" ? getExpiryDate?.data?.[0] : formik.values.expirydata1 == "Next_Month" ? getExpiryDate?.data?.[1] : formik.values.Exchange == "NSE" ? getExpiryDate?.data?.[0] : formik.values.expirydata1,
+      MarginValue: Number(marginValue),
+      TType: formik.values.TType == 0 ? "" : formik.values.TType,
+      TStype: formik.values.Strategy == "One Directional" || formik.values.Strategy == "Multi Directional" || (formik.values.Strategy == "Multi_Conditional") ? formik.values.TStype : "",
+      Targetvalue: formik.values.Targetvalue,
+      Slvalue: formik.values.Slvalue,
+      HoldExit: (formik.values.Strategy === "Multi Directional" || formik.values.Strategy === "One Directional" || formik.values.Strategy == "Multi_Conditional") ? formik.values.HoldExit : "",
+      Quantity: formik.values.Quantity,
+      Expirytype: "",
+      FixedSM: formik.values.Strategy == "Multi_Conditional" ? formik.values.FixedSM : "Multiple",
+      quantity2: formik.values.FixedSM == "Single" && formik.values.Strategy == "Multi_Conditional" ? Number(formik.values.quantity2) : 0,
+      quantity3: formik.values.FixedSM == "Single" && formik.values.Strategy == "Multi_Conditional" ? Number(formik.values.quantity3) : 0,
+      tgp2: formik.values.FixedSM == "Single" && formik.values.Strategy == "Multi_Conditional" ? Number(formik.values.tgp2) : 0,
+      tgp3: formik.values.FixedSM == "Single" && formik.values.Strategy == "Multi_Conditional" ? Number(formik.values.tgp3) : 0,
+      stepup: formik.values.FixedSM == "Multiple" && formik.values.Strategy == "Multi_Conditional" ? Number(formik.values.stepup) : 0,
+      quantityselection: formik.values.FixedSM == "Multiple" && formik.values.Strategy == "Multi_Conditional" ? formik.values.quantityselection : "",
+      quantityvalue: formik.values.FixedSM == "Multiple" && formik.values.Strategy == "Multi_Conditional" ? Number(formik.values.quantityvalue) : 1,
+      targetselection: formik.values.FixedSM == "Multiple" && formik.values.Strategy == "Multi_Conditional" ? formik.values.Targetselection : "Single",
+      RepeatationCount:
+        formik.values.FixedSM == "Multiple" &&
+          formik.values.Strategy == "Multi_Conditional"
+          ? Number(formik.values.RepeatationCount)
+          : 1,
+
+    }
+
+
+    await CheckPnLScalping(req)
+      .then((response) => {
+        console.log("req", response);
+
+        if (response.Status) {
+          setShowPnl(true)
+          setOpenModel(true)
+          setPnlData({
+            InstrumentName: response.InstrumentName,
+            LotSize: response.LotSize,
+            MainSymbol: response.MainSymbol,
+            Message: response.Message,
+            Status: response.Status,
+            Token: response.Token,
+            TotalMargin: response.TotalMargin,
+            TotalPnL: response.TotalPnL,
+            TradingSymbol: response.TradingSymbol,
+
+          })
+        }
+        else {
+          setPnlData({
+            InstrumentName: "",
+            LotSize: "",
+            MainSymbol: "",
+            Message: "",
+            Status: "",
+            Token: "",
+            TotalMargin: "",
+            TotalPnL: "",
+            TradingSymbol: "",
+          })
+        }
+      })
+      .catch((err) => {
+        console.log("Error in fatching the Pnl", err)
+
+      })
+  }
+
+  useEffect(() => {
+    setShowPnl(false)
+  }, [formik.values])
+
+
+
+
+
   return (
     <>
       <AddForm
@@ -1426,7 +1548,198 @@ const AddClient = () => {
         btn_name1="Cancel"
         formik={formik}
         btn_name1_route={"/user/dashboard"}
+        additional_field={
+          <div>
+            {(formik.values.Strategy == 'CoveredCall' || formik.values.Strategy == 'CoveredPut' || formik.values.Strategy == 'LongCollar' || formik.values.Strategy == 'ShortCollar' || formik.values.Strategy == 'LongFourLegStretegy' || formik.values.Strategy == 'ShortFourLegStretegy') ? "" :
+              // <p className="btn btn-primary" >Check PnL</p>
+              <p className="btn btn-primary" onClick={() => setOpenModel1(true)}>Check PnL</p>
+            }
+          </div>
+        }
       />
+
+      {openModel1 && (
+        <div className="modal custom-modal d-flex" id="Balance" role="dialog">
+          <div className="modal-dialog modal-dialog-centered" style={{ width: "30rem" }}>
+            <div className="modal-content">
+              <div className="modal-header border-0 pb-0">
+                <div className="form-header modal-header-title text-start mb-0">
+                  <h4 className="mb-0 d-flex align-items-center">
+
+                    Margin Value
+                  </h4>
+                </div>
+                <button
+                  type="button"
+                  className="btn-close"
+                  aria-label="Close"
+                  onClick={() => setOpenModel1(false)}
+                ></button>
+              </div>
+              <div>
+                <div className="modal-body">
+                  <div className="row">
+                    <div className="col-lg-12 col-sm-12">
+                      <div className="input-block mb-3">
+                        <label className="form-label" style={{ fontWeight: "bold", color: "#fff" }}>
+                          Margin Value
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          // onClick={matginValue}
+                          value={marginValue}
+                          onChange={(e) => setMarginValue(e.target.value)}
+                        />
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ textAlign: "right" }}>
+                  <button
+                    type="button"
+                    className="btn btn-success"
+                    onClick={() => {
+                      handleCheckPnl();
+                      setOpenModel1(false);
+                      setMarginValue("");
+                    }}
+                    style={{
+                      backgroundColor: "#f44336",
+                      color: "white",
+                      borderRadius: "4px",
+                    }}
+                  >
+                    Submit
+                  </button>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+
+      {/* {openModel && (
+  <div className="modal custom-modal d-flex" id="Balance" role="dialog">
+    <div className="modal-dialog modal-dialog-centered">
+      <div className="modal-content">
+        <div className="modal-header border-0 pb-0">
+          <div className="form-header modal-header-title text-start mb-0">
+            <h4 className="mb-0 d-flex align-items-center">
+              Withdrawal Balance
+            </h4>
+          </div>
+          <button
+            type="button"
+            className="btn-close"
+            aria-label="Close"
+            onClick={() => setOpenModel(false)}
+          ></button>
+        </div>
+        <div>
+          <div className="modal-body">
+            <div className="row">
+              {[
+                { label: "InstrumentName", value: PnlData.InstrumentName },
+                { label: "LotSize", value: PnlData.LotSize },
+                { label: "MainSymbol", value: PnlData.MainSymbol },
+                { label: "Message", value: PnlData.Message },
+                { label: "Status", value: PnlData.Status },
+                { label: "Token", value: PnlData.Token },
+                { label: "TotalMargin", value: PnlData.TotalMargin },
+                { label: "TotalPnL", value: PnlData.TotalPnL },
+                { label: "TradingSymbol", value: PnlData.TradingSymbol }
+              ].map((item, index) => (
+                <div className="col-md-6 col-sm-12 mb-3" key={index}>
+                  <label className="form-label" style={{ fontWeight: "bold", color: "#333" }}>
+                    {item.label}
+                  </label>
+                  <p className="form-control">{item.value || ""}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="modal-footer">
+            <button
+              type="button"
+              className="btn btn-back cancel-btn me-2"
+              onClick={() => setOpenModel(false)}
+              style={{
+                backgroundColor: "#f44336",
+                color: "white",
+                borderRadius: "4px",
+              }}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+)} */}
+
+{openModel && (
+  <div className="modal custom-modal d-flex" id="Balance" role="dialog">
+    <div className="modal-dialog modal-dialog-centered" style={{ width: "35rem" }}>
+      <div className="modal-content" style={{ backgroundColor: "#222", color: "white", borderRadius: "8px", padding: "15px" }}>
+        <div className="modal-header border-0 pb-0 d-flex justify-content-between align-items-center">
+          <h5 className="mb-0">Withdrawal Balance</h5>
+          <button
+            type="button"
+            className="btn-close"
+            aria-label="Close"
+            onClick={() => setOpenModel(false)}
+            style={{ filter: "invert(1)", opacity: 0.8 }}
+          ></button>
+        </div>
+        <div className="modal-body py-2">
+          {[
+            { label: "Instrument Name", value: PnlData.InstrumentName },
+            { label: "Lot Size", value: PnlData.LotSize },
+            { label: "Main Symbol", value: PnlData.MainSymbol },
+            { label: "Message", value: PnlData.Message },
+            { label: "Status", value: PnlData.Status },
+            { label: "Token", value: PnlData.Token },
+            { label: "Total Margin", value: PnlData.TotalMargin },
+            { label: "Total PnL", value: PnlData.TotalPnL },
+            { label: "Trading Symbol", value: PnlData.TradingSymbol },
+          ].map((item, index) => (
+            <div key={index} className="d-flex align-items-center py-1">
+              <label className="fw-bold text-white mb-0" style={{ fontSize: "14px", minWidth: "150px" }}>
+                {item.label}:
+              </label>
+              <span className="text-white mb-0" style={{ fontSize: "14px", fontWeight: "500" }}>
+                {item.value || "N/A"}
+              </span>
+            </div>
+          ))}
+        </div>
+        {/* <div className="modal-footer border-0 pt-1 d-flex justify-content-center">
+          <button
+            type="button"
+            className="btn btn-danger"
+            onClick={() => setOpenModel(false)}
+            style={{ padding: "6px 16px", borderRadius: "6px", fontSize: "14px" }}
+          >
+            Close
+          </button>
+        </div> */}
+      </div>
+    </div>
+  </div>
+)}
+
+
+
+
+
+
     </>
   );
 };

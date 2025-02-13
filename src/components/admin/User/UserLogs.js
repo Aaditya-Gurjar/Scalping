@@ -142,124 +142,128 @@ const Pannel = () => {
     return (
         <>
             <div>
-                <div className="col-sm-12 col-lg-12">
-                    <div className="iq-card">
-                        <div className="iq-card-header d-flex justify-content-between">
-                            <div className="iq-header-title">
-                                <h4 className="card-title">User Panel Logs</h4>
-                            </div>
-                        </div>
-                        <div className="iq-card-body">
-                            <div>
-                                <div className="row">
-                                   
-                                    <div className={`form-group ${getScript !== "Scalping" ? "col-lg-4" : "col-lg-3"}`}>
-                                        <label>Username</label>
-                                        <select
-                                            className="form-select my-2"
-                                            required
-                                            onChange={(e) => setUserName(e.target.value)}
-                                            value={userName}
-                                        >
-                                            <option value="">Select Username</option>
-                                            {clientService.data?.map((item, index) => (
-                                                <option key={index} value={item.Username}>
-                                                    {item.Username}
-                                                </option>
-                                            ))}
-                                        </select>
+                <div className='container-fluid'>
+                    <div className='row'>
+                        <div className="col-sm-12 col-lg-12">
+                            <div className="iq-card">
+                                <div className="iq-card-header d-flex justify-content-between">
+                                    <div className="iq-header-title">
+                                        <h4 className="card-title">User Panel Logs</h4>
                                     </div>
+                                </div>
+                                <div className="iq-card-body">
+                                    <div>
+                                        <div className="row">
 
-                                   
-                                    <div className={`form-group ${getScript !== "Scalping" ? "col-lg-4" : "col-lg-3"}`}>
-                                        <label>Strategy</label>
-                                        <select
-                                            className="form-select my-2"
-                                            required
-                                            onChange={(e) => setScript(e.target.value)}
-                                            value={getScript}
-                                        >
-                                            {strategyType.map((type, index) => (
-                                                <option key={index} value={type}>
-                                                    {type}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
-
-                                  
-                                    {getScript === "Scalping" && (
-                                        <div className={`form-group ${getScript !== "Scalping" ? "col-lg-4" : "col-lg-3"}`}>
-                                            <div className="px-3">
-                                                <label>Table Type</label>
+                                            <div className={`form-group ${getScript !== "Scalping" ? "col-lg-4" : "col-lg-3"}`}>
+                                                <label>Username</label>
                                                 <select
                                                     className="form-select my-2"
                                                     required
-                                                    onChange={(e) => setTableType(e.target.value)}
-                                                    value={tableType}
+                                                    onChange={(e) => setUserName(e.target.value)}
+                                                    value={userName}
                                                 >
-                                                    <option value="Scalping">Scalping</option>
-                                                    <option value="MultiCondition">Multi Condition</option>
+                                                    <option value="">Select Username</option>
+                                                    {clientService.data?.map((item, index) => (
+                                                        <option key={index} value={item.Username}>
+                                                            {item.Username}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            </div>
+
+
+                                            <div className={`form-group ${getScript !== "Scalping" ? "col-lg-4" : "col-lg-3"}`}>
+                                                <label>Strategy</label>
+                                                <select
+                                                    className="form-select my-2"
+                                                    required
+                                                    onChange={(e) => setScript(e.target.value)}
+                                                    value={getScript}
+                                                >
+                                                    {strategyType.map((type, index) => (
+                                                        <option key={index} value={type}>
+                                                            {type}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            </div>
+
+
+                                            {getScript === "Scalping" && (
+                                                <div className={`form-group ${getScript !== "Scalping" ? "col-lg-4" : "col-lg-3"}`}>
+                                                    <div className="px-3">
+                                                        <label>Table Type</label>
+                                                        <select
+                                                            className="form-select my-2"
+                                                            required
+                                                            onChange={(e) => setTableType(e.target.value)}
+                                                            value={tableType}
+                                                        >
+                                                            <option value="Scalping">Scalping</option>
+                                                            <option value="MultiCondition">Multi Condition</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            )}
+
+
+                                            <div className={`form-group ${getScript !== "Scalping" ? "col-lg-4" : "col-lg-3"}`}>
+                                                <label htmlFor="email">Task Status</label>
+                                                <select
+                                                    className="form-select my-2"
+                                                    required
+                                                    onChange={(e) => setActivity(e.target.value)}
+                                                    value={getActivity}
+                                                >
+                                                    {gettaskStatus?.map((item, index) => (
+                                                        <option value={item} key={index}>{item}</option>
+                                                    ))}
                                                 </select>
                                             </div>
                                         </div>
-                                    )}
-
-                                   
-                                    <div className={`form-group ${getScript !== "Scalping" ? "col-lg-4" : "col-lg-3"}`}>
-                                        <label htmlFor="email">Task Status</label>
-                                        <select
-                                            className="form-select my-2"
-                                            required
-                                            onChange={(e) => setActivity(e.target.value)}
-                                            value={getActivity}
-                                        >
-                                            {gettaskStatus?.map((item, index) => (
-                                                <option value={item} key={index}>{item}</option>
-                                            ))}
-                                        </select>
                                     </div>
+
+
+                                    <div className="table-responsive">
+
+                                        {tableType === "Scalping" ? (
+                                            getPanleData?.data?.length > 0 ? (
+                                                <FullDataTable
+                                                    columns={
+                                                        getScript === "Scalping"
+                                                            ? columns()
+                                                            : getScript === "Option Strategy"
+                                                                ? columns1()
+                                                                : getScript === "Pattern"
+                                                                    ? columns2()
+                                                                    : columns()
+                                                    }
+                                                    data={getPanleData.data}
+                                                    checkBox={false}
+                                                />
+                                            ) : (
+                                                <NoDataFound />
+                                            )
+                                        ) : (
+
+                                            tableType === "MultiCondition" && getPanleData?.data1?.length > 0 ? (
+                                                <>
+                                                    <h4 className="mt-3">Multi Condition</h4>
+                                                    <FullDataTable columns={columns3()} data={getPanleData.data1} checkBox={false} />
+                                                </>
+                                            ) : (
+                                                <NoDataFound />
+                                            )
+                                        )}
+                                    </div>
+
                                 </div>
-                            </div>
 
-                            
-                            <div className="table-responsive">
-                              
-                                {tableType === "Scalping" ? (
-                                    getPanleData?.data?.length > 0 ? (
-                                        <FullDataTable
-                                            columns={
-                                                getScript === "Scalping"
-                                                    ? columns()
-                                                    : getScript === "Option Strategy"
-                                                        ? columns1()
-                                                        : getScript === "Pattern"
-                                                            ? columns2()
-                                                            : columns()
-                                            }
-                                            data={getPanleData.data}
-                                            checkBox={false}
-                                        />
-                                    ) : (
-                                        <NoDataFound />
-                                    )
-                                ) : (
-                                    
-                                    tableType === "MultiCondition" && getPanleData?.data1?.length > 0 ? (
-                                        <>
-                                            <h4 className="mt-3">Multi Condition</h4>
-                                            <FullDataTable columns={columns3()} data={getPanleData.data1} checkBox={false} />
-                                        </>
-                                    ) : (
-                                        <NoDataFound />
-                                    )
-                                )}
-                            </div>
-
-                        </div>
-
-                    </div >
-                </div >
+                            </div >
+                        </div >
+                    </div>
+                </div>
             </div>
         </>
     )

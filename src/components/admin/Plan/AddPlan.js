@@ -439,7 +439,7 @@ const AddPlanPage = () => {
 
                     {formik.values.PlanType == "Scalping" && (
                         <CustomMultiSelect
-                            label="Scalping"
+                            label={<span style={{ color: "#fff" }}>Scalping</span>}
                             options={scalpingStratgy.map(strategy => ({ value: strategy, label: strategy }))}
                             selected={selecteScalping}
                             onChange={(selected) => handleSelectChange("scalping", selected)}
@@ -448,7 +448,7 @@ const AddPlanPage = () => {
 
                     {formik.values.PlanType == "Scalping" && (
                         <CustomMultiSelect
-                            label="Option"
+                            label={<span style={{ color: "#fff" }}>Option</span>}
                             options={OptionStratgy.map(strategy => ({ value: strategy, label: strategy }))}
                             selected={selecteOptions}
                             onChange={(selected) => handleSelectChange("option", selected)}
@@ -457,7 +457,7 @@ const AddPlanPage = () => {
 
                     {formik.values.PlanType == "Scalping" && (
                         <CustomMultiSelect
-                            label="Pattern"
+                            label={<span style={{ color: "#fff" }}>Pattern</span>}
                             options={PatternStratgy.map(strategy => ({ value: strategy, label: strategy }))}
                             selected={selectePattern}
                             onChange={(selected) => handleSelectChange("pattern", selected)}

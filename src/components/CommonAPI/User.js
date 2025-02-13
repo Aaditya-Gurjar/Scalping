@@ -559,6 +559,24 @@ export const CheckPnL = async (data) => {
     }
 }
 
+export const CheckPnLScalping = async (data) => {
+    var token = localStorage.getItem('token')
+    try {
+        const res = await axios.post(`${Config.base_url}CheckPnL`, data,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+}
+
 export const GetName = async (data) => {
     var token = localStorage.getItem('token')
     try {

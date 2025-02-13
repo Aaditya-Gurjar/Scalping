@@ -25,7 +25,7 @@ const AddClient = () => {
     const [showPnl, setShowPnl] = useState(false)
     const [symbolOptions, setSymbolOptions] = useState([]);
     const [exchangeOptions, setExchangeOptions] = useState([])
-    const [openModel,setOpenModel] = useState(false)
+    const [openModel, setOpenModel] = useState(false)
 
 
     const [PnlData, setPnlData] = useState({
@@ -38,6 +38,8 @@ const AddClient = () => {
         NoprofitLoss1: "",
         NoprofitLoss2: ""
     })
+    // console.log("PnlData mai kya kya aa rha hai", PnlData);
+
 
     const SweentAlertFun = (text) => {
         Swal.fire({
@@ -1300,7 +1302,7 @@ const AddClient = () => {
         // if (weekend == 6 || weekend == 0 || currentTime >= "15:30:00" || currentTime <= "09:15:00") {
         //     return SweentAlertFun("Market is off Today")
         // }
-        
+
         const req = {
             MainStrategy: location.state.data.selectStrategyType,
             Strategy: formik.values.Strategy,
@@ -1412,7 +1414,7 @@ const AddClient = () => {
                             <p className="btn btn-primary" onClick={handleCheckPnl}>Check PnL</p>
                         }
 
-                        {
+                        {/* {
                             showPnl && <div>
                                 <div>
                                     <table style={{ width: '100%', textAlign: 'left', borderCollapse: 'collapse' }}>
@@ -1452,100 +1454,80 @@ const AddClient = () => {
                                     </table>
                                 </div>
                             </div>
-                        }
+                        } */}
                     </div>
                 }
             />
-            
-                {openModel && (
-                    <div className="modal custom-modal d-flex" id="Balance" role="dialog">
-                      <div className="modal-dialog modal-dialog-centered" style={{ width: "30rem" }}>
-                        <div className="modal-content">
-                          <div className="modal-header border-0 pb-0">
-                            <div className="form-header modal-header-title text-start mb-0">
-                              <h4 className="mb-0 d-flex align-items-center">
-                                {/* <DollarSign className="me-2" style={{ color: "#4caf50" }} /> */}
-                                Withdrawal Balance
-                              </h4>
-                            </div>
-                            <button
-                              type="button"
-                              className="btn-close"
-                              aria-label="Close"
-                              onClick={() => setOpenModel(false)}
-                            ></button>
-                          </div>
-                          <div>
-                            <div className="modal-body">
-                              <div className="row">
-                                <div className="col-lg-12 col-sm-12">
-                                  <div className="input-block mb-3">
-                                    <label className="form-label" style={{ fontWeight: "bold", color: "#333" }}>
-                                      Maximum Profit
-                                    </label>
-                                    <input
-                                      type="text"
-                                      className="form-control"
-                                    //   value={pnlData.MaximumProfit || ""}
-                                      readOnly
-                                    />
-                                  </div>
-                                  <div className="input-block mb-3">
-                                    <label className="form-label" style={{ fontWeight: "bold", color: "#333" }}>
-                                      Maximum Loss
-                                    </label>
-                                    <input
-                                      type="text"
-                                      className="form-control"
-                                    //   value={pnlData.MaximumLoss || ""}
-                                      readOnly
-                                    />
-                                  </div>
-                                  <div className="input-block mb-3">
-                                    <label className="form-label" style={{ fontWeight: "bold", color: "#333" }}>
-                                      Spot Price Maximum Profit 1
-                                    </label>
-                                    <input
-                                      type="text"
-                                      className="form-control"
-                                    //   value={pnlData.SpotPriceMaximumProfit1 || ""}
-                                      readOnly
-                                    />
-                                  </div>
-                                  <div className="input-block mb-3">
-                                    <label className="form-label" style={{ fontWeight: "bold", color: "#333" }}>
-                                      Spot Price Maximum Loss 1
-                                    </label>
-                                    <input
-                                      type="text"
-                                      className="form-control"
-                                    //   value={pnlData.SpotPriceMaximumLoss1 || ""}
-                                      readOnly
-                                    />
-                                  </div>
+
+            {openModel && (
+                <div className="modal custom-modal d-flex" id="Balance" role="dialog">
+                    <div className="modal-dialog modal-dialog-centered" style={{ width: "40rem" }}>
+                        <div className="modal-content" style={{ backgroundColor: "#222", color: "white" }}>
+                            <div className="modal-header border-0 pb-0">
+                                <div className="form-header modal-header-title text-start mb-0">
+                                    <h4 className="mb-0 d-flex align-items-center">Withdrawal Balance</h4>
                                 </div>
-                              </div>
+                                <button
+                                    type="button"
+                                    className="btn-close"
+                                    aria-label="Close"
+                                    onClick={() => setOpenModel(false)}
+                                    style={{ filter: "invert(1)" }} // White close button
+                                ></button>
                             </div>
-                            <div className="modal-footer">
-                              <button
-                                type="button"
-                                className="btn btn-back cancel-btn me-2"
-                                onClick={() => setOpenModel(false)}
-                                style={{
-                                  backgroundColor: "#f44336",
-                                  color: "white",
-                                  borderRadius: "4px",
-                                }}
-                              >
-                                Close
-                              </button>
+                            <div>
+                                <div className="modal-body">
+                                    <div className="row">
+                                        <div className="col-md-6 mb-3">
+                                            <label className="form-label fw-bold text-white">Maximum Profit</label>
+                                            <p>{PnlData.MaximumProfit || "N/A"}</p>
+                                        </div>
+                                        <div className="col-md-6 mb-3">
+                                            <label className="form-label fw-bold text-white">Maximum Loss</label>
+                                            <p>{PnlData.MaximumLoss || "N/A"}</p>
+                                        </div>
+                                        <div className="col-md-6 mb-3">
+                                            <label className="form-label fw-bold text-white">Spot Price Maximum Profit 1</label>
+                                            <p>{PnlData.SpotPriceMaximumProfit1 || "N/A"}</p>
+                                        </div>
+                                        <div className="col-md-6 mb-3">
+                                            <label className="form-label fw-bold text-white">Spot Price Maximum Profit 2</label>
+                                            <p>{PnlData.SpotPriceMaximumProfit2 || "N/A"}</p>
+                                        </div>
+                                        <div className="col-md-6 mb-3">
+                                            <label className="form-label fw-bold text-white">Spot Price Maximum Loss 1</label>
+                                            <p>{PnlData.SpotPriceMaximumLoss1 || "N/A"}</p>
+                                        </div>
+                                        <div className="col-md-6 mb-3">
+                                            <label className="form-label fw-bold text-white">Spot Price Maximum Loss 2</label>
+                                            <p>{PnlData.SpotPriceMaximumLoss2 || "N/A"}</p>
+                                        </div>
+                                        <div className="col-md-6 mb-3">
+                                            <label className="form-label fw-bold text-white">NoprofitLoss1</label>
+                                            <p>{PnlData.NoprofitLoss1 || "N/A"}</p>
+                                        </div>
+                                        <div className="col-md-6 mb-3">
+                                            <label className="form-label fw-bold text-white">NoprofitLoss2</label>
+                                            <p>{PnlData.NoprofitLoss2 || "N/A"}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="modal-footer">
+                                    <button
+                                        type="button"
+                                        className="btn btn-back cancel-btn me-2"
+                                        onClick={() => setOpenModel(false)}
+                                        style={{ backgroundColor: "#f44336", color: "white", borderRadius: "4px" }}
+                                    >
+                                        Close
+                                    </button>
+                                </div>
                             </div>
-                          </div>
                         </div>
-                      </div>
                     </div>
-                  )}
-            
+                </div>
+            )}
+
 
         </>
     );
