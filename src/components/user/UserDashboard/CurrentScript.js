@@ -715,6 +715,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
     const formik = useFormik({
         initialValues: {
+            TType: "",
             TStype: "",
             Quantity: 0,
             Targetvalue: 0.0,
@@ -780,6 +781,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             if (!values.TradeCount) {
                 errors.TradeCount = "Please Enter Trade Count."
             }
+            if (!values.TType) {
+                errors.TType = "Please Select Transaction Type.";
+            }
             return errors;
         },
         onSubmit: async (values) => {
@@ -813,7 +817,10 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 PEDeepLower: 0.0,
                 PEDeepHigher: 0.0,
                 DepthofStrike: 0,
-                TradeCount: values.TradeCount
+                TradeCount: values.TradeCount,
+                TType: EditDataScalping.TType
+
+
 
             }
             if (Number(values.EntryPrice) > 0 && Number(values.EntryRange) && (Number(values.EntryPrice) >= Number(values.EntryRange))) {
@@ -973,6 +980,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 PEDeepHigher: EditDataOption.PEDeepHigher,
                 DepthofStrike: EditDataOption.DepthofStrike,
                 TradeCount: values.TradeCount
+
             }
 
             if (values.EntryTime >= values.ExitTime) {
@@ -1294,6 +1302,21 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
     const EntryRuleArr = [
 
         {
+            name: "TType",
+            label: "Transaction Type",
+            type: "select1",
+            options: [
+                { label: "BUY", value: "BUY" },
+                { label: "SELL", value: "SELL" },
+            ],
+            label_size: 12,
+            headingtype: 2,
+            hiding: false,
+            col_size: 4,
+            disable: false,
+        },
+
+        {
             name: "EntryPrice",
             label: showEditModal && EditDataScalping.ScalpType != "Fixed Price" ? "First Trade Lower Range" : "Lower Price",
             type: "text3",
@@ -1317,53 +1340,14 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
     ];
 
-    const ExitRuleArr = [
 
-        {
-            name: "TStype",
-            label: "Measurement Type",
-            type: "select",
-            options: [
-                { label: "Percentage", value: "Percentage" },
-                { label: "Point", value: "Point" },
-            ],
-            showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
-            label_size: 12,
-            headingtype: 4,
-            col_size: 4,
-            hiding: false,
-            disable: false,
-        },
-
-        {
-            name: "Targetvalue",
-            label: showEditModal && EditDataScalping.ScalpType == "Fixed Price" ? "Target Price" : formik.values.Strategy == "One Directional" ? "Fixed Target" : "Booking Point",
-            type: "text3",
-            label_size: 12,
-            col_size: formik.values.position_type == "Multiple" ? 3 : 4,
-            headingtype: 3,
-            disable: false,
-            hiding: false,
-        },
-
-
-        {
-            name: "Slvalue",
-            label: showEditModal && EditDataScalping.ScalpType == "Fixed Price" ? "Stoploss" : "Re-Entry Point",
-            type: "text3",
-            label_size: 12,
-            col_size: formik.values.position_type == "Multiple" ? 3 : 4,
-            headingtype: 3,
-            disable: false,
-            hiding: false,
-        },
-    ];
     const RiskManagementArr = [
         {
             name: "Quantity",
             label: showEditModal && EditDataScalping.Exchange == "NFO" ? "Lot" : "Quantity",
             type: "text3",
             label_size: 12,
+            showWhen: () => showEditModal && EditDataScalping.PositionType === "Multiple",
             col_size: formik.values.position_type == "Multiple" ? 3 : 4,
             headingtype: 4,
             hiding: false,
@@ -1376,7 +1360,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             type: "text3",
             label_size: 12,
             col_size: 4,
-            showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
+            showWhen: () => showEditModal && EditDataScalping.PositionType === "Multiple",
+
+            // showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
             headingtype: 4,
             disable: false,
             hiding: false,
@@ -1389,7 +1375,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             label_size: 12,
             col_size: 4,
             headingtype: 4,
-            showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
+            // showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
+            showWhen: () => showEditModal && EditDataScalping.PositionType === "Multiple",
             disable: false,
             hiding: false,
         },
@@ -1402,7 +1389,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 { label: "Hold", value: "Hold" },
                 { label: "Exit", value: "Exit" },
             ],
-            showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
+            // showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
+            showWhen: () => showEditModal && EditDataScalping.PositionType === "Multiple",
             label_size: 12,
             col_size: 4,
             headingtype: 4,
@@ -1414,6 +1402,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             label: "Trade Count",
             type: "text3",
             label_size: 12,
+            showWhen: () => showEditModal && EditDataScalping.PositionType === "Multiple",
             col_size: formik.values.position_type == "Multiple" ? 3 : 4,
             headingtype: 4,
             disable: false,
@@ -1426,9 +1415,12 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             type: "text5",
             label_size: 12,
             col_size: 6,
+            showWhen: () => showEditModal && EditDataScalping.PositionType === "Multiple",
             disable: false,
             hiding: false,
         },
+
+
     ];
 
     const TimeDurationArr = [
@@ -1455,6 +1447,52 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
     ];
 
+    const ExitRuleArr = [
+
+
+
+        {
+            name: "TStype",
+            label: "Measurement Type",
+            type: "select",
+            options: [
+                { label: "Percentage", value: "Percentage" },
+                { label: "Point", value: "Point" },
+            ],
+            // showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
+            showWhen: () => showEditModal && EditDataScalping.PositionType === "Multiple",
+            label_size: 12,
+            headingtype: 4,
+            col_size: 4,
+            hiding: false,
+            disable: false,
+        },
+
+        {
+            name: "Targetvalue",
+            label: showEditModal && EditDataScalping.ScalpType == "Fixed Price" ? "Target Price" : formik.values.Strategy == "One Directional" ? "Fixed Target" : "Booking Point",
+            type: "text3",
+            label_size: 12,
+            showWhen: () => showEditModal && EditDataScalping.PositionType === "Multiple",
+            col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+            headingtype: 3,
+            disable: false,
+            hiding: false,
+        },
+
+
+        {
+            name: "Slvalue",
+            label: showEditModal && EditDataScalping.ScalpType == "Fixed Price" ? "Stoploss" : "Re-Entry Point",
+            type: "text3",
+            label_size: 12,
+            showWhen: () => showEditModal && EditDataScalping.PositionType === "Multiple",
+            col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+            headingtype: 3,
+            disable: false,
+            hiding: false,
+        },
+    ];
 
 
     const fields = [

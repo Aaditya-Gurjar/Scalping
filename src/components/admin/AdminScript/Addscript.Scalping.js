@@ -90,7 +90,7 @@ const AddClient = () => {
       quantity2: 0,
       quantity3: 0,
       stepup: 1,
-      quantityvalue: 1,
+      quantityvalue: 0,
       Targetselection: "Fixed Target",
       position_type: "Single",
       quantityselection: "Addition",
@@ -378,7 +378,7 @@ const AddClient = () => {
         tgp3: values.position_type == "Single" && values.Strategy == "Multi_Conditional" ? Number(values.tgp3) : 0,
         stepup: values.position_type == "Multiple" && values.Strategy == "Multi_Conditional" ? Number(values.stepup) : 0,
         quantityselection: values.position_type == "Multiple" && values.Strategy == "Multi_Conditional" ? values.quantityselection : "",
-        quantityvalue: values.position_type == "Multiple" && values.Strategy == "Multi_Conditional" ? Number(values.quantityvalue) : 1,
+        quantityvalue: values.position_type == "Multiple" && values.Strategy == "Multi_Conditional" ? Number(values.quantityvalue) : 0,
         targetselection: values.position_type == "Multiple" && values.Strategy == "Multi_Conditional" ? values.Targetselection : "Single",
         RepeatationCount:
           values.position_type == "Multiple" &&
@@ -801,7 +801,7 @@ const AddClient = () => {
     },
 
     {
-      name: "FinalTarget ",
+      name: "FinalTarget",
       label: "Final Target",
       type: "text3",
       label_size: 12,

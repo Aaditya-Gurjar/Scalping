@@ -102,7 +102,7 @@ const AddClient = () => {
       quantity2: 0,
       quantity3: 0,
       stepup: 1,
-      quantityvalue: 1,
+      quantityvalue: 0,
       EntryTime: "09:15:00",
       ExitTime: "15:25:00",
       ExitDay: "",
@@ -803,7 +803,7 @@ const AddClient = () => {
     },
 
     {
-      name: "FinalTarget ",
+      name: "FinalTarget",
       label: "Final Target",
       type: "text3",
       label_size: 12,
@@ -1475,7 +1475,7 @@ const AddClient = () => {
       tgp3: formik.values.FixedSM == "Single" && formik.values.Strategy == "Multi_Conditional" ? Number(formik.values.tgp3) : 0,
       stepup: formik.values.FixedSM == "Multiple" && formik.values.Strategy == "Multi_Conditional" ? Number(formik.values.stepup) : 0,
       quantityselection: formik.values.FixedSM == "Multiple" && formik.values.Strategy == "Multi_Conditional" ? formik.values.quantityselection : "",
-      quantityvalue: formik.values.FixedSM == "Multiple" && formik.values.Strategy == "Multi_Conditional" ? Number(formik.values.quantityvalue) : 1,
+      quantityvalue: formik.values.FixedSM == "Multiple" && formik.values.Strategy == "Multi_Conditional" ? Number(formik.values.quantityvalue) : 0,
       targetselection: formik.values.FixedSM == "Multiple" && formik.values.Strategy == "Multi_Conditional" ? formik.values.Targetselection : "Single",
       RepeatationCount:
         formik.values.FixedSM == "Multiple" &&
@@ -1530,7 +1530,22 @@ const AddClient = () => {
     setShowPnl(false)
   }, [formik.values])
 
+  // setOpenModel1(true)
+  const checkModalCondition = () => {
+    if (
+      formik.values.Exchange === "NSE" ||
+      (formik.values.Exchange === "NFO" &&
+        formik.values.TType === "BUY" &&
+        (formik.values.Instrument === "OPTIDX" || formik.values.Instrument === "OPTSTK"))
+    ) {
+      handleCheckPnl();
+      setOpenModel(true);
+    } else {
+      setOpenModel1(true);
+    }
 
+
+  }
 
 
 
@@ -1549,20 +1564,26 @@ const AddClient = () => {
           <div>
             {(formik.values.Strategy == 'CoveredCall' || formik.values.Strategy == 'CoveredPut' || formik.values.Strategy == 'LongCollar' || formik.values.Strategy == 'ShortCollar' || formik.values.Strategy == 'LongFourLegStretegy' || formik.values.Strategy == 'ShortFourLegStretegy') ? "" :
               // <p className="btn btn-primary" >Check PnL</p>
-              <p className="btn btn-primary" onClick={() => setOpenModel1(true)}>Check PnL</p>
+              <p className="btn btn-primary" onClick={() => checkModalCondition()}>Check PnL</p>
             }
           </div>
         }
       />
 
+      {/* handleCheckPnl();
+      setOpenModel1(false); */}
+      {/* (formik.values.Exchange !=="NSE") || ( formik.values.Exchange === "NFO" && formik.values.TType === "BUY" && (values.Instrument == "OPTIDX" || values.Instrument == "OPTSTK")  && )*/}
+
+
+
+
       {openModel1 && (
         <div className="modal custom-modal d-flex" id="Balance" role="dialog">
           <div className="modal-dialog modal-dialog-centered" style={{ width: "30rem" }}>
-            <div className="modal-content">
-              <div className="modal-header border-0 pb-0">
+            <div className="modal-content" style={{ color: "#fff", backgroundColor: "#333" }}>
+              <div className="modal-header border-0 pb-0 px-4 pt-4">
                 <div className="form-header modal-header-title text-start mb-0">
-                  <h4 className="mb-0 d-flex align-items-center">
-
+                  <h4 className="mb-0 d-flex align-items-center" style={{ color: "#fff" }}>
                     Margin Value
                   </h4>
                 </div>
@@ -1573,52 +1594,46 @@ const AddClient = () => {
                   onClick={() => setOpenModel1(false)}
                 ></button>
               </div>
-              <div>
-                <div className="modal-body">
-                  <div className="row">
-                    <div className="col-lg-12 col-sm-12">
-                      <div className="input-block mb-3">
-                        <label className="form-label" style={{ fontWeight: "bold", color: "#fff" }}>
-                          Margin Value
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          // onClick={matginValue}
-                          value={marginValue}
-                          onChange={(e) => setMarginValue(e.target.value)}
-                        />
-                      </div>
-
+              <div className="modal-body px-4 py-3">
+                <div className="row">
+                  <div className="col-12">
+                    <div className="input-block mb-3">
+                      <label className="form-label" style={{ fontWeight: "bold", color: "#fff" }}>
+                        Margin Value
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={marginValue}
+                        onChange={(e) => setMarginValue(e.target.value)}
+                      />
                     </div>
                   </div>
                 </div>
-
-                <div style={{ textAlign: "right" }}>
-                  <button
-                    type="button"
-                    className="btn btn-success"
-                    onClick={() => {
-                      handleCheckPnl();
-                      setOpenModel1(false);
-                      setMarginValue("");
-                    }}
-                    style={{
-                      backgroundColor: "#f44336",
-                      color: "white",
-                      borderRadius: "4px",
-                    }}
-                  >
-                    Submit
-                  </button>
-                </div>
-
-
+              </div>
+              <div className="modal-footer border-0 pt-0 px-4 pb-4" style={{ justifyContent: "flex-end" }}>
+                <button
+                  type="button"
+                  className="btn btn-success"
+                  onClick={() => {
+                    handleCheckPnl();
+                    setOpenModel1(false);
+                    setMarginValue("");
+                  }}
+                  style={{
+                    backgroundColor: "#f44336",
+                    color: "white",
+                    borderRadius: "4px",
+                  }}
+                >
+                  Submit
+                </button>
               </div>
             </div>
           </div>
         </div>
       )}
+
 
 
       {/* {openModel && (
