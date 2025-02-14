@@ -724,7 +724,7 @@ const Userdashboard = () => {
                 </li>
               </ul>
 
-              <div className="row">
+              <div className="row mt-3">
                 {activeTab1 === "CurrentPosition" && (
                   <div className="d-flex">
                     <div className={`form-group ${activeTab == "currentScript" && subTab == "Scalping"

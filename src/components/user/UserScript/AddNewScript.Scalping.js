@@ -77,7 +77,7 @@ const AddClient = () => {
     initialValues: {
       MainStrategy: "",
       Username: "",
-      Strategy: "",
+      Strategy: "Multi_Conditional",
       ETPattern: "",
       Timeframe: "",
       Exchange: "",
@@ -331,13 +331,9 @@ const AddClient = () => {
         errors.RollOverExitTime = "Please Enter RollOver Exit Time";
       }
 
-      // if (
-      //   !values.WorkingDay.length > 0 &&
-      //   values.Strategy == "Multi_Conditional" &&
-      //   values.FixedSM == "Multiple"
-      // ) {
-      //   errors.WorkingDay = "Please select Working day";
-      // }
+      if (!values.WorkingDay.length > 0) {
+        errors.WorkingDay = "Please select Working day";
+      }
 
 
       if (
@@ -368,9 +364,7 @@ const AddClient = () => {
           Symbol: values.Symbol,
           Optiontype: values.Instrument == "OPTIDX" || values.Instrument == "OPTSTK" || (values.Exchange === "MCX" && values.Instrument == "OPTFUT") ? values.Optiontype : "",
           Strike: values.Instrument == "OPTIDX" || values.Instrument == "OPTSTK" || (values.Exchange === "MCX" && values.Instrument == "OPTFUT") ? values.Strike : "",
-          // expirydata1: values.Exchange == "NSE" ? getExpiryDate.data[0] : values.expirydata1,
           expirydata1: values.expirydata1 == "Monthly" ? getExpiryDate?.data?.[0] : values.expirydata1 == "Next_Month" ? getExpiryDate?.data?.[1] : values.Exchange == "NSE" ? getExpiryDate?.data?.[0] : values.expirydata1,
-
           TType: values.TType,
           TStype: values.Strategy == "One Directional" || values.Strategy == "Multi Directional" || (values.Strategy == "Multi_Conditional") ? values.TStype : "",
           Targetvalue: values.Targetvalue,
@@ -437,8 +431,7 @@ const AddClient = () => {
             values.Strategy == "One Directional" ||
             (values.Strategy == "Multi_Conditional" &&
               values.FixedSM == "Multiple") ? values.TargetExit : false,
-          WorkingDay:
-            values.FixedSM == "Multiple" && values.Strategy == "Multi_Conditional" ? values.WorkingDay : [],
+          WorkingDay: values.WorkingDay,
           OrderType: values.OrderType,
           FinalTarget: (formik.values.FixedSM == "Multiple" && formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise Target Reverse") ? parseFloat(values.FinalTarget) : 0.0,
 
@@ -561,7 +554,7 @@ const AddClient = () => {
 
 
   useEffect(() => {
-    formik.setFieldValue('Strategy', location?.state?.data?.scriptType?.data?.[location?.state?.data?.scriptType?.len]?.CombineScalping[0])
+
     formik.setFieldValue('Exchange', "NFO")
     formik.setFieldValue("TType", "BUY")
     formik.setFieldValue("ExitDay", "Intraday")
@@ -983,9 +976,6 @@ const AddClient = () => {
       name: "WorkingDay",
       label: "Working Day",
       type: "multiselect",
-      showWhen: (values) => {
-        return values.Strategy == "Multi_Conditional" && values.FixedSM == "Multiple";
-      },
       options: [
         { label: "Monday", value: "Monday" },
         { label: "Tuesday", value: "Tuesday" },
@@ -1207,16 +1197,16 @@ const AddClient = () => {
   ]
 
   const fields = [
-    {
-      name: "Strategy",
-      label: "Scalping Type",
-      type: "radio2",
-      title: location?.state?.data?.scriptType?.data?.[location?.state?.data?.scriptType?.len]?.CombineScalping.map((item) => ({ title: item, value: item })),
-      hiding: false,
-      label_size: 12,
-      col_size: 12,
-      disable: false,
-    },
+    // {
+    //   name: "Strategy",
+    //   label: "Scalping Type",
+    //   type: "radio2",
+    //   title: location?.state?.data?.scriptType?.data?.[location?.state?.data?.scriptType?.len]?.CombineScalping.map((item) => ({ title: item, value: item })),
+    //   hiding: false,
+    //   label_size: 12,
+    //   col_size: 12,
+    //   disable: false,
+    // },
     {
       name: "Heading",
       label: "Symbol_Selection",
@@ -1444,10 +1434,10 @@ const AddClient = () => {
 
 
     if (weekend == 6 || weekend == 0 || currentTime >= "15:30:00" || currentTime <= "09:15:00") {
-        return SweentAlertFun("Market is off Today")
+      return SweentAlertFun("Market is off Today")
     }
 
-    
+
 
     const req = {
       MainStrategy: location?.state?.data?.selectStrategyType,
@@ -1554,82 +1544,82 @@ const AddClient = () => {
         }
       />
 
-{openModel1 && (
-  <div className="modal custom-modal d-flex" id="Balance" role="dialog">
-    <div className="modal-dialog modal-dialog-centered" style={{ width: "30rem" }}>
-      <div className="modal-content">
-        <div className="modal-header border-0 pb-0">
-          <div className="form-header modal-header-title text-start mb-0">
-            <h4 className="mb-0 d-flex align-items-center">Margin Value</h4>
-          </div>
-          <button
-            type="button"
-            className="btn-close"
-            aria-label="Close"
-            onClick={() => {
-              setOpenModel1(false);
-              setError(""); // Reset error
-              setMarginValue(""); // Reset input
-            }}
-          ></button>
-        </div>
-        <div>
-          <div className="modal-body">
-            <div className="row">
-              <div className="col-lg-12 col-sm-12">
-                <div className="input-block mb-3">
-                  <label className="form-label" style={{ fontWeight: "bold", color: "#fff" }}>
-                    Margin Value
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={marginValue}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      if (/^\d*$/.test(value)) { // ✅ Only numbers allowed
-                        setMarginValue(value);
-                        setError(""); // Reset error if valid
-                      } else {
-                        setError("Only numbers are allowed");
-                      }
-                    }}
-                  />
-                 {error && <p className="text-danger">{error}</p>}
+      {openModel1 && (
+        <div className="modal custom-modal d-flex" id="Balance" role="dialog">
+          <div className="modal-dialog modal-dialog-centered" style={{ width: "30rem" }}>
+            <div className="modal-content">
+              <div className="modal-header border-0 pb-0">
+                <div className="form-header modal-header-title text-start mb-0">
+                  <h4 className="mb-0 d-flex align-items-center">Margin Value</h4>
+                </div>
+                <button
+                  type="button"
+                  className="btn-close"
+                  aria-label="Close"
+                  onClick={() => {
+                    setOpenModel1(false);
+                    setError(""); // Reset error
+                    setMarginValue(""); // Reset input
+                  }}
+                ></button>
+              </div>
+              <div>
+                <div className="modal-body">
+                  <div className="row">
+                    <div className="col-lg-12 col-sm-12">
+                      <div className="input-block mb-3">
+                        <label className="form-label" style={{ fontWeight: "bold", color: "#fff" }}>
+                          Margin Value
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={marginValue}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            if (/^\d*$/.test(value)) { // ✅ Only numbers allowed
+                              setMarginValue(value);
+                              setError(""); // Reset error if valid
+                            } else {
+                              setError("Only numbers are allowed");
+                            }
+                          }}
+                        />
+                        {error && <p className="text-danger">{error}</p>}
 
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ textAlign: "right" }}>
+                  <button
+                    type="button"
+                    className="btn btn-success"
+                    onClick={() => {
+                      if (!marginValue.trim()) {
+                        setError("Margin Value required");
+                        return;
+                      }
+
+                      handleCheckPnl();
+                      setOpenModel1(false);
+                      setMarginValue("");
+                    }}
+                    style={{
+                      backgroundColor: "#f44336",
+                      color: "white",
+                      borderRadius: "4px",
+                    }}
+                  >
+                    Submit
+                  </button>
                 </div>
               </div>
             </div>
           </div>
-
-          <div style={{ textAlign: "right" }}>
-            <button
-              type="button"
-              className="btn btn-success"
-              onClick={() => {
-                if (!marginValue.trim()) {
-                  setError("Margin Value required");
-                  return;
-                }
-
-                handleCheckPnl();
-                setOpenModel1(false);
-                setMarginValue("");
-              }}
-              style={{
-                backgroundColor: "#f44336",
-                color: "white",
-                borderRadius: "4px",
-              }}
-            >
-              Submit
-            </button>
-          </div>
         </div>
-      </div>
-    </div>
-  </div>
-)}
+      )}
 
 
       {/* {openModel && (
