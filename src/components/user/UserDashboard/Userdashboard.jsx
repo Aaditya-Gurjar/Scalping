@@ -677,6 +677,15 @@ const Userdashboard = () => {
     },
   ];
 
+
+  useEffect(() => {
+    if (subTab === "Scalping") {
+      setTableType("MultiCondition");
+    }
+    else {
+      setTableType("Scalping");
+    }
+  }, [subTab]);
   return (
     <div className="container-fluid">
       <div className="row p-0">

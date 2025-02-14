@@ -41,6 +41,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
     }, [])
 
+   
+
     useEffect(() => {
         if (data == "ChartingPlatform")
             getChartingScript();
@@ -282,9 +284,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         if (data == 'Scalping' && type == 1) {
             setEditDataScalping(getAllService.ScalpingData[index])
 
-
-
-            // setEditCharting(getAllService.NewScalping[index])
         }
         else if (data == "Scalping" && type == 2) {
             setEditDataScalping(getAllService.NewScalping[index])
@@ -1776,7 +1775,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
     }, [showEditModal, data])
 
 
-    console.log("EditDataScalping?.WorkingDay", formik.values?.WorkingDay)
 
 
     const updatedFields = fields.filter((item) => {
