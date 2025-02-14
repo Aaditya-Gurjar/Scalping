@@ -5,7 +5,7 @@ import { GetAllUserScript, DeleteUserScript, Discontinue, Continue, UpdateUserSc
 import Loader from '../../../ExtraComponent/Loader';
 import { getColumns3, getColumns4, getColumns5, getColumns6, getColumns8 } from './Columns';
 import Swal from 'sweetalert2';
-import Formikform from "../../../ExtraComponent/FormData";
+import Formikform from "../../../ExtraComponent/FormData2";
 import { useFormik } from 'formik';
 import NoDataFound from '../../../ExtraComponent/NoDataFound';
 import { text } from '../../../ExtraComponent/IconTexts';
@@ -202,6 +202,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
     }
 
+
     const handleMatchPosition = async (rowData, type) => {
         console.log("matchPosition", rowData.rowIndex)
         const index = rowData.rowIndex
@@ -280,10 +281,15 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         const index = rowData.rowIndex
         if (data == 'Scalping' && type == 1) {
             setEditDataScalping(getAllService.ScalpingData[index])
+
+
+
             // setEditCharting(getAllService.NewScalping[index])
         }
         else if (data == "Scalping" && type == 2) {
             setEditDataScalping(getAllService.NewScalping[index])
+            console.log("EditDataScalping.PositionType", EditDataScalping.PositionType);
+
         }
         else if (data == 'Option Strategy') {
             setEditDataOption(getAllService.OptionData[index])
@@ -716,20 +722,58 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         GetAllUserScriptDetails();
     }, [selectedType, refresh, showEditModal]);
 
+    console.log("EditDataScalping", EditDataScalping)
+
+
     const formik = useFormik({
+        // enableReinitialize: true,
         initialValues: {
-            TStype: "",
-            Quantity: 0,
-            Targetvalue: 0.0,
-            Slvalue: 0,
-            EntryPrice: 0,
-            EntryRange: 0,
-            LowerRange: 0.0,
-            HigherRange: 0.0,
-            HoldExit: "Hold",
-            EntryTime: "",
-            ExitTime: "",
-            TradeCount: 0
+
+
+            MainStrategy: "", // str
+            Strategy: "", // str
+            Symbol: "", // str
+            Username: "", // str
+            ETPattern: "", // str (Trade type)
+            Timeframe: "", // str
+            Targetvalue: 0.0, // float
+            Slvalue: 0.0, // float
+            TStype: "", // str
+            LowerRange: 0.0, // float (Profit in scalping)
+            HigherRange: 0.0, // float (Loss in scalping)
+            HoldExit: "", // str
+            EntryPrice: 0.0, // float
+            EntryRange: 0.0, // float
+            EntryTime: "", // str
+            ExitTime: "", // str
+            ExitDay: "", // str
+            TradeExecution: "", // str
+            Group: "", // str
+
+            // Depth values for CE and PE options
+            CEDepthLower: 0.0, // float
+            CEDepthHigher: 0.0, // float
+            PEDepthLower: 0.0, // float
+            PEDepthHigher: 0.0, // float
+            CEDeepLower: 0.0, // float
+            CEDeepHigher: 0.0, // float
+            PEDeepLower: 0.0, // float
+            PEDeepHigher: 0.0, // float
+            DepthofStrike: 0.0, // float
+            TradeCount: 0, // int
+
+            // Additional trade parameters
+            tgp2: 0.0, // float
+            tgp3: 0.0, // float
+            RolloverTF: false, // bool
+            RolloverDay: "", // str
+            RolloverTime: "", // str
+            TargetExit: false, // bool
+            RepeatationCount: 0, // int
+            Profit: 0.0, // float
+            Loss: 0.0, // float
+            WorkingDay: EditDataScalping?.WorkingDay?.map((item) => { return { label: item, value: item } }), // list (array)
+
         },
         validate: (values) => {
             let errors = {};
@@ -753,10 +797,10 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             if (!values.EntryRange && values.EntryRange != 0 && showEditModal && EditDataScalping.ScalpType != "Fixed Price") {
                 errors.EntryRange = "Please enter Entry Range";
             }
-            if (!values.LowerRange && values.LowerRange != 0) {
+            if (EditDataScalping.PositionType === "Multiple" && !values.LowerRange && values.LowerRange != 0) {
                 errors.LowerRange = "Please enter Lower Range";
             }
-            if (!values.HigherRange && values.HigherRange != 0) {
+            if (EditDataScalping.PositionType === "Multiple" && !values.HigherRange && values.HigherRange != 0) {
                 errors.HigherRange = "Please enter Higher Range";
             }
             if (values.HoldExit == "" && showEditModal && EditDataScalping.ScalpType != "Fixed Price") {
@@ -783,40 +827,61 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             if (!values.TradeCount) {
                 errors.TradeCount = "Please Enter Trade Count."
             }
+            if (!values.TType) {
+                errors.TType = "Please Select Transaction Type.";
+            }
+            // console.log("errors", errors)
             return errors;
         },
         onSubmit: async (values) => {
             const req = {
-                Strategy: EditDataScalping.ScalpType,
-                Symbol: EditDataScalping.Symbol,
-                Username: userName,
-                MainStrategy: data,
-                ETPattern: "",
-                Timeframe: "",
-                Targetvalue: Number(values.Targetvalue),
-                Slvalue: Number(values.Slvalue),
-                TStype: EditDataScalping.ScalpType != "Fixed Price" ? values.TStype : EditDataScalping.TStype,
-                Quantity: Number(values.Quantity),
-                LowerRange: Number(values.LowerRange),
-                HigherRange: Number(values.HigherRange),
-                HoldExit: showEditModal && EditDataScalping.ScalpType != "Fixed Price" ? EditDataScalping.HoldExit : values.HoldExit,
-                EntryPrice: Number(values.EntryPrice),
-                EntryRange: Number(values.EntryRange),
-                EntryTime: values.EntryTime,
-                ExitTime: values.ExitTime,
-                ExitDay: EditDataScalping.ExitDay,
-                TradeExecution: EditDataScalping.TradeExecution,
-                Group: EditDataScalping.GroupN,
-                CEDepthLower: 0.0,
-                CEDepthHigher: 0.0,
-                PEDepthLower: 0.0,
-                PEDepthHigher: 0.0,
-                CEDeepLower: 0.0,
-                CEDeepHigher: 0.0,
-                PEDeepLower: 0.0,
-                PEDeepHigher: 0.0,
-                DepthofStrike: 0,
-                TradeCount: values.TradeCount
+
+                MainStrategy: "NewScalping", // str
+                Strategy: EditDataScalping.Targetselection, // str
+                // Strategy:  , // str
+                Symbol: EditDataScalping.Symbol, // str
+                Username: userName, // str
+                ETPattern: "", // str (Trade type)
+                Timeframe: "", // str
+                Targetvalue: parseFloat(EditDataScalping["Booking Point"]) || parseFloat(values.Targetvalue), // float
+                Slvalue: parseFloat(values.Slvalue), // float
+                TStype: EditDataScalping.ScalpType != "Fixed Price" ? values.TStype : EditDataScalping.TStype, // str
+                LowerRange: 0.0, // float (Profit in scalping)
+                HigherRange: 0.0, // float (Loss in scalping)
+                HoldExit: EditDataScalping.HoldExit || "HoldExit", // str
+                EntryPrice: parseFloat(EditDataScalping.EntryPrice) || 0.0, // float
+                EntryRange: parseFloat(EditDataScalping.EntryRange) || 0.0, // float
+                EntryTime: EditDataScalping.EntryTime || "", // str
+                ExitTime: EditDataScalping.ExitTime || "" || "", // str
+                ExitDay: EditDataScalping.ExitDay || "", // str
+                TradeExecution: EditDataScalping.TradeExecution || "", // str
+                Group: EditDataScalping.GroupN || "", // str
+
+                // Depth values for CE and PE options
+                CEDepthLower: 0.0, // float
+                CEDepthHigher: 0.0, // float
+                PEDepthLower: 0.0, // float
+                PEDepthHigher: 0.0, // float
+                CEDeepLower: 0.0, // float
+                CEDeepHigher: 0.0, // float
+                PEDeepLower: 0.0, // float
+                PEDeepHigher: 0.0, // float
+                DepthofStrike: 0.0, // float
+
+                TradeCount: EditDataScalping.TradeCount || 0, // int
+
+                // Additional trade parameters
+                tgp2: EditDataScalping["Booking Point 2"] || 0.0,
+                tgp3: EditDataScalping["Booking Point 3"] || 0.0,
+                RolloverTF: EditDataScalping.RolloverTF || false, // bool
+                RolloverDay: "", // str
+                RolloverTime: "", // str
+                TargetExit: false, // bool
+                RepeatationCount: EditDataScalping.RepeatationCount || 0, // int
+                Profit: EditDataScalping.Profit || 0.0, // float
+                Loss: EditDataScalping.Loss || 0.0, // float
+                WorkingDay: EditDataScalping?.WorkingDay || [], // list (array)
+
 
             }
             if (Number(values.EntryPrice) > 0 && Number(values.EntryRange) && (Number(values.EntryPrice) >= Number(values.EntryRange))) {
@@ -842,6 +907,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             if (values.EntryTime >= values.ExitTime) {
                 return SweentAlertFun("Exit Time should be greater than Entry Time")
             }
+            // console.log("req", req)
 
             await UpdateUserScript(req)
                 .then((response) => {
@@ -976,6 +1042,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 PEDeepHigher: EditDataOption.PEDeepHigher,
                 DepthofStrike: EditDataOption.DepthofStrike,
                 TradeCount: values.TradeCount
+
             }
 
             if (values.EntryTime >= values.ExitTime) {
@@ -1297,8 +1364,23 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
     const EntryRuleArr = [
 
         {
+            name: "TType",
+            label: "Transaction Type",
+            type: "select1",
+            options: [
+                { label: "BUY", value: "BUY" },
+                { label: "SELL", value: "SELL" },
+            ],
+            label_size: 12,
+            headingtype: 2,
+            hiding: false,
+            col_size: 4,
+            disable: false,
+        },
+
+        {
             name: "EntryPrice",
-            label: showEditModal && EditDataScalping.ScalpType != "Fixed Price" ? "First Trade Lower Range" : "Lower Price",
+            label: showEditModal && EditDataScalping.PositionType === "Single" ? "Lower Price" : "First Trade Lower Range",
             type: "text3",
             col_size: 4,
             disable: false,
@@ -1308,7 +1390,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
         {
             name: "EntryRange",
-            label: showEditModal && EditDataScalping.ScalpType != "Fixed Price" ? "First Trade Higher Range" : "Higher Price",
+            label: showEditModal && EditDataScalping.PositionType === "Single" ? "Higher Price" : "First Trade Higher Range",
             type: "text3",
             label_size: 12,
             headingtype: 2,
@@ -1320,58 +1402,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
     ];
 
-    const ExitRuleArr = [
 
-        {
-            name: "TStype",
-            label: "Measurement Type",
-            type: "select",
-            options: [
-                { label: "Percentage", value: "Percentage" },
-                { label: "Point", value: "Point" },
-            ],
-            showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
-            label_size: 12,
-            headingtype: 4,
-            col_size: 4,
-            hiding: false,
-            disable: false,
-        },
-
-        {
-            name: "Targetvalue",
-            label: showEditModal && EditDataScalping.ScalpType == "Fixed Price" ? "Target Price" : formik.values.Strategy == "One Directional" ? "Fixed Target" : "Booking Point",
-            type: "text3",
-            label_size: 12,
-            col_size: formik.values.position_type == "Multiple" ? 3 : 4,
-            headingtype: 3,
-            disable: false,
-            hiding: false,
-        },
-
-
-        {
-            name: "Slvalue",
-            label: showEditModal && EditDataScalping.ScalpType == "Fixed Price" ? "Stoploss" : "Re-Entry Point",
-            type: "text3",
-            label_size: 12,
-            col_size: formik.values.position_type == "Multiple" ? 3 : 4,
-            headingtype: 3,
-            disable: false,
-            hiding: false,
-        },
-    ];
     const RiskManagementArr = [
-        {
-            name: "Quantity",
-            label: showEditModal && EditDataScalping.Exchange == "NFO" ? "Lot" : "Quantity",
-            type: "text3",
-            label_size: 12,
-            col_size: formik.values.position_type == "Multiple" ? 3 : 4,
-            headingtype: 4,
-            hiding: false,
-            disable: false,
-        },
 
         {
             name: "LowerRange",
@@ -1379,7 +1411,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             type: "text3",
             label_size: 12,
             col_size: 4,
-            showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
+            showWhen: () => showEditModal && EditDataScalping.PositionType !== "Multiple",
+            // showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
             headingtype: 4,
             disable: false,
             hiding: false,
@@ -1392,7 +1425,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             label_size: 12,
             col_size: 4,
             headingtype: 4,
-            showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
+            // showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
+            showWhen: () => showEditModal && EditDataScalping.PositionType !== "Multiple",
             disable: false,
             hiding: false,
         },
@@ -1405,33 +1439,123 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 { label: "Hold", value: "Hold" },
                 { label: "Exit", value: "Exit" },
             ],
-            showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
+            // showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
+            showWhen: () => showEditModal && EditDataScalping.PositionType !== "Multiple",
             label_size: 12,
             col_size: 4,
             headingtype: 4,
             disable: false,
             hiding: false,
         },
+
+
+
         {
-            name: "Trade_Count",
-            label: "Trade Count",
-            type: "text3",
+            name: "TargetExit",
+            label: "Continue after cycle exit",
+            type: "select",
+            options: [
+                { label: "True", value: true },
+                { label: "False", value: false },
+            ],
+            showWhen: (values) => showEditModal && EditDataScalping.PositionType === "Multiple",
+
             label_size: 12,
-            col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+            col_size: 4,
             headingtype: 4,
             disable: false,
+            // iconText: text.Increment_Type,
             hiding: false,
         },
 
         {
             name: "TradeCount",
             label: "Trade Count",
-            type: "text5",
+            type: "text3",
             label_size: 12,
-            col_size: 6,
+            headingtype: 4,
+            showWhen: () => showEditModal && EditDataScalping.PositionType === "Multiple" && formik.values.TargetExit == "true",
+            col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
+            iconText: text.Trade_Count,
             disable: false,
             hiding: false,
         },
+
+        {
+            name: "RepeatationCount",
+            label: "Repeatation Count",
+            type: "text3",
+            label_size: 12,
+            col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
+            headingtype: 4,
+            showWhen: () => showEditModal && EditDataScalping.PositionType === "Multiple",
+            disable: false,
+            hiding: false,
+        },
+
+        {
+            name: "HoldExit",
+            label: "Hold/Exit",
+            type: "select",
+            options: [
+                { label: "Hold", value: "Hold" },
+                { label: "Exit", value: "Exit" },
+            ],
+            showWhen: () => showEditModal && EditDataScalping.PositionType === "Multiple",
+            label_size: 12,
+            col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
+            headingtype: 4,
+            disable: false,
+            hiding: false,
+        },
+
+        {
+            name: "WorkingDay",
+            label: "Working Day",
+            type: "multiselect",
+            options: [
+                { label: "Monday", value: "Monday" },
+                { label: "Tuesday", value: "Tuesday" },
+                { label: "Wednesday", value: "Wednesday" },
+                { label: "Thursday", value: "Thursday" },
+                { label: "Friday", value: "Friday" },
+                { label: "Saturday", value: "Saturday" },
+
+            ],
+            label_size: 12,
+            col_size: 4,
+            headingtype: 4,
+            disable: false,
+            iconText: text.Increment_Type,
+            hiding: false,
+        },
+
+        {
+            name: "Profit",
+            label: "Max Profit ",
+            type: "text3",
+            label_size: 12,
+            col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
+            headingtype: 4,
+            showWhen: () => showEditModal && EditDataScalping.PositionType === "Multiple",
+            disable: false,
+            hiding: false,
+        },
+        {
+            name: "Loss",
+            label: "Max Loss ",
+            type: "text3",
+            label_size: 12,
+            col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
+            headingtype: 4,
+            showWhen: () => showEditModal && EditDataScalping.PositionType === "Multiple",
+            disable: false,
+            hiding: false,
+        },
+
+
+
+
     ];
 
     const TimeDurationArr = [
@@ -1458,11 +1582,74 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
     ];
 
+    const ExitRuleArr = [
+
+
+
+        {
+            name: "TStype",
+            label: "Measurement Type",
+            type: "select",
+            options: [
+                { label: "Percentage", value: "Percentage" },
+                { label: "Point", value: "Point" },
+            ],
+            // showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
+            showWhen: () => showEditModal && EditDataScalping.PositionType !== "Multiple",
+            label_size: 12,
+            headingtype: 4,
+            col_size: 4,
+            hiding: false,
+            disable: false,
+        },
+
+        {
+            name: "Targetvalue",
+            label: EditDataScalping.PositionType === "Single" ? "Target 1" : "Fixed Target",
+            type: "text3",
+            label_size: 12,
+            col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
+            headingtype: 3,
+            disable: false,
+            hiding: false,
+        },
+        {
+            name: "tgp2",
+            label: "Target 2",
+            type: "text3",
+            label_size: 12,
+            col_size: 4,
+            showWhen: (values) => EditDataScalping.PositionType === "Single",
+            headingtype: 3,
+            disable: false,
+            hiding: false,
+        },
+        {
+            name: "tgp3",
+            label: "Target 3",
+            type: "text3",
+            label_size: 12,
+            col_size: 4,
+            showWhen: (values) => EditDataScalping.PositionType === "Single",
+            headingtype: 3,
+            disable: false,
+            hiding: false,
+        },
+
+        {
+            name: "Slvalue",
+            label: "Stoploss",
+            type: "text3",
+            label_size: 12,
+            col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
+            headingtype: 3,
+            disable: false,
+            hiding: false,
+        },
+    ];
 
 
     const fields = [
-
-
         {
             name: "Heading",
             label: "Entry_Rule",
@@ -1480,7 +1667,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             name: "Heading",
             label: "Risk_Management",
             type: "heading",
-            hiding: false,
+            hiding: EditDataScalping.PositionType !== "Multiple" ? true : false,
             label_size: 12,
             headingtype: 4,
             col_size: 12,
@@ -1530,20 +1717,41 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         // },
     ];
 
+
     useEffect(() => {
         if (data == "Scalping") {
+
+            const workingDay = EditDataScalping?.WorkingDay?.map((item) => { return { label: item, value: item } })
+
+
+            console.log("workingDay", workingDay)
             formik.setFieldValue('EntryPrice', EditDataScalping.EntryPrice)
             formik.setFieldValue('EntryRange', EditDataScalping.EntryRange)
-            formik.setFieldValue('TStype', EditDataScalping.TStype)
-            formik.setFieldValue('Targetvalue', EditDataScalping['Booking Point'])
-            formik.setFieldValue('Slvalue', EditDataScalping['Re-entry Point'])
-            formik.setFieldValue('LowerRange', EditDataScalping.LowerRange)
-            formik.setFieldValue('HigherRange', EditDataScalping.HigherRange)
+            formik.setFieldValue('Targetvalue', parseFloat(EditDataScalping['Booking Point']))
+            formik.setFieldValue('tgp2', parseFloat(EditDataScalping['Booking Point2']))
+            formik.setFieldValue('tgp3', parseFloat(EditDataScalping['Booking Point3']))
+            formik.setFieldValue('Slvalue', parseFloat(EditDataScalping['Re-entry Point']))
             formik.setFieldValue('HoldExit', EditDataScalping.HoldExit)
             formik.setFieldValue('EntryTime', EditDataScalping.EntryTime)
             formik.setFieldValue('ExitTime', EditDataScalping.ExitTime)
             formik.setFieldValue('Quantity', EditDataScalping.Quantity)
             formik.setFieldValue('TradeCount', EditDataScalping.TradeCount)
+            formik.setFieldValue("TType", EditDataScalping.TType)
+            formik.setFieldValue("TStype", EditDataScalping.TStype)
+            formik.setFieldValue("Quantity", EditDataScalping.Quantity)
+            formik.setFieldValue("EntryPrice", parseFloat(EditDataScalping.EntryPrice))
+            formik.setFieldValue("EntryRange", parseFloat(EditDataScalping.EntryRange))
+            formik.setFieldValue("HoldExit", EditDataScalping.HoldExit)
+            formik.setFieldValue("Symbol", EditDataScalping.Symbol)
+            // formik.setFieldValue("Strategy", EditDataScalping.Targetselection)
+            formik.setFieldValue("ExitDay", EditDataScalping.ExitDay)
+            formik.setFieldValue("RepeatationCount", EditDataScalping.RepeatationCount)
+            formik.setFieldValue("RolloverTF", EditDataScalping.RolloverTF)
+            formik.setFieldValue("Profit", EditDataScalping.Profit)
+            formik.setFieldValue("Loss", EditDataScalping.Loss)
+            formik.setFieldValue("WorkingDay", workingDay || [])
+
+
         }
         else if (data == "Option Strategy") {
             formik1.setFieldValue('TStype', EditDataOption.strategytype)
@@ -1568,6 +1776,12 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
     }, [showEditModal, data])
 
 
+    console.log("EditDataScalping?.WorkingDay", formik.values?.WorkingDay)
+
+
+    const updatedFields = fields.filter((item) => {
+        return item.hiding == false
+    })
 
     return (
         <div className="container-fluid">
@@ -1707,7 +1921,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                         {
                             data == "Scalping" ? <>
                                 <Formikform
-                                    fields={fields.filter(
+                                    fields={(EditDataScalping.PositionType !== "Multiple" ? updatedFields : fields).filter(
                                         (field) => !field.showWhen || field.showWhen(formik.values)
                                     )}
 
