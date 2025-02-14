@@ -1207,6 +1207,10 @@ const DynamicForm = ({
                                               }
                                               isDisabled={item.disable}
                                             />
+                                            {console.log(
+                                              "selectedOptions1[item.name]",
+                                              selectedOptions1
+                                            )}
                                             <div className="invalid-feedback">
                                               Please enter {item.label}
                                             </div>
