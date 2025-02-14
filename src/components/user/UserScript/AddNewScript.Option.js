@@ -26,12 +26,6 @@ const AddClient = () => {
     const [symbolOptions, setSymbolOptions] = useState([]);
     const [exchangeOptions, setExchangeOptions] = useState([])
     const [openModel, setOpenModel] = useState(false)
-    const [openModel1, setOpenModel1] = useState(false)
-    const [marginValue, setMarginValue] = useState('')
-
-    const [error, setError] = useState("");
-
-
 
 
     const [PnlData, setPnlData] = useState({

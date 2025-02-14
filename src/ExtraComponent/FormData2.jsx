@@ -43,7 +43,7 @@ const DynamicForm = ({
   };
   const [selectedOptions1, setSelectedOptions1] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
-  const minTime = dayjs().hour(9).minute(15).second(0);
+  const minTime = dayjs().hour(9).minute(0).second(0);
 
   const handleChange = (selected, name) => {
     setSelectedOptions1({ ...selectedOptions1, [name]: selected });
