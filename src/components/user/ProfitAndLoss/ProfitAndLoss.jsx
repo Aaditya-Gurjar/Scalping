@@ -169,7 +169,7 @@ const Tradehistory = () => {
                       <option value={"Pattern"}>Pattern Script</option> */}
                     </select>
                   </div>
-                  {selectStrategyType === "Scalping" && (
+                  {/* {selectStrategyType === "Scalping" && (
                     <div className="col-lg-3">
                       <label>Table Type</label>
                       <select
@@ -182,7 +182,7 @@ const Tradehistory = () => {
                         <option value="MultiCondition">Multi Condition</option>
                       </select>
                     </div>
-                  )}
+                  )} */}
                   <div className={`form-group ${selectStrategyType === "Scalping" ? "col-lg-3" : "col-lg-4"}`}>
                     <label>Select form Date</label>
                     <DatePicker
