@@ -1787,6 +1787,7 @@ const DynamicForm = ({
                                                 right: "20px",
                                                 padding: "12.4px 6.6px",
                                                 borderRadius: "3px",
+                                                color : "white",
                                               }}
                                               onClick={() =>
                                                 setPasswordVisible((prevState) => ({

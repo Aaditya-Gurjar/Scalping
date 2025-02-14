@@ -5921,9 +5921,8 @@ button.btn.btn-primary , .swal2-confirm , .all-plan-card button{
   box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
 }
 
-.container-fluid{
-  margin-top: 6rem;
-}
+
+
 .glass-card{
   height: auto;
     margin-top: -5rem;
@@ -6041,4 +6040,7 @@ button.btn.btn-primary , .swal2-confirm , .all-plan-card button{
   box-shadow: 0 0 0 0.25rem rgba(115, 103, 240, 0.25);
   border-color: #7367f0;
 }
+
+
+
 

@@ -48,7 +48,7 @@ const AddClient = () => {
     initialValues: {
       MainStrategy: location?.state?.data?.selectStrategyType,
       Username: "",
-      Strategy: "",
+      Strategy: "Multi_Conditional",
       ETPattern: "",
       Timeframe: "",
       Exchange: "",
@@ -547,7 +547,6 @@ const AddClient = () => {
   });
 
   useEffect(() => {
-    formik.setFieldValue('Strategy', "Fixed Price")
     formik.setFieldValue('Exchange', "NFO")
     formik.setFieldValue("TType", "BUY")
     formik.setFieldValue("ExitDay", "Intraday")
@@ -697,6 +696,9 @@ const AddClient = () => {
     },
 
   ]
+
+
+  console.log("formik", formik.values.Strategy)
   const EntryRuleArr = [
     {
       name: "position_type",
@@ -930,84 +932,6 @@ const AddClient = () => {
       disable: false,
       hiding: false,
     },
-
-    // {
-    //   name: "TargetExit",
-    //   label: "Continue after cycle exit",
-    //   type: "select",
-    //   options: [
-    //     { label: "True", value: true },
-    //     { label: "False", value: false },
-    //   ],
-    //   showWhen: (values) => values.position_type == "Multiple" && values.Strategy == "Multi_Conditional",
-    //   label_size: 12,
-    //   col_size: formik.values.position_type == "Single" ? 3 : 3,
-    //   headingtype: 4,
-    //   disable: false,
-    //   // iconText: text.Increment_Type,
-    //   hiding: false,
-    // },
-    // {
-    //   name: "RepeatationCount",
-    //   label: "Repeatation Count",
-    //   type: "text3",
-    //   label_size: 12,
-    //   col_size: formik.values.position_type == "Multiple" ? 3 : 4,
-    //   headingtype: 4,
-    //   showWhen: (values) =>
-    //     values.Strategy == "Multi_Conditional" &&
-    //     values.position_type == "Multiple",
-    //   disable: false,
-    //   hiding: false,
-    // },
-    // {
-    //   name: "Loss",
-    //   label: "Max Loss ",
-    //   type: "text3",
-    //   label_size: 12,
-    //   col_size: formik.values.position_type == "Multiple" ? 3 : 4,
-    //   headingtype: 4,
-    //   showWhen: (values) =>
-    //     values.Strategy == "Multi_Conditional" &&
-    //     values.position_type == "Multiple",
-    //   disable: false,
-    //   hiding: false,
-    // },
-
-    // {
-    //   name: "Profit",
-    //   label: " Max Profit ",
-    //   type: "text3",
-    //   label_size: 12,
-    //   col_size: formik.values.position_type == "Multiple" ? 3 : 4,
-    //   headingtype: 4,
-    //   showWhen: (values) =>
-    //     values.Strategy == "Multi_Conditional" &&
-    //     values.position_type == "Multiple",
-    //   disable: false,
-    //   hiding: false,
-    // },
-
-    // {
-    //   name: "WorkingDay",
-    //   label: "Working Day",
-    //   type: "multiselect",
-    //   options: [
-    //     { label: "Monday", value: "Monday" },
-    //     { label: "Tuesday", value: "Tuesday" },
-    //     { label: "Wednesday", value: "Wednesday" },
-    //     { label: "Thursday", value: "Thursday" },
-    //     { label: "Friday", value: "Friday" },
-    //     { label: "Saturday", value: "Saturday" },
-
-    //   ],
-    //   label_size: 12,
-    //   col_size: formik.values.position_type == "Single" ? 4 : 3,
-    //   headingtype: 4,
-    //   disable: false,
-    //   hiding: false,
-    // },
-
     {
       name: "stepup",
       label: "Step Up",
@@ -1145,18 +1069,18 @@ const AddClient = () => {
   ]
 
   const fields = [
-    {
-      name: "Strategy",
-      label: "Scalping Type",
-      type: "radio2",
-      title: [{ title: "Fixed Price", value: "Fixed Price" }, { title: "One Directional", value: "One Directional" }, { title: "Multi Directional", value: "Multi Directional" },
-      { title: "Multi Conditional", value: "Multi_Conditional" }
-      ],
-      hiding: false,
-      label_size: 12,
-      col_size: 12,
-      disable: false,
-    },
+    // {
+    //   name: "Strategy",
+    //   label: "Scalping Type",
+    //   type: "radio2",
+    //   title: [{ title: "Fixed Price", value: "Fixed Price" }, { title: "One Directional", value: "One Directional" }, { title: "Multi Directional", value: "Multi Directional" },
+    //   { title: "Multi Conditional", value: "Multi_Conditional" }
+    //   ],
+    //   hiding: false,
+    //   label_size: 12,
+    //   col_size: 12,
+    //   disable: false,
+    // },
     {
       name: "Heading",
       label: "Symbol_Selection",
