@@ -53,7 +53,7 @@ const AddClient = () => {
     const foundItem = dataWithoutLastItem.find((item) => {
       return item.Scalping.includes(stg);
     });
-    return foundItem.EndDate;
+    return foundItem?.EndDate;
   };
 
   const ScrollToViewFirstError = (newErrors) => {

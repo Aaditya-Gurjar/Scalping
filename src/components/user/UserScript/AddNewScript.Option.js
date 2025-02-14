@@ -1364,7 +1364,6 @@ const AddClient = () => {
                 if (response.Status) {
                     setShowPnl(true)
                     setOpenModel(true)
-                    setOpenModel1(true);
                     setPnlData({
                         MaximumProfit: response.MaximumProfit,
                         MaximumLoss: response.MaximumLoss,

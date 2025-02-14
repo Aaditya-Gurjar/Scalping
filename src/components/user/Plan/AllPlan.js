@@ -589,7 +589,7 @@ import "./AllPlan.css";  // Import external CSS
 
 const ServicesList = () => {
     const username = localStorage.getItem("name");
-    const [plansData, setPlansData] = useState({ loading: true, data: [] });
+    const [plansData, setPlansData] = useState({ loading: true, data: [], data1: [] });
     const [purchasedPlans, setPurchasedPlans] = useState([]);
     const expire = localStorage.getItem('expire');
     useEffect(() => {
@@ -615,7 +615,7 @@ const ServicesList = () => {
             }
         } catch (error) {
             console.error("Error fetching plans:", error);
-            setPlansData({ loading: false, data: [] });
+            setPlansData({ loading: false, data: [], data1: [] });
         }
     };
 
@@ -634,52 +634,225 @@ const ServicesList = () => {
         return purchasedPlans.some(plan => plan.Planname === planName);
     };
 
+    // const HandleBuyPlan = async (index, type, isCharting) => {
+    //     try {
+    //         const planDetails = isCharting ? plansData?.data1[index] : plansData?.data[index];
+    //         const result = await Swal.fire({
+    //             title: "Confirm Purchase",
+    //             text: `Buy ${planDetails.PlanName} for ₹${planDetails.payment}?`,
+    //             icon: "question",
+    //             showCancelButton: true,
+    //             confirmButtonText: "Confirm",
+    //             cancelButtonText: "Cancel",
+    //         });
+
+    //         if (result.isConfirmed) {
+    //             const balanceResponse = await AddBalance({
+    //                 Username: username,
+    //                 transactiontype: "Purchase",
+    //                 money: planDetails.payment,
+    //             });
+
+    //             if (balanceResponse.Status) {
+
+    //                 const req = {
+    //                     Username: username,
+    //                     ...planDetails,
+    //                     Planname: planDetails.PlanName,
+    //                     Duration: planDetails["Plan Validity"],
+    //                     Extendtype: "",
+    //                     Charting: planDetails.ChartingSignal,
+
+    //                 }
+
+
+    //                 console.log("sss", req)
+    //                 const buyResponse = await BuyPlan(req);
+
+    //                 if (buyResponse.Status) {
+    //                     await fetchPurchasedPlans();
+    //                     Swal.fire("Success!", buyResponse.message, "success");
+    //                 } else {
+    //                     Swal.fire("Error!", buyResponse.message, "error");
+    //                 }
+    //             } else {
+    //                 Swal.fire("Error!", balanceResponse.message, "error");
+    //             }
+    //         }
+    //     } catch (error) {
+    //         console.error("Purchase error:", error);
+    //         Swal.fire("Error!", "Transaction failed", "error");
+    //     }
+    // };
+
+    // Remove demo plans
+
+
+
     const HandleBuyPlan = async (index, type, isCharting) => {
         try {
             const planDetails = isCharting ? plansData?.data1[index] : plansData?.data[index];
+
+            console.log("planDetails", planDetails);
+            const req1 = { Username: username, transactiontype: 'Purchase', money: planDetails.payment };
             const result = await Swal.fire({
-                title: "Confirm Purchase",
-                text: `Buy ${planDetails.PlanName} for ₹${planDetails.payment}?`,
-                icon: "question",
+                title: 'Are you sure?',
+                text: `Do you want to buy the plan: ${planDetails.PlanName} for ₹${planDetails.payment}?`,
+                icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: "Confirm",
-                cancelButtonText: "Cancel",
+                confirmButtonText: 'Yes, Buy it!',
+                cancelButtonText: 'No, Cancel',
+                reverseButtons: true
             });
 
             if (result.isConfirmed) {
-                const balanceResponse = await AddBalance({
-                    Username: username,
-                    transactiontype: "Purchase",
-                    money: planDetails.payment,
-                });
-
-                if (balanceResponse.Status) {
-                    const buyResponse = await BuyPlan({
-                        Username: username,
-                        ...planDetails,
-                        Planname: planDetails.PlanName,
-                        Duration: planDetails["Plan Validity"],
-                        Extendtype: "",
-                        Charting: planDetails.ChartingSignal,
+                const CheckBalanceResponse = await AddBalance(req1);
+                if (CheckBalanceResponse.Status && type == 0) {
+                    const result = await Swal.fire({
+                        title: 'What do you want to do?',
+                        text: `This is your Scubscribed Script so what do you do Extend the EndDate or Extend the Number of Scripts`,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Extend End Date',
+                        cancelButtonText: 'Extend Number of Scripts',
+                        reverseButtons: true
                     });
+                    if (result.isConfirmed) {
+                        const req = {
+                            Username: username,
+                            Scalping: planDetails.Scalping,
+                            Option: planDetails['Option Strategy'],
+                            PatternS: planDetails.Pattern,
+                            NumberofScript: planDetails.NumberofScript,
+                            Duration: planDetails['Plan Validity'],
+                            Planname: planDetails.PlanName,
+                            payment: planDetails.payment,
+                            Extendtype: "ExtendServiceEndDate",
+                            Charting: planDetails.ChartingSignal
+                        };
+                        const buyPlanResponse = await BuyPlan(req);
+                        if (buyPlanResponse.Status) {
+                            fetchPurchasedPlans();
+                            Swal.fire({
+                                title: "Success!",
+                                text: buyPlanResponse.message,
+                                icon: "success",
+                                timer: 1500,
+                                timerProgressBar: true,
+                            });
+                        } else {
+                            Swal.fire({
+                                title: "Error!",
+                                text: buyPlanResponse.message,
+                                icon: "error",
+                                timer: 1500,
+                                timerProgressBar: true,
+                            });
+                        }
 
-                    if (buyResponse.Status) {
-                        await fetchPurchasedPlans();
-                        Swal.fire("Success!", buyResponse.message, "success");
-                    } else {
-                        Swal.fire("Error!", buyResponse.message, "error");
                     }
-                } else {
-                    Swal.fire("Error!", balanceResponse.message, "error");
+                    else {
+                        const req = {
+                            Username: username,
+                            Scalping: planDetails.Scalping,
+                            Option: planDetails['Option Strategy'],
+                            PatternS: planDetails.Pattern,
+                            NumberofScript: planDetails.NumberofScript,
+                            Duration: planDetails['Plan Validity'],
+                            Planname: planDetails.PlanName,
+                            payment: planDetails.payment,
+                            Extendtype: "ExtendServiceCount",
+                            Charting: planDetails.ChartingSignal
+                        };
+                        const buyPlanResponse = await BuyPlan(req);
+                        if (buyPlanResponse.Status) {
+                            fetchPurchasedPlans();
+                            Swal.fire({
+                                title: "Success!",
+                                text: buyPlanResponse.message,
+                                icon: "success",
+                                timer: 1500,
+                                timerProgressBar: true,
+                            });
+                        } else {
+                            Swal.fire({
+                                title: "Error!",
+                                text: buyPlanResponse.message,
+                                icon: "error",
+                                timer: 1500,
+                                timerProgressBar: true,
+                            });
+                        }
+                    }
                 }
+                else if (CheckBalanceResponse.Status && type == 1) {
+                    const req = {
+                        Username: username,
+                        Scalping: planDetails.Scalping,
+                        Option: planDetails['Option Strategy'],
+                        PatternS: planDetails.Pattern,
+                        NumberofScript: planDetails.NumberofScript,
+                        Duration: planDetails['Plan Validity'],
+                        Planname: planDetails.PlanName,
+                        payment: planDetails.payment,
+                        Extendtype: "",
+                        Charting: planDetails.ChartingSignal
+                    };
+                    const buyPlanResponse = await BuyPlan(req);
+                    if (buyPlanResponse.Status) {
+                        fetchPurchasedPlans();
+                        Swal.fire({
+                            title: "Success!",
+                            text: buyPlanResponse.message,
+                            icon: "success",
+                            timer: 1500,
+                            timerProgressBar: true,
+                        });
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 1500);
+                    } else {
+                        Swal.fire({
+                            title: "Error!",
+                            text: buyPlanResponse.message,
+                            icon: "error",
+                            timer: 1500,
+                            timerProgressBar: true,
+                        });
+                    }
+                }
+                else {
+                    Swal.fire({
+                        title: "Error!",
+                        text: CheckBalanceResponse.message,
+                        icon: "worning",
+                        timer: 1500,
+                        timerProgressBar: true,
+                    });
+                }
+
+            } else {
+                Swal.fire({
+                    title: 'Cancelled',
+                    text: 'Your purchase has been cancelled.',
+                    icon: 'info',
+                    timer: 1500,
+                    timerProgressBar: true,
+                });
             }
         } catch (error) {
-            console.error("Purchase error:", error);
-            Swal.fire("Error!", "Transaction failed", "error");
+            console.error('Error in transaction:', error);
+            Swal.fire({
+                title: "Error",
+                text: "An unexpected error occurred",
+                icon: "error",
+                timer: 1500,
+                timerProgressBar: true,
+            });
         }
     };
 
-    // Remove demo plans
+
     const getUpdatedPlans = plansData.data?.filter(
         (plan) =>
             plan.PlanName !== "Three Days Live" &&
@@ -696,12 +869,10 @@ const ServicesList = () => {
     return (
         <div className="allplan-container">
             <h1 className="allplan-title">All Plans</h1>
-                <div className="">
+            <div className="">
 
-                  {  expire?.includes(1) ? <div className="col-lg-9"><NewsTicker /></div> : ""}
-                </div>
-            
-            
+                {expire?.includes(1) ? <div className="col-lg-9"><NewsTicker /></div> : ""}
+            </div>
 
             <Tabs defaultActiveKey="Scalping" id="plans-tabs" className="mb-3 allplan-custom-tabs" fill>
                 <Tab eventKey="Scalping" title="Scalping">

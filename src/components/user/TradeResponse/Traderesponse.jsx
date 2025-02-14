@@ -26,13 +26,11 @@ import NoDataFound from "../../../ExtraComponent/NoDataFound";
 
 const TradeResponse = () => {
   const location = useLocation();
-  // console.log("location", location);
 
   const Username = localStorage.getItem("name");
 
   const [selectStrategyType, setSelectStrategyType] = useState("Scalping");
   const [strategyType, setStrategyType] = useState([]);
-  // console.log("strategyType1 strategyType1 strategyType15555",strategyType);
 
   const [tradeHistory, setTradeHistory] = useState({
     loading: true,
@@ -51,10 +49,8 @@ const TradeResponse = () => {
   const [getChartingSegments, setChartingSegments] = useState([]);
   const [getCharting, setGetCharting] = useState([]);
   const [tableType, setTableType] = useState("Scalping");
-  // console.log("tableType555555",tableType);
 
   const [preSelectTableType, setPreSelectTableType] = useState("");
-  // console.log("preSelectTableType", preSelectTableType);
 
   const currentDate = new Date();
   currentDate.setDate(currentDate.getDate());
@@ -353,14 +349,6 @@ const TradeResponse = () => {
     selectSegmentType,
   ]);
 
-  // useEffect(() => {
-  //   if (selectStrategyType == "Scalping") {
-  //     setTableType("MultiCondition");
-  //   } else {
-  //     setTableType("Scalping");
-  //   }
-  // }, [selectStrategyType]);
-
   return (
     <div>
       <div className="container-fluid">
@@ -375,12 +363,7 @@ const TradeResponse = () => {
               <div className="was-validated ">
                 <div className="row">
                   <div
-                    className={`form-group ${
-                      selectStrategyType == "ChartingPlatform" ||
-                      selectStrategyType == "Scalping"
-                        ? "col-lg-3"
-                        : "col-lg-4"
-                    }`}>
+                    className={`form-group ${"col-lg-4"}`}>
                     <label>Select Strategy Type</label>
                     <select
                       className="form-select"
@@ -394,26 +377,6 @@ const TradeResponse = () => {
                       ))}
                     </select>
                   </div>
-
-                  {selectStrategyType == "Scalping" && (
-                    <div
-                      className={`form-group ${
-                        selectStrategyType == "ChartingPlatform" ||
-                        selectStrategyType == "Scalping"
-                          ? "col-lg-3"
-                          : "col-lg-4"
-                      }`}>
-                      <label>Select Table Type</label>
-                      <select
-                        className="form-select"
-                        required=""
-                        onChange={(e) => setTableType(e.target.value)}
-                        value={tableType}>
-                        <option value="Scalping">Scalping</option>
-                        <option value="MultiCondition">Multi Condition</option>
-                      </select>
-                    </div>
-                  )}
 
                   {selectStrategyType == "ChartingPlatform" && (
                     <div
@@ -455,12 +418,7 @@ const TradeResponse = () => {
                     />
                   </div>
                   <div
-                    className={`form-group ${
-                      selectStrategyType == "ChartingPlatform" ||
-                      selectStrategyType == "Scalping"
-                        ? "col-lg-3"
-                        : "col-lg-4"
-                    }`}>
+                    className={`form-group ${"col-lg-4"}`}>
                     <label>Select To Date</label>
                     <DatePicker
                       className="form-select"
@@ -476,8 +434,8 @@ const TradeResponse = () => {
                   getCharting.length,
                   tradeHistory?.data
                 )}
-                {tableType === "Scalping" && // Check if the tableType is Scalping
-                  (getCharting.length > 0 || tradeHistory?.data.length > 0 ? ( // Check if there is any data available
+                {tableType === "Scalping" && 
+                  (getCharting.length > 0 || tradeHistory?.data.length > 0 ? (
                     <div>
                       <div className="iq-header-title mt-4">
                         <h4 className="card-title">{selectStrategyType}</h4>
@@ -505,19 +463,7 @@ const TradeResponse = () => {
                       />
                     </div>
                   ) : (
-                    // <div
-                    //   style={{
-                    //     display: "flex",
-                    //     justifyContent: "center",
-                    //     alignItems: "center",
-                    //     textAlign: "center",
-                    //   }}>
-                    //   <img
-                    //     src="/assets/images/no-record-found.png"
-                    //     width="30%"
-                    //     alt="No Records Found"
-                    //   />
-                    // </div>
+                   
                     <NoDataFound />
                   ))}
               </div>
@@ -540,19 +486,7 @@ const TradeResponse = () => {
                             isChecked={location?.state?.RowIndex}
                           />
                         ) : (
-                          // <div
-                          //   style={{
-                          //     display: "flex",
-                          //     justifyContent: "center",
-                          //     alignItems: "center",
-                          //     textAlign: "center",
-                          //   }}>
-                          //   <img
-                          //     src="/assets/images/no-record-found.png"
-                          //     width="30%"
-                          //     alt=""
-                          //   />
-                          // </div>
+                          
                           <NoDataFound />
                         )}
                       </div>
