@@ -364,10 +364,10 @@ const AddClient = () => {
             values.DeepStrike == 0
               ? "Deep Strike Cannot Be Zero."
               : values.DeepStrike == 1
-                ? "Deep Strike Cannot Be 1."
-                : values.DeepStrike == -1
-                  ? "Deep Strike Cannot Be -1."
-                  : "Enter Deep Strike Between -10 to 10.";
+              ? "Deep Strike Cannot Be 1."
+              : values.DeepStrike == -1
+              ? "Deep Strike Cannot Be -1."
+              : "Enter Deep Strike Between -10 to 10.";
         }
       }
       if (
@@ -445,9 +445,9 @@ const AddClient = () => {
           values.Measurment_Type != "Shifting_FourLeg"
             ? values.ETPattern
             : values.Strategy == "ShortShifting" ||
-                values.Strategy == "LongShifting"
-              ? "Future"
-              : "",
+              values.Strategy == "LongShifting"
+            ? "Future"
+            : "",
         Timeframe: "",
         Exchange: "NFO",
         Symbol: values.Symbol,
@@ -501,10 +501,10 @@ const AddClient = () => {
           formik.values.Strategy != "ShortStraddle"
             ? Number(values.DepthofStrike)
             : formik.values.Measurment_Type == "Shifting_FourLeg" &&
-                formik.values.Strategy != "ShortFourLegStretegy" &&
-                formik.values.Strategy != "LongFourLegStretegy"
-              ? values.Shifting_Value
-              : 0,
+              formik.values.Strategy != "ShortFourLegStretegy" &&
+              formik.values.Strategy != "LongFourLegStretegy"
+            ? values.Shifting_Value
+            : 0,
         DeepStrike:
           (formik.values.Measurment_Type == "Ladder_Coverd" &&
             formik.values.Measurment_Type != "Shifting_FourLeg" &&
@@ -590,7 +590,9 @@ const AddClient = () => {
           values.RollOver == true
             ? values.RollOverExitTime
             : "00:00:00",
-        WorkingDay: values.WorkingDay ? values.WorkingDay.map((item) => item.value || item) : [],
+        WorkingDay: values.WorkingDay
+          ? values.WorkingDay.map((item) => item.value || item)
+          : [],
       };
 
       console.log("req", req);
@@ -694,31 +696,31 @@ const AddClient = () => {
         location.state.data.STG == "ShortStraddle"
         ? "Straddle_Strangle"
         : location.state.data.STG == "LongIronButterfly" ||
-            location.state.data.STG == "ShortIronButterfly" ||
-            location.state.data.STG == "LongIronCondor" ||
-            location.state.data.STG == "ShortIronCondor"
-          ? "Butterfly_Condor"
-          : location.state.data.STG == "BearCallSpread" ||
-              location.state.data.STG == "BearPutSpread" ||
-              location.state.data.STG == "BullCallSpread" ||
-              location.state.data.STG == "BullPutSpread"
-            ? "Spread"
-            : location.state.data.STG == "BullCallLadder" ||
-                location.state.data.STG == "BullPutLadder" ||
-                location.state.data.STG == "CoveredCall" ||
-                location.state.data.STG == "CoveredPut"
-              ? "Ladder_Coverd"
-              : location.state.data.STG == "LongCollar" ||
-                  location.state.data.STG == "ShortCollar" ||
-                  location.state.data.STG == "RatioCallSpread" ||
-                  location.state.data.STG == "RatioPutSpread"
-                ? "Collar_Ratio"
-                : location.state.data.STG == "LongFourLegStretegy" ||
-                    location.state.data.STG == "ShortShifting" ||
-                    location.state.data.STG == "LongShifting" ||
-                    location.state.data.STG == "ShortFourLegStretegy"
-                  ? "Shifting_FourLeg"
-                  : ""
+          location.state.data.STG == "ShortIronButterfly" ||
+          location.state.data.STG == "LongIronCondor" ||
+          location.state.data.STG == "ShortIronCondor"
+        ? "Butterfly_Condor"
+        : location.state.data.STG == "BearCallSpread" ||
+          location.state.data.STG == "BearPutSpread" ||
+          location.state.data.STG == "BullCallSpread" ||
+          location.state.data.STG == "BullPutSpread"
+        ? "Spread"
+        : location.state.data.STG == "BullCallLadder" ||
+          location.state.data.STG == "BullPutLadder" ||
+          location.state.data.STG == "CoveredCall" ||
+          location.state.data.STG == "CoveredPut"
+        ? "Ladder_Coverd"
+        : location.state.data.STG == "LongCollar" ||
+          location.state.data.STG == "ShortCollar" ||
+          location.state.data.STG == "RatioCallSpread" ||
+          location.state.data.STG == "RatioPutSpread"
+        ? "Collar_Ratio"
+        : location.state.data.STG == "LongFourLegStretegy" ||
+          location.state.data.STG == "ShortShifting" ||
+          location.state.data.STG == "LongShifting" ||
+          location.state.data.STG == "ShortFourLegStretegy"
+        ? "Shifting_FourLeg"
+        : ""
     );
     formik.setFieldValue("Strategy", location.state.data.STG);
     formik.setFieldValue("Symbol", location.state.data.MainSymbol);
@@ -822,12 +824,12 @@ const AddClient = () => {
         formik.values.Striketype == "Depth_of_Strike"
           ? "Depth of Strike"
           : formik.values.Striketype == "Straddle_Width"
-            ? "Percentage"
-            : formik.values.Striketype == "Premium_Range"
-              ? "Premium Range"
-              : formik.values.Striketype == "Per_ATM"
-                ? "% of ATM"
-                : "Depth of Strike",
+          ? "Percentage"
+          : formik.values.Striketype == "Premium_Range"
+          ? "Premium Range"
+          : formik.values.Striketype == "Per_ATM"
+          ? "% of ATM"
+          : "Depth of Strike",
       type:
         formik.values.Striketype == "Per_ATM" ||
         formik.values.Striketype == "Straddle_Width" ||
@@ -1323,47 +1325,47 @@ const AddClient = () => {
               { title: "Short Straddle", value: "ShortStraddle" },
             ]
           : formik.values.Measurment_Type == "Butterfly_Condor"
-            ? [
-                { title: "Long Iron Butterfly", value: "LongIronButterfly" },
-                { title: "Short Iron Butterfly", value: "ShortIronButterfly" },
-                { title: "Long Iron Condor", value: "LongIronCondor" },
-                { title: "Short Iron Condor", value: "ShortIronCondor" },
-              ]
-            : formik.values.Measurment_Type == "Spread"
-              ? [
-                  { title: "Bear Call Spread", value: "BearCallSpread" },
-                  { title: "Bear Put Spread", value: "BearPutSpread" },
-                  { title: "Bull Call Spread", value: "BullCallSpread" },
-                  { title: "Bull Put Spread", value: "BullPutSpread" },
-                ]
-              : formik.values.Measurment_Type == "Ladder_Coverd"
-                ? [
-                    { title: "Bull Call Ladder", value: "BullCallLadder" },
-                    { title: "Bull Put Ladder", value: "BullPutLadder" },
-                    { title: "Covered Call", value: "CoveredCall" },
-                    { title: "Covered Put", value: "CoveredPut" },
-                  ]
-                : formik.values.Measurment_Type == "Collar_Ratio"
-                  ? [
-                      { title: "Long Collar", value: "LongCollar" },
-                      { title: "Short Collar", value: "ShortCollar" },
-                      { title: "Ratio Call Spread", value: "RatioCallSpread" },
-                      { title: "Ratio Put Spread", value: "RatioPutSpread" },
-                    ]
-                  : formik.values.Measurment_Type == "Shifting_FourLeg"
-                    ? [
-                        { title: "Short Shifting", value: "ShortShifting" },
-                        { title: "Long Shifting", value: "LongShifting" },
-                        {
-                          title: "ShortFourLegStrategy",
-                          value: "ShortFourLegStretegy",
-                        },
-                        {
-                          title: "LongFourLegStrategy",
-                          value: "LongFourLegStretegy",
-                        },
-                      ]
-                    : "",
+          ? [
+              { title: "Long Iron Butterfly", value: "LongIronButterfly" },
+              { title: "Short Iron Butterfly", value: "ShortIronButterfly" },
+              { title: "Long Iron Condor", value: "LongIronCondor" },
+              { title: "Short Iron Condor", value: "ShortIronCondor" },
+            ]
+          : formik.values.Measurment_Type == "Spread"
+          ? [
+              { title: "Bear Call Spread", value: "BearCallSpread" },
+              { title: "Bear Put Spread", value: "BearPutSpread" },
+              { title: "Bull Call Spread", value: "BullCallSpread" },
+              { title: "Bull Put Spread", value: "BullPutSpread" },
+            ]
+          : formik.values.Measurment_Type == "Ladder_Coverd"
+          ? [
+              { title: "Bull Call Ladder", value: "BullCallLadder" },
+              { title: "Bull Put Ladder", value: "BullPutLadder" },
+              { title: "Covered Call", value: "CoveredCall" },
+              { title: "Covered Put", value: "CoveredPut" },
+            ]
+          : formik.values.Measurment_Type == "Collar_Ratio"
+          ? [
+              { title: "Long Collar", value: "LongCollar" },
+              { title: "Short Collar", value: "ShortCollar" },
+              { title: "Ratio Call Spread", value: "RatioCallSpread" },
+              { title: "Ratio Put Spread", value: "RatioPutSpread" },
+            ]
+          : formik.values.Measurment_Type == "Shifting_FourLeg"
+          ? [
+              { title: "Short Shifting", value: "ShortShifting" },
+              { title: "Long Shifting", value: "LongShifting" },
+              {
+                title: "ShortFourLegStrategy",
+                value: "ShortFourLegStretegy",
+              },
+              {
+                title: "LongFourLegStrategy",
+                value: "LongFourLegStretegy",
+              },
+            ]
+          : "",
       label_size: 12,
       col_size: 8,
       disable: false,
@@ -1543,31 +1545,31 @@ const AddClient = () => {
       location.state.data.STG == "ShortStraddle"
         ? "Straddle_Strangle"
         : location.state.data.STG == "LongIronButterfly" ||
-            location.state.data.STG == "ShortIronButterfly" ||
-            location.state.data.STG == "LongIronCondor" ||
-            location.state.data.STG == "ShortIronCondor"
-          ? "Butterfly_Condor"
-          : location.state.data.STG == "BearCallSpread" ||
-              location.state.data.STG == "BearPutSpread" ||
-              location.state.data.STG == "BullCallSpread" ||
-              location.state.data.STG == "BullPutSpread"
-            ? "Spread"
-            : location.state.data.STG == "BullCallLadder" ||
-                location.state.data.STG == "BullPutLadder" ||
-                location.state.data.STG == "CoveredCall" ||
-                location.state.data.STG == "CoveredPut"
-              ? "Ladder_Coverd"
-              : location.state.data.STG == "LongCollar" ||
-                  location.state.data.STG == "ShortCollar" ||
-                  location.state.data.STG == "RatioCallSpread" ||
-                  location.state.data.STG == "RatioPutSpread"
-                ? "Collar_Ratio"
-                : location.state.data.STG == "LongFourLegStretegy" ||
-                    location.state.data.STG == "ShortShifting" ||
-                    location.state.data.STG == "LongShifting" ||
-                    location.state.data.STG == "ShortFourLegStretegy"
-                  ? "Shifting_FourLeg"
-                  : "";
+          location.state.data.STG == "ShortIronButterfly" ||
+          location.state.data.STG == "LongIronCondor" ||
+          location.state.data.STG == "ShortIronCondor"
+        ? "Butterfly_Condor"
+        : location.state.data.STG == "BearCallSpread" ||
+          location.state.data.STG == "BearPutSpread" ||
+          location.state.data.STG == "BullCallSpread" ||
+          location.state.data.STG == "BullPutSpread"
+        ? "Spread"
+        : location.state.data.STG == "BullCallLadder" ||
+          location.state.data.STG == "BullPutLadder" ||
+          location.state.data.STG == "CoveredCall" ||
+          location.state.data.STG == "CoveredPut"
+        ? "Ladder_Coverd"
+        : location.state.data.STG == "LongCollar" ||
+          location.state.data.STG == "ShortCollar" ||
+          location.state.data.STG == "RatioCallSpread" ||
+          location.state.data.STG == "RatioPutSpread"
+        ? "Collar_Ratio"
+        : location.state.data.STG == "LongFourLegStretegy" ||
+          location.state.data.STG == "ShortShifting" ||
+          location.state.data.STG == "LongShifting" ||
+          location.state.data.STG == "ShortFourLegStretegy"
+        ? "Shifting_FourLeg"
+        : "";
 
     if (
       formik.values.Measurment_Type &&
