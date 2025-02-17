@@ -14,7 +14,6 @@ const Userdashboard = () => {
   const userName = localStorage.getItem("name");
   const [activeTab1, setActiveTab1] = useState("CurrentPosition");
 
-
   const [activeTab, setActiveTab] = useState("currentScript");
   const [subTab, setSubTab] = useState("Scalping");
   const [refresh, setRefresh] = useState(false);
@@ -695,7 +694,9 @@ const Userdashboard = () => {
                 role="tablist">
                 <li className="nav-item" role="presentation">
                   <a
-                    className={`nav-link ${activeTab1 === "CurrentPosition" ? "active" : ""}`}
+                    className={`nav-link ${
+                      activeTab1 === "CurrentPosition" ? "active" : ""
+                    }`}
                     id="home-tab-justify"
                     data-bs-toggle="tab"
                     href="#home-justify"
@@ -708,7 +709,9 @@ const Userdashboard = () => {
                 </li>
                 <li className="nav-item" role="presentation">
                   <a
-                    className={`nav-link ${activeTab1 === "OpenPosition" ? "active" : ""}`}
+                    className={`nav-link ${
+                      activeTab1 === "OpenPosition" ? "active" : ""
+                    }`}
                     id="profile-tab-justify"
                     data-bs-toggle="tab"
                     href="#profile-justify"
@@ -724,17 +727,18 @@ const Userdashboard = () => {
               <div className="row">
                 {activeTab1 === "CurrentPosition" && (
                   <div className="d-flex">
-                    <div className={`form-group ${activeTab == "currentScript" && subTab == "Scalping"
-                      ? "col-lg-4"
-                      : activeTab == "group" && subTab == "Scalping"
-                        ? "col-lg-3"
-                        : activeTab == "currentScript" ? "col-lg-6"
-                          : activeTab == "group" ? "col-lg-4" : "col-lg-3"
+                    <div
+                      className={`form-group ${
+                        activeTab == "currentScript" && subTab == "Scalping"
+                          ? "col-lg-4"
+                          : activeTab == "group" && subTab == "Scalping"
+                          ? "col-lg-3"
+                          : activeTab == "currentScript"
+                          ? "col-lg-6"
+                          : activeTab == "group"
+                          ? "col-lg-4"
+                          : "col-lg-3"
                       }`}>
-
-
-
-
                       <div className="px-3">
                         <label>Add Via</label>
                         <select
@@ -750,15 +754,18 @@ const Userdashboard = () => {
                       </div>
                     </div>
                     {activeTab == "group" && (
-                      <div className={`form-group ${activeTab == "currentScript" && subTab == "Scalping"
-                        ? "col-lg-4"
-                        : activeTab == "group" && subTab == "Scalping"
-                          ? "col-lg-3"
-                          : activeTab == "currentScript" ? "col-lg-6"
-                            : activeTab == "group" ? "col-lg-4" : "col-lg-3"
+                      <div
+                        className={`form-group ${
+                          activeTab == "currentScript" && subTab == "Scalping"
+                            ? "col-lg-4"
+                            : activeTab == "group" && subTab == "Scalping"
+                            ? "col-lg-3"
+                            : activeTab == "currentScript"
+                            ? "col-lg-6"
+                            : activeTab == "group"
+                            ? "col-lg-4"
+                            : "col-lg-3"
                         }`}>
-
-
                         <div className="px-3">
                           <label>Group Name</label>
                           <select
@@ -779,16 +786,18 @@ const Userdashboard = () => {
                       </div>
                     )}
 
-
-                    <div className={`form-group ${activeTab == "currentScript" && subTab == "Scalping"
-                      ? "col-lg-4"
-                      : activeTab == "group" && subTab == "Scalping"
-                        ? "col-lg-3"
-                        : activeTab == "currentScript" ? "col-lg-6"
-                          : activeTab == "group" ? "col-lg-4" : "col-lg-3"
+                    <div
+                      className={`form-group ${
+                        activeTab == "currentScript" && subTab == "Scalping"
+                          ? "col-lg-4"
+                          : activeTab == "group" && subTab == "Scalping"
+                          ? "col-lg-3"
+                          : activeTab == "currentScript"
+                          ? "col-lg-6"
+                          : activeTab == "group"
+                          ? "col-lg-4"
+                          : "col-lg-3"
                       }`}>
-
-
                       <div className="px-3">
                         <label>Strategy Type</label>
                         <select
@@ -808,15 +817,18 @@ const Userdashboard = () => {
                     </div>
 
                     {subTab === "Scalping" && (
-                      <div className={`form-group ${activeTab == "currentScript" && subTab == "Scalping"
-                        ? "col-lg-4"
-                        : activeTab == "group" && subTab == "Scalping"
-                          ? "col-lg-3"
-                          : activeTab == "currentScript" ? "col-lg-6"
-                            : activeTab == "group" ? "col-lg-4" : "col-lg-3"
+                      <div
+                        className={`form-group ${
+                          activeTab == "currentScript" && subTab == "Scalping"
+                            ? "col-lg-4"
+                            : activeTab == "group" && subTab == "Scalping"
+                            ? "col-lg-3"
+                            : activeTab == "currentScript"
+                            ? "col-lg-6"
+                            : activeTab == "group"
+                            ? "col-lg-4"
+                            : "col-lg-3"
                         }`}>
-
-
                         <div className="px-3">
                           <label>Table Type</label>
                           <select
@@ -874,8 +886,6 @@ const Userdashboard = () => {
                   <NoDataFound />
                 )}
               </div> */}
-
-
 
               {/* <div className="tab-content">
                 {activeTab1 === "OpenPosition" &&
@@ -953,22 +963,42 @@ const Userdashboard = () => {
                 {activeTab1 === "CurrentPosition" && (
                   <>
                     {activeTab === "group" ? (
-                      <div className="tab-pane fade show active" id="home-justify" role="tabpanel">
+                      <div
+                        className="tab-pane fade show active"
+                        id="home-justify"
+                        role="tabpanel">
                         <div className="mt-3">
                           {subTab && serviceStatus ? (
                             getGroup === "copyScript" ? (
-                              <Coptyscript data={subTab} selectedType={activeTab} data2={serviceStatus} />
+                              <Coptyscript
+                                data={subTab}
+                                selectedType={activeTab}
+                                data2={serviceStatus}
+                              />
                             ) : (
-                              <GroupScript data={subTab} selectedType={activeTab} GroupName={getGroup} data2={serviceStatus} />
+                              <GroupScript
+                                data={subTab}
+                                selectedType={activeTab}
+                                GroupName={getGroup}
+                                data2={serviceStatus}
+                              />
                             )
                           ) : null}
                         </div>
                       </div>
                     ) : activeTab === "currentScript" ? (
-                      <div className="tab-pane fade show active" id="home-justify" role="tabpanel">
+                      <div
+                        className="tab-pane fade show active"
+                        id="home-justify"
+                        role="tabpanel">
                         <div className="tab-content mt-3">
                           {subTab && serviceStatus ? (
-                            <CurrentScript tableType={tableType} data={subTab} selectedType={activeTab} data2={serviceStatus} />
+                            <CurrentScript
+                              tableType={tableType}
+                              data={subTab}
+                              selectedType={activeTab}
+                              data2={serviceStatus}
+                            />
                           ) : null}
                         </div>
                       </div>
@@ -981,49 +1011,70 @@ const Userdashboard = () => {
                     {getPositionData.Scalping?.length > 0 && (
                       <div className="mt-4">
                         <h4>Scalping</h4>
-                        <FullDataTable columns={columns1} data={getPositionData.Scalping} checkBox={false} />
+                        <FullDataTable
+                          columns={columns1}
+                          data={getPositionData.Scalping}
+                          checkBox={false}
+                        />
                       </div>
                     )}
 
                     {getPositionData.NewScalping?.length > 0 && (
                       <div className="mt-4">
                         <h4>Multi Condition</h4>
-                        <FullDataTable columns={columns4} data={getPositionData.NewScalping} checkBox={false} />
+                        <FullDataTable
+                          columns={columns4}
+                          data={getPositionData.NewScalping}
+                          checkBox={false}
+                        />
                       </div>
                     )}
 
                     {getPositionData.Option?.length > 0 && (
                       <div className="mt-4">
                         <h4>Option</h4>
-                        <FullDataTable columns={columns2} data={getPositionData.Option} checkBox={false} />
+                        <FullDataTable
+                          columns={columns2}
+                          data={getPositionData.Option}
+                          checkBox={false}
+                        />
                       </div>
                     )}
 
                     {getPositionData.Pattern?.length > 0 && (
                       <div className="mt-4">
                         <h4>Pattern</h4>
-                        <FullDataTable columns={columns3} data={getPositionData.Pattern} checkBox={false} />
+                        <FullDataTable
+                          columns={columns3}
+                          data={getPositionData.Pattern}
+                          checkBox={false}
+                        />
                       </div>
                     )}
 
                     {getPositionData.ChartingData?.length > 0 && (
                       <div className="mt-4">
                         <h4>Charting Platform</h4>
-                        <FullDataTable columns={columns5} data={getPositionData.ChartingData} checkBox={false} />
+                        <FullDataTable
+                          columns={columns5}
+                          data={getPositionData.ChartingData}
+                          checkBox={false}
+                        />
                       </div>
                     )}
                   </>
                 )}
 
                 {/* Agar dono section me kahin bhi data nahi hai to hi NoDataFound dikhao */}
-                 {!(subTab && serviceStatus) && 
-                  !(getPositionData.Scalping?.length > 0 ||
+                {!(subTab && serviceStatus) &&
+                  !(
+                    getPositionData.Scalping?.length > 0 ||
                     getPositionData.NewScalping?.length > 0 ||
                     getPositionData.Option?.length > 0 ||
                     getPositionData.Pattern?.length > 0 ||
-                    getPositionData.ChartingData?.length > 0) && <NoDataFound />}
-              </div> 
-
+                    getPositionData.ChartingData?.length > 0
+                  ) && <NoDataFound />}
+              </div>
             </div>
           </div>
         </div>
