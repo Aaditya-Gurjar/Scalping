@@ -983,6 +983,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         },
         validate: (values) => {
             let errors = {};
+            const mcxMaxTime = "23:29:59";
+            const mcxMinTime = "08:59:59"
             const maxTime = "15:29:59";
             const minTime = "09:15:00";
             if (!values.TStype) {
@@ -998,21 +1000,24 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 errors.Slvalue = "Please Enter Stoploss."
             }
 
-            if (values.ExitTime == '') {
-                errors.ExitTime = "Please Select Exit Time.";
-            } else if (values.ExitTime > maxTime) {
-                errors.ExitTime = "Exit Time Must be Before 15:29:59.";
-            }
-            else if (values.ExitTime < minTime) {
-                errors.ExitTime = "Exit Time Must be After 09:15:00.";
-            }
-            if (values.EntryTime == '') {
+            if (values.EntryTime == "") {
                 errors.EntryTime = "Please Select Entry Time.";
-            } else if (values.EntryTime < minTime) {
-                errors.EntryTime = "Entry Time Must be After 09:15:00.";
+            } else if (values.EntryTime < (EditDataOption.Exchange === "MCX" ? mcxMinTime : minTime)) {
+                errors.EntryTime = `Entry Time Must be After ${EditDataOption.Exchange === "MCX" ? mcxMinTime : minTime}.`;
+            } else if (values.EntryTime > (EditDataOption.Exchange === "MCX" ? mcxMaxTime : maxTime)) {
+                errors.EntryTime = `Entry Time Must be Before ${EditDataOption.Exchange === "MCX" ? mcxMaxTime : maxTime}.`;
             }
-            else if (values.EntryTime > maxTime) {
-                errors.EntryTime = "Entry Time Must be Before 15:29:59.";
+
+            if (values.ExitTime == "") {
+                errors.ExitTime = "Please Select Exit Time.";
+            } else if (values.ExitTime < (EditDataOption.Exchange === "MCX" ? mcxMinTime : minTime)) {
+                errors.ExitTime = `Exit Time Must be After ${EditDataOption.Exchange === "MCX" ? mcxMinTime : minTime}.`;
+            } else if (values.ExitTime > (EditDataOption.Exchange === "MCX" ? mcxMaxTime : maxTime)) {
+                errors.ExitTime = `Exit Time Must be Before ${EditDataOption.Exchange === "MCX" ? mcxMaxTime : maxTime}.`;
+            }
+
+            if (values.EntryTime && values.ExitTime && values.EntryTime >= values.ExitTime) {
+                errors.ExitTime = "Exit Time should be greater than Entry Time.";
             }
 
             if (!values.TradeCount) {
@@ -1122,6 +1127,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         },
         validate: (values) => {
             let errors = {};
+            const mcxMaxTime = "23:29:59";
+            const mcxMinTime = "08:59:59"
             const maxTime = "15:29:59";
             const minTime = "09:15:00";
             if (!values.TStype) {
@@ -1137,21 +1144,24 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 errors.Slvalue = "Please Enter Stoploss."
             }
 
-            if (values.ExitTime == '') {
-                errors.ExitTime = "Please Select Exit Time.";
-            } else if (values.ExitTime > maxTime) {
-                errors.ExitTime = "Exit Time Must be Before 15:29:59.";
-            }
-            else if (values.ExitTime < minTime) {
-                errors.ExitTime = "Exit Time Must be After 09:15:00.";
-            }
-            if (values.EntryTime == '') {
+            if (values.EntryTime == "") {
                 errors.EntryTime = "Please Select Entry Time.";
-            } else if (values.EntryTime < minTime) {
-                errors.EntryTime = "Entry Time Must be After 09:15:00.";
+            } else if (values.EntryTime < (EditDataPattern.Exchange === "MCX" ? mcxMinTime : minTime)) {
+                errors.EntryTime = `Entry Time Must be After ${EditDataPattern.Exchange === "MCX" ? mcxMinTime : minTime}.`;
+            } else if (values.EntryTime > (EditDataPattern.Exchange === "MCX" ? mcxMaxTime : maxTime)) {
+                errors.EntryTime = `Entry Time Must be Before ${EditDataPattern.Exchange === "MCX" ? mcxMaxTime : maxTime}.`;
             }
-            else if (values.EntryTime > maxTime) {
-                errors.EntryTime = "Entry Time Must be Before 15:29:59.";
+
+            if (values.ExitTime == "") {
+                errors.ExitTime = "Please Select Exit Time.";
+            } else if (values.ExitTime < (EditDataPattern.Exchange === "MCX" ? mcxMinTime : minTime)) {
+                errors.ExitTime = `Exit Time Must be After ${EditDataPattern.Exchange === "MCX" ? mcxMinTime : minTime}.`;
+            } else if (values.ExitTime > (EditDataPattern.Exchange === "MCX" ? mcxMaxTime : maxTime)) {
+                errors.ExitTime = `Exit Time Must be Before ${EditDataPattern.Exchange === "MCX" ? mcxMaxTime : maxTime}.`;
+            }
+
+            if (values.EntryTime && values.ExitTime && values.EntryTime >= values.ExitTime) {
+                errors.ExitTime = "Exit Time should be greater than Entry Time.";
             }
 
             if (!values.TradeCount) {

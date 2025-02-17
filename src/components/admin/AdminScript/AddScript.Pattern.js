@@ -50,8 +50,8 @@ const AddClient = () => {
 
     const formik = useFormik({
         initialValues: {
-            MainStrategy: location.state.data.selectStrategyType,
-            Username: location.state.data.selectGroup,
+            MainStrategy: location.state?.data?.selectStrategyType,
+            Username: location.state?.data?.selectGroup,
             Strategy: "",
             ETPattern: "",
             Timeframe: "",
@@ -95,6 +95,8 @@ const AddClient = () => {
             let errors = {};
             const maxTime = "15:29:59";
             const minTime = "09:15:00";
+            const mcxMaxTime = "23:29:59";
+            const mcxMinTime = "08:59:59";
 
             if (!values.Exchange) {
                 errors.Exchange = "Please Select Exchange Type.";
@@ -144,19 +146,18 @@ const AddClient = () => {
             }
             if (!values.ExitTime) {
                 errors.ExitTime = "Please Select Exit Time.";
-            } else if (values.ExitTime > maxTime) {
-                errors.ExitTime = "Exit Time Must be Before 15:29:59.";
+            } else if (values.ExitTime > (values.Exchange === "MCX" ? mcxMaxTime : maxTime)) {
+                errors.ExitTime = `Exit Time Must be Before ${values.Exchange === "MCX" ? "23:29:59" : "15:29:59"}.`;
             }
-            else if (values.ExitTime < minTime) {
-                errors.ExitTime = "Exit Time Must be After 09:15:00.";
-            }
+
             if (!values.EntryTime) {
                 errors.EntryTime = "Please Select Entry Time.";
-            } else if (values.EntryTime < minTime) {
-                errors.EntryTime = "Entry Time Must be After 09:15:00.";
+            } else if (values.EntryTime < (values.Exchange === "MCX" ? mcxMinTime : minTime)) {
+                errors.EntryTime = `Entry Time Must be After ${values.Exchange === "MCX" ? "09:00:00" : "09:15:00"}.`;
             }
-            else if (values.EntryTime > maxTime) {
-                errors.EntryTime = "Entry Time Must be Before 15:29:59.";
+
+            if (!values.TStype && values.Strategy != 'Fixed Price') {
+                errors.TStype = "Please Select Measurement Type.";
             }
             // ScrollToViewFirstError(errors)
 
@@ -244,6 +245,19 @@ const AddClient = () => {
                 })
         },
     });
+
+    useEffect(() => {
+        if (formik.values.Exchange !== 'MCX') {
+            formik.setFieldValue('ExitTime', '15:15:00');
+            formik.setFieldValue('EntryTime', '09:15:00');
+        } else if (formik.values.Exchange === 'MCX') {
+            formik.setFieldValue('ExitTime', '23:29:00');
+            formik.setFieldValue('EntryTime', '09:00:00');
+        }
+
+
+    }, [formik.values.Exchange]);
+
 
 
     useEffect(() => {
@@ -807,7 +821,7 @@ const AddClient = () => {
             <AddForm
                 fields={fields.filter((field) => !field.showWhen || field.showWhen(formik.values))}
 
-                page_title={`Add Script - Pattern Script  , Group Name : ${location.state.data.selectGroup}`}
+                page_title={`Add Script - Pattern Script  , Group Name : ${location.state?.data?.selectGroup}`}
                 btn_name="Add"
                 btn_name1="Cancel"
                 formik={formik}
