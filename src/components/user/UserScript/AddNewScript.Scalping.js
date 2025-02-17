@@ -358,7 +358,7 @@ const AddClient = () => {
       ) {
         errors.OrderType = "Please select Order Type";
       }
-      if (values.FinalTarget == undefined || values.FinalTarget == "" && (formik.values.FixedSM == "Multiple" && (formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise Target Reverse"))) {
+      if (values.FinalTarget == undefined || values.FinalTarget == "" && (formik.values.FixedSM == "Multiple" && (formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise SL"))) {
         errors.FinalTarget = "Please Enter Final Target";
       }
 
@@ -448,7 +448,7 @@ const AddClient = () => {
               values.FixedSM == "Multiple") ? values.TargetExit : false,
           WorkingDay: values.WorkingDay,
           OrderType: values.OrderType,
-          FinalTarget: (formik.values.FixedSM == "Multiple" && formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise Target Reverse") ? parseFloat(values.FinalTarget) : 0.0,
+          FinalTarget: (formik.values.FixedSM == "Multiple" && formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise SL") ? parseFloat(values.FinalTarget) : 0.0,
 
         }
 
@@ -795,7 +795,7 @@ const AddClient = () => {
         { label: "Fixed Target", value: "Fixed Target" },
         { label: "Entry Wise Target", value: "Entry Wise Target" },
         { label: "Average Target", value: "Average Target" },
-        { label: "Entry Wise Target Reverse", value: "Entry Wise Target Reverse" },
+        { label: "Entry Wise SL", value: "Entry Wise SL" },
 
 
       ],
@@ -812,7 +812,7 @@ const AddClient = () => {
       label: "Final Target",
       type: "text3",
       label_size: 12,
-      showWhen: (values) => formik.values.FixedSM == "Multiple" && formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise Target Reverse",
+      showWhen: (values) => formik.values.FixedSM == "Multiple" && formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise SL",
       col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
       headingtype: 3,
       disable: false,

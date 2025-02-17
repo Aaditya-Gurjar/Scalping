@@ -1176,53 +1176,43 @@ const DynamicForm = ({
                                         </div>
                                       </div>
                                     ) : item.type === "multiselect" ? (
-                                      <>
-                                        <div
-                                          className={`col-lg-${item.col_size}`}>
-                                          <div className="input-block mb-3 flex-column">
-                                            <label
-                                              className={`col-lg-${item.label_size} mb-1`}>
-                                              {item.label}
-                                              <span className="text-danger">
-                                                *
-                                              </span>
-                                            </label>
-                                            <Select
-                                              options={item.options}
-                                              isMulti
-                                              className="basic-multi-select"
-                                              value={
-                                                selectedOptions1[item.name]
-                                              }
-                                              onChange={(selected) =>
-                                                handleChange(
-                                                  selected,
-                                                  item.name
-                                                )
-                                              }
-                                              placeholder={
-                                                item.placeholder
-                                                  ? item.placeholder
-                                                  : "Select options"
-                                              }
-                                              isDisabled={item.disable}
-                                            />
-                                            {console.log(
-                                              "selectedOptions1[item.name]",
-                                              selectedOptions1
+                                      <div
+                                        className={`col-lg-${item.col_size}`}>
+                                        <div className="input-block mb-3 flex-column">
+                                          <label
+                                            className={`col-lg-${item.label_size} mb-1`}>
+                                            {item.label}
+                                            <span className="text-danger">
+                                              *
+                                            </span>
+                                          </label>
+                                          <Select
+                                            options={item.options}
+                                            isMulti
+                                            className="basic-multi-select"
+                                            value={formik.values[item.name]} // Bind to Formik's values
+                                            onChange={
+                                              (selected) =>
+                                                formik.setFieldValue(
+                                                  item.name,
+                                                  selected
+                                                ) // Use Formik's setFieldValue
+                                            }
+                                            placeholder={
+                                              item.placeholder
+                                                ? item.placeholder
+                                                : "Select options"
+                                            }
+                                            isDisabled={item.disable}
+                                          />
+                                          {formik.touched[item.name] &&
+                                            formik.errors[item.name] && (
+                                              <div style={{ color: "red" }}>
+                                                {formik.errors[item.name]}
+                                              </div>
                                             )}
-                                            <div className="invalid-feedback">
-                                              Please enter {item.label}
-                                            </div>
-                                            {formik.touched[item.name] &&
-                                              formik.errors[item.name] && (
-                                                <div style={{ color: "red" }}>
-                                                  {formik.errors[item.name]}
-                                                </div>
-                                              )}
-                                          </div>
                                         </div>
-                                      </>
+                                      </div>
                                     ) : item.type === "text3" ? (
                                       <>
                                         <div
