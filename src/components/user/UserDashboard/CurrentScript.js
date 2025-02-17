@@ -1733,8 +1733,10 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
 
 
+    console.log("EditDataScalping?.WorkingDay", EditDataScalping?.WorkingDay)
     useEffect(() => {
         if (data == "Scalping") {
+
 
             const WorkingDay = EditDataScalping?.WorkingDay?.map(day => {
                 return { label: day, value: day }
