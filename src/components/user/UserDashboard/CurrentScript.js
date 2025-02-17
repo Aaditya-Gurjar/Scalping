@@ -33,15 +33,15 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         Marketwise: [],
         PremiumRotation: []
     });
-    console.log("getAllService",getAllService);
-    
+    console.log("getAllService", getAllService);
+
 
     useEffect(() => {
         GetUserAllScripts()
 
     }, [])
 
-   
+
 
     useEffect(() => {
         if (data == "ChartingPlatform")
@@ -98,7 +98,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
     }
 
     const handleDelete = async (rowData, type) => {
-        console.log("data" , data)
+        console.log("data", data)
         const index = rowData.rowIndex
         const req =
             data == 'Scalping' && type == 1 ?
@@ -301,8 +301,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         }
     }
     const HandleContinueDiscontinue = async (rowData, type) => {
-        console.log("rowData",rowData.rowIndex);
-        
+        console.log("rowData", rowData.rowIndex);
+
 
         const index = rowData.rowIndex
         let trading;
@@ -314,7 +314,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         else if (data == 'Scalping' && type == 2) {
             trading = getAllService.NewScalping[index].Trading
         }
-        else if (data == 'Pattern' ||  data == 'Pattern Script') {
+        else if (data == 'Pattern' || data == 'Pattern Script') {
             trading = getAllService.PatternData[index].Trading
         }
         else if (data == 'Option Strategy') {
@@ -497,7 +497,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                     cancelButtonColor: "#d33",
                     confirmButtonText: "Yes"
                 }).then(async (result) => {
-                    if (result.isConfirmed) { 
+                    if (result.isConfirmed) {
                         const req =
                             data == 'Scalping' && type == 1 ?
                                 {
@@ -1903,7 +1903,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 </div>
             </div>
             {showEditModal && <div className="modal show" id="exampleModal" style={{ display: "block" }}>
-                <div className="modal-dialog modal-lg modal-dialog-centered">
+                <div className="modal-dialog modal-xl modal-dialog-centered p-2">
                     <div className="modal-content ">
                         <div className="modal-header ">
                             <h5 className="modal-title">Edit Script</h5>
@@ -1915,35 +1915,41 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                 onClick={() => { setShowEditModal(false); formik.resetForm() }}
                             />
                         </div>
-
                         {
                             data == "Scalping" ? <>
-                                <Formikform
-                                    fields={(EditDataScalping.PositionType !== "Multiple" ? updatedFields : fields).filter(
-                                        (field) => !field.showWhen || field.showWhen(formik.values)
-                                    )}
-
-                                    btn_name="Update"
-                                    formik={formik}
-                                />
-                            </> :
-                                data == "Option Strategy" ? <>
+                                <div className='p-4'>
 
                                     <Formikform
-                                        fields={fields1}
-                                        btn_name="Update"
-                                        formik={formik1}
-                                    />
-                                </>
-                                    :
-                                    <Formikform
-                                        fields={fields2.filter(
-                                            (field) => !field.showWhen || field.showWhen(formik2.values)
+                                        fields={(EditDataScalping.PositionType !== "Multiple" ? updatedFields : fields).filter(
+                                            (field) => !field.showWhen || field.showWhen(formik.values)
                                         )}
 
                                         btn_name="Update"
-                                        formik={formik2}
+                                        formik={formik}
                                     />
+                                </div>
+                            </> :
+                                data == "Option Strategy" ? <>
+
+                                    <div className='p-4'>
+                                        <Formikform
+                                            fields={fields1}
+                                            btn_name="Update"
+                                            formik={formik1}
+                                        />
+                                    </div>
+                                </>
+                                    :
+                                    <div className='p-4'>
+                                        <Formikform
+                                            fields={fields2.filter(
+                                                (field) => !field.showWhen || field.showWhen(formik2.values)
+                                            )}
+
+                                            btn_name="Update"
+                                            formik={formik2}
+                                        />
+                                    </div>
                         }
                     </div>
                 </div>
