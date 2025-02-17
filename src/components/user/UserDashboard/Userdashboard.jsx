@@ -730,7 +730,7 @@ const Userdashboard = () => {
                     <div
                       className={`form-group ${
                         activeTab == "currentScript" && subTab == "Scalping"
-                          ? "col-lg-4"
+                          ? "col-lg-6"
                           : activeTab == "group" && subTab == "Scalping"
                           ? "col-lg-3"
                           : activeTab == "currentScript"
@@ -789,9 +789,9 @@ const Userdashboard = () => {
                     <div
                       className={`form-group ${
                         activeTab == "currentScript" && subTab == "Scalping"
-                          ? "col-lg-4"
+                          ? "col-lg-6"
                           : activeTab == "group" && subTab == "Scalping"
-                          ? "col-lg-3"
+                          ? "col-lg-4"
                           : activeTab == "currentScript"
                           ? "col-lg-6"
                           : activeTab == "group"
@@ -829,7 +829,7 @@ const Userdashboard = () => {
                             ? "col-lg-4"
                             : "col-lg-3"
                         }`}>
-                        <div className="px-3">
+                        {/* <div className="px-3">
                           <label>Table Type</label>
                           <select
                             className="form-select"
@@ -843,7 +843,7 @@ const Userdashboard = () => {
                               Multi Condition
                             </option>
                           </select>
-                        </div>
+                        </div> */}
                       </div>
                     )}
                   </div>

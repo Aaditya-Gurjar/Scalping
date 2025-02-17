@@ -590,7 +590,7 @@ const AddClient = () => {
           values.RollOver == true
             ? values.RollOverExitTime
             : "00:00:00",
-        WorkingDay: values.WorkingDay ? values.WorkingDay : [],
+        WorkingDay: values.WorkingDay ? values.WorkingDay.map((item) => item.value || item) : [],
       };
 
       console.log("req", req);
