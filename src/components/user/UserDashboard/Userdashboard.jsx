@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Coptyscript from "./Copyscript";
 import GroupScript from "./Groupscript";
 import CurrentScript from "./CurrentScript";
-import {
+import { 
   GetAllUserGroup,
   OpenPosition,
   getStrategyType,
@@ -21,7 +21,6 @@ const Userdashboard = () => {
   const [strategyType, setStrategyType] = useState([]);
 
   const [tableType, setTableType] = useState("MultiCondition");
-  // console.log("Table Type",tableType);
 
   const [serviceStatus, setServiceStatus] = useState({
     status: false,
@@ -47,13 +46,6 @@ const Userdashboard = () => {
     getUserAllGroup();
   }, [activeTab]);
 
-  useEffect(() => {
-    if (subTab == "Scalping") {
-      setTableType("MultiCondition");
-    } else {
-      setTableType("Scalping");
-    }
-  }, [subTab]);
 
   const fetchStrategyType = async () => {
     try {
@@ -65,6 +57,7 @@ const Userdashboard = () => {
       console.log("Error in finding the strategy type", error);
     }
   };
+
   const getUserAllGroup = async () => {
     const data = { User: userName };
     await GetAllUserGroup(data)
@@ -86,7 +79,8 @@ const Userdashboard = () => {
         console.log("Error in finding the group name", err);
       });
   };
-  // console.log("serviceStatus", serviceStatus);
+
+
   const GetExpriyEndDate = async () => {
     const data = { Username: userName };
     await ExpriyEndDate(data)
@@ -682,6 +676,15 @@ const Userdashboard = () => {
     },
   ];
 
+
+  useEffect(() => {
+    if (subTab === "Scalping") {
+      setTableType("MultiCondition");
+    }
+    else {
+      setTableType("Scalping");
+    }
+  }, [subTab]);
   return (
     <div className="container-fluid">
       <div className="row p-0">
@@ -724,7 +727,7 @@ const Userdashboard = () => {
                 </li>
               </ul>
 
-              <div className="row">
+              <div className="row mt-3">
                 {activeTab1 === "CurrentPosition" && (
                   <div className="d-flex">
                     <div
@@ -1008,7 +1011,7 @@ const Userdashboard = () => {
 
                 {activeTab1 === "OpenPosition" && (
                   <>
-                    {getPositionData.Scalping?.length > 0 && (
+                    {/* {getPositionData.Scalping?.length > 0 && (
                       <div className="mt-4">
                         <h4>Scalping</h4>
                         <FullDataTable
@@ -1017,7 +1020,7 @@ const Userdashboard = () => {
                           checkBox={false}
                         />
                       </div>
-                    )}
+                    )} */}
 
                     {getPositionData.NewScalping?.length > 0 && (
                       <div className="mt-4">

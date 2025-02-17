@@ -627,7 +627,6 @@ const TradeReport = () => {
     const strategyTypeFn = async () => {
         try {
             const res = await getStrategyType();
-            console.log("response response response", res.Data);
             if (res.Data && Array.isArray(res.Data)) {
                 setStrategyNames(res.Data);
             } else {

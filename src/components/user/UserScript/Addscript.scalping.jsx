@@ -398,7 +398,7 @@ const AddClient = () => {
             : "",
         expirydata1:
           values.Exchange == "NSE" ? getExpiryDate.data[0] : values.expirydata1,
-        TType: values.TType == 0 ? "" : values.TType,
+        TType: values.TType,
 
         TStype:
           values.Strategy == "One Directional" ||

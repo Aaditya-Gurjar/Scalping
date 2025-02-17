@@ -254,7 +254,7 @@ const Sidebar = () => {
         },
         {
             path: '/admin/servicreport',
-            icon: 'fa fa-clipboard-list', // Service Report icon (Clipboard List)
+             icon: 'la la-cog', // Service Report icon (Clipboard List)
             label: 'Service Report',
             permission: [] // No restriction
         },

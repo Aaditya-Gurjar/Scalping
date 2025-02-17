@@ -133,7 +133,7 @@ export const columns = (handleDelete)=>[
     },
     {
         name: "EntryPrice",
-        label: "First Trade Lower Range",
+        label: "Lower Price",
         options: {
             filter: true,
             sort: true,
@@ -141,7 +141,7 @@ export const columns = (handleDelete)=>[
     },
     {
         name: "EntryRange",
-        label: "First Trade Higher Range",
+        label: "Higher Price",
         options: {
             filter: true,
             sort: true,

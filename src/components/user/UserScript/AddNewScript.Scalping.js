@@ -20,10 +20,7 @@ const AddClient = () => {
   const [openModel, setOpenModel] = useState(false)
   const [openModel1, setOpenModel1] = useState(false)
   const [marginValue, setMarginValue] = useState('')
-
-
-
-
+  const [error, setError] = useState("");
   const [showPnl, setShowPnl] = useState(false)
 
   const [PnlData, setPnlData] = useState({
@@ -56,7 +53,7 @@ const AddClient = () => {
     const foundItem = dataWithoutLastItem.find((item) => {
       return item.Scalping.includes(stg);
     });
-    return foundItem.EndDate;
+    return foundItem?.EndDate;
   };
 
   const ScrollToViewFirstError = (newErrors) => {
@@ -80,7 +77,7 @@ const AddClient = () => {
     initialValues: {
       MainStrategy: "",
       Username: "",
-      Strategy: "",
+      Strategy: "Multi_Conditional",
       ETPattern: "",
       Timeframe: "",
       Exchange: "",
@@ -145,8 +142,8 @@ const AddClient = () => {
       let errors = {};
       const maxTime = "15:29:59";
       const minTime = "09:15:00";
-      const minTime2 = "09:00:00"
-      const maxTime2 = "23:30:00"
+      const mcxMaxTime = "23:29:59";
+      const mcxMinTime = "08:59:59";
 
       if (!values.Strategy) {
         errors.Strategy = "Please Select Strategy Type.";
@@ -190,35 +187,50 @@ const AddClient = () => {
 
 
 
+      // if (!values.ExitTime) {
+      //   errors.ExitTime = "Please Select Exit Time.";
+      // } else if (values.ExitTime > maxTime && formik.values.Exchange !== 'MCX') {
+      //   errors.ExitTime = "Exit Time Must be Before 15:29:59.";
+      // }
+
+      // else if (values.ExitTime > maxTime2 && formik.values.Exchange == 'MCX') {
+      //   errors.ExitTime = "Exit Time Must be Before 23:30:00.";
+      // }
+
+      // else if (values.ExitTime < minTime && formik.values.Exchange !== 'MCX') {
+      //   errors.ExitTime = "Exit Time Must be After 09:15:00.";
+      // }
+      // else if (values.ExitTime < minTime2 && formik.values.Exchange == 'MCX') {
+      //   errors.ExitTime = "Exit Time Must be After 09:00:00.";
+      // }
+
+
+      // if (!values.EntryTime) {
+      //   errors.EntryTime = "Please Select Entry Time.";
+      // } else if (values.EntryTime < minTime) {
+      //   errors.EntryTime = "Entry Time Must be After 09:15:00.";
+      // }
+      // else if (values.EntryTime > maxTime) {
+      //   errors.EntryTime = "Entry Time Must be Before 15:29:59.";
+      // }
+
+
       if (!values.ExitTime) {
         errors.ExitTime = "Please Select Exit Time.";
-      } else if (values.ExitTime > maxTime && formik.values.Exchange !== 'MCX') {
-        errors.ExitTime = "Exit Time Must be Before 15:29:59.";
+      } else if (values.ExitTime > (values.Exchange === "MCX" ? mcxMaxTime : maxTime)) {
+        errors.ExitTime = `Exit Time Must be Before ${values.Exchange === "MCX" ? "23:29:59" : "15:29:59"}.`;
       }
-
-      else if (values.ExitTime > maxTime2 && formik.values.Exchange == 'MCX') {
-        errors.ExitTime = "Exit Time Must be Before 23:30:00.";
-      }
-
-      else if (values.ExitTime < minTime && formik.values.Exchange !== 'MCX') {
-        errors.ExitTime = "Exit Time Must be After 09:15:00.";
-      }
-      else if (values.ExitTime < minTime2 && formik.values.Exchange == 'MCX') {
-        errors.ExitTime = "Exit Time Must be After 09:00:00.";
-      }
-
 
       if (!values.EntryTime) {
         errors.EntryTime = "Please Select Entry Time.";
-      } else if (values.EntryTime < minTime) {
-        errors.EntryTime = "Entry Time Must be After 09:15:00.";
+      } else if (values.EntryTime < (values.Exchange === "MCX" ? mcxMinTime : minTime)) {
+        errors.EntryTime = `Entry Time Must be After ${values.Exchange === "MCX" ? "09:00:00" : "09:15:00"}.`;
       }
-      else if (values.EntryTime > maxTime) {
-        errors.EntryTime = "Entry Time Must be Before 15:29:59.";
-      }
+
       if (!values.TStype && values.Strategy != 'Fixed Price') {
         errors.TStype = "Please Select Measurement Type.";
       }
+
       if (!values.ExitDay) {
         errors.ExitDay = "Please Select Exit Day.";
       }
@@ -334,13 +346,9 @@ const AddClient = () => {
         errors.RollOverExitTime = "Please Enter RollOver Exit Time";
       }
 
-      // if (
-      //   !values.WorkingDay.length > 0 &&
-      //   values.Strategy == "Multi_Conditional" &&
-      //   values.FixedSM == "Multiple"
-      // ) {
-      //   errors.WorkingDay = "Please select Working day";
-      // }
+      if (!values.WorkingDay.length > 0) {
+        errors.WorkingDay = "Please select Working day";
+      }
 
 
       if (
@@ -350,7 +358,7 @@ const AddClient = () => {
       ) {
         errors.OrderType = "Please select Order Type";
       }
-      if (values.FinalTarget == undefined || values.FinalTarget == "" && (formik.values.FixedSM == "Multiple" && (formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise Target Reverse"))) {
+      if (values.FinalTarget == undefined || values.FinalTarget == "" && (formik.values.FixedSM == "Multiple" && (formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise SL"))) {
         errors.FinalTarget = "Please Enter Final Target";
       }
 
@@ -371,10 +379,8 @@ const AddClient = () => {
           Symbol: values.Symbol,
           Optiontype: values.Instrument == "OPTIDX" || values.Instrument == "OPTSTK" || (values.Exchange === "MCX" && values.Instrument == "OPTFUT") ? values.Optiontype : "",
           Strike: values.Instrument == "OPTIDX" || values.Instrument == "OPTSTK" || (values.Exchange === "MCX" && values.Instrument == "OPTFUT") ? values.Strike : "",
-          // expirydata1: values.Exchange == "NSE" ? getExpiryDate.data[0] : values.expirydata1,
           expirydata1: values.expirydata1 == "Monthly" ? getExpiryDate?.data?.[0] : values.expirydata1 == "Next_Month" ? getExpiryDate?.data?.[1] : values.Exchange == "NSE" ? getExpiryDate?.data?.[0] : values.expirydata1,
-
-          TType: values.TType == 0 ? "" : values.TType,
+          TType: values.TType,
           TStype: values.Strategy == "One Directional" || values.Strategy == "Multi Directional" || (values.Strategy == "Multi_Conditional") ? values.TStype : "",
           Targetvalue: values.Targetvalue,
           Slvalue: values.Slvalue,
@@ -440,10 +446,9 @@ const AddClient = () => {
             values.Strategy == "One Directional" ||
             (values.Strategy == "Multi_Conditional" &&
               values.FixedSM == "Multiple") ? values.TargetExit : false,
-          WorkingDay:
-            values.FixedSM == "Multiple" && values.Strategy == "Multi_Conditional" ? values.WorkingDay : [],
+          WorkingDay: values.WorkingDay,
           OrderType: values.OrderType,
-          FinalTarget: (formik.values.FixedSM == "Multiple" && formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise Target Reverse") ? parseFloat(values.FinalTarget) : 0.0,
+          FinalTarget: (formik.values.FixedSM == "Multiple" && formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise SL") ? parseFloat(values.FinalTarget) : 0.0,
 
         }
 
@@ -564,7 +569,7 @@ const AddClient = () => {
 
 
   useEffect(() => {
-    formik.setFieldValue('Strategy', location?.state?.data?.scriptType?.data?.[location?.state?.data?.scriptType?.len]?.CombineScalping[0])
+
     formik.setFieldValue('Exchange', "NFO")
     formik.setFieldValue("TType", "BUY")
     formik.setFieldValue("ExitDay", "Intraday")
@@ -790,7 +795,7 @@ const AddClient = () => {
         { label: "Fixed Target", value: "Fixed Target" },
         { label: "Entry Wise Target", value: "Entry Wise Target" },
         { label: "Average Target", value: "Average Target" },
-        { label: "Entry Wise Target Reverse", value: "Entry Wise Target Reverse" },
+        { label: "Entry Wise SL", value: "Entry Wise SL" },
 
 
       ],
@@ -807,7 +812,7 @@ const AddClient = () => {
       label: "Final Target",
       type: "text3",
       label_size: 12,
-      showWhen: (values) => formik.values.FixedSM == "Multiple" && formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise Target Reverse",
+      showWhen: (values) => formik.values.FixedSM == "Multiple" && formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise SL",
       col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
       headingtype: 3,
       disable: false,
@@ -986,9 +991,6 @@ const AddClient = () => {
       name: "WorkingDay",
       label: "Working Day",
       type: "multiselect",
-      showWhen: (values) => {
-        return values.Strategy == "Multi_Conditional" && values.FixedSM == "Multiple";
-      },
       options: [
         { label: "Monday", value: "Monday" },
         { label: "Tuesday", value: "Tuesday" },
@@ -1210,16 +1212,16 @@ const AddClient = () => {
   ]
 
   const fields = [
-    {
-      name: "Strategy",
-      label: "Scalping Type",
-      type: "radio2",
-      title: location?.state?.data?.scriptType?.data?.[location?.state?.data?.scriptType?.len]?.CombineScalping.map((item) => ({ title: item, value: item })),
-      hiding: false,
-      label_size: 12,
-      col_size: 12,
-      disable: false,
-    },
+    // {
+    //   name: "Strategy",
+    //   label: "Scalping Type",
+    //   type: "radio2",
+    //   title: location?.state?.data?.scriptType?.data?.[location?.state?.data?.scriptType?.len]?.CombineScalping.map((item) => ({ title: item, value: item })),
+    //   hiding: false,
+    //   label_size: 12,
+    //   col_size: 12,
+    //   disable: false,
+    // },
     {
       name: "Heading",
       label: "Symbol_Selection",
@@ -1416,13 +1418,26 @@ const AddClient = () => {
     }
   }, [formik.values.Instrument, formik.values.Exchange])
 
+  // useEffect(() => {
+  //   // console.log("testing")
+  //   if (formik.values.Exchange === 'NSE') {
+  //     formik.setFieldValue('ExitTime', '15:15:00');
+  //   } else {
+  //     formik.setFieldValue('ExitTime', '15:25:00');
+  //   }
+  // }, [formik.values.Exchange]);
+
   useEffect(() => {
-    // console.log("testing")
-    if (formik.values.Exchange === 'NSE') {
+    console.log("testing")
+    if (formik.values.Exchange !== 'MCX') {
       formik.setFieldValue('ExitTime', '15:15:00');
-    } else {
-      formik.setFieldValue('ExitTime', '15:25:00');
+      formik.setFieldValue('EntryTime', '09:15:00');
+    } else if (formik.values.Exchange === 'MCX') {
+      formik.setFieldValue('ExitTime', '23:29:00');
+      formik.setFieldValue('EntryTime', '09:00:00');
     }
+
+
   }, [formik.values.Exchange]);
 
 
@@ -1446,9 +1461,11 @@ const AddClient = () => {
     const currentTime = currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds()
 
 
-    // if (weekend == 6 || weekend == 0 || currentTime >= "15:30:00" || currentTime <= "09:15:00") {
-    //     return SweentAlertFun("Market is off Today")
-    // }
+    if (weekend == 6 || weekend == 0 || currentTime >= "15:30:00" || currentTime <= "09:15:00") {
+      return SweentAlertFun("Market is off Today")
+    }
+
+
 
     const req = {
       MainStrategy: location?.state?.data?.selectStrategyType,
@@ -1583,51 +1600,71 @@ const AddClient = () => {
             <div className="modal-content" style={{ color: "#fff", backgroundColor: "#333" }}>
               <div className="modal-header border-0 pb-0 px-4 pt-4">
                 <div className="form-header modal-header-title text-start mb-0">
-                  <h4 className="mb-0 d-flex align-items-center" style={{ color: "#fff" }}>
-                    Margin Value
-                  </h4>
+                  <h4 className="mb-0 d-flex align-items-center">Margin Value</h4>
                 </div>
                 <button
                   type="button"
                   className="btn-close"
                   aria-label="Close"
-                  onClick={() => setOpenModel1(false)}
+                  onClick={() => {
+                    setOpenModel1(false);
+                    setError(""); // Reset error
+                    setMarginValue(""); // Reset input
+                  }}
                 ></button>
               </div>
-              <div className="modal-body px-4 py-3">
-                <div className="row">
-                  <div className="col-12">
-                    <div className="input-block mb-3">
-                      <label className="form-label" style={{ fontWeight: "bold", color: "#fff" }}>
-                        Margin Value
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        value={marginValue}
-                        onChange={(e) => setMarginValue(e.target.value)}
-                      />
+              <div>
+                <div className="modal-body">
+                  <div className="row">
+                    <div className="col-lg-12 col-sm-12">
+                      <div className="input-block mb-3">
+                        <label className="form-label" style={{ fontWeight: "bold", color: "#fff" }}>
+                          Margin Value
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={marginValue}
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            if (/^\d*$/.test(value)) { // ✅ Only numbers allowed
+                              setMarginValue(value);
+                              setError(""); // Reset error if valid
+                            } else {
+                              setError("Only numbers are allowed");
+                            }
+                          }}
+                        />
+                        {error && <p className="text-danger">{error}</p>}
+
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="modal-footer border-0 pt-0 px-4 pb-4" style={{ justifyContent: "flex-end" }}>
-                <button
-                  type="button"
-                  className="btn btn-success"
-                  onClick={() => {
-                    handleCheckPnl();
-                    setOpenModel1(false);
-                    setMarginValue("");
-                  }}
-                  style={{
-                    backgroundColor: "#f44336",
-                    color: "white",
-                    borderRadius: "4px",
-                  }}
-                >
-                  Submit
-                </button>
+
+                <div style={{ textAlign: "right" }}>
+                  <button
+                    type="button"
+                    className="btn btn-success"
+                    onClick={() => {
+                      if (!marginValue.trim()) {
+                        setError("Margin Value required");
+                        return;
+                      }
+
+                      handleCheckPnl();
+                      setOpenModel1(false);
+                      setMarginValue("");
+                    }}
+                    style={{
+                      backgroundColor: "#f44336",
+                      color: "white",
+                      borderRadius: "4px",
+                    }}
+                  >
+                    Submit
+                  </button>
+                </div>
               </div>
             </div>
           </div>

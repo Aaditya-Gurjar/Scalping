@@ -33,11 +33,15 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         Marketwise: [],
         PremiumRotation: []
     });
+    console.log("getAllService",getAllService);
+    
 
     useEffect(() => {
         GetUserAllScripts()
 
     }, [])
+
+   
 
     useEffect(() => {
         if (data == "ChartingPlatform")
@@ -94,8 +98,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
     }
 
     const handleDelete = async (rowData, type) => {
+        console.log("data" , data)
         const index = rowData.rowIndex
-        // console.log
         const req =
             data == 'Scalping' && type == 1 ?
                 {
@@ -280,9 +284,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         if (data == 'Scalping' && type == 1) {
             setEditDataScalping(getAllService.ScalpingData[index])
 
-
-
-            // setEditCharting(getAllService.NewScalping[index])
         }
         else if (data == "Scalping" && type == 2) {
             setEditDataScalping(getAllService.NewScalping[index])
@@ -292,7 +293,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         else if (data == 'Option Strategy') {
             setEditDataOption(getAllService.OptionData[index])
         }
-        else if (data == 'Pattern') {
+        else if (data == 'Pattern' || data == 'Pattern Script') {
             setEditDataPattern(getAllService.PatternData[index])
         }
         else {
@@ -300,6 +301,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         }
     }
     const HandleContinueDiscontinue = async (rowData, type) => {
+        console.log("rowData",rowData.rowIndex);
+        
 
         const index = rowData.rowIndex
         let trading;
@@ -311,7 +314,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         else if (data == 'Scalping' && type == 2) {
             trading = getAllService.NewScalping[index].Trading
         }
-        else if (data == 'Pattern') {
+        else if (data == 'Pattern' ||  data == 'Pattern Script') {
             trading = getAllService.PatternData[index].Trading
         }
         else if (data == 'Option Strategy') {
@@ -325,7 +328,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             return
         }
 
-        // console.log("getCharting[index]?.AccType", getCharting[index]?.AccType)
+        // console.log("getAllService.PatternData[index].Trading", getAllService.PatternData[index].Trading)
         if (trading) {
             Swal.fire({
                 title: "Do you want to Discontinue",
@@ -368,7 +371,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                     TradePattern: "",
                                     PatternName: ""
                                 }
-                                : data == 'Pattern' ?
+                                : data == 'Pattern' || data == 'Pattern Script' ?
                                     {
 
                                         MainStrategy: data,
@@ -494,8 +497,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                     cancelButtonColor: "#d33",
                     confirmButtonText: "Yes"
                 }).then(async (result) => {
-                    if (result.isConfirmed) {
-                        console.log("####", data, type)
+                    if (result.isConfirmed) { 
                         const req =
                             data == 'Scalping' && type == 1 ?
                                 {
@@ -524,7 +526,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                         TradePattern: "",
                                         PatternName: ""
                                     }
-                                    : data == 'Pattern' ?
+                                    : data == 'Pattern' || data == "Pattern Script" ?
                                         {
 
                                             MainStrategy: data,
@@ -620,7 +622,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 else {
                     Swal.fire({
                         title: "Warning",
-                        text: "Don't have any script left Please buy some Scripts",
+                        text: "You don't have any valid plan to use this strategy",
                         icon: "warning",
                         timer: 2000,
                         timerProgressBar: true
@@ -635,7 +637,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 else {
                     Swal.fire({
                         title: "Warning",
-                        text: "Don't have any script left Please buy some Scripts",
+                        text: "You don't have any valid plan to use this strategy",
                         icon: "warning",
                         timer: 2000,
                         timerProgressBar: true
@@ -650,7 +652,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 else {
                     Swal.fire({
                         title: "Warning",
-                        text: "Don't have any script left Please buy some Scripts",
+                        text: "You don't have any valid plan to use this strategy",
                         icon: "warning",
                         timer: 2000,
                         timerProgressBar: true
@@ -669,7 +671,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 else {
                     Swal.fire({
                         title: "Warning",
-                        text: "Don't have any script left Please buy some Scripts",
+                        text: "You don't have any valid plan to use this strategy",
                         icon: "warning",
                         timer: 2000,
                         timerProgressBar: true
@@ -1773,7 +1775,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
     }, [showEditModal, data])
 
 
-    console.log("EditDataScalping?.WorkingDay", formik.values?.WorkingDay)
 
 
     const updatedFields = fields.filter((item) => {

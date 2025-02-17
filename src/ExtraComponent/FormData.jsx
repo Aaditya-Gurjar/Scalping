@@ -100,7 +100,7 @@ const DynamicForm = ({
 
                             >
                               <div className="iq-header-title">
-                                <h4 className="card-title" style={{ color: '#000', fontWeight: '450' }}>Symbol Selection</h4>
+                                <h4 className="card-title" style={{ color: '#000', fontWeight: '450' }}>Symbol Selection </h4>
                               </div>
                             </div>
 
@@ -1787,6 +1787,7 @@ const DynamicForm = ({
                                                 right: "20px",
                                                 padding: "12.4px 6.6px",
                                                 borderRadius: "3px",
+                                                color : "white",
                                               }}
                                               onClick={() =>
                                                 setPasswordVisible((prevState) => ({

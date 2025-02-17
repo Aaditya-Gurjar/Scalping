@@ -660,13 +660,11 @@ import NoDataFound from "../../../ExtraComponent/NoDataFound";
 
 const TradeResponse = () => {
   const location = useLocation();
-  // console.log("location", location);
 
   const Username = localStorage.getItem("name");
 
   const [selectStrategyType, setSelectStrategyType] = useState("Scalping");
   const [strategyType, setStrategyType] = useState([]);
-  // console.log("strategyType1 strategyType1 strategyType15555",strategyType);
 
   const [tradeHistory, setTradeHistory] = useState({
     loading: true,
@@ -685,10 +683,8 @@ const TradeResponse = () => {
   const [getChartingSegments, setChartingSegments] = useState([]);
   const [getCharting, setGetCharting] = useState([]);
   const [tableType, setTableType] = useState("Scalping");
-  // console.log("tableType555555",tableType);
 
   const [preSelectTableType, setPreSelectTableType] = useState("");
-  // console.log("preSelectTableType", preSelectTableType);
 
   const currentDate = new Date();
   currentDate.setDate(currentDate.getDate());

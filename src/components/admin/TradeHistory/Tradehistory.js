@@ -19,25 +19,15 @@ import ProfitAndLossGraph from '../AdvanceChart/ProfitAndLossGraph';
 
 
 const Tradehistory = () => {
-    const adminPermission = localStorage.getItem("adminPermission");
     const [selectGroup, setSelectGroup] = useState('')
     const [selectStrategyType, setStrategyType] = useState('Scalping')
-    const [selectStrategyName, setStrategyName] = useState('')
     const [tableType, setTableType] = useState("Scalping");
-    console.log("tableType", tableType);
-
     const [tradeHistory, setTradeHistory] = useState({ loading: true, data: [], data1: [] })
-    console.log("tradeHistory", tradeHistory);
-
     const [selectedRowData, setSelectedRowData] = useState('');
     const [ToDate, setToDate] = useState('');
     const [FromDate, setFromDate] = useState('');
     const [showTable, setShowTable] = useState(false)
-
     const [strategyNames, setStrategyNames] = useState([]);
-
-
-
     const [getAllTradeData, setAllTradeData] = useState({
         loading: true,
         data: [],
@@ -47,33 +37,12 @@ const Tradehistory = () => {
         data4: "",
         Overall: []
     })
-    const [getPnLData, setPnlData] = useState({
-        loading: true,
-        data: [],
-        data2: []
-    })
-    const [getEquityCurveDetails, setEquityCurveDetails] = useState({
-        loading: true,
-        data: []
-    })
-    const [getDropDownData, setDropDownData] = useState({
-        loading: true,
-        data: []
-    })
-    const [getGroupData, setGroupData] = useState({
-        loading: true,
-        data: []
-    })
-    const [getFiveLossTrade, setFiveLossTrade] = useState({
-        loading: true,
-        data: [],
-        data1: []
-    })
-    const [getFiveProfitTrade, setFiveProfitTrade] = useState({
-        loading: true,
-        data: [],
-        data1: []
-    })
+    const [getPnLData, setPnlData] = useState({ loading: true, data: [], data2: [] })
+    const [getEquityCurveDetails, setEquityCurveDetails] = useState({ loading: true, data: [] })
+    const [getDropDownData, setDropDownData] = useState({ loading: true, data: [] })
+    const [getGroupData, setGroupData] = useState({ loading: true, data: [] })
+    const [getFiveLossTrade, setFiveLossTrade] = useState({ loading: true, data: [], data1: [] })
+    const [getFiveProfitTrade, setFiveProfitTrade] = useState({ loading: true, data: [], data1: [] })
 
 
     // set Defult Date 
@@ -87,7 +56,6 @@ const Tradehistory = () => {
 
     // from date
     const DefultToDate = new Date();
-
     DefultToDate.setDate(DefultToDate.getDate() + 1);
     const year1 = DefultToDate.getFullYear();
     const month1 = String(DefultToDate.getMonth() + 1).padStart(2, '0');
@@ -189,11 +157,6 @@ const Tradehistory = () => {
     useEffect(() => {
         strategyType()
     }, [selectStrategyType])
-
-
-
-
-
 
 
     const handleRowSelect = (rowData) => {
@@ -497,8 +460,6 @@ const Tradehistory = () => {
     );
 
 
-
-
     return (
         <div>
             <div className="container-fluid">
@@ -545,7 +506,6 @@ const Tradehistory = () => {
                                     </div>
                                     {selectStrategyType == "Scalping" && (
                                         <div className={`form-group  ${selectStrategyType == "Scalping" ? "col-lg-2" : "col-lg-3"}`}>
-                                            {/* {console.log("selectStrategyType == Scalping", selectStrategyType == "Scalping")} */}
                                             <label>Table Type</label>
                                             <select
                                                 className="form-select"

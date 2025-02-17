@@ -28,6 +28,8 @@ const Adduser = () => {
 
 
     const [GetAllPlans, setAllPlans] = useState({ LivePlanName: [], DemoPlanName: [], data: [] });
+    console.log("GetAllPlans",GetAllPlans);
+    
 
 
     const Name_regex = (name) => {
@@ -125,11 +127,22 @@ const Adduser = () => {
     const GetAllPlansData = async () => {
         await Get_All_Plans()
             .then((response) => {
+                console.log("GetAllPlansData",response);
+                
                 if (response.Status) {
-                    const LivePlanName = response.Admin.filter((item) => item.PlanName !== 'One Week Demo' && item.PlanName !== 'Two Days Demo');
+                    const LivePlanName = [
+                        ...response.Admin.filter((item) => item.PlanName !== 'One Week Demo' && item.PlanName !== 'Two Days Demo'),
+                        ...response.Charting // Charting array ko add kar diya
+                    ];
+                
                     const DemoPlanName = response.Admin.filter((item) => item.PlanName === 'One Week Demo' || item.PlanName === 'Two Days Demo');
-                    setAllPlans({ DemoPlanName: DemoPlanName, LivePlanName: LivePlanName, data: response.Admin });
-                }
+                
+                    setAllPlans({ 
+                        DemoPlanName: DemoPlanName, 
+                        LivePlanName: LivePlanName, 
+                        data: response.Admin 
+                    });
+                }                
                 else {
                     setAllPlans({ DemoPlanName: [], LivePlanName: [], data: [] });
                 }
@@ -164,19 +177,19 @@ const Adduser = () => {
                 errors.email = "Please Enter Email ID";
             } else {
                 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|co\.in|in|net|org|edu|gov|uk|us|info|biz|io|co)$/i;
-                
+
                 // Trim spaces
                 const trimmedEmail = values.email.trim();
-                
+
                 if (!emailRegex.test(trimmedEmail)) {
                     errors.email = "Please Enter a Valid Email ID";
-                } 
-                
+                }
+
                 // Check for multiple dots in domain like "abc@gmail..com"
                 else if (/\.\./.test(trimmedEmail)) {
                     errors.email = "Invalid Email Format";
                 }
-        
+
                 // Check if email starts or ends with a special character
                 else if (/^[._%+-]|[._%+-]$/.test(trimmedEmail)) {
                     errors.email = "Email cannot start or end with special characters";
@@ -216,15 +229,15 @@ const Adduser = () => {
                 bname: formik.values.Select_License == 1 ? "DEMO" : values.bname,
                 ClientAmmount: formik.values.Select_License == 1 ? 0 : Number(values.ClientAmmount),
                 planname: values.planname,
-                group: selectedOptions && selectedOptions
+                group: selectedOptions && selectedOptions.map((item) => item.value),
             }
 
             const FilterPlanAmount = GetAllPlans.data.filter((item) => item.PlanName === values.planname);
             if (FilterPlanAmount[0].payment > values.ClientAmmount && FilterPlanAmount[0].payment !== '') {
                 Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                    background: "#1a1e23 ",
+                    backdrop: "#121010ba",
+                    confirmButtonColor: "#1ccc8a",
                     title: "Invalid Amount",
                     text: `The plan amount is ${FilterPlanAmount[0].payment}, but you've entered ${values.ClientAmmount}. Please enter an amount greater than the plan amount.`,
                     icon: "error",
@@ -238,9 +251,9 @@ confirmButtonColor: "#1ccc8a",
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "User Created!",
                             text: response.message,
                             icon: "success",
@@ -253,9 +266,9 @@ confirmButtonColor: "#1ccc8a",
                     }
                     else {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Error!",
                             text: response.message,
                             icon: "error",
@@ -456,7 +469,7 @@ confirmButtonColor: "#1ccc8a",
 
                         additional_field={
                             <div className="col-lg-6 mt-2 dropdownuser">
-                                <h6>Select Group</h6>
+                                <h6 style={{color:"white"}}>Select Group</h6>
                                 <Select
                                     defaultValue={selectedIndex?.Planname?.map((item) => ({
                                         value: item,
