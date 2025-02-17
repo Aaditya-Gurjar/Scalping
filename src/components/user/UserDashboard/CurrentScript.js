@@ -892,7 +892,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 RepeatationCount: EditDataScalping.RepeatationCount || 0, // int
                 Profit: EditDataScalping.Profit || 0.0, // float
                 Loss: EditDataScalping.Loss || 0.0, // float
-                WorkingDay: formik.values.WorkingDay?.map(day => day.value) || [] // list (array)
+                WorkingDay: formik?.values?.WorkingDay?.map(day => day?.value || day) || [] // list (array)
 
 
             }
@@ -1732,10 +1732,14 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
     ];
 
 
+
     useEffect(() => {
         if (data == "Scalping") {
 
-            // const workingDay = EditDataScalping?.WorkingDay?.map((item) => ({ label: item, value: item }));
+            const WorkingDay = EditDataScalping?.WorkingDay?.map(day => {
+                return { label: day, value: day }
+            })
+
             formik.setFieldValue('EntryPrice', EditDataScalping.EntryPrice)
             formik.setFieldValue('EntryRange', EditDataScalping.EntryRange)
             formik.setFieldValue('Targetvalue', parseFloat(EditDataScalping['Booking Point']))
@@ -1754,13 +1758,12 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             formik.setFieldValue("EntryRange", parseFloat(EditDataScalping.EntryRange))
             formik.setFieldValue("HoldExit", EditDataScalping.HoldExit)
             formik.setFieldValue("Symbol", EditDataScalping.Symbol)
-            // formik.setFieldValue("Strategy", EditDataScalping.Targetselection)
             formik.setFieldValue("ExitDay", EditDataScalping.ExitDay)
             formik.setFieldValue("RepeatationCount", EditDataScalping.RepeatationCount)
             formik.setFieldValue("RolloverTF", EditDataScalping.RolloverTF)
             formik.setFieldValue("Profit", EditDataScalping.Profit)
             formik.setFieldValue("Loss", EditDataScalping.Loss)
-            formik.setFieldValue('WorkingDay', EditDataScalping?.WorkingDay || []);
+            formik.setFieldValue('WorkingDay', WorkingDay);
 
 
         }

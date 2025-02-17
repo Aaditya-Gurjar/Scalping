@@ -591,7 +591,7 @@ const AddClient = () => {
             ? values.RollOverExitTime
             : "00:00:00",
         WorkingDay: values.WorkingDay
-          ? values.WorkingDay.map((item) => item.value || item)
+          ? values?.WorkingDay?.map((item) => item?.value || item)
           : [],
       };
 

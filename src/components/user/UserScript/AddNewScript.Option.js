@@ -408,7 +408,7 @@ const AddClient = () => {
                         : "00:00:00",
 
                 ExitType: values.Measurment_Type != "Shifting_FourLeg" && values.ETPattern == "Leg vice" ? values.ExitType : "",
-                WorkingDay: values.WorkingDay ? values.WorkingDay.map((item) => item.value || item) : [],
+                WorkingDay: values?.WorkingDay ? values?.WorkingDay?.map((item) => item?.value || item) : [],
             }
         
             

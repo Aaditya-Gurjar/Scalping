@@ -446,7 +446,7 @@ const AddClient = () => {
             values.Strategy == "One Directional" ||
             (values.Strategy == "Multi_Conditional" &&
               values.FixedSM == "Multiple") ? values.TargetExit : false,
-          WorkingDay: values.WorkingDay,
+          WorkingDay: values?.WorkingDay?.map((item) => item?.value || item),
           OrderType: values.OrderType,
           FinalTarget: (formik.values.FixedSM == "Multiple" && formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise SL") ? parseFloat(values.FinalTarget) : 0.0,
 

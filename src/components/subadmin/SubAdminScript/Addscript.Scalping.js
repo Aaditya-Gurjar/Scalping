@@ -420,7 +420,7 @@ const AddClient = () => {
         WorkingDay:
           values.position_type == "Multiple" &&
             values.Strategy == "Multi_Conditional"
-            ? values.WorkingDay
+            ? values?.WorkingDay?.map((item) => item?.value || item)
             : [],
       };
 
