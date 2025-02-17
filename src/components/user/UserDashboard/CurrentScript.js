@@ -769,7 +769,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             RepeatationCount: 0, // int
             Profit: 0.0, // float
             Loss: 0.0, // float
-            WorkingDay: EditDataScalping?.WorkingDay?.map((item) => { return { label: item, value: item } }), // list (array)
+            WorkingDay: [], // list (array)
 
         },
         validate: (values) => {
@@ -877,7 +877,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 RepeatationCount: EditDataScalping.RepeatationCount || 0, // int
                 Profit: EditDataScalping.Profit || 0.0, // float
                 Loss: EditDataScalping.Loss || 0.0, // float
-                WorkingDay: EditDataScalping?.WorkingDay || [], // list (array)
+                WorkingDay: formik.values.WorkingDay?.map(day => day.value) || [] // list (array)
 
 
             }
@@ -1408,7 +1408,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             type: "text3",
             label_size: 12,
             col_size: 4,
-            showWhen: () => showEditModal && EditDataScalping.PositionType !== "Multiple",
+            showWhen: () => showEditModal && EditDataScalping.PositionType === "Multiple",
             // showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
             headingtype: 4,
             disable: false,
@@ -1423,7 +1423,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             col_size: 4,
             headingtype: 4,
             // showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
-            showWhen: () => showEditModal && EditDataScalping.PositionType !== "Multiple",
+            showWhen: () => showEditModal && EditDataScalping.PositionType === "Multiple",
             disable: false,
             hiding: false,
         },
@@ -1437,7 +1437,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 { label: "Exit", value: "Exit" },
             ],
             // showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
-            showWhen: () => showEditModal && EditDataScalping.PositionType !== "Multiple",
+            showWhen: () => showEditModal && EditDataScalping.PositionType === "Multiple",
             label_size: 12,
             col_size: 4,
             headingtype: 4,
@@ -1522,9 +1522,11 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             label_size: 12,
             col_size: 4,
             headingtype: 4,
+            showWhen: () => showEditModal,
+
             disable: false,
             iconText: text.Increment_Type,
-            hiding: false,
+            hiding: false
         },
 
         {
@@ -1664,7 +1666,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             name: "Heading",
             label: "Risk_Management",
             type: "heading",
-            hiding: EditDataScalping.PositionType !== "Multiple" ? true : false,
+            hiding: false,
             label_size: 12,
             headingtype: 4,
             col_size: 12,
@@ -1718,9 +1720,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
     useEffect(() => {
         if (data == "Scalping") {
 
-            const workingDay = EditDataScalping?.WorkingDay?.map((item) => { return { label: item, value: item } })
-
-
+            const workingDay = EditDataScalping?.WorkingDay?.map((item) => ({ label: item, value: item }));
             console.log("workingDay", workingDay)
             formik.setFieldValue('EntryPrice', EditDataScalping.EntryPrice)
             formik.setFieldValue('EntryRange', EditDataScalping.EntryRange)
@@ -1746,7 +1746,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             formik.setFieldValue("RolloverTF", EditDataScalping.RolloverTF)
             formik.setFieldValue("Profit", EditDataScalping.Profit)
             formik.setFieldValue("Loss", EditDataScalping.Loss)
-            formik.setFieldValue("WorkingDay", workingDay || [])
+            formik.setFieldValue('WorkingDay', workingDay || []);
 
 
         }
