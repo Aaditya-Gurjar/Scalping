@@ -33,15 +33,15 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         Marketwise: [],
         PremiumRotation: []
     });
-    console.log("getAllService",getAllService);
-    
+    console.log("getAllService", getAllService);
+
 
     useEffect(() => {
         GetUserAllScripts()
 
     }, [])
 
-   
+
 
     useEffect(() => {
         if (data == "ChartingPlatform")
@@ -98,7 +98,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
     }
 
     const handleDelete = async (rowData, type) => {
-        console.log("data" , data)
+        console.log("data", data)
         const index = rowData.rowIndex
         const req =
             data == 'Scalping' && type == 1 ?
@@ -173,7 +173,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                     .then((response) => {
                         if (response.Status) {
                             Swal.fire({
-                                title: "Square off Successfully!",
+                                title: "Deleted Successfully!",
                                 text: response.message,
                                 icon: "success",
                                 timer: 1500,
@@ -301,8 +301,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         }
     }
     const HandleContinueDiscontinue = async (rowData, type) => {
-        console.log("rowData",rowData.rowIndex);
-        
+        console.log("rowData", rowData.rowIndex);
+
 
         const index = rowData.rowIndex
         let trading;
@@ -314,7 +314,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         else if (data == 'Scalping' && type == 2) {
             trading = getAllService.NewScalping[index].Trading
         }
-        else if (data == 'Pattern' ||  data == 'Pattern Script') {
+        else if (data == 'Pattern' || data == 'Pattern Script') {
             trading = getAllService.PatternData[index].Trading
         }
         else if (data == 'Option Strategy') {
@@ -497,7 +497,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                     cancelButtonColor: "#d33",
                     confirmButtonText: "Yes"
                 }).then(async (result) => {
-                    if (result.isConfirmed) { 
+                    if (result.isConfirmed) {
                         const req =
                             data == 'Scalping' && type == 1 ?
                                 {
@@ -721,11 +721,10 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         GetAllUserScriptDetails();
     }, [selectedType, refresh, showEditModal]);
 
-    console.log("EditDataScalping", EditDataScalping)
 
 
     const formik = useFormik({
-        // enableReinitialize: true,
+        enableReinitialize: true,
         initialValues: {
 
 
@@ -743,8 +742,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             HoldExit: "", // str
             EntryPrice: 0.0, // float
             EntryRange: 0.0, // float
-            EntryTime: "", // str
-            ExitTime: "", // str
+            EntryTime: "",
+            ExitTime: "",
+
             ExitDay: "", // str
             TradeExecution: "", // str
             Group: "", // str
@@ -775,9 +775,15 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
         },
         validate: (values) => {
+
+
+
             let errors = {};
+            const mcxMaxTime = "23:29:59";
+            const mcxMinTime = "08:59:59"
             const maxTime = "15:29:59";
             const minTime = "09:15:00";
+
             if (values.TStype == "" && showEditModal && EditDataScalping.ScalpType != "Fixed Price") {
                 errors.TStype = "Please select Measurement Type";
             }
@@ -806,21 +812,28 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 errors.HoldExit = "Please select Hold/Exit";
             }
 
-            if (values.ExitTime == '') {
-                errors.ExitTime = "Please Select Exit Time.";
-            } else if (values.ExitTime > maxTime) {
-                errors.ExitTime = "Exit Time Must be Before 15:29:59.";
-            }
-            else if (values.ExitTime < minTime) {
-                errors.ExitTime = "Exit Time Must be After 09:15:00.";
-            }
-            if (values.EntryTime == '') {
+
+
+
+
+            if (values.EntryTime == "") {
                 errors.EntryTime = "Please Select Entry Time.";
-            } else if (values.EntryTime < minTime) {
-                errors.EntryTime = "Entry Time Must be After 09:15:00.";
+            } else if (values.EntryTime < (EditDataScalping.Exchange === "MCX" ? mcxMinTime : minTime)) {
+                errors.EntryTime = `Entry Time Must be After ${EditDataScalping.Exchange === "MCX" ? mcxMinTime : minTime}.`;
+            } else if (values.EntryTime > (EditDataScalping.Exchange === "MCX" ? mcxMaxTime : maxTime)) {
+                errors.EntryTime = `Entry Time Must be Before ${EditDataScalping.Exchange === "MCX" ? mcxMaxTime : maxTime}.`;
             }
-            else if (values.EntryTime > maxTime) {
-                errors.EntryTime = "Entry Time Must be Before 15:29:59.";
+
+            if (values.ExitTime == "") {
+                errors.ExitTime = "Please Select Exit Time.";
+            } else if (values.ExitTime < (EditDataScalping.Exchange === "MCX" ? mcxMinTime : minTime)) {
+                errors.ExitTime = `Exit Time Must be After ${EditDataScalping.Exchange === "MCX" ? mcxMinTime : minTime}.`;
+            } else if (values.ExitTime > (EditDataScalping.Exchange === "MCX" ? mcxMaxTime : maxTime)) {
+                errors.ExitTime = `Exit Time Must be Before ${EditDataScalping.Exchange === "MCX" ? mcxMaxTime : maxTime}.`;
+            }
+
+            if (values.EntryTime && values.ExitTime && values.EntryTime >= values.ExitTime) {
+                errors.ExitTime = "Exit Time should be greater than Entry Time.";
             }
 
             if (!values.TradeCount) {
@@ -850,8 +863,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 HoldExit: EditDataScalping.HoldExit || "HoldExit", // str
                 EntryPrice: parseFloat(EditDataScalping.EntryPrice) || 0.0, // float
                 EntryRange: parseFloat(EditDataScalping.EntryRange) || 0.0, // float
-                EntryTime: EditDataScalping.EntryTime || "", // str
-                ExitTime: EditDataScalping.ExitTime || "" || "", // str
+                EntryTime: EditDataScalping.EntryTime, // str
+                ExitTime: EditDataScalping?.ExitTime, // str
                 ExitDay: EditDataScalping.ExitDay || "", // str
                 TradeExecution: EditDataScalping.TradeExecution || "", // str
                 Group: EditDataScalping.GroupN || "", // str
@@ -1722,8 +1735,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
     useEffect(() => {
         if (data == "Scalping") {
 
-            const workingDay = EditDataScalping?.WorkingDay?.map((item) => ({ label: item, value: item }));
-            console.log("workingDay", workingDay)
+            // const workingDay = EditDataScalping?.WorkingDay?.map((item) => ({ label: item, value: item }));
             formik.setFieldValue('EntryPrice', EditDataScalping.EntryPrice)
             formik.setFieldValue('EntryRange', EditDataScalping.EntryRange)
             formik.setFieldValue('Targetvalue', parseFloat(EditDataScalping['Booking Point']))
@@ -1748,7 +1760,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             formik.setFieldValue("RolloverTF", EditDataScalping.RolloverTF)
             formik.setFieldValue("Profit", EditDataScalping.Profit)
             formik.setFieldValue("Loss", EditDataScalping.Loss)
-            formik.setFieldValue('WorkingDay', workingDay || []);
+            formik.setFieldValue('WorkingDay', EditDataScalping?.WorkingDay || []);
 
 
         }
@@ -1772,8 +1784,12 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             formik2.setFieldValue('TradeCount', EditDataPattern.TradeCount)
 
         }
-    }, [showEditModal, data])
+    }, [showEditModal, data, EditDataScalping])
 
+
+    useEffect(() => {
+        console.log("Formik values:", formik.values);
+    }, [formik.values]);
 
 
 
