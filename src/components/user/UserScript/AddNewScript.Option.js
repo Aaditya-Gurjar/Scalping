@@ -408,8 +408,10 @@ const AddClient = () => {
                         : "00:00:00",
 
                 ExitType: values.Measurment_Type != "Shifting_FourLeg" && values.ETPattern == "Leg vice" ? values.ExitType : "",
-                WorkingDay: values.WorkingDay ? values.WorkingDay : [],
+                WorkingDay: values.WorkingDay ? values.WorkingDay.map((item) => item.value || item) : [],
             }
+        
+            
 
             if (values.Striketype == "Depth_of_Strike" && (Number(values.DepthofStrike) < 0 || Number(values.DepthofStrike) > 10)) {
 

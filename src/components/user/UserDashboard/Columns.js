@@ -109,7 +109,7 @@ const DropdownComponent = ({ tableMeta, handleDelete, type, handleMatchPosition 
                                 onMouseEnter={(e) => (e.target.style.backgroundColor = "#444")}
                                 onMouseLeave={(e) => (e.target.style.backgroundColor = "#333")}
                             >
-                                Square Off
+                                Delete
                             </li>
                             {type == "MultiCondition" &&
                                 <li
