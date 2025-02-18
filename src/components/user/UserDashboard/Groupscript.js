@@ -11,6 +11,7 @@ import NoDataFound from '../../../ExtraComponent/NoDataFound';
 const GroupScript = ({ data, selectedType, GroupName, data2 }) => {
     const stgType = data
     const userName = localStorage.getItem('name')
+  
 
 
     const navigate = useNavigate();
@@ -29,8 +30,8 @@ const GroupScript = ({ data, selectedType, GroupName, data2 }) => {
             .then((response) => {
                 if (response.Status) {
                     setAllScripts({
-                        data: response.data,
-                        len: response.data.length - 1
+                        data: response?.data,
+                        len: response?.data?.length - 1
                     })
                 }
                 else {
@@ -45,10 +46,11 @@ const GroupScript = ({ data, selectedType, GroupName, data2 }) => {
             })
     }
 
+
     const handleAddScript1 = (data1, type) => {
 
-        const selectedRowIndex = data1.rowIndex;
-        const selectedRow = type == 1 ? getAllService.data?.[selectedRowIndex] : getAllService?.data1?.[selectedRowIndex];
+        const selectedRowIndex = data1?.rowIndex;
+        const selectedRow = type == 1 ? getAllService?.data?.[selectedRowIndex] : getAllService?.data1?.[selectedRowIndex];
 
         if (data2?.status == false) {
             Swal.fire({
@@ -84,6 +86,7 @@ const GroupScript = ({ data, selectedType, GroupName, data2 }) => {
             navigate('/user/addscript/scalping', { state: { data: data, scriptType: allScripts } });
         }
     }
+    
 
     const handleAddScript2 = (data1) => {
         if (data2.status == false) {
@@ -106,28 +109,28 @@ const GroupScript = ({ data, selectedType, GroupName, data2 }) => {
         }
         else {
 
-            const selectedRowIndex = data1.rowIndex;
-            const selectedRow = getAllService.data[selectedRowIndex];
-            let OptionStgArr = allScripts?.data[allScripts?.len].CombineOption
+            const selectedRowIndex = data1?.rowIndex;
+            const selectedRow = getAllService?.data?.[selectedRowIndex];
+            let OptionStgArr = allScripts?.data[allScripts?.len]?.CombineOption
 
             if (
                 OptionStgArr?.includes('Straddle_Strangle') &&
-                ['ShortStrangle', 'LongStrangle', 'LongStraddle', 'ShortStraddle'].includes(selectedRow.STG) ||
+                ['ShortStrangle', 'LongStrangle', 'LongStraddle', 'ShortStraddle']?.includes(selectedRow.STG) ||
 
                 OptionStgArr?.includes('Butterfly_Condor') &&
-                ['LongIronButterfly', 'ShortIronButterfly', 'LongIronCondor', 'ShortIronCondor'].includes(selectedRow.STG) ||
+                ['LongIronButterfly', 'ShortIronButterfly', 'LongIronCondor', 'ShortIronCondor']?.includes(selectedRow.STG) ||
 
                 OptionStgArr?.includes('Spread') &&
-                ['BearCallSpread', 'BearPutSpread', 'BullCallSpread', 'BullPutSpread'].includes(selectedRow.STG) ||
+                ['BearCallSpread', 'BearPutSpread', 'BullCallSpread', 'BullPutSpread']?.includes(selectedRow.STG) ||
 
                 OptionStgArr?.includes('Ladder_Coverd') &&
-                ['BullCallLadder', 'BullPutLadder', 'CoveredCall', 'CoveredPut'].includes(selectedRow.STG) ||
+                ['BullCallLadder', 'BullPutLadder', 'CoveredCall', 'CoveredPut']?.includes(selectedRow.STG) ||
 
                 OptionStgArr?.includes('Collar_Ratio') &&
-                ['LongCollar', 'ShortCollar', 'RatioCallSpread', 'RatioPutSpread'].includes(selectedRow.STG) ||
+                ['LongCollar', 'ShortCollar', 'RatioCallSpread', 'RatioPutSpread']?.includes(selectedRow.STG) ||
 
                 OptionStgArr?.includes('Shifting_FourLeg') &&
-                ['LongFourLegStretegy', 'ShortShifting', 'LongShifting', 'ShortFourLegStretegy'].includes(selectedRow.STG)
+                ['LongFourLegStretegy', 'ShortShifting', 'LongShifting', 'ShortFourLegStretegy']?.includes(selectedRow.STG)
             ) {
                 const data = { selectGroup: selectGroup, selectStrategyType: 'Option Strategy', type: "copy", ...selectedRow };
                 navigate('/user/addscript/option', { state: { data: data, scriptType: allScripts } });
@@ -145,6 +148,7 @@ const GroupScript = ({ data, selectedType, GroupName, data2 }) => {
 
         }
     }
+   
 
     const handleAddScript3 = (data1) => {
         if (data2.status == false) {
@@ -166,9 +170,9 @@ const GroupScript = ({ data, selectedType, GroupName, data2 }) => {
             });
         }
         else {
-            const selectedRowIndex = data1.rowIndex;
-            const selectedRow = getAllService.data[selectedRowIndex];
-            const isExist = allScripts?.data[allScripts?.len].CombinePattern?.find((item) => item === selectedRow.TradePattern) ?? ""
+            const selectedRowIndex = data1?.rowIndex;
+            const selectedRow = getAllService?.data[selectedRowIndex];
+            const isExist = allScripts?.data[allScripts?.len]?.CombinePattern?.find((item) => item === selectedRow.TradePattern) ?? ""
             if (!isExist) {
                 Swal.fire({
                     title: "Warning",
@@ -183,6 +187,7 @@ const GroupScript = ({ data, selectedType, GroupName, data2 }) => {
             navigate('/user/addscript/pattern', { state: { data: data, scriptType: allScripts } });
         }
     }
+   
 
     const GetAllUserScriptDetails = async () => {
         const data = { Strategy: stgType, Group: GroupName }
@@ -190,8 +195,8 @@ const GroupScript = ({ data, selectedType, GroupName, data2 }) => {
             .then((response) => {
                 if (response.Status) {
                     if (stgType == 'Scalping') {
-                        const filterMulticondtion = response?.Data.filter((item) => item?.ScalpType == 'Multi_Conditional')
-                        const filterOthers = response?.Data.filter((item) => item?.ScalpType != 'Multi_Conditional')
+                        const filterMulticondtion = response?.Data?.filter((item) => item?.ScalpType == 'Multi_Conditional')
+                        const filterOthers = response?.Data?.filter((item) => item?.ScalpType != 'Multi_Conditional')
 
                         setAllservice({
                             loading: false,
@@ -222,6 +227,8 @@ const GroupScript = ({ data, selectedType, GroupName, data2 }) => {
             });
     }
 
+    
+   
     useEffect(() => {
         GetAllUserScriptDetails();
     }, [selectedType, stgType, GroupName]);
@@ -234,10 +241,10 @@ const GroupScript = ({ data, selectedType, GroupName, data2 }) => {
                         <div className="iq-card-body " style={{ padding: '3px' }}>
                             <div className="tab-content" id="myTabContent-3">
                                 <div className="tab-pane fade show active" id="home-justify" role="tabpanel" aria-labelledby="home-tab-justify">
-                                    {data && getAllService.data?.length > 0 ? (
+                                    {data && getAllService?.data?.length > 0 ? (
                                         <div className="iq-card-body" style={{ padding: '3px' }}>
                                             <div className="table-responsive">
-                                                {getAllService.loading ? (
+                                                {getAllService?.loading ? (
                                                     <Loader />
                                                 ) : (
                                                     <FullDataTable
@@ -247,7 +254,7 @@ const GroupScript = ({ data, selectedType, GroupName, data2 }) => {
                                                                     data === "Pattern" ? getColumns2(handleAddScript3) :
                                                                         getColumns(handleAddScript1)
                                                         }
-                                                        data={getAllService.data}
+                                                        data={getAllService?.data}
                                                         checkBox={false}
                                                     />
                                                 )}
@@ -259,13 +266,13 @@ const GroupScript = ({ data, selectedType, GroupName, data2 }) => {
                                                     <div className="iq-header-title">
                                                         <h4 className="card-title">Multi Conditional</h4>
                                                     </div>
-                                                    {getAllService.loading ? (
+                                                    {getAllService?.loading ? (
                                                         <Loader />
                                                     ) : (
-                                                        getAllService.data1?.length > 0 && (
+                                                        getAllService?.data1?.length > 0 && (
                                                             <FullDataTable
                                                                 columns={getColumns7(handleAddScript1)}
-                                                                data={getAllService.data1}
+                                                                data={getAllService?.data1}
                                                                 checkBox={false}
                                                             />
                                                         )
@@ -274,9 +281,11 @@ const GroupScript = ({ data, selectedType, GroupName, data2 }) => {
                                             )}
                                         </div>
                                     ) : (
+                                        
                                         <NoDataFound />
                                     )}
                                 </div>
+                               
                             </div>
                         </div>
                     </div>

@@ -58,9 +58,12 @@ const AddClient = () => {
 
     const getEndData = (stg) => {
         const dataWithoutLastItem = location?.state?.data?.scriptType?.data.slice(0, -1);
+
+        console.log("dataWithoutLastItem" , dataWithoutLastItem)
         const foundItem = dataWithoutLastItem.find((item) => {
             return item['Option Strategy'].includes(stg);
         });
+
         return foundItem.EndDate;
     };
 

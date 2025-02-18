@@ -33,7 +33,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         Marketwise: [],
         PremiumRotation: []
     });
-    console.log("getAllService", getAllService);
 
 
     useEffect(() => {
@@ -204,6 +203,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
     }
 
+    console.log("allScripts", allScripts)
 
     const handleMatchPosition = async (rowData, type) => {
         console.log("matchPosition", rowData.rowIndex)
@@ -1743,7 +1743,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
 
 
-    console.log("EditDataScalping?.WorkingDay", EditDataScalping?.WorkingDay)
     useEffect(() => {
         if (data == "Scalping") {
 

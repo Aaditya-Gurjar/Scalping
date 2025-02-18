@@ -47,9 +47,10 @@ const AddClient = () => {
       timerProgressBar: true
     });
   }
-
+  const dataWithoutLastItem = location?.state.data.scriptType.data.slice(0, -1);
+  
   const getEndData = (stg) => {
-    const dataWithoutLastItem = location?.state.data.scriptType.data.slice(0, -1);
+    console.log("stg" , stg)
     const foundItem = dataWithoutLastItem.find((item) => {
       return item.Scalping.includes(stg);
     });
@@ -363,7 +364,7 @@ const AddClient = () => {
       }
 
 
-      console.log("errors", errors)
+      // console.log("errors", errors)
       // ScrollToViewFirstError(errors);
       return errors;
     },
@@ -452,6 +453,8 @@ const AddClient = () => {
 
         }
 
+
+        
 
         if ((Number(values.EntryPrice) > 0 || Number(values.EntryRange) > 0) &&
           (Number(values.EntryPrice) >= Number(values.EntryRange))) {
