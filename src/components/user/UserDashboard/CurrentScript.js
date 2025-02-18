@@ -34,6 +34,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         PremiumRotation: []
     });
 
+    console.log("getAllService", getAllService)
 
     useEffect(() => {
         GetUserAllScripts()
@@ -1776,8 +1777,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
     useEffect(() => {
         if (data == "Scalping") {
-
-
             const WorkingDay = EditDataScalping?.WorkingDay?.map(day => {
                 return { label: day, value: day }
             })
@@ -1874,7 +1873,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                             <div className="iq-card-body " style={{ padding: '3px' }}>
                                                 <div className="table-responsive">
 
-                                                    {
+                                                    {/* {
                                                         getAllService.loading ? (
                                                             <Loader />
                                                         ) : (
@@ -1895,17 +1894,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
                                                                 if (!hasPrimaryTableData && !hasSecondaryTableData) {
                                                                     return (
-                                                                        // <div
-                                                                        //     style={{
-                                                                        //         display: "flex",
-                                                                        //         justifyContent: "center",
-                                                                        //         alignItems: "center",
-                                                                        //         textAlign: "center",
-                                                                        //         height: "200px",
-                                                                        //     }}
-                                                                        // >
-                                                                        //     <img src="/assets/images/no-record-found.png" width="30%" alt="No Record Found" />
-                                                                        // </div>
+                                                                       
                                                                         <NoDataFound />
                                                                     );
                                                                 }
@@ -1945,9 +1934,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
                                                                         {hasSecondaryTableData && (
                                                                             <div>
-                                                                                {/* <div className="iq-header-title mt-4">
-                                                                                    <h4 className="card-title">Multi Conditional</h4>
-                                                                                </div> */}
+                                                                                
                                                                                 <FullDataTable
                                                                                     columns={getColumns6(handleDelete, handleEdit, HandleContinueDiscontinue, handleMatchPosition,)}
                                                                                     data={getAllService.NewScalping}
@@ -1959,9 +1946,44 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                                                 );
                                                             })()
                                                         )
+                                                    } */}
+
+
+                                                    {getAllService.loading ? (
+                                                        <Loader />
+                                                    ) : (
+                                                        
+                                                        <FullDataTable
+                                                            columns={
+                                                                data === "Scalping"
+                                                                    ? getColumns6(handleDelete, handleEdit, HandleContinueDiscontinue, handleMatchPosition)
+                                                                    : data === "Option Strategy"
+                                                                        ? getColumns4(handleDelete, handleEdit, HandleContinueDiscontinue)
+                                                                        : (data === "Pattern" || data === "Pattern Script")
+                                                                            ? getColumns5(handleDelete, handleEdit, HandleContinueDiscontinue,)
+                                                                            : data === "ChartingPlatform"
+                                                                                ? getColumns8(HandleContinueDiscontinue)
+                                                                                : getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue)
+                                                            }
+                                                            data={
+                                                                data === "Scalping"
+                                                                    ? getAllService.NewScalping
+                                                                    : data === "Option Strategy"
+                                                                        ? getAllService.OptionData
+                                                                        : (data === "Pattern" || data === "Pattern Script")
+                                                                            ? getAllService.PatternData
+                                                                            : data === "ChartingPlatform"
+                                                                                ? getCharting
+                                                                                : []
+                                                            }
+                                                            checkBox={false}
+                                                        />
+
+                                                    )
+
+
+
                                                     }
-
-
                                                 </div>
                                             </div>
                                         </>
