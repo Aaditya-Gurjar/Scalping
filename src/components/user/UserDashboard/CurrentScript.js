@@ -1912,7 +1912,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                                     {getAllService.loading ? (
                                                         <Loader />
                                                     ) : (
-                                                        
+
                                                         <FullDataTable
                                                             columns={
                                                                 data === "Scalping"
