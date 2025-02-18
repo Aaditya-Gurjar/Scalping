@@ -11,22 +11,14 @@ const Userdashboard = () => {
   const dashboardStrategyType = sessionStorage.getItem("dashboardStrategyType");
   const addVia = sessionStorage.getItem("addVia")
   const groupName = sessionStorage.getItem("groupName")
-
-
   const [activeTab1, setActiveTab1] = useState("CurrentPosition");
   const [activeTab, setActiveTab] = useState(addVia || "currentScript");
-
   const [subTab, setSubTab] = useState(dashboardStrategyType || "Scalping");
   const [refresh, setRefresh] = useState(false);
   const [getGroup, setGroup] = useState( groupName || "");
   const [strategyType, setStrategyType] = useState([]);
-
   const [tableType, setTableType] = useState(dashboardStrategyType || "MultiCondition");
-
-  const [serviceStatus, setServiceStatus] = useState({
-    status: false,
-    msg: "",
-  });
+  const [serviceStatus, setServiceStatus] = useState({ status: false, msg: "",});
   const [getGroupName, setGroupName] = useState({ loading: true, data: [] });
   const [getPositionData, setPositionData] = useState({
     loading: true,
