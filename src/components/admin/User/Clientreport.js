@@ -8,7 +8,8 @@ import NoDataFound from '../../../ExtraComponent/NoDataFound';
 
 
 const Clientreport = () => {
-    const [selectUserName, setSelectUserName] = useState('AllUser')
+    const Username = sessionStorage.getItem("Username")
+    const [selectUserName, setSelectUserName] = useState(Username || 'AllUser')
     const [getTableData, setTableData] = useState({
         loading: true,
         data: []
@@ -44,7 +45,7 @@ const Clientreport = () => {
  
 
     useEffect(() => {
-        setSelectUserName('AllUser')
+        setSelectUserName(Username || 'AllUser')
     }, [])
 
 
@@ -67,7 +68,10 @@ const Clientreport = () => {
                                             <div className="form-group col-md-6">
                                                 <label htmlFor="validationDefault01" className='mb-1'>Select Username</label>
                                                 <select className="form-select" required=""
-                                                    onChange={(e) => setSelectUserName(e.target.value)}
+                                                    onChange={(e) => {
+                                                        setSelectUserName(e.target.value)
+                                                        sessionStorage.setItem("Username",e.target.value)
+                                                    }}
                                                     value={selectUserName}>
                                                     <option value={"AllUser"}>AllUser</option>
                                                     <option value={"ReadData"}>ReadData</option>

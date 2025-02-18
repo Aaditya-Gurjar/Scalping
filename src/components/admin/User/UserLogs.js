@@ -6,26 +6,27 @@ import NoDataFound from '../../../ExtraComponent/NoDataFound'
 
 const Pannel = () => {
 
+    const Username = sessionStorage.getItem('Username')
+    const Strategy = sessionStorage.getItem('Strategy')
+    const TaskStatus = sessionStorage.getItem('TaskStatus')
+
+
     const [getPanleData, setPanleData] = useState({
         loading: true,
         data: [],
         data1: []
     })
-    const [userName, setUserName] = useState('')
-    const [getScript, setScript] = useState('')
-    console.log("getScript", getScript);
+    const [userName, setUserName] = useState(Username || '')
+    const [getScript, setScript] = useState(Strategy || '')
 
-    const [getActivity, setActivity] = useState('')
+    const [getActivity, setActivity] = useState(TaskStatus || '')
     const [gettaskStatus, setAllTaskStatus] = useState([])
     const [clientService, setClientService] = useState({ loading: true, data: [] });
 
 
     const [tableType, setTableType] = useState("MultiCondition");
-    console.log("table type ka data", tableType);
-
 
     const [strategyType, setStrategyType] = useState([]);
-    console.log("strategyType", strategyType);
 
 
 
@@ -87,14 +88,14 @@ const Pannel = () => {
     useEffect(() => {
 
         if (!clientService.loading && clientService.data.length > 0) {
-            setUserName(clientService.data[0].Username)
+            setUserName(Username ||(clientService.data[0].Username))
         }
 
 
-        setScript('Scalping')
+        setScript(Strategy || 'Scalping')
 
         if (gettaskStatus && gettaskStatus.length > 0) {
-            setActivity(gettaskStatus[0])
+            setActivity(TaskStatus || gettaskStatus[0])
         }
 
     }, [clientService, gettaskStatus])
@@ -102,7 +103,7 @@ const Pannel = () => {
 
     const getAllUserLogs = async () => {
         const data = { User: userName, Strategy: getScript, TaskStatus: getActivity }
-        console.log("getScript, ", getScript)
+
         await Get_All_Client_Logs(data)
 
             .then((response) => {
@@ -160,7 +161,10 @@ const Pannel = () => {
                                                 <select
                                                     className="form-select my-2"
                                                     required
-                                                    onChange={(e) => setUserName(e.target.value)}
+                                                    onChange={(e) => {
+                                                        setUserName(e.target.value)
+                                                        sessionStorage.setItem('Username',e.target.value)                                                    
+                                                    }}
                                                     value={userName}
                                                 >
                                                     <option value="">Select Username</option>
@@ -178,7 +182,10 @@ const Pannel = () => {
                                                 <select
                                                     className="form-select my-2"
                                                     required
-                                                    onChange={(e) => setScript(e.target.value)}
+                                                    onChange={(e) => {
+                                                        setScript(e.target.value)
+                                                        sessionStorage.setItem('Strategy',e.target.value)
+                                                    }}
                                                     value={getScript}
                                                 >
                                                     {strategyType.map((type, index) => (
@@ -213,7 +220,10 @@ const Pannel = () => {
                                                 <select
                                                     className="form-select my-2"
                                                     required
-                                                    onChange={(e) => setActivity(e.target.value)}
+                                                    onChange={(e) => {
+                                                        setActivity(e.target.value)
+                                                        sessionStorage.setItem('TaskStatus',e.target.value)
+                                                    }}
                                                     value={getActivity}
                                                 >
                                                     {gettaskStatus?.map((item, index) => (

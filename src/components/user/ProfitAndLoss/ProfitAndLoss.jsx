@@ -18,9 +18,9 @@ import { useLocation } from "react-router-dom";
 
 const Tradehistory = () => {
   const location = useLocation();
-  console.log("location", location.state);
+  const StrategyType = sessionStorage.getItem("StrategyType")
 
-  const [selectStrategyType, setStrategyType] = useState("Scalping");
+  const [selectStrategyType, setStrategyType] = useState(StrategyType || "Scalping");
   console.log("selectStrategyType", selectStrategyType);
 
   const [tableType, setTableType] = useState("MultiCondition");
@@ -121,10 +121,10 @@ const Tradehistory = () => {
   useEffect(() => {
     if (location?.state?.type && location?.state?.type != "MultiCondition") {
       console.log("sss");
-      setStrategyType(location?.state?.type);
+      setStrategyType(StrategyType || (location?.state?.type));
     } else if (location?.state?.type == "MultiCondition") {
       // setTableType("MultiCondition")
-      setStrategyType("Scalping");
+      setStrategyType(StrategyType || "Scalping");
     } else {
       // setTableType("Scalping");
     }
@@ -151,12 +151,15 @@ const Tradehistory = () => {
             <div className="iq-card-body">
               <div className="was-validated ">
                 <div className="row">
-                  <div className={`form-group ${selectStrategyType === "Scalping" ? "col-lg-3" : "col-lg-4"}`}>
+                  <div className={`form-group ${selectStrategyType === "Scalping" ? "col-lg-4" : "col-lg-4"}`}>
                     <label>Select Strategy Type</label>
                     <select
                       className="form-select"
                       required=""
-                      onChange={(e) => setStrategyType(e.target.value)}
+                      onChange={(e) => {
+                        setStrategyType(e.target.value)
+                        sessionStorage.setItem('StrategyType',e.target.value)
+                      }}
                       value={selectStrategyType}>
                       {strategyNames.map((item, index) => (
                         <option key={index} value={item}>
@@ -170,7 +173,7 @@ const Tradehistory = () => {
                     </select>
                   </div>
                   {/* {selectStrategyType === "Scalping" && (
-                    <div className="col-lg-3">
+                    <div className="col-lg-4">
                       <label>Table Type</label>
                       <select
                         className="form-select"
@@ -183,7 +186,7 @@ const Tradehistory = () => {
                       </select>
                     </div>
                   )} */}
-                  <div className={`form-group ${selectStrategyType === "Scalping" ? "col-lg-3" : "col-lg-4"}`}>
+                  <div className={`form-group ${selectStrategyType === "Scalping" ? "col-lg-4" : "col-lg-4"}`}>
                     <label>Select form Date</label>
                     <DatePicker
                       className="form-select"
@@ -191,7 +194,7 @@ const Tradehistory = () => {
                       onChange={(date) => setFromDate(date)}
                     />
                   </div>
-                  <div className={`form-group ${selectStrategyType === "Scalping" ? "col-lg-3" : "col-lg-4"}`}>
+                  <div className={`form-group ${selectStrategyType === "Scalping" ? "col-lg-4" : "col-lg-4"}`}>
                     <label>Select To Date</label>
                     <DatePicker
                       className="form-select"
