@@ -203,7 +203,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
     }
 
-    console.log("allScripts", allScripts)
 
     const handleMatchPosition = async (rowData, type) => {
         console.log("matchPosition", rowData.rowIndex)
@@ -1799,12 +1798,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
         }
     }, [showEditModal, data, EditDataScalping])
-
-
-    useEffect(() => {
-        console.log("Formik values:", formik.values);
-    }, [formik.values]);
-
 
 
     const updatedFields = fields.filter((item) => {

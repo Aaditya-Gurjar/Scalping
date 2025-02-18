@@ -590,7 +590,7 @@
 
 //   return (
 //     <div>
-//       <div className="container-fluid">
+//       <div className="container-fluid" style={{marginTop:"2rem"}}>
 //         <div className="row">
 //           <div className="iq-card">
 //             <div className="iq-card-header d-flex justify-content-between">
@@ -1447,7 +1447,7 @@ const Tradehistory = () => {
   };
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid" style={{marginTop:"2rem"}}>
       <div className="card shadow-lg">
         <div className="card-header bg-primary text-white">
           <h4 className="mb-0">Trade History Analysis</h4>

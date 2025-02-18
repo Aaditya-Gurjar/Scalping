@@ -51,7 +51,7 @@ const DynamicForm = ({
 
   return (
     <>
-      <div className="iq-card content " data-aos="fade-left">
+      <div className="iq-card content " data-aos="fade-left" style={{marginTop:"2rem"}}>
         <div className="card mb-0">
           {page_title ? (
             <div className="card-header" >

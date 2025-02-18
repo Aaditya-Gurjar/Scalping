@@ -166,7 +166,7 @@ confirmButtonColor: "#1ccc8a",
 
     return (
         <>
-            <div className="container-fluid">
+            <div className="container-fluid" style={{marginTop:"2rem"}}>
                 <div className="row">
                     <div className="card h-100">
                         <div className="card-header d-flex justify-content-between">

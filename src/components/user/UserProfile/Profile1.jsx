@@ -40,7 +40,7 @@ const Profile = () => {
 
   return (
     <div>
-      <div className="container-fluid">
+      <div className="container-fluid" style={{marginTop:"2rem"}}>
         <div className="row">
           <div className="col-lg-4">
             <div className="iq-card">

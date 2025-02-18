@@ -4,14 +4,14 @@ import DiscriptionData from './DiscriptionData'
 const Discription = () => {
     return (
         <div>
-            <div className="iq-card">
+            <div className="iq-card" style={{marginTop:"2rem"}}>
                 <div className="iq-card-header d-flex justify-content-between">
                     <div className="iq-header-title">
                         <h4 className="card-title">Description</h4>
                     </div>
                 </div>
                 <div className="iq-card-body">
-                    <ul className="nav nav-pills mb-3 nav-fill" id="pills-tab-1" role="tablist">
+                    <ul className="nav nav-pills mb-5 nav-fill" id="pills-tab-1" role="tablist">
                         <li className="nav-item" role="presentation">
                             <a
                                 className="nav-link active"
