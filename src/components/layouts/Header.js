@@ -23,6 +23,9 @@ const Header = () => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+  const [selectedImage, setSelectedImage] = useState(localStorage.getItem("userProfileImage") || null);
+  // console.log("selectedImage",selectedImage);
+
 
   // useEffect(() => {
   //   document.body.classList.remove("sidebar-main");
@@ -47,6 +50,8 @@ const Header = () => {
   const [getTradingStatus, setTradingStatus] = useState(false);
   const [getBrokerName, setBrokerName] = useState("");
   const [walletBalance, setWalletBalance] = useState("");
+  // console.log("walletBalance",walletBalance);
+
   const [showAddBrokerModal, setShowAddBrokerModal] = useState(false);
   const [addBrokerName, setAddBrokerName] = useState("");
   const [userName, setUserName] = useState("");
@@ -81,8 +86,97 @@ const Header = () => {
     AdminPermission();
   }, []);
 
-  const handleToggle = async (event) => {
-    const newStatus = event.target.checked;
+
+  // backup code for toggle live and paper trading
+  // const handleToggle = async (event) => {
+  //   const newStatus = event.target.checked;
+  //   console.log
+
+  //   if (newStatus == true) {
+  //     const requestData = {
+  //       Username: Username,
+  //       session: "",
+  //       AccToken: "",
+  //       usrid: "",
+  //       sid: "",
+  //       jwt_Token: "",
+  //       BrokerName: getBrokerName,
+  //     };
+  //     Loginwihapi(requestData);
+  //   } else {
+  //     var data = {
+  //       Username: Username,
+  //       session: "",
+  //       AccToken: "",
+  //       usrid: "",
+  //       sid: "",
+  //       jwt_Token: "",
+  //     };
+
+  //     try {
+  //       const response = await axios.post(
+  //         `${Config.base_url}ConnectBroker`,
+  //         data,
+  //         {
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //         }
+  //       );
+
+  //       if (response.data.Status) {
+  //         // Assuming the status is in response.data.Status
+
+  //         Swal.fire({
+  //           background: "#1a1e23 ",
+  //           backdrop: "#121010ba",
+  //           confirmButtonColor: "#1ccc8a",
+  //           title: "Success!",
+  //           text: "Trading On successfully.",
+  //           icon: "success",
+  //           confirmButtonText: "OK",
+  //           timer: 1000,
+  //         }).then(() => {
+  //           setTimeout(() => {
+  //             window.location.reload();
+  //           }, 1000);
+  //         });
+  //       } else {
+  //         Swal.fire({
+  //           background: "#1a1e23 ",
+  //           backdrop: "#121010ba",
+  //           confirmButtonColor: "#1ccc8a",
+  //           title: "Success!",
+  //           text: "Trading Off successfully.",
+  //           icon: "success",
+  //           confirmButtonText: "OK",
+  //           timer: 1000,
+  //         }).then(() => {
+  //           setTimeout(() => {
+  //             window.location.reload();
+  //           }, 1000);
+  //         });
+  //       }
+  //     } catch (err) {
+  //       console.error("Error in ConnectBroker request", err);
+  //       Swal.fire({
+  //         background: "#1a1e23 ",
+  //         backdrop: "#121010ba",
+  //         confirmButtonColor: "#1ccc8a",
+  //         title: "Error!",
+  //         text: "An error occurred. Please try again later.",
+  //         icon: "error",
+  //         confirmButtonText: "OK",
+  //       });
+  //     }
+  //   }
+  // };
+
+
+  const handleToggle = async (value) => {
+    const newStatus = value;
+    console.log("newStatus", newStatus)
 
     if (newStatus == true) {
       const requestData = {
@@ -121,6 +215,9 @@ const Header = () => {
           // Assuming the status is in response.data.Status
 
           Swal.fire({
+            background: "#1a1e23 ",
+            backdrop: "#121010ba",
+            confirmButtonColor: "#1ccc8a",
             title: "Success!",
             text: "Trading On successfully.",
             icon: "success",
@@ -133,6 +230,9 @@ const Header = () => {
           });
         } else {
           Swal.fire({
+            background: "#1a1e23 ",
+            backdrop: "#121010ba",
+            confirmButtonColor: "#1ccc8a",
             title: "Success!",
             text: "Trading Off successfully.",
             icon: "success",
@@ -147,6 +247,9 @@ const Header = () => {
       } catch (err) {
         console.error("Error in ConnectBroker request", err);
         Swal.fire({
+          background: "#1a1e23 ",
+          backdrop: "#121010ba",
+          confirmButtonColor: "#1ccc8a",
           title: "Error!",
           text: "An error occurred. Please try again later.",
           icon: "error",
@@ -155,7 +258,6 @@ const Header = () => {
       }
     }
   };
-
   const handleCloseModal = () => {
     setIsModalVisible(false);
   };
@@ -213,6 +315,7 @@ const Header = () => {
   };
 
   useEffect(() => {
+    GetBalence()
     clearSession();
   }, []);
 
@@ -295,6 +398,9 @@ const Header = () => {
     await AutoLogin().then((response) => {
       if (response.Status) {
         Swal.fire({
+          background: "#1a1e23 ",
+          backdrop: "#121010ba",
+          confirmButtonColor: "#1ccc8a",
           title: "Auto Login On !",
           text: response.message,
           icon: "success",
@@ -303,6 +409,9 @@ const Header = () => {
         });
       } else {
         Swal.fire({
+          background: "#1a1e23 ",
+          backdrop: "#121010ba",
+          confirmButtonColor: "#1ccc8a",
           title: "Error !",
           text: response.message,
           icon: "error",
@@ -317,6 +426,9 @@ const Header = () => {
     await DataStart().then((response) => {
       if (response.Status) {
         Swal.fire({
+          background: "#1a1e23 ",
+          backdrop: "#121010ba",
+          confirmButtonColor: "#1ccc8a",
           title: "Data Start !",
           text: response.message,
           icon: "success",
@@ -325,6 +437,9 @@ const Header = () => {
         });
       } else {
         Swal.fire({
+          background: "#1a1e23 ",
+          backdrop: "#121010ba",
+          confirmButtonColor: "#1ccc8a",
           title: "Error !",
           text: response.message,
           icon: "error",
@@ -338,6 +453,9 @@ const Header = () => {
     await LastPattern().then((response) => {
       if (response.Status) {
         Swal.fire({
+          background: "#1a1e23 ",
+          backdrop: "#121010ba",
+          confirmButtonColor: "#1ccc8a",
           title: "Last Pattern On !",
           text: response.message,
           icon: "success",
@@ -346,6 +464,9 @@ const Header = () => {
         });
       } else {
         Swal.fire({
+          background: "#1a1e23 ",
+          backdrop: "#121010ba",
+          confirmButtonColor: "#1ccc8a",
           title: "Error !",
           text: response.message,
           icon: "error",
@@ -361,6 +482,8 @@ const Header = () => {
     await GetUserBalence(req)
       .then((response) => {
         if (response.Status) {
+          // console.log("response.Balance",response);
+
           setWalletBalance(response.Balance);
         } else {
           setWalletBalance("");
@@ -407,6 +530,9 @@ const Header = () => {
 
     if (addBrokerName == "") {
       Swal.fire({
+        background: "#1a1e23 ",
+        backdrop: "#121010ba",
+        confirmButtonColor: "#1ccc8a",
         title: "Warning!",
         text: "Please enter Broker Name.",
         icon: "warning",
@@ -418,6 +544,9 @@ const Header = () => {
       .then((response) => {
         if (response.Status) {
           Swal.fire({
+            background: "#1a1e23 ",
+            backdrop: "#121010ba",
+            confirmButtonColor: "#1ccc8a",
             title: "Success!",
             text: "Broker Added successfully.",
             icon: "success",
@@ -428,6 +557,9 @@ const Header = () => {
           setShowAddBrokerModal(false);
         } else {
           Swal.fire({
+            background: "#1a1e23 ",
+            backdrop: "#121010ba",
+            confirmButtonColor: "#1ccc8a",
             title: "Error!",
             text: response.message,
             icon: "error",
@@ -458,6 +590,7 @@ const Header = () => {
       }
     });
   };
+  const currentTradeMode = getTradingStatus ? "Live Trading" : "Paper Trading";
 
   useEffect(() => {
     getprofiledata();
@@ -469,10 +602,10 @@ const Header = () => {
         <div className="iq-navbar-custom">
           <div className="iq-sidebar-logo">
             <div className="top-logo">
-            <a href="#">
-                    <img className="header_img1" alt="Logo" id="header_img1" />
-                    <span><img className="header_img2" alt="Logo" id='header_img2' /></span>
-                </a>
+              <a href="#">
+                <img className="header_img1" alt="Logo" id="header_img1" />
+                <span><img className="header_img2" alt="Logo" id='header_img2' /></span>
+              </a>
               {/* <a href="index.html" className="logo">
                 <img
                   src="assets/images/inalgo.png"
@@ -515,13 +648,18 @@ const Header = () => {
                   </li> */}
 
                   <li className="nav-item">
-                    
+                    <button
+                      type="button"
+                      className="btn btn-primary  mx-3 btn1"
+                      onClick={(e) => setIsModalVisible(true)}>
+                      Set API Key
+                    </button>
                   </li>
 
                   <li className="nav-item">
                     <button
                       type="button"
-                      className="btn btn-primary mt-3 mx-3 btn1"
+                      className="btn btn-primary  mx-3 btn1"
                       onClick={(e) => navigate("/admin/transectionrequest")}>
                       Transaction Requests
                     </button>
@@ -661,7 +799,7 @@ const Header = () => {
               <div
                 className="collapse navbar-collapse"
                 id="navbarSupportedContent">
-                <div className="custom-control custom-switch custom-switch-text custom-switch-color custom-control-inline ms-5">
+                {/* <div className="custom-control custom-switch custom-switch-text custom-switch-color custom-control-inline ms-5">
                   <div className="custom-switch-inner">
                     <input
                       type="checkbox"
@@ -676,7 +814,55 @@ const Header = () => {
                       data-on-label="Live trading on"
                       data-off-label="Paper trading on"></label>
                   </div>
+                </div> */}
+
+
+                <div className="btn-group" role="group" style={{
+                  backgroundColor: "#2a2e32",
+                  borderRadius: "20px",
+                  padding: "2px",
+                  height: "36px",
+                  marginLeft: "1rem"
+                }}>
+                  <button
+                    type="button"
+                    className="btn border-0"
+                    style={{
+                      width: "120px",
+                      backgroundColor: getTradingStatus ? "#2a2e32" : "#7367f0",
+                      color: getTradingStatus ? "#6c7293" : "white",
+                      fontWeight: "500",
+                      padding: "6px 12px",
+                      fontSize: "13px",
+                      transition: "all 0.3s ease",
+                      borderRadius: "18px",
+                      boxShadow: getTradingStatus ? "none" : "0 2px 6px rgba(115,103,240,0.4)"
+                    }}
+                    onClick={() => handleToggle(false)}
+                  >
+                    Paper Trading
+                  </button>
+                  <button
+                    type="button"
+                    className="btn border-0"
+                    style={{
+                      width: "120px",
+                      backgroundColor: getTradingStatus ? "#7367f0" : "#2a2e32",
+                      color: getTradingStatus ? "white" : "#6c7293",
+                      fontWeight: "500",
+                      padding: "6px 12px",
+                      fontSize: "13px",
+                      transition: "all 0.3s ease",
+                      borderRadius: "18px",
+                      boxShadow: getTradingStatus ? "0 2px 6px rgba(115,103,240,0.4)" : "none"
+                    }}
+                    onClick={() => handleToggle(true)}
+                  >
+                    Live Trading
+                  </button>
                 </div>
+
+
                 <ul className="navbar-nav ms-auto navbar-list align-items-center">
                   {/* <li className="nav-item">
                     <button
@@ -689,7 +875,7 @@ const Header = () => {
                     <li className="nav-item">
                       <button
                         type="button"
-                        className="btn btn-primary mt-4 btn1">
+                        className="btn btn-primary  btn1">
                         Demo Account
                       </button>
                     </li>
@@ -710,15 +896,18 @@ const Header = () => {
                     <button
                       type="button"
                       data-bs-dismiss="modal"
-                      className="btn btn-primary mt-4 btn1">
+                      className="btn btn-primary mt-0 btn1">
                       {showFunds ? (
                         <span>
                           <IndianRupee
                             style={{ height: "24px", marginRight: "10px" }}
                           />
-                          <strong>
+                          {/* <strong>
                             {formatNumber(walletBalance && walletBalance) ||
                               "-"}
+                          </strong> */}
+                          <strong>
+                            {walletBalance ||"-"}
                           </strong>
                         </span>
                       ) : (
@@ -750,8 +939,13 @@ const Header = () => {
                       href="#"
                       className={`text-decoration-none search-toggle d-flex align-items-center iq-waves-effectt ${activeElement === "profile" ? "active" : ""}`}
                       onClick={(e) => handleClick(e, "profile")}>
-                      <img
+                      {/* <img
                         src="/assets/images/user/1.jpg"
+                        className="img-fluid rounded-circle me-3"
+                        alt="user"
+                      /> */}
+                      <img
+                        src={selectedImage || "/assets/images/user/1.jpg"}
                         className="img-fluid rounded-circle me-3"
                         alt="user"
                       />
@@ -786,11 +980,29 @@ const Header = () => {
                               </div>
                             </div>
                           </Link>
+
+                              <Link
+                                to="/user/plans"
+                                className="iq-sub-card iq-bg-primary-hover text-decoration-none">
+                                <div className="media align-items-center d-flex">
+                                  <div className="rounded card-icon bg-soft-primary">
+                                    <i className="ri-file-user-line" />
+                                  </div>
+                                  <div className="media-body ms-3">
+                                    <h6 className="mb-0 ">My Plans</h6>
+                                    <p className="mb-0 font-size-12 text-decoration-none">
+                                      View Purchased Plan details.
+                                    </p>
+                                  </div>
+                                </div>
+                              </Link>
+
+
                           <Link
-                    
-                      className="iq-sub-card iq-bg-warning-hover text-decoration-none"
-                      onClick={(e) => setIsModalVisible(true)}>
-                         <div className="media align-items-center d-flex">
+
+                            className="iq-sub-card iq-bg-warning-hover text-decoration-none"
+                            onClick={(e) => setIsModalVisible(true)}>
+                            <div className="media align-items-center d-flex">
                               <div className="rounded card-icon bg-soft-warning">
                                 <i className="ri-profile-line" />
                               </div>
@@ -798,8 +1010,8 @@ const Header = () => {
                                 <h6 className="mb-0 ">Set API Key</h6>
                               </div>
                             </div>
-                      
-                    </Link>
+
+                          </Link>
                           <Link
                             to="/user/editprofile"
                             className="iq-sub-card iq-bg-warning-hover text-decoration-none">
@@ -858,7 +1070,7 @@ const Header = () => {
                 <ul className="navbar-nav ms-auto navbar-list align-items-center">
                   <li className="nav-item">
                     <button
-                      className="btn btn-primary mt-3 mx-3 btn1"
+                      className="btn btn-primary  mx-3 btn1"
                       style={{ pointerEvents: "none" }}>
                       Hello, {userName}
                     </button>

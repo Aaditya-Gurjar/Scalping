@@ -49,7 +49,7 @@ const Clientservice = () => {
         await GetUserBalence(req)
             .then((response) => {
                 if (response.Status) {
-                    setWalletBalance(response.Balance)
+                    setWalletBalance(response.Balance)  
                 }
                 else {
                     setWalletBalance('')
@@ -85,6 +85,9 @@ const Clientservice = () => {
             .then((response) => {
                 if (response.Status) {
                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         title: "Success",
                         text: response.message,
                         icon: "success",
@@ -100,6 +103,9 @@ const Clientservice = () => {
                 }
                 else {
                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         title: "Error",
                         text: response.message,
                         icon: "error",
@@ -122,6 +128,9 @@ const Clientservice = () => {
             .then((response) => {
                 if (response.Status) {
                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         title: "Success",
                         text: response.message,
                         icon: "success",
@@ -137,6 +146,9 @@ const Clientservice = () => {
                 }
                 else {
                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         title: "Error",
                         text: response.message,
                         icon: "error",
@@ -288,7 +300,7 @@ const Clientservice = () => {
                         <div className='iq-card-body'>
                             <div className='d-flex justify-content-between'>
                                 <div className="wallet-balance-container">
-                                    <span className="balance-label">Remaining Balance:</span>
+                                    <span className="balance-label" style={{color:'white'}}>Remaining Balance:</span>
                                     <span className="balance-amount"> ₹ {walletBalance}</span>
                                 </div>
 
@@ -301,7 +313,7 @@ const Clientservice = () => {
                                     <button to='/admin/adduser' className='btn btn-primary rounded'
                                         onClick={() => setShowWithdrawalModal(true)}
                                     >
-                                        Withdrawal
+                                        Withdraw Amount
                                     </button>
                                 </div>
                             </div>

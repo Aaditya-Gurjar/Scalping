@@ -16,6 +16,9 @@ const AddClient = () => {
 
     const SweentAlertFun = (text) => {
         Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
             title: "Error",
             text: text,
             icon: "error",
@@ -23,6 +26,23 @@ const AddClient = () => {
             timerProgressBar: true
         });
 
+    }
+
+    const ScrollToViewFirstError = (newErrors) => {
+        if (Object.keys(newErrors).length !== 0) {
+            const errorField = Object.keys(newErrors)[0];
+
+            const errorElement = document.getElementById(errorField);
+            if (errorElement) {
+                const elementPosition = errorElement.getBoundingClientRect().top + window.pageYOffset;
+
+                const offset = 100;
+                window.scrollTo({
+                    top: elementPosition - offset,
+                    behavior: 'smooth'
+                });
+            }
+        }
     }
 
 
@@ -192,6 +212,8 @@ const AddClient = () => {
             }
 
             console.log("Errors", errors);
+            // ScrollToViewFirstError(errors)
+
             return errors;
         },
 
@@ -285,6 +307,9 @@ const AddClient = () => {
                 const response = await AddAdminScript(req);
                 if (response.Status) {
                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         title: "Script Added !",
                         text: response.message,
                         icon: "success",
@@ -296,6 +321,9 @@ const AddClient = () => {
                     }, 1500)
                 } else {
                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         title: "Error !",
                         text: response.message,
                         icon: "error",

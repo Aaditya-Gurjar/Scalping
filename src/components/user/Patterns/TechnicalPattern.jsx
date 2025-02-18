@@ -15,6 +15,7 @@ import FullDataTable from "../../../ExtraComponent/CommanDataTable";
 import { columns, columns1 } from "./PatternsColumns";
 import "ag-charts-enterprise";
 import AgChartsReact from "./TechnicalPatternCandle";
+import NoDataFound from "../../../ExtraComponent/NoDataFound";
 
 const LastPattern = () => {
   const Username = localStorage.getItem("name");
@@ -23,7 +24,8 @@ const LastPattern = () => {
   );
   const [selectedRowData, setSelectedRowData] = useState("");
   const [scriptType, setScriptType] = useState("");
-  const [candlestickPattern, setCandlestickPattern] = useState("");
+  const [candlestickPattern, setCandlestickPattern] =
+    useState("Bearish_Engulfing");
   const [selectedTimeFrame, setSelectedTimeFrame] = useState("");
   const [chartPattern, setChartPattern] = useState("");
   const [patternNames, setPatternNames] = useState([]);
@@ -48,6 +50,7 @@ const LastPattern = () => {
     loading: true,
     data: "",
   });
+  console.log("getSingleChartImg", getSingleChartImg);
   const [chartingPatternNames, setChartingPatternNames] = useState({
     loading: true,
     data: [],
@@ -197,6 +200,7 @@ const LastPattern = () => {
     await GetSingleChart(data)
       .then((response) => {
         if (response.status) {
+          console.log("response", response);
           setSingleChartImg({ loading: false, data: response.image_data });
         } else {
           setSingleChartImg({ loading: false, data: [] });
@@ -207,13 +211,28 @@ const LastPattern = () => {
       });
   };
 
+  // useEffect(() => {
+  //   setCandlestickPattern("");
+  //   setChartingPattern("");
+  //   setScriptType("");
+  //   setSelectedTimeFrame("");
+  //   setChartPattern("");
+  //   setSelectedRowData("");
+  // }, [selectedPatternType]);
+
   useEffect(() => {
-    setCandlestickPattern("");
-    setChartingPattern("");
-    setScriptType("");
-    setSelectedTimeFrame("");
-    setChartPattern("");
-    setSelectedRowData("");
+    if (selectedPatternType === "Charting Patterns") {
+      setChartingPattern("");
+      setScriptType("");
+      setSelectedTimeFrame("");
+      setChartPattern("");
+      setSelectedRowData("");
+    } else if (selectedPatternType === "Candlestick Patterns") {
+      setCandlestickPattern("Bearish_Engulfing");
+      setSelectedTimeFrame("");
+      setChartPattern("");
+      setSelectedRowData("");
+    }
   }, [selectedPatternType]);
 
   return (
@@ -232,7 +251,7 @@ const LastPattern = () => {
                   <div className="form-group">
                     <label>Select Technical pattern</label>
                     <select
-                      className="form-control form-control-lg mt-2"
+                      className="form-control  mt-2"
                       onChange={(e) => setSelectedPatternType(e.target.value)}
                       value={selectedPatternType}>
                       <option value="Candlestick Patterns" selected>
@@ -250,12 +269,12 @@ const LastPattern = () => {
                       <>
                         <label>Pattern</label>
                         <select
-                          className="form-control form-control-lg mt-2"
+                          className="form-control  mt-2"
                           onChange={(e) =>
                             setCandlestickPattern(e.target.value)
                           }
                           value={candlestickPattern}>
-                          <option value="">Please Select Pattern</option>
+                          {/* <option value="">Please Select Pattern</option> */}
                           {patternNames.data &&
                             patternNames.data.map((item) => (
                               <option value={item} key={item}>
@@ -268,10 +287,10 @@ const LastPattern = () => {
                       <>
                         <label>Pattern</label>
                         <select
-                          className="form-control form-control-lg mt-2"
+                          className="form-control  mt-2"
                           onChange={(e) => setChartingPattern(e.target.value)}
                           value={chartingPattern}>
-                          <option value="">Please Select Pattern</option>
+                          {/* <option value="">Please Select Pattern</option> */}
                           {chartingPatternNames.data.map((item) => (
                             <option value={item} key={item}>
                               {item}
@@ -287,14 +306,18 @@ const LastPattern = () => {
                   ""
                 ) : (
                   <div
-                    className={`${selectedPatternType == "Charting Patterns" ? "col-md-2" : "col-md-3"}`}>
+                    className={`${
+                      selectedPatternType == "Charting Patterns"
+                        ? "col-md-2"
+                        : "col-md-3"
+                    }`}>
                     <div className="form-group">
                       <label>Script</label>
                       <select
-                        className="form-control form-control-lg mt-2"
+                        className="form-control  mt-2"
                         onChange={(e) => setScriptType(e.target.value)}
                         value={scriptType}>
-                        <option value="">Please Select Script</option>
+                        {/* <option value="">Please Select Script</option> */}
                         <option value="AvailableScript">
                           Available Script
                         </option>
@@ -304,15 +327,19 @@ const LastPattern = () => {
                   </div>
                 )}
                 <div
-                  className={`${selectedPatternType == "Charting Patterns" ? "col-md-2" : "col-md-3"}`}>
+                  className={`${
+                    selectedPatternType == "Charting Patterns"
+                      ? "col-md-2"
+                      : "col-md-3"
+                  }`}>
                   <div className="form-group">
                     <label>Time Frame</label>
                     <select
-                      className="form-control form-control-lg mt-2"
+                      className="form-control  mt-2"
                       onChange={(e) => setSelectedTimeFrame(e.target.value)}
                       value={selectedTimeFrame}>
-                      <option value="">Please Select Time Frame</option>
-                      {timeFrameData.data.map((item) => (
+                      {/* <option value="">Please Select Time Frame</option> */}
+                      {timeFrameData?.data?.map((item) => (
                         <option value={item} key={item}>
                           {item}
                         </option>
@@ -321,11 +348,15 @@ const LastPattern = () => {
                   </div>
                 </div>
                 <div
-                  className={`${selectedPatternType == "Charting Patterns" ? "col-md-2" : "col-md-3"}`}>
+                  className={`${
+                    selectedPatternType == "Charting Patterns"
+                      ? "col-md-2"
+                      : "col-md-3"
+                  }`}>
                   <div className="form-group">
                     <label>Select Specific Pattern</label>
                     <select
-                      className="form-control form-control-lg mt-2"
+                      className="form-control  mt-2"
                       onChange={(e) => setChartPattern(e.target.value)}
                       value={chartPattern}>
                       {allSymbols.length === 0 ? (
@@ -370,19 +401,20 @@ const LastPattern = () => {
                     checkBox={false}
                   />
                 ) : (
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      textAlign: "center",
-                    }}>
-                    <img
-                      src="/assets/images/no-record-found.png"
-                      width="30%"
-                      alt=""
-                    />
-                  </div>
+                  // <div
+                  //   style={{
+                  //     display: "flex",
+                  //     justifyContent: "center",
+                  //     alignItems: "center",
+                  //     textAlign: "center",
+                  //   }}>
+                  //   <img
+                  //     src="/assets/images/no-record-found.png"
+                  //     width="30%"
+                  //     alt=""
+                  //   />
+                  // </div>
+                  <NoDataFound />
                 )
               ) : ChartPatternTableData?.PatternData &&
                 ChartPatternTableData.PatternData.length > 0 ? (
@@ -393,19 +425,20 @@ const LastPattern = () => {
                   checkBox={true}
                 />
               ) : (
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    textAlign: "center",
-                  }}>
-                  <img
-                    src="/assets/images/no-record-found.png"
-                    width="30%"
-                    alt=""
-                  />
-                </div>
+                // <div
+                //   style={{
+                //     display: "flex",
+                //     justifyContent: "center",
+                //     alignItems: "center",
+                //     textAlign: "center",
+                //   }}>
+                //   <img
+                //     src="/assets/images/no-record-found.png"
+                //     width="30%"
+                //     alt=""
+                //   />
+                // </div>
+                <NoDataFound />
               )}
             </div>
 

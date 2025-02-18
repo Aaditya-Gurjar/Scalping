@@ -4,8 +4,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import FullDataTable from '../../../ExtraComponent/CommanDataTable';
 import {ClientActivityPage} from './UserAllColumn'
+import NoDataFound from '../../../ExtraComponent/NoDataFound';
 
 const Clientactivity = () => {
+    const Username = sessionStorage.getItem('Username')
     const [ToDate, setToDate] = useState('');
     const [FromDate, setFromDate] = useState('');
 
@@ -17,7 +19,7 @@ const Clientactivity = () => {
         loading: true,
         data: []
     })
-    const [selectUserName, setSelectUserName] = useState('')
+    const [selectUserName, setSelectUserName] = useState(Username || '')
 
 
 
@@ -124,7 +126,10 @@ const Clientactivity = () => {
                                             <div className="form-group col-md-4">
                                                 <label htmlFor="validationDefault01">Select Username </label>
                                                 <select className="form-select" required=""
-                                                    onChange={(e) => setSelectUserName(e.target.value)}
+                                                    onChange={(e) => {
+                                                        setSelectUserName(e.target.value)
+                                                        sessionStorage.setItem("Username",e.target.value)
+                                                    }}
                                                     value={selectUserName}
                                                 >
                                                             <option value="">Select Username</option>
@@ -147,17 +152,21 @@ const Clientactivity = () => {
                                             <div className="form-group col-lg-4">
                                                 <label>Select To Date</label>
                                                 <DatePicker className="form-select" selected={ToDate=="" ? Defult_To_Date : ToDate} onChange={(date) => setToDate(date)} />
-
                                             </div>
                                         </div>
 
                                     </form>
                                     <div className="modal-body">
-                                        <FullDataTable
+                                      {  
+                                        getClientActivityDetails.data && getClientActivityDetails.data.length > 0 ? 
+                                        (<FullDataTable
                                             columns={ClientActivityPage()}
                                             data={getClientActivityDetails.data}
                                             checkBox={false}
-                                        />
+                                        />)
+                                        :
+                                        (<NoDataFound/>)
+                                        }
                                     </div>
 
                                 </div>

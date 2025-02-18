@@ -5,12 +5,13 @@ import Loader from '../../../ExtraComponent/Loader'
 import "ag-charts-enterprise";
 import AgChartsReact from "./LastPatternCandle";
 import { columns2, columns3 } from './PatternsColumns'
+import NoDataFound from '../../../ExtraComponent/NoDataFound';
 const LastPattern = () => {
     const [showCandle, setShowCandle] = useState(false)
     const [getLastPatternData, setLastPatternData] = useState({ loading: true, data: [] })
     const [getCandleData, setCandleData] = useState({ loading: true, data: [] })
     const [getPatternType, setPatternType] = useState('')
-    const [selectPattern, setSelectPattern] = useState('')
+    const [selectPattern, setSelectPattern] = useState('Candlestick Patterns')
     const [getChartPattern, setChartPattern] = useState('')
     const [selectedRowData, setSelectedRowData] = useState('');
 
@@ -119,7 +120,7 @@ const LastPattern = () => {
                       <div className="form-group">
                         <label>Select Pattern</label>
                         <select
-                          className="form-control form-control-lg mt-2"
+                          className="form-control  mt-2"
                           onChange={(e) => setSelectPattern(e.target.value)}
                           value={selectPattern}>
                           <option value="">Please Select Patterns</option>
@@ -136,12 +137,12 @@ const LastPattern = () => {
                       <div className="form-group">
                         <label>Select Specific Pattern</label>
                         <select
-                          className="form-control form-control-lg mt-2"
+                          className="form-control  mt-2"
                           onChange={(e) => setPatternType(e.target.value)}
                           value={getPatternType}>
-                          <option value="">
+                          {/* <option value="">
                             Please Select Specific Pattern
-                          </option>
+                          </option> */}
                           {getChartPattern &&
                             getChartPattern.data.map((item) => (
                               <option value={item}>{item}</option>
@@ -173,19 +174,20 @@ const LastPattern = () => {
                         />
                       )
                     ) : (
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          textAlign: "center",
-                        }}>
-                        <img
-                          src="/assets/images/no-record-found.png"
-                          width="30%"
-                          alt=""
-                        />
-                      </div>
+                      // <div
+                      //   style={{
+                      //     display: "flex",
+                      //     justifyContent: "center",
+                      //     alignItems: "center",
+                      //     textAlign: "center",
+                      //   }}>
+                      //   <img
+                      //     src="/assets/images/no-record-found.png"
+                      //     width="30%"
+                      //     alt=""
+                      //   />
+                      // </div>
+                      <NoDataFound/>
                     )}
                   </div>
 

@@ -19,7 +19,7 @@ const ApiCreateInfo = () => {
 
     const fetchBrokerName = async () => {
         try {
-            const response = await Get_Broker_Name();
+            const response = await Get_Broker_Name();            
             if (response.Status) {
                 const brokerList = response?.Brokernamelist?.filter(item => item.BrokerName !== 'DEMO');
                 setBrokers(brokerList);
@@ -40,10 +40,9 @@ const ApiCreateInfo = () => {
         if (brokerName === '') return;
         const req = { BrokerName: brokerName };
         try {
-            await viewBrokerDetails(req)
-                .then((response) => {
+            await viewBrokerDetails(req).then((response) => {
                     if (response.status) {
-                        setBrokerDetails(response.data);
+                        setBrokerDetails(req.BrokerName);
                     } else {
                         setBrokerDetails({});
                     }
@@ -66,16 +65,23 @@ const ApiCreateInfo = () => {
                     {brokers.map((item, index) => (
                         <div className="col" key={index}>
                             <div className="card broker-card">
-                                <div className="trading-icon">
-                                    <BarChart2 size={20} />
-                                </div>
+                               
 
                                 <div className="card-body text-center">
-                                    <h5 className="card-title">{item.BrokerName}</h5>
-                                    <div className="card-actions mt-3">
-                                        <Eye size={24} className="action-icon edit-icon" onClick={() => { handleShow(); setBrokerName(item.BrokerName) }} />
-                                        <Trash2 size={24} className="action-icon delete-icon" />
+                                    <div className="row">
+                                        <div className="col-3 pe-0"> <div className="trading-icon">
+                                    <BarChart2 size={20} />
+                                </div></div>
+                                        <div className="col-9 text-end">   
+                                             <h5 className="card-title text-white">{item.BrokerName}</h5>
+                                             <div className="card-actions justify-content-end  mt-3">
+                                        <Eye size={24} className="action-icon edit-icon text-warning" onClick={() => { handleShow(); setBrokerName(item.BrokerName) }} />
+                                        <Trash2 size={24} className="action-icon delete-icon text-danger" />
                                     </div>
+                                             </div>
+                                    </div>
+                                
+                                 
                                 </div>
                             </div>
                         </div>
@@ -83,11 +89,12 @@ const ApiCreateInfo = () => {
                 </div>
             </div>
             {
-                <Modal isOpen={showModal} size="lg" title={`${brokerDetails.Brokername}  API Create Information.`} hideBtn={true}
+                <Modal isOpen={showModal} size="lg" title={`${brokerDetails}  API Create Information.`} hideBtn={true}
                     handleClose={() => setshowModal(false)}
                 >
-                    <h4>API Process of {brokerDetails.Brokername}: -</h4>
-                    {brokerDetails.description ?
+                    {/* <h4>getBrokerAlldetails is function ki api mai data nhi aa rha hai</h4> */}
+                    {/* <h4>API Process of {brokerDetails}: -</h4> */}
+                    {/* {brokerDetails.description ?
                         <ul>
                             {brokerDetails.description && brokerDetails.description.split("\n").map((line, index) => (
                                 <>
@@ -96,9 +103,9 @@ const ApiCreateInfo = () => {
                             ))}
                         </ul>
                         : ""
-                    }
+                    } */}
 
-                    {brokerDetails.Step1Text || brokerDetails.Step1Image ? <>
+                    {/* {brokerDetails.Step1Text || brokerDetails.Step1Image ? <>
                         <h4 className="text-decoration-underline">Step 1: </h4>
                         <p>{brokerDetails.Step1Text}</p>
                         <br />
@@ -136,7 +143,7 @@ const ApiCreateInfo = () => {
                         <br />
                         {brokerDetails.Step5Image ? <img src={brokerDetails.Step5Image} alt="" className="w-100 my-3 border border-dark" /> : ""}
 
-                    </> : ""}
+                    </> : ""} */}
 
                 </Modal>
             }

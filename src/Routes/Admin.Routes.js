@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
-// import Dashboards from '../components/admin/Dashboard/Dashboards';
+import Loader from '../ExtraComponent/Loader';
 import Dashboards from '../components/admin/Dashboard/Dashboards';
+// import Dashboards from '../components/admin/Dashboard/Dashboards';
 
 import Sidebar from '../components/layouts/Sidebar';
 import Header from '../components/layouts/Header';
@@ -20,15 +21,40 @@ import AddScriptOption from '../components/admin/AdminScript/AddScript.Option'
 import PatternScript from '../components/admin/AdminScript/AddScript.Pattern'
 import System from '../components/admin/System/System';
 import AllPlan from '../components/admin/Plan/AllPlan';
-import CPP from '../components/user/Patterns/CPP';
 import AddPlan from '../components/admin/Plan/AddPlan';
 import TransectionRequest from '../components/admin/Requests/TransectionRequests';
 import AddSubadmin from '../components/admin/SubAdmin/AddSubadmin';
 import AllSubadmin from '../components/admin/SubAdmin/AllSubadmin';
 import EditSubadmin from '../components/admin/SubAdmin/EditSubadmin';
 import ApiCreateInfo from '../components/admin/apicreateInfo/ApiCreateInfo';
+import SidebarRight from '../components/layouts/SidebarRight';
+import ChartComponent from '../components/admin/AdvanceChart/ChartComponent';
 
-
+// const Dashboards = lazy(() => import('../components/admin/Dashboard/Dashboards'));
+// const Sidebar = lazy(() => import('../components/layouts/Sidebar'));
+// const Header = lazy(() => import('../components/layouts/Header'));
+// const Adduser = lazy(() => import('../components/admin/User/Adduser'));
+// const Clientservice = lazy(() => import('../components/admin/User/Clientservice'));
+// const Tradehistory = lazy(() => import('../components/admin/TradeHistory/Tradehistory'));
+// const Allscript = lazy(() => import('../components/admin/AdminScript/AllScript'));
+// const Clientactivity = lazy(() => import('../components/admin/User/Clientactivity'));
+// const Clientreport = lazy(() => import('../components/admin/User/Clientreport'));
+// const Smtp = lazy(() => import('../components/admin/Smtp/Smtp'));
+// const UserLogs = lazy(() => import('../components/admin/User/UserLogs'));
+// const StrategyGroup = lazy(() => import('../components/admin/Groups/StrategyGroup'));
+// const ServiceReport = lazy(() => import('../components/admin/User/ServiceReport'));
+// const AddscriptScalping = lazy(() => import('../components/admin/AdminScript/Addscript.Scalping'));
+// const AddScriptOption = lazy(() => import('../components/admin/AdminScript/AddScript.Option'));
+// const PatternScript = lazy(() => import('../components/admin/AdminScript/AddScript.Pattern'));
+// const System = lazy(() => import('../components/admin/System/System'));
+// const AllPlan = lazy(() => import('../components/admin/Plan/AllPlan'));
+// const AddPlan = lazy(() => import('../components/admin/Plan/AddPlan'));
+// const TransectionRequest = lazy(() => import('../components/admin/Requests/TransectionRequests'));
+// const AddSubadmin = lazy(() => import('../components/admin/SubAdmin/AddSubadmin'));
+// const AllSubadmin = lazy(() => import('../components/admin/SubAdmin/AllSubadmin'));
+// const EditSubadmin = lazy(() => import('../components/admin/SubAdmin/EditSubadmin'));
+// const ApiCreateInfo = lazy(() => import('../components/admin/apicreateInfo/ApiCreateInfo'));
+// const SidebarRight = lazy(() => import('../components/layouts/SidebarRight'));
 
 
 const AdminRoute = () => {
@@ -40,6 +66,8 @@ const AdminRoute = () => {
         <Sidebar />
         <div id="content-page" className="content-page">
           <Header />
+
+
           <Routes>
             <Route path="/dashboard" element={<Dashboards />} />
             <Route path="/adduser" element={<Adduser />} />
@@ -55,18 +83,19 @@ const AdminRoute = () => {
             <Route path="/userlogs" element={<UserLogs />} />
             <Route path="/strategygroup" element={<StrategyGroup />} />
             <Route path="/servicreport" element={<ServiceReport />} />
-            <Route path="/system" element={<System />} /> 
-            <Route path="/allplan" element={<AllPlan />} />  
-            <Route path="/cpp" element={<CPP />} />
+            <Route path="/system" element={<System />} />
+            <Route path="/allplan" element={<AllPlan />} />
             <Route path="/addplan" element={<AddPlan />} />
             <Route path="/transectionrequest" element={<TransectionRequest />} />
-            <Route path="/addSubadmin" element={<AddSubadmin/>} />
-            <Route path="/allSubadmin" element={<AllSubadmin/>} />
-            <Route path="/editSubadmin" element={<EditSubadmin/>} />
-            <Route path="/api-create-info" element={<ApiCreateInfo/>} />
+            <Route path="/addSubadmin" element={<AddSubadmin />} />
+            <Route path="/allSubadmin" element={<AllSubadmin />} />
+            <Route path="/editSubadmin" element={<EditSubadmin />} />
+            <Route path="/api-create-info" element={<ApiCreateInfo />} />
+            <Route path="/chart" element={<ChartComponent />} />
           </Routes>
         </div>
-      </div>
+        <SidebarRight />
+      </div >
     </>
   );
 }

@@ -1,27 +1,31 @@
 import React, { useState, useEffect } from 'react'
-import { GetAllGroupService, GetGroupNames, DeleteScript } from '../../CommonAPI/Admin';
+import { GetAllGroupService, GetGroupNames, DeleteScript, getStrategyType } from '../../CommonAPI/Admin';
 import { useNavigate } from 'react-router-dom';
 import FullDataTable from '../../../ExtraComponent/CommanDataTable';
-import Loader from '../../../ExtraComponent/Loader'
-
 import Swal from 'sweetalert2';
-import Checkbox from '@mui/material/Checkbox';
 import { columns2, columns1, columns } from './ScriptColumns'
+import NoDataFound from '../../../ExtraComponent/NoDataFound';
 
 
 const Addscript = () => {
     const navigate = useNavigate()
+    const GroupName = sessionStorage.getItem('GroupName')
+    const StrategyType = sessionStorage.getItem('StrategyType')
+
     const [refresh, setRefresh] = useState(false)
-    const [selectGroup, setSelectGroup] = useState('')
-    const [selectStrategyType, setStrategyType] = useState([])
+    const [selectGroup, setSelectGroup] = useState(GroupName || 'Dello')
+    const [selectStrategyType, setStrategyType] = useState(StrategyType || 'Scalping')
+    const [strategyNames, setStrategyNames] = useState([]);
+
     const [GroupError, setGroupError] = useState('')
     const [stgError, setStgError] = useState('')
     const [formSubmitted, setFormSubmitted] = useState(false);
     const [getAllService, setAllservice] = useState({ loading: true, data: [], data1: [] })
 
-    console.log(getAllService)
 
     const [getGroupData, setGroupData] = useState({ loading: true, data: [] })
+
+  
 
 
     const handleDelete = async (rowData) => {
@@ -39,6 +43,9 @@ const Addscript = () => {
         }
 
         Swal.fire({
+            background: "#1a1e23 ",
+            backdrop: "#121010ba",
+            confirmButtonColor: "#1ccc8a",
             title: "Are you sure?",
             text: "You won't be able to revert this!",
             icon: "warning",
@@ -53,6 +60,9 @@ const Addscript = () => {
                     if (response.Status) {
                         setRefresh(!refresh);
                         Swal.fire({
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Deleted!",
                             text: response.message,
                             icon: "success",
@@ -61,6 +71,9 @@ const Addscript = () => {
                         });
                     } else {
                         Swal.fire({
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Error!",
                             text: response.message,
                             icon: "error",
@@ -71,6 +84,9 @@ const Addscript = () => {
                 } catch (err) {
                     console.error("Error in delete script", err);
                     Swal.fire({
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Error!",
                         text: "Something went wrong while deleting.",
                         icon: "error",
@@ -110,8 +126,23 @@ const Addscript = () => {
         }
     }
 
+
+    const strategyType = async () => {
+        try {
+            const res = await getStrategyType();
+            if (res.Data) {
+                setStrategyNames(res.Data);
+            } else {
+                console.log("Error in getting the StrategyType");
+            }
+        } catch (error) {
+            console.log("Error in getting the StrategyType", error);
+        }
+    };
+
     useEffect(() => {
         GetAllGroupDetails()
+        strategyType()
     }, [])
 
     // 2
@@ -144,7 +175,7 @@ const Addscript = () => {
                         loading: false,
                         data: [],
                         data1: []
-                        
+
                     })
                 }
             })
@@ -163,7 +194,7 @@ const Addscript = () => {
     }
 
     useEffect(() => {
-        setStrategyType('Scalping')
+        setStrategyType(StrategyType || 'Scalping')
     }, []);
 
     useEffect(() => {
@@ -193,6 +224,7 @@ const Addscript = () => {
         getAllgroupService()
     }, [selectStrategyType, selectGroup, refresh])
 
+
     return (
         <div>
             <div className="container-fluid">
@@ -200,82 +232,91 @@ const Addscript = () => {
                     <div className="iq-card">
                         <div className="iq-card-header d-flex justify-content-between">
                             <div className="iq-header-title">
-                                <h4 className="card-title">All Scripts</h4>
+                                <h4 className="card-title">Add Scripts</h4>
                             </div>
                         </div>
                         <div className="iq-card-body">
                             <form className="was-validated ">
                                 <div className='d-md-flex'>
-                                    <div className="form-group ms-3 col-md-5">
-                                        <label>Group Name</label>
-                                        <select className="form-select "
-                                            required=""
-                                            onChange={(e) => setSelectGroup(e.target.value)}
-                                            value={selectGroup}
-                                        >
-                                            <option value=''>Select Group Name</option>
-                                            {getGroupData.data && getGroupData.data.map((item) => {
-                                                return <>
-                                                    <option value={item.GroupName}>{item.GroupName}</option>
-                                                </>
-                                            })}
+                                    <div className={`form-group ${"col-md-5"} ms-3`}>
+                                    <label>Group Name</label>
+                                    <select className="form-select "
+                                        required=""
+                                        onChange={(e) => {
+                                            setSelectGroup(e.target.value)
+                                            sessionStorage.setItem('GroupName',e.target.value)
+                                        }}
+                                        value={selectGroup}
+                                    >
+                                        {getGroupData.data && getGroupData.data.map((item) => {
+                                            return <>
+                                                <option value={item.GroupName}>{item.GroupName}</option>
+                                            </>
+                                        })}
 
-                                        </select>
-                                        {GroupError && <div style={{ "color": "red" }}>
-                                            {GroupError}
-                                        </div>}
-                                    </div>
-                                    <div className="form-group col-md-5 ms-3 ">
-                                        <label>Strategy Type</label>
-                                        <select className="form-select" required=""
-                                            onChange={(e) => { setAllservice({ loading: true, data: [] }); setStrategyType(e.target.value) }}
-                                            value={selectStrategyType}>
-                                            <option value=''>Select Strategy Type</option>
-                                            <option value={"Scalping"}>Scalping</option>
-                                            <option value={"Option Strategy"}>Option Strategy</option>
-                                            <option value={"Pattern"}>Pattern Script</option>
-                                        </select>
-                                        {stgError && <div style={{ "color": "red" }}>
-                                            {stgError}
-                                        </div>}
-                                    </div>
-                                    <div className='col-md-2 ms-3 mt-4 strategy'>
-                                        <button style={{ fontSize: '18px', padding: '6px 14px', height: "47px" }} className='btn btn-primary mt-1' onClick={handleAddScript}>Add Script</button>
-                                    </div>
-
+                                    </select>
+                                    {GroupError && <div style={{ "color": "red" }}>
+                                        {GroupError}
+                                    </div>}
                                 </div>
-                            </form>
+                                <div className={`form-group ${"col-md-5"} ms-3`}>
+                                    <label>Strategy Type</label>
+                                    <select className="form-select" required=""
+                                        onChange={(e) => { 
+                                            setAllservice({ loading: true, data: [] }); 
+                                            setStrategyType(e.target.value);
+                                            sessionStorage.setItem('StrategyType',e.target.value)
+                                        }}
+                                        value={selectStrategyType}>
+                                        {strategyNames.filter((item)=> {return item != "ChartingPlatform"}).map((item, index) => {
+                                            return (
+                                                <option key={index} value={item}>
+                                                    {item}
+                                                </option>
+                                            );
+                                        })}
 
+                                    </select>
+                                    {stgError && <div style={{ "color": "red" }}>
+                                        {stgError}
+                                    </div>}
+                                </div>
+                               
+                                <div className='col-md-2 ms-3 mt-3 strategy'>
+                                    <button style={{ fontSize: '18px', padding: '6px 14px', height: "47px" }} className='btn btn-primary mt-1' onClick={handleAddScript}>Add Script</button>
+                                </div>
 
-                            {getAllService.loading ? <Loader /> :
+                        </div>
+                    </form>
+
+                    {
+                        selectStrategyType == "Scalping" && getAllService?.data1?.length > 0 ? (
+                            <>
+                                <h4 className="mt-3">Scalping</h4>
                                 <FullDataTable
-                                    columns={selectStrategyType == "Scalping" ? columns(handleDelete) : selectStrategyType == "Option Strategy" ? columns1(handleDelete) : selectStrategyType == "Pattern" ? columns2(handleDelete) : columns(handleDelete)}
-                                    data={getAllService.data}
+                                    columns={columns(handleDelete)}
+                                    data={getAllService.data1}
                                     checkBox={false}
                                 />
-                            }
+                            </> 
 
-                            {getAllService.loading ? (
-                                <Loader />
-                            ) : (
-                                selectStrategyType === "Scalping" && (
-                                    <>
-                                        <div>
-                                            <h4 className="bold mt-3 mb-2">Multi Condition</h4>
-                                        </div>
-                                        <FullDataTable
-                                            columns={columns(handleDelete)}
-                                            data={getAllService.data1}
-                                            checkBox={false}
-                                        />
-                                    </>
-                                )
-                            )}
-                        </div>
-                    </div>
+                        ) :  selectStrategyType != "Scalping" && getAllService?.data?.length > 0   ? (
+                            <>
+                            <h4 className="mt-3">Scalping</h4>
+                            <FullDataTable
+                                columns={selectStrategyType=="Option Strategy" ?  columns1(handleDelete) : columns2(handleDelete)}
+                                data={getAllService.data}
+                                checkBox={false}
+                            />
+                        </>
+                        ) : <NoDataFound />
+                    }
+            
                 </div>
             </div>
         </div>
+            </div >
+        </div >
 
     )
 }

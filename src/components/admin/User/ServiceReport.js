@@ -4,10 +4,13 @@ import { Eye, Trash2 } from 'lucide-react';
 import Loader from '../../../ExtraComponent/Loader'
 import FullDataTable from '../../../ExtraComponent/CommanDataTable'
 import { ReportColumns5, ReportColumns4, ReportColumns3 } from './UserAllColumn'
+import NoDataFound from '../../../ExtraComponent/NoDataFound';
 
 const Userlog = () => {
 
-    
+    const StrategyType = sessionStorage.getItem("StrategyType")
+
+
     const [showModal, setShowModal] = useState(false)
     const [getServiceDetails, setServiceDetails] = useState({
         loading: true,
@@ -20,7 +23,7 @@ const Userlog = () => {
     })
 
 
-    const [selectStrategyType, setStrategyType] = useState('')
+    const [selectStrategyType, setStrategyType] = useState(StrategyType || '')
 
     const getAllServiceGiven = async () => {
         if (selectStrategyType == '') {
@@ -174,7 +177,7 @@ const Userlog = () => {
             options: {
                 filter: true,
                 sort: true,
-                customBodyRender: (value, tableMeta, updateValue) => { 
+                customBodyRender: (value, tableMeta, updateValue) => {
                     return <Eye onClick={(e) => {
                         setShowModal(!showModal);
                         const rowDataWithKeys = {};
@@ -184,7 +187,7 @@ const Userlog = () => {
                         handleModal(rowDataWithKeys)
                     }} />
 
-                        
+
                 }
             }
         },
@@ -497,11 +500,11 @@ const Userlog = () => {
     ];
 
     useEffect(() => {
-        setStrategyType('Scalping')
+        setStrategyType(StrategyType || 'Scalping')
     }, []);
 
 
-    const handleModal = async (rowIndex) => { 
+    const handleModal = async (rowIndex) => {
         const data = { Data: selectStrategyType, Username: rowIndex?.Username }
 
 
@@ -544,7 +547,10 @@ const Userlog = () => {
                                     <div className="form-group col-md-4 ms-2">
                                         <label>Strategy Type</label>
                                         <select className="form-select" required=""
-                                            onChange={(e) => setStrategyType(e.target.value)}
+                                            onChange={(e) => {
+                                                setStrategyType(e.target.value)
+                                                sessionStorage.setItem('StrategyType',e.target.value)
+                                            }}
                                             value={selectStrategyType}>
                                             <option value={"Scalping"}>Scalping</option>
                                             <option value={"Option Strategy"}>Option Strategy</option>
@@ -611,12 +617,19 @@ const Userlog = () => {
                                     />
                                 </div>
                                 <div className="modal-body">
+                                    {
+                                        getUserData.data && getUserData.data.length > 0 ?
+                                            (
+                                                <FullDataTable
+                                                    columns={selectStrategyType == "Scalping" ? ReportColumns3() : selectStrategyType == "Option Strategy" ? ReportColumns4() : selectStrategyType == "Pattern" ? ReportColumns5() : []}
+                                                    data={getUserData.data}
+                                                    checkBox={false}
+                                                />
+                                            )
+                                            :
+                                            (<NoDataFound />)
+                                    }
 
-                                    <FullDataTable
-                                        columns={selectStrategyType == "Scalping" ? ReportColumns3() : selectStrategyType == "Option Strategy" ? ReportColumns4() : selectStrategyType == "Pattern" ? ReportColumns5() : []}
-                                        data={getUserData.data}
-                                        checkBox={false}
-                                    />
                                 </div>
                             </div>
                         </div>

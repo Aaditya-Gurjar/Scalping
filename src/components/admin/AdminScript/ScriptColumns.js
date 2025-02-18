@@ -82,7 +82,8 @@ export const columns = (handleDelete)=>[
     },
     {
         name: "Re-entry Point",
-        label: "Stoploss",
+        // label: "Re-entry",
+        label: "Re-entry",
         options: {
             filter: true,
             sort: true,
@@ -132,7 +133,7 @@ export const columns = (handleDelete)=>[
     },
     {
         name: "EntryPrice",
-        label: "First Trade Lower Range",
+        label: "Lower Price",
         options: {
             filter: true,
             sort: true,
@@ -140,7 +141,7 @@ export const columns = (handleDelete)=>[
     },
     {
         name: "EntryRange",
-        label: "First Trade Higher Range",
+        label: "Higher Price",
         options: {
             filter: true,
             sort: true,
@@ -296,7 +297,8 @@ export const columns2 = (handleDelete)=> [
     },
     {
         name: "SL value",
-        label: "Stoploss",
+        // label: "Re-entry",
+        label: "Re-entry",
         options: {
             filter: true,
             sort: true,
@@ -461,7 +463,8 @@ export const columns1 =(handleDelete)=> [
     },
     {
         name: "SL value",
-        label: "Stoploss",
+        // label: "Re-entry",
+        label: "Re-entry",
         options: {
             filter: true,
             sort: true,

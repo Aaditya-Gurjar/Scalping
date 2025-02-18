@@ -36,7 +36,7 @@ NOTE: This file contains the styling for responsive Template.
 Font
 -----------------------------------------------------------------------*/
 @import url('https://fonts.googleapis.com/css?family=Poppins:200,200i,300,400,500,600,700,800,900&amp;display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 /*---------------------------------------------------------------------
 import Css
 -----------------------------------------------------------------------*/
@@ -74,7 +74,7 @@ General
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
+ font-family: "Inter", serif;
   font-weight: 400;
   font-style: normal;
   font-size: 14px;
@@ -115,11 +115,11 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Poppins', sans-serif;
+ font-family: "Inter", serif;
   font-weight: 400;
   margin: 0px;
   line-height: 1.5;
-  color: #3f414d;
+  color: #fff;
 }
 
 h1 a,
@@ -163,7 +163,7 @@ h6 {
 Input
 ------------------------------------------------*/
 label {
-  color: #3f414d;
+  color: #fff;
 }
 
 .form-control {
@@ -176,8 +176,9 @@ label {
 }
 
 .form-control:focus {
-  color: #3f414d;
+  color: #fff;
   border-color: #089bab;
+  background-color: black;
   box-shadow: none;
 }
 
@@ -192,7 +193,31 @@ input.form-control[type="file"] {
 .form-select[multiple] {
   height: auto;
 }
+.form-control {
+  height: 45px;
+  background-color: black !important;
+  /* Ensures black stays */
+  border: 1px solid #d7dbda;
+  font-size: 14px;
+  color: #a09e9e;
+  border-radius: 10px;
+}
 
+.form-control:focus {
+  color: #fff;
+  border-color: #089bab;
+  background-color: black;
+  /* Keeps it black on focus */
+  box-shadow: none;
+}
+
+.form-control:-webkit-autofill,
+.form-control:-webkit-autofill:focus {
+  background-color: black !important;
+  color: white !important;
+  -webkit-text-fill-color: white !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
 /* Definition Lists */
 dl dd {
   margin-bottom: 15px;
@@ -1179,8 +1204,7 @@ Card
 
   margin-bottom: 30px;
   border: none;
-  -webkit-box-shadow: 0px 4px 5px 1px rgba(175, 175, 175, 0.1);
-  box-shadow: 0px 4px 5px 1px rgba(175, 175, 175, 0.1);
+
 }
 
 .iq-card .iq-card {
@@ -1212,7 +1236,7 @@ Card
 
 .iq-card .iq-card-header .iq-header-title .card-title {
   margin-bottom: 0;
-  color: #3f414d;
+  color: #fff;
 }
 
 .iq-card-header-toolbar .nav-item a {
@@ -1239,7 +1263,7 @@ Card
 /*--------------*/
 .nav-pills .nav-item a {
   color: #393c52;
-  font-family: 'Poppins', sans-serif;
+ font-family: "Inter", serif;
 }
 
 .nav-pills .nav-link.active,
@@ -1260,15 +1284,16 @@ Card
 
 .nav-tabs .nav-item a {
   color: #393c52;
-  font-family: 'Poppins', sans-serif;
+ font-family: "Inter", serif;
   border: none;
   border-bottom: 2px solid transparent;
 }
 
-.nav-tabs .nav-item.show .nav-link,
-.nav-tabs .nav-link.active {
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
   border-bottom: 2px solid #089bab;
   color: #089bab;
+  background: transparent !important;
+  color: #fff !important;
 }
 
 .page-item.disabled .page-link {
@@ -1422,7 +1447,7 @@ Buttons
 ------------------------------------------------*/
 .btn {
   font-size: 14px;
-  font-family: 'Poppins', sans-serif;
+ font-family: "Inter", serif;
 }
 
 .btn.focus,
@@ -1461,19 +1486,19 @@ Buttons
   border-color: #089bab;
 }
 
-.btn-secondary {
-  color: #ffffff;
-  background: rgba(120, 125, 118, 1);
-  background: -moz-linear-gradient(left, rgba(120, 125, 118, 1) 0%, rgba(171, 171, 171, 1) 100%);
-  background: -webkit-gradient(left top, right top, color-stop(0%, rgba(120, 125, 118, 1)), color-stop(100%, rgba(171, 171, 171, 1)));
-  background: -webkit-linear-gradient(left, rgba(120, 125, 118, 1) 0%, rgba(171, 171, 171, 1) 100%);
-  background: -o-linear-gradient(left, rgba(120, 125, 118, 1) 0%, rgba(171, 171, 171, 1) 100%);
-  background: -ms-linear-gradient(left, rgba(120, 125, 118, 1) 0%, rgba(171, 171, 171, 1) 100%);
-  background: linear-gradient(to right, rgba(120, 125, 118, 1) 0%, rgba(171, 171, 171, 1) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#787d76', endColorstr='#ababab', GradientType=1);
-  border-color: #a09e9e;
-}
 
+.btn-secondary {
+    color: #92a6be !important;
+    background: rgb(0 0 0 / 28%) !important;
+    background: -moz-linear-gradient(left, rgba(120, 125, 118, 1) 0%, rgba(171, 171, 171, 1) 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(120, 125, 118, 1)), color-stop(100%, rgba(171, 171, 171, 1)));
+    /* background: -webkit-linear-gradient(left, rgba(120, 125, 118, 1) 0%, rgba(171, 171, 171, 1) 100%); */
+    background: -o-linear-gradient(left, rgba(120, 125, 118, 1) 0%, rgba(171, 171, 171, 1) 100%);
+    background: -ms-linear-gradient(left, rgba(120, 125, 118, 1) 0%, rgba(171, 171, 171, 1) 100%);
+    /* background: linear-gradient(to right, rgba(120, 125, 118, 1) 0%, rgba(171, 171, 171, 1) 100%); */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#787d76', endColorstr='#ababab', GradientType=1);
+    /* border-color: #a09e9e; */
+}
 .btn-success {
   color: #ffffff;
   background: rgba(49, 192, 44, 1);
@@ -1610,8 +1635,8 @@ button.bg-primary:hover {
 }
 
 .btn-outline-dark {
-  color: #3f414d;
-  border-color: #3f414d;
+  color: #fff;
+  border-color: #fff;
 }
 
 /*----------------------------------------------
@@ -1660,7 +1685,7 @@ Alert
 }
 
 .alert-dark {
-  color: #3f414d;
+  color: #fff;
   border-color: #c3c8c8;
   background-color: #f0efef;
 }
@@ -1752,12 +1777,12 @@ list Group
 }
 
 .list-group-item-dark {
-  color: #3f414d;
+  color: #fff;
   background-color: #f0efef;
 }
 
 .list-group-item-action {
-  color: #3f414d;
+  color: #fff;
 }
 
 .list-group-item.active {
@@ -1801,7 +1826,7 @@ Border Color
 }
 
 .card-title {
-  color: #3f414d;
+  color: #fff;
 }
 
 .card-body {

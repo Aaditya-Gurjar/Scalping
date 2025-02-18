@@ -2,24 +2,27 @@ import React, { useEffect, useState } from "react";
 import Coptyscript from "./Copyscript";
 import GroupScript from "./Groupscript";
 import CurrentScript from "./CurrentScript";
-import {
-  GetAllUserGroup,
-  OpenPosition,
-  getStrategyType,
-} from "../../CommonAPI/User";
+import { GetAllUserGroup, OpenPosition,getStrategyType,} from "../../CommonAPI/User";
 import { ExpriyEndDate } from "../../CommonAPI/Admin";
 import FullDataTable from "../../../ExtraComponent/CommanDataTable";
-import Swal from "sweetalert2";
+import NoDataFound from "../../../ExtraComponent/NoDataFound";
 const Userdashboard = () => {
   const userName = localStorage.getItem("name");
+  const dashboardStrategyType = sessionStorage.getItem("dashboardStrategyType");
+  const addVia = sessionStorage.getItem("addVia")
+  const groupName = sessionStorage.getItem("groupName")
+
+
   const [activeTab1, setActiveTab1] = useState("CurrentPosition");
-  const [activeTab, setActiveTab] = useState("currentScript");
-  const [subTab, setSubTab] = useState("Scalping");
+  const [activeTab, setActiveTab] = useState(addVia || "currentScript");
+
+  const [subTab, setSubTab] = useState(dashboardStrategyType || "Scalping");
   const [refresh, setRefresh] = useState(false);
-  const [getGroup, setGroup] = useState("");
+  const [getGroup, setGroup] = useState( groupName || "");
   const [strategyType, setStrategyType] = useState([]);
-  const [status, setStatus] = useState(false);
-  const [tableType, setTableType] = useState("Scalping");
+
+  const [tableType, setTableType] = useState(dashboardStrategyType || "MultiCondition");
+
   const [serviceStatus, setServiceStatus] = useState({
     status: false,
     msg: "",
@@ -34,6 +37,7 @@ const Userdashboard = () => {
     ChartingData: [],
   });
 
+
   useEffect(() => {
     GetExpriyEndDate();
     fetchStrategyType();
@@ -43,6 +47,7 @@ const Userdashboard = () => {
   useEffect(() => {
     getUserAllGroup();
   }, [activeTab]);
+
 
   const fetchStrategyType = async () => {
     try {
@@ -54,6 +59,7 @@ const Userdashboard = () => {
       console.log("Error in finding the strategy type", error);
     }
   };
+
   const getUserAllGroup = async () => {
     const data = { User: userName };
     await GetAllUserGroup(data)
@@ -62,7 +68,7 @@ const Userdashboard = () => {
           setRefresh(!refresh);
           setGroupName({
             loading: false,
-            data: response.Data,
+            data: response?.Data?.map((item) => item?.value || item)
           });
         } else {
           setGroupName({
@@ -75,6 +81,7 @@ const Userdashboard = () => {
         console.log("Error in finding the group name", err);
       });
   };
+
 
   const GetExpriyEndDate = async () => {
     const data = { Username: userName };
@@ -671,6 +678,17 @@ const Userdashboard = () => {
     },
   ];
 
+
+  useEffect(() => {
+    if (subTab === "Scalping") {
+      setTableType(dashboardStrategyType || "MultiCondition");
+    }
+    else {
+      setTableType(dashboardStrategyType || "Scalping");
+    }
+  }, [subTab]);
+
+
   return (
     <div className="container-fluid">
       <div className="row p-0">
@@ -683,7 +701,9 @@ const Userdashboard = () => {
                 role="tablist">
                 <li className="nav-item" role="presentation">
                   <a
-                    className={`nav-link ${activeTab1 === "CurrentPosition" ? "active" : ""}`}
+                    className={`nav-link ${
+                      activeTab1 === "CurrentPosition" ? "active" : ""
+                    }`}
                     id="home-tab-justify"
                     data-bs-toggle="tab"
                     href="#home-justify"
@@ -696,7 +716,9 @@ const Userdashboard = () => {
                 </li>
                 <li className="nav-item" role="presentation">
                   <a
-                    className={`nav-link ${activeTab1 === "OpenPosition" ? "active" : ""}`}
+                    className={`nav-link ${
+                      activeTab1 === "OpenPosition" ? "active" : ""
+                    }`}
                     id="profile-tab-justify"
                     data-bs-toggle="tab"
                     href="#profile-justify"
@@ -709,11 +731,21 @@ const Userdashboard = () => {
                 </li>
               </ul>
 
-              <div className="row">
+              <div className="row mt-3">
                 {activeTab1 === "CurrentPosition" && (
                   <div className="d-flex">
                     <div
-                      className={`form-group ${(activeTab == "currentScript" || activeTab == "copyScript") && subTab != "Scalping" ? "col-sm-6" : "col-md-4"}`}>
+                      className={`form-group ${
+                        activeTab == "currentScript" && subTab == "Scalping"
+                          ? "col-lg-6"
+                          : activeTab == "group" && subTab == "Scalping"
+                          ? "col-lg-4"
+                          : activeTab == "currentScript"
+                          ? "col-lg-6"
+                          : activeTab == "group"
+                          ? "col-lg-4"
+                          : "col-lg-4"
+                      }`}>
                       <div className="px-3">
                         <label>Add Via</label>
                         <select
@@ -721,6 +753,7 @@ const Userdashboard = () => {
                           required=""
                           onChange={(e) => {
                             setActiveTab(e.target.value);
+                            sessionStorage.setItem('addVia',e.target.value)
                           }}
                           value={activeTab}>
                           <option value="currentScript">Current Script</option>
@@ -729,7 +762,18 @@ const Userdashboard = () => {
                       </div>
                     </div>
                     {activeTab == "group" && (
-                      <div className={`form-group col-md-4`}>
+                      <div
+                        className={`form-group ${
+                          activeTab == "currentScript" && subTab == "Scalping"
+                            ? "col-lg-4"
+                            : activeTab == "group" && subTab == "Scalping"
+                            ? "col-lg-4"
+                            : activeTab == "currentScript"
+                            ? "col-lg-6"
+                            : activeTab == "group"
+                            ? "col-lg-4"
+                            : "col-lg-4"
+                        }`}>
                         <div className="px-3">
                           <label>Group Name</label>
                           <select
@@ -737,6 +781,7 @@ const Userdashboard = () => {
                             required=""
                             onChange={(e) => {
                               setGroup(e.target.value);
+                            sessionStorage.setItem('groupName',e.target.value)
                             }}
                             value={getGroup}>
                             <option value="">Select Group Name</option>
@@ -749,8 +794,19 @@ const Userdashboard = () => {
                         </div>
                       </div>
                     )}
+
                     <div
-                      className={`form-group ${(activeTab == "currentScript" || activeTab == "copyScript") && subTab != "Scalping" ? "col-sm-6" : subTab === "Scalping" ? "col-md-4" : "col-md-4"}`}>
+                      className={`form-group ${
+                        activeTab == "currentScript" && subTab == "Scalping"
+                          ? "col-lg-6"
+                          : activeTab == "group" && subTab == "Scalping"
+                          ? "col-lg-4"
+                          : activeTab == "currentScript"
+                          ? "col-lg-6"
+                          : activeTab == "group"
+                          ? "col-lg-4"
+                          : "col-lg-4"
+                      }`}>
                       <div className="px-3">
                         <label>Strategy Type</label>
                         <select
@@ -758,6 +814,7 @@ const Userdashboard = () => {
                           required=""
                           onChange={(e) => {
                             setSubTab(e.target.value);
+                            sessionStorage.setItem("dashboardStrategyType", e.target.value);
                           }}
                           value={subTab}>
                           {strategyType.map((type, index) => (
@@ -769,12 +826,20 @@ const Userdashboard = () => {
                       </div>
                     </div>
 
-
-
                     {subTab === "Scalping" && (
                       <div
-                        className={`form-group ${(activeTab == "currentScript" || activeTab == "copyScript") && subTab != "Scalping" ? "col-sm-6" : subTab === "Scalping" ? "col-md-4" : "col-md-4"}`}>
-                        <div className="px-3">
+                        className={`form-group ${
+                          activeTab == "currentScript" && subTab == "Scalping"
+                            ? "col-lg-4"
+                            : activeTab == "group" && subTab == "Scalping"
+                            ? "col-lg-4"
+                            : activeTab == "currentScript"
+                            ? "col-lg-6"
+                            : activeTab == "group"
+                            ? "col-lg-4"
+                            : "col-lg-4"
+                        }`}>
+                        {/* <div className="px-3">
                           <label>Table Type</label>
                           <select
                             className="form-select"
@@ -788,107 +853,237 @@ const Userdashboard = () => {
                               Multi Condition
                             </option>
                           </select>
-                        </div>
+                        </div> */}
                       </div>
                     )}
                   </div>
                 )}
               </div>
+
+              {/* <div className="">
+                {activeTab1 === "CurrentPosition" ? (
+                  <>
+                    {activeTab === "group" ? (
+                      <div className="tab-pane fade show active" id="home-justify" role="tabpanel">
+                        <div className="mt-3">
+                          {subTab && serviceStatus ? (
+                            getGroup === "copyScript" ? (
+                              <Coptyscript data={subTab} selectedType={activeTab} data2={serviceStatus} />
+                            ) : (
+                              <GroupScript data={subTab} selectedType={activeTab} GroupName={getGroup} data2={serviceStatus} />
+                            )
+                          ) : (
+                            <NoDataFound />
+                          )}
+                        </div>
+                      </div>
+                    ) : activeTab === "currentScript" ? (
+                      <div className="tab-pane fade show active" id="home-justify" role="tabpanel">
+                        <div className="tab-content mt-3">
+                        
+                          {subTab && serviceStatus ? (
+                            <CurrentScript tableType={tableType} data={subTab} selectedType={activeTab} data2={serviceStatus} />
+                          ) : (
+                            <NoDataFound />
+                          )}
+                        </div>
+                      </div>
+                    ) : (
+                      <NoDataFound />
+                    )}
+                  </>
+                ) : (
+                  <NoDataFound />
+                )}
+              </div> */}
+
+              {/* <div className="tab-content">
+                {activeTab1 === "OpenPosition" &&
+                  (getPositionData.Scalping &&
+                    getPositionData.NewScalping &&
+                    getPositionData.Option &&
+                    getPositionData.Pattern &&
+                    getPositionData.ChartingData ? (
+                    <>
+                      {getPositionData.Scalping &&
+                        getPositionData.Scalping.length > 0 && (
+                          <div className="mt-4">
+                            <h4>Scalping</h4>
+                            <FullDataTable
+                              columns={columns1}
+                              data={getPositionData.Scalping}
+                              checkBox={false}
+                            />
+                          </div>
+                        )}
+                      {getPositionData.NewScalping &&
+                        getPositionData.NewScalping.length > 0 && (
+                          <div className="mt-4">
+                            <h4>Multi Condition</h4>
+                            <FullDataTable
+                              columns={columns4}
+                              data={getPositionData.NewScalping}
+                              checkBox={false}
+                            />
+                          </div>
+                        )}
+
+                      {getPositionData.Option &&
+                        getPositionData.Option.length > 0 && (
+                          <div className="mt-4">
+                            <h4>Option</h4>
+                            <FullDataTable
+                              columns={columns2}
+                              data={getPositionData.Option}
+                              checkBox={false}
+                            />
+                          </div>
+                        )}
+
+                      {getPositionData.Pattern &&
+                        getPositionData.Pattern.length > 0 && (
+                          <div className="mt-4">
+                            <h4>Pattern</h4>
+                            <FullDataTable
+                              columns={columns3}
+                              data={getPositionData.Pattern}
+                              checkBox={false}
+                            />
+                          </div>
+                        )}
+
+                      {getPositionData.ChartingData &&
+                        getPositionData.ChartingData.length > 0 && (
+                          <div className="mt-4">
+                            <h4>Charting Platform</h4>
+                            <FullDataTable
+                              columns={columns5}
+                              data={getPositionData.ChartingData}
+                              checkBox={false}
+                            />
+                          </div>
+                        )}
+                    </>
+                  ) : (
+                    <NoDataFound />
+                  ))}
+              </div> */}
+
               <div className="">
                 {activeTab1 === "CurrentPosition" && (
                   <>
-                    {activeTab === "group" && (
+                    {activeTab === "group" ? (
                       <div
                         className="tab-pane fade show active"
                         id="home-justify"
                         role="tabpanel">
                         <div className="mt-3">
-                          {getGroup == "copyScript"
-                            ? subTab && (
-                                <Coptyscript
-                                  data={subTab}
-                                  selectedType={activeTab}
-                                  data2={serviceStatus && serviceStatus}
-                                />
-                              )
-                            : subTab && (
-                                <GroupScript
-                                  data={subTab}
-                                  selectedType={activeTab}
-                                  GroupName={getGroup}
-                                  data2={serviceStatus && serviceStatus}
-                                />
-                              )}
+                          {subTab && serviceStatus ? (
+                            getGroup === "copyScript" ? (
+                              <Coptyscript
+                                data={subTab}
+                                selectedType={activeTab}
+                                data2={serviceStatus}
+                              />
+                            ) : (
+                              <GroupScript
+                                data={subTab}
+                                selectedType={activeTab}
+                                GroupName={getGroup}
+                                data2={serviceStatus}
+                              />
+                            )
+                          ) : null}
                         </div>
                       </div>
-                    )}
-                    {activeTab === "currentScript" && (
+                    ) : activeTab === "currentScript" ? (
                       <div
                         className="tab-pane fade show active"
                         id="home-justify"
                         role="tabpanel">
                         <div className="tab-content mt-3">
-                          <CurrentScript
-                            tableType={tableType}
-                            data={subTab}
-                            selectedType={activeTab}
-                            data2={serviceStatus && serviceStatus}
-                          />
+                          {subTab && serviceStatus ? (
+                            <CurrentScript
+                              tableType={tableType}
+                              data={subTab}
+                              selectedType={activeTab}
+                              data2={serviceStatus}
+                            />
+                          ) : null}
                         </div>
+                      </div>
+                    ) : null}
+                  </>
+                )}
+
+                {activeTab1 === "OpenPosition" && (
+                  <>
+                    {/* {getPositionData.Scalping?.length > 0 && (
+                      <div className="mt-4">
+                        <h4>Scalping</h4>
+                        <FullDataTable
+                          columns={columns1}
+                          data={getPositionData.Scalping}
+                          checkBox={false}
+                        />
+                      </div>
+                    )} */}
+
+                    {getPositionData.NewScalping?.length > 0 && (
+                      <div className="mt-4">
+                        <h4>Multi Condition</h4>
+                        <FullDataTable
+                          columns={columns4}
+                          data={getPositionData.NewScalping}
+                          checkBox={false}
+                        />
+                      </div>
+                    )}
+
+                    {getPositionData.Option?.length > 0 && (
+                      <div className="mt-4">
+                        <h4>Option</h4>
+                        <FullDataTable
+                          columns={columns2}
+                          data={getPositionData.Option}
+                          checkBox={false}
+                        />
+                      </div>
+                    )}
+
+                    {getPositionData.Pattern?.length > 0 && (
+                      <div className="mt-4">
+                        <h4>Pattern</h4>
+                        <FullDataTable
+                          columns={columns3}
+                          data={getPositionData.Pattern}
+                          checkBox={false}
+                        />
+                      </div>
+                    )}
+
+                    {getPositionData.ChartingData?.length > 0 && (
+                      <div className="mt-4">
+                        <h4>Charting Platform</h4>
+                        <FullDataTable
+                          columns={columns5}
+                          data={getPositionData.ChartingData}
+                          checkBox={false}
+                        />
                       </div>
                     )}
                   </>
                 )}
-              </div>
 
-              <div className="tab-content">
-                {activeTab1 === "OpenPosition" && (
-                  <>
-                    <div className="mt-4">
-                      <h4>Scalping</h4>
-                      <FullDataTable
-                        columns={columns1}
-                        data={getPositionData.Scalping}
-                        checkBox={false}
-                      />
-                    </div>
-                    <div className="mt-4">
-                      <h4>Multi Condition</h4>
-                      <FullDataTable
-                        columns={columns4}
-                        data={getPositionData.NewScalping}
-                        checkBox={false}
-                      />
-                    </div>
-
-                    <div className="mt-4">
-                      <h4>Option</h4>
-                      <FullDataTable
-                        columns={columns2}
-                        data={getPositionData.Option}
-                        checkBox={false}
-                      />
-                    </div>
-
-                    <div className="mt-4">
-                      <h4>Pattern</h4>
-                      <FullDataTable
-                        columns={columns3}
-                        data={getPositionData.Pattern}
-                        checkBox={false}
-                      />
-                    </div>
-
-                    <div className="mt-4">
-                      <h4>Charting Platform</h4>
-                      <FullDataTable
-                        columns={columns5}
-                        data={getPositionData.ChartingData}
-                        checkBox={false}
-                      />
-                    </div>
-                  </>
-                )}
+                {/* Agar dono section me kahin bhi data nahi hai to hi NoDataFound dikhao */}
+                {!(subTab && serviceStatus) &&
+                  !(
+                    getPositionData.Scalping?.length > 0 ||
+                    getPositionData.NewScalping?.length > 0 ||
+                    getPositionData.Option?.length > 0 ||
+                    getPositionData.Pattern?.length > 0 ||
+                    getPositionData.ChartingData?.length > 0
+                  ) && <NoDataFound />}
               </div>
             </div>
           </div>

@@ -21,6 +21,7 @@ const Discription = () => {
                                 role="tab"
                                 aria-controls="pills-home"
                                 aria-selected="true"
+                                style={{marginBottom:"100px"}}
                             >
                                 Scalping
                             </a>

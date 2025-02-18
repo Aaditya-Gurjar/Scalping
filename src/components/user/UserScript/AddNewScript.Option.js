@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom"
-import AddForm from "../../../ExtraComponent/FormData";
+import AddForm from "../../../ExtraComponent/FormData2";
 import { useFormik } from "formik";
 import { useState, useEffect } from "react";
 import Swal from 'sweetalert2';
@@ -8,6 +8,8 @@ import { AddScript, CheckPnL } from '../../CommonAPI/User'
 // import { base_url } from "../../../Utils/Config";
 import axios from "axios";
 import * as Config from "../../../Utils/Config";
+import { text } from "../../../ExtraComponent/IconTexts";
+import { Modal } from "react-bootstrap";
 
 
 
@@ -23,6 +25,7 @@ const AddClient = () => {
     const [showPnl, setShowPnl] = useState(false)
     const [symbolOptions, setSymbolOptions] = useState([]);
     const [exchangeOptions, setExchangeOptions] = useState([])
+    const [openModel, setOpenModel] = useState(false)
 
 
     const [PnlData, setPnlData] = useState({
@@ -35,9 +38,14 @@ const AddClient = () => {
         NoprofitLoss1: "",
         NoprofitLoss2: ""
     })
+    // console.log("PnlData mai kya kya aa rha hai", PnlData);
+
 
     const SweentAlertFun = (text) => {
         Swal.fire({
+            background: "#1a1e23 ",
+            backdrop: "#121010ba",
+            confirmButtonColor: "#1ccc8a",
             title: "Error",
             text: text,
             icon: "error",
@@ -50,11 +58,31 @@ const AddClient = () => {
 
     const getEndData = (stg) => {
         const dataWithoutLastItem = location?.state?.data?.scriptType?.data.slice(0, -1);
+
+        console.log("dataWithoutLastItem" , dataWithoutLastItem)
         const foundItem = dataWithoutLastItem.find((item) => {
             return item['Option Strategy'].includes(stg);
         });
+
         return foundItem.EndDate;
     };
+
+    const ScrollToViewFirstError = (newErrors) => {
+        if (Object.keys(newErrors).length !== 0) {
+            const errorField = Object.keys(newErrors)[0];
+
+            const errorElement = document.getElementById(errorField);
+            if (errorElement) {
+                const elementPosition = errorElement.getBoundingClientRect().top + window.pageYOffset;
+
+                const offset = 100;
+                window.scrollTo({
+                    top: elementPosition - offset,
+                    behavior: 'smooth'
+                });
+            }
+        }
+    }
 
 
     const formik = useFormik({
@@ -111,6 +139,13 @@ const AddClient = () => {
             quantityselection: "",
             quantityvalue: 0.0,
             targetselection: "",
+            Profit: 0,
+            Loss: 0,
+            RollOver: "",
+            NumberOfDays: 0,
+            RollOverExitTime: "00:00:00",
+            ExitType: "",
+            WorkingDay: [],
 
         },
         validate: (values) => {
@@ -242,6 +277,57 @@ const AddClient = () => {
                     errors.Shifting_Value = "Please Enter Number of Shifts Between 1-5"
                 }
             }
+            if (
+                !values.Loss &&
+                values.Strategy == "Multi_Conditional" &&
+                values.position_type == "Multiple"
+            ) {
+                errors.Loss = "Please Enter Maximum Loss";
+            }
+
+            if (
+                !values.Profit &&
+                values.Strategy == "Multi_Conditional" &&
+                values.position_type == "Multiple"
+            ) {
+                errors.Profit = "Please Enter Maximum Loss";
+            }
+
+            if (
+                !values.RollOver &&
+                values.Strategy == "Multi_Conditional" &&
+                values.position_type == "Multiple"
+            ) {
+                errors.RollOver = "Please Enter No. of Repeatation";
+            }
+            if (
+                !values.NumberOfDays &&
+                values.Strategy == "Multi_Conditional" &&
+                values.position_type == "Multiple" &&
+                values.RollOver == ""
+            ) {
+                errors.NumberOfDays = "Please Enter No. of Days";
+            }
+
+            if (
+                !values.RollOverExitTime &&
+                values.Strategy == "Multi_Conditional" &&
+                values.position_type == "Multiple" &&
+                values.RollOver == true
+            ) {
+                errors.RollOverExitTime = "Please Enter RollOver Exit Time";
+            }
+
+            if (!values.ExitType && values.Measurment_Type != "Shifting_FourLeg" && values.ETPattern == "Leg vice") {
+                errors.ExitType = "Please Select Exit Type";
+            }
+
+            if (
+                !values.WorkingDay.length > 0) {
+                errors.WorkingDay = "Please select Working day";
+            }
+            // ScrollToViewFirstError(errors)
+
             return errors;
         },
         onSubmit: async (values) => {
@@ -296,7 +382,39 @@ const AddClient = () => {
                 quantityselection: "",
                 quantityvalue: 0.0,
                 targetselection: "",
+                Loss:
+                    values.position_type == "Multiple" &&
+                        values.Strategy == "Multi_Conditional"
+                        ? values.Loss
+                        : 0,
+
+                Profit:
+                    values.position_type == "Multiple" &&
+                        values.Strategy == "Multi_Conditional"
+                        ? values.Profit
+                        : 0,
+                RollOver: (values.position_type ==
+                    "Multiple" && values.Strategy == "Multi_Conditional"
+                    ? values.RollOver
+                    : false),
+                NumberOfDays:
+                    values.position_type == "Multiple" &&
+                        values.Strategy == "Multi_Conditional" &&
+                        values.RollOver == true
+                        ? values.NumberOfDays
+                        : 0,
+                RollOverExitTime:
+                    values.position_type == "Multiple" &&
+                        values.Strategy == "Multi_Conditional" &&
+                        values.RollOver == true
+                        ? values.RollOverExitTime
+                        : "00:00:00",
+
+                ExitType: values.Measurment_Type != "Shifting_FourLeg" && values.ETPattern == "Leg vice" ? values.ExitType : "",
+                WorkingDay: values?.WorkingDay ? values?.WorkingDay?.map((item) => item?.value || item) : [],
             }
+        
+            
 
             if (values.Striketype == "Depth_of_Strike" && (Number(values.DepthofStrike) < 0 || Number(values.DepthofStrike) > 10)) {
 
@@ -339,10 +457,16 @@ const AddClient = () => {
                 }
             }
 
+            console.log("req", req)
+
+
             await AddScript(req)
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Script Added !",
                             text: response.message,
                             icon: "success",
@@ -355,6 +479,9 @@ const AddClient = () => {
                     }
                     else {
                         Swal.fire({
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Error !",
                             text: response.message,
                             icon: "error",
@@ -703,10 +830,28 @@ const AddClient = () => {
             showWhen: (value) => value.Measurment_Type != "Shifting_FourLeg",
             hiding: false,
             label_size: 12,
-            col_size: 4,
+            col_size: formik.values.Measurment_Type != "Shifting_FourLeg" ? 3 : 4,
             headingtype: 3,
             disable: false,
         },
+
+        {
+            name: "ExitType",
+            label: "Exit Type",
+            type: "select1",
+            options: [
+                { label: "Cost to cost", value: "Cost to cost" },
+                { label: "Normal", value: "Normal" },
+            ],
+            showWhen: (value) => value.Measurment_Type != "Shifting_FourLeg" && value.ETPattern == "Leg vice",
+            hiding: false,
+            label_size: 12,
+            col_size: formik.values.Measurment_Type != "Shifting_FourLeg" ? 3 : 4,
+            headingtype: 3,
+            disable: false,
+        },
+
+
         {
             name: "Targetvalue",
             label: "Target Value",
@@ -715,7 +860,7 @@ const AddClient = () => {
             label_size: 12,
             showWhen: (value) => value.Measurment_Type != "Shifting_FourLeg" || (value.Measurment_Type == "Shifting_FourLeg" && (value.Strategy == 'ShortFourLegStretegy' || value.Strategy == 'LongFourLegStretegy')),
             headingtype: 3,
-            col_size: 4,
+            col_size: formik.values.Measurment_Type != "Shifting_FourLeg" ? 3 : 4,
             disable: false,
         },
         {
@@ -725,7 +870,7 @@ const AddClient = () => {
             hiding: false,
             label_size: 12,
             showWhen: (value) => value.Measurment_Type != "Shifting_FourLeg" || (value.Measurment_Type == "Shifting_FourLeg" && (value.Strategy == 'ShortFourLegStretegy' || value.Strategy == 'LongFourLegStretegy')),
-            col_size: 4,
+            col_size: formik.values.Measurment_Type != "Shifting_FourLeg" ? 3 : 4,
             headingtype: 3,
             disable: false,
 
@@ -737,7 +882,7 @@ const AddClient = () => {
             showWhen: (value) => value.Measurment_Type == "Shifting_FourLeg" && value.Strategy != 'ShortFourLegStretegy' && value.Strategy != 'LongFourLegStretegy',
             hiding: false,
             label_size: 12,
-            col_size: 4,
+            col_size: formik.values.Measurment_Type != "Shifting_FourLeg" ? 3 : 4,
             headingtype: 3,
             disable: false,
         },
@@ -784,6 +929,48 @@ const AddClient = () => {
             disable: false,
             hiding: false,
         },
+
+        {
+            name: "WorkingDay",
+            label: "Working Day",
+            type: "multiselect",
+            options: [
+                { label: "Monday", value: "Monday" },
+                { label: "Tuesday", value: "Tuesday" },
+                { label: "Wednesday", value: "Wednesday" },
+                { label: "Thursday", value: "Thursday" },
+                { label: "Friday", value: "Friday" },
+                { label: "Saturday", value: "Saturday" },
+
+            ],
+            label_size: 12,
+            col_size: 4,
+            headingtype: 4,
+            disable: false,
+            // iconText: text.Increment_Type,
+            hiding: false,
+        },
+        {
+            name: "Loss",
+            label: "Max Loss ",
+            type: "text3",
+            label_size: 12,
+            col_size: 4,
+            headingtype: 4,
+            disable: false,
+            hiding: false,
+        },
+
+        {
+            name: "Profit",
+            label: " Max Profit ",
+            type: "text3",
+            label_size: 12,
+            col_size: 4,
+            headingtype: 4,
+            disable: false,
+            hiding: false,
+        },
     ]
 
     const TimeDurationArr = [
@@ -822,6 +1009,57 @@ const AddClient = () => {
             col_size: 4,
             headingtype: 5,
             disable: false,
+        },
+        {
+            name: "RollOver",
+            label: "RollOver",
+            type: "select",
+            options: [
+                { label: "True", value: true },
+                { label: "False", value: false },
+            ],
+            label_size: 12,
+            col_size: 4,
+            headingtype: 4,
+            showWhen: (values) => values.ExitDay == "Delivery",
+            disable: false,
+            hiding: false,
+        },
+
+        {
+            name: "NumberOfDays",
+            label: "No. of Days",
+            type: "text3",
+            label_size: 12,
+            showWhen: (values) => {
+                const rollOverBoolean = values.RollOver === "true";
+                return (
+                    rollOverBoolean &&
+                    values.ExitDay == "Delivery"
+                );
+            },
+            col_size: 4,
+            headingtype: 4,
+            disable: false,
+            hiding: false,
+        },
+
+        {
+            name: "RollOverExitTime",
+            label: "RollOver Exit Time",
+            type: "timepiker",
+            label_size: 12,
+            showWhen: (values) => {
+                const rollOverBoolean = values.RollOver === "true";
+                return (
+                    rollOverBoolean &&
+                    values.ExitDay == "Delivery"
+                );
+            },
+            col_size: 4,
+            headingtype: 4,
+            disable: false,
+            hiding: false,
         },
 
     ]
@@ -1069,6 +1307,7 @@ const AddClient = () => {
         if (weekend == 6 || weekend == 0 || currentTime >= "15:30:00" || currentTime <= "09:15:00") {
             return SweentAlertFun("Market is off Today")
         }
+
         const req = {
             MainStrategy: location.state.data.selectStrategyType,
             Strategy: formik.values.Strategy,
@@ -1123,10 +1362,13 @@ const AddClient = () => {
             targetselection: "",
 
         }
+
+
         await CheckPnL(req)
             .then((response) => {
                 if (response.Status) {
                     setShowPnl(true)
+                    setOpenModel(true)
                     setPnlData({
                         MaximumProfit: response.MaximumProfit,
                         MaximumLoss: response.MaximumLoss,
@@ -1174,10 +1416,10 @@ const AddClient = () => {
                 additional_field={
                     <div>
                         {(formik.values.Strategy == 'CoveredCall' || formik.values.Strategy == 'CoveredPut' || formik.values.Strategy == 'LongCollar' || formik.values.Strategy == 'ShortCollar' || formik.values.Strategy == 'LongFourLegStretegy' || formik.values.Strategy == 'ShortFourLegStretegy') ? "" :
-                            <p className="btn btn-primary" onClick={handleCheckPnl}>Check PnL</p>
+                            <p className="btn btn-primary" onClick={() => handleCheckPnl()}>Check PnL</p>
                         }
 
-                        {
+                        {/* {
                             showPnl && <div>
                                 <div>
                                     <table style={{ width: '100%', textAlign: 'left', borderCollapse: 'collapse' }}>
@@ -1217,10 +1459,157 @@ const AddClient = () => {
                                     </table>
                                 </div>
                             </div>
-                        }
+                        } */}
                     </div>
                 }
             />
+
+            {/* {openModel1 && (
+                <div className="modal custom-modal d-flex" id="Balance" role="dialog">
+                    <div className="modal-dialog modal-dialog-centered" style={{ width: "30rem" }}>
+                        <div className="modal-content">
+                            <div className="modal-header border-0 pb-0">
+                                <div className="form-header modal-header-title text-start mb-0">
+                                    <h4 className="mb-0 d-flex align-items-center">Margin Value</h4>
+                                </div>
+                                <button
+                                    type="button"
+                                    className="btn-close"
+                                    aria-label="Close"
+                                    onClick={() => {
+                                        setOpenModel1(false);
+                                        setError(""); // Reset error
+                                        setMarginValue(""); // Reset input
+                                    }}
+                                ></button>
+                            </div>
+                            <div>
+                                <div className="modal-body">
+                                    <div className="row">
+                                        <div className="col-lg-12 col-sm-12">
+                                            <div className="input-block mb-3">
+                                                <label className="form-label" style={{ fontWeight: "bold", color: "#fff" }}>
+                                                    Margin Value
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    value={marginValue}
+                                                    onChange={(e) => {
+                                                        const value = e.target.value;
+                                                        if (/^\d*$/.test(value)) { // ✅ Only numbers allowed
+                                                            setMarginValue(value);
+                                                            setError(""); // Reset error if valid
+                                                        } else {
+                                                            setError("Only numbers are allowed");
+                                                        }
+                                                    }}
+                                                />
+                                                {error && <p className="text-danger">{error}</p>}
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div style={{ textAlign: "right" }}>
+                                    <button
+                                        type="button"
+                                        className="btn btn-success"
+                                        onClick={() => {
+                                            if (!marginValue.trim()) {
+                                                setError("Margin Value required");
+                                                return;
+                                            }
+
+                                            handleCheckPnl();
+                                            setOpenModel1(false);
+                                            setMarginValue("");
+                                        }}
+                                        style={{
+                                            backgroundColor: "#f44336",
+                                            color: "white",
+                                            borderRadius: "4px",
+                                        }}
+                                    >
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )} */}
+
+            {openModel && (
+                <div className="modal custom-modal d-flex" id="Balance" role="dialog">
+                    <div className="modal-dialog modal-dialog-centered" style={{ width: "40rem" }}>
+                        <div className="modal-content" style={{ backgroundColor: "#222", color: "white" }}>
+                            <div className="modal-header border-0 pb-0">
+                                <div className="form-header modal-header-title text-start mb-0">
+                                    <h4 className="mb-0 d-flex align-items-center">Withdrawal Balance</h4>
+                                </div>
+                                <button
+                                    type="button"
+                                    className="btn-close"
+                                    aria-label="Close"
+                                    onClick={() => setOpenModel(false)}
+                                    style={{ filter: "invert(1)" }} // White close button
+                                ></button>
+                            </div>
+                            <div>
+                                <div className="modal-body">
+                                    <div className="row">
+                                        <div className="col-md-6 mb-3">
+                                            <label className="form-label fw-bold text-white">Maximum Profit</label>
+                                            <p>{PnlData.MaximumProfit || "N/A"}</p>
+                                        </div>
+                                        <div className="col-md-6 mb-3">
+                                            <label className="form-label fw-bold text-white">Maximum Loss</label>
+                                            <p>{PnlData.MaximumLoss || "N/A"}</p>
+                                        </div>
+                                        <div className="col-md-6 mb-3">
+                                            <label className="form-label fw-bold text-white">Spot Price Maximum Profit 1</label>
+                                            <p>{PnlData.SpotPriceMaximumProfit1 || "N/A"}</p>
+                                        </div>
+                                        <div className="col-md-6 mb-3">
+                                            <label className="form-label fw-bold text-white">Spot Price Maximum Profit 2</label>
+                                            <p>{PnlData.SpotPriceMaximumProfit2 || "N/A"}</p>
+                                        </div>
+                                        <div className="col-md-6 mb-3">
+                                            <label className="form-label fw-bold text-white">Spot Price Maximum Loss 1</label>
+                                            <p>{PnlData.SpotPriceMaximumLoss1 || "N/A"}</p>
+                                        </div>
+                                        <div className="col-md-6 mb-3">
+                                            <label className="form-label fw-bold text-white">Spot Price Maximum Loss 2</label>
+                                            <p>{PnlData.SpotPriceMaximumLoss2 || "N/A"}</p>
+                                        </div>
+                                        <div className="col-md-6 mb-3">
+                                            <label className="form-label fw-bold text-white">NoprofitLoss1</label>
+                                            <p>{PnlData.NoprofitLoss1 || "N/A"}</p>
+                                        </div>
+                                        <div className="col-md-6 mb-3">
+                                            <label className="form-label fw-bold text-white">NoprofitLoss2</label>
+                                            <p>{PnlData.NoprofitLoss2 || "N/A"}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="modal-footer">
+                                    <button
+                                        type="button"
+                                        className="btn btn-back cancel-btn me-2"
+                                        onClick={() => setOpenModel(false)}
+                                        style={{ backgroundColor: "#f44336", color: "white", borderRadius: "4px" }}
+                                    >
+                                        Close
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
 
         </>
     );

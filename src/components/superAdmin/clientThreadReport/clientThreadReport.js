@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { getCompanyName, clientThreadeReport } from '../../CommonAPI/SuperAdmin'
 import FullDataTable from '../../../ExtraComponent/CommanDataTable'
+import NoDataFound from '../../../ExtraComponent/NoDataFound'
 
 const ClientThreadReport = () => {
 
+    const SelectPanelName = sessionStorage.getItem("SelectPanelName")
+
     const [getAllClientThreadeReport, setAllClientThreadeReport] = useState([])
-    const [comapnyName, setCompanyName] = useState('')
+    const [comapnyName, setCompanyName] = useState(SelectPanelName || '')
     const [getAllComapny, setAllComapny] = useState([])
 
     useEffect(() => {
@@ -156,7 +159,10 @@ const ClientThreadReport = () => {
                                     <div className="form-group col-md-3 ms-2">
                                         <label>Select Panel Name</label>
                                         <select className="form-select" required=""
-                                            onChange={(e) => setCompanyName(e.target.value)}
+                                            onChange={(e) => {
+                                                setCompanyName(e.target.value)
+                                                sessionStorage.setItem('SelectPanelName',e.target.value)
+                                            }}
                                             value={comapnyName}
                                         >
                                             {getAllComapny && getAllComapny.map((item, index) => {
@@ -181,11 +187,17 @@ const ClientThreadReport = () => {
                                     </div> */}
                                 </div>
                             </div>
-                            <FullDataTable
-                                columns={columns}
-                                data={getAllClientThreadeReport}
-                                checkBox={false}
-                            />
+                            {
+                                getAllClientThreadeReport?.length > 0 ?
+                                    (<FullDataTable
+                                        columns={columns}
+                                        data={getAllClientThreadeReport}
+                                        checkBox={false}
+                                    />)
+                                    :
+                                    (<NoDataFound />)
+                            }
+
                         </div>
                     </div>
                 </div>

@@ -3,11 +3,13 @@ import { Get_Client_Report } from '../../CommonAPI/Admin'
 import FullDataTable from '../../../ExtraComponent/CommanDataTable';
 import Checkbox from '@mui/material/Checkbox';
 import {ClientReportColumn} from './UserAllColumn'
+import NoDataFound from '../../../ExtraComponent/NoDataFound';
 
 
 
 const Clientreport = () => {
-    const [selectUserName, setSelectUserName] = useState('')
+    const Username = sessionStorage.getItem("Username")
+    const [selectUserName, setSelectUserName] = useState(Username || 'AllUser')
     const [getTableData, setTableData] = useState({
         loading: true,
         data: []
@@ -43,7 +45,7 @@ const Clientreport = () => {
  
 
     useEffect(() => {
-        setSelectUserName('AllUser')
+        setSelectUserName(Username || 'AllUser')
     }, [])
 
 
@@ -66,7 +68,10 @@ const Clientreport = () => {
                                             <div className="form-group col-md-6">
                                                 <label htmlFor="validationDefault01" className='mb-1'>Select Username</label>
                                                 <select className="form-select" required=""
-                                                    onChange={(e) => setSelectUserName(e.target.value)}
+                                                    onChange={(e) => {
+                                                        setSelectUserName(e.target.value)
+                                                        sessionStorage.setItem("Username",e.target.value)
+                                                    }}
                                                     value={selectUserName}>
                                                     <option value={"AllUser"}>AllUser</option>
                                                     <option value={"ReadData"}>ReadData</option>
@@ -75,11 +80,17 @@ const Clientreport = () => {
                                         </div>
                                     </div>
                                     <div className="modal-body">
-                                        <FullDataTable
-                                            columns={ClientReportColumn()}
-                                            data={getTableData.data}
-                                            checkBox={false}
-                                        />
+                                        {
+                                            getTableData.data && getTableData.data.length > 0 ? 
+                                                (<FullDataTable
+                                                    columns={ClientReportColumn()}
+                                                    data={getTableData.data}
+                                                    checkBox={false}
+                                                />)
+                                            :
+                                            (<NoDataFound />)
+                                        }
+                                       
                                     </div>
                                 </div>
                             </div>

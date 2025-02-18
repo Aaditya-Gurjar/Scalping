@@ -5,11 +5,14 @@ import { SquarePen, Trash2 } from 'lucide-react';
 import { useFormik } from 'formik';
 import Swal from 'sweetalert2';
 import AddForm from '../../../ExtraComponent/FormData';
+import NoDataFound from '../../../ExtraComponent/NoDataFound';
 
 const ClientThreadReport = () => {
 
+    const PanelName = sessionStorage.getItem("PanelName")
+
     const [getAllClientdetails, setAllClientDetails] = useState([])
-    const [comapnyName, setCompanyName] = useState('')
+    const [comapnyName, setCompanyName] = useState(PanelName || '')
     const [getAllComapny, setAllComapny] = useState([])
     const [showModal, setShowModal] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(0);
@@ -68,6 +71,9 @@ const ClientThreadReport = () => {
             .then((response) => {
                 if (response.Status) {
                     Swal.fire({
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Success",
                         text: response.message,
                         icon: "success",
@@ -79,6 +85,9 @@ const ClientThreadReport = () => {
                 else {
 
                     Swal.fire({
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Error",
                         text: response.message,
                         icon: "error",
@@ -256,6 +265,9 @@ const ClientThreadReport = () => {
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Success",
                             text: response.message,
                             icon: "success",
@@ -331,7 +343,10 @@ const ClientThreadReport = () => {
                                     <div className="form-group col-md-3 ms-2">
                                         <label>Select Panel Name</label>
                                         <select className="form-select" required=""
-                                            onChange={(e) => setCompanyName(e.target.value)}
+                                            onChange={(e) => {
+                                                setCompanyName(e.target.value)
+                                                sessionStorage.setItem("PanelName",e.target.value)
+                                            }}
                                             value={comapnyName}
                                         >
                                             {getAllComapny && getAllComapny.map((item, index) => {
@@ -344,11 +359,19 @@ const ClientThreadReport = () => {
 
                                 </div>
                             </div>
-                            <FullDataTable
-                                columns={columns}
-                                data={getAllClientdetails}
-                                checkBox={false}
-                            />
+                            {
+                                getAllClientdetails && getAllClientdetails.length > 0 ?
+                                    (
+                                        <FullDataTable
+                                            columns={columns}
+                                            data={getAllClientdetails}
+                                            checkBox={false}
+                                        />
+                                    )
+                                    :
+                                    (<NoDataFound />)
+                            }
+
                         </div>
                     </div>
                 </div>

@@ -3,9 +3,11 @@ import FullDataTable from '../../../ExtraComponent/CommanDataTable'
 import { Get_Panle_Logs, GetName } from '../../CommonAPI/User'
 import DatePicker from "react-datepicker";
 import { Eye } from 'lucide-react';
+import NoDataFound from '../../../ExtraComponent/NoDataFound';
 
 const Pannel = () => {
     const userName = localStorage.getItem('name')
+    const Activity = sessionStorage.getItem("Activity")
     const [getPanleData, setPanleData] = useState({
         loading: true,
         data: []
@@ -13,7 +15,7 @@ const Pannel = () => {
     const [showModal, setShowModal] = useState(false)
     const [fromDate, setFromData] = useState('')
     const [ToDate, setToData] = useState('')
-    const [getActivity, setActivity] = useState('')
+    const [getActivity, setActivity] = useState(Activity || '')
     const [getMsg, setMsg] = useState('')
     const [getSortName, setSortName] = useState([])
 
@@ -191,7 +193,10 @@ const Pannel = () => {
                       <select
                         className="form-select"
                         required=""
-                        onChange={(e) => setActivity(e.target.value)}
+                        onChange={(e) => {
+                          setActivity(e.target.value)
+                          sessionStorage.setItem('Activity',e.target.value)
+                        }}
                         value={getActivity}>
                         <option value="">All Activity</option>
                         <option value={"Login"}>Login</option>
@@ -216,19 +221,20 @@ const Pannel = () => {
                       checkBox={false}
                     />
                   ) : (
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        textAlign: "center",
-                      }}>
-                      <img
-                        src="/assets/images/no-record-found.png"
-                        width="30%"
-                        alt=""
-                      />
-                    </div>
+                    // <div
+                    //   style={{
+                    //     display: "flex",
+                    //     justifyContent: "center",
+                    //     alignItems: "center",
+                    //     textAlign: "center",
+                    //   }}>
+                    //   <img
+                    //     src="/assets/images/no-record-found.png"
+                    //     width="30%"
+                    //     alt=""
+                    //   />
+                    // </div>
+                    <NoDataFound/>
                   )}
                 </div>
               </div>
@@ -309,19 +315,20 @@ const Pannel = () => {
                     checkBox={false}
                   />
                 ) : (
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      textAlign: "center",
-                    }}>
-                    <img
-                      src="/assets/images/no-record-found.png"
-                      width="30%"
-                      alt=""
-                    />
-                  </div>
+                  // <div
+                  //   style={{
+                  //     display: "flex",
+                  //     justifyContent: "center",
+                  //     alignItems: "center",
+                  //     textAlign: "center",
+                  //   }}>
+                  //   <img
+                  //     src="/assets/images/no-record-found.png"
+                  //     width="30%"
+                  //     alt=""
+                  //   />
+                  // </div>
+                  <NoDataFound/>
                 )}
               </div>
             </div>

@@ -134,24 +134,7 @@ const Sidebar = () => {
 
 
     const subadminSideBaar = [
-        {
-            path: '/subadmin/dashboard',
-            icon: 'ri-dashboard-fill', // Dashboard icon
-            label: 'Dashboard',
-            permission: [] // No restriction
-        },
-        {
-            path: '/subadmin/allclient',
-            icon: 'ri-group-fill', // Group or users icon for All Clients
-            label: 'All Clients',
-            permission: [] // No restriction
-        },
-        {
-            path: '/subadmin/groups',
-            icon: 'ri-group-fill', // Teams icon for Sub Admin Groups
-            label: 'Sub Admin Groups',
-            permission: [] // No restriction
-        },
+    
         {
             path: '/subadmin/all-script',
             icon: 'ri-file-edit-fill', // Script icon for Add Script
@@ -180,87 +163,40 @@ const Sidebar = () => {
 
 
     const adminSideBaar = [
-        {
-            path: '/admin/dashboard',
-            icon: 'ri-home-fill', // Dashboard icon
-            label: 'Dashboard',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/strategygroup',
-            icon: 'la la-sellsy', // Icon for Strategy Group
-            label: 'Strategy Group',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/clientservice',
-            icon: 'ri-group-fill', // Client Service icon
-            label: 'Client Service',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/allSubadmin',
-            icon: 'ri-group-fill', // SubAdmin icon
-            label: 'SubAdmin',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/allplan',
-            icon: 'la la-sellsy', // Plan icon
-            label: 'Plan',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/allscript',
-            icon: 'ri-home-8-fill', // Add Script icon
-            label: 'Add Script',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/userlogs',
-            icon: 'la la-envelope-open', // User Panel Log icon
-            label: 'User Panel Log',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/servicreport',
-            icon: 'la la-cog', // Service Report icon
-            label: 'Service Report',
-            permission: [] // No restriction
-        },
+       
         {
             path: '/admin/tradehistory',
-            icon: 'las la-history', // Trade History icon
+            icon: 'la la-history', // Trade History icon
             label: 'Trade History',
             permission: [] // No restriction
         },
         {
             path: '/admin/clientactivity',
-            icon: 'las la-radiation-alt', // Client Activity icon
+            icon: 'la la-fingerprint', // Client Activity icon
             label: 'Client Activity',
             permission: [] // No restriction
         },
         {
             path: '/admin/clientreport',
-            icon: 'la la-map-marker', // Client Thread Report icon
+            icon: 'la la-briefcase', // Client Thread Report icon
             label: 'Client Trade Report',
             permission: [] // No restriction
         },
         {
             path: '/admin/smtp',
-            icon: 'la la-palette', // SMTP Details icon
+            icon: 'la la-envelope', // SMTP Details icon
             label: 'SMTP Details',
             permission: [] // No restriction
         },
         {
             path: '/admin/system',
-            icon: 'la la-cog', // System icon
+            icon: 'la la-desktop', // System icon
             label: 'System',
             permission: [] // No restriction
         },
         {
             path: '/admin/api-create-info',
-            icon: 'la la-cog', // API Create Info icon
+            icon: 'la la-rocket', // API Create Info icon
             label: 'ApiCreateInfo',
             permission: [] // No restriction
         }
@@ -268,36 +204,8 @@ const Sidebar = () => {
 
 
     const superAdmin = [
-        {
-            path: '/superadmin/dashboard',
-            icon: <i className="ri-home-fill" />, // Default icon
-            label: 'Dashboard',
-            permission: [] // No restriction
-        },
-        {
-            path: '/superadmin/create-admin',
-            icon: <Users />, // Custom icon
-            label: 'Create Admin',
-            permission: [] // No restriction
-        },
-        {
-            path: '/superadmin/admin-details',
-            icon: <ListCollapse />, // Custom icon
-            label: 'Admin Details',
-            permission: [] // No restriction
-        },
-        {
-            path: '/superadmin/amount-details',
-            icon: <BadgeDollarSign />, // Custom icon
-            label: 'Amount Details',
-            permission: [] // No restriction
-        },
-        {
-            path: '/superadmin/client-thread-report',
-            icon: <Pyramid />, // Custom icon
-            label: 'Client Trade Report',
-            permission: [] // No restriction
-        },
+       
+       
         {
             path: '/superadmin/client-trade-response',
             icon: <MessageCircleReply />, // Custom icon
@@ -326,39 +234,10 @@ const Sidebar = () => {
 
 
     const userSidebarItems = [
-        {
-            path: '/user/dashboard',
-            icon: <i className="ri-home-fill" />,
-            label: 'Dashboard',
-            permission: [] // No restriction
-        },
-        {
-            path: 'technical/pattern',
-            icon: <i className="lab la-joget" />,
-            label: 'Technical Patterns',
-            permission: [] // No restriction
-        },
-        {
-            path: 'lastpattern',
-            icon: <i className="lab la-ioxhost" />,
-            label: 'Last Patterns',
-            permission: [] // No restriction
-        },
-        {
-            path: 'all/plan',
-            icon: <i className="lab la-ioxhost" />,
-            label: 'All Plans',
-            permission: [] // No restriction
-        },
-        {
-            path: 'tradereport',
-            icon: <i className="la la-sellsy" />,
-            label: 'Trade Report',
-            permission: [] // No restriction
-        },
+       
         {
             path: 'tradehistory',
-            icon: <i className="la la-palette" />,
+            icon: <i className="la la-history" />,
             label: 'Trade History',
             permission: [] // No restriction
         },
@@ -390,7 +269,7 @@ const Sidebar = () => {
 
 
     return (
-        <div className="iq-sidebar">
+        <div className="iq-sidebar sidebar-right" onClick={()=>sessionStorage.clear()}>
             <div className="iq-sidebar-logo d-flex justify-content-between">
               
                 {/* <div className="iq-menu-bt-sidebar">
@@ -428,7 +307,9 @@ const Sidebar = () => {
                                                 onClick={(e) => handleSidebarClick(e, item.path)}
                                             >
                                                 <Link to={item.path} className="iq-waves-effect">
-                                                    <i className={item.icon} />
+                                                <div data-toggle="tooltip" data-placement="left" title={item.label}>
+                                                <i className={item.icon} />
+                                                        </div>
                                                     <span>{item.label}</span>
                                                 </Link>
                                             </li>
@@ -448,7 +329,10 @@ const Sidebar = () => {
                                                     onClick={(e) => handleSidebarClick(e, item.path)}
                                                 >
                                                     <Link to={item.path} className="iq-waves-effect">
-                                                        {item.icon}
+                                                    <div data-toggle="tooltip" data-placement="left" title={item.label}>
+                                                   <i className={item.icon}> {item.icon} </i>
+                                                        </div>
+                                                       
                                                         <span style={{ marginLeft: '8px' }}>{item.label}</span>
                                                     </Link>
                                                 </li>
@@ -485,7 +369,9 @@ const Sidebar = () => {
                                                     onClick={(e) => handleSidebarClick(e, item.path)}
                                                 >
                                                     <Link to={expire?.includes(1) ? "/user/all/plan" : item.path} className="iq-waves-effect">
-                                                        {item.icon}
+                                                    <div  data-toggle="tooltip" data-placement="left" title={item.label}>
+{item.icon}
+</div>
                                                         <span style={{ marginLeft: '8px' }}>{item.label}</span>
                                                     </Link>
                                                 </li>

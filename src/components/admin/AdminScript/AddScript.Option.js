@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom"
-import AddForm from "../../../ExtraComponent/FormData";
+import AddForm from "../../../ExtraComponent/FormData2";
 import { useFormik } from "formik";
 import { useState, useEffect } from "react";
 import Swal from 'sweetalert2';
@@ -16,6 +16,9 @@ const AddClient = () => {
 
     const SweentAlertFun = (text) => {
         Swal.fire({
+            background: "#1a1e23 ",
+            backdrop: "#121010ba",
+            confirmButtonColor: "#1ccc8a",
             title: "Error",
             text: text,
             icon: "error",
@@ -25,6 +28,22 @@ const AddClient = () => {
 
     }
 
+    const ScrollToViewFirstError = (newErrors) => {
+        if (Object.keys(newErrors).length !== 0) {
+            const errorField = Object.keys(newErrors)[0];
+
+            const errorElement = document.getElementById(errorField);
+            if (errorElement) {
+                const elementPosition = errorElement.getBoundingClientRect().top + window.pageYOffset;
+
+                const offset = 100;
+                window.scrollTo({
+                    top: elementPosition - offset,
+                    behavior: 'smooth'
+                });
+            }
+        }
+    }
 
     const formik = useFormik({
         initialValues: {
@@ -66,7 +85,13 @@ const AddClient = () => {
             CEDeepHigher: 1,
             PEDeepLower: 1,
             PEDeepHigher: 1,
-            Unique_ID: ""
+            Unique_ID: "",
+            Profit: 0,
+            Loss: 0,
+            RollOver: "",
+            NumberOfDays: 0,
+            RollOverExitTime: "00:00:00",
+            WorkingDay: [],
         },
 
         validate: (values) => {
@@ -190,6 +215,52 @@ const AddClient = () => {
                     errors.Shifting_Value = "Please Enter Number of Shifts Between 1-5.";
                 }
             }
+            if (
+                !values.Loss &&
+                values.Strategy == "Multi_Conditional" &&
+                values.position_type == "Multiple"
+            ) {
+                errors.Loss = "Please Enter Maximum Loss";
+            }
+
+            if (
+                !values.Profit &&
+                values.Strategy == "Multi_Conditional" &&
+                values.position_type == "Multiple"
+            ) {
+                errors.Profit = "Please Enter Maximum Loss";
+            }
+
+            if (
+                !values.RollOver &&
+                values.Strategy == "Multi_Conditional" &&
+                values.position_type == "Multiple"
+            ) {
+                errors.RollOver = "Please Enter No. of Repeatation";
+            }
+            if (
+                !values.NumberOfDays &&
+                values.Strategy == "Multi_Conditional" &&
+                values.position_type == "Multiple" &&
+                values.RollOver == ""
+            ) {
+                errors.NumberOfDays = "Please Enter No. of Days";
+            }
+
+            if (
+                !values.RollOverExitTime &&
+                values.Strategy == "Multi_Conditional" &&
+                values.position_type == "Multiple" &&
+                values.RollOver == true
+            ) {
+                errors.RollOverExitTime = "Please Enter RollOver Exit Time";
+            }
+
+            if (!values.WorkingDay?.length > 0) {
+                errors.WorkingDay = "Please select Working day";
+            }
+
+            // ScrollToViewFirstError(errors)
 
             return errors;
         },
@@ -220,7 +291,7 @@ const AddClient = () => {
                 ExitDay: values.ExitDay,
                 FixedSM: "",
                 TType: "",
-                expirydata1: getExpiry && getExpiry.data[0],
+                expirydata1: getExpiry && getExpiry.data[0]  || "",
                 Expirytype: values.Expirytype,
                 Striketype: formik.values.Strategy != "ShortStraddle" && formik.values.Strategy != "LongStraddle" && formik.values.Measurment_Type != "Shifting/FourLeg" && formik.values.Strategy != 'ShortStraddle' && formik.values.Strategy != 'LongStraddle' ? values.Striketype : '',
                 DepthofStrike: (formik.values.Striketype != "Premium_Range" && formik.values.Measurment_Type != "Shifting/FourLeg" && formik.values.Strategy != 'LongStraddle' && formik.values.Strategy != 'ShortStraddle') ? Number(values.DepthofStrike) : formik.values.Measurment_Type == "Shifting/FourLeg" && formik.values.Strategy != 'ShortFourLegStretegy' && formik.values.Strategy != 'LongFourLegStretegy' ? values.Shifting_Value : 0,
@@ -233,10 +304,38 @@ const AddClient = () => {
                 CEDeepLower: Number(values.CEDeepLower),
                 CEDeepHigher: Number(values.CEDeepHigher),
                 PEDeepLower: Number(values.PEDeepLower),
-                PEDeepHigher: Number(values.PEDeepHigher)
+                PEDeepHigher: Number(values.PEDeepHigher),
+                Loss:
+                    values.position_type == "Multiple" &&
+                        values.Strategy == "Multi_Conditional"
+                        ? values.Loss
+                        : 0,
+
+                Profit:
+                    values.position_type == "Multiple" &&
+                        values.Strategy == "Multi_Conditional"
+                        ? values.Profit
+                        : 0,
+                RollOver: (values.position_type ==
+                    "Multiple" && values.Strategy == "Multi_Conditional"
+                    ? values.RollOver
+                    : false),
+                NumberOfDays:
+                    values.position_type == "Multiple" &&
+                        values.Strategy == "Multi_Conditional" &&
+                        values.RollOver == true
+                        ? values.NumberOfDays
+                        : 0,
+                RollOverExitTime:
+                    values.position_type == "Multiple" &&
+                        values.Strategy == "Multi_Conditional" &&
+                        values.RollOver == true
+                        ? values.RollOverExitTime
+                        : "00:00:00",
+
+                WorkingDay: values.WorkingDay ? values?.WorkingDay?.map((item) => item?.value || item) : [],
+
             }
-
-
 
             if (values.Striketype == "Depth_of_Strike" && (Number(values.DepthofStrike) < 0 || Number(values.DepthofStrike) > 10)) {
                 return SweentAlertFun("Enter Depth of Strike's Range between 1 - 10")
@@ -284,6 +383,9 @@ const AddClient = () => {
                 const response = await AddAdminScript(req);
                 if (response.Status) {
                     Swal.fire({
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Script Added !",
                         text: response.message,
                         icon: "success",
@@ -295,6 +397,9 @@ const AddClient = () => {
                     }, 1500)
                 } else {
                     Swal.fire({
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Error !",
                         text: response.message,
                         icon: "error",
@@ -639,7 +744,7 @@ const AddClient = () => {
             hiding: false,
             label_size: 12,
             showWhen: (value) => value.Measurment_Type != "Shifting/FourLeg" || (value.Measurment_Type == "Shifting/FourLeg" && (value.Strategy == 'ShortFourLegStretegy' || value.Strategy == 'LongFourLegStretegy')),
-            col_size: 4,
+            col_size: 3,
             headingtype: 4,
             disable: false,
         },
@@ -649,9 +754,51 @@ const AddClient = () => {
             type: "text3",
             hiding: false,
             label_size: 12,
-            col_size: 4,
+            col_size: 3,
             headingtype: 4,
             disable: false,
+        },
+
+        {
+            name: "Loss",
+            label: "Max Loss ",
+            type: "text3",
+            label_size: 12,
+            col_size: 3,
+            headingtype: 4,
+            disable: false,
+            hiding: false,
+        },
+
+        {
+            name: "Profit",
+            label: " Max Profit ",
+            type: "text3",
+            label_size: 12,
+            col_size: 3,
+            headingtype: 4,
+            disable: false,
+            hiding: false,
+        },
+
+        {
+            name: "WorkingDay",
+            label: "Working Day",
+            type: "multiselect",
+            options: [
+                { label: "Monday", value: "Monday" },
+                { label: "Tuesday", value: "Tuesday" },
+                { label: "Wednesday", value: "Wednesday" },
+                { label: "Thursday", value: "Thursday" },
+                { label: "Friday", value: "Friday" },
+                { label: "Saturday", value: "Saturday" },
+            ],
+            label_size: 12,
+            col_size: 3,
+            headingtype: 4,
+            disable: false,
+            // iconText: text.Increment_Type,
+            hiding: false,
         },
 
 
@@ -693,6 +840,58 @@ const AddClient = () => {
             col_size: 4,
             headingtype: 5,
             disable: false,
+        },
+
+        {
+            name: "RollOver",
+            label: "RollOver",
+            type: "select",
+            options: [
+                { label: "True", value: true },
+                { label: "False", value: false },
+            ],
+            label_size: 12,
+            col_size: 4,
+            headingtype: 4,
+            showWhen: (values) => values.ExitDay == "Delivery",
+            disable: false,
+            hiding: false,
+        },
+
+        {
+            name: "NumberOfDays",
+            label: "No. of Days",
+            type: "text3",
+            label_size: 12,
+            showWhen: (values) => {
+                const rollOverBoolean = values.RollOver === "true";
+                return (
+                    rollOverBoolean &&
+                    values.ExitDay == "Delivery"
+                );
+            },
+            col_size: 4,
+            headingtype: 4,
+            disable: false,
+            hiding: false,
+        },
+
+        {
+            name: "RollOverExitTime",
+            label: "RollOver Exit Time",
+            type: "timepiker",
+            label_size: 12,
+            showWhen: (values) => {
+                const rollOverBoolean = values.RollOver === "true";
+                return (
+                    rollOverBoolean &&
+                    values.ExitDay == "Delivery"
+                );
+            },
+            col_size: 4,
+            headingtype: 4,
+            disable: false,
+            hiding: false,
         },
 
     ]

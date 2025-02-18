@@ -5,6 +5,7 @@ import GridExample from '../../../ExtraComponent/CommanDataTable'
 import AddForm from '../../../ExtraComponent/FormData'
 import { useFormik } from 'formik';
 import { width } from '@fortawesome/free-solid-svg-icons/fa0';
+import NoDataFound from '../../../ExtraComponent/NoDataFound';
 
 const Strategygroup = () => {
     const [getGroupData, setGroupData] = useState({
@@ -41,7 +42,7 @@ const Strategygroup = () => {
             options: {
                 filter: true,
                 sort: true,
-                customBodyRender: (value) => value=='' ? "Admin" : value,
+                customBodyRender: (value) => value == '' ? "Admin" : value,
             }
         },
         {
@@ -68,7 +69,7 @@ const Strategygroup = () => {
                 sort: true,
             }
         },
-        
+
         {
             name: "PRtype",
             label: "Product Type",
@@ -78,7 +79,7 @@ const Strategygroup = () => {
             }
         },
         {
-            name: "Message",
+            name: "Message ",
             label: "Message",
             options: {
                 filter: true,
@@ -129,6 +130,8 @@ const Strategygroup = () => {
             const errors = {};
             if (!values.Message) {
                 errors.Message = 'Please Enter Message';
+            } else if (!/^[A-Za-z\s]+$/.test(values.Message)) {
+                errors.Message = 'Only letters are allowed in Message';
             }
             if (!values.ProductType) {
                 errors.ProductType = 'Please Select Product Type';
@@ -161,8 +164,11 @@ const Strategygroup = () => {
                     if (response.Status) {
                         setRefresh(!refresh)
                         Swal.fire({
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: 'Created successfully!',
-                            text:  response.message,
+                            text: response.message,
                             icon: 'success',
                             timer: 1500,
                             timerProgressBar: true
@@ -173,6 +179,9 @@ const Strategygroup = () => {
                         }, 1500);
                     } else {
                         Swal.fire({
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: 'Error',
                             text: response.message,
                             icon: 'error',
@@ -184,6 +193,9 @@ const Strategygroup = () => {
                 .catch((err) => {
                     console.log('Error in group creation...');
                     Swal.fire({
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: 'Error',
                         text: 'Group creation error!',
                         icon: 'error',
@@ -275,13 +287,19 @@ const Strategygroup = () => {
                         </div>
 
                         <div className="iq-card-body">
-                            <div className="table-responsive customtable">
-                                <GridExample
-                                    columns={columns}
-                                    data={getGroupData.data}
-                                    checkBox={false}
-                                />
-                            </div>
+                            {
+                                getGroupData.data && getGroupData.data.length > 0 ?
+                                    (<div className="table-responsive customtable">
+                                        <GridExample
+                                            columns={columns}
+                                            data={getGroupData.data}
+                                            checkBox={false}
+                                        />
+                                    </div>)
+                                    :
+                                    (<NoDataFound />)
+                            }
+
                         </div>
                     </div>
                 </div>
@@ -304,7 +322,7 @@ const Strategygroup = () => {
                                 ></button>
                             </div>
                             <hr />
-                            
+
                             <AddForm
                                 fields={fields.filter(
                                     field => !field.showWhen || field.showWhen(formik.values)

@@ -19,6 +19,9 @@ const loginWithApi = async (UserDetails) => {
                 if (response.data.Status) {
 
                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         title: 'Success!',
                         text: 'Trading On successfully.',
                         icon: 'success',
@@ -32,6 +35,9 @@ const loginWithApi = async (UserDetails) => {
                 } else {
 
                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         title: 'Error!',
                         text: response.data.message,
                         icon: 'error',
@@ -47,6 +53,9 @@ const loginWithApi = async (UserDetails) => {
             } catch (err) {
                 console.error("Error in ConnectBroker request", err);
                 Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                     title: 'Error!',
                     text: 'An error occurred. Please try again later.',
                     icon: 'error',
@@ -95,6 +104,9 @@ const loginWithApi = async (UserDetails) => {
                 .then((response) => {
                     if (response.data.Status == true) {
                         Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                             title: 'Success!',
                             text: response.data.message,
                             icon: 'success',
@@ -109,6 +121,9 @@ const loginWithApi = async (UserDetails) => {
                     }
                     else {
                         Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                             title: 'Error!',
                             text: response.data.message,
                             icon: 'error',
@@ -268,6 +283,9 @@ const loginWithApi = async (UserDetails) => {
                 if (response.data.Status) {
 
                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         title: 'Success!',
                         text: 'Trading On successfully.',
                         icon: 'success',
@@ -281,6 +299,9 @@ const loginWithApi = async (UserDetails) => {
                 } else {
 
                     Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         title: 'Error!',
                         text: 'Trading Off successfully.',
                         icon: 'error',
@@ -296,6 +317,9 @@ const loginWithApi = async (UserDetails) => {
             } catch (err) {
                 console.error("Error in ConnectBroker request", err);
                 Swal.fire({
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                     title: 'Error!',
                     text: 'An error occurred. Please try again later.',
                     icon: 'error',

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2'
-import { AddSubadminbyAdmin  } from '../../CommonAPI/Admin'
+import { AddSubadminbyAdmin } from '../../CommonAPI/Admin'
 import AddForm from "../../../ExtraComponent/FormData";
 import { useFormik } from "formik";
 import { useNavigate } from 'react-router-dom';
@@ -40,10 +40,10 @@ const AddSubadmin = () => {
             if (!values.Username) {
                 errors.Username = "Please Enter Username";
             } else if (!Name_regex(values.Username)) {
-                errors.Username = "Please Enter Valid Username";  
+                errors.Username = "Please Enter Valid Username";
             }
 
-            const nameRegex = /^[a-zA-Z ]+$/; 
+            const nameRegex = /^[a-zA-Z ]+$/;
             if (!values.Name) {
                 errors.Name = "Please Enter Name";
             } else if (!nameRegex.test(values.Name)) {
@@ -78,7 +78,7 @@ const AddSubadmin = () => {
             }
             if (!values.mobile_no) {
                 errors.mobile_no = "Please Enter Mobile Number";
-            } else if (values.mobile_no.length !== 10) { 
+            } else if (values.mobile_no.length !== 10) {
                 errors.mobile_no = "Mobile number length must be 10 characters";
             }
             return errors;
@@ -98,6 +98,9 @@ const AddSubadmin = () => {
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "User Created!",
                             text: response.message,
                             icon: "success",
@@ -110,6 +113,9 @@ const AddSubadmin = () => {
                     }
                     else {
                         Swal.fire({
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Error!",
                             text: response.message,
                             icon: "error",
@@ -124,7 +130,7 @@ const AddSubadmin = () => {
         },
     });
 
-;
+    ;
 
     const fields = [
         {
@@ -184,7 +190,7 @@ const AddSubadmin = () => {
         {
             name: "permission",
             label: "Permission",
-            type: "select2", 
+            type: "select2",
             label_size: 12,
             col_size: 6,
             disable: false,

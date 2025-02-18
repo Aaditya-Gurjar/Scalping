@@ -6,6 +6,7 @@ import GridExample from '../../../ExtraComponent/CommanDataTable'
 import AddForm from '../../../ExtraComponent/FormData'
 import { useFormik } from 'formik';
 import { width } from '@fortawesome/free-solid-svg-icons/fa0';
+import NoDataFound from '../../../ExtraComponent/NoDataFound';
 
 const Strategygroup = () => {
     const username = localStorage.getItem('name')
@@ -71,7 +72,7 @@ const Strategygroup = () => {
                 sort: true,
             }
         },
-        
+
         {
             name: "PRtype",
             label: "Product Type",
@@ -151,7 +152,7 @@ const Strategygroup = () => {
             }
             return errors;
         },
- 
+
         onSubmit: async (values) => {
             const data = {
                 GroupName: values.GroupName,
@@ -162,14 +163,17 @@ const Strategygroup = () => {
                 Message: values.Message,
                 SubAdmin: username
             };
-            
+
             await Add_Group(data)
                 .then((response) => {
                     if (response.Status) {
                         setRefresh(!refresh)
                         Swal.fire({
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: 'Created successfully!',
-                            text:  response.message,
+                            text: response.message,
                             icon: 'success',
                             timer: 1500,
                             timerProgressBar: true
@@ -180,6 +184,9 @@ const Strategygroup = () => {
                         }, 1500);
                     } else {
                         Swal.fire({
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: 'Error',
                             text: response.message,
                             icon: 'error',
@@ -191,6 +198,9 @@ const Strategygroup = () => {
                 .catch((err) => {
                     console.log('Error in group creation...');
                     Swal.fire({
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: 'Error',
                         text: 'Group creation error!',
                         icon: 'error',
@@ -214,7 +224,7 @@ const Strategygroup = () => {
             label_size: 12,
             col_size: 6,
         },
-       
+
         {
             name: 'FundReuirement',
             label: 'Fund Requirement',
@@ -284,11 +294,19 @@ const Strategygroup = () => {
 
                         <div className="iq-card-body">
                             <div className="table-responsive customtable">
-                                <GridExample
-                                    columns={columns}
-                                    data={getGroupData.data}
-                                    checkBox={false}
-                                />
+                                {
+                                    getGroupData.data && getGroupData.data.length > 0 ?
+                                        (
+                                            <GridExample
+                                                columns={columns}
+                                                data={getGroupData.data}
+                                                checkBox={false}
+                                            />
+                                        )
+                                        :
+                                        (<NoDataFound />)
+                                }
+
                             </div>
                         </div>
                     </div>
@@ -312,7 +330,7 @@ const Strategygroup = () => {
                                 ></button>
                             </div>
                             <hr />
-                            
+
                             <AddForm
                                 fields={fields.filter(
                                     field => !field.showWhen || field.showWhen(formik.values)

@@ -75,6 +75,7 @@
 //                 .then((response) => {
 //                     if (response.Status) {
 //                         Swal.fire({
+
 //                             title: "Success!",
 //                             text: response.message,
 //                             icon: "success",
@@ -87,6 +88,7 @@
 //                     }
 //                     else {
 //                         Swal.fire({
+
 //                             title: "Error!",
 //                             text: response.message,
 //                             icon: "error",
@@ -278,6 +280,9 @@ const AddPlanPage = () => {
 
     const showError = (title, message = "") => {
         Swal.fire({
+            background: "#1a1e23 ",
+            backdrop: "#121010ba",
+            confirmButtonColor: "#1ccc8a",
             title: title,
             text: message || "An error occurred.",
             icon: "error",
@@ -291,7 +296,7 @@ const AddPlanPage = () => {
             NumberofScript: "",
             payment: "",
             planname: "",
-            Duration: "",
+            Duration: "One_Month",
             PlanType: "Scalping",
         },
         validate: (values) => {
@@ -302,7 +307,7 @@ const AddPlanPage = () => {
             if (!values.planname) errors.planname = "Please provide a plan name.";
             if (!values.Duration) errors.Duration = "Please select a plan duration.";
             if (formik.values.PlanType == "Charting" && selectedCharting.length == 0)
-                errors.Charting = "Please select at least one charting type.";
+                errors.Charting = "Please select at least one Segment.";
 
             return errors;
         },
@@ -323,6 +328,9 @@ const AddPlanPage = () => {
                 const response = await AddPlan(req);
                 if (response.Status) {
                     Swal.fire({
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Success!",
                         text: response.message,
                         icon: "success",
@@ -410,13 +418,13 @@ const AddPlanPage = () => {
             btn_name="Add"
             btn_name1="Cancel"
             formik={formik}
-            btn_name1_route={"/admin/clientservice"}
+            btn_name1_route={"/admin/allplan"}
             additional_field={
                 <>
                     {formik.values.PlanType == "Charting" && (
                         <>
                             <CustomMultiSelect
-                                label="Charting"
+                                label={<span style={{ color: "white" }}>Segment</span>}
                                 options={[
                                     { value: "Cash", label: "Cash" },
                                     { value: "Future", label: "Future" },
@@ -431,7 +439,7 @@ const AddPlanPage = () => {
 
                     {formik.values.PlanType == "Scalping" && (
                         <CustomMultiSelect
-                            label="Scalping"
+                            label={<span style={{ color: "#fff" }}>Scalping</span>}
                             options={scalpingStratgy.map(strategy => ({ value: strategy, label: strategy }))}
                             selected={selecteScalping}
                             onChange={(selected) => handleSelectChange("scalping", selected)}
@@ -440,7 +448,7 @@ const AddPlanPage = () => {
 
                     {formik.values.PlanType == "Scalping" && (
                         <CustomMultiSelect
-                            label="Option"
+                            label={<span style={{ color: "#fff" }}>Option</span>}
                             options={OptionStratgy.map(strategy => ({ value: strategy, label: strategy }))}
                             selected={selecteOptions}
                             onChange={(selected) => handleSelectChange("option", selected)}
@@ -449,7 +457,7 @@ const AddPlanPage = () => {
 
                     {formik.values.PlanType == "Scalping" && (
                         <CustomMultiSelect
-                            label="Pattern"
+                            label={<span style={{ color: "#fff" }}>Pattern</span>}
                             options={PatternStratgy.map(strategy => ({ value: strategy, label: strategy }))}
                             selected={selectePattern}
                             onChange={(selected) => handleSelectChange("pattern", selected)}
