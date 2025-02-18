@@ -1,97 +1,74 @@
-import React from 'react'
-import DiscriptionData from './DiscriptionData'
+import React, { useState } from "react";
+import DiscriptionData from "./DiscriptionData";
 
 const Discription = () => {
-    return (
-        <div>
-            <div className="iq-card" style={{marginTop:"2rem"}}>
-                <div className="iq-card-header d-flex justify-content-between">
-                    <div className="iq-header-title">
-                        <h4 className="card-title">Description</h4>
-                    </div>
-                </div>
-                <div className="iq-card-body">
-                    <ul className="nav nav-pills mb-5 nav-fill" id="pills-tab-1" role="tablist">
-                        <li className="nav-item" role="presentation">
-                            <a
-                                className="nav-link active"
-                                id="pills-home-tab-fill"
-                                data-bs-toggle="pill"
-                                href="#pills-home-fill"
-                                role="tab"
-                                aria-controls="pills-home"
-                                aria-selected="true"
-                                style={{marginBottom:"100px"}}
-                            >
-                                Scalping
-                            </a>
-                        </li>
-                        <li className="nav-item" role="presentation">
-                            <a
-                                className="nav-link"
-                                id="pills-profile-tab-fill"
-                                data-bs-toggle="pill"
-                                href="#pills-profile-fill"
-                                role="tab"
-                                aria-controls="pills-profile"
-                                aria-selected="false"
-                                tabIndex={-1}
-                            >
-                                Option
+  const [tab, setTab] = useState("Scalping");
 
-                            </a>
-                        </li>
-                        <li className="nav-item" role="presentation">
-                            <a
-                                className="nav-link"
-                                id="pills-contact-tab-fill"
-                                data-bs-toggle="pill"
-                                href="#pills-contact-fill"
-                                role="tab"
-                                aria-controls="pills-contact"
-                                aria-selected="false"
-                                tabIndex={-1}
-                            >
-                                Pattern
-                            </a>
-                        </li>
-                    </ul>
-                    <div className="tab-content" id="pills-tabContent-1">
-                        <div
-                            className="tab-pane fade active show"
-                            id="pills-home-fill"
-                            role="tabpanel"
-                            aria-labelledby="pills-home-tab-fill"
-                        >
-                            <DiscriptionData Type={'Scalping'}/>
-                             
-                             
+  // Handle the tab change to update the state
+  const handleTabChange = (type) => {
+    setTab(type);
+  };
 
-                        </div>
-                        <div
-                            className="tab-pane fade"
-                            id="pills-profile-fill"
-                            role="tabpanel"
-                            aria-labelledby="pills-profile-tab-fill"
-                        >
-                             <DiscriptionData Type={'Option'}/>
-                        </div>
-                        <div
-                            className="tab-pane fade"
-                            id="pills-contact-fill"
-                            role="tabpanel"
-                            aria-labelledby="pills-contact-tab-fill"
-                        >
-                             <DiscriptionData Type={'Pattern'}/>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
+  return (
+    <div>
+      <div className="iq-card">
+        <div className="iq-card-header d-flex justify-content-between">
+          <div className="iq-header-title">
+            <h4 className="card-title">Description</h4>
+          </div>
         </div>
-    )
-}
 
-export default Discription
+        <div className="row">
+          <div className="col-lg-12">
+            <ul
+              className="nav nav-pills mb-3 nav-fill"
+              id="pills-tab-1"
+              role="tablist"
+              style={{ height: "80px !important" }}
+            >
+              <li className="nav-item" role="presentation">
+                <a
+                  className={`nav-link ${tab === 'Scalping' ? 'active' : ''}`}
+                  onClick={() => handleTabChange('Scalping')}
+                  id="pills-home-tab-fill"
+                  role="tab"
+                >
+                  📊 Scalping
+                </a>
+              </li>
+              <li className="nav-item" role="presentation">
+                <a
+                  className={`nav-link ${tab === 'Option' ? 'active' : ''}`}
+                  onClick={() => handleTabChange('Option')}
+                  id="pills-profile-tab-fill"
+                  role="tab"
+                >
+                  ⚡ Option
+                </a>
+              </li>
+              <li className="nav-item" role="presentation">
+                <a
+                  className={`nav-link ${tab === 'Candlestick' ? 'active' : ''}`}
+                  onClick={() => handleTabChange('Candlestick')}
+                  id="pills-contact-tab-fill"
+                  role="tab"
+                >
+                  📈 Candlestick
+                </a>
+              </li>
+            </ul>
+          </div>
 
+          <div className="col-lg-12">
+            <div className="nav nav-pills mb-3 nav-fill">
+              {/* Render content based on the selected tab */}
+              <DiscriptionData Type={tab} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Discription;
