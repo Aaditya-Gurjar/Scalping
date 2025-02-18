@@ -11,6 +11,9 @@ import { getColumns, getColumns1, getColumns2, getColumns7 } from "./Columns";
 import Swal from "sweetalert2";
 
 const Coptyscript = ({ data, selectedType, data2 }) => {
+
+
+  console.log("SSSSSSSS")
   const userName = localStorage.getItem("name");
   const adminPermission = localStorage.getItem("adminPermission");
   const navigate = useNavigate();

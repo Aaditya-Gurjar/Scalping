@@ -36,6 +36,8 @@ const Userdashboard = () => {
     ChartingData: [],
   });
 
+  console.log("getGroupName ssss", getGroupName);
+
   useEffect(() => {
     GetExpriyEndDate();
     fetchStrategyType();
@@ -65,7 +67,7 @@ const Userdashboard = () => {
           setRefresh(!refresh);
           setGroupName({
             loading: false,
-            data: response.Data,
+            data: response?.Data?.map((item) => item?.value || item)
           });
         } else {
           setGroupName({
@@ -681,6 +683,9 @@ const Userdashboard = () => {
       setTableType("Scalping");
     }
   }, [subTab]);
+
+
+  console.log("getGroupName.data", getGroupName.data);
   return (
     <div className="container-fluid">
       <div className="row p-0">
