@@ -95,6 +95,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             timerProgressBar: true
         });
     }
+    console.log("getAllService", getAllService)
 
     const handleDelete = async (rowData, type) => {
         console.log("data", data)
@@ -1938,6 +1939,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                                                                 checkBox={false}
                                                                             />
                                                                         )}
+
+                                                                        {/* {console.log("getAllService", getAllService)} */}
 
 
                                                                         {hasSecondaryTableData && (
