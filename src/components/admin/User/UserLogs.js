@@ -143,7 +143,7 @@ const Pannel = () => {
     return (
         <>
             <div>
-                <div className='container-fluid'>
+                <div className='container-fluid' style={{marginTop:"2rem"}}>
                     <div className='row'>
                         <div className="col-sm-12 col-lg-12">
                             <div className="iq-card">

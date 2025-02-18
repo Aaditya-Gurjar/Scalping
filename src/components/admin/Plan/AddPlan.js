@@ -301,10 +301,31 @@ const AddPlanPage = () => {
         },
         validate: (values) => {
             const errors = {};
-            if (!values.NumberofScript && formik.values.PlanType == "Scalping")
+            // if (!values.NumberofScript && formik.values.PlanType == "Scalping")
+            //     errors.NumberofScript = "Please enter the number of scripts.";
+            // if (!values.payment) errors.payment = "Payment is required.";
+            // if (!values.planname) errors.planname = "Please provide a plan name.";
+
+            if (!values.NumberofScript && formik.values.PlanType === "Scalping") {
                 errors.NumberofScript = "Please enter the number of scripts.";
-            if (!values.payment) errors.payment = "Payment is required.";
-            if (!values.planname) errors.planname = "Please provide a plan name.";
+            } else if (values.NumberofScript == 0 && formik.values.PlanType === "Scalping") {
+                errors.NumberofScript = "Number of scripts cannot be zero.";
+            }
+            
+            if (!values.payment) {
+                errors.payment = "Payment is required.";
+            } else if (values.payment == 0) {
+                errors.payment = "Payment cannot be zero.";
+            }
+            
+            if (!values.planname) {
+                errors.planname = "Please provide a plan name.";
+            } else if (!/^[A-Za-z\s]+$/.test(values.planname.trim())) {
+                errors.planname = "Plan name should only contain alphabets (No numbers or special characters).";
+            }
+            
+
+            
             if (!values.Duration) errors.Duration = "Please select a plan duration.";
             if (formik.values.PlanType == "Charting" && selectedCharting.length == 0)
                 errors.Charting = "Please select at least one Segment.";

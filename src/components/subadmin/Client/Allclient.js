@@ -310,7 +310,7 @@ confirmButtonColor: "#1ccc8a",
 
     return (
         <>
-            <div className='row'>
+            <div className='row' style={{marginTop:"2rem"}}>
                 <div className='col-sm-12'>
                     <div className='iq-card'>
                         <div className='iq-card-header d-flex justify-content-between'>

@@ -139,7 +139,7 @@ const Strategygroup = () => {
                 errors.ProductType = 'Please Select Product Type';
             }
             if (!values.TimeOrigin) {
-                errors.TimeOrigin = 'Please Select Time Origin';
+                errors.TimeOrigin = 'Please Select Time Origin'; 
             }
             if (!values.Risk) {
                 errors.Risk = 'Please Enter Risk %';
@@ -274,7 +274,7 @@ const Strategygroup = () => {
 
     return (
         <div>
-            <div className="container-fluid">
+            <div className="container-fluid" style={{marginTop:"2rem"}}>
                 <div className="row">
                     <div className="iq-card">
                         <div className="iq-card-header d-flex justify-content-between">

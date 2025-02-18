@@ -120,8 +120,8 @@ const Strategygroup = () => {
     const formik = useFormik({
         initialValues: {
             Message: "",
-            ProductType: "",
-            TimeOrigin: "",
+            ProductType: "Intraday",  
+            TimeOrigin: "Weekly",
             Risk: "",
             FundReuirement: "",
             GroupName: "",
@@ -133,21 +133,32 @@ const Strategygroup = () => {
             } else if (!/^[A-Za-z\s]+$/.test(values.Message)) {
                 errors.Message = 'Only letters are allowed in Message';
             }
-            if (!values.ProductType) {
-                errors.ProductType = 'Please Select Product Type';
-            }
-            if (!values.TimeOrigin) {
-                errors.TimeOrigin = 'Please Select Time Origin';
-            }
+           // Check ProductType (if it is selected, don't show error)
+        if (!values.ProductType || values.ProductType === "") {
+            errors.ProductType = 'Please Select Product Type';
+        }
+
+        // Check TimeOrigin (if it is selected, don't show error)
+        if (!values.TimeOrigin || values.TimeOrigin === "") {
+            errors.TimeOrigin = 'Please Select Time Origin';
+        }
             if (!values.Risk) {
                 errors.Risk = 'Please Enter Risk %';
             }
             if (!values.FundReuirement) {
-                errors.FundReuirement = 'Please Enter Fund Requirement';
+                errors.FundReuirement = 'Please enter Fund Requirement.';
+            } else if (values.FundReuirement <= 0) {
+                errors.FundReuirement = 'Fund Requirement must be greater than zero.';
             }
+            
+            
             if (!values.GroupName) {
-                errors.GroupName = 'Please Enter Group Name';
+                errors.GroupName = 'Please enter Group Name.';
+            } else if (values.GroupName <= 0) {
+                errors.GroupName = 'Group Name cannot be zero.';
             }
+            
+            
             return errors;
         },
         onSubmit: async (values) => {
@@ -268,7 +279,7 @@ const Strategygroup = () => {
 
     return (
         <div>
-            <div className="container-fluid">
+            <div className="container-fluid" style={{marginTop:"2rem"}}>
                 <div className="row">
                     <div className="iq-card">
                         <div className="iq-card-header d-flex justify-content-between">

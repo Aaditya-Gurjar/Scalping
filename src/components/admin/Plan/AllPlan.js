@@ -50,8 +50,8 @@ const AdminServicesList = () => {
 
 
   return (
-    <div className="allplan-container">
-      <div className="container-fluid">
+   
+      <div className="container-fluid" style={{marginTop:"2rem"}}>
         <div className="row">
           <div className="col-sm-12">
             <div className="iq-card">
@@ -156,7 +156,7 @@ const AdminServicesList = () => {
           </div>
         </div>
       </div>
-    </div>
+    
   );
 };
 

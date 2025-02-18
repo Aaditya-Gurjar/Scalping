@@ -468,7 +468,7 @@ const Adduser = () => {
                         // }
 
                         additional_field={
-                            <div className="col-lg-6 mt-2 dropdownuser">
+                            <div className="col-lg-6 dropdownuser">
                                 <h6 style={{color:"white"}}>Select Group</h6>
                                 <Select
                                     defaultValue={selectedIndex?.Planname?.map((item) => ({

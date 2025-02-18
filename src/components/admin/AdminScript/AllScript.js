@@ -227,7 +227,7 @@ const Addscript = () => {
 
     return (
         <div>
-            <div className="container-fluid">
+            <div className="container-fluid" style={{marginTop:"2rem"}}>
                 <div className="row">
                     <div className="iq-card">
                         <div className="iq-card-header d-flex justify-content-between">

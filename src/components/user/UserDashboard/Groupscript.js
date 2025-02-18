@@ -234,7 +234,7 @@ const GroupScript = ({ data, selectedType, GroupName, data2 }) => {
     }, [selectedType, stgType, GroupName]);
 
     return (
-        <div className="container-fluid">
+        <div className="container-fluid" style={{marginTop:"2rem"}}>
             <div className="row">
                 <div className="col-sm-12">
                     <div className="iq-card">

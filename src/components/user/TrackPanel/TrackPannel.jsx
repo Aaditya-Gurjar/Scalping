@@ -162,7 +162,7 @@ const Pannel = () => {
     return (
       <>
         <div>
-          <div className="col-sm-12 col-lg-12">
+          <div className="col-sm-12 col-lg-12" style={{marginTop:"2rem"}}>
             <div className="iq-card">
               <div className="iq-card-header d-flex justify-content-between">
                 <div className="iq-header-title">
