@@ -269,7 +269,7 @@ const Sidebar = () => {
 
 
     return (
-        <div className="iq-sidebar sidebar-right">
+        <div className="iq-sidebar sidebar-right" onClick={()=>sessionStorage.clear()}>
             <div className="iq-sidebar-logo d-flex justify-content-between">
               
                 {/* <div className="iq-menu-bt-sidebar">

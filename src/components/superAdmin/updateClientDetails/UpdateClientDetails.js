@@ -9,8 +9,10 @@ import NoDataFound from '../../../ExtraComponent/NoDataFound';
 
 const ClientThreadReport = () => {
 
+    const PanelName = sessionStorage.getItem("PanelName")
+
     const [getAllClientdetails, setAllClientDetails] = useState([])
-    const [comapnyName, setCompanyName] = useState('')
+    const [comapnyName, setCompanyName] = useState(PanelName || '')
     const [getAllComapny, setAllComapny] = useState([])
     const [showModal, setShowModal] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(0);
@@ -341,7 +343,10 @@ const ClientThreadReport = () => {
                                     <div className="form-group col-md-3 ms-2">
                                         <label>Select Panel Name</label>
                                         <select className="form-select" required=""
-                                            onChange={(e) => setCompanyName(e.target.value)}
+                                            onChange={(e) => {
+                                                setCompanyName(e.target.value)
+                                                sessionStorage.setItem("PanelName",e.target.value)
+                                            }}
                                             value={comapnyName}
                                         >
                                             {getAllComapny && getAllComapny.map((item, index) => {

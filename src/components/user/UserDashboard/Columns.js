@@ -1980,8 +1980,16 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             }
         }
     },
+    // {
+    //     name: "ScalpType",
+    //     label: "Scalp Type",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
     {
-        name: "ScalpType",
+        name: "Targetselection",
         label: "Target Selection",
         options: {
             filter: true,
@@ -2121,7 +2129,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
     },
     {
         name: "Quantity",
-        label: "Quantity",
+        label: "Lot",
         options: {
             filter: true,
             sort: true,
@@ -2223,14 +2231,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
-    {
-        name: "Targetselection",
-        label: "Target Selection",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+    
     {
         name: "Booking Point2",
         label: "Booking Point2",

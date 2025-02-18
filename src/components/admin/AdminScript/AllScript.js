@@ -9,9 +9,12 @@ import NoDataFound from '../../../ExtraComponent/NoDataFound';
 
 const Addscript = () => {
     const navigate = useNavigate()
+    const GroupName = sessionStorage.getItem('GroupName')
+    const StrategyType = sessionStorage.getItem('StrategyType')
+
     const [refresh, setRefresh] = useState(false)
-    const [selectGroup, setSelectGroup] = useState('')
-    const [selectStrategyType, setStrategyType] = useState([])
+    const [selectGroup, setSelectGroup] = useState(GroupName || 'Dello')
+    const [selectStrategyType, setStrategyType] = useState(StrategyType || 'Scalping')
     const [strategyNames, setStrategyNames] = useState([]);
 
     const [GroupError, setGroupError] = useState('')
@@ -191,7 +194,7 @@ const Addscript = () => {
     }
 
     useEffect(() => {
-        setStrategyType('Scalping')
+        setStrategyType(StrategyType || 'Scalping')
     }, []);
 
     useEffect(() => {
@@ -239,7 +242,10 @@ const Addscript = () => {
                                     <label>Group Name</label>
                                     <select className="form-select "
                                         required=""
-                                        onChange={(e) => setSelectGroup(e.target.value)}
+                                        onChange={(e) => {
+                                            setSelectGroup(e.target.value)
+                                            sessionStorage.setItem('GroupName',e.target.value)
+                                        }}
                                         value={selectGroup}
                                     >
                                         {getGroupData.data && getGroupData.data.map((item) => {
@@ -256,7 +262,11 @@ const Addscript = () => {
                                 <div className={`form-group ${"col-md-5"} ms-3`}>
                                     <label>Strategy Type</label>
                                     <select className="form-select" required=""
-                                        onChange={(e) => { setAllservice({ loading: true, data: [] }); setStrategyType(e.target.value) }}
+                                        onChange={(e) => { 
+                                            setAllservice({ loading: true, data: [] }); 
+                                            setStrategyType(e.target.value);
+                                            sessionStorage.setItem('StrategyType',e.target.value)
+                                        }}
                                         value={selectStrategyType}>
                                         {strategyNames.filter((item)=> {return item != "ChartingPlatform"}).map((item, index) => {
                                             return (

@@ -331,7 +331,7 @@ const Sidebar = () => {
 
 
     return (
-        <div className="iq-sidebar">
+        <div className="iq-sidebar" onClick={()=>sessionStorage.clear()}>
             <div className="iq-sidebar-logo d-flex justify-content-between">
                 {/* <a href="#">
                     <img className="header_img1" alt="Logo" id="header_img1" />

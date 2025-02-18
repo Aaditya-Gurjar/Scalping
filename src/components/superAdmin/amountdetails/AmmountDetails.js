@@ -5,8 +5,10 @@ import NoDataFound from '../../../ExtraComponent/NoDataFound'
 
 const AmountDetails = () => {
 
+    const CompanyName = sessionStorage.getItem("CompanyName")
+
     const [getAmountDetails, setAmountDetails] = useState([])
-    const [comapnyName, setCompanyName] = useState('')
+    const [comapnyName, setCompanyName] = useState(CompanyName || '')
     const [getAllComapny, setAllComapny] = useState([])
 
     useEffect(() => {
@@ -124,7 +126,10 @@ const AmountDetails = () => {
                                     <div className="form-group col-md-4 ms-2">
                                         <label>Select Company</label>
                                         <select className="form-select" required=""
-                                            onChange={(e) => setCompanyName(e.target.value)}
+                                            onChange={(e) => {
+                                                setCompanyName(e.target.value)
+                                                sessionStorage.setItem('CompanyName',e.target.value)
+                                            }}
                                             value={comapnyName}
                                         >
                                             {getAllComapny && getAllComapny.map((item, index) => {

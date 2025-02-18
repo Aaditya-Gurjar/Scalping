@@ -1121,9 +1121,11 @@ import ProfitAndLossGraph from "../../admin/AdvanceChart/ProfitAndLossGraph";
 import ChartComponent from "../../admin/AdvanceChart/ChartComponent";
 
 const Tradehistory = () => {
+  const StrategyType = sessionStorage.getItem('StrategyType')
+  
   const location = useLocation();
   const sectionRefs = useRef({});
-  const [selectStrategyType, setStrategyType] = useState("Scalping");
+  const [selectStrategyType, setStrategyType] = useState(StrategyType || "Scalping");
   const [strategyNames, setStrategyNames] = useState([]);
   const [tradeHistory, setTradeHistory] = useState({ data: [], data1: [] });
   const [selectedRowData, setSelectedRowData] = useState(null);
@@ -1460,7 +1462,10 @@ const Tradehistory = () => {
                 <select
                   className="form-select"
                   value={selectStrategyType}
-                  onChange={(e) => setStrategyType(e.target.value)}>
+                  onChange={(e) => {
+                    setStrategyType(e.target.value)
+                    sessionStorage.setItem('StrategyType',e.target.value)
+                    }}>
                   {strategyNames.map((item) => (
                     <option key={item} value={item}>
                       {item}

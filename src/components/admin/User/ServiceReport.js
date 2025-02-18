@@ -8,6 +8,8 @@ import NoDataFound from '../../../ExtraComponent/NoDataFound';
 
 const Userlog = () => {
 
+    const StrategyType = sessionStorage.getItem("StrategyType")
+
 
     const [showModal, setShowModal] = useState(false)
     const [getServiceDetails, setServiceDetails] = useState({
@@ -21,7 +23,7 @@ const Userlog = () => {
     })
 
 
-    const [selectStrategyType, setStrategyType] = useState('')
+    const [selectStrategyType, setStrategyType] = useState(StrategyType || '')
 
     const getAllServiceGiven = async () => {
         if (selectStrategyType == '') {
@@ -498,7 +500,7 @@ const Userlog = () => {
     ];
 
     useEffect(() => {
-        setStrategyType('Scalping')
+        setStrategyType(StrategyType || 'Scalping')
     }, []);
 
 
@@ -545,7 +547,10 @@ const Userlog = () => {
                                     <div className="form-group col-md-4 ms-2">
                                         <label>Strategy Type</label>
                                         <select className="form-select" required=""
-                                            onChange={(e) => setStrategyType(e.target.value)}
+                                            onChange={(e) => {
+                                                setStrategyType(e.target.value)
+                                                sessionStorage.setItem('StrategyType',e.target.value)
+                                            }}
                                             value={selectStrategyType}>
                                             <option value={"Scalping"}>Scalping</option>
                                             <option value={"Option Strategy"}>Option Strategy</option>
