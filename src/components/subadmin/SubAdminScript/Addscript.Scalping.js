@@ -735,7 +735,7 @@ const AddClient = () => {
         { label: "Fixed Target", value: "Average Target" },
         { label: "Entry Wise Target", value: "Entry Wise Target" },
         { label: "Average Target", value: "Average Target" },
-        { label: "Entry Wise Target Reverse", value: "Entry Wise Target Reverse" },
+        { label: "Entry Wise SL", value: "Entry Wise SL" },
 
 
       ],

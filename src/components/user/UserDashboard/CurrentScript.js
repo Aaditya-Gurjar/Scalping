@@ -1038,6 +1038,41 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         },
         onSubmit: async (values) => {
             const req = {
+                // MainStrategy: data,
+                // Strategy: EditDataOption.STG,
+                // Symbol: EditDataOption.MainSymbol,
+                // Username: userName,
+                // ETPattern: EditDataOption.Targettype,
+                // Timeframe: "",
+                // Targetvalue: values.Targetvalue,
+                // Slvalue: Number(values.Slvalue),
+                // TStype: values.TStype,
+                // Quantity: Number(values.Quantity),
+                // LowerRange: EditDataOption.LowerRange,
+                // HigherRange: EditDataOption.HigherRange,
+                // HoldExit: "",
+                // EntryPrice: 0.0,
+                // EntryRange: 0.0,
+                // EntryTime: values.EntryTime,
+                // ExitTime: values.ExitTime,
+                // ExitDay: EditDataOption['Product Type'],
+                // TradeExecution: EditDataOption.TradeExecution,
+                // Group: EditDataOption.GroupN,
+                // CEDepthLower: EditDataOption.CEDepthLower,
+                // CEDepthHigher: EditDataOption.CEDepthHigher,
+                // PEDepthLower: EditDataOption.PEDepthLower,
+                // PEDepthHigher: EditDataOption.PEDepthHigher,
+                // CEDeepLower: EditDataOption.CEDeepLower,
+                // CEDeepHigher: EditDataOption.PEDeepHigher,
+                // PEDeepLower: EditDataOption.PEDeepLower,
+                // PEDeepHigher: EditDataOption.PEDeepHigher,
+                // DepthofStrike: EditDataOption.DepthofStrike,
+                // TradeCount: values.TradeCount,
+                // WorkingDay: values.WorkingDay?.map(day => day?.value || day) || [] // list (array)
+
+                // ------------------------------------------------------
+
+
                 MainStrategy: data,
                 Strategy: EditDataOption.STG,
                 Symbol: EditDataOption.MainSymbol,
@@ -1047,7 +1082,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 Targetvalue: values.Targetvalue,
                 Slvalue: Number(values.Slvalue),
                 TStype: values.TStype,
-                Quantity: Number(values.Quantity),
+                // Quantity: Number(values.Quantity),
                 LowerRange: EditDataOption.LowerRange,
                 HigherRange: EditDataOption.HigherRange,
                 HoldExit: "",
@@ -1068,7 +1103,33 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 PEDeepHigher: EditDataOption.PEDeepHigher,
                 DepthofStrike: EditDataOption.DepthofStrike,
                 TradeCount: values.TradeCount,
-                WorkingDay: formik1?.values?.WorkingDay?.map(day => day?.value || day) || [] // list (array)
+                WorkingDay: values.WorkingDay?.map(day => day?.value || day) || [], // list (array)
+
+                HoldExit: EditDataScalping.HoldExit || "HoldExit", // str
+                EntryPrice: 0.0, // float
+                EntryRange: 0.0, // float
+                TradeCount: EditDataScalping.TradeCount || 0, // int
+                tgp2: 0.0, // float
+                tgp3: 0.0, // float
+                RolloverTF: EditDataOption.RolloverTF || false, // bool
+                RolloverDay: "", // str
+                RolloverTime: "", // str
+                TargetExit: false, // bool
+                RepeatationCount: 0, // int
+                Profit: 0.0, // float
+                Loss: 0.0, // float
+
+
+                // formik1.setFieldValue('TStype', EditDataOption.strategytype)
+                // formik1.setFieldValue('Targetvalue', EditDataOption['Target value'])
+                // formik1.setFieldValue('Slvalue', EditDataOption['SL value'])
+                // formik1.setFieldValue('Quantity', EditDataOption['Lot Size'])
+                // formik1.setFieldValue('EntryTime', EditDataOption['Entry Time'])
+                // formik1.setFieldValue('ExitTime', EditDataOption['Exit Time'])
+                // formik1.setFieldValue('TradeCount', EditDataOption.TradeCount)
+                // formik1.setFieldValue('WorkingDay', WorkingDay)
+
+
 
 
             }
@@ -1929,7 +1990,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                                                             />
                                                                         )}
 
-                                                                        {/* {console.log("getAllService", getAllService)} */}
+                                                                        {/* {console.log("getAllService", getAllService)} 
 
 
                                                                         {hasSecondaryTableData && (
@@ -1952,32 +2013,40 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                                     {getAllService.loading ? (
                                                         <Loader />
                                                     ) : (
-                                                        
-                                                        <FullDataTable
-                                                            columns={
-                                                                data === "Scalping"
-                                                                    ? getColumns6(handleDelete, handleEdit, HandleContinueDiscontinue, handleMatchPosition)
-                                                                    : data === "Option Strategy"
-                                                                        ? getColumns4(handleDelete, handleEdit, HandleContinueDiscontinue)
-                                                                        : (data === "Pattern" || data === "Pattern Script")
-                                                                            ? getColumns5(handleDelete, handleEdit, HandleContinueDiscontinue,)
-                                                                            : data === "ChartingPlatform"
-                                                                                ? getColumns8(HandleContinueDiscontinue)
-                                                                                : getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue)
-                                                            }
-                                                            data={
-                                                                data === "Scalping"
-                                                                    ? getAllService.NewScalping
-                                                                    : data === "Option Strategy"
-                                                                        ? getAllService.OptionData
-                                                                        : (data === "Pattern" || data === "Pattern Script")
-                                                                            ? getAllService.PatternData
-                                                                            : data === "ChartingPlatform"
-                                                                                ? getCharting
-                                                                                : []
-                                                            }
-                                                            checkBox={false}
-                                                        />
+
+                                                        (data === "Scalping" && getAllService.NewScalping?.length > 0) ||
+                                                            (data === "Option Strategy" && getAllService.OptionData?.length > 0) ||
+                                                            ((data === "Pattern" || data === "Pattern Script") && getAllService.PatternData?.length > 0) ||
+                                                            (data === "ChartingPlatform" && getCharting?.length > 0) ? (
+                                                            <FullDataTable
+                                                                columns={
+                                                                    data === "Scalping"
+                                                                        ? getColumns6(handleDelete, handleEdit, HandleContinueDiscontinue, handleMatchPosition)
+                                                                        : data === "Option Strategy"
+                                                                            ? getColumns4(handleDelete, handleEdit, HandleContinueDiscontinue)
+                                                                            : (data === "Pattern" || data === "Pattern Script")
+                                                                                ? getColumns5(handleDelete, handleEdit, HandleContinueDiscontinue)
+                                                                                : data === "ChartingPlatform"
+                                                                                    ? getColumns8(HandleContinueDiscontinue)
+                                                                                    : getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue)
+                                                                }
+                                                                data={
+                                                                    data === "Scalping"
+                                                                        ? getAllService.NewScalping
+                                                                        : data === "Option Strategy"
+                                                                            ? getAllService.OptionData
+                                                                            : (data === "Pattern" || data === "Pattern Script")
+                                                                                ? getAllService.PatternData
+                                                                                : data === "ChartingPlatform"
+                                                                                    ? getCharting
+                                                                                    : []
+                                                                }
+                                                                checkBox={false}
+                                                            />
+                                                        ) : (
+                                                            <NoDataFound />
+                                                        )
+
 
                                                     )
 
