@@ -9,12 +9,16 @@ import NoDataFound from "../../../ExtraComponent/NoDataFound";
 const Userdashboard = () => {
   const userName = localStorage.getItem("name");
   const dashboardStrategyType = sessionStorage.getItem("dashboardStrategyType");
+  const addVia = sessionStorage.getItem("addVia")
+  const groupName = sessionStorage.getItem("groupName")
+
+
   const [activeTab1, setActiveTab1] = useState("CurrentPosition");
-  const [activeTab, setActiveTab] = useState("currentScript");
+  const [activeTab, setActiveTab] = useState(addVia || "currentScript");
 
   const [subTab, setSubTab] = useState(dashboardStrategyType || "Scalping");
   const [refresh, setRefresh] = useState(false);
-  const [getGroup, setGroup] = useState("");
+  const [getGroup, setGroup] = useState( groupName || "");
   const [strategyType, setStrategyType] = useState([]);
 
   const [tableType, setTableType] = useState("MultiCondition");
@@ -735,12 +739,12 @@ const Userdashboard = () => {
                         activeTab == "currentScript" && subTab == "Scalping"
                           ? "col-lg-6"
                           : activeTab == "group" && subTab == "Scalping"
-                          ? "col-lg-3"
+                          ? "col-lg-4"
                           : activeTab == "currentScript"
                           ? "col-lg-6"
                           : activeTab == "group"
                           ? "col-lg-4"
-                          : "col-lg-3"
+                          : "col-lg-4"
                       }`}>
                       <div className="px-3">
                         <label>Add Via</label>
@@ -749,6 +753,7 @@ const Userdashboard = () => {
                           required=""
                           onChange={(e) => {
                             setActiveTab(e.target.value);
+                            sessionStorage.setItem('addVia',e.target.value)
                           }}
                           value={activeTab}>
                           <option value="currentScript">Current Script</option>
@@ -762,12 +767,12 @@ const Userdashboard = () => {
                           activeTab == "currentScript" && subTab == "Scalping"
                             ? "col-lg-4"
                             : activeTab == "group" && subTab == "Scalping"
-                            ? "col-lg-3"
+                            ? "col-lg-4"
                             : activeTab == "currentScript"
                             ? "col-lg-6"
                             : activeTab == "group"
                             ? "col-lg-4"
-                            : "col-lg-3"
+                            : "col-lg-4"
                         }`}>
                         <div className="px-3">
                           <label>Group Name</label>
@@ -776,6 +781,7 @@ const Userdashboard = () => {
                             required=""
                             onChange={(e) => {
                               setGroup(e.target.value);
+                            sessionStorage.setItem('groupName',e.target.value)
                             }}
                             value={getGroup}>
                             <option value="">Select Group Name</option>
@@ -799,7 +805,7 @@ const Userdashboard = () => {
                           ? "col-lg-6"
                           : activeTab == "group"
                           ? "col-lg-4"
-                          : "col-lg-3"
+                          : "col-lg-4"
                       }`}>
                       <div className="px-3">
                         <label>Strategy Type</label>
@@ -826,12 +832,12 @@ const Userdashboard = () => {
                           activeTab == "currentScript" && subTab == "Scalping"
                             ? "col-lg-4"
                             : activeTab == "group" && subTab == "Scalping"
-                            ? "col-lg-3"
+                            ? "col-lg-4"
                             : activeTab == "currentScript"
                             ? "col-lg-6"
                             : activeTab == "group"
                             ? "col-lg-4"
-                            : "col-lg-3"
+                            : "col-lg-4"
                         }`}>
                         {/* <div className="px-3">
                           <label>Table Type</label>

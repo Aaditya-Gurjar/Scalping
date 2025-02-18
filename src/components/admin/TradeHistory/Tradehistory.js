@@ -19,8 +19,13 @@ import ProfitAndLossGraph from '../AdvanceChart/ProfitAndLossGraph';
 
 
 const Tradehistory = () => {
-    const [selectGroup, setSelectGroup] = useState('')
-    const [selectStrategyType, setStrategyType] = useState('Scalping')
+    const Username = sessionStorage.getItem('Username')
+    const StrategyType = sessionStorage.getItem('StrategyType')
+
+    const [selectGroup, setSelectGroup] = useState(Username || '')
+    console.log("selectGroup",selectGroup);
+    
+    const [selectStrategyType, setStrategyType] = useState(StrategyType || 'Scalping')
     const [tableType, setTableType] = useState("Scalping");
     const [tradeHistory, setTradeHistory] = useState({ loading: true, data: [], data1: [] })
     const [selectedRowData, setSelectedRowData] = useState('');
@@ -349,9 +354,9 @@ const Tradehistory = () => {
 
     useEffect(() => {
         if (getGroupData && getGroupData.data.length > 0) {
-            setSelectGroup(getGroupData.data[0].Username)
+            setSelectGroup(Username || (getGroupData.data[0].Username))
         }
-        setStrategyType('Scalping')
+        setStrategyType(StrategyType || 'Scalping')
     }, [getGroupData]);
 
 
@@ -478,7 +483,10 @@ const Tradehistory = () => {
                                         className={`form-group  ${selectStrategyType == "Scalping" ? "col-lg-2" : "col-lg-3"}`}>
                                         <label>Select Username</label>
                                         <select className="form-select" required=""
-                                            onChange={(e) => setSelectGroup(e.target.value)}
+                                            onChange={(e) => {
+                                                setSelectGroup(e.target.value)
+                                                sessionStorage.setItem('Username',e.target.value)
+                                            }}
                                             value={selectGroup}
                                         >
                                             <option value="">Select Username</option>
@@ -492,7 +500,10 @@ const Tradehistory = () => {
                                     <div className={`form-group  ${selectStrategyType == "Scalping" ? "col-lg-2" : "col-lg-3"}`}>
                                         <label>Select Strategy Type</label>
                                         <select className="form-select" required=""
-                                            onChange={(e) => setStrategyType(e.target.value)}
+                                            onChange={(e) => {
+                                                setStrategyType(e.target.value)
+                                                sessionStorage.setItem('StrategyType',e.target.value)
+                                            }}
                                             value={selectStrategyType}>
                                             {strategyNames.map((item, index) => {
                                                 return (

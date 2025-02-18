@@ -660,10 +660,11 @@ import NoDataFound from "../../../ExtraComponent/NoDataFound";
 
 const TradeResponse = () => {
   const location = useLocation();
+  const StrategyType = sessionStorage.getItem('StrategyType')
 
   const Username = localStorage.getItem("name");
 
-  const [selectStrategyType, setSelectStrategyType] = useState("Scalping");
+  const [selectStrategyType, setSelectStrategyType] = useState(StrategyType || "Scalping");
   const [strategyType, setStrategyType] = useState([]);
 
   const [tradeHistory, setTradeHistory] = useState({
@@ -842,10 +843,10 @@ const TradeResponse = () => {
       location?.state?.type &&
       location?.state?.type != "MultiCondition"
     ) {
-      setSelectStrategyType(location?.state?.type);
+      setSelectStrategyType(StrategyType || (location?.state?.type));
     } else if (location?.state?.type == "MultiCondition") {
       setTableType("MultiCondition");
-      setSelectStrategyType("Scalping");
+      setSelectStrategyType(StrategyType || "Scalping");
     }
   }, [preSelectTableType]);
 
@@ -937,7 +938,7 @@ const TradeResponse = () => {
   };
 
   useEffect(() => {
-    setSelectStrategyType("Scalping");
+    setSelectStrategyType(StrategyType || "Scalping");
     GetTradeStrategyType();
   }, []);
 
@@ -975,7 +976,10 @@ const TradeResponse = () => {
                     <select
                       className="form-select"
                       required
-                      onChange={(e) => setSelectStrategyType(e.target.value)}
+                      onChange={(e) => {
+                        setSelectStrategyType(e.target.value)
+                        sessionStorage.setItem('StrategyType',e.target.value)
+                      }}
                       value={selectStrategyType}>
                       {strategyType?.map((item, index) => (
                         <option key={index} value={item}>

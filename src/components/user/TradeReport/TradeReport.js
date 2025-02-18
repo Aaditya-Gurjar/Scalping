@@ -557,8 +557,10 @@ import NoDataFound from '../../../ExtraComponent/NoDataFound';
 
 const TradeReport = () => {
     const location = useLocation();
+    const StrategyType = sessionStorage.getItem('StrategyType')
+
     const userName = localStorage.getItem("name");
-    const [selectStrategyType, setStrategyType] = useState('Scalping');
+    const [selectStrategyType, setStrategyType] = useState(StrategyType || 'Scalping');
     const [strategyNames, setStrategyNames] = useState([]);
     const [tradeReport, setTradeReport] = useState({ data: [], data1: [] });
     const [getCharting, setGetCharting] = useState([]);
@@ -638,7 +640,7 @@ const TradeReport = () => {
     };
 
     useEffect(() => {
-        setStrategyType("Scalping");
+        setStrategyType(StrategyType || "Scalping");
     }, []);
 
     useEffect(() => {
@@ -671,7 +673,7 @@ const TradeReport = () => {
             setStrategyType(location?.state?.type);
         } else if (location?.state?.type === "MultiCondition") {
             setTableType("MultiCondition");
-            setStrategyType("Scalping");
+            setStrategyType(StrategyType || "Scalping");
         }
     }, [preSelectTableType]);
 
@@ -683,7 +685,7 @@ const TradeReport = () => {
     useEffect(() => {
         strategyTypeFn();
         getChartingData();
-        setStrategyType('Scalping');
+        setStrategyType(StrategyType || 'Scalping');
     }, []);
 
     useEffect(() => {
@@ -899,7 +901,10 @@ const TradeReport = () => {
                                         <select
                                             className="form-select"
                                             required=""
-                                            onChange={(e) => setStrategyType(e.target.value)}
+                                            onChange={(e) => {
+                                                setStrategyType(e.target.value)
+                                                sessionStorage.setItem('StrategyType',e.target.value)                                            
+                                            }}
                                             value={selectStrategyType}
                                         >
                                             <option value="">Select Strategy Type</option>

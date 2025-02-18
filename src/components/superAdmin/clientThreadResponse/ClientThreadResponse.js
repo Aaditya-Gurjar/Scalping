@@ -10,7 +10,12 @@ import { columns3, columns2, columns1, columns, columns5, columns4 } from './Tra
 import { getCompanyName, getClientName, getClientScript, ClientTradeResponse } from '../../CommonAPI/SuperAdmin'
 import NoDataFound from '../../../ExtraComponent/NoDataFound';
 const TradeResponse = () => {
-    const [selectStrategyType, setStrategyType] = useState('')
+    const CompanyName = sessionStorage.getItem("CompanyName")
+    const ClientName = sessionStorage.getItem("ClientName")
+    const StrategyType = sessionStorage.getItem("StrategyType")
+    
+
+    const [selectStrategyType, setStrategyType] = useState(StrategyType || '')
     const [clientAllScript, setClientAllScript] = useState({ loading: true, data: [] })
     const [selectedRowData, setSelectedRowData] = useState('');
     const [ToDate, setToDate] = useState('');
@@ -18,9 +23,9 @@ const TradeResponse = () => {
     const [showTable, setShowTable] = useState(false)
     const [getAllComapny, setAllComapny] = useState([])
     const [getAllTradeData, setAllTradeData] = useState({ loading: true, data: [] })
-    const [comapnyName, setCompanyName] = useState('')
+    const [comapnyName, setCompanyName] = useState(CompanyName || '')
     const [allClientDetails, setAllClientDetails] = useState([])
-    const [clientName, setClientName] = useState('')
+    const [clientName, setClientName] = useState(ClientName || '')
 
 
 
@@ -237,7 +242,10 @@ const TradeResponse = () => {
                                     <div className="form-group col-lg-2">
                                         <label>Select Company</label>
                                         <select className="form-select" required=""
-                                            onChange={(e) => setCompanyName(e.target.value)}
+                                            onChange={(e) => {
+                                                setCompanyName(e.target.value)
+                                                sessionStorage.setItem('CompanyName',e.target.value)
+                                            }}
                                             value={comapnyName}
                                         >
                                             <option value={''}>Select Company</option>
@@ -251,7 +259,10 @@ const TradeResponse = () => {
                                     <div className="form-group col-lg-2">
                                         <label>Select Client Name</label>
                                         <select className="form-select" required=""
-                                            onChange={(e) => setClientName(e.target.value)}
+                                            onChange={(e) => {
+                                                setClientName(e.target.value)
+                                                sessionStorage.setItem("ClientName",e.target.value)
+                                            }}
                                             value={clientName}
                                         >
                                             <option value={''}>Select Client Name</option>
@@ -265,7 +276,10 @@ const TradeResponse = () => {
                                     <div className="form-group col-lg-2">
                                         <label>Strategy Type</label>
                                         <select className="form-select" required=""
-                                            onChange={(e) => setStrategyType(e.target.value)}
+                                            onChange={(e) => {
+                                                setStrategyType(e.target.value)
+                                                sessionStorage.setItem("StrategyType",e.target.value)
+                                            }}
                                             value={selectStrategyType}>
 
                                             <option value={"Scalping"}>Scalping</option>
