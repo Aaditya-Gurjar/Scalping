@@ -2660,6 +2660,37 @@ const DynamicForm = ({
                           </div>
                         </div>
                       </>
+                    ) : field.type === "multiselect" ? (
+                      <div className={`col-lg-${field.col_size}`}>
+                        <div className="input-block mb-3 flex-column">
+                          <label className={`col-lg-${field.label_size} mb-1`}>
+                            {field.label}
+                            <span className="text-danger">*</span>
+                          </label>
+                          <Select
+                            options={field.options}
+                            isMulti
+                            className="basic-multi-select"
+                            value={formik.values[field.name]} // Bind to Formik's values
+                            onChange={
+                              (selected) =>
+                                formik.setFieldValue(field.name, selected) // Use Formik's setFieldValue
+                            }
+                            placeholder={
+                              field.placeholder
+                                ? field.placeholder
+                                : "Select options"
+                            }
+                            isDisabled={field.disable}
+                          />
+                          {formik.touched[field.name] &&
+                            formik.errors[field.name] && (
+                              <div style={{ color: "red" }}>
+                                {formik.errors[field.name]}
+                              </div>
+                            )}
+                        </div>
+                      </div>
                     ) : (
                       <>
                         <div className={`col-lg-${field.col_size}`}>

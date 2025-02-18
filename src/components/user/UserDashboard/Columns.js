@@ -564,6 +564,29 @@ export const getColumns7 = (handleAddScript1) => [
         }
     },
 
+
+    {
+        name: "WorkingDay",
+        label: "Working Day",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => {
+                if (!value || (Array.isArray(value) && value.length === 0)) {
+                    return "-";
+                }
+                if (Array.isArray(value)) {
+                    if (value.length && typeof value[0] === "object" && value[0].label) {
+                        return value.map((day) => day.label).join(", ");
+                    }
+                    // Fallback: if it's an array of strings
+                    return value.join(", ");
+                }
+                return value;
+            },
+        },
+    },
+
 ];
 
 export const getColumns1 = (handleAddScript2) => [
@@ -801,6 +824,28 @@ export const getColumns1 = (handleAddScript2) => [
             filter: true,
             sort: true,
         }
+    },
+
+    {
+        name: "WorkingDay",
+        label: "Working Day",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => {
+                if (!value || (Array.isArray(value) && value.length === 0)) {
+                    return "-";
+                }
+                if (Array.isArray(value)) {
+                    if (value.length && typeof value[0] === "object" && value[0].label) {
+                        return value.map((day) => day.label).join(", ");
+                    }
+                    // Fallback: if it's an array of strings
+                    return value.join(", ");
+                }
+                return value;
+            },
+        },
     },
 ];
 
@@ -1103,7 +1148,7 @@ export const getColumns3 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
-    
+
     {
         name: "Symbol",
         label: "Symbol",
@@ -1599,6 +1644,7 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
+
 ];
 
 export const
@@ -1658,7 +1704,7 @@ export const
                 customBodyRender: (value, tableMeta, updateValue) => {
                     const label = value ? "Continue" : "Discontinue";
                     const labelStyle = value ? { backgroundColor: 'green', color: 'white' } : { backgroundColor: 'red', color: 'white' };
-    
+
                     return (
                         <button
                             onClick={() => handleContinutyDiscontinuty(tableMeta, 1)}
@@ -1670,7 +1716,7 @@ export const
                 }
             }
         },
-       
+
 
         {
             name: "TradePattern",
@@ -1719,7 +1765,7 @@ export const
                 sort: true,
             }
         },
-       
+
         {
             name: "Symbol",
             label: "Symbol",
@@ -1950,7 +1996,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
-   
+
     {
         name: "Symbol",
         label: "Symbol",
@@ -1977,6 +2023,30 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             },
         },
     },
+
+    {
+        name: "WorkingDay",
+        label: "Working Day",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => {
+
+                if (!value || (Array.isArray(value) && value.length === 0)) {
+                    return "-";
+                }
+                if (Array.isArray(value)) {
+                    if (value.length && typeof value[0] === "object" && value[0].label) {
+                        return value.map((day) => day.label).join(", ");
+                    }
+                    // Fallback: if it's an array of strings
+                    return value.join(", ");
+                }
+                return value;
+            },
+        },
+    },
+
     {
         name: "Token",
         label: "Token",

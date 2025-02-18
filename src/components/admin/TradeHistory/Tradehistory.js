@@ -475,7 +475,7 @@ const Tradehistory = () => {
                             <div className="was-validated ">
                                 <div className='row'>
                                     <div
-                                        className={`form-group  ${selectStrategyType == "Scalping" ? "col-lg-2" : "col-lg-3"}`}>
+                                        className={`form-group  ${ "col-lg-3"}`}>
                                         <label>Select Username</label>
                                         <select className="form-select" required=""
                                             onChange={(e) => setSelectGroup(e.target.value)}
@@ -489,7 +489,7 @@ const Tradehistory = () => {
                                             })}
                                         </select>
                                     </div>
-                                    <div className={`form-group  ${selectStrategyType == "Scalping" ? "col-lg-2" : "col-lg-3"}`}>
+                                    <div className={`form-group  ${ "col-lg-3"}`}>
                                         <label>Select Strategy Type</label>
                                         <select className="form-select" required=""
                                             onChange={(e) => setStrategyType(e.target.value)}
@@ -504,7 +504,8 @@ const Tradehistory = () => {
 
                                         </select>
                                     </div>
-                                    {selectStrategyType == "Scalping" && (
+
+                                    {/* {selectStrategyType == "Scalping" && (
                                         <div className={`form-group  ${selectStrategyType == "Scalping" ? "col-lg-2" : "col-lg-3"}`}>
                                             <label>Table Type</label>
                                             <select
@@ -516,7 +517,8 @@ const Tradehistory = () => {
                                                 <option value="MultiCondition">Multi Condition</option>
                                             </select>
                                         </div>
-                                    )}
+                                    )} */}
+
                                     <div className="form-group col-md-3 col-sm-6">
                                         <label>Select form Date</label>
                                         <DatePicker className="form-select" selected={FromDate == '' ? formattedDate : FromDate} onChange={(date) => setFromDate(date)} />

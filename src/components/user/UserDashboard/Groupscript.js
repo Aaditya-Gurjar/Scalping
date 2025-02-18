@@ -11,7 +11,7 @@ import NoDataFound from '../../../ExtraComponent/NoDataFound';
 const GroupScript = ({ data, selectedType, GroupName, data2 }) => {
     const stgType = data
     const userName = localStorage.getItem('name')
-  
+
 
 
     const navigate = useNavigate();
@@ -86,7 +86,7 @@ const GroupScript = ({ data, selectedType, GroupName, data2 }) => {
             navigate('/user/addscript/scalping', { state: { data: data, scriptType: allScripts } });
         }
     }
-    
+
 
     const handleAddScript2 = (data1) => {
         if (data2.status == false) {
@@ -148,7 +148,7 @@ const GroupScript = ({ data, selectedType, GroupName, data2 }) => {
 
         }
     }
-   
+
 
     const handleAddScript3 = (data1) => {
         if (data2.status == false) {
@@ -187,7 +187,7 @@ const GroupScript = ({ data, selectedType, GroupName, data2 }) => {
             navigate('/user/addscript/pattern', { state: { data: data, scriptType: allScripts } });
         }
     }
-   
+
 
     const GetAllUserScriptDetails = async () => {
         const data = { Strategy: stgType, Group: GroupName }
@@ -227,8 +227,8 @@ const GroupScript = ({ data, selectedType, GroupName, data2 }) => {
             });
     }
 
-    
-   
+
+
     useEffect(() => {
         GetAllUserScriptDetails();
     }, [selectedType, stgType, GroupName]);
@@ -243,23 +243,30 @@ const GroupScript = ({ data, selectedType, GroupName, data2 }) => {
                                 <div className="tab-pane fade show active" id="home-justify" role="tabpanel" aria-labelledby="home-tab-justify">
                                     {data && getAllService?.data?.length > 0 ? (
                                         <div className="iq-card-body" style={{ padding: '3px' }}>
-                                            <div className="table-responsive">
-                                                {getAllService?.loading ? (
-                                                    <Loader />
-                                                ) : (
-                                                    <FullDataTable
-                                                        columns={
-                                                            data === "Scalping" ? getColumns(handleAddScript1) :
-                                                                data === "Option Strategy" ? getColumns1(handleAddScript2) :
-                                                                    data === "Pattern" ? getColumns2(handleAddScript3) :
-                                                                        getColumns(handleAddScript1)
-                                                        }
-                                                        data={getAllService?.data}
-                                                        checkBox={false}
-                                                    />
-                                                )}
-                                            </div>
+                                            {data !== "Scalping" &&
+                                                <div className="table-responsive">
 
+                                                    {getAllService?.loading ? (
+                                                        <Loader />
+                                                    ) : (
+                                                        <div>
+                                                            <div className="iq-header-title">
+                                                                <h4 className="card-title">{data}</h4>
+                                                            </div>
+                                                            <FullDataTable
+                                                                columns={
+                                                                    data === "Scalping" ? getColumns(handleAddScript1) :
+                                                                        data === "Option Strategy" ? getColumns1(handleAddScript2) :
+                                                                            data === "Pattern" ? getColumns2(handleAddScript3) :
+                                                                                getColumns(handleAddScript1)
+                                                                }
+                                                                data={getAllService?.data}
+                                                                checkBox={false}
+                                                            />
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            }
                                             {data === "Scalping" && (
                                                 getAllService.data1?.length > 0 &&
                                                 <div className="mt-4">
@@ -281,11 +288,11 @@ const GroupScript = ({ data, selectedType, GroupName, data2 }) => {
                                             )}
                                         </div>
                                     ) : (
-                                        
+
                                         <NoDataFound />
                                     )}
                                 </div>
-                               
+
                             </div>
                         </div>
                     </div>

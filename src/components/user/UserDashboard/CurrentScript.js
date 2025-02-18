@@ -888,7 +888,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 RolloverTF: EditDataScalping.RolloverTF || false, // bool
                 RolloverDay: "", // str
                 RolloverTime: "", // str
-                TargetExit: false, // bool
+                TargetExit: values.TargetExit, // bool
                 RepeatationCount: EditDataScalping.RepeatationCount || 0, // int
                 Profit: EditDataScalping.Profit || 0.0, // float
                 Loss: EditDataScalping.Loss || 0.0, // float
@@ -980,6 +980,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             PEDeepHigher: 0.0,
             DepthofStrike: 0,
             TradeCount: 0,
+            WorkingDay: [],
+
         },
         validate: (values) => {
             let errors = {};
@@ -1024,6 +1026,11 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 errors.TradeCount = "Please Enter Trade Count."
             }
 
+            if (
+                !values?.WorkingDay?.length > 0) {
+                errors.WorkingDay = "Please select Working day";
+            }
+
 
             return errors;
         },
@@ -1058,9 +1065,12 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 PEDeepLower: EditDataOption.PEDeepLower,
                 PEDeepHigher: EditDataOption.PEDeepHigher,
                 DepthofStrike: EditDataOption.DepthofStrike,
-                TradeCount: values.TradeCount
+                TradeCount: values.TradeCount,
+                WorkingDay: formik1?.values?.WorkingDay?.map(day => day?.value || day) || [] // list (array)
+
 
             }
+
 
             if (values.EntryTime >= values.ExitTime) {
                 return SweentAlertFun("Exit Time should be greater than Entry Time")
@@ -1264,7 +1274,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             label: "Target",
             type: "text5",
             label_size: 12,
-            col_size: 6,
+            col_size: 4,
             disable: false,
             hiding: false,
         },
@@ -1274,10 +1284,32 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             label: "Stoploss",
             type: "text5",
             label_size: 12,
-            col_size: 6,
+            col_size: 4,
             disable: false,
             hiding: false,
         },
+
+
+
+        {
+            name: "WorkingDay",
+            label: "Working Day ",
+            type: "multiselect",
+            options: [
+                { label: "Monday", value: "Monday" },
+                { label: "Tuesday", value: "Tuesday" },
+                { label: "Wednesday", value: "Wednesday" },
+                { label: "Thursday", value: "Thursday" },
+                { label: "Friday", value: "Friday" },
+                { label: "Saturday", value: "Saturday" },
+
+            ],
+            label_size: 12,
+            col_size: 4,
+            disable: false,
+            hiding: false,
+        },
+
         {
             name: "TradeCount",
             label: "Trade Count",
@@ -1548,9 +1580,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             col_size: 4,
             headingtype: 4,
             showWhen: () => showEditModal,
-
             disable: false,
-            iconText: text.Increment_Type,
             hiding: false
         },
 
@@ -1750,6 +1780,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             const WorkingDay = EditDataScalping?.WorkingDay?.map(day => {
                 return { label: day, value: day }
             })
+            console.log("EditDataScalping.TargetExit", EditDataScalping.TargetExit)
 
             formik.setFieldValue('EntryPrice', EditDataScalping.EntryPrice)
             formik.setFieldValue('EntryRange', EditDataScalping.EntryRange)
@@ -1774,11 +1805,16 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             formik.setFieldValue("RolloverTF", EditDataScalping.RolloverTF)
             formik.setFieldValue("Profit", EditDataScalping.Profit)
             formik.setFieldValue("Loss", EditDataScalping.Loss)
+            formik.setFieldValue("TargetExit", EditDataScalping.TargetExit)
             formik.setFieldValue('WorkingDay', WorkingDay);
 
 
         }
         else if (data == "Option Strategy") {
+
+            const WorkingDay = EditDataOption?.WorkingDay?.map(day => {
+                return { label: day, value: day }
+            })
             formik1.setFieldValue('TStype', EditDataOption.strategytype)
             formik1.setFieldValue('Targetvalue', EditDataOption['Target value'])
             formik1.setFieldValue('Slvalue', EditDataOption['SL value'])
@@ -1786,6 +1822,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             formik1.setFieldValue('EntryTime', EditDataOption['Entry Time'])
             formik1.setFieldValue('ExitTime', EditDataOption['Exit Time'])
             formik1.setFieldValue('TradeCount', EditDataOption.TradeCount)
+            formik1.setFieldValue('WorkingDay', WorkingDay)
         }
         else if (data == "Pattern") {
 

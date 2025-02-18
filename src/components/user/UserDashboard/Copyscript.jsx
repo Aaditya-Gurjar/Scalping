@@ -11,9 +11,7 @@ import { getColumns, getColumns1, getColumns2, getColumns7 } from "./Columns";
 import Swal from "sweetalert2";
 
 const Coptyscript = ({ data, selectedType, data2 }) => {
-
-
-  console.log("SSSSSSSS")
+  console.log("SSSSSSSS");
   const userName = localStorage.getItem("name");
   const adminPermission = localStorage.getItem("adminPermission");
   const navigate = useNavigate();
@@ -311,7 +309,7 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
   }, [selectedType]);
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid" style={{ marginTop: "-2rem" }}>
       <div className="row">
         <div className="col-sm-12">
           <div className="iq-card">
@@ -327,34 +325,37 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
                       <div className="iq-card-body " style={{ padding: "3px" }}>
                         <div className="table-responsive">
                           <div>
-                            <div className="iq-header-title mt-4">
-                              <h4 className="card-title">{data}</h4>
-                            </div>
+                            <div className="iq-header-title mt-4"></div>
 
                             {getAllService.loading ? (
                               <Loader />
                             ) : (
-                              <FullDataTable
-                                columns={
-                                  data === "Scalping"
-                                    ? getColumns(handleAddScript1)
-                                    : data === "Option Strategy"
-                                    ? getColumns1(handleAddScript2)
-                                    : data === "Pattern"
-                                    ? getColumns2(handleAddScript3)
-                                    : getColumns(handleAddScript1)
-                                }
-                                data={
-                                  data === "Scalping"
-                                    ? getAllService.ScalpingData
-                                    : data === "Option Strategy"
-                                    ? getAllService.OptionData
-                                    : data === "Pattern"
-                                    ? getAllService.PatternData
-                                    : []
-                                }
-                                checkBox={false}
-                              />
+                              data !== "Scalping" && (
+                                <div>
+                                  <h4 className="card-title">{data}</h4>
+                                  <FullDataTable
+                                    columns={
+                                      // data === "Scalping"
+                                      //   ? getColumns(handleAddScript1)
+                                      data === "Option Strategy"
+                                        ? getColumns1(handleAddScript2)
+                                        : data === "Pattern"
+                                        ? getColumns2(handleAddScript3)
+                                        : getColumns(handleAddScript1)
+                                    }
+                                    data={
+                                      // data === "Scalping"
+                                      //   ? getAllService.ScalpingData
+                                      data === "Option Strategy"
+                                        ? getAllService.OptionData
+                                        : data === "Pattern"
+                                        ? getAllService.PatternData
+                                        : []
+                                    }
+                                    checkBox={false}
+                                  />
+                                </div>
+                              )
                             )}
                           </div>
                           {data === "Scalping" &&

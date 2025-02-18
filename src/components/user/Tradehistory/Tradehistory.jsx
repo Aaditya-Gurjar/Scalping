@@ -1077,7 +1077,9 @@
 
 // export default Tradehistory;
 
-import React, { useState, useEffect } from "react";
+// -----------------------------New Trade History Page ________________________________
+
+import React, { useState, useEffect, useRef } from "react";
 import {
   get_User_Data,
   get_Trade_History,
@@ -1120,6 +1122,7 @@ import ChartComponent from "../../admin/AdvanceChart/ChartComponent";
 
 const Tradehistory = () => {
   const location = useLocation();
+  const sectionRefs = useRef({});
   const [selectStrategyType, setStrategyType] = useState("Scalping");
   const [strategyNames, setStrategyNames] = useState([]);
   const [tradeHistory, setTradeHistory] = useState({ data: [], data1: [] });
@@ -1131,10 +1134,11 @@ const Tradehistory = () => {
   const [getCharting, setGetCharting] = useState([]);
   const [selectSegmentType, setSegmentType] = useState("");
   const [getChartingSegments, setChartingSegments] = useState([]);
-  // Use unique keys for each section so they can open independently.
+
+  // Track if data for a section has been loaded.
   const [loadedSections, setLoadedSections] = useState({
-    overview: false, // Total Profit/Loss Overview
-    pnlAnalysis: false, // Profit/Loss Analysis
+    overview: false,
+    pnlAnalysis: false,
     equity: false,
     drawdown: false,
     trades: false,
@@ -1290,7 +1294,7 @@ const Tradehistory = () => {
     }
   };
 
-  // loadSectionData now simply loads data if not already loaded.
+  // loadSectionData simply loads the data if not already loaded.
   const loadSectionData = async (section) => {
     if (loadedSections[section]) return;
     try {
@@ -1372,21 +1376,19 @@ const Tradehistory = () => {
     }
   };
 
-  // Updated ReportSection: on the first click the section opens and loads data immediately.
-  const ReportSection = ({ title, section, children }) => {
-    const [isOpen, setIsOpen] = useState(false);
+  // Instead of a single shared state, track open/closed state for each section.
+  const [openSections, setOpenSections] = useState({});
 
-    console.log("isOpen 22", isOpen);
+  // Updated ReportSection component uses its own open state from openSections.
+  const ReportSection = ({ title, section, children }) => {
+    const isOpen = openSections[section] || false;
+
     const toggleSection = async () => {
       if (!isOpen) {
-        console.log("trueeee");
-        // Open the section and immediately load data.
+        setOpenSections((prev) => ({ ...prev, [section]: true }));
         await loadSectionData(section);
-        setIsOpen(true);
       } else {
-        console.log("falseeeee");
-        // Close the section.
-        setIsOpen(false);
+        setOpenSections((prev) => ({ ...prev, [section]: false }));
       }
     };
 
@@ -1548,11 +1550,26 @@ const Tradehistory = () => {
           </div>
           {showReportSections && (
             <div className="mt-5">
-              {/* <ReportSection
+              <ReportSection
                 title="Total Profit/Loss Overview"
                 section="overview">
-                <div className="alert alert-success">
-                  <h4>
+                <div
+                  className="pnl-overview"
+                  style={{
+                    background: "linear-gradient(to right, #1e3c72, #2a5298)",
+                    color: "#fff",
+                    padding: "20px",
+                    borderRadius: "8px",
+                    textAlign: "center",
+                    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                    marginBottom: "20px",
+                  }}>
+                  <h4
+                    style={{
+                      margin: 0,
+                      fontSize: "1.75rem",
+                      fontWeight: "bold",
+                    }}>
                     Total PnL: ₹
                     {getAllTradeData.Overall[0]?.PnL?.toFixed(2) || "0.00"}
                     <span
@@ -1560,7 +1577,12 @@ const Tradehistory = () => {
                         getAllTradeData.Overall[0]?.PnL >= 0
                           ? "bg-success"
                           : "bg-danger"
-                      }`}>
+                      }`}
+                      style={{
+                        fontSize: "1rem",
+                        padding: "0.5rem 1rem",
+                        borderRadius: "4px",
+                      }}>
                       {getAllTradeData.Overall[0]?.PnL >= 0 ? "Profit" : "Loss"}
                     </span>
                   </h4>
@@ -1570,11 +1592,12 @@ const Tradehistory = () => {
                   data={getAllTradeData.data}
                   checkBox={false}
                 />
-              </ReportSection> */}
+              </ReportSection>
+
               <ReportSection title="Profit/Loss Analysis" section="pnlAnalysis">
                 <ProfitAndLossGraph data={getPnLData.data} />
               </ReportSection>
-              {/* <ReportSection title="Equity Curve Analysis" section="equity">
+              <ReportSection title="Equity Curve Analysis" section="equity">
                 <div style={{ height: "350px", overflow: "hidden" }}>
                   <ChartComponent data={getEquityCurveDetails.data} />
                 </div>
@@ -1635,7 +1658,7 @@ const Tradehistory = () => {
                     </div>
                   </div>
                 </div>
-              </ReportSection> */}
+              </ReportSection>
             </div>
           )}
         </div>
