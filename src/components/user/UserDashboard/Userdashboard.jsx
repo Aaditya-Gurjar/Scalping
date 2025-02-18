@@ -21,7 +21,7 @@ const Userdashboard = () => {
   const [getGroup, setGroup] = useState( groupName || "");
   const [strategyType, setStrategyType] = useState([]);
 
-  const [tableType, setTableType] = useState("MultiCondition");
+  const [tableType, setTableType] = useState(dashboardStrategyType || "MultiCondition");
 
   const [serviceStatus, setServiceStatus] = useState({
     status: false,
@@ -681,10 +681,10 @@ const Userdashboard = () => {
 
   useEffect(() => {
     if (subTab === "Scalping") {
-      setTableType("MultiCondition");
+      setTableType(dashboardStrategyType || "MultiCondition");
     }
     else {
-      setTableType("Scalping");
+      setTableType(dashboardStrategyType || "Scalping");
     }
   }, [subTab]);
 
