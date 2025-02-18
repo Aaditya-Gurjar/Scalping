@@ -197,7 +197,7 @@ const Pannel = () => {
                                             </div>
 
 
-                                            {getScript === "Scalping" && (
+                                            {/* {getScript === "Scalping" && (
                                                 <div className={`form-group ${getScript !== "Scalping" ? "col-lg-4" : "col-lg-3"}`}>
                                                     <div className="px-3">
                                                         <label>Table Type</label>
@@ -212,7 +212,7 @@ const Pannel = () => {
                                                         </select>
                                                     </div>
                                                 </div>
-                                            )}
+                                            )} */}
 
 
                                             <div className={`form-group ${getScript !== "Scalping" ? "col-lg-4" : "col-lg-3"}`}>

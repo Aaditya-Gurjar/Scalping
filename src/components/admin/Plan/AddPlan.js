@@ -290,14 +290,14 @@ const AddPlanPage = () => {
             timerProgressBar: true
         });
     };
-
     const formik = useFormik({
         initialValues: {
             NumberofScript: "",
-            payment: "",
+            payment: 0,
             planname: "",
             Duration: "One_Month",
             PlanType: "Scalping",
+            Charting: []
         },
         validate: (values) => {
             const errors = {};
@@ -327,7 +327,7 @@ const AddPlanPage = () => {
 
             
             if (!values.Duration) errors.Duration = "Please select a plan duration.";
-            if (formik.values.PlanType == "Charting" && selectedCharting.length == 0)
+            if (formik.values.PlanType == "Charting" && selectedCharting.length === 0)
                 errors.Charting = "Please select at least one Segment.";
 
             return errors;
@@ -376,6 +376,11 @@ const AddPlanPage = () => {
         setSelecteScalping([]);
         setSelectePattern([]);
     };
+
+    useEffect(() => {
+        formik.setFieldValue("Charting", selectedCharting);
+    }, [selectedCharting])
+
 
     const handleSelectChange = (type, selected) => {
         if (type === "scalping") {

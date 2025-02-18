@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import Coptyscript from "./Copyscript";
 import GroupScript from "./Groupscript";
 import CurrentScript from "./CurrentScript";
-import { GetAllUserGroup, OpenPosition,getStrategyType,} from "../../CommonAPI/User";
+import {
+  GetAllUserGroup,
+  OpenPosition,
+  getStrategyType,
+} from "../../CommonAPI/User";
 import { ExpriyEndDate } from "../../CommonAPI/Admin";
 import FullDataTable from "../../../ExtraComponent/CommanDataTable";
 import NoDataFound from "../../../ExtraComponent/NoDataFound";
@@ -40,7 +44,6 @@ const Userdashboard = () => {
     getUserAllGroup();
   }, [activeTab]);
 
-
   const fetchStrategyType = async () => {
     try {
       const res = await getStrategyType();
@@ -73,7 +76,6 @@ const Userdashboard = () => {
         console.log("Error in finding the group name", err);
       });
   };
-
 
   const GetExpriyEndDate = async () => {
     const data = { Username: userName };
@@ -670,7 +672,6 @@ const Userdashboard = () => {
     },
   ];
 
-
   useEffect(() => {
     if (subTab === "Scalping") {
       setTableType(dashboardStrategyType || "MultiCondition");
@@ -778,10 +779,13 @@ const Userdashboard = () => {
                             value={getGroup}>
                             <option value="">Select Group Name</option>
                             <option value="copyScript">Copy Script</option>
+
+                            
                             {getGroupName &&
                               getGroupName.data.map((item) => {
                                 return <option value={item}>{item}</option>;
                               })}
+                           
                           </select>
                         </div>
                       </div>

@@ -737,7 +737,7 @@ const AddClient = () => {
 
     {
       name: "EntryPrice",
-      label: formik.values.Strategy == 'Fixed Price' ? "Lower Price" : "Lower Price",
+      label: formik.values.position_type == 'Multiple' ? "First Trade Lower Range" : "Lower Price",
       type: "text3",
       col_size: formik.values.Strategy == 'Fixed Price' || formik.values.Strategy == 'Multi_Conditional' ? 3 : 4,
       disable: false,
@@ -747,7 +747,7 @@ const AddClient = () => {
 
     {
       name: "EntryRange",
-      label: formik.values.Strategy == 'Fixed Price' ? "Higher Price" : "Higher Price",
+      label: formik.values.position_type == 'Multiple' ? "First Trade Lower Range" : "Higher Price",
       type: "text3",
       label_size: 12,
       headingtype: 2,
@@ -794,7 +794,7 @@ const AddClient = () => {
         { label: "Fixed Target", value: "Fixed Target" },
         { label: "Entry Wise Target", value: "Entry Wise Target" },
         { label: "Average Target", value: "Average Target" },
-        { label: "Entry Wise Target Reverse", value: "Entry Wise Target Reverse" },
+        { label: "Entry Wise SL", value: "Entry Wise SL" },
       ],
       showWhen: (values) => values.position_type == "Multiple" && values.Strategy == "Multi_Conditional",
       label_size: 12,
@@ -809,7 +809,7 @@ const AddClient = () => {
       label: "Final Target",
       type: "text3",
       label_size: 12,
-      showWhen: () => (formik.values.position_type == "Multiple" && formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise Target Reverse"),
+      showWhen: () => (formik.values.position_type == "Multiple" && formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise SL"),
       col_size: formik.values.position_type == "Multiple" ? 3 : 3,
       headingtype: 3,
       disable: false,

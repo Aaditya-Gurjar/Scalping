@@ -992,46 +992,57 @@ const TradeReport = () => {
                                 <button className='btn btn-primary mt-2' onClick={handleSubmit}>Submit</button>
                             }
 
-                            {showTable && (
+                            {showTable && (getAllTradeData?.data2?.length > 0 || getAllTradeData?.data1?.length > 0) ? (
                                 <>
-                                    <h4 className='mt-4 mb-2'>Open Trade</h4>
-                                    <GridExample
-                                        columns={
-                                            selectStrategyType === "Scalping"
-                                                ? getColumns3()
-                                                : selectStrategyType === "Option Strategy"
-                                                    ? getColumns4()
-                                                    : (selectStrategyType === "Pattern" || selectStrategyType === "Pattern Script")
-                                                        ? getColumns5()
-                                                        : selectStrategyType === "ChartingPlatform"
-                                                            ? getColumns12()
-                                                            : getColumns3()
-                                        }
-                                        data={getAllTradeData.data2}
-                                        onRowSelect={handleRowSelect}
-                                        checkBox={false}
-                                    />
-                                    <div className='mt-3'>
-                                        <h4 className='mt-3 mb-2'>Close Trade</h4>
-                                        <GridExample
-                                            columns={
-                                                selectStrategyType === "Scalping"
-                                                    ? getColumns6()
-                                                    : selectStrategyType === "Option Strategy"
-                                                        ? getColumns7()
-                                                        : (selectStrategyType === "Pattern" || selectStrategyType === "Pattern Script")
-                                                            ? getColumns8()
-                                                            : selectStrategyType === "ChartingPlatform"
-                                                                ? getColumns10()
-                                                                : getColumns6()
-                                            }
-                                            data={getAllTradeData.data1}
-                                            onRowSelect={handleRowSelect}
-                                            checkBox={false}
-                                        />
-                                    </div>
+                                    {getAllTradeData?.data2?.length > 0 && (
+                                        <>
+                                            <h4 className='mt-4 mb-2'>Open Trade</h4>
+                                            <GridExample
+                                                columns={
+                                                    selectStrategyType === "Scalping"
+                                                        ? getColumns3()
+                                                        : selectStrategyType === "Option Strategy"
+                                                            ? getColumns4()
+                                                            : (selectStrategyType === "Pattern" || selectStrategyType === "Pattern Script")
+                                                                ? getColumns5()
+                                                                : selectStrategyType === "ChartingPlatform"
+                                                                    ? getColumns12()
+                                                                    : getColumns3()
+                                                }
+                                                data={getAllTradeData.data2}
+                                                onRowSelect={handleRowSelect}
+                                                checkBox={false}
+                                            />
+                                        </>
+                                    )}
+
+                                    {getAllTradeData?.data1?.length > 0 && (
+                                        <div className='mt-3'>
+                                            <h4 className='mt-3 mb-2'>Close Trade</h4>
+                                            <GridExample
+                                                columns={
+                                                    selectStrategyType === "Scalping"
+                                                        ? getColumns6()
+                                                        : selectStrategyType === "Option Strategy"
+                                                            ? getColumns7()
+                                                            : (selectStrategyType === "Pattern" || selectStrategyType === "Pattern Script")
+                                                                ? getColumns8()
+                                                                : selectStrategyType === "ChartingPlatform"
+                                                                    ? getColumns10()
+                                                                    : getColumns6()
+                                                }
+                                                data={getAllTradeData.data1}
+                                                onRowSelect={handleRowSelect}
+                                                checkBox={false}
+                                            />
+                                        </div>
+                                    )}
                                 </>
+                            ) : (
+                                showTable &&
+                                <NoDataFound />
                             )}
+
 
                         </div>
                     </div>

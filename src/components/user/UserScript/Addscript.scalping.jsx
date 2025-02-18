@@ -376,7 +376,7 @@ const AddClient = () => {
         (values.FinalTarget == "" &&
           formik.values.position_type == "Multiple" &&
           formik.values.Strategy == "Multi_Conditional" &&
-          formik.values.Targetselection == "Entry Wise Target Reverse")
+          formik.values.Targetselection == "Entry Wise SL")
       ) {
         errors.FinalTarget = "Please Enter Final Target";
       }
@@ -553,7 +553,7 @@ const AddClient = () => {
         FinalTarget:
           formik.values.position_type == "Multiple" &&
           formik.values.Strategy == "Multi_Conditional" &&
-          formik.values.Targetselection == "Entry Wise Target Reverse"
+          formik.values.Targetselection == "Entry Wise SL"
             ? parseFloat(values.FinalTarget)
             : 0.0,
       };
@@ -1065,8 +1065,8 @@ const AddClient = () => {
         { label: "Entry Wise Target", value: "Entry Wise Target" },
         { label: "Average Target", value: "Average Target" },
         {
-          label: "Entry Wise Target Reverse",
-          value: "Entry Wise Target Reverse",
+          label: "Entry Wise SL",
+          value: "Entry Wise SL",
         },
       ],
       showWhen: (values) =>
@@ -1091,7 +1091,7 @@ const AddClient = () => {
       showWhen: (values) =>
         formik.values.position_type == "Multiple" &&
         formik.values.Strategy == "Multi_Conditional" &&
-        formik.values.Targetselection == "Entry Wise Target Reverse",
+        formik.values.Targetselection == "Entry Wise SL",
       col_size: formik.values.position_type == "Multiple" ? 3 : 3,
       headingtype: 3,
       disable: false,

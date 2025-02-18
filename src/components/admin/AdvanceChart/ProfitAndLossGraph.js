@@ -25,30 +25,50 @@ ChartJS.register(
 );
 
 const ProfitAndLossGraph = ({ data }) => {
+
+  // console.log("dataaaa", data)
   const [filteredData, setFilteredData] = useState([]);
   const [originalData, setOriginalData] = useState([]);
   const chartRef = useRef(null); // Ref for chart instance
+
+  // useEffect(() => {
+  //   if (data && data.length > 0) {
+  //     // console.log("🔍 Full Data:", data);
+
+  //     const firstTime = data[0]?.ETime;
+  //     const currentDate = new Date();
+  //     const [firstHour, firstMinute] = firstTime.split(":").map(Number);
+  //     const firstTimestamp = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), firstHour, firstMinute).getTime();
+  //     const oneHourLater = firstTimestamp + 60 * 60 * 1000;
+
+  //     const initialFilteredData = data.filter((item) => {
+  //       const [hour, minute] = item.ETime.split(":").map(Number);
+  //       const itemTime = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), hour, minute).getTime();
+  //       return itemTime >= firstTimestamp && itemTime <= oneHourLater;
+  //     });
+
+  //     setFilteredData(initialFilteredData.length > 0 ? initialFilteredData : data);
+  //     setOriginalData(data);
+  //   }
+  // }, [data]);
 
   useEffect(() => {
     if (data && data.length > 0) {
       console.log("🔍 Full Data:", data);
 
-      const firstTime = data[0]?.ETime;
-      const currentDate = new Date();
-      const [firstHour, firstMinute] = firstTime.split(":").map(Number);
-      const firstTimestamp = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), firstHour, firstMinute).getTime();
-      const oneHourLater = firstTimestamp + 60 * 60 * 1000;
+      const firstTime = new Date(data[0].ETime); // Correctly parse full timestamp
+      const oneHourLater = new Date(firstTime.getTime() + 60 * 60 * 1000);
 
       const initialFilteredData = data.filter((item) => {
-        const [hour, minute] = item.ETime.split(":").map(Number);
-        const itemTime = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), hour, minute).getTime();
-        return itemTime >= firstTimestamp && itemTime <= oneHourLater;
+        const itemTime = new Date(item.ETime); // Ensure full timestamp is used
+        return itemTime >= firstTime && itemTime <= oneHourLater;
       });
 
       setFilteredData(initialFilteredData.length > 0 ? initialFilteredData : data);
       setOriginalData(data);
     }
   }, [data]);
+
 
   // const handleZoom = ({ chart }) => {
   //   const { min, max } = chart.scales.x;
@@ -76,10 +96,13 @@ const ProfitAndLossGraph = ({ data }) => {
   };
 
   const chartData = {
-    labels: filteredData.map((item) => {
-      const [hour, minute] = item.ETime.split(":").map(Number);
-      return new Date(new Date().setHours(hour, minute, 0, 0));
-    }),
+    // labels: filteredData.map((item) => {
+    //   const [hour, minute] = item.ETime.split(":").map(Number);
+    //   return new Date(new Date().setHours(hour, minute, 0, 0));
+    // }),
+
+    labels: filteredData.map((item) => new Date(item.ETime)),
+
     datasets: [
       {
         label: "Profit & Loss",

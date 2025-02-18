@@ -55,7 +55,7 @@ export const getColumns = () => [
             sort: true,
         }
     },
-    
+
     {
         name: "Lot",
         label: "Quantity",
@@ -145,7 +145,7 @@ export const getColumns = () => [
 export const getColumns1 = () => [
     {
         name: "S.No",
-        label: "S.No", 
+        label: "S.No",
         options: {
             filter: true,
             sort: true,
@@ -426,6 +426,27 @@ export const getColumns1 = () => [
             filter: true,
             sort: true,
         }
+    },
+    {
+        name: "WorkingDay",
+        label: "Working Day",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => {
+                if (!value || (Array.isArray(value) && value.length === 0)) {
+                    return "-";
+                }
+                if (Array.isArray(value)) {
+                    if (value.length && typeof value[0] === "object" && value[0].label) {
+                        return value.map((day) => day.label).join(", ");
+                    }
+                    // Fallback: if it's an array of strings
+                    return value.join(", ");
+                }
+                return value;
+            },
+        },
     },
 
 ]
@@ -805,6 +826,28 @@ export const getColumns9 = () => [
             sort: true,
         }
     },
+    {
+        name: "WorkingDay",
+        label: "Working Day",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => {
+
+                if (!value || (Array.isArray(value) && value.length === 0)) {
+                    return "-";
+                }
+                if (Array.isArray(value)) {
+                    if (value.length && typeof value[0] === "object" && value[0].label) {
+                        return value.map((day) => day.label).join(", ");
+                    }
+                    // Fallback: if it's an array of strings
+                    return value.join(", ");
+                }
+                return value;
+            },
+        },
+    },
 
 ]
 
@@ -1027,6 +1070,7 @@ export const getColumns6 = () => [
             sort: true,
         }
     },
+
 ]
 // Option
 export const getColumns4 = () => [
@@ -1622,7 +1666,7 @@ export const getColumns10 = () => [
             }
         },
     },
-   
+
     {
         name: "Symbol",
         label: "Symbol",
@@ -1631,7 +1675,7 @@ export const getColumns10 = () => [
             sort: true,
         }
     },
-    
+
 
     {
         name: "AccType",
@@ -1659,7 +1703,7 @@ export const getColumns10 = () => [
             sort: true,
         }
     },
-    
+
     {
         name: "ETime",
         label: "ETime",
@@ -1751,7 +1795,7 @@ export const getColumns12 = () => [
             }
         },
     },
- 
+
 
     {
         name: "AccType",
