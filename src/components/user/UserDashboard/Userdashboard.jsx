@@ -2,20 +2,17 @@ import React, { useEffect, useState } from "react";
 import Coptyscript from "./Copyscript";
 import GroupScript from "./Groupscript";
 import CurrentScript from "./CurrentScript";
-import { 
-  GetAllUserGroup,
-  OpenPosition,
-  getStrategyType,
-} from "../../CommonAPI/User";
+import { GetAllUserGroup, OpenPosition,getStrategyType,} from "../../CommonAPI/User";
 import { ExpriyEndDate } from "../../CommonAPI/Admin";
 import FullDataTable from "../../../ExtraComponent/CommanDataTable";
 import NoDataFound from "../../../ExtraComponent/NoDataFound";
 const Userdashboard = () => {
   const userName = localStorage.getItem("name");
+  const dashboardStrategyType = sessionStorage.getItem("dashboardStrategyType");
   const [activeTab1, setActiveTab1] = useState("CurrentPosition");
-
   const [activeTab, setActiveTab] = useState("currentScript");
-  const [subTab, setSubTab] = useState("Scalping");
+
+  const [subTab, setSubTab] = useState(dashboardStrategyType || "Scalping");
   const [refresh, setRefresh] = useState(false);
   const [getGroup, setGroup] = useState("");
   const [strategyType, setStrategyType] = useState([]);
@@ -36,7 +33,6 @@ const Userdashboard = () => {
     ChartingData: [],
   });
 
-  console.log("getGroupName ssss", getGroupName);
 
   useEffect(() => {
     GetExpriyEndDate();
@@ -689,7 +685,6 @@ const Userdashboard = () => {
   }, [subTab]);
 
 
-  console.log("getGroupName.data", getGroupName.data);
   return (
     <div className="container-fluid">
       <div className="row p-0">
@@ -813,6 +808,7 @@ const Userdashboard = () => {
                           required=""
                           onChange={(e) => {
                             setSubTab(e.target.value);
+                            sessionStorage.setItem("dashboardStrategyType", e.target.value);
                           }}
                           value={subTab}>
                           {strategyType.map((type, index) => (
