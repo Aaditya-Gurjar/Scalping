@@ -233,7 +233,9 @@ const ProfilePage = () => {
               <Card.Body className="p-4">
                 {/* Profile Header */}
                 <div className="text-center mb-4 position-relative">
-                  <div className="avatar-container" onClick={() => setShowModal(true)}>
+                  {/* <div className="avatar-container" onClick={() => setShowModal(true)}> */}
+                  <div className="avatar-container" >
+
                     <img
                       src={selectedImage || "/assets/images/user/1.jpg"}
                       alt="Profile Avatar"
