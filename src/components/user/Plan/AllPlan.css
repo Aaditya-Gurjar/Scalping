@@ -166,11 +166,12 @@
     background-color: #218838;
 }
 .no-plans-card {
-    background: #f9f9f9;
-    border: 2px dashed #ccc;
-    color: #333;
+    background: #050505;
+    border: 2px solid #00a0fd;
+    color: #f0f0f0;
     padding: 20px;
     border-radius: 8px;
     text-align: center;
     margin: 10px;
+    margin-top: -7rem;
 }

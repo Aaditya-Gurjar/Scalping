@@ -5550,7 +5550,7 @@ option[value='Reject'] {
   font-weight: 700;
 }
 .container-fluid {
-  margin-top: 8rem;
+  margin-top: 0rem;
 }
 
 .broker-card {
@@ -6042,3 +6042,7 @@ button.btn.btn-primary , .swal2-confirm , .all-plan-card button{
 }
 
 
+
+.fix-table{
+  margin-top: -9rem;
+}

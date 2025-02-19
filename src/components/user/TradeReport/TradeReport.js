@@ -649,16 +649,18 @@ const TradeReport = () => {
         }
     }, [selectStrategyType]);
 
+    console.log("tradeHistory.data1? ", tradeReport.data1)
+
     useEffect(() => {
         if (location?.state?.goto && location?.state?.goto === "dashboard") {
             if (location?.state?.type === "MultiCondition") {
-                setSelectedRowData(tradeHistory.data1?.[location?.state?.RowIndex]);
+                setSelectedRowData(tradeReport.data1?.[location?.state?.RowIndex]);
             } else {
-                setSelectedRowData(tradeHistory.data?.[location?.state?.RowIndex]);
+                setSelectedRowData(tradeReport.data?.[location?.state?.RowIndex]);
             }
             setPreSelectTableType(location?.state?.type);
         }
-    }, [tradeHistory, location?.state?.RowIndex]);
+    }, [tradeReport, location?.state?.RowIndex]);
 
     const handleRowSelect = (rowData) => {
         setSelectedRowData(rowData);
@@ -884,7 +886,7 @@ const TradeReport = () => {
 
     return (
         <div>
-            <div className="container-fluid" style={{marginTop:"2rem"}}>
+            <div className="container-fluid" style={{ marginTop: "2rem" }}>
                 <div className="row">
                     <div className="iq-card">
                         <div className="iq-card-header d-flex justify-content-between">
@@ -903,7 +905,7 @@ const TradeReport = () => {
                                             required=""
                                             onChange={(e) => {
                                                 setStrategyType(e.target.value)
-                                                sessionStorage.setItem('StrategyType',e.target.value)                                            
+                                                sessionStorage.setItem('StrategyType', e.target.value)
                                             }}
                                             value={selectStrategyType}
                                         >
