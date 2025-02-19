@@ -63,7 +63,6 @@ const AddClient = () => {
   const ScrollToViewFirstError = (newErrors) => {
     if (Object.keys(newErrors).length !== 0) {
       const errorField = Object.keys(newErrors)[0];
-
       const errorElement = document.getElementById(errorField);
       if (errorElement) {
         const elementPosition =
