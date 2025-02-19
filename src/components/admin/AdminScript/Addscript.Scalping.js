@@ -62,7 +62,7 @@ const AddClient = () => {
       Quantity: 1,
       LowerRange: 0,
       HigherRange: 0,
-      HoldExit: "Hold",
+      // HoldExit: "Hold",
       EntryPrice: 0,
       EntryRange: 0,
       EntryTime: "09:15:00",
@@ -201,9 +201,9 @@ const AddClient = () => {
       if (!values.Group) {
         errors.Group = "Please Enter Unique Name.";
       }
-      if (!values.HoldExit && values.Strategy != "Fixed Price") {
-        errors.HoldExit = "Please Select Whether To Hold Or Exit.";
-      }
+      // if (!values.HoldExit && values.Strategy != "Fixed Price") {
+      //   errors.HoldExit = "Please Select Whether To Hold Or Exit.";
+      // }
       if (!values.Slvalue) {
         errors.Slvalue = values.Strategy == "Fixed Price" ? "Please Enter Stop Loss Price." : "Please Select Stop Loss Value.";
       }
@@ -347,7 +347,7 @@ const AddClient = () => {
             values.Strategy == "Multi_Conditional"
             ? 0
             : Number(values.HigherRange),
-        HoldExit: (values.Strategy === "Multi Directional" || values.Strategy === "One Directional" || values.Strategy == "Multi_Conditional") ? values.HoldExit : "",
+        // HoldExit: (values.Strategy === "Multi Directional" || values.Strategy === "One Directional" || values.Strategy == "Multi_Conditional") ? values.HoldExit : "",
         ExitDay: values.ExitDay,
         EntryTime: values.EntryTime,
         ExitTime: values.ExitTime,
@@ -553,14 +553,14 @@ const AddClient = () => {
     formik.setFieldValue("EntryPrice", 0)
     formik.setFieldValue("EntryRange", 0)
     formik.setFieldValue("Instrument", "FUTIDX")
-    formik.setFieldValue("HoldExit", "Hold")
+    // formik.setFieldValue("HoldExit", "Hold")
     formik.setFieldValue("TStype", "Point")
   }, [])
 
   useEffect(() => {
     console.log("testing")
     if (formik.values.Exchange !== 'MCX') {
-      formik.setFieldValue('ExitTime', '15:15:00');
+      formik.setFieldValue('ExitTime', '15:25:00');
       formik.setFieldValue('EntryTime', '09:15:00');
     } else if (formik.values.Exchange === 'MCX') {
       formik.setFieldValue('ExitTime', '23:29:00');
@@ -922,21 +922,21 @@ const AddClient = () => {
       disable: false,
       hiding: false,
     },
-    {
-      name: "HoldExit",
-      label: "Hold/Exit",
-      type: "select",
-      options: [
-        { label: "Hold", value: "Hold" },
-        { label: "Exit", value: "Exit" },
-      ],
-      showWhen: (values) => (values.Strategy == "Multi Directional" || values.Strategy == "One Directional" || (values.Strategy == "Multi_Conditional" && values.position_type == "Multiple")),
-      label_size: 12,
-      col_size: formik.values.position_type == "Multiple" ? 3 : 4,
-      headingtype: 4,
-      disable: false,
-      hiding: false,
-    },
+    // {
+    //   name: "HoldExit",
+    //   label: "Hold/Exit",
+    //   type: "select",
+    //   options: [
+    //     { label: "Hold", value: "Hold" },
+    //     { label: "Exit", value: "Exit" },
+    //   ],
+    //   showWhen: (values) => (values.Strategy == "Multi Directional" || values.Strategy == "One Directional" || (values.Strategy == "Multi_Conditional" && values.position_type == "Multiple")),
+    //   label_size: 12,
+    //   col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+    //   headingtype: 4,
+    //   disable: false,
+    //   hiding: false,
+    // },
     {
       name: "stepup",
       label: "Step Up",

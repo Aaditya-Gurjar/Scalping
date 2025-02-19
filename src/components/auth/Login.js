@@ -316,8 +316,8 @@ const Login = () => {
                                         <i
                                             className={
                                                 changeType === "text"
-                                                    ? "ri-eye-off-line password-eye"
-                                                    : "ri-eye-line password-eye"
+                                                    ? "ri-eye-line password-eye"
+                                                    : "ri-eye-off-line password-eye"
                                             }
                                             onClick={(e) => toggle(e)}
                                             data-toggle="tooltip"

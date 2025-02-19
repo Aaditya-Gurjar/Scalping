@@ -149,7 +149,7 @@ const Register = () => {
                                                 onChange={(e) => setPass(e.target.value)}
                                             />
                                             <div className="input-span" onClick={() => setShowPass(!showPass)}>
-                                                {showPass ? <EyeOff /> : <Eye />}
+                                                {showPass ? <Eye /> : <EyeOff />}
                                             </div>
                                         </div>
                                     </div>
@@ -167,7 +167,7 @@ const Register = () => {
                                                 onChange={(e) => setCnfPass(e.target.value)}
                                             />
                                             <div className="input-span" onClick={() => setShowCnfPass(!showCnfPass)}>
-                                                {showCnfPass ? <EyeOff /> : <Eye />}
+                                                {showCnfPass ? <Eye /> : <EyeOff />}
                                             </div>
                                         </div>
                                     </div>

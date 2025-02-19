@@ -91,7 +91,7 @@ const AddClient = () => {
             RollOver: "",
             NumberOfDays: 0,
             RollOverExitTime: "00:00:00",
-            WorkingDay: [],
+            // WorkingDay: [],
         },
 
         validate: (values) => {
@@ -256,9 +256,9 @@ const AddClient = () => {
                 errors.RollOverExitTime = "Please Enter RollOver Exit Time";
             }
 
-            if (!values.WorkingDay?.length > 0) {
-                errors.WorkingDay = "Please select Working day";
-            }
+            // if (!values.WorkingDay?.length > 0) {
+            //     errors.WorkingDay = "Please select Working day";
+            // }
 
             // ScrollToViewFirstError(errors)
 
@@ -333,7 +333,7 @@ const AddClient = () => {
                         ? values.RollOverExitTime
                         : "00:00:00",
 
-                WorkingDay: values.WorkingDay ? values?.WorkingDay?.map((item) => item?.value || item) : [],
+                // WorkingDay: values.WorkingDay ? values?.WorkingDay?.map((item) => item?.value || item) : [],
 
             }
 
@@ -781,25 +781,25 @@ const AddClient = () => {
             hiding: false,
         },
 
-        {
-            name: "WorkingDay",
-            label: "Working Day",
-            type: "multiselect",
-            options: [
-                { label: "Monday", value: "Monday" },
-                { label: "Tuesday", value: "Tuesday" },
-                { label: "Wednesday", value: "Wednesday" },
-                { label: "Thursday", value: "Thursday" },
-                { label: "Friday", value: "Friday" },
-                { label: "Saturday", value: "Saturday" },
-            ],
-            label_size: 12,
-            col_size: 3,
-            headingtype: 4,
-            disable: false,
-            // iconText: text.Increment_Type,
-            hiding: false,
-        },
+        // {
+        //     name: "WorkingDay",
+        //     label: "Working Day",
+        //     type: "multiselect",
+        //     options: [
+        //         { label: "Monday", value: "Monday" },
+        //         { label: "Tuesday", value: "Tuesday" },
+        //         { label: "Wednesday", value: "Wednesday" },
+        //         { label: "Thursday", value: "Thursday" },
+        //         { label: "Friday", value: "Friday" },
+        //         { label: "Saturday", value: "Saturday" },
+        //     ],
+        //     label_size: 12,
+        //     col_size: 3,
+        //     headingtype: 4,
+        //     disable: false,
+        //     // iconText: text.Increment_Type,
+        //     hiding: false,
+        // },
 
 
     ]

@@ -24,7 +24,7 @@ const Pannel = () => {
     const [clientService, setClientService] = useState({ loading: true, data: [] });
 
 
-    const [tableType, setTableType] = useState("MultiCondition");
+    const [tableType, setTableType] = useState(Strategy || "Scalping");
 
     const [strategyType, setStrategyType] = useState([]);
 
@@ -156,7 +156,7 @@ const Pannel = () => {
                                     <div>
                                         <div className="row">
 
-                                            <div className={`form-group ${getScript !== "Scalping" ? "col-lg-4" : "col-lg-3"}`}>
+                                            <div className={`form-group ${getScript !== "Scalping" ? "col-lg-4" : "col-lg-4"}`}>
                                                 <label>Username</label>
                                                 <select
                                                     className="form-select my-2"
@@ -177,7 +177,7 @@ const Pannel = () => {
                                             </div>
 
 
-                                            <div className={`form-group ${getScript !== "Scalping" ? "col-lg-4" : "col-lg-3"}`}>
+                                            <div className={`form-group ${getScript !== "Scalping" ? "col-lg-4" : "col-lg-4"}`}>
                                                 <label>Strategy</label>
                                                 <select
                                                     className="form-select my-2"
@@ -197,7 +197,7 @@ const Pannel = () => {
                                             </div>
 
 
-                                            {getScript === "Scalping" && (
+                                            {/* {getScript === "Scalping" && (
                                                 <div className={`form-group ${getScript !== "Scalping" ? "col-lg-4" : "col-lg-3"}`}>
                                                     <div className="px-3">
                                                         <label>Table Type</label>
@@ -212,10 +212,10 @@ const Pannel = () => {
                                                         </select>
                                                     </div>
                                                 </div>
-                                            )}
+                                            )} */}
 
 
-                                            <div className={`form-group ${getScript !== "Scalping" ? "col-lg-4" : "col-lg-3"}`}>
+                                            <div className={`form-group ${getScript !== "Scalping" ? "col-lg-4" : "col-lg-4"}`}>
                                                 <label htmlFor="email">Task Status</label>
                                                 <select
                                                     className="form-select my-2"
@@ -239,6 +239,8 @@ const Pannel = () => {
 
                                         {tableType === "Scalping" ? (
                                             getPanleData?.data?.length > 0 ? (
+                                                <>
+                                                <h4 className="mt-3">{Strategy}</h4>
                                                 <FullDataTable
                                                     columns={
                                                         getScript === "Scalping"
@@ -252,6 +254,8 @@ const Pannel = () => {
                                                     data={getPanleData.data}
                                                     checkBox={false}
                                                 />
+                                                </>
+
                                             ) : (
                                                 <NoDataFound />
                                             )
@@ -259,7 +263,7 @@ const Pannel = () => {
 
                                             tableType === "MultiCondition" && getPanleData?.data1?.length > 0 ? (
                                                 <>
-                                                    <h4 className="mt-3">Multi Condition</h4>
+                                                    <h4 className="mt-3">Scalping</h4>
                                                     <FullDataTable columns={columns3()} data={getPanleData.data1} checkBox={false} />
                                                 </>
                                             ) : (
