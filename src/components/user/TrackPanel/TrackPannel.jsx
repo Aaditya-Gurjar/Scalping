@@ -166,7 +166,7 @@ const Pannel = () => {
             <div className="iq-card">
               <div className="iq-card-header d-flex justify-content-between">
                 <div className="iq-header-title">
-                  <h4 className="card-title">Panel Track</h4>
+                  <h4 className="card-title">🖥️ Panel Track</h4>
                 </div>
               </div>
               <div className="iq-card-body">

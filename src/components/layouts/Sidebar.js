@@ -333,22 +333,7 @@ const Sidebar = () => {
     return (
         <div className="iq-sidebar" onClick={()=>sessionStorage.clear()}>
             <div className="iq-sidebar-logo d-flex justify-content-between">
-                {/* <a href="#">
-                    <img className="header_img1" alt="Logo" id="header_img1" />
-                    <span><img className="header_img2" alt="Logo" id='header_img2' /></span>
-                </a> */}
-                {/* <div className="iq-menu-bt-sidebar">
-                    <div className="iq-menu-bt align-self-center">
-                        <div onClick={handleClick} className={`wrapper-menu ${isActive ? 'open' : ''}`}>
-                            <div className="main-circle">
-                                <i className="ri-more-fill" />
-                            </div>
-                            <div className="hover-circle">
-                                <i className="ri-more-2-fill" />
-                            </div>
-                        </div>
-                    </div>
-                </div> */}
+          
             </div>
             <div
                 id="sidebar-scrollbar"
