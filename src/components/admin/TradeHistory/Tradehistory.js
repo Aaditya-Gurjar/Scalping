@@ -23,7 +23,6 @@ const Tradehistory = () => {
     const StrategyType = sessionStorage.getItem('StrategyType')
 
     const [selectGroup, setSelectGroup] = useState(Username || '')
-    console.log("selectGroup",selectGroup);
     
     const [selectStrategyType, setStrategyType] = useState(StrategyType || 'Scalping')
     const [tableType, setTableType] = useState("Scalping");

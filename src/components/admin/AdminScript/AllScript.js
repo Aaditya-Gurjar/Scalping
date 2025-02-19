@@ -292,7 +292,7 @@ const Addscript = () => {
                     {
                         selectStrategyType == "Scalping" && getAllService?.data1?.length > 0 ? (
                             <>
-                                <h4 className="mt-3">Scalping</h4>
+                                <h4 className="mt-3">{StrategyType || "Scalping"}</h4>
                                 <FullDataTable
                                     columns={columns(handleDelete)}
                                     data={getAllService.data1}
@@ -302,7 +302,7 @@ const Addscript = () => {
 
                         ) :  selectStrategyType != "Scalping" && getAllService?.data?.length > 0   ? (
                             <>
-                            <h4 className="mt-3">Scalping</h4>
+                            <h4 className="mt-3">{StrategyType || "Scalping"}</h4>
                             <FullDataTable
                                 columns={selectStrategyType=="Option Strategy" ?  columns1(handleDelete) : columns2(handleDelete)}
                                 data={getAllService.data}
