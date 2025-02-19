@@ -158,6 +158,8 @@ export const columns4 = () => [
     options: {
       filter: true,
       sort: true,
+      customBodyRender: (value) =>
+        value != null ? Number(value).toFixed(4) : "",
     },
   },
 ];
@@ -198,6 +200,8 @@ export const columns5 = () => [
     options: {
       filter: true,
       sort: true,
+      customBodyRender: (value) =>
+        value != null ? Number(value).toFixed(4) : "",
     },
   },
 ];
@@ -346,6 +350,8 @@ export const columns2 = () => [
     options: {
       filter: true,
       sort: true,
+      customBodyRender: (value) =>
+        value != null ? Number(value).toFixed(4) : "",
     },
   },
 ];
@@ -392,6 +398,8 @@ export const columns3 = () => [
     options: {
       filter: true,
       sort: true,
+      customBodyRender: (value) =>
+        value != null ? Number(value).toFixed(4) : "",
     },
   },
 ];
@@ -432,6 +440,8 @@ export const columns1 = () => [
     options: {
       filter: true,
       sort: true,
+      customBodyRender: (value) =>
+        value != null ? Number(value).toFixed(4) : "",
     },
   },
 ];
@@ -545,6 +555,8 @@ export const columns = () => [
     options: {
       filter: true,
       sort: true,
+      customBodyRender: (value) =>
+        value != null ? Number(value).toFixed(4) : "",
     },
   },
 ];
@@ -584,6 +596,8 @@ export const columns6 = () => [
     options: {
       filter: true,
       sort: true,
+      customBodyRender: (value) =>
+        value != null ? Number(value).toFixed(4) : "",
     },
   },
 ];
@@ -731,6 +745,8 @@ export const columns7 = () => [
     options: {
       filter: true,
       sort: true,
+      customBodyRender: (value) =>
+        value != null ? Number(value).toFixed(4) : "",
     },
   },
 ];

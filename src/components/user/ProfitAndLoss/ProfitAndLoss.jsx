@@ -18,15 +18,15 @@ import { useLocation } from "react-router-dom";
 
 const Tradehistory = () => {
   const location = useLocation();
-  const StrategyType = sessionStorage.getItem("StrategyType")
+  const StrategyType = sessionStorage.getItem("StrategyType");
 
-  const [selectStrategyType, setStrategyType] = useState(StrategyType || "Scalping");
+  const [selectStrategyType, setStrategyType] = useState(
+    StrategyType || "Scalping"
+  );
   console.log("selectStrategyType", selectStrategyType);
 
   const [tableType, setTableType] = useState("MultiCondition");
   console.log("table type", tableType);
-
-
 
   const [strategyNames, setStrategyNames] = useState([]);
   const [ToDate, setToDate] = useState("");
@@ -71,7 +71,8 @@ const Tradehistory = () => {
 
   const handleSubmit = async () => {
     const data = {
-      MainStrategy: selectStrategyType,
+      MainStrategy:
+        selectStrategyType === "Scalping" ? "NewScalping" : selectStrategyType,
       // MainStrategy: "NewScalping",
 
       Username: Username,
@@ -121,7 +122,7 @@ const Tradehistory = () => {
   useEffect(() => {
     if (location?.state?.type && location?.state?.type != "MultiCondition") {
       console.log("sss");
-      setStrategyType(StrategyType || (location?.state?.type));
+      setStrategyType(StrategyType || location?.state?.type);
     } else if (location?.state?.type == "MultiCondition") {
       // setTableType("MultiCondition")
       setStrategyType(StrategyType || "Scalping");
@@ -140,7 +141,7 @@ const Tradehistory = () => {
 
   return (
     <div>
-      <div className="container-fluid" style={{marginTop:"2rem"}}>
+      <div className="container-fluid" style={{ marginTop: "2rem" }}>
         <div className="row">
           <div className="iq-card">
             <div className="iq-card-header d-flex justify-content-between">
@@ -151,14 +152,19 @@ const Tradehistory = () => {
             <div className="iq-card-body">
               <div className="was-validated ">
                 <div className="row">
-                  <div className={`form-group ${selectStrategyType === "Scalping" ? "col-lg-4" : "col-lg-4"}`}>
+                  <div
+                    className={`form-group ${
+                      selectStrategyType === "Scalping"
+                        ? "col-lg-4"
+                        : "col-lg-4"
+                    }`}>
                     <label>Select Strategy Type</label>
                     <select
                       className="form-select"
                       required=""
                       onChange={(e) => {
-                        setStrategyType(e.target.value)
-                        sessionStorage.setItem('StrategyType',e.target.value)
+                        setStrategyType(e.target.value);
+                        sessionStorage.setItem("StrategyType", e.target.value);
                       }}
                       value={selectStrategyType}>
                       {strategyNames.map((item, index) => (
@@ -186,7 +192,12 @@ const Tradehistory = () => {
                       </select>
                     </div>
                   )} */}
-                  <div className={`form-group ${selectStrategyType === "Scalping" ? "col-lg-4" : "col-lg-4"}`}>
+                  <div
+                    className={`form-group ${
+                      selectStrategyType === "Scalping"
+                        ? "col-lg-4"
+                        : "col-lg-4"
+                    }`}>
                     <label>Select form Date</label>
                     <DatePicker
                       className="form-select"
@@ -194,7 +205,12 @@ const Tradehistory = () => {
                       onChange={(date) => setFromDate(date)}
                     />
                   </div>
-                  <div className={`form-group ${selectStrategyType === "Scalping" ? "col-lg-4" : "col-lg-4"}`}>
+                  <div
+                    className={`form-group ${
+                      selectStrategyType === "Scalping"
+                        ? "col-lg-4"
+                        : "col-lg-4"
+                    }`}>
                     <label>Select To Date</label>
                     <DatePicker
                       className="form-select"
@@ -217,10 +233,10 @@ const Tradehistory = () => {
                         selectStrategyType == "Scalping"
                           ? columns1()
                           : selectStrategyType == "Pattern"
-                            ? columns3()
-                            : selectStrategyType == "ChartingPlatform"
-                              ? columns6()
-                              : columns5()
+                          ? columns3()
+                          : selectStrategyType == "ChartingPlatform"
+                          ? columns6()
+                          : columns5()
                       }
                       data={getPnLData.data1}
                       checkBox={false}
@@ -234,7 +250,6 @@ const Tradehistory = () => {
 
                     <p
                       className="bold mt-4"
-
                       style={{
                         fontWeight: "bold",
                         fontSize: "20px",
@@ -255,10 +270,10 @@ const Tradehistory = () => {
                         selectStrategyType == "Scalping"
                           ? columns()
                           : selectStrategyType == "Pattern"
-                            ? columns2()
-                            : selectStrategyType == "ChartingPlatform"
-                              ? columns7()
-                              : columns4()
+                          ? columns2()
+                          : selectStrategyType == "ChartingPlatform"
+                          ? columns7()
+                          : columns4()
                       }
                       data={getPnLData.data}
                       checkBox={false}

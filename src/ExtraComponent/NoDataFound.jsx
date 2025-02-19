@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const NoDataFound = () => {
   return (
@@ -8,7 +8,7 @@ const NoDataFound = () => {
         justifyContent: "center",
         alignItems: "center",
         textAlign: "center",
-        marginBottom:"150px"
+        marginBottom: "150px",
       }}>
       <img
         src="/assets/images/no-record-found.png"
@@ -17,6 +17,6 @@ const NoDataFound = () => {
       />
     </div>
   );
-}
+};
 
-export default NoDataFound
+export default NoDataFound;

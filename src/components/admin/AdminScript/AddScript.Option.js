@@ -91,6 +91,7 @@ const AddClient = () => {
             RollOver: "",
             NumberOfDays: 0,
             RollOverExitTime: "00:00:00",
+            ExitType: "",
             // WorkingDay: [],
         },
 
@@ -215,6 +216,7 @@ const AddClient = () => {
                     errors.Shifting_Value = "Please Enter Number of Shifts Between 1-5.";
                 }
             }
+
             if (
                 !values.Loss &&
                 values.Strategy == "Multi_Conditional" &&
@@ -255,6 +257,13 @@ const AddClient = () => {
             ) {
                 errors.RollOverExitTime = "Please Enter RollOver Exit Time";
             }
+            if (
+                !values.ExitType &&
+                values.Measurment_Type != "Shifting/FourLeg" &&
+                values.ETPattern == "Leg vice"
+            ) {
+                errors.ExitType = "Please Select Exit Type";
+            }
 
             // if (!values.WorkingDay?.length > 0) {
             //     errors.WorkingDay = "Please select Working day";
@@ -291,7 +300,7 @@ const AddClient = () => {
                 ExitDay: values.ExitDay,
                 FixedSM: "",
                 TType: "",
-                expirydata1: getExpiry && getExpiry.data[0]  || "",
+                expirydata1: getExpiry && getExpiry.data[0] || "",
                 Expirytype: values.Expirytype,
                 Striketype: formik.values.Strategy != "ShortStraddle" && formik.values.Strategy != "LongStraddle" && formik.values.Measurment_Type != "Shifting/FourLeg" && formik.values.Strategy != 'ShortStraddle' && formik.values.Strategy != 'LongStraddle' ? values.Striketype : '',
                 DepthofStrike: (formik.values.Striketype != "Premium_Range" && formik.values.Measurment_Type != "Shifting/FourLeg" && formik.values.Strategy != 'LongStraddle' && formik.values.Strategy != 'ShortStraddle') ? Number(values.DepthofStrike) : formik.values.Measurment_Type == "Shifting/FourLeg" && formik.values.Strategy != 'ShortFourLegStretegy' && formik.values.Strategy != 'LongFourLegStretegy' ? values.Shifting_Value : 0,
@@ -332,6 +341,11 @@ const AddClient = () => {
                         values.RollOver == true
                         ? values.RollOverExitTime
                         : "00:00:00",
+                ExitType:
+                    values.Measurment_Type != "Shifting/FourLeg" &&
+                        values.ETPattern == "Leg vice"
+                        ? values.ExitType
+                        : "",
 
                 // WorkingDay: values.WorkingDay ? values?.WorkingDay?.map((item) => item?.value || item) : [],
 
@@ -688,6 +702,23 @@ const AddClient = () => {
             hiding: false,
             label_size: 12,
             col_size: 4,
+            headingtype: 3,
+            disable: false,
+        },
+        {
+            name: "ExitType",
+            label: "Exit Type",
+            type: "select1",
+            options: [
+                { label: "Cost to cost", value: "Cost to cost" },
+                { label: "Normal", value: "Normal" },
+            ],
+            showWhen: (value) =>
+                value.Measurment_Type != "Shifting/FourLeg" &&
+                value.ETPattern == "Leg vice",
+            hiding: false,
+            label_size: 12,
+            col_size: formik.values.Measurment_Type != "Shifting/FourLeg" ? 3 : 4,
             headingtype: 3,
             disable: false,
         },
