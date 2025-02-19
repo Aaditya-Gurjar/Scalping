@@ -165,3 +165,12 @@
 .allplan-button.buy-again:hover {
     background-color: #218838;
 }
+.no-plans-card {
+    background: #f9f9f9;
+    border: 2px dashed #ccc;
+    color: #333;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    margin: 10px;
+}
