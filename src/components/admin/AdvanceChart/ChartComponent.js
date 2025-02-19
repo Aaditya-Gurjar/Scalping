@@ -28,10 +28,10 @@ ChartJS.register(
 
 const ChartComponent = ({ data }) => {
   const [timeFormat, setTimeFormat] = useState("minute");
-
+  console.log("data", data)
   // Chart data from passed `data` prop
   const chartData = {
-    labels: data.map((item) => new Date(item?.ETime || item?.ExitTime || Date.now())), // Fallback to current time if ETime or ExitTime is missing
+    labels: data?.map((item) => new Date(item?.ETime || item?.ExitTime || Date.now())), // Fallback to current time if ETime or ExitTime is missing
     datasets: [
       {
         label: "Equity Curve",
@@ -50,7 +50,7 @@ const ChartComponent = ({ data }) => {
     // Get the current range of the chart (zoom level)
     const { min, max } = chart.chartArea;
     const timeRange = max - min;
-    
+
     if (timeRange > 86400000) { // 86400000ms = 24 hours
       setTimeFormat("day"); // Show date if more than 24 hours
     } else {

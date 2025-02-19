@@ -1407,8 +1407,7 @@ const Tradehistory = () => {
             <span
               className="spinner-border spinner-border-sm me-1"
               role="status"
-              aria-hidden="true"
-            ></span>
+              aria-hidden="true"></span>
             Loading Data...
           </>
         );
@@ -1473,8 +1472,7 @@ const Tradehistory = () => {
                       onChange={(e) => {
                         setStrategyType(e.target.value);
                         sessionStorage.setItem("StrategyType", e.target.value);
-                      }}
-                    >
+                      }}>
                       {strategyNames.map((item) => (
                         <option key={item} value={item}>
                           {item}
@@ -1491,8 +1489,7 @@ const Tradehistory = () => {
                         <select
                           className="form-select"
                           value={selectSegmentType}
-                          onChange={(e) => setSegmentType(e.target.value)}
-                        >
+                          onChange={(e) => setSegmentType(e.target.value)}>
                           {getChartingSegments.map((item) => (
                             <option key={item.Segment} value={item.Segment}>
                               {item.Segment}
@@ -1559,8 +1556,7 @@ const Tradehistory = () => {
                 <button
                   className="btn btn-primary btn-lg"
                   onClick={handleSubmit}
-                  disabled={!selectedRowData}
-                >
+                  disabled={!selectedRowData}>
                   Generate History
                 </button>
               </div>
@@ -1568,8 +1564,7 @@ const Tradehistory = () => {
                 <div className="mt-5">
                   <ReportSection
                     title="Total Profit/Loss Overview"
-                    section="overview"
-                  >
+                    section="overview">
                     <div
                       className="pnl-overview"
                       style={{
@@ -1581,15 +1576,13 @@ const Tradehistory = () => {
                         textAlign: "center",
                         boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
                         marginBottom: "20px",
-                      }}
-                    >
+                      }}>
                       <h4
                         style={{
                           margin: 0,
                           fontSize: "1.75rem",
                           fontWeight: "bold",
-                        }}
-                      >
+                        }}>
                         Total PnL: ₹
                         {getAllTradeData.Overall[0]?.PnL?.toFixed(2) || "0.00"}
                         <span
@@ -1602,8 +1595,7 @@ const Tradehistory = () => {
                             fontSize: "1rem",
                             padding: "0.5rem 1rem",
                             borderRadius: "4px",
-                          }}
-                        >
+                          }}>
                           {getAllTradeData.Overall[0]?.PnL >= 0
                             ? "Profit"
                             : "Loss"}
@@ -1619,8 +1611,7 @@ const Tradehistory = () => {
 
                   <ReportSection
                     title="Profit/Loss Analysis"
-                    section="pnlAnalysis"
-                  >
+                    section="pnlAnalysis">
                     <ProfitAndLossGraph data={getPnLData.data} />
                   </ReportSection>
                   <ReportSection title="Equity Curve Analysis" section="equity">
