@@ -685,7 +685,7 @@ const Userdashboard = () => {
   }, [subTab]);
 
   return (
-    <div className="container-fluid fix-table" style={{ marginTop: "-2rem" }}>
+    <div className="container-fluid fix-table" style={{ marginTop: "2rem" }}>
       <div className="row p-0">
         <div className="col-sm-12 fix-table">
           <div className="iq-card">
@@ -706,7 +706,7 @@ const Userdashboard = () => {
                     aria-controls="home"
                     aria-selected={activeTab1 === "CurrentPosition"}
                     onClick={() => setActiveTab1("CurrentPosition")}>
-                    Current Script
+                     🏦 Current Script
                   </a>
                 </li>
                 <li className="nav-item" role="presentation">
@@ -721,7 +721,7 @@ const Userdashboard = () => {
                     aria-controls="profile"
                     aria-selected={activeTab1 === "OpenPosition"}
                     onClick={() => setActiveTab1("OpenPosition")}>
-                    Open Position
+                    🏢 Open Position
                   </a>
                 </li>
               </ul>

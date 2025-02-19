@@ -242,7 +242,7 @@ const LastPattern = () => {
           <div className="iq-card">
             <div className="iq-card-header d-flex justify-content-between">
               <div className="iq-header-title">
-                <h4 className="card-title">Technical Pattern</h4>
+              <h4 className="card-title">📉 Technical Pattern </h4>
               </div>
             </div>
             <div className="iq-card-body">
