@@ -2055,38 +2055,37 @@ const AddClient = () => {
       <Modal
         show={openModel}
         onHide={() => setOpenModel(false)}
-        size="sm"
+        size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Withdrawal Balance
+            PnL Details
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
+        {console.log("PnlData", PnlData)}
           {PnlData ? (
             [
-              { label: "Instrument Name", value: PnlData.InstrumentName },
-              { label: "Lot Size", value: PnlData.LotSize },
-              { label: "Main Symbol", value: PnlData.MainSymbol },
+            
               { label: "Token", value: PnlData.Token },
               { label: "Total Margin", value: PnlData.TotalMargin },
-              { label: "Total PnL", value: PnlData.TotalPnL },
+              { label: "Total PnL", value: PnlData.TotalPnL == 0 ? "0" : PnlData.TotalPnL },
               { label: "Trading Symbol", value: PnlData.TradingSymbol },
             ].map(({ label, value }, index) => (
               <div key={index} className="d-flex align-items-center py-1">
                 <label
                   className="fw-bold text-white mb-0 me-2"
-                  style={{ fontSize: "14px", minWidth: "150px" }}
+                  style={{ fontSize: "20px", minWidth: "150px" }}
                 >
                   {label}:
                 </label>
                 <span
                   className="text-white mb-0"
-                  style={{ fontSize: "14px", fontWeight: "500" }}
+                  style={{ fontSize: "20px", fontWeight: "500" }}
                 >
-                  {value || "N/A"}
+                  {value ||  "N/A"}
                 </span>
               </div>
             ))

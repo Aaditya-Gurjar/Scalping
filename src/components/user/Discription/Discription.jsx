@@ -10,14 +10,16 @@ const Discription = () => {
   };
 
   return (
-    <div>
+    <div className="container-fluid" style={{marginTop:"2rem"}}>
+    <div className="row">
       <div className="iq-card">
+   
         <div className="iq-card-header d-flex justify-content-between">
           <div className="iq-header-title">
-            <h4 className="card-title">Description</h4>
+            <h4 className="card-title">📄 Description</h4>
           </div>
         </div>
-
+        <div className="iq-card-body">
         <div className="row">
           <div className="col-lg-12">
             <ul
@@ -66,7 +68,10 @@ const Discription = () => {
             </div>
           </div>
         </div>
+</div>
+
       </div>
+    </div>
     </div>
   );
 };
