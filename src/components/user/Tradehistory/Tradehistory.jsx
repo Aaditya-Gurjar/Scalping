@@ -227,7 +227,6 @@ const Tradehistory = () => {
     }
   };
 
-  // loadSectionData simply loads the data if not already loaded.
   const loadSectionData = async (section) => {
     if (loadedSections[section]) return;
     try {
@@ -281,10 +280,15 @@ const Tradehistory = () => {
         PatternName: "",
       };
 
+      console.log("section-", section,"-");
+
+
       if (section === "pnlAnalysis") {
         const pnlRes = await get_PnL_Data(params);
         setPnlData({ data: pnlRes.Barchart || [] });
-      } else if (section === "equity") {
+      } else if (section?.includes("equity")) {
+      console.log("section->", section);
+
         const equityRes = await get_EQuityCurveData(params);
         setEquityCurveDetails({ data: equityRes.Equitycurve || [] });
       } else if (section === "drawdown") {
@@ -295,6 +299,7 @@ const Tradehistory = () => {
           get_FiveMostLossTrade(params),
           get_FiveMostProfitTrade(params),
         ]);
+
         setFiveLossTrade({ data: lossRes.fivelosstrade || [] });
         setFiveProfitTrade({ data: profitRes.fiveprofittrade || [] });
       }
