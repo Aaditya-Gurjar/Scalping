@@ -13,16 +13,21 @@ import NoDataFound from "../../../ExtraComponent/NoDataFound";
 const Userdashboard = () => {
   const userName = localStorage.getItem("name");
   const dashboardStrategyType = sessionStorage.getItem("dashboardStrategyType");
-  const addVia = sessionStorage.getItem("addVia")
-  const groupName = sessionStorage.getItem("groupName")
+  const addVia = sessionStorage.getItem("addVia");
+  const groupName = sessionStorage.getItem("groupName");
   const [activeTab1, setActiveTab1] = useState("CurrentPosition");
   const [activeTab, setActiveTab] = useState(addVia || "currentScript");
   const [subTab, setSubTab] = useState(dashboardStrategyType || "Scalping");
   const [refresh, setRefresh] = useState(false);
-  const [getGroup, setGroup] = useState( groupName || "");
+  const [getGroup, setGroup] = useState(groupName || "");
   const [strategyType, setStrategyType] = useState([]);
-  const [tableType, setTableType] = useState(dashboardStrategyType || "MultiCondition");
-  const [serviceStatus, setServiceStatus] = useState({ status: false, msg: "",});
+  const [tableType, setTableType] = useState(
+    dashboardStrategyType || "MultiCondition"
+  );
+  const [serviceStatus, setServiceStatus] = useState({
+    status: false,
+    msg: "",
+  });
   const [getGroupName, setGroupName] = useState({ loading: true, data: [] });
   const [getPositionData, setPositionData] = useState({
     loading: true,
@@ -32,7 +37,6 @@ const Userdashboard = () => {
     NewScalping: [],
     ChartingData: [],
   });
-
 
   useEffect(() => {
     GetExpriyEndDate();
@@ -63,7 +67,7 @@ const Userdashboard = () => {
           setRefresh(!refresh);
           setGroupName({
             loading: false,
-            data: response?.Data?.map((item) => item?.value || item)
+            data: response?.Data?.map((item) => item?.value || item),
           });
         } else {
           setGroupName({
@@ -675,17 +679,15 @@ const Userdashboard = () => {
   useEffect(() => {
     if (subTab === "Scalping") {
       setTableType(dashboardStrategyType || "MultiCondition");
-    }
-    else {
+    } else {
       setTableType(dashboardStrategyType || "Scalping");
     }
   }, [subTab]);
 
-
   return (
-    <div className="container-fluid" style={{marginTop:"2rem"}}>
+    <div className="container-fluid fix-table" style={{ marginTop: "-2rem" }}>
       <div className="row p-0">
-        <div className="col-sm-12">
+        <div className="col-sm-12 fix-table">
           <div className="iq-card">
             <div className="iq-card-body" style={{ padding: "3px" }}>
               <ul
@@ -746,7 +748,7 @@ const Userdashboard = () => {
                           required=""
                           onChange={(e) => {
                             setActiveTab(e.target.value);
-                            sessionStorage.setItem('addVia',e.target.value)
+                            sessionStorage.setItem("addVia", e.target.value);
                           }}
                           value={activeTab}>
                           <option value="currentScript">Current Script</option>
@@ -774,18 +776,19 @@ const Userdashboard = () => {
                             required=""
                             onChange={(e) => {
                               setGroup(e.target.value);
-                            sessionStorage.setItem('groupName',e.target.value)
+                              sessionStorage.setItem(
+                                "groupName",
+                                e.target.value
+                              );
                             }}
                             value={getGroup}>
                             <option value="">Select Group Name</option>
                             <option value="copyScript">Copy Script</option>
 
-                            
                             {getGroupName &&
                               getGroupName.data.map((item) => {
                                 return <option value={item}>{item}</option>;
                               })}
-                           
                           </select>
                         </div>
                       </div>
@@ -810,7 +813,10 @@ const Userdashboard = () => {
                           required=""
                           onChange={(e) => {
                             setSubTab(e.target.value);
-                            sessionStorage.setItem("dashboardStrategyType", e.target.value);
+                            sessionStorage.setItem(
+                              "dashboardStrategyType",
+                              e.target.value
+                            );
                           }}
                           value={subTab}>
                           {strategyType.map((type, index) => (
@@ -1072,14 +1078,12 @@ const Userdashboard = () => {
                 )}
 
                 {/* Agar dono section me kahin bhi data nahi hai to hi NoDataFound dikhao */}
-                {!(subTab && serviceStatus) &&
-                  !(
-                    getPositionData.Scalping?.length > 0 ||
-                    getPositionData.NewScalping?.length > 0 ||
-                    getPositionData.Option?.length > 0 ||
-                    getPositionData.Pattern?.length > 0 ||
-                    getPositionData.ChartingData?.length > 0
-                  ) && <NoDataFound />}
+                {activeTab1 === "OpenPosition" &&
+                  getPositionData.Scalping?.length === 0 &&
+                  getPositionData.NewScalping?.length === 0 &&
+                  getPositionData.Option?.length === 0 &&
+                  getPositionData.Pattern?.length === 0 &&
+                  getPositionData.ChartingData?.length === 0 && <NoDataFound />}
               </div>
             </div>
           </div>

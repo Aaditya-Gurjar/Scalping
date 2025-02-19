@@ -664,6 +664,8 @@ const AddClient = () => {
       hiding: false,
       disable: false,
     },
+
+    
     // {
     //   name: "expirydata1",
     //   label: "Expiry Date",
