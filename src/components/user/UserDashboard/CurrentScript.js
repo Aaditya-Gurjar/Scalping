@@ -1908,16 +1908,14 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                 <div className="col-sm-12">
                     <div className="iq-card">
                         <div className="iq-card-body" style={{ padding: '3px' }}>
-                            <div className="tab-content" id="myTabContent-3">
+                            <div className="tab-content2" id="myTabContent-3" style={{marginTop:"1rem !important"}}>
 
                                 <div className="tab-pane fade show active" id="home-justify" role="tabpanel" aria-labelledby="home-tab-justify">
                                     {data && (
                                         <>
                                             <div className="iq-card-header d-flex justify-content-between">
                                                 <div className="iq-header-title">
-                                                    {/* {console.log("data Is", data)} */}
-                                                    {tableType === "MultiCondition" ? <h4 className="card-title">{"Multi Condition"}</h4> : <h4 className="card-title">{data}</h4>
-                                                    }
+                                                    {tableType === "MultiCondition" ? <h4 className="card-title">{"Multi Condition"}</h4> : <h4 className="card-title">{data}</h4> }
                                                 </div>
                                                 <div className='d-flex justify-content-end'>
                                                     <button className='btn btn-primary mt-1' style={{ fontSize: '18px', padding: '6px 14px', height: "47px" }} onClick={() => AddScript(data)}>Add Script</button>
@@ -1926,82 +1924,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                                             </div>
                                             <div className="iq-card-body " style={{ padding: '3px' }}>
                                                 <div className="table-responsive">
-
-                                                    {/* {
-                                                        getAllService.loading ? (
-                                                            <Loader />
-                                                        ) : (
-                                                            (() => {
-                                                                const hasPrimaryTableData =
-                                                                    tableType === "Scalping" &&
-                                                                    (
-                                                                        (data === "Scalping" && getAllService.ScalpingData?.length > 0) ||
-                                                                        (data === "Option Strategy" && getAllService.OptionData?.length > 0) ||
-                                                                        ((data === "Pattern" || data === "Pattern Script") && getAllService.PatternData?.length > 0) ||
-                                                                        (data === "ChartingPlatform" && getCharting?.length > 0)
-                                                                    );
-
-                                                                const hasSecondaryTableData =
-                                                                    data === "Scalping" &&
-                                                                    tableType === "MultiCondition" &&
-                                                                    getAllService.NewScalping?.length > 0;
-
-                                                                if (!hasPrimaryTableData && !hasSecondaryTableData) {
-                                                                    return (
-                                                                       
-                                                                        <NoDataFound />
-                                                                    );
-                                                                }
-
-                                                                return (
-                                                                    <>
-                                                                        {hasPrimaryTableData && (
-                                                                            <FullDataTable
-                                                                                columns={
-                                                                                    data === "Scalping" && tableType == "Scalping"
-                                                                                        ? getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue)
-                                                                                        : data === "Option Strategy"
-                                                                                            ? getColumns4(handleDelete, handleEdit, HandleContinueDiscontinue)
-                                                                                            : (data === "Pattern" || data === "Pattern Script")
-                                                                                                ? getColumns5(handleDelete, handleEdit, HandleContinueDiscontinue,)
-                                                                                                : data === "ChartingPlatform"
-                                                                                                    ? getColumns8(HandleContinueDiscontinue)
-                                                                                                    : getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue)
-                                                                                }
-                                                                                data={
-                                                                                    data === "Scalping"
-                                                                                        ? getAllService.ScalpingData
-                                                                                        : data === "Option Strategy"
-                                                                                            ? getAllService.OptionData
-                                                                                            : (data === "Pattern" || data === "Pattern Script")
-                                                                                                ? getAllService.PatternData
-                                                                                                : data === "ChartingPlatform"
-                                                                                                    ? getCharting
-                                                                                                    : []
-                                                                                }
-                                                                                checkBox={false}
-                                                                            />
-                                                                        )}
-
-                                                                        {/* {console.log("getAllService", getAllService)} 
-
-
-                                                                        {hasSecondaryTableData && (
-                                                                            <div>
-                                                                                
-                                                                                <FullDataTable
-                                                                                    columns={getColumns6(handleDelete, handleEdit, HandleContinueDiscontinue, handleMatchPosition,)}
-                                                                                    data={getAllService.NewScalping}
-                                                                                    checkBox={false}
-                                                                                />
-                                                                            </div>
-                                                                        )}
-                                                                    </>
-                                                                );
-                                                            })()
-                                                        )
-                                                    } */}
-
 
                                                     {getAllService.loading ? (
                                                         <Loader />

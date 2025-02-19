@@ -69,7 +69,7 @@ const AddClient = () => {
         const elementPosition =
           errorElement.getBoundingClientRect().top + window.pageYOffset;
 
-        const offset = 100;
+        const offset = 400;
         window.scrollTo({
           top: elementPosition - offset,
           behavior: "smooth",
@@ -426,7 +426,7 @@ const AddClient = () => {
       }
 
       // console.log("errors", errors)
-      // ScrollToViewFirstError(errors);
+      ScrollToViewFirstError(errors);
       return errors;
     },
 
