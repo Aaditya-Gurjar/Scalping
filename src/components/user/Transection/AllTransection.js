@@ -216,7 +216,7 @@ confirmButtonColor: "#1ccc8a",
                         color = 'red';
                         sign = '-';
                     } else if (transactionType === 'Purchase') {
-                        color = 'blue';
+                        color = 'red';
                         sign = '-';
                     } else {
                         color = 'green';

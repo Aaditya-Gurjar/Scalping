@@ -394,52 +394,23 @@ const LastPattern = () => {
             <div className="table-responsive">
               {selectedPatternType === "Candlestick Patterns" ? (
                 getCandlestickTable?.data2 &&
-                getCandlestickTable.data2.length > 0 ? (
+                getCandlestickTable.data2.length > 0 && (
+
                   <FullDataTable
                     columns={columns1()}
                     data={getCandlestickTable.data2}
                     checkBox={false}
                   />
-                ) : (
-                  // <div
-                  //   style={{
-                  //     display: "flex",
-                  //     justifyContent: "center",
-                  //     alignItems: "center",
-                  //     textAlign: "center",
-                  //   }}>
-                  //   <img
-                  //     src="/assets/images/no-record-found.png"
-                  //     width="30%"
-                  //     alt=""
-                  //   />
-                  // </div>
-                  <NoDataFound />
-                )
+                ) 
               ) : ChartPatternTableData?.PatternData &&
-                ChartPatternTableData.PatternData.length > 0 ? (
+                ChartPatternTableData.PatternData.length > 0 && (
                 <FullDataTable
                   columns={columns()}
                   data={ChartPatternTableData.PatternData}
                   onRowSelect={handleRowSelect}
                   checkBox={true}
                 />
-              ) : (
-                // <div
-                //   style={{
-                //     display: "flex",
-                //     justifyContent: "center",
-                //     alignItems: "center",
-                //     textAlign: "center",
-                //   }}>
-                //   <img
-                //     src="/assets/images/no-record-found.png"
-                //     width="30%"
-                //     alt=""
-                //   />
-                // </div>
-                <NoDataFound />
-              )}
+              ) }
             </div>
 
             {showCandle && (
