@@ -1,5 +1,4 @@
 
-// Technical Pattern Column
 export const columns = ()=> [
     {
         name: "S.No",
