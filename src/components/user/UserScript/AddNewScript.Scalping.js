@@ -136,7 +136,7 @@ const AddClient = () => {
       RollOverExitTime: "00:00:00",
       TargetExit: false,
       WorkingDay: [],
-      OrderType: "Pending",
+      OrderType: "Market",
       FinalTarget: 0.0,
     },
     validate: (values) => {
@@ -782,7 +782,7 @@ const AddClient = () => {
             ? [
               { label: "OPTFUT", value: "OPTFUT" },
               { label: "FUTCOM", value: "FUTCOM" },
-              { label: "FUTIDX", value: "FUTIDX" },
+              // { label: "FUTIDX", value: "FUTIDX" },
             ]
             : formik.values.Exchange == "CDS"
               ? [
@@ -944,7 +944,8 @@ const AddClient = () => {
       label_size: 12,
       headingtype: 2,
       hiding: false,
-      col_size: formik.values.Strategy == "Multi_Conditional" ? 3 : 4,
+      // col_size: formik.values.Strategy == "Multi_Conditional" ? 3 : 4,
+      col_size: 6,
       showWhen: (values) => values.Strategy == "Multi_Conditional",
       disable: false,
     },
@@ -959,11 +960,12 @@ const AddClient = () => {
       label_size: 12,
       headingtype: 2,
       hiding: false,
-      col_size:
-        formik.values.Strategy == "Fixed Price" ||
-          formik.values.Strategy == "Multi_Conditional"
-          ? 3
-          : 4,
+      // col_size:
+      //   formik.values.Strategy == "Fixed Price" ||
+      //     formik.values.Strategy == "Multi_Conditional"
+      //     ? 3
+      //     : 4,
+      col_size: 6,
       disable: false,
     },
 
@@ -976,11 +978,7 @@ const AddClient = () => {
           ? "Lower Price"
           : "First Trade Lower Range",
       type: "text3",
-      col_size:
-        formik.values.Strategy == "Fixed Price" ||
-          formik.values.Strategy == "Multi_Conditional"
-          ? 3
-          : 4,
+      col_size: 4,
       disable: false,
       headingtype: 2,
       iconText:
@@ -1002,11 +1000,7 @@ const AddClient = () => {
       type: "text3",
       label_size: 12,
       headingtype: 2,
-      col_size:
-        formik.values.Strategy == "Fixed Price" ||
-          formik.values.Strategy == "Multi_Conditional"
-          ? 3
-          : 4,
+      col_size: 4,
       disable: false,
       iconText:
         formik.values.Strategy == "Fixed Price" ||
@@ -1021,7 +1015,7 @@ const AddClient = () => {
       label: "Unique Name",
       type: "OnlyCharacter",
       label_size: 12,
-      col_size: 3,
+      col_size: 4,
       headingtype: 2,
       iconText: text.Unique_Name,
       disable: false,
@@ -1521,13 +1515,14 @@ const AddClient = () => {
     },
     {
       name: "OrderType",
-      label: "OrderType",
+      label: "Order Type",
       type: "select",
       options: [
         { label: "Pending", value: "Pending" },
         { label: "Market", value: "Market" },
       ],
       showWhen: (values) =>
+        values.position_type == "Multiple" &&
         values.Trade_Execution == "Live Trade" &&
         values.Strategy == "Multi_Conditional",
       label_size: 12,

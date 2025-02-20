@@ -30,7 +30,9 @@ import NoDataFound from '../../../ExtraComponent/NoDataFound';
 
 const TradeReport = () => {
     const location = useLocation();
-    const StrategyType = sessionStorage.getItem('StrategyType')
+    const StrategyType = sessionStorage.getItem('dashboardStrategyType')
+
+
 
     const userName = localStorage.getItem("name");
     const [selectStrategyType, setStrategyType] = useState(StrategyType || 'Scalping');
@@ -80,7 +82,7 @@ const TradeReport = () => {
         const day = String(dateObj.getDate()).padStart(2, '0');
         return `${year}.${month}.${day}`;
     };
-    console.log("checkedRows", checkedRows)
+    console.log("StrategyType === selectStrategyType", StrategyType === selectStrategyType)
     const GetTradeReport = async () => {
         const data = { Data: selectStrategyType, Username: Username };
         await get_User_Data(data)
@@ -439,7 +441,7 @@ const TradeReport = () => {
                                         data={selectStrategyType === "ChartingPlatform" ? chartingData : tradeReport?.data}
                                         onRowSelect={handleRowSelect}
                                         checkBox={selectStrategyType !== "ChartingPlatform"}
-                                        isChecked={checkedRows}
+                                        isChecked={StrategyType === selectStrategyType ? checkedRows : []}
                                     />
                                 ) : (
                                     <NoDataFound />
@@ -460,7 +462,7 @@ const TradeReport = () => {
                                             data={tradeReport?.data1}
                                             onRowSelect={handleRowSelect}
                                             checkBox={true}
-                                            isChecked={checkedRows}
+                                            isChecked={StrategyType === selectStrategyType ? checkedRows : []}
                                         />
                                     </div>
                                 ) : (
