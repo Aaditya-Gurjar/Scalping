@@ -666,9 +666,7 @@ const AddClient = () => {
           console.log("Error in added new Script", err);
         });
     },
-  });
-
-
+  }); 
   const extractDetails = (inputString) => {
     const regex = /([PC])(?!.*[PC])(\d+)/;
     const match = inputString.match(regex);
@@ -688,14 +686,13 @@ const AddClient = () => {
     if (formik.values.Exchange !== "MCX") {
       formik.setFieldValue("ExitTime", "15:14:00");
       formik.setFieldValue("EntryTime", "09:15:00");
+      formik.setFieldValue("RollOverExitTime", "14:00:00");
     } else if (formik.values.Exchange === "MCX") {
-      formik.setFieldValue("ExitTime", "23:25:00");
+      formik.setFieldValue("ExitTime", "23:29:00");
       formik.setFieldValue("EntryTime", "09:00:00");
+      formik.setFieldValue("RollOverExitTime", "23:00:00");
     }
   }, [formik.values.Exchange]);
-
-
-  console.log("location?.state?.data", location?.state?.data);
 
   useEffect(() => {
 
@@ -1000,10 +997,27 @@ const AddClient = () => {
         values.Strategy == "Multi_Conditional",
       label_size: 12,
       headingtype: 4,
-      col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+      col_size: formik.values.position_type == "Multiple" ? 3 : 6,
       hiding: false,
       disable: false,
     },
+
+    {
+      name: "Slvalue",
+      label:
+        formik.values.Strategy == "Fixed Price" ||
+        (formik.values.position_type == "Single" &&
+          formik.values.Strategy == "Multi_Conditional")
+          ? "Stoploss"
+          : "Re-Entry Point",
+      type: "text3",
+      label_size: 12,
+      col_size: formik.values.position_type == "Multiple" ? 3 : 6,
+      headingtype: 3,
+      disable: false,
+      hiding: false,
+    },
+
     {
       name: "Targetselection",
       label: "Target Type",
@@ -1130,7 +1144,7 @@ const AddClient = () => {
               : "Quantity",
       type: "text3",
       label_size: 12,
-      col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+      col_size: formik.values.position_type == "Multiple" ? 4 : 4,
       headingtype: 4,
       hiding: false,
       disable: false,
@@ -1148,7 +1162,7 @@ const AddClient = () => {
       showWhen: (values) =>
         values.position_type == "Single" &&
         values.Strategy == "Multi_Conditional",
-      col_size: 4,
+      col_size: formik.values.position_type == "Single" ? 4 : 4,
       headingtype: 4,
       disable: false,
       hiding: false,
@@ -1198,6 +1212,22 @@ const AddClient = () => {
       disable: false,
       hiding: false,
     },
+
+    {
+      name: "RepeatationCount",
+      label: "Repeatation Count",
+      type: "text3",
+      label_size: 12,
+      // col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+      col_size: 4,
+      headingtype: 4,
+      showWhen: (values) =>
+        values.Strategy == "Multi_Conditional" &&
+        values.position_type == "Multiple",
+      disable: false,
+      hiding: false,
+    },
+
     {
       name: "HoldExit",
       label: "Hold/Exit",
@@ -1212,72 +1242,12 @@ const AddClient = () => {
         (values.Strategy == "Multi_Conditional" &&
           values.position_type == "Multiple"),
       label_size: 12,
-      col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+      col_size: formik.values.position_type == "Single" ? 3 : 4,
       headingtype: 4,
       disable: false,
       hiding: false,
     },
 
-    {
-      name: "RepeatationCount",
-      label: "Repeatation Count",
-      type: "text3",
-      label_size: 12,
-      col_size: formik.values.position_type == "Multiple" ? 3 : 4,
-      headingtype: 4,
-      showWhen: (values) =>
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple",
-      disable: false,
-      hiding: false,
-    },
-    {
-      name: "WorkingDay",
-      label: "Working Day",
-      type: "multiselect",
-      options: [
-        { label: "Monday", value: "Monday" },
-        { label: "Tuesday", value: "Tuesday" },
-        { label: "Wednesday", value: "Wednesday" },
-        { label: "Thursday", value: "Thursday" },
-        { label: "Friday", value: "Friday" },
-        { label: "Saturday", value: "Saturday" },
-      ],
-      label_size: 12,
-      col_size: 3,
-      headingtype: 4,
-      disable: false,
-      iconText: text.Increment_Type,
-      hiding: false,
-    },
-
-    {
-      name: "Loss",
-      label: "Max Loss ",
-      type: "text3",
-      label_size: 12,
-      col_size: formik.values.position_type == "Multiple" ? 3 : 4,
-      headingtype: 4,
-      showWhen: (values) =>
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple",
-      disable: false,
-      hiding: false,
-    },
-
-    {
-      name: "Profit",
-      label: "Max Profit ",
-      type: "text3",
-      label_size: 12,
-      col_size: formik.values.position_type == "Multiple" ? 3 : 4,
-      headingtype: 4,
-      showWhen: (values) =>
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple",
-      disable: false,
-      hiding: false,
-    },
     {
       name: "TargetExit",
       label: "Continue after cycle exit",
@@ -1290,7 +1260,8 @@ const AddClient = () => {
         values.position_type == "Multiple" &&
         values.Strategy == "Multi_Conditional",
       label_size: 12,
-      col_size: formik.values.position_type == "Single" ? 3 : 3,
+      // col_size: formik.values.position_type == "Single" ? 3 : 3,
+      col_size: formik.values.TargetExit == "true" ? 4 : 6,
       headingtype: 4,
       disable: false,
       // iconText: text.Increment_Type,
@@ -1308,8 +1279,63 @@ const AddClient = () => {
         (values.Strategy == "Multi_Conditional" &&
           values.position_type == "Multiple" &&
           values.TargetExit == "true"),
+      col_size: 4,
+      headingtype: 4,
+      disable: false,
+      hiding: false,
+    },
+
+    {
+      name: "WorkingDay",
+      label: "Working Day",
+      type: "multiselect",
+      options: [
+        { label: "Monday", value: "Monday" },
+        { label: "Tuesday", value: "Tuesday" },
+        { label: "Wednesday", value: "Wednesday" },
+        { label: "Thursday", value: "Thursday" },
+        { label: "Friday", value: "Friday" },
+        { label: "Saturday", value: "Saturday" },
+      ],
+      label_size: 12,
+      col_size:
+        formik.values.TargetExit == "true" ||
+        formik.values.position_type == "Single"
+          ? 4
+          : 6,
+      headingtype: 4,
+      disable: false,
+      iconText: text.Increment_Type,
+      hiding: false,
+    },
+
+    {
+      name: "Profit",
+      label: "Max Profit ",
+      type: "text3",
+      label_size: 12,
       col_size: formik.values.position_type == "Multiple" ? 3 : 4,
       headingtype: 4,
+      showWhen: (values) =>
+        values.Strategy == "Multi_Conditional" &&
+        values.position_type == "Multiple",
+      col_size: 6,
+      disable: false,
+      hiding: false,
+    },
+
+    {
+      name: "Loss",
+      label: "Max Loss ",
+      type: "text3",
+      label_size: 12,
+      col_size: formik.values.position_type == "Multiple" ? 3 : 4,
+      headingtype: 4,
+      showWhen: (values) =>
+        values.Strategy == "Multi_Conditional" &&
+        values.position_type == "Multiple",
+      col_size: 6,
+
       disable: false,
       hiding: false,
     },
@@ -1322,7 +1348,7 @@ const AddClient = () => {
       showWhen: (values) =>
         values.position_type == "Multiple" &&
         values.Strategy == "Multi_Conditional",
-      col_size: 3,
+      col_size: 4,
       headingtype: 4,
       disable: false,
       hiding: false,
@@ -1339,7 +1365,7 @@ const AddClient = () => {
         values.position_type == "Multiple" &&
         values.Strategy == "Multi_Conditional",
       label_size: 12,
-      col_size: formik.values.position_type == "Single" ? 3 : 3,
+      col_size: 4,
       headingtype: 4,
       disable: false,
       hiding: false,
@@ -1352,7 +1378,7 @@ const AddClient = () => {
       showWhen: (values) =>
         values.position_type == "Multiple" &&
         values.Strategy == "Multi_Conditional",
-      col_size: 3,
+      col_size: 4,
       headingtype: 4,
       disable: false,
       hiding: false,
@@ -1440,7 +1466,12 @@ const AddClient = () => {
       type: "timepiker",
       label_size: 12,
       showWhen: (values) => {
-        const rollOverBoolean = values.RollOver === "true";
+        const rollOverBoolean =
+          (values.RollOver == "true" &&
+            values.Exchange == "NFO" &&
+            (values.Instrument == "FUTIDX" || values.Instrument == "FUTSTK")) ||
+          (values.Exchange == "MCX" && values.Instrument == "FUTCOM");
+
         return (
           rollOverBoolean &&
           values.Strategy == "Multi_Conditional" &&

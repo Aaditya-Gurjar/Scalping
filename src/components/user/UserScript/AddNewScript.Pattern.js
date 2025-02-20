@@ -510,29 +510,6 @@ const AddClient = () => {
     const ExitRuleArr = [
 
         {
-            name: "Targetvalue",
-            label: "Target",
-            type: "text3",
-            label_size: 12,
-            hiding: false,
-            headingtype: 3,
-            col_size: 4,
-            disable: false,
-        },
-        {
-            name: "Slvalue",
-            label: "Re-entry",
-            type: "text3",
-            label_size: 12,
-            headingtype: 3,
-            hiding: false,
-            col_size: 4,
-            disable: false,
-        },
-
-    ]
-    const RiskManagementArr = [
-        {
 
             name: "TStype",
             label: "Measurement Type",
@@ -550,13 +527,38 @@ const AddClient = () => {
         },
 
         {
+            name: "Targetvalue",
+            label: "Target",
+            type: "text3",
+            label_size: 12,
+            hiding: false,
+            headingtype: 3,
+            col_size: 4,
+            disable: false,
+        },
+        {
+            name: "Slvalue",
+            label: "Stoploss",
+            type: "text3",
+            label_size: 12,
+            headingtype: 3,
+            hiding: false,
+            col_size: 4,
+            disable: false,
+        },
+
+    ]
+    const RiskManagementArr = [
+
+
+        {
             name: "Quantity",
             label: formik.values.Exchange == "NFO" ? "Lot" : "Quantity",
             type: "text3",
 
             label_size: 12,
             hiding: false,
-            col_size: 4,
+            col_size: 6,
             headingtype: 4,
             disable: false,
         },
@@ -565,7 +567,7 @@ const AddClient = () => {
             label: "Trade Count",
             type: "text3",
             label_size: 12,
-            col_size: 4,
+            col_size: 6,
             disable: false,
             hiding: false,
         },
