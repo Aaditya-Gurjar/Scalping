@@ -4,6 +4,7 @@ import { createAdmin, superToAdminGetNewPermission } from '../../CommonAPI/Super
 import AddForm from "../../../ExtraComponent/FormData";
 import { useFormik } from "formik";
 import { useNavigate } from 'react-router-dom';
+import Content from '../../../ExtraComponent/Content';
 
 const Adduser = () => {
     const navigate = useNavigate();
@@ -287,14 +288,21 @@ confirmButtonColor: "#1ccc8a",
 
     return (
         <>
+        <Content
+                Page_title={"Create Admin"}
+                button_status={false}
+                backbutton_status={true}
+              
+
+            >
             <AddForm
-                fields={fields}
-                page_title="Create Admin"
+                fields={fields}                
                 btn_name="Add"
                 btn_name1="Cancel"
                 formik={formik}
                 btn_name1_route={"/admin/clientservice"}
             />
+            </Content>
         </>
     );
 };

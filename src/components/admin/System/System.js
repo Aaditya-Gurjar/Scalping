@@ -4,6 +4,7 @@ import { SquarePen } from 'lucide-react';
 import { UploadImage, GetPanleName, GetHeaderImg2, GetHeaderImg1, GetLogo, Getfaviconimage } from '../../CommonAPI/Admin';
 import AddForm from '../../../ExtraComponent/FormData';
 import { useFormik } from 'formik';
+import Content from '../../../ExtraComponent/Content';
 
 const Strategygroup = () => {
     const [showModal, setShowModal] = useState(false);
@@ -166,12 +167,14 @@ confirmButtonColor: "#1ccc8a",
 
     return (
         <>
-            <div className="container-fluid" style={{marginTop:"2rem"}}>
-                <div className="row">
-                    <div className="card h-100">
-                        <div className="card-header d-flex justify-content-between">
-                            <h4 className="card-title">System</h4>
-                        </div>
+        <Content
+                Page_title={" 📉 System"}
+                button_status={false}
+                backbutton_status={true}
+                
+
+            >
+          
 
                         <div className="table-responsive">
                             <table className="table">
@@ -199,9 +202,7 @@ confirmButtonColor: "#1ccc8a",
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    
 
             {showModal && (
                 <div className="modal fade show d-flex" role="dialog" style={{ display: 'block' }}>
@@ -229,6 +230,7 @@ confirmButtonColor: "#1ccc8a",
                     </div>
                 </div>
             )}
+            </Content>
         </>
     );
 };

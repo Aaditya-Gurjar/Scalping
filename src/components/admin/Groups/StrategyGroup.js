@@ -6,6 +6,7 @@ import AddForm from '../../../ExtraComponent/FormData'
 import { useFormik } from 'formik';
 import { width } from '@fortawesome/free-solid-svg-icons/fa0';
 import NoDataFound from '../../../ExtraComponent/NoDataFound';
+import Contnet from '../../../ExtraComponent/Content';
 
 const Strategygroup = () => {
     const [getGroupData, setGroupData] = useState({
@@ -120,7 +121,7 @@ const Strategygroup = () => {
     const formik = useFormik({
         initialValues: {
             Message: "",
-            ProductType: "Intraday",  
+            ProductType: "Intraday",
             TimeOrigin: "Weekly",
             Risk: "",
             FundReuirement: "",
@@ -133,15 +134,15 @@ const Strategygroup = () => {
             } else if (!/^[A-Za-z\s]+$/.test(values.Message)) {
                 errors.Message = 'Only letters are allowed in Message';
             }
-           // Check ProductType (if it is selected, don't show error)
-        if (!values.ProductType || values.ProductType === "") {
-            errors.ProductType = 'Please Select Product Type';
-        }
+            // Check ProductType (if it is selected, don't show error)
+            if (!values.ProductType || values.ProductType === "") {
+                errors.ProductType = 'Please Select Product Type';
+            }
 
-        // Check TimeOrigin (if it is selected, don't show error)
-        if (!values.TimeOrigin || values.TimeOrigin === "") {
-            errors.TimeOrigin = 'Please Select Time Origin';
-        }
+            // Check TimeOrigin (if it is selected, don't show error)
+            if (!values.TimeOrigin || values.TimeOrigin === "") {
+                errors.TimeOrigin = 'Please Select Time Origin';
+            }
             if (!values.Risk) {
                 errors.Risk = 'Please Enter Risk %';
             }
@@ -150,15 +151,15 @@ const Strategygroup = () => {
             } else if (values.FundReuirement <= 0) {
                 errors.FundReuirement = 'Fund Requirement must be greater than zero.';
             }
-            
-            
+
+
             if (!values.GroupName) {
                 errors.GroupName = 'Please enter Group Name.';
             } else if (values.GroupName <= 0) {
                 errors.GroupName = 'Group Name cannot be zero.';
             }
-            
-            
+
+
             return errors;
         },
         onSubmit: async (values) => {
@@ -278,43 +279,40 @@ const Strategygroup = () => {
     ];
 
     return (
-        <div>
-            <div className="container-fluid" style={{marginTop:"2rem"}}>
-                <div className="row">
-                    <div className="iq-card">
-                        <div className="iq-card-header d-flex justify-content-between">
-                            <div className="iq-header-title">
-                                <h4 className="card-title">Strategy Group</h4>
-                            </div>
-                            <div className="iq-card-header-toolbar d-flex align-items-center">
-                                <button
-                                    type="button"
-                                    className="btn btn-primary"
-                                    onClick={() => setShowModal(true)}
-                                >
-                                    Add New Group
-                                </button>
-                            </div>
-                        </div>
+        <Contnet
+            Page_title={"📉 Strategy Group"}
+            button_status={false}
+            backbutton_status={true}
 
-                        <div className="iq-card-body">
-                            {
-                                getGroupData.data && getGroupData.data.length > 0 ?
-                                    (<div className="table-responsive customtable">
-                                        <GridExample
-                                            columns={columns}
-                                            data={getGroupData.data}
-                                            checkBox={false}
-                                        />
-                                    </div>)
-                                    :
-                                    (<NoDataFound />)
-                            }
+        >
+            <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => setShowModal(true)}
+            >
+                Add New Group
+            </button>
+            <div>
 
-                        </div>
-                    </div>
+
+                <div className="iq-card-body">
+                    {
+                        getGroupData.data && getGroupData.data.length > 0 ?
+                            (<div className="table-responsive customtable">
+                                <GridExample
+                                    columns={columns}
+                                    data={getGroupData.data}
+                                    checkBox={false}
+                                />
+                            </div>)
+                            :
+                            (<NoDataFound />)
+                    }
+
                 </div>
             </div>
+
+
 
             {showModal && (
                 <div className="modal custom-modal d-flex" id="add_vendor" role="dialog">
@@ -346,7 +344,8 @@ const Strategygroup = () => {
                     </div>
                 </div>
             )}
-        </div>
+        
+        </Contnet >
     );
 };
 

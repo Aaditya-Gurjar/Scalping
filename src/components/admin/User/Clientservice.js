@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
 import { Get_All_Plans, GetUserBalence } from "../../CommonAPI/User";
 import Select from 'react-select';
 import NoDataFound from '../../../ExtraComponent/NoDataFound';
+import Content from '../../../ExtraComponent/Content';
 
 
 
@@ -367,19 +368,16 @@ const Clientservice = () => {
 
     return (
         <>
-            <div className='container-fluid' style={{marginTop:"2rem"}}>
+            {/* <div className='container-fluid' style={{marginTop:"2rem"}}> */}
 
-                <div className="row">
-                    <div className="col-sm-12">
-                        <div className="iq-card">
-                            <div className="iq-card-header d-flex justify-content-between">
-                                <div className="iq-header-title">
-                                    <h4 className="card-title">Client Service</h4>
-                                </div>
-                                <Link to="/admin/adduser" className="btn btn-primary rounded">
-                                    Create Account
-                                </Link>
-                            </div>
+            <Content
+                Page_title={" 📉 Client Service"}
+                button_status={true}
+                backbutton_status={true}
+                route={"/admin/adduser"}
+                button_title={"Create Account"}
+                
+            >
                             <div className="iq-card-body">
                                 <div className="mb-3 col-lg-3">
                                     <input
@@ -402,10 +400,7 @@ const Clientservice = () => {
                                 }
 
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                       
             {showModal && (
                 <>
                     {/* Darkened background overlay */}
@@ -481,6 +476,7 @@ const Clientservice = () => {
                     </div>
                 </>
             )}
+            </Content>
         </>
     );
 };

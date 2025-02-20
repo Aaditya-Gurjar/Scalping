@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { getCompanyName, companyDetails } from '../../CommonAPI/SuperAdmin'
 import FullDataTable from '../../../ExtraComponent/CommanDataTable'
 import NoDataFound from '../../../ExtraComponent/NoDataFound'
+import Content from '../../../ExtraComponent/Content';
 
 const AmountDetails = () => {
 
@@ -112,14 +113,13 @@ const AmountDetails = () => {
 
     return (
         <>
-            <div className="container-fluid" style={{marginTop:"2rem"}}>
-                <div className="row">
-                    <div className="iq-card">
-                        <div className="iq-card-header d-flex justify-content-between">
-                            <div className="iq-header-title">
-                                <h4 className="card-title">Amount Details</h4>
-                            </div>
-                        </div>
+        <Content
+                Page_title={"Amount Details"}
+                button_status={false}
+                backbutton_status={true}
+                
+            >
+            
                         <div className="iq-card-body">
                             <div className="was-validated ">
                                 <div className='d-flex'>
@@ -153,9 +153,8 @@ const AmountDetails = () => {
                             }
 
                         </div>
-                    </div>
-                </div>
-            </div>
+                    
+            </Content>
         </>
     )
 }

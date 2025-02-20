@@ -9,6 +9,8 @@ import Swal from 'sweetalert2';
 import { columns3, columns2, columns1, columns, columns5, columns4 } from './TradeReponseColumn'
 import { getCompanyName, getClientName, getClientScript, ClientTradeResponse } from '../../CommonAPI/SuperAdmin'
 import NoDataFound from '../../../ExtraComponent/NoDataFound';
+import Content from '../../../ExtraComponent/Content';
+
 const TradeResponse = () => {
     const CompanyName = sessionStorage.getItem("CompanyName")
     const ClientName = sessionStorage.getItem("ClientName")
@@ -227,15 +229,12 @@ const TradeResponse = () => {
 
 
     return (
-        <div>
-            <div className="container-fluid" style={{marginTop:"2rem"}}>
-                <div className="row">
-                    <div className="iq-card">
-                        <div className="iq-card-header d-flex justify-content-between">
-                            <div className="iq-header-title">
-                                <h4 className="card-title">Trade Response</h4>
-                            </div>
-                        </div>
+        <Content
+                Page_title={"Trade Response"}
+                button_status={false}
+                backbutton_status={true}
+            >
+       
                         <div className="iq-card-body">
                             <div className="was-validated ">
                                 <div className='row'>
@@ -333,10 +332,8 @@ const TradeResponse = () => {
                                 </>
                             }
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                   
+        </Content>
     );
 };
 

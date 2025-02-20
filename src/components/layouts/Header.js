@@ -1043,6 +1043,26 @@ const Header = () => {
                     </a>
                   </li>
 
+
+                  <li className="nav-item iq-full-screen">
+                    <button
+                      onClick={toggleTheme}
+                      className={`btn btn-sm ${
+                        theme === "light" ? "btn-dark" : "btn-light"
+                      } ms-auto`}
+                      style={{
+                        backgroundColor: theme === "light" ? "#222" : "#f8f9fa",
+                        color: theme === "light" ? "#fff" : "#000",
+                        border: "none",
+                        padding: "8px 15px",
+                        borderRadius: "5px",
+                        transition: "all 0.3s ease-in-out",
+                      }}
+                    >
+                      {theme === "light" ? "🌙 Dark Mode" : "☀️ Light Mode"}
+                    </button>
+                  </li>
+
                   <li
                     className={`nav-item ${
                       activeElement === "profile" ? "iq-show" : ""

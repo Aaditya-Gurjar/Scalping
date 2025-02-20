@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { setSmtpDetail, Get_SMTP_Details } from '../../CommonAPI/Admin';
 import Swal from 'sweetalert2';
+import Content from '../../../ExtraComponent/Content';
 
 const Smtp = () => {
     const [email, setEmail] = useState('');
@@ -23,22 +24,22 @@ const Smtp = () => {
         await setSmtpDetail(data).then((response) => {
             if (response.Status) {
                 Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                    background: "#1a1e23 ",
+                    backdrop: "#121010ba",
+                    confirmButtonColor: "#1ccc8a",
                     title: "Data Saved!",
-                    text:  response.message,
+                    text: response.message,
                     icon: "success",
                     timer: 1500,
                     timerProgressBar: true
                 });
             } else {
                 Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                    background: "#1a1e23 ",
+                    backdrop: "#121010ba",
+                    confirmButtonColor: "#1ccc8a",
                     title: "Error!",
-                    text:  response.message,
+                    text: response.message,
                     icon: "error",
                     timer: 1500,
                     timerProgressBar: true
@@ -78,59 +79,54 @@ confirmButtonColor: "#1ccc8a",
     };
 
     return (
-        <div>
-            <div className='container-fluid' style={{marginTop:"2rem"}}>
-                <div className='row'>
-                    <div className="iq-card">
-                        <div className="iq-card-header d-flex justify-content-between">
-                            <div className="iq-header-title">
-                                <h4 className="card-title">SMTP Details</h4>
-                            </div>
+        <Content
+            Page_title={" 📉 SMTP Details"}
+            button_status={false}
+            backbutton_status={true}
+        >
+
+            <div className="iq-card-body">
+                <div>
+                    <div className='row'>
+                        <div className="form-group col-md-6">
+                            <label htmlFor="email">Email address:</label>
+                            <input type="email" onChange={(e) => setEmail(e.target.value)} value={email} className="form-control my-2" id="email1" />
                         </div>
-                        <div className="iq-card-body">
-                            <div>
-                                <div className='row'>
-                                    <div className="form-group col-md-6">
-                                        <label htmlFor="email">Email address:</label>
-                                        <input type="email" onChange={(e) => setEmail(e.target.value)} value={email} className="form-control my-2" id="email1" />
-                                    </div>
-                                    <div className="form-group col-md-6">
-                                        <label htmlFor="cc">CC</label>
-                                        <input type="text" onChange={(e) => setCc(e.target.value)} value={cc} className="form-control my-2" id="cc" />
-                                    </div>
-                                    <div className="form-group col-md-6">
-                                        <label htmlFor="password">Password:</label>
-                                        <div className="input-group">
-                                            <input 
-                                                type={passwordVisible ? "text" : "password"} 
-                                                onChange={(e) => setPassword(e.target.value)} 
-                                                value={password} 
-                                                className="form-control my-2" 
-                                                id="password" 
-                                            />
-                                            <button 
-                                                type="button" 
-                                                className="btn btn-outline-secondary my-2" 
-                                                onClick={togglePasswordVisibility}
-                                            >
-                                                {passwordVisible ? "Hide" : "Show"}
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div className="form-group col-md-6">
-                                        <label htmlFor="url">URL</label>
-                                        <input type="text" onChange={(e) => setUrl(e.target.value)} value={url} className="form-control my-2" id="url" />
-                                    </div>
-                                </div>
-                                <button onClick={handleSubmit} type="submit" className="btn btn-primary me-1 mt-2">
-                                    Update
+                        <div className="form-group col-md-6">
+                            <label htmlFor="cc">CC</label>
+                            <input type="text" onChange={(e) => setCc(e.target.value)} value={cc} className="form-control my-2" id="cc" />
+                        </div>
+                        <div className="form-group col-md-6">
+                            <label htmlFor="password">Password:</label>
+                            <div className="input-group">
+                                <input
+                                    type={passwordVisible ? "text" : "password"}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    value={password}
+                                    className="form-control my-2"
+                                    id="password"
+                                />
+                                <button
+                                    type="button"
+                                    className="btn btn-outline-secondary my-2"
+                                    onClick={togglePasswordVisibility}
+                                >
+                                    {passwordVisible ? "Hide" : "Show"}
                                 </button>
                             </div>
                         </div>
+                        <div className="form-group col-md-6">
+                            <label htmlFor="url">URL</label>
+                            <input type="text" onChange={(e) => setUrl(e.target.value)} value={url} className="form-control my-2" id="url" />
+                        </div>
                     </div>
+                    <button onClick={handleSubmit} type="submit" className="btn btn-primary me-1 mt-2">
+                        Update
+                    </button>
                 </div>
             </div>
-        </div>
+
+        </Content>
     );
 }
 

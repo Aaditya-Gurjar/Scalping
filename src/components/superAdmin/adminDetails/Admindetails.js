@@ -6,7 +6,7 @@ import { SquarePen, RotateCcw, Eye, UserPlus, Earth, UserSearch, Trash2 } from '
 import { useFormik } from "formik";
 import AddForm from "../../../ExtraComponent/FormData";
 import NoDataFound from '../../../ExtraComponent/NoDataFound';
-
+import Content from '../../../ExtraComponent/Content';
 
 
 
@@ -818,16 +818,14 @@ const Strategygroup = () => {
 
 
     return (
-        <div>
-            <div className="container-fluid" style={{marginTop:"2rem"}}>
-                <div className="row">
-                    <div className="iq-card">
-                        <div className="iq-card-header d-flex justify-content-between">
-                            <div className="iq-header-title">
-                                <h4 className="card-title">Admin Details</h4>
-                            </div>
+        <Content
+                Page_title={"Admin Details"}
+                button_status={false}
+                backbutton_status={true}
+               
 
-                        </div>
+            >
+       
 
                         <div className="iq-card-body">
                             <div className="table-responsive customtable">
@@ -844,9 +842,7 @@ const Strategygroup = () => {
 
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                   
 
             {
                 showModal && <div className="modal show" id="exampleModal" style={{ display: "block" }}>
@@ -1124,7 +1120,8 @@ const Strategygroup = () => {
 
 
 
-        </div>
+        
+        </Content>
     );
 };
 

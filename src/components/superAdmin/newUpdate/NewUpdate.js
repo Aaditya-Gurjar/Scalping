@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import AddForm from "../../../ExtraComponent/FormData";
 import { superToAdminAddNewPermission } from '../../CommonAPI/SuperAdmin';
 import Swal from 'sweetalert2';
+import Content from '../../../ExtraComponent/Content';
 
 
 const NewUpdate = () => {
@@ -86,14 +87,22 @@ confirmButtonColor: "#1ccc8a",
 
     return (
         <>
+        <Content
+                Page_title={"New Updates"}
+                button_status={false}
+                backbutton_status={true}
+                
+
+            >
             <AddForm
                 fields={fields}
-                page_title="New Updates"
+                
                 btn_name="Add"
 
                 formik={formik}
 
             />
+            </Content>
         </>
     );
 }
