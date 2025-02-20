@@ -418,15 +418,58 @@ const Tradehistory = () => {
                   <div onWheel={(e) => e.stopPropagation()}>
                     <select
                       className="form-select"
-                      value={selectSegmentType}
-                      onChange={(e) => setSegmentType(e.target.value)}
-                    >
-                      {getChartingSegments.map((item) => (
-                        <option key={item.Segment} value={item.Segment}>
-                          {item.Segment}
+                      value={selectStrategyType}
+                      onChange={(e) => {
+                        setStrategyType(e.target.value);
+                        sessionStorage.setItem("StrategyType", e.target.value);
+                      }}>
+                      {strategyNames.map((item) => (
+                        <option key={item} value={item}>
+                          {item}
                         </option>
                       ))}
                     </select>
+                  </div>
+                </div>
+                {selectStrategyType === "ChartingPlatform" && (
+                  <div className="col-12 col-md-6 col-lg-3">
+                    <div className="form-group">
+                      <label className="form-label">Segment Type</label>
+                      <div onWheel={(e) => e.stopPropagation()}>
+                        <select
+                          className="form-select"
+                          value={selectSegmentType}
+                          onChange={(e) => setSegmentType(e.target.value)}>
+                          {getChartingSegments.map((item) => (
+                            <option key={item.Segment} value={item.Segment}>
+                              {item.Segment}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                <div className="col-12 col-md-6 col-lg-3">
+                  <div className="form-group">
+                    <label className="form-label">From Date</label>
+                    <DatePicker
+                      className="form-control"
+                      selected={FromDate || formattedDate}
+                      onChange={setFromDate}
+                      dateFormat="yyyy.MM.dd"
+                    />
+                  </div>
+                </div>
+                <div className="col-12 col-md-6 col-lg-3">
+                  <div className="form-group">
+                    <label className="form-label">To Date</label>
+                    <DatePicker
+                      className="form-control"
+                      selected={ToDate || Defult_To_Date}
+                      onChange={setToDate}
+                      dateFormat="yyyy.MM.dd"
+                    />
                   </div>
                 </div>
               </div>
@@ -452,6 +495,7 @@ const Tradehistory = () => {
                   dateFormat="yyyy.MM.dd"
                 />
               </div>
+             
             </div>
           </div>
           {selectStrategyType === "Scalping" ? (

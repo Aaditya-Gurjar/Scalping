@@ -29,10 +29,12 @@ const Userlog = () => {
         if (selectStrategyType == '') {
             return ""
         }
-        const data = { Strategy: selectStrategyType && selectStrategyType }
+        const data = { Strategy: selectStrategyType && selectStrategyType == "Scalping" ? "NewScalping" : selectStrategyType }
         await Get_All_Service(data)
             .then((response) => {
                 if (response.Status) {
+                    console.log("response",response);
+                    
                     setServiceDetails({
                         loading: false,
                         data: response.Data
@@ -531,7 +533,7 @@ const Userlog = () => {
 
     return (
         <>
-            <div className="container-fluid" style={{marginTop:"2rem"}}>
+            <div className="container-fluid" style={{ marginTop: "2rem" }}>
                 <div className="row">
                     <div className="iq-card">
                         <div className="iq-card-header d-flex justify-content-between">
@@ -549,7 +551,7 @@ const Userlog = () => {
                                         <select className="form-select" required=""
                                             onChange={(e) => {
                                                 setStrategyType(e.target.value)
-                                                sessionStorage.setItem('StrategyType',e.target.value)
+                                                sessionStorage.setItem('StrategyType', e.target.value)
                                             }}
                                             value={selectStrategyType}>
                                             <option value={"Scalping"}>Scalping</option>
@@ -559,38 +561,36 @@ const Userlog = () => {
                                     </div>
                                 </div>
                             </div>
-                            {getServiceDetails.loading ? <Loader /> :
-                                (
-                                    selectStrategyType == "Scalping" ?
-                                        <div className="iq-card-body px-2">
-
-                                            <FullDataTable
-                                                columns={columns}
-                                                data={getServiceDetails.data}
-                                                checkBox={false}
-                                            />
-
-                                        </div> :
-                                        selectStrategyType == "Option Strategy" ?
+                            {getServiceDetails.loading ? (
+                                <Loader />
+                            ) : (
+                                <>
+                                    {selectStrategyType === "Scalping" && (
+                                        getServiceDetails.data?.length > 0 ? (
                                             <div className="iq-card-body px-2">
-                                                <FullDataTable
-                                                    columns={columns1}
-                                                    data={getServiceDetails.data}
-                                                    checkBox={false}
-                                                />
-                                            </div> :
-                                            selectStrategyType == "Pattern" ?
-                                                <div className="iq-card-body px-2">
-                                                    <div className="iq-card-body px-0">
-                                                        <FullDataTable
-                                                            columns={columns2}
-                                                            data={getServiceDetails.data}
-                                                            checkBox={false}
-                                                        />
-                                                    </div>
-                                                </div> : ""
-                                )
-                            }
+                                                <FullDataTable columns={columns} data={getServiceDetails.data} checkBox={false} />
+                                            </div>
+                                        ) : <NoDataFound />
+                                    )}
+
+                                    {selectStrategyType === "Option Strategy" && (
+                                        getServiceDetails.data?.length > 0 ? (
+                                            <div className="iq-card-body px-2">
+                                                <FullDataTable columns={columns1} data={getServiceDetails.data} checkBox={false} />
+                                            </div>
+                                        ) : <NoDataFound />
+                                    )}
+
+                                    {selectStrategyType === "Pattern" && (
+                                        getServiceDetails.data?.length > 0 ? (
+                                            <div className="iq-card-body px-2">
+                                                <FullDataTable columns={columns2} data={getServiceDetails.data} checkBox={false} />
+                                            </div>
+                                        ) : <NoDataFound />
+                                    )}
+                                </>
+                            )}
+
                         </div>
                     </div>
                 </div>

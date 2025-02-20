@@ -105,7 +105,7 @@ const AddClient = () => {
       EntryPrice: 0.0,
       EntryRange: 0.0,
       EntryTime: "09:15:00",
-      ExitTime: "15:25:00",
+      ExitTime: "15:14:00",
       ExitDay: "",
       Trade_Execution: "Paper Trade",
       FixedSM: "",
@@ -772,7 +772,7 @@ const AddClient = () => {
     formik.setFieldValue("Lower_Range", 0);
     formik.setFieldValue("Higher_Range", 0);
     formik.setFieldValue("EntryTime", "09:15:00");
-    formik.setFieldValue("ExitTime", "15:25:00");
+    formik.setFieldValue("ExitTime", "15:14:00");
     formik.setFieldValue("TStype", "Point");
     formik.setFieldValue("Shifting_Point", 100);
     formik.setFieldValue("Shifting_Value", 1);
@@ -1097,6 +1097,28 @@ const AddClient = () => {
       headingtype: 3,
       disable: false,
     },
+    {
+      name: "TStype",
+      label: "Measurement Type",
+      type: "select",
+      options:
+        formik.values.ETPattern == "Premium Addition"
+          ? [{ label: "Point", value: "Point" }]
+          : [
+              { label: "Point", value: "Point" },
+              { label: "Percentage", value: "Percentage" },
+            ],
+      hiding: false,
+      label_size: 12,
+      showWhen: (value) =>
+        value.Measurment_Type != "Shifting_FourLeg" ||
+        (value.Measurment_Type == "Shifting_FourLeg" &&
+          (value.Strategy == "ShortFourLegStretegy" ||
+            value.Strategy == "LongFourLegStretegy")),
+      col_size: 3,
+      headingtype: 3,
+      disable: false,
+    },
 
     {
       name: "ExitType",
@@ -1163,28 +1185,28 @@ const AddClient = () => {
   ];
 
   const RiskManagementArr = [
-    {
-      name: "TStype",
-      label: "Measurement Type",
-      type: "select",
-      options:
-        formik.values.ETPattern == "Premium Addition"
-          ? [{ label: "Point", value: "Point" }]
-          : [
-              { label: "Point", value: "Point" },
-              { label: "Percentage", value: "Percentage" },
-            ],
-      hiding: false,
-      label_size: 12,
-      showWhen: (value) =>
-        value.Measurment_Type != "Shifting_FourLeg" ||
-        (value.Measurment_Type == "Shifting_FourLeg" &&
-          (value.Strategy == "ShortFourLegStretegy" ||
-            value.Strategy == "LongFourLegStretegy")),
-      col_size: 4,
-      headingtype: 4,
-      disable: false,
-    },
+    // {
+    //   name: "TStype",
+    //   label: "Measurement Type",
+    //   type: "select",
+    //   options:
+    //     formik.values.ETPattern == "Premium Addition"
+    //       ? [{ label: "Point", value: "Point" }]
+    //       : [
+    //           { label: "Point", value: "Point" },
+    //           { label: "Percentage", value: "Percentage" },
+    //         ],
+    //   hiding: false,
+    //   label_size: 12,
+    //   showWhen: (value) =>
+    //     value.Measurment_Type != "Shifting_FourLeg" ||
+    //     (value.Measurment_Type == "Shifting_FourLeg" &&
+    //       (value.Strategy == "ShortFourLegStretegy" ||
+    //         value.Strategy == "LongFourLegStretegy")),
+    //   col_size: 4,
+    //   headingtype: 4,
+    //   disable: false,
+    // },
     {
       name: "Quantity",
       label: "Lot",
@@ -1197,7 +1219,7 @@ const AddClient = () => {
     },
     {
       name: "Trade_Count",
-      label: "Trade Count",
+      label: "No Of Cycle",
       type: "text3",
       label_size: 12,
       col_size: 4,

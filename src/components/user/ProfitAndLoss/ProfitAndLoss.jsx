@@ -72,7 +72,8 @@ const Tradehistory = () => {
 
   const handleSubmit = async () => {
     const data = {
-      MainStrategy: selectStrategyType,
+      MainStrategy:
+        selectStrategyType === "Scalping" ? "NewScalping" : selectStrategyType,
       // MainStrategy: "NewScalping",
 
       Username: Username,

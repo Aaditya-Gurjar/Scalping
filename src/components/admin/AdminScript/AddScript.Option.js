@@ -4,6 +4,9 @@ import { useFormik } from "formik";
 import { useState, useEffect } from "react";
 import Swal from 'sweetalert2';
 import { AddAdminScript, GET_EXPIRY_DATE } from '../../CommonAPI/Admin'
+import axios from "axios";
+import * as Config from "../../../Utils/Config";
+
 
 
 
@@ -12,6 +15,8 @@ const AddClient = () => {
     const location = useLocation()
     const navigate = useNavigate()
     const [getExpiry, setExpiry] = useState({ loading: true, data: [] })
+    const [exchangeOptions, setExchangeOptions] = useState([]);
+
 
 
     const SweentAlertFun = (text) => {
@@ -91,6 +96,7 @@ const AddClient = () => {
             RollOver: "",
             NumberOfDays: 0,
             RollOverExitTime: "00:00:00",
+            ExitType: "",
             // WorkingDay: [],
         },
 
@@ -215,6 +221,7 @@ const AddClient = () => {
                     errors.Shifting_Value = "Please Enter Number of Shifts Between 1-5.";
                 }
             }
+
             if (
                 !values.Loss &&
                 values.Strategy == "Multi_Conditional" &&
@@ -255,6 +262,13 @@ const AddClient = () => {
             ) {
                 errors.RollOverExitTime = "Please Enter RollOver Exit Time";
             }
+            if (
+                !values.ExitType &&
+                values.Measurment_Type != "Shifting/FourLeg" &&
+                values.ETPattern == "Leg vice"
+            ) {
+                errors.ExitType = "Please Select Exit Type";
+            }
 
             // if (!values.WorkingDay?.length > 0) {
             //     errors.WorkingDay = "Please select Working day";
@@ -291,7 +305,7 @@ const AddClient = () => {
                 ExitDay: values.ExitDay,
                 FixedSM: "",
                 TType: "",
-                expirydata1: getExpiry && getExpiry.data[0]  || "",
+                expirydata1: getExpiry && getExpiry.data[0] || "",
                 Expirytype: values.Expirytype,
                 Striketype: formik.values.Strategy != "ShortStraddle" && formik.values.Strategy != "LongStraddle" && formik.values.Measurment_Type != "Shifting/FourLeg" && formik.values.Strategy != 'ShortStraddle' && formik.values.Strategy != 'LongStraddle' ? values.Striketype : '',
                 DepthofStrike: (formik.values.Striketype != "Premium_Range" && formik.values.Measurment_Type != "Shifting/FourLeg" && formik.values.Strategy != 'LongStraddle' && formik.values.Strategy != 'ShortStraddle') ? Number(values.DepthofStrike) : formik.values.Measurment_Type == "Shifting/FourLeg" && formik.values.Strategy != 'ShortFourLegStretegy' && formik.values.Strategy != 'LongFourLegStretegy' ? values.Shifting_Value : 0,
@@ -332,6 +346,11 @@ const AddClient = () => {
                         values.RollOver == true
                         ? values.RollOverExitTime
                         : "00:00:00",
+                ExitType:
+                    values.Measurment_Type != "Shifting/FourLeg" &&
+                        values.ETPattern == "Leg vice"
+                        ? values.ExitType
+                        : "",
 
                 // WorkingDay: values.WorkingDay ? values?.WorkingDay?.map((item) => item?.value || item) : [],
 
@@ -439,8 +458,49 @@ const AddClient = () => {
         formik.setFieldValue('Strategy', formik.values.Measurment_Type == "Straddle/Strangle" ? "LongStrangle" : formik.values.Measurment_Type == "Butterfly/Condor" ? "LongIronButterfly" : formik.values.Measurment_Type == "Spread" ? "BearCallSpread" : formik.values.Measurment_Type == "Ladder/Coverd" ? "BullCallLadder" : formik.values.Measurment_Type == "Collar/Ratio" ? "LongCollar" : formik.values.Measurment_Type == "Shifting/FourLeg" ? "ShortShifting" : "")
     }, [formik.values.Measurment_Type])
 
+    useEffect(() => {
+        axios
+          .get(`${Config.base_url}OptionExchange`)
+          .then((response) => {
+            if (response.data && response.data.Exchange) {
+              const formattedExchangeOptions = response.data.Exchange.map(
+                (exchange) => ({
+                  label: exchange,
+                  value: exchange,
+                })
+              );
+    
+              // Update the state with the formatted options
+              setExchangeOptions(formattedExchangeOptions);
+              formik.setFieldValue(
+                "Exchange",
+                formattedExchangeOptions[0]?.value || ""
+              );
+            } else {
+              console.error("Unexpected API response:", response.data);
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching symbols:", error);
+          });
+      }, []);
+
 
     const SymbolSelectionArr = [
+        {
+            name: "Exchange", // New field name for Exchange
+            label: "Exchange", // Label for the new field
+            type: "select",
+            options: exchangeOptions.map((symbol) => ({
+                label: symbol.label,
+                value: symbol.value,
+            })),
+            hiding: false,
+            label_size: 12,
+            col_size: 3,
+            headingtype: 1,
+            disable: false,
+        },
         {
             name: "Symbol",
             label: "Symbol",
@@ -688,6 +748,23 @@ const AddClient = () => {
             hiding: false,
             label_size: 12,
             col_size: 4,
+            headingtype: 3,
+            disable: false,
+        },
+        {
+            name: "ExitType",
+            label: "Exit Type",
+            type: "select1",
+            options: [
+                { label: "Cost to cost", value: "Cost to cost" },
+                { label: "Normal", value: "Normal" },
+            ],
+            showWhen: (value) =>
+                value.Measurment_Type != "Shifting/FourLeg" &&
+                value.ETPattern == "Leg vice",
+            hiding: false,
+            label_size: 12,
+            col_size: formik.values.Measurment_Type != "Shifting/FourLeg" ? 3 : 4,
             headingtype: 3,
             disable: false,
         },

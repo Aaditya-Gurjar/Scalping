@@ -32,7 +32,7 @@ import Content from '../../../ExtraComponent/Content';
 const TradeReport = () => {
     const location = useLocation();
     const StrategyType = sessionStorage.getItem('StrategyType')
-
+ 
     const userName = localStorage.getItem("name");
     const [selectStrategyType, setStrategyType] = useState(StrategyType || 'Scalping');
     const [strategyNames, setStrategyNames] = useState([]);

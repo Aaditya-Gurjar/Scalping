@@ -694,15 +694,18 @@ const AddClient = () => {
         }
         console.log("req", req);
 
-        await AddScript(req)
+        await AddScript(req) 
           .then((response) => {
             if (response.Status) {
               Swal.fire({
+                background: "#1a1e23 ",
+                backdrop: "#121010ba",
+                confirmButtonColor: "#1ccc8a",
                 title: "Script Added !",
                 text: response.message,
                 icon: "success",
                 timer: 1500,
-                timerProgressBar: true,
+                timerProgressBar: true,               
               });
               setTimeout(() => {
                 navigate("/user/dashboard");
@@ -1761,10 +1764,10 @@ const AddClient = () => {
   useEffect(() => {
     console.log("testing");
     if (formik.values.Exchange !== "MCX") {
-      formik.setFieldValue("ExitTime", "15:15:00");
+      formik.setFieldValue("ExitTime", "15:14:00");
       formik.setFieldValue("EntryTime", "09:15:00");
     } else if (formik.values.Exchange === "MCX") {
-      formik.setFieldValue("ExitTime", "23:29:00");
+      formik.setFieldValue("ExitTime", "23:25:00");
       formik.setFieldValue("EntryTime", "09:00:00");
     }
   }, [formik.values.Exchange]);
