@@ -143,7 +143,7 @@ const Dashboards = () => {
             {
                 dashData.loading ? <Loader /> :
 
-                    <div className="container-fluid" style={{marginTop:"2rem"}}>
+                    <div className="container-fluid" style={{ marginTop: "2rem" }}>
 
                         <div className="row">
                             <div className="col-sm-12">
@@ -812,7 +812,7 @@ const Dashboards = () => {
 
                                     </div>
                                 </div> */}
-                                 <AdminDashboardChart />
+                                <AdminDashboardChart />
                             </div>
 
                         </div>

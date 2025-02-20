@@ -99,9 +99,6 @@ const AddClient = () => {
       Shifting_Point: 1,
       Profit: 0,
       Loss: 0,
-      RollOver: "",
-      NumberOfDays: 0,
-      RollOverExitTime: "00:00:00",
       WorkingDay: [],
     },
     validate: (values) => {
@@ -405,30 +402,7 @@ const AddClient = () => {
         errors.Profit = "Please Enter Maximum Loss";
       }
 
-      if (
-        !values.RollOver &&
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple"
-      ) {
-        errors.RollOver = "Please Enter No. of Repeatation";
-      }
-      if (
-        !values.NumberOfDays &&
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple" &&
-        values.RollOver == ""
-      ) {
-        errors.NumberOfDays = "Please Enter No. of Days";
-      }
-
-      if (
-        !values.RollOverExitTime &&
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple" &&
-        values.RollOver == true
-      ) {
-        errors.RollOverExitTime = "Please Enter RollOver Exit Time";
-      }
+      
       if (!values.WorkingDay.length > 0) {
         errors.WorkingDay = "Please select Working day";
       }
@@ -573,23 +547,7 @@ const AddClient = () => {
           values.Strategy == "Multi_Conditional"
             ? values.Profit
             : 0,
-        RollOver:
-          values.position_type == "Multiple" &&
-          values.Strategy == "Multi_Conditional"
-            ? values.RollOver
-            : false,
-        NumberOfDays:
-          values.position_type == "Multiple" &&
-          values.Strategy == "Multi_Conditional" &&
-          values.RollOver == true
-            ? values.NumberOfDays
-            : 0,
-        RollOverExitTime:
-          values.position_type == "Multiple" &&
-          values.Strategy == "Multi_Conditional" &&
-          values.RollOver == true
-            ? values.RollOverExitTime
-            : "00:00:00",
+      
         WorkingDay: values.WorkingDay
           ? values?.WorkingDay?.map((item) => item?.value || item)
           : [],
@@ -1232,51 +1190,7 @@ const AddClient = () => {
       headingtype: 5,
       disable: false,
     },
-    {
-      name: "RollOver",
-      label: "RollOver",
-      type: "select",
-      options: [
-        { label: "True", value: true },
-        { label: "False", value: false },
-      ],
-      label_size: 12,
-      col_size: 4,
-      headingtype: 4,
-      showWhen: (values) => values.ExitDay == "Delivery",
-      disable: false,
-      hiding: false,
-    },
-
-    {
-      name: "NumberOfDays",
-      label: "No. of Days",
-      type: "text3",
-      label_size: 12,
-      showWhen: (values) => {
-        const rollOverBoolean = values.RollOver === "true";
-        return rollOverBoolean && values.ExitDay == "Delivery";
-      },
-      col_size: 4,
-      headingtype: 4,
-      disable: false,
-      hiding: false,
-    },
-
-    {
-      name: "RollOverExitTime",
-      label: "RollOver Exit Time",
-      type: "timepiker",
-      label_size: 12,
-      showWhen: (values) => {
-        const rollOverBoolean = values.RollOver === "true";
-        return rollOverBoolean && values.ExitDay == "Delivery";
-      },
-      col_size: 4,
-      headingtype: 4,
-      disable: false,
-      hiding: false,
-    },
+    
   ];
 
   const OtherParameterArr = [

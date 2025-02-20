@@ -414,7 +414,7 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
   const [checkedRows, setCheckedRows] = useState(
     isChecked !== undefined ? [isChecked] : []
   );
-  // console.log("---------", checkBox);
+  console.log("---------", checkBox, isChecked);
 
   useEffect(() => {
     setSelectedColumns(columns.slice(0, 7)); // Reset selected columns to default

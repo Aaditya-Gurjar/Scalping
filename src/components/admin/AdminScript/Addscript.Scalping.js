@@ -665,7 +665,7 @@ const AddClient = () => {
       disable: false,
     },
 
-    
+
     // {
     //   name: "expirydata1",
     //   label: "Expiry Date",
@@ -1028,7 +1028,8 @@ const AddClient = () => {
       showWhen: (values) =>
         values.ExitDay == "Delivery" &&
         values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple",
+        values.position_type == "Multiple" &&
+        values.Instrument !== "FUTIDX",
       disable: false,
       hiding: false,
     },

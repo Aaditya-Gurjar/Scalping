@@ -86,11 +86,6 @@ const AddClient = () => {
             PEDeepLower: 1,
             PEDeepHigher: 1,
             Unique_ID: "",
-            Profit: 0,
-            Loss: 0,
-            RollOver: "",
-            NumberOfDays: 0,
-            RollOverExitTime: "00:00:00",
             ExitType: "",
             // WorkingDay: [],
         },
@@ -217,46 +212,8 @@ const AddClient = () => {
                 }
             }
 
-            if (
-                !values.Loss &&
-                values.Strategy == "Multi_Conditional" &&
-                values.position_type == "Multiple"
-            ) {
-                errors.Loss = "Please Enter Maximum Loss";
-            }
 
-            if (
-                !values.Profit &&
-                values.Strategy == "Multi_Conditional" &&
-                values.position_type == "Multiple"
-            ) {
-                errors.Profit = "Please Enter Maximum Loss";
-            }
 
-            if (
-                !values.RollOver &&
-                values.Strategy == "Multi_Conditional" &&
-                values.position_type == "Multiple"
-            ) {
-                errors.RollOver = "Please Enter No. of Repeatation";
-            }
-            if (
-                !values.NumberOfDays &&
-                values.Strategy == "Multi_Conditional" &&
-                values.position_type == "Multiple" &&
-                values.RollOver == ""
-            ) {
-                errors.NumberOfDays = "Please Enter No. of Days";
-            }
-
-            if (
-                !values.RollOverExitTime &&
-                values.Strategy == "Multi_Conditional" &&
-                values.position_type == "Multiple" &&
-                values.RollOver == true
-            ) {
-                errors.RollOverExitTime = "Please Enter RollOver Exit Time";
-            }
             if (
                 !values.ExitType &&
                 values.Measurment_Type != "Shifting/FourLeg" &&
@@ -314,33 +271,7 @@ const AddClient = () => {
                 CEDeepHigher: Number(values.CEDeepHigher),
                 PEDeepLower: Number(values.PEDeepLower),
                 PEDeepHigher: Number(values.PEDeepHigher),
-                Loss:
-                    values.position_type == "Multiple" &&
-                        values.Strategy == "Multi_Conditional"
-                        ? values.Loss
-                        : 0,
 
-                Profit:
-                    values.position_type == "Multiple" &&
-                        values.Strategy == "Multi_Conditional"
-                        ? values.Profit
-                        : 0,
-                RollOver: (values.position_type ==
-                    "Multiple" && values.Strategy == "Multi_Conditional"
-                    ? values.RollOver
-                    : false),
-                NumberOfDays:
-                    values.position_type == "Multiple" &&
-                        values.Strategy == "Multi_Conditional" &&
-                        values.RollOver == true
-                        ? values.NumberOfDays
-                        : 0,
-                RollOverExitTime:
-                    values.position_type == "Multiple" &&
-                        values.Strategy == "Multi_Conditional" &&
-                        values.RollOver == true
-                        ? values.RollOverExitTime
-                        : "00:00:00",
                 ExitType:
                     values.Measurment_Type != "Shifting/FourLeg" &&
                         values.ETPattern == "Leg vice"
@@ -790,27 +721,6 @@ const AddClient = () => {
             disable: false,
         },
 
-        {
-            name: "Loss",
-            label: "Max Loss ",
-            type: "text3",
-            label_size: 12,
-            col_size: 3,
-            headingtype: 4,
-            disable: false,
-            hiding: false,
-        },
-
-        {
-            name: "Profit",
-            label: " Max Profit ",
-            type: "text3",
-            label_size: 12,
-            col_size: 3,
-            headingtype: 4,
-            disable: false,
-            hiding: false,
-        },
 
         // {
         //     name: "WorkingDay",
@@ -873,57 +783,7 @@ const AddClient = () => {
             disable: false,
         },
 
-        {
-            name: "RollOver",
-            label: "RollOver",
-            type: "select",
-            options: [
-                { label: "True", value: true },
-                { label: "False", value: false },
-            ],
-            label_size: 12,
-            col_size: 4,
-            headingtype: 4,
-            showWhen: (values) => values.ExitDay == "Delivery",
-            disable: false,
-            hiding: false,
-        },
 
-        {
-            name: "NumberOfDays",
-            label: "No. of Days",
-            type: "text3",
-            label_size: 12,
-            showWhen: (values) => {
-                const rollOverBoolean = values.RollOver === "true";
-                return (
-                    rollOverBoolean &&
-                    values.ExitDay == "Delivery"
-                );
-            },
-            col_size: 4,
-            headingtype: 4,
-            disable: false,
-            hiding: false,
-        },
-
-        {
-            name: "RollOverExitTime",
-            label: "RollOver Exit Time",
-            type: "timepiker",
-            label_size: 12,
-            showWhen: (values) => {
-                const rollOverBoolean = values.RollOver === "true";
-                return (
-                    rollOverBoolean &&
-                    values.ExitDay == "Delivery"
-                );
-            },
-            col_size: 4,
-            headingtype: 4,
-            disable: false,
-            hiding: false,
-        },
 
     ]
 
