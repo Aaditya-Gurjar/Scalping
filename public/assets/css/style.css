@@ -6219,3 +6219,9 @@ ul.breadcrumb-links li a {
 .MuiTypography-root, .MuiTablePagination-toolbar, .MuiTablePagination-actions button svg {
   color: var(--dark-txt-color) !important;
 }
+
+
+.text-white {
+  --bs-text-opacity: 1;
+  color:var(--text-color) !important;
+}
