@@ -200,33 +200,6 @@ const AddClient = () => {
               ? "Please Enter Lot Value."
               : "Please Enter Quantity Value.";
       }
-
-      // if (!values.ExitTime) {
-      //   errors.ExitTime = "Please Select Exit Time.";
-      // } else if (values.ExitTime > maxTime && formik.values.Exchange !== 'MCX') {
-      //   errors.ExitTime = "Exit Time Must be Before 15:29:59.";
-      // }
-
-      // else if (values.ExitTime > maxTime2 && formik.values.Exchange == 'MCX') {
-      //   errors.ExitTime = "Exit Time Must be Before 23:30:00.";
-      // }
-
-      // else if (values.ExitTime < minTime && formik.values.Exchange !== 'MCX') {
-      //   errors.ExitTime = "Exit Time Must be After 09:15:00.";
-      // }
-      // else if (values.ExitTime < minTime2 && formik.values.Exchange == 'MCX') {
-      //   errors.ExitTime = "Exit Time Must be After 09:00:00.";
-      // }
-
-      // if (!values.EntryTime) {
-      //   errors.EntryTime = "Please Select Entry Time.";
-      // } else if (values.EntryTime < minTime) {
-      //   errors.EntryTime = "Entry Time Must be After 09:15:00.";
-      // }
-      // else if (values.EntryTime > maxTime) {
-      //   errors.EntryTime = "Entry Time Must be Before 15:29:59.";
-      // }
-
       if (!values.ExitTime) {
         errors.ExitTime = "Please Select Exit Time.";
       } else if (
@@ -253,7 +226,6 @@ const AddClient = () => {
         errors.ExitDay = "Please Select Exit Day.";
       }
 
-      // formik.values.Strategy == 'Fixed Price'
       if (
         values.EntryPrice === undefined ||
         values.EntryPrice === null ||
@@ -423,11 +395,12 @@ const AddClient = () => {
       }
 
       // console.log("errors", errors)
-      // ScrollToViewFirstError(errors);
+      ScrollToViewFirstError(errors);
       return errors;
     },
 
     onSubmit: async (values) => {
+
       try {
         const req = {
           MainStrategy:
@@ -564,21 +537,21 @@ const AddClient = () => {
               values.Strategy == "Multi_Conditional"
               ? Number(values.Profit)
               : 0,
-          RollOver:
+          RolloverTF:
             values.FixedSM == "Multiple" &&
               values.Strategy == "Multi_Conditional"
               ? values.RollOver
               : false,
-          NumberOfDays:
+          RolloverDay:
             values.FixedSM == "Multiple" &&
               values.Strategy == "Multi_Conditional" &&
-              values.RollOver == true
+              values.RollOver == "true"
               ? values.NumberOfDays
               : 0,
-          RollOverExitTime:
+          RolloverTime:
             values.FixedSM == "Multiple" &&
               values.Strategy == "Multi_Conditional" &&
-              values.RollOver == true
+              values.RollOver == "true"
               ? values.RollOverExitTime
               : "00:00:00",
           TargetExit:
@@ -597,6 +570,8 @@ const AddClient = () => {
               ? parseFloat(values.FinalTarget)
               : 0.0,
         };
+
+
 
         if (
           (Number(values.EntryPrice) > 0 || Number(values.EntryRange) > 0) &&
@@ -691,7 +666,7 @@ const AddClient = () => {
         }
         console.log("req", req);
 
-        await AddScript(req) 
+        await AddScript(req)
           .then((response) => {
             if (response.Status) {
               Swal.fire({
@@ -702,7 +677,7 @@ const AddClient = () => {
                 text: response.message,
                 icon: "success",
                 timer: 1500,
-                timerProgressBar: true,               
+                timerProgressBar: true,
               });
               setTimeout(() => {
                 navigate("/user/dashboard");
@@ -736,6 +711,9 @@ const AddClient = () => {
     formik.setFieldValue("HoldExit", "Hold");
     formik.setFieldValue("TStype", "Point");
   }, []);
+
+
+  console.log("values.Strategy", formik.values.Strategy);
 
   const SymbolSelectionArr = [
     {
@@ -2082,7 +2060,6 @@ const AddClient = () => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {console.log("PnlData", PnlData)}
           {PnlData ? (
             [
 

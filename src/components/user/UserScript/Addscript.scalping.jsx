@@ -118,7 +118,7 @@ const AddClient = () => {
       RollOver: "",
       NumberOfDays: 0,
       RollOverExitTime: "00:00:00",
-      TargetExit: false,
+      TargetExit: location?.state?.data?.TargetExit || false,
       WorkingDay: [],
       OrderType: "Pending",
       FinalTarget: 0.0,
@@ -370,8 +370,8 @@ const AddClient = () => {
         errors.WorkingDay = "Please Select Working Day";
       }
 
-      console.log("err", errors);
-      ScrollToViewFirstError(errors);
+      // console.log("err", errors);
+      // ScrollToViewFirstError(errors);
       return errors;
     },
 
@@ -694,6 +694,9 @@ const AddClient = () => {
     }
   }, [formik.values.Exchange]);
 
+
+
+  console.log("location?.state?.data", location?.state?.data);
   useEffect(() => {
 
     const workingDay = location?.state?.data?.WorkingDay?.map((item) => ({ label: item, value: item }));
@@ -716,7 +719,6 @@ const AddClient = () => {
     formik.setFieldValue("EntryTime", location?.state?.data?.EntryTime);
     formik.setFieldValue("ExitTime", location?.state?.data?.ExitTime);
     formik.setFieldValue("Trade_Execution", location?.state?.data?.TradeExecution);
-    formik.setFieldValue("Trade_Count", location?.state?.data?.TradeCount || 1);
     formik.setFieldValue("Group", location?.state?.data?.GroupN);
     formik.setFieldValue("Optiontype", result ? result.type : "");
     formik.setFieldValue("Strike", result ? result.number : "");
@@ -733,6 +735,13 @@ const AddClient = () => {
     formik.setFieldValue("Profit", location?.state?.data?.Profit);
     formik.setFieldValue("Loss", location?.state?.data?.Loss);
     formik.setFieldValue("WorkingDay", workingDay);
+    formik.setFieldValue("TargetExit", location?.state?.data?.TargetExit==true ? "true" : false);
+    formik.setFieldValue("Trade_Count", location?.state?.data?.TradeCount || 1);
+    formik.setFieldValue("RollOver" , location?.state?.data?.RolloverTF==true ? "true" : false);
+    formik.setFieldValue("NumberOfDays", location?.state?.data?.RolloverDay);
+    formik.setFieldValue("RollOverExitTime", location?.state?.data?.RolloverTime);
+    formik.setFieldValue("OrderType", location?.state?.data?.OrderType);
+
     setinitialvalue(true);
   }, [location.state.data]);
 
@@ -1218,7 +1227,6 @@ const AddClient = () => {
       label: "Repeatation Count",
       type: "text3",
       label_size: 12,
-      // col_size: formik.values.position_type == "Multiple" ? 3 : 4,
       col_size: 4,
       headingtype: 4,
       showWhen: (values) =>
@@ -1270,13 +1278,10 @@ const AddClient = () => {
 
     {
       name: "Trade_Count",
-      label: "Trade Count",
+      label: "No of Cycle",
       type: "text3",
       label_size: 12,
-      showWhen: (values) =>
-        values.Strategy == "Multi Directional" ||
-        values.Strategy == "One Directional" ||
-        (values.Strategy == "Multi_Conditional" &&
+      showWhen: (values) =>(values.Strategy == "Multi_Conditional" &&
           values.position_type == "Multiple" &&
           values.TargetExit == "true"),
       col_size: 4,
