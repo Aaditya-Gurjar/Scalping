@@ -16,6 +16,7 @@ const DropdownComponent = ({ tableMeta, handleDelete, type, handleMatchPosition 
     const dropdownRef = useRef(null);
     const buttonRef = useRef(null); // Ref for the button trigger
 
+console.log("type",type);
 
     const handleDropdownToggle = () => {
         if (isDropdownOpen) {
@@ -129,7 +130,11 @@ const DropdownComponent = ({ tableMeta, handleDelete, type, handleMatchPosition 
                                 Trade History
                             </li>
                             <li
-                                onClick={() => navigate("/user/tradereport", { state: { type, RowIndex: tableMeta?.rowIndex, goto: "dashboard" } })}
+                                onClick={() =>{ navigate("/user/tradereport", { state: { type, RowIndex: tableMeta?.rowIndex, goto: "dashboard" } }) ;
+
+                                // sessionStorage.setItem('StrategyType', e.target.value)
+
+                            }}
                                 style={{ padding: "8px 16px", cursor: "pointer", color: "#fff" }}
                                 onMouseEnter={(e) => (e.target.style.backgroundColor = "#444")}
                                 onMouseLeave={(e) => (e.target.style.backgroundColor = "#333")}
