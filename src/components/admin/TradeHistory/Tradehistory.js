@@ -958,7 +958,7 @@ const Tradehistory = () => {
     const fetchTradeHistory = async () => {
         try {
             const response = await get_User_Data({
-                Data: selectStrategyType,
+                Data: selectStrategyType && selectStrategyType =="Scalping" ? "NewScalping" : selectStrategyType ,
                 Username: selectGroup,
             });
             setTradeHistory(

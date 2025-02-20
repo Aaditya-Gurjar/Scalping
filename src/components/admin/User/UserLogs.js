@@ -102,7 +102,7 @@ const Pannel = () => {
 
 
     const getAllUserLogs = async () => {
-        const data = { User: userName, Strategy: getScript, TaskStatus: getActivity }
+        const data = { User: userName, Strategy: getScript && getScript == "Scalping" ? "NewScalping" : getScript, TaskStatus: getActivity }
 
         await Get_All_Client_Logs(data)
 
