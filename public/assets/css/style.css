@@ -5493,15 +5493,7 @@ a {
   }
 }
 
-/* @media (min-width: 992px) {
 
-  [class^="ri-"],
-  [class*=" ri-"] {
-
-    color: #fff !important;
-  }
-
-} */
 
 @media (max-width: 381px) {
   .forgett {
@@ -5571,7 +5563,7 @@ a {
 }
 
 .tab-content {
-  background-color: #1a1e23;
+  background-color: var(--bg-color);
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -5712,7 +5704,7 @@ a.nav-link.active,
 .nav-tabs .nav-link:focus,
 .nav-tabs .nav-link:hover {
   border: 0;
-  border-bottom: 1px solid #fff !important;
+  border-bottom: 1px solid var(--dark-txt-color) !important;
   border-radius: 0px;
   background-color: transparent !important;
 }
@@ -5726,7 +5718,7 @@ a.nav-link.active,
 ul.nav.nav-tabs.justify-content-center,
 .nav-tabs.nav-fill,
 .nav.nav-pills {
-  background: #0e1218;
+  background: var(--bg-color);
   margin: 10px 20px;
   border-radius: 10px;
   padding: 10px 0 5px 10px;
@@ -5734,7 +5726,7 @@ ul.nav.nav-tabs.justify-content-center,
   justify-content: center;
 }
 .tab-content-data {
-  background: #0e1218;
+  background: var(--bg-color);
 }
 .nav-fill .nav-item {
   width: 250px !important;
@@ -5813,8 +5805,7 @@ body,
 button.btn.btn-primary,
 .swal2-confirm,
 .all-plan-card button {
-  /* background: #1ccc8a !important; */
-  /* border-color: #1ccc8a !important; */
+
   background: rgba(46, 213, 115, 0.2) !important;
   color: #2ed573 !important;
 }
@@ -5831,7 +5822,7 @@ button.btn.btn-primary,
   font-size: 1rem;
 }
 .dark-card {
-  background: #0e1218;
+  background: var(--bg-color);
   border: 1px dashed #e2e8f0;
   border-radius: 23px;
 }

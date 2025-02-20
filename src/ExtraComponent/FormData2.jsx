@@ -60,9 +60,9 @@ const DynamicForm = ({
 
   return (
     <>
-      <div className="iq-card content " data-aos="fade-left">
-        <div className="card mb-0">
-          {page_title ? (
+      <div  data-aos="fade-left">
+        <div className="mb-0">
+          {page_title && (
             <div className="card-header">
               {page_title ? (
                 <h5
@@ -75,9 +75,8 @@ const DynamicForm = ({
                 ""
               )}
             </div>
-          ) : (
-            ""
-          )}
+          ) }
+
           <form onSubmit={formik.handleSubmit}>
             <div className="card-body ">
               <div className="page-header">
@@ -111,7 +110,7 @@ const DynamicForm = ({
                         }}>
                         {field.label === "Symbol_Selection" && (
                           <>
-                            <div className="iq-card-header d-flex justify-content-between ">
+                            <div className=" d-flex justify-content-between ">
                               <div className="iq-header-title">
                                 <h4
                                   className="card-title"
@@ -388,7 +387,7 @@ const DynamicForm = ({
                         {/* {console.log("field.label", field.label)} */}
                         {field.label === "Entry_Rule" && (
                           <>
-                            <div className="iq-card-header d-flex justify-content-between">
+                            <div className=" d-flex justify-content-between">
                               <div className="iq-header-title">
                                 <h4
                                   className="card-title"
@@ -901,7 +900,7 @@ const DynamicForm = ({
                         }}>
                         {field.label === "Exit_Rule" && (
                           <>
-                            <div className="iq-card-header d-flex justify-content-between">
+                            <div className=" d-flex justify-content-between">
                               <div className="iq-header-title">
                                 <h4
                                   className="card-title"
@@ -1126,7 +1125,7 @@ const DynamicForm = ({
                         }}>
                         {field.label === "Risk_Management" && (
                           <>
-                            <div className="iq-card-header d-flex justify-content-between">
+                            <div className=" d-flex justify-content-between">
                               <div className="iq-header-title">
                                 <h4
                                   className="card-title"
@@ -1429,7 +1428,7 @@ const DynamicForm = ({
                         }}>
                         {field.label === "Time_Duration" && (
                           <>
-                            <div className="iq-card-header d-flex justify-content-between">
+                            <div className=" d-flex justify-content-between">
                               <div className="iq-header-title">
                                 <h4
                                   className="card-title"
@@ -1638,7 +1637,7 @@ const DynamicForm = ({
                         }}>
                         {field.label === "Other_Parameters" && (
                           <>
-                            <div className="iq-card-header d-flex justify-content-between">
+                            <div className=" d-flex justify-content-between">
                               <div className="iq-header-title">
                                 <h4
                                   className="card-title"
