@@ -16,6 +16,7 @@ import { columns, columns1 } from "./PatternsColumns";
 import "ag-charts-enterprise";
 import AgChartsReact from "./TechnicalPatternCandle";
 import NoDataFound from "../../../ExtraComponent/NoDataFound";
+import Contnet from "../../../ExtraComponent/Content";
 
 const LastPattern = () => {
   const Username = localStorage.getItem("name");
@@ -24,7 +25,8 @@ const LastPattern = () => {
   );
   const [selectedRowData, setSelectedRowData] = useState("");
   const [scriptType, setScriptType] = useState("");
-  const [candlestickPattern, setCandlestickPattern] = useState("Bearish_Engulfing");
+  const [candlestickPattern, setCandlestickPattern] =
+    useState("Bearish_Engulfing");
   const [selectedTimeFrame, setSelectedTimeFrame] = useState("");
   const [chartPattern, setChartPattern] = useState("");
   const [patternNames, setPatternNames] = useState([]);
@@ -49,7 +51,7 @@ const LastPattern = () => {
     loading: true,
     data: "",
   });
- 
+
   const [chartingPatternNames, setChartingPatternNames] = useState({
     loading: true,
     data: [],
@@ -194,8 +196,11 @@ const LastPattern = () => {
   };
 
   const GetSingleChartPattern = async () => {
-   
-    const data = { Pattern: candlestickPattern ,TType: "" ,PatternType: "CandleStick Pattern" };
+    const data = {
+      Pattern: candlestickPattern,
+      TType: "",
+      PatternType: "CandleStick Pattern",
+    };
     await GetSingleChart(data)
       .then((response) => {
         if (response.status) {
@@ -208,8 +213,6 @@ const LastPattern = () => {
         console.error("Error in fetching single chart image", err);
       });
   };
-
-
 
   useEffect(() => {
     if (selectedPatternType === "Charting Patterns") {
@@ -226,233 +229,233 @@ const LastPattern = () => {
     }
   }, [selectedPatternType]);
 
-
-  console.log("getSingleChartImg", getSingleChartImg.data);
-
   return (
-    <div className="container-fluid" style={{marginTop:"2rem"}}>
-      <div className="row">
-        <div className="col-sm-12">
-          <div className="iq-card">
-            <div className="iq-card-header d-flex justify-content-between">
-              <div className="iq-header-title">
-              <h4 className="card-title">📉 Technical Pattern </h4>
-              </div>
-            </div>
-            <div className="iq-card-body">
-              <div className="row">
-                <div className={`col-md-3`}>
-                  <div className="form-group">
-                    <label>Select Technical pattern</label>
-                    <select
-                      className="form-control  mt-2"
-                      onChange={(e) => setSelectedPatternType(e.target.value)}
-                      value={selectedPatternType}>
-                      <option value="Candlestick Patterns" selected>
-                        Candlestick Patterns
-                      </option>
-                      <option value="Charting Patterns">
-                        Charting Patterns
-                      </option>
-                    </select>
-                  </div>
+    <>
+      <Contnet
+        Page_title={"📉 Technical Pattern"}
+        button_status={false}
+        backbutton_status={true}
+      >
+        <div className="row">
+          <div className="col-xl-12">
+            <div className="row">
+              <div className={`col-md-3`}>
+                <div className="form-group">
+                  <label>Select Technical pattern</label>
+                  <select
+                    className="form-control  mt-2"
+                    onChange={(e) => setSelectedPatternType(e.target.value)}
+                    value={selectedPatternType}
+                  >
+                    <option value="Candlestick Patterns" selected>
+                      Candlestick Patterns
+                    </option>
+                    <option value="Charting Patterns">Charting Patterns</option>
+                  </select>
                 </div>
-                <div className={`col-md-3`}>
-                  <div className="form-group">
-                    {selectedPatternType === "Candlestick Patterns" ? (
-                      <>
-                        <label>Pattern</label>
-                        <select
-                          className="form-control  mt-2"
-                          onChange={(e) =>
-                            setCandlestickPattern(e.target.value)
-                          }
-                          value={candlestickPattern}>
-                          {/* <option value="">Please Select Pattern</option> */}
-                          {patternNames.data &&
-                            patternNames.data.map((item) => (
-                              <option value={item} key={item}>
-                                {item}
-                              </option>
-                            ))}
-                        </select>
-                      </>
-                    ) : (
-                      <>
-                        <label>Pattern</label>
-                        <select
-                          className="form-control  mt-2"
-                          onChange={(e) => setChartingPattern(e.target.value)}
-                          value={chartingPattern}>
-                          {/* <option value="">Please Select Pattern</option> */}
-                          {chartingPatternNames.data.map((item) => (
+              </div>
+              <div className={`col-md-3`}>
+                <div className="form-group">
+                  {selectedPatternType === "Candlestick Patterns" ? (
+                    <>
+                      <label>Pattern</label>
+                      <select
+                        className="form-control  mt-2"
+                        onChange={(e) => setCandlestickPattern(e.target.value)}
+                        value={candlestickPattern}
+                      >
+                        {/* <option value="">Please Select Pattern</option> */}
+                        {patternNames.data &&
+                          patternNames.data.map((item) => (
                             <option value={item} key={item}>
                               {item}
                             </option>
                           ))}
-                        </select>
-                      </>
-                    )}
-                  </div>
-                </div>
-
-                {selectedPatternType === "Candlestick Patterns" ? (
-                  ""
-                ) : (
-                  <div
-                    className={`${
-                      selectedPatternType == "Charting Patterns"
-                        ? "col-md-2"
-                        : "col-md-3"
-                    }`}>
-                    <div className="form-group">
-                      <label>Script</label>
+                      </select>
+                    </>
+                  ) : (
+                    <>
+                      <label>Pattern</label>
                       <select
                         className="form-control  mt-2"
-                        onChange={(e) => setScriptType(e.target.value)}
-                        value={scriptType}>
-                        {/* <option value="">Please Select Script</option> */}
-                        <option value="AvailableScript">
-                          Available Script
-                        </option>
-                        <option value="MyScript">My Script</option>
+                        onChange={(e) => setChartingPattern(e.target.value)}
+                        value={chartingPattern}
+                      >
+                        {/* <option value="">Please Select Pattern</option> */}
+                        {chartingPatternNames.data.map((item) => (
+                          <option value={item} key={item}>
+                            {item}
+                          </option>
+                        ))}
                       </select>
-                    </div>
-                  </div>
-                )}
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {selectedPatternType === "Candlestick Patterns" ? (
+                ""
+              ) : (
                 <div
                   className={`${
                     selectedPatternType == "Charting Patterns"
                       ? "col-md-2"
                       : "col-md-3"
-                  }`}>
+                  }`}
+                >
                   <div className="form-group">
-                    <label>Time Frame</label>
+                    <label>Script</label>
                     <select
                       className="form-control  mt-2"
-                      onChange={(e) => setSelectedTimeFrame(e.target.value)}
-                      value={selectedTimeFrame}>
-                      {/* <option value="">Please Select Time Frame</option> */}
-                      {timeFrameData?.data?.map((item) => (
-                        <option value={item} key={item}>
-                          {item}
-                        </option>
-                      ))}
+                      onChange={(e) => setScriptType(e.target.value)}
+                      value={scriptType}
+                    >
+                      {/* <option value="">Please Select Script</option> */}
+                      <option value="AvailableScript">Available Script</option>
+                      <option value="MyScript">My Script</option>
                     </select>
                   </div>
                 </div>
-                <div
-                  className={`${
-                    selectedPatternType == "Charting Patterns"
-                      ? "col-md-2"
-                      : "col-md-3"
-                  }`}>
-                  <div className="form-group">
-                    <label>Select Specific Pattern</label>
-                    <select
-                      className="form-control  mt-2"
-                      onChange={(e) => setChartPattern(e.target.value)}
-                      value={chartPattern}>
-                      {allSymbols.length === 0 ? (
-                        <option value="">No Pattern Script Subscribed</option>
-                      ) : (
-                        <option value="">Please Select Specific Script</option>
-                      )}
-                      {allSymbols.map((item) => (
-                        <option value={item} key={item}>
-                          {item}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+              )}
+              <div
+                className={`${
+                  selectedPatternType == "Charting Patterns"
+                    ? "col-md-2"
+                    : "col-md-3"
+                }`}
+              >
+                <div className="form-group">
+                  <label>Time Frame</label>
+                  <select
+                    className="form-control  mt-2"
+                    onChange={(e) => setSelectedTimeFrame(e.target.value)}
+                    value={selectedTimeFrame}
+                  >
+                    {/* <option value="">Please Select Time Frame</option> */}
+                    {timeFrameData?.data?.map((item) => (
+                      <option value={item} key={item}>
+                        {item}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              <div
+                className={`${
+                  selectedPatternType == "Charting Patterns"
+                    ? "col-md-2"
+                    : "col-md-3"
+                }`}
+              >
+                <div className="form-group">
+                  <label>Select Specific Pattern</label>
+                  <select
+                    className="form-control  mt-2"
+                    onChange={(e) => setChartPattern(e.target.value)}
+                    value={chartPattern}
+                  >
+                    {allSymbols.length === 0 ? (
+                      <option value="">No Pattern Script Subscribed</option>
+                    ) : (
+                      <option value="">Please Select Specific Script</option>
+                    )}
+                    {allSymbols.map((item) => (
+                      <option value={item} key={item}>
+                        {item}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
             </div>
-        
+          </div>
 
+          <div className="col-xl-12">
             <div className="d-flex justify-content-center">
-  {getSingleChartImg?.data?.length === 0 ? null : (
-    <div className="card form-control" style={{maxHeight:"250px"}} >
-      <div className="row g-0"> 
-        {/* Left Side - Text Content */}
-        <div className="col-lg-8 p-3">
-          <h3 style={{color:"white"}}>Pattern: {getSingleChartImg?.data[0]?.Pattern || "N/A"}</h3>
-          <h3 style={{color:"white"}}>Pattern TType: {getSingleChartImg?.data[0]?.PatternType || "N/A"}</h3>
-          <h5 className="mt-3">Description</h5>
-          <p>{getSingleChartImg?.data[0]?.Description || "N/A"}</p>
-        </div>
+              {getSingleChartImg?.data?.length === 0 ? null : (
+                <div
+                  className="card form-control"
+                  style={{ maxHeight: "250px" }}
+                >
+                  <div className="row g-0">
+                    {/* Left Side - Text Content */}
+                    <div className="col-lg-8 p-3">
+                      <h3>
+                        Pattern: {getSingleChartImg?.data[0]?.Pattern || "N/A"}
+                      </h3>
+                      <h3>
+                        Pattern TType:{" "}
+                        {getSingleChartImg?.data[0]?.PatternType || "N/A"}
+                      </h3>
+                      <h5 className="mt-3">Description</h5>
+                      <p>{getSingleChartImg?.data[0]?.Description || "N/A"}</p>
+                    </div>
 
-        {/* Right Side - Image */}
-        <div className="col-lg-4 d-flex align-items-center justify-content-center p-2" style={{maxHeight:"240px"}}>
-          <img
-            src={`data:image/png;base64,${getSingleChartImg?.data[0].image_data}`}
-            className="img-fluid rounded"
-            alt="Panel Front Image"
-            style={{ maxWidth: "100%", maxHeight:"240px", objectFit: "cover" }}
-          />
-        </div>
-      </div>
-    </div>
-  )}
-</div>
+                    {/* Right Side - Image */}
+                    <div
+                      className="col-lg-4 d-flex align-items-center justify-content-center p-2"
+                      style={{ maxHeight: "240px" }}
+                    >
+                      <img
+                        src={`data:image/png;base64,${getSingleChartImg?.data[0].image_data}`}
+                        className="img-fluid rounded"
+                        alt="Panel Front Image"
+                        style={{
+                          maxWidth: "100%",
+                          maxHeight: "240px",
+                          objectFit: "cover",
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
 
-
-
-
-
-
-            <div className="table-responsive">
-              {selectedPatternType === "Candlestick Patterns" ? (
-                getCandlestickTable?.data2 &&
+          <div className="col-xl-12 mt-3">
+            {selectedPatternType === "Candlestick Patterns"
+              ? getCandlestickTable?.data2 &&
                 getCandlestickTable.data2.length > 0 && (
-
                   <FullDataTable
                     columns={columns1()}
                     data={getCandlestickTable.data2}
                     checkBox={false}
                   />
-                ) 
-              ) : ChartPatternTableData?.PatternData &&
+                )
+              : ChartPatternTableData?.PatternData &&
                 ChartPatternTableData.PatternData.length > 0 && (
-                <FullDataTable
-                  columns={columns()}
-                  data={ChartPatternTableData.PatternData}
-                  onRowSelect={handleRowSelect}
-                  checkBox={true}
-                />
-              ) }
-            </div>
-
-            {showCandle && (
-              <div className="row">
-                <div className="">
-                  {(!getCandlestickTable.loading ||
-                    !ChartPatternTableData.loading) && (
-                    <div className="shadow p-3 bg-white rounded m-4">
-                      {selectedPatternType === "Candlestick Patterns" ? (
-                        <AgChartsReact
-                          ChartData={
-                            getCandlestickTable && getCandlestickTable?.data1
-                          }
-                          timeFrame={selectedTimeFrame}
-                          type={"pattern"}
-                        />
-                      ) : (
-                        <AgChartsReact
-                          ChartData={ChartPatternTableData?.CandleData}
-                          timeFrame={selectedTimeFrame}
-                          type={"charting"}
-                        />
-                      )}
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
+                  <FullDataTable
+                    columns={columns()}
+                    data={ChartPatternTableData.PatternData}
+                    onRowSelect={handleRowSelect}
+                    checkBox={true}
+                  />
+                )}
           </div>
+
+          {showCandle && (
+            <div className="col-xl-12 mt-3">
+              {(!getCandlestickTable.loading ||
+                !ChartPatternTableData.loading) &&
+              selectedPatternType === "Candlestick Patterns" ? (
+                <AgChartsReact
+                  ChartData={getCandlestickTable && getCandlestickTable?.data1}
+                  timeFrame={selectedTimeFrame}
+                  type={"pattern"}
+                />
+              ) : (
+                <AgChartsReact
+                  ChartData={ChartPatternTableData?.CandleData}
+                  timeFrame={selectedTimeFrame}
+                  type={"charting"}
+                />
+              )}
+            </div>
+          )}
         </div>
-      </div>
-    </div>
+      </Contnet>
+    </>
   );
 };
 

@@ -27,6 +27,7 @@ import {
 } from './ReportColumn';
 import { useLocation } from 'react-router-dom';
 import NoDataFound from '../../../ExtraComponent/NoDataFound';
+import Content from '../../../ExtraComponent/Content';
 
 const TradeReport = () => {
     const location = useLocation();
@@ -358,15 +359,12 @@ const TradeReport = () => {
     ];
 
     return (
+        <Content Page_title={"📑 Trade Report"}
+        button_status={false}
+        backbutton_status={true} >
      
-            <div className="container-fluid" style={{marginTop:"2rem"}}>
-                <div className="row">
-                    <div className="iq-card">
-                        <div className="iq-card-header d-flex justify-content-between">
-                            <div className="iq-header-title">
-                                <h4 className="card-title">📑 Trade Report</h4>
-                            </div>
-                        </div>
+       
+
                         <div className="iq-card-body">
                             <div className="was-validated ">
                                 <div className="row">
@@ -520,9 +518,10 @@ const TradeReport = () => {
 
 
                         </div>
-                    </div>
-                </div>
-            </div>
+
+                 
+
+            </Content>
         
     );
 };

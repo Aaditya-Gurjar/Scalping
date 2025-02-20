@@ -15,6 +15,7 @@ import {
 } from "./PnLColumn";
 import Swal from "sweetalert2";
 import { useLocation } from "react-router-dom";
+import Content from "../../../ExtraComponent/Content";
 
 const Tradehistory = () => {
   const location = useLocation();
@@ -140,152 +141,128 @@ const Tradehistory = () => {
   }, [selectStrategyType, FromDate, ToDate]);
 
   return (
-    <div>
-      <div className="container-fluid" style={{ marginTop: "2rem" }}>
-        <div className="row">
-          <div className="iq-card">
-            <div className="iq-card-header d-flex justify-content-between">
-              <div className="iq-header-title">
-                <h4 className="card-title">💰 Net P&L</h4>
-              </div>
+    <Content
+      Page_title="💰 Net P&L"
+      button_status={false}
+      backbutton_status={true}
+    >
+      <div className="iq-card-body">
+        <div className="was-validated ">
+          <div className="row">
+            <div
+              className={`form-group ${
+                selectStrategyType === "Scalping" ? "col-lg-4" : "col-lg-4"
+              }`}
+            >
+              <label>Select Strategy Type</label>
+              <select
+                className="form-select"
+                required=""
+                onChange={(e) => {
+                  setStrategyType(e.target.value);
+                  sessionStorage.setItem("StrategyType", e.target.value);
+                }}
+                value={selectStrategyType}
+              >
+                {strategyNames.map((item, index) => (
+                  <option key={index} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
             </div>
-            <div className="iq-card-body">
-              <div className="was-validated ">
-                <div className="row">
-                  <div
-                    className={`form-group ${
-                      selectStrategyType === "Scalping"
-                        ? "col-lg-4"
-                        : "col-lg-4"
-                    }`}>
-                    <label>Select Strategy Type</label>
-                    <select
-                      className="form-select"
-                      required=""
-                      onChange={(e) => {
-                        setStrategyType(e.target.value);
-                        sessionStorage.setItem("StrategyType", e.target.value);
-                      }}
-                      value={selectStrategyType}>
-                      {strategyNames.map((item, index) => (
-                        <option key={index} value={item}>
-                          {item}
-                        </option>
-                      ))}
 
-                      {/* <option value={"Scalping"}>Scalping</option>
-                      <option value={"Option Strategy"}>Option Strategy</option>
-                      <option value={"Pattern"}>Pattern Script</option> */}
-                    </select>
-                  </div>
-                  {/* {selectStrategyType === "Scalping" && (
-                    <div className="col-lg-4">
-                      <label>Table Type</label>
-                      <select
-                        className="form-select"
-                        required=""
-                        onChange={(e) => setTableType(e.target.value)}
-                        value={tableType}
-                      >
-                        <option value="Scalping">Scalping</option>
-                        <option value="MultiCondition">Multi Condition</option>
-                      </select>
-                    </div>
-                  )} */}
-                  <div
-                    className={`form-group ${
-                      selectStrategyType === "Scalping"
-                        ? "col-lg-4"
-                        : "col-lg-4"
-                    }`}>
-                    <label>Select form Date</label>
-                    <DatePicker
-                      className="form-select"
-                      selected={FromDate == "" ? formattedDate : FromDate}
-                      onChange={(date) => setFromDate(date)}
-                    />
-                  </div>
-                  <div
-                    className={`form-group ${
-                      selectStrategyType === "Scalping"
-                        ? "col-lg-4"
-                        : "col-lg-4"
-                    }`}>
-                    <label>Select To Date</label>
-                    <DatePicker
-                      className="form-select"
-                      selected={ToDate == "" ? Defult_To_Date : ToDate}
-                      onChange={(date) => setToDate(date)}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <button className="btn btn-primary mt-2" onClick={handleSubmit}>
-                Submit
-              </button>
-
-              {showTable && (
-                <>
-                  <div className="mt-3">
-                    <GridExample
-                      columns={
-                        selectStrategyType == "Scalping"
-                          ? columns1()
-                          : selectStrategyType == "Pattern"
-                          ? columns3()
-                          : selectStrategyType == "ChartingPlatform"
-                          ? columns6()
-                          : columns5()
-                      }
-                      data={getPnLData.data1}
-                      checkBox={false}
-                    />
-                  </div>
-
-                  <div>
-                    {/* <p className='bold mt-4' style={{ fontWeight: 'bold', fontSize: '20px', color: 'black' }}>
-                                            Total Profit and Loss : <span style={{ color: getPnLData.data2 < 0 ? 'red' : 'green' }}>{parseFloat(getPnLData.data2).toFixed(4)}</span>
-                                        </p> */}
-
-                    <p
-                      className="bold mt-4"
-                      style={{
-                        fontWeight: "bold",
-                        fontSize: "20px",
-                        color: "black",
-                      }}>
-                      Total Profit and Loss :{" "}
-                      <span
-                        style={{
-                          color: getPnLData.data2 < 0 ? "red" : "green",
-                        }}>
-                        {getPnLData.data2.toFixed(2)}
-                      </span>
-                    </p>
-                  </div>
-                  <div className="mt-3">
-                    <GridExample
-                      columns={
-                        selectStrategyType == "Scalping"
-                          ? columns()
-                          : selectStrategyType == "Pattern"
-                          ? columns2()
-                          : selectStrategyType == "ChartingPlatform"
-                          ? columns7()
-                          : columns4()
-                      }
-                      data={getPnLData.data}
-                      checkBox={false}
-                    />
-                  </div>
-                </>
-              )}
+            <div
+              className={`form-group ${
+                selectStrategyType === "Scalping" ? "col-lg-4" : "col-lg-4"
+              }`}
+            >
+              <label>Select form Date</label>
+              <DatePicker
+                className="form-select"
+                selected={FromDate == "" ? formattedDate : FromDate}
+                onChange={(date) => setFromDate(date)}
+              />
+            </div>
+            <div
+              className={`form-group ${
+                selectStrategyType === "Scalping" ? "col-lg-4" : "col-lg-4"
+              }`}
+            >
+              <label>Select To Date</label>
+              <DatePicker
+                className="form-select"
+                selected={ToDate == "" ? Defult_To_Date : ToDate}
+                onChange={(date) => setToDate(date)}
+              />
             </div>
           </div>
         </div>
+
+        <button className="btn btn-primary mt-2" onClick={handleSubmit}>
+          Submit
+        </button>
+
+        {showTable && (
+          <>
+            <div className="mt-3">
+              <GridExample
+                columns={
+                  selectStrategyType == "Scalping"
+                    ? columns1()
+                    : selectStrategyType == "Pattern"
+                    ? columns3()
+                    : selectStrategyType == "ChartingPlatform"
+                    ? columns6()
+                    : columns5()
+                }
+                data={getPnLData.data1}
+                checkBox={false}
+              />
+            </div>
+
+            <div>
+              {/* <p className='bold mt-4' style={{ fontWeight: 'bold', fontSize: '20px', color: 'black' }}>
+                                            Total Profit and Loss : <span style={{ color: getPnLData.data2 < 0 ? 'red' : 'green' }}>{parseFloat(getPnLData.data2).toFixed(4)}</span>
+                                        </p> */}
+
+              <p
+                className="bold mt-4"
+                style={{
+                  fontWeight: "bold",
+                  fontSize: "20px",
+                  color: "black",
+                }}
+              >
+                Total Profit and Loss :{" "}
+                <span
+                  style={{
+                    color: getPnLData.data2 < 0 ? "red" : "green",
+                  }}
+                >
+                  {getPnLData.data2.toFixed(2)}
+                </span>
+              </p>
+            </div>
+            <div className="mt-3">
+              <GridExample
+                columns={
+                  selectStrategyType == "Scalping"
+                    ? columns()
+                    : selectStrategyType == "Pattern"
+                    ? columns2()
+                    : selectStrategyType == "ChartingPlatform"
+                    ? columns7()
+                    : columns4()
+                }
+                data={getPnLData.data}
+                checkBox={false}
+              />
+            </div>
+          </>
+        )}
       </div>
-    </div>
+    </Content>
   );
 };
 

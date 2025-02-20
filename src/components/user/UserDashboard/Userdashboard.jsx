@@ -856,7 +856,7 @@ const Userdashboard = () => {
                 )}
               </div>
 
-              <div className="">
+             
                 {activeTab1 === "CurrentPosition" && (
                   <>
                     {activeTab === "group" ? (
@@ -960,7 +960,7 @@ const Userdashboard = () => {
                   getPositionData.Option?.length === 0 &&
                   getPositionData.Pattern?.length === 0 &&
                   getPositionData.ChartingData?.length === 0 && <NoDataFound />}
-              </div>
+             
             </div>
           </div>
         </div>

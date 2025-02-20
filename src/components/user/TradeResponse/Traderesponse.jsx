@@ -23,6 +23,7 @@ import {
 } from "./TradeReponseColumn";
 import { useLocation } from "react-router-dom";
 import NoDataFound from "../../../ExtraComponent/NoDataFound";
+import Content from "../../../ExtraComponent/Content";
 
 const TradeResponse = () => {
   const location = useLocation();
@@ -319,15 +320,9 @@ const TradeResponse = () => {
   ]);
 
   return (
-      <div className="container-fluid" style={{marginTop:"2rem"}}>
-        <div className="row">
-          <div className="iq-card">
-       
-            <div className="iq-card-header d-flex justify-content-between">
-              <div className="iq-header-title">
-                <h4 className="card-title">📢 Trade Response</h4>
-              </div>
-            </div>
+    <Content Page_title={"📢 Trade Response"} button_status={false} backbutton_status={true}>
+     
+          
 
 
             <div className="iq-card-body">
@@ -410,6 +405,7 @@ const TradeResponse = () => {
                   </div>
                 </div>
               </div>
+              
               <div className="modal-body">
                 {console.log(
                   "getCharting || tradeHistory?.data ",
@@ -481,7 +477,7 @@ const TradeResponse = () => {
                   </button>
                 )}
 
-              {/* For other cases */}
+
               {!(
                 selectStrategyType === "Scalping" &&
                 tableType === "MultiCondition"
@@ -497,7 +493,7 @@ const TradeResponse = () => {
                 )}
 
               {showTable && (
-                <>
+                
                   <div className="mt-3">
                     {getAllTradeData.data && getAllTradeData.data.length > 0 ? (
                       <GridExample
@@ -518,14 +514,15 @@ const TradeResponse = () => {
                       <NoDataFound />
                     )}
                   </div>
-                </>
+               
               )}
+
+
             </div>
 
 
-          </div>
-        </div>
-      </div>
+        
+      </Content>
   
   );
 };
