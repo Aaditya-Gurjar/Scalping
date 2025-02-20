@@ -24,8 +24,7 @@ const LastPattern = () => {
   );
   const [selectedRowData, setSelectedRowData] = useState("");
   const [scriptType, setScriptType] = useState("");
-  const [candlestickPattern, setCandlestickPattern] =
-    useState("Bearish_Engulfing");
+  const [candlestickPattern, setCandlestickPattern] = useState("Bearish_Engulfing");
   const [selectedTimeFrame, setSelectedTimeFrame] = useState("");
   const [chartPattern, setChartPattern] = useState("");
   const [patternNames, setPatternNames] = useState([]);
@@ -50,7 +49,7 @@ const LastPattern = () => {
     loading: true,
     data: "",
   });
-  console.log("getSingleChartImg", getSingleChartImg);
+ 
   const [chartingPatternNames, setChartingPatternNames] = useState({
     loading: true,
     data: [],
@@ -67,7 +66,6 @@ const LastPattern = () => {
     fetchPatternNames();
     fetchChartingPatternNames();
   }, []);
-
   useEffect(() => {
     GetSingleChartPattern();
   }, [candlestickPattern]);
@@ -196,12 +194,12 @@ const LastPattern = () => {
   };
 
   const GetSingleChartPattern = async () => {
-    const data = { patternName: candlestickPattern };
+   
+    const data = { Pattern: candlestickPattern ,TType: "" ,PatternType: "CandleStick Pattern" };
     await GetSingleChart(data)
       .then((response) => {
         if (response.status) {
-          console.log("response", response);
-          setSingleChartImg({ loading: false, data: response.image_data });
+          setSingleChartImg({ loading: false, data: response.data });
         } else {
           setSingleChartImg({ loading: false, data: [] });
         }
@@ -211,14 +209,7 @@ const LastPattern = () => {
       });
   };
 
-  // useEffect(() => {
-  //   setCandlestickPattern("");
-  //   setChartingPattern("");
-  //   setScriptType("");
-  //   setSelectedTimeFrame("");
-  //   setChartPattern("");
-  //   setSelectedRowData("");
-  // }, [selectedPatternType]);
+
 
   useEffect(() => {
     if (selectedPatternType === "Charting Patterns") {
@@ -235,6 +226,9 @@ const LastPattern = () => {
     }
   }, [selectedPatternType]);
 
+
+  console.log("getSingleChartImg", getSingleChartImg.data);
+
   return (
     <div className="container-fluid" style={{marginTop:"2rem"}}>
       <div className="row">
@@ -242,7 +236,7 @@ const LastPattern = () => {
           <div className="iq-card">
             <div className="iq-card-header d-flex justify-content-between">
               <div className="iq-header-title">
-                <h4 className="card-title">Technical Pattern</h4>
+              <h4 className="card-title">📉 Technical Pattern </h4>
               </div>
             </div>
             <div className="iq-card-body">
@@ -374,22 +368,38 @@ const LastPattern = () => {
                 </div>
               </div>
             </div>
+        
+
             <div className="d-flex justify-content-center">
-              {getSingleChartImg.data == "" ? (
-                ""
-              ) : (
-                <div className="">
-                  {
-                    <img
-                      src={`data:image/png;base64,${getSingleChartImg?.data}`}
-                      className="api_img"
-                      alt="Panel Front Image"
-                      style={{ width: "350px", height: "350px" }}
-                    />
-                  }
-                </div>
-              )}
-            </div>
+  {getSingleChartImg?.data?.length === 0 ? null : (
+    <div className="card form-control" style={{maxHeight:"250px"}} >
+      <div className="row g-0"> 
+        {/* Left Side - Text Content */}
+        <div className="col-lg-8 p-3">
+          <h3 style={{color:"white"}}>Pattern: {getSingleChartImg?.data[0]?.Pattern || "N/A"}</h3>
+          <h3 style={{color:"white"}}>Pattern TType: {getSingleChartImg?.data[0]?.PatternType || "N/A"}</h3>
+          <h5 className="mt-3">Description</h5>
+          <p>{getSingleChartImg?.data[0]?.Description || "N/A"}</p>
+        </div>
+
+        {/* Right Side - Image */}
+        <div className="col-lg-4 d-flex align-items-center justify-content-center p-2" style={{maxHeight:"240px"}}>
+          <img
+            src={`data:image/png;base64,${getSingleChartImg?.data[0].image_data}`}
+            className="img-fluid rounded"
+            alt="Panel Front Image"
+            style={{ maxWidth: "100%", maxHeight:"240px", objectFit: "cover" }}
+          />
+        </div>
+      </div>
+    </div>
+  )}
+</div>
+
+
+
+
+
 
             <div className="table-responsive">
               {selectedPatternType === "Candlestick Patterns" ? (

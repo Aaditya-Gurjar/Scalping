@@ -599,13 +599,15 @@ export const GetName = async (data) => {
 export const GetSingleChart = async (data) => {
     var token = localStorage.getItem('token')
     try {
+        console.log(data)
 
-        const res = await axios.get(`${Config.base_url}CandlestickImage/${data.patternName}`,
+        const res = await axios.post(`${Config.base_url}PatternDetail`,data,
             {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 }
+                
             }
         )
         return res?.data
