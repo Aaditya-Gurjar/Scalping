@@ -16,26 +16,16 @@ import {
 import { addBroker } from "../CommonAPI/SuperAdmin";
 import { jwtDecode } from "jwt-decode";
 import { GetUserBalence, Get_Profile_Data } from "../CommonAPI/User";
-
+import { useTheme } from "../../ThemeContext";
 const Header = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showFunds, setShowFunds] = useState(false);
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
-  const [selectedImage, setSelectedImage] = useState(localStorage.getItem("userProfileImage") || null);
-  // console.log("selectedImage",selectedImage);
-
-
-  // useEffect(() => {
-  //   document.body.classList.remove("sidebar-main");
-
-  //   if (isSidebarOpen) {
-  //     document.body.classList.add("sidebar-main");
-  //   } else {
-  //     document.body.classList.remove("sidebar-main");
-  //   }
-  // }, [isSidebarOpen]);
+  const [selectedImage, setSelectedImage] = useState(
+    localStorage.getItem("userProfileImage") || null
+  );
 
   const navigate = useNavigate();
   const role = localStorage.getItem("Role");
@@ -50,14 +40,11 @@ const Header = () => {
   const [getTradingStatus, setTradingStatus] = useState(false);
   const [getBrokerName, setBrokerName] = useState("");
   const [walletBalance, setWalletBalance] = useState("");
-  // console.log("walletBalance",walletBalance);
-
   const [showAddBrokerModal, setShowAddBrokerModal] = useState(false);
   const [addBrokerName, setAddBrokerName] = useState("");
   const [userName, setUserName] = useState("");
   const [permissionData, setPermissionData] = useState("");
-
-
+  const { theme, toggleTheme } = useTheme();
 
   const AdminPermission = async () => {
     try {
@@ -86,97 +73,9 @@ const Header = () => {
     AdminPermission();
   }, []);
 
-
-  // backup code for toggle live and paper trading
-  // const handleToggle = async (event) => {
-  //   const newStatus = event.target.checked;
-  //   console.log
-
-  //   if (newStatus == true) {
-  //     const requestData = {
-  //       Username: Username,
-  //       session: "",
-  //       AccToken: "",
-  //       usrid: "",
-  //       sid: "",
-  //       jwt_Token: "",
-  //       BrokerName: getBrokerName,
-  //     };
-  //     Loginwihapi(requestData);
-  //   } else {
-  //     var data = {
-  //       Username: Username,
-  //       session: "",
-  //       AccToken: "",
-  //       usrid: "",
-  //       sid: "",
-  //       jwt_Token: "",
-  //     };
-
-  //     try {
-  //       const response = await axios.post(
-  //         `${Config.base_url}ConnectBroker`,
-  //         data,
-  //         {
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //         }
-  //       );
-
-  //       if (response.data.Status) {
-  //         // Assuming the status is in response.data.Status
-
-  //         Swal.fire({
-  //           background: "#1a1e23 ",
-  //           backdrop: "#121010ba",
-  //           confirmButtonColor: "#1ccc8a",
-  //           title: "Success!",
-  //           text: "Trading On successfully.",
-  //           icon: "success",
-  //           confirmButtonText: "OK",
-  //           timer: 1000,
-  //         }).then(() => {
-  //           setTimeout(() => {
-  //             window.location.reload();
-  //           }, 1000);
-  //         });
-  //       } else {
-  //         Swal.fire({
-  //           background: "#1a1e23 ",
-  //           backdrop: "#121010ba",
-  //           confirmButtonColor: "#1ccc8a",
-  //           title: "Success!",
-  //           text: "Trading Off successfully.",
-  //           icon: "success",
-  //           confirmButtonText: "OK",
-  //           timer: 1000,
-  //         }).then(() => {
-  //           setTimeout(() => {
-  //             window.location.reload();
-  //           }, 1000);
-  //         });
-  //       }
-  //     } catch (err) {
-  //       console.error("Error in ConnectBroker request", err);
-  //       Swal.fire({
-  //         background: "#1a1e23 ",
-  //         backdrop: "#121010ba",
-  //         confirmButtonColor: "#1ccc8a",
-  //         title: "Error!",
-  //         text: "An error occurred. Please try again later.",
-  //         icon: "error",
-  //         confirmButtonText: "OK",
-  //       });
-  //     }
-  //   }
-  // };
-
-
   const handleToggle = async (value) => {
     const newStatus = value;
-    console.log("newStatus", newStatus)
+    console.log("newStatus", newStatus);
 
     if (newStatus == true) {
       const requestData = {
@@ -308,6 +207,8 @@ const Header = () => {
 
   const clearSession = () => {
     var decoded = jwtDecode(token);
+    console.log("decoded", new Date(decoded?.exp * 1000), new Date());
+
     if (decoded.exp * 1000 < new Date().getTime()) {
       localStorage.clear();
       window.location.reload();
@@ -315,7 +216,7 @@ const Header = () => {
   };
 
   useEffect(() => {
-    GetBalence()
+    GetBalence();
     clearSession();
   }, []);
 
@@ -601,25 +502,18 @@ const Header = () => {
       <div className="iq-top-navbar ">
         <div className="iq-navbar-custom">
           <div className="iq-sidebar-logo">
-            <div className="top-logo">
-              <a href="#">
-                <img className="header_img1" alt="Logo" id="header_img1" />
-                <span><img className="header_img2" alt="Logo" id='header_img2' /></span>
-              </a>
-              {/* <a href="index.html" className="logo">
-                <img
-                  src="assets/images/inalgo.png"
-                  className="img-fluid"
-                  alt=""
-                />
-              </a> */}
-            </div>
+            <img className="header_img2" alt="Logo" id="header_img2" />
+            {/* <div className="top-logo"> */}
+            {/* <img className="header_img1" alt="Logo" id="header_img1" /> */}
+
+            {/* </div> */}
           </div>
           {role === "Admin" ? (
             <nav className="navbar navbar-expand-lg navbar-light p-0">
               <button
                 className="btn btn-primary mx-4"
-                onClick={() => setShowModal(true)}>
+                onClick={() => setShowModal(true)}
+              >
                 Auto Login
               </button>
               <button
@@ -629,7 +523,8 @@ const Header = () => {
                 href="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent"
                 aria-expanded="false"
-                aria-label="Toggle navigation">
+                aria-label="Toggle navigation"
+              >
                 <i className="ri-menu-3-line" />
               </button>
               <button className="me-3 menusidebar" onClick={toggleSidebar}>
@@ -637,21 +532,17 @@ const Header = () => {
               </button>
               <div
                 className="collapse navbar-collapse"
-                id="navbarSupportedContent">
+                id="navbarSupportedContent"
+              >
                 <ul className="navbar-nav ms-auto navbar-list align-items-center">
-                  {/* <li className="nav-item">
-                    <button
-                      className="btn btn-primary mt-3 mx-3 btn1"
-                      style={{ pointerEvents: "none" }}>
-                      Hello, Admin
-                    </button>
-                  </li> */}
+            
 
                   <li className="nav-item">
                     <button
                       type="button"
                       className="btn btn-primary  mx-3 btn1"
-                      onClick={(e) => setIsModalVisible(true)}>
+                      onClick={(e) => setIsModalVisible(true)}
+                    >
                       Set API Key
                     </button>
                   </li>
@@ -660,14 +551,16 @@ const Header = () => {
                     <button
                       type="button"
                       className="btn btn-primary  mx-3 btn1"
-                      onClick={(e) => navigate("/admin/transectionrequest")}>
+                      onClick={(e) => navigate("/admin/transectionrequest")}
+                    >
                       Transaction Requests
                     </button>
                   </li>
 
                   <li
                     className="nav-item iq-full-screen"
-                    onClick={toggleFullscreen}>
+                    onClick={toggleFullscreen}
+                  >
                     <a href="#" className="iq-waves-effect" id="btnFullscreen">
                       <i
                         className={
@@ -678,18 +571,43 @@ const Header = () => {
                       />
                     </a>
                   </li>
+                  <li className="nav-item iq-full-screen">
+                    <button
+                      onClick={toggleTheme}
+                      className={`btn btn-sm ${
+                        theme === "light" ? "btn-dark" : "btn-light"
+                      } ms-auto`}
+                      style={{
+                        backgroundColor: theme === "light" ? "#222" : "#f8f9fa",
+                        color: theme === "light" ? "#fff" : "#000",
+                        border: "none",
+                        padding: "8px 15px",
+                        borderRadius: "5px",
+                        transition: "all 0.3s ease-in-out",
+                      }}
+                    >
+                      {theme === "light" ? "🌙 Dark Mode" : "☀️ Light Mode"}
+                    </button>
+                  </li>
 
                   <li
-                    className={`nav-item ${activeElement === "profile" ? "iq-show" : ""}`}>
+                    className={`nav-item ${
+                      activeElement === "profile" ? "iq-show" : ""
+                    }`}
+                  >
                     <a
                       href="#"
-                      className={`search-toggle d-flex align-items-center iq-waves-effectt ${activeElement === "profile" ? "active" : ""}`}
-                      onClick={(e) => handleClick(e, "profile")}>
+                      className={`search-toggle d-flex align-items-center iq-waves-effectt ${
+                        activeElement === "profile" ? "active" : ""
+                      }`}
+                      onClick={(e) => handleClick(e, "profile")}
+                    >
                       <div className="caption">
                         <button
                           className="btn btn-primary iq-sign-btn"
                           onClick={logout}
-                          role="button">
+                          role="button"
+                        >
                           Log out
                           <i className="ri-login-box-line ms-2" />
                         </button>
@@ -709,7 +627,8 @@ const Header = () => {
                 href="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent"
                 aria-expanded="false"
-                aria-label="Toggle navigation">
+                aria-label="Toggle navigation"
+              >
                 <i className="ri-menu-3-line" />
               </button>
               <button className="me-3 menusidebar" onClick={toggleSidebar}>
@@ -717,38 +636,23 @@ const Header = () => {
               </button>
               <div
                 className="collapse navbar-collapse"
-                id="navbarSupportedContent">
+                id="navbarSupportedContent"
+              >
                 <ul className="navbar-nav ms-auto navbar-list align-items-center">
                   <li className="nav-item">
                     <button
                       className="btn btn-primary mt-3 mx-3 btn1"
-                      style={{ pointerEvents: "none" }}>
+                      style={{ pointerEvents: "none" }}
+                    >
                       Hello, SubAdmin
                     </button>
                   </li>
-                  {/* <li className="nav-item">
-                                        <button
-                                            type="button"
-                                            className="btn btn-primary mt-3 mx-3 btn1"
-                                            onClick={(e) => setIsModalVisible(true)}
-                                        >
-                                            Set API Key
-                                        </button>
-                                    </li>
-
-                                    <li className="nav-item">
-                                        <button
-                                            type="button"
-                                            className="btn btn-primary mt-3 mx-3 btn1"
-                                            onClick={(e) => navigate('/admin/transectionrequest')}
-                                        >
-                                            Transaction Requests
-                                        </button>
-                                    </li> */}
+                 
 
                   <li
                     className="nav-item iq-full-screen"
-                    onClick={toggleFullscreen}>
+                    onClick={toggleFullscreen}
+                  >
                     <a href="#" className="iq-waves-effect" id="btnFullscreen">
                       <i
                         className={
@@ -760,17 +664,43 @@ const Header = () => {
                     </a>
                   </li>
 
+                  <li className="nav-item iq-full-screen">
+                    <button
+                      onClick={toggleTheme}
+                      className={`btn btn-sm ${
+                        theme === "light" ? "btn-dark" : "btn-light"
+                      } ms-auto`}
+                      style={{
+                        backgroundColor: theme === "light" ? "#222" : "#f8f9fa",
+                        color: theme === "light" ? "#fff" : "#000",
+                        border: "none",
+                        padding: "8px 15px",
+                        borderRadius: "5px",
+                        transition: "all 0.3s ease-in-out",
+                      }}
+                    >
+                      {theme === "light" ? "🌙 Dark Mode" : "☀️ Light Mode"}
+                    </button>
+                  </li>
+
                   <li
-                    className={`nav-item ${activeElement === "profile" ? "iq-show" : ""}`}>
+                    className={`nav-item ${
+                      activeElement === "profile" ? "iq-show" : ""
+                    }`}
+                  >
                     <a
                       href="#"
-                      className={`search-toggle d-flex align-items-center iq-waves-effectt ${activeElement === "profile" ? "active" : ""}`}
-                      onClick={(e) => handleClick(e, "profile")}>
+                      className={`search-toggle d-flex align-items-center iq-waves-effectt ${
+                        activeElement === "profile" ? "active" : ""
+                      }`}
+                      onClick={(e) => handleClick(e, "profile")}
+                    >
                       <div className="caption">
                         <button
                           className="btn btn-primary iq-sign-btn"
                           onClick={logout}
-                          role="button">
+                          role="button"
+                        >
                           Log out
                           <i className="ri-login-box-line ms-2" />
                         </button>
@@ -789,7 +719,8 @@ const Header = () => {
                 href="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent"
                 aria-expanded="false"
-                aria-label="Toggle navigation">
+                aria-label="Toggle navigation"
+              >
                 <i className="ri-menu-3-line" />
               </button>
 
@@ -798,32 +729,21 @@ const Header = () => {
               </button>
               <div
                 className="collapse navbar-collapse"
-                id="navbarSupportedContent">
-                {/* <div className="custom-control custom-switch custom-switch-text custom-switch-color custom-control-inline ms-5">
-                  <div className="custom-switch-inner">
-                    <input
-                      type="checkbox"
-                      className="custom-control-input"
-                      id="customSwitch-11"
-                      checked={getTradingStatus}
-                      onChange={handleToggle}
-                    />
-                    <label
-                      className="custom-control-label"
-                      htmlFor="customSwitch-11"
-                      data-on-label="Live trading on"
-                      data-off-label="Paper trading on"></label>
-                  </div>
-                </div> */}
+                id="navbarSupportedContent"
+              >
+            
 
-
-                <div className="btn-group" role="group" style={{
-                  backgroundColor: "#2a2e32",
-                  borderRadius: "20px",
-                  padding: "2px",
-                  height: "36px",
-                  marginLeft: "1rem"
-                }}>
+                <div
+                  className="btn-group"
+                  role="group"
+                  style={{
+                    backgroundColor: "#2a2e32",
+                    borderRadius: "20px",
+                    padding: "2px",
+                    height: "36px",
+                    marginLeft: "1rem",
+                  }}
+                >
                   <button
                     type="button"
                     className="btn border-0"
@@ -836,7 +756,9 @@ const Header = () => {
                       fontSize: "13px",
                       transition: "all 0.3s ease",
                       borderRadius: "18px",
-                      boxShadow: getTradingStatus ? "none" : "0 2px 6px rgba(115,103,240,0.4)"
+                      boxShadow: getTradingStatus
+                        ? "none"
+                        : "0 2px 6px rgba(115,103,240,0.4)",
                     }}
                     onClick={() => handleToggle(false)}
                   >
@@ -854,14 +776,15 @@ const Header = () => {
                       fontSize: "13px",
                       transition: "all 0.3s ease",
                       borderRadius: "18px",
-                      boxShadow: getTradingStatus ? "0 2px 6px rgba(115,103,240,0.4)" : "none"
+                      boxShadow: getTradingStatus
+                        ? "0 2px 6px rgba(115,103,240,0.4)"
+                        : "none",
                     }}
                     onClick={() => handleToggle(true)}
                   >
                     Live Trading
                   </button>
                 </div>
-
 
                 <ul className="navbar-nav ms-auto navbar-list align-items-center">
                   {/* <li className="nav-item">
@@ -873,9 +796,7 @@ const Header = () => {
                   </li> */}
                   {getBrokerName && getBrokerName == "Demo" ? (
                     <li className="nav-item">
-                      <button
-                        type="button"
-                        className="btn btn-primary  btn1">
+                      <button type="button" className="btn btn-primary  btn1">
                         Demo Account
                       </button>
                     </li>
@@ -896,7 +817,8 @@ const Header = () => {
                     <button
                       type="button"
                       data-bs-dismiss="modal"
-                      className="btn btn-primary mt-0 btn1">
+                      className="btn btn-primary mt-0 btn1"
+                    >
                       {showFunds ? (
                         <span>
                           <IndianRupee
@@ -906,9 +828,7 @@ const Header = () => {
                             {formatNumber(walletBalance && walletBalance) ||
                               "-"}
                           </strong> */}
-                          <strong>
-                            {walletBalance ||"-"}
-                          </strong>
+                          <strong>{walletBalance || "-"}</strong>
                         </span>
                       ) : (
                         <span>
@@ -921,7 +841,8 @@ const Header = () => {
 
                   <li
                     className="nav-item iq-full-screen"
-                    onClick={toggleFullscreen}>
+                    onClick={toggleFullscreen}
+                  >
                     <a href="#" className="iq-waves-effect" id="btnFullscreen">
                       <i
                         className={
@@ -933,12 +854,37 @@ const Header = () => {
                     </a>
                   </li>
 
+                  <li className="nav-item iq-full-screen">
+                    <button
+                      onClick={toggleTheme}
+                      className={`btn btn-sm ${
+                        theme === "light" ? "btn-dark" : "btn-light"
+                      } ms-auto`}
+                      style={{
+                        backgroundColor: theme === "light" ? "#222" : "#f8f9fa",
+                        color: theme === "light" ? "#fff" : "#000",
+                        border: "none",
+                        padding: "8px 15px",
+                        borderRadius: "5px",
+                        transition: "all 0.3s ease-in-out",
+                      }}
+                    >
+                      {theme === "light" ? "🌙 Dark Mode" : "☀️ Light Mode"}
+                    </button>
+                  </li>
+
                   <li
-                    className={`nav-item ${activeElement === "profile" ? "iq-show" : ""}`}>
+                    className={`nav-item ${
+                      activeElement === "profile" ? "iq-show" : ""
+                    }`}
+                  >
                     <a
                       href="#"
-                      className={`text-decoration-none search-toggle d-flex align-items-center iq-waves-effectt ${activeElement === "profile" ? "active" : ""}`}
-                      onClick={(e) => handleClick(e, "profile")}>
+                      className={`text-decoration-none search-toggle d-flex align-items-center iq-waves-effectt ${
+                        activeElement === "profile" ? "active" : ""
+                      }`}
+                      onClick={(e) => handleClick(e, "profile")}
+                    >
                       {/* <img
                         src="/assets/images/user/1.jpg"
                         className="img-fluid rounded-circle me-3"
@@ -967,7 +913,8 @@ const Header = () => {
                           </div>
                           <Link
                             to="/user/profile"
-                            className="iq-sub-card iq-bg-primary-hover text-decoration-none">
+                            className="iq-sub-card iq-bg-primary-hover text-decoration-none"
+                          >
                             <div className="media align-items-center d-flex">
                               <div className="rounded card-icon bg-soft-primary">
                                 <i className="ri-file-user-line" />
@@ -981,27 +928,27 @@ const Header = () => {
                             </div>
                           </Link>
 
-                              <Link
-                                to="/user/plans"
-                                className="iq-sub-card iq-bg-primary-hover text-decoration-none">
-                                <div className="media align-items-center d-flex">
-                                  <div className="rounded card-icon bg-soft-primary">
-                                    <i className="ri-file-user-line" />
-                                  </div>
-                                  <div className="media-body ms-3">
-                                    <h6 className="mb-0 ">My Plans</h6>
-                                    <p className="mb-0 font-size-12 text-decoration-none">
-                                      View Purchased Plan details.
-                                    </p>
-                                  </div>
-                                </div>
-                              </Link>
-
+                          <Link
+                            to="/user/plans"
+                            className="iq-sub-card iq-bg-primary-hover text-decoration-none"
+                          >
+                            <div className="media align-items-center d-flex">
+                              <div className="rounded card-icon bg-soft-primary">
+                                <i className="ri-file-user-line" />
+                              </div>
+                              <div className="media-body ms-3">
+                                <h6 className="mb-0 ">My Plans</h6>
+                                <p className="mb-0 font-size-12 text-decoration-none">
+                                  View Purchased Plan details.
+                                </p>
+                              </div>
+                            </div>
+                          </Link>
 
                           <Link
-
                             className="iq-sub-card iq-bg-warning-hover text-decoration-none"
-                            onClick={(e) => setIsModalVisible(true)}>
+                            onClick={(e) => setIsModalVisible(true)}
+                          >
                             <div className="media align-items-center d-flex">
                               <div className="rounded card-icon bg-soft-warning">
                                 <i className="ri-profile-line" />
@@ -1010,11 +957,11 @@ const Header = () => {
                                 <h6 className="mb-0 ">Set API Key</h6>
                               </div>
                             </div>
-
                           </Link>
                           <Link
                             to="/user/editprofile"
-                            className="iq-sub-card iq-bg-warning-hover text-decoration-none">
+                            className="iq-sub-card iq-bg-warning-hover text-decoration-none"
+                          >
                             <div className="media align-items-center d-flex">
                               <div className="rounded card-icon bg-soft-warning">
                                 <i className="ri-profile-line" />
@@ -1029,7 +976,8 @@ const Header = () => {
                             <button
                               className="btn btn-primary iq-sign-btn"
                               onClick={logout}
-                              role="button">
+                              role="button"
+                            >
                               Log out
                               <i className="ri-login-box-line ms-2" />
                             </button>
@@ -1047,7 +995,8 @@ const Header = () => {
                 <button
                   type="button"
                   className="btn btn-primary "
-                  onClick={(e) => setShowAddBrokerModal(true)}>
+                  onClick={(e) => setShowAddBrokerModal(true)}
+                >
                   Add Broker
                 </button>
               </div>
@@ -1058,7 +1007,8 @@ const Header = () => {
                 href="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent"
                 aria-expanded="false"
-                aria-label="Toggle navigation">
+                aria-label="Toggle navigation"
+              >
                 <i className="ri-menu-3-line" />
               </button>
               <button className="me-3 menusidebar" onClick={toggleSidebar}>
@@ -1066,19 +1016,22 @@ const Header = () => {
               </button>
               <div
                 className="collapse navbar-collapse"
-                id="navbarSupportedContent">
+                id="navbarSupportedContent"
+              >
                 <ul className="navbar-nav ms-auto navbar-list align-items-center">
                   <li className="nav-item">
                     <button
                       className="btn btn-primary  mx-3 btn1"
-                      style={{ pointerEvents: "none" }}>
+                      style={{ pointerEvents: "none" }}
+                    >
                       Hello, {userName}
                     </button>
                   </li>
 
                   <li
                     className="nav-item iq-full-screen"
-                    onClick={toggleFullscreen}>
+                    onClick={toggleFullscreen}
+                  >
                     <a href="#" className="iq-waves-effect" id="btnFullscreen">
                       <i
                         className={
@@ -1091,16 +1044,23 @@ const Header = () => {
                   </li>
 
                   <li
-                    className={`nav-item ${activeElement === "profile" ? "iq-show" : ""}`}>
+                    className={`nav-item ${
+                      activeElement === "profile" ? "iq-show" : ""
+                    }`}
+                  >
                     <a
                       href="#"
-                      className={`search-toggle d-flex align-items-center iq-waves-effectt ${activeElement === "profile" ? "active" : ""}`}
-                      onClick={(e) => handleClick(e, "profile")}>
+                      className={`search-toggle d-flex align-items-center iq-waves-effectt ${
+                        activeElement === "profile" ? "active" : ""
+                      }`}
+                      onClick={(e) => handleClick(e, "profile")}
+                    >
                       <div className="caption">
                         <button
                           className="btn btn-primary iq-sign-btn"
                           onClick={logout}
-                          role="button">
+                          role="button"
+                        >
                           Log out
                           <i className="ri-login-box-line ms-2" />
                         </button>
@@ -1192,14 +1152,16 @@ const Header = () => {
         <div
           className="modal show"
           id="exampleModal"
-          style={{ display: "block" }}>
+          style={{ display: "block" }}
+        >
           <div
             className="modal fade"
             id="exampleModalCenter"
             tabindex="-1"
             role="dialog"
             aria-labelledby="exampleModalCenterTitle"
-            aria-hidden="true"></div>
+            aria-hidden="true"
+          ></div>
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">
@@ -1220,7 +1182,8 @@ const Header = () => {
                   <div className="m-4">
                     <button
                       className="btn btn-primary"
-                      onClick={handleAutoLoginbtn}>
+                      onClick={handleAutoLoginbtn}
+                    >
                       Auto Login
                     </button>
                   </div>
@@ -1229,7 +1192,8 @@ const Header = () => {
                   <div className="m-4">
                     <button
                       className="btn btn-primary"
-                      onClick={handleDataStart}>
+                      onClick={handleDataStart}
+                    >
                       Data Start
                     </button>
                   </div>
@@ -1239,7 +1203,8 @@ const Header = () => {
                   <div className="m-4">
                     <button
                       className="btn btn-primary"
-                      onClick={handleLastPattern}>
+                      onClick={handleLastPattern}
+                    >
                       Last Pattern
                     </button>
                   </div>
@@ -1253,14 +1218,16 @@ const Header = () => {
         <div
           className="modal show"
           id="exampleModal"
-          style={{ display: "block" }}>
+          style={{ display: "block" }}
+        >
           <div
             className="modal fade"
             id="exampleModalCenter"
             tabindex="-1"
             role="dialog"
             aria-labelledby="exampleModalCenterTitle"
-            aria-hidden="true"></div>
+            aria-hidden="true"
+          ></div>
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">

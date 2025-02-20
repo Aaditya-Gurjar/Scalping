@@ -1,78 +1,75 @@
 import React, { useState } from "react";
 import DiscriptionData from "./DiscriptionData";
+import Content from "../../../ExtraComponent/Content";
+import Box from "@mui/material/Box";
+import Tab from "@mui/material/Tab";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
 
 const Discription = () => {
-  const [tab, setTab] = useState("Scalping");
+  const [value, setValue] = useState("1");
 
-  // Handle the tab change to update the state
-  const handleTabChange = (type) => {
-    setTab(type);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
   };
 
   return (
-    <div className="container-fluid" style={{marginTop:"2rem"}}>
-    <div className="row">
-      <div className="iq-card">
-   
-        <div className="iq-card-header d-flex justify-content-between">
-          <div className="iq-header-title">
-            <h4 className="card-title">📄 Description</h4>
-          </div>
-        </div>
-        <div className="iq-card-body">
-        <div className="row">
-          <div className="col-lg-12">
-            <ul
-              className="nav nav-pills mb-3 nav-fill"
-              id="pills-tab-1"
-              role="tablist"
-              style={{ height: "80px !important" }}
+    <Content
+      Page_title={"📄 Description"}
+      button_status={false}
+      backbutton_status={true}
+    >
+      <Box sx={{ width: "100%", typography: "body1" }}>
+        <TabContext value={value}>
+          {/* 🛠️ Styled Tabs */}
+          <Box
+            sx={{
+              borderBottom: 1,
+              borderColor: "divider",
+              backgroundColor: "#f8f9fa", // Light background for tabs
+              borderRadius: "8px 8px 0 0",
+              padding: "10px",
+              width: "100%",
+            }}
+          >
+            <TabList
+              onChange={handleChange}
+              aria-label="lab API tabs example"
+              sx={{
+                "& .MuiTab-root": {
+                  width: "33.33%", // Equal width for all tabs
+                  fontSize: "20px", // Bigger font size
+                  fontWeight: "bold", // Bold text
+                  textTransform: "none", // Remove uppercase
+                  padding: "12px 20px",
+                },
+                "& .Mui-selected": {
+                  color: "#1976d2", // Highlight active tab
+                  borderBottom: "3px solid #1976d2", // Underline effect
+
+                },
+              }}
             >
-              <li className="nav-item" role="presentation">
-                <a
-                  className={`nav-link ${tab === 'Scalping' ? 'active' : ''}`}
-                  onClick={() => handleTabChange('Scalping')}
-                  id="pills-home-tab-fill"
-                  role="tab"
-                >
-                  📊 Scalping
-                </a>
-              </li>
-              <li className="nav-item" role="presentation">
-                <a
-                  className={`nav-link ${tab === 'Option' ? 'active' : ''}`}
-                  onClick={() => handleTabChange('Option')}
-                  id="pills-profile-tab-fill"
-                  role="tab"
-                >
-                  ⚡ Option
-                </a>
-              </li>
-              <li className="nav-item" role="presentation">
-                <a
-                  className={`nav-link ${tab === 'Candlestick' ? 'active' : ''}`}
-                  onClick={() => handleTabChange('Candlestick')}
-                  id="pills-contact-tab-fill"
-                  role="tab"
-                >
-                  📈 Candlestick
-                </a>
-              </li>
-            </ul>
-          </div>
+              <Tab label=" 📊 Scalping" value="1" />
+              <Tab label=" ⚡ Option" value="2" />
+              <Tab label="📈 Candlestick" value="3" />
+            </TabList>
+          </Box>
 
-          <div className="col-lg-12">
-            <div className="nav nav-pills mb-3 nav-fill">
-              {/* Render content based on the selected tab */}
-              <DiscriptionData Type={tab} />
-            </div>
-          </div>
-        </div>
-</div>
-
-      </div>
-    </div>
-    </div>
+          {/* Tabs Content */}
+          <TabPanel value="1">
+            <DiscriptionData Type={"Scalping"} />
+          </TabPanel>
+          <TabPanel value="2">
+            <DiscriptionData Type={"Option"} />
+          </TabPanel>
+          <TabPanel value="3">
+            <DiscriptionData Type={"Candlestick"} />
+          </TabPanel>
+        </TabContext>
+      </Box>
+    </Content>
   );
 };
 

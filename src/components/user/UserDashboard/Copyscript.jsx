@@ -312,9 +312,9 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
     <div className="container-fluid" style={{ marginTop: "-2rem" }}>
       <div className="row">
         <div className="col-sm-12">
-          <div className="iq-card">
-            <div className="iq-card-body " style={{ padding: "3px" }}>
-              <div className="" b id="myTabContent-3">
+          {/* <div className="iq-card"> */}
+            {/* <div className="iq-card-body " style={{ padding: "3px" }}> */}
+             
                 <div
                   className="tab-pane fade show active"
                   id="home-justify"
@@ -382,9 +382,9 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
                     </>
                   )}
                 </div>
-              </div>
-            </div>
-          </div>
+          
+            {/* </div> */}
+          {/* </div> */}
         </div>
       </div>
     </div>

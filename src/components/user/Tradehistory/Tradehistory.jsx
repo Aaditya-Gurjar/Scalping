@@ -38,6 +38,7 @@ import { useLocation } from "react-router-dom";
 import DrawdownChartComponent from "../../admin/AdvanceChart/DrawdownChartComponent";
 import ProfitAndLossGraph from "../../admin/AdvanceChart/ProfitAndLossGraph";
 import ChartComponent from "../../admin/AdvanceChart/ChartComponent";
+import Content from "../../../ExtraComponent/Content";
 
 const Tradehistory = () => {
   const StrategyType = sessionStorage.getItem("StrategyType");
@@ -280,14 +281,13 @@ const Tradehistory = () => {
         PatternName: "",
       };
 
-      console.log("section-", section,"-");
-
+      console.log("section-", section, "-");
 
       if (section === "pnlAnalysis") {
         const pnlRes = await get_PnL_Data(params);
         setPnlData({ data: pnlRes.Barchart || [] });
       } else if (section?.includes("equity")) {
-      console.log("section->", section);
+        console.log("section->", section);
 
         const equityRes = await get_EQuityCurveData(params);
         setEquityCurveDetails({ data: equityRes.Equitycurve || [] });
@@ -332,7 +332,7 @@ const Tradehistory = () => {
 
     const renderButtonContent = () => {
       if (!isOpen) return "🔼 Show Data";
-    
+
       return loadedSections[section] ? (
         "🔽 Hide Data"
       ) : (
@@ -346,7 +346,6 @@ const Tradehistory = () => {
         </>
       );
     };
-    
 
     return (
       <div className="card mb-3">
@@ -385,254 +384,244 @@ const Tradehistory = () => {
   };
 
   return (
-    <div className="container-fluid" style={{ marginTop: "2rem" }}>
-      <div className="row">
-        <div className="iq-card">
-          <div className="iq-card-header d-flex justify-content-between">
-            <div className="iq-header-title">
-              <h4 className="card-title">📊 Trade History Analysis</h4>
+    <Content
+      Page_title={"📊 Trade History Analysis"}
+      button_status={false}
+      backbutton_status={true}
+    >
+      <div className="iq-card-body">
+        <div className="card-body">
+          <div className="row g-3 mb-4">
+            <div className="col-12 col-md-6 col-lg-3">
+              <div className="form-group">
+                <label className="form-label">Strategy Type</label>
+                <select
+                  className="form-select"
+                  value={selectStrategyType}
+                  onChange={(e) => {
+                    setStrategyType(e.target.value);
+                    sessionStorage.setItem("StrategyType", e.target.value);
+                  }}
+                >
+                  {strategyNames.map((item) => (
+                    <option key={item} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
-          </div>
-
-          <div className="iq-card-body">
-            <div className="card-body">
-              <div className="row g-3 mb-4">
-                <div className="col-12 col-md-6 col-lg-3">
-                  <div className="form-group">
-                    <label className="form-label">Strategy Type</label>
+            {selectStrategyType === "ChartingPlatform" && (
+              <div className="col-12 col-md-6 col-lg-3">
+                <div className="form-group">
+                  <label className="form-label">Segment Type</label>
+                  <div onWheel={(e) => e.stopPropagation()}>
                     <select
                       className="form-select"
-                      value={selectStrategyType}
-                      onChange={(e) => {
-                        setStrategyType(e.target.value);
-                        sessionStorage.setItem("StrategyType", e.target.value);
-                      }}
+                      value={selectSegmentType}
+                      onChange={(e) => setSegmentType(e.target.value)}
                     >
-                      {strategyNames.map((item) => (
-                        <option key={item} value={item}>
-                          {item}
+                      {getChartingSegments.map((item) => (
+                        <option key={item.Segment} value={item.Segment}>
+                          {item.Segment}
                         </option>
                       ))}
                     </select>
                   </div>
                 </div>
-                {selectStrategyType === "ChartingPlatform" && (
-                  <div className="col-12 col-md-6 col-lg-3">
-                    <div className="form-group">
-                      <label className="form-label">Segment Type</label>
-                      <div onWheel={(e) => e.stopPropagation()}>
-                        <select
-                          className="form-select"
-                          value={selectSegmentType}
-                          onChange={(e) => setSegmentType(e.target.value)}
-                        >
-                          {getChartingSegments.map((item) => (
-                            <option key={item.Segment} value={item.Segment}>
-                              {item.Segment}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                )}
-                <div className="col-12 col-md-6 col-lg-3">
-                  <div className="form-group">
-                    <label className="form-label">From Date</label>
-                    <DatePicker
-                      className="form-control"
-                      selected={FromDate || formattedDate}
-                      onChange={setFromDate}
-                      dateFormat="yyyy.MM.dd"
-                    />
-                  </div>
-                </div>
-                <div className="col-12 col-md-6 col-lg-3">
-                  <div className="form-group">
-                    <label className="form-label">To Date</label>
-                    <DatePicker
-                      className="form-control"
-                      selected={ToDate || Defult_To_Date}
-                      onChange={setToDate}
-                      dateFormat="yyyy.MM.dd"
-                    />
-                  </div>
-                </div>
               </div>
-              {selectStrategyType === "Scalping" ? (
-                <div className="mb-4">
-                  <h5>Multi Conditional Strategies</h5>
-                  {tradeHistory.data1?.length > 0 ? (
-                    <GridExample
-                      columns={getColumnsForStrategy()}
-                      data={tradeHistory.data1}
-                      onRowSelect={handleRowSelect}
-                      checkBox={true}
-                    />
-                  ) : (
-                    <NoDataFound />
-                  )}
-                </div>
-              ) : (
-                <div className="mb-4">
-                  <h5>{selectStrategyType} Strategies</h5>
-                  {tradeHistory.data?.length > 0 ? (
-                    <GridExample
-                      columns={getColumnsForStrategy()}
-                      data={tradeHistory.data}
-                      onRowSelect={handleRowSelect}
-                      checkBox={true}
-                    />
-                  ) : (
-                    <NoDataFound />
-                  )}
-                </div>
-              )}
-              <div className="d-grid gap-2">
-                <button
-                  className="btn btn-primary btn-lg"
-                  onClick={handleSubmit}
-                  disabled={!selectedRowData}
-                >
-                  📜 Generate History
-                </button>
+            )}
+            <div className="col-12 col-md-6 col-lg-3">
+              <div className="form-group">
+                <label className="form-label">From Date</label>
+                <DatePicker
+                  className="form-control"
+                  selected={FromDate || formattedDate}
+                  onChange={setFromDate}
+                  dateFormat="yyyy.MM.dd"
+                />
               </div>
-              {showReportSections && (
-                <div className="mt-5">
-                  <ReportSection
-                    title="Total Profit/Loss Overview"
-                    section="overview"
-                  >
-                    <div
-                      className="pnl-overview"
-                      style={{
-                        color: "#fff",
-                        padding: "20px",
-                        borderRadius: "8px",
-                        textAlign: "center",
-                        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                        marginBottom: "20px",
-                      }}
-                    >
-                      <h4
-                        style={{
-                          margin: 0,
-                          fontSize: "1.75rem",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        💰 Total PnL: ₹
-                        <span
-                          className="badge ms-2"
-                          style={{
-                            backgroundColor:
-                              getAllTradeData.Overall[0]?.PnL > 0
-                                ? "#008000"
-                                : "#B22222", // Dark Green & Dark Red
-                            color: "white",
-                            padding: "8px 15px",
-                            borderRadius: "5px",
-                            fontSize: "1.25rem",
-                            fontWeight: "bold",
-                          }}
-                        >
-                          {getAllTradeData.Overall[0]?.PnL?.toFixed(2) ||
-                            "0.00"}
-                        </span>
-                      </h4>
-                    </div>
-                    <GridExample
-                      columns={columns3(selectStrategyType)}
-                      data={getAllTradeData.data}
-                      checkBox={false}
-                    />
-                  </ReportSection>
-
-                  <ReportSection
-                    title="Profit/Loss Analysis"
-                    section="pnlAnalysis"
-                  >
-                    <ProfitAndLossGraph data={getPnLData.data} />
-                  </ReportSection>
-                  <ReportSection title="Equity Curve Analysis" section="equity">
-                    <div style={{ height: "350px", overflow: "hidden" }}>
-                      <ChartComponent data={getEquityCurveDetails.data} />
-                    </div>
-                    <GridExample
-                      columns={columns5(selectStrategyType)}
-                      data={getEquityCurveDetails.data}
-                      checkBox={false}
-                    />
-                  </ReportSection>
-                  <ReportSection title="Drawdown Analysis" section="drawdown">
-                    <div style={{ height: "350px", overflow: "hidden" }}>
-                      <DrawdownChartComponent data={getDropDownData.data} />
-                    </div>
-                    <GridExample
-                      columns={columns6()}
-                      data={getDropDownData.data}
-                      checkBox={false}
-                    />
-                  </ReportSection>
-                
-                  <ReportSection title="Top Trades Analysis" section="trades">
-                    <div className="row">
-                      {/* Top Profitable Trades */}
-                      <div className="col-md-6">
-                        <div className="card h-100">
-                          <div
-                            className="card-header text-white"
-                            style={{ backgroundColor: "#006400" }}
-                          >
-                            💹 Top Profitable Trades
-                          </div>
-                          <div className="card-body">
-                            <ApexCharts
-                              options={getChartOptions(
-                                getFiveProfitTrade.data,
-                                "Profit"
-                              )}
-                              series={getFiveProfitTrade.data.map((t) => t.PnL)}
-                              type="pie"
-                              height={350}
-                            />
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Top Loss-Making Trades */}
-                      <div className="col-md-6">
-                        <div className="card h-100">
-                          <div
-                            className="card-header text-white"
-                            style={{ backgroundColor: "#8B0000" }}
-                          >
-                            📉 Top Loss-Making Trades
-                          </div>
-                          <div className="card-body">
-                            <ApexCharts
-                              options={getChartOptions(
-                                getFiveLossTrade.data,
-                                "Loss"
-                              )}
-                              series={getFiveLossTrade.data.map((t) =>
-                                Math.abs(t.PnL)
-                              )}
-                              type="pie"
-                              height={350}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </ReportSection>
-                </div>
-              )}
+            </div>
+            <div className="col-12 col-md-6 col-lg-3">
+              <div className="form-group">
+                <label className="form-label">To Date</label>
+                <DatePicker
+                  className="form-control"
+                  selected={ToDate || Defult_To_Date}
+                  onChange={setToDate}
+                  dateFormat="yyyy.MM.dd"
+                />
+              </div>
             </div>
           </div>
+          {selectStrategyType === "Scalping" ? (
+            <div className="mb-4">
+              <h5>Multi Conditional Strategies</h5>
+              {tradeHistory.data1?.length > 0 ? (
+                <GridExample
+                  columns={getColumnsForStrategy()}
+                  data={tradeHistory.data1}
+                  onRowSelect={handleRowSelect}
+                  checkBox={true}
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+          ) : (
+            <div className="mb-4">
+              <h5>{selectStrategyType} Strategies</h5>
+              {tradeHistory.data?.length > 0 ? (
+                <GridExample
+                  columns={getColumnsForStrategy()}
+                  data={tradeHistory.data}
+                  onRowSelect={handleRowSelect}
+                  checkBox={true}
+                />
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+          )}
+          <div className="d-grid gap-2">
+            <button
+              className="btn btn-primary btn-lg"
+              onClick={handleSubmit}
+              disabled={!selectedRowData}
+            >
+              📜 Generate History
+            </button>
+          </div>
+          {showReportSections && (
+            <div className="mt-5">
+              <ReportSection
+                title="Total Profit/Loss Overview"
+                section="overview"
+              >
+                <div
+                  className="pnl-overview"
+                  style={{
+                    color: "#fff",
+                    padding: "20px",
+                    borderRadius: "8px",
+                    textAlign: "center",
+                    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                    marginBottom: "20px",
+                  }}
+                >
+                  <h4
+                    style={{
+                      margin: 0,
+                      fontSize: "1.75rem",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    💰 Total PnL: ₹
+                    <span
+                      className="badge ms-2"
+                      style={{
+                        backgroundColor:
+                          getAllTradeData.Overall[0]?.PnL > 0
+                            ? "#008000"
+                            : "#B22222", // Dark Green & Dark Red
+                        color: "white",
+                        padding: "8px 15px",
+                        borderRadius: "5px",
+                        fontSize: "1.25rem",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {getAllTradeData.Overall[0]?.PnL?.toFixed(2) || "0.00"}
+                    </span>
+                  </h4>
+                </div>
+                <GridExample
+                  columns={columns3(selectStrategyType)}
+                  data={getAllTradeData.data}
+                  checkBox={false}
+                />
+              </ReportSection>
+
+              <ReportSection title="Profit/Loss Analysis" section="pnlAnalysis">
+                <ProfitAndLossGraph data={getPnLData.data} />
+              </ReportSection>
+              <ReportSection title="Equity Curve Analysis" section="equity">
+                <div style={{ height: "350px", overflow: "hidden" }}>
+                  <ChartComponent data={getEquityCurveDetails.data} />
+                </div>
+                <GridExample
+                  columns={columns5(selectStrategyType)}
+                  data={getEquityCurveDetails.data}
+                  checkBox={false}
+                />
+              </ReportSection>
+              <ReportSection title="Drawdown Analysis" section="drawdown">
+                <div style={{ height: "350px", overflow: "hidden" }}>
+                  <DrawdownChartComponent data={getDropDownData.data} />
+                </div>
+                <GridExample
+                  columns={columns6()}
+                  data={getDropDownData.data}
+                  checkBox={false}
+                />
+              </ReportSection>
+
+              <ReportSection title="Top Trades Analysis" section="trades">
+                <div className="row">
+                  {/* Top Profitable Trades */}
+                  <div className="col-md-6">
+                    <div className="card h-100">
+                      <div
+                        className="card-header text-white"
+                        style={{ backgroundColor: "#006400" }}
+                      >
+                        💹 Top Profitable Trades
+                      </div>
+                      <div className="card-body">
+                        <ApexCharts
+                          options={getChartOptions(
+                            getFiveProfitTrade.data,
+                            "Profit"
+                          )}
+                          series={getFiveProfitTrade.data.map((t) => t.PnL)}
+                          type="pie"
+                          height={350}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Top Loss-Making Trades */}
+                  <div className="col-md-6">
+                    <div className="card h-100">
+                      <div
+                        className="card-header text-white"
+                        style={{ backgroundColor: "#8B0000" }}
+                      >
+                        📉 Top Loss-Making Trades
+                      </div>
+                      <div className="card-body">
+                        <ApexCharts
+                          options={getChartOptions(
+                            getFiveLossTrade.data,
+                            "Loss"
+                          )}
+                          series={getFiveLossTrade.data.map((t) =>
+                            Math.abs(t.PnL)
+                          )}
+                          type="pie"
+                          height={350}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ReportSection>
+            </div>
+          )}
         </div>
       </div>
-    </div>
+    </Content>
   );
 };
 

@@ -413,12 +413,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                             .then((response) => {
                                 if (response.Status) {
                                     Swal.fire({
-                                        // title: "Success",
-                                        // text: response.message,
-                                        // icon: "success",
-                                        // timer: 2000,
-                                        // timerProgressBar: true
-
+                                      
                                         background: "#1a1e23 ",
                                         backdrop: "#121010ba",
                                         title: "Success",

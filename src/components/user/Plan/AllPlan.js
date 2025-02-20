@@ -12,6 +12,7 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import NewsTicker from "./Expair";
 import "./AllPlan.css";
+import Content from "../../../ExtraComponent/Content";
 
 const ServicesList = () => {
   const username = localStorage.getItem("name");
@@ -248,16 +249,8 @@ const ServicesList = () => {
   );
 
   return (
-    <div className="container-fluid" style={{ marginTop: "2rem" }}>
-      <div className="row">
-        <div className="iq-card">
-          <div className="iq-card-header d-flex justify-content-between">
-            <div className="iq-header-title">
-              <h4 className="card-title">📌 All Plans</h4>
-            </div>
-          </div>
-
-          <div className="iq-card-body">
+    <Content Page_title={"📌 All Plans"} button_status={false} backbutton_status={false}>
+ 
             <div className="">
               {expire?.includes(1) ? (
                 <div className="col-lg-9">
@@ -384,10 +377,11 @@ const ServicesList = () => {
                 </div>
               </Tab>
             </Tabs>
-          </div>
-        </div>
-      </div>
-    </div>
+         
+
+
+        
+    </Content>
   );
 };
 
