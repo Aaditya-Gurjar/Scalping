@@ -12,17 +12,17 @@ import FullDataTable from "../../../ExtraComponent/CommanDataTable";
 import NoDataFound from "../../../ExtraComponent/NoDataFound";
 const Userdashboard = () => {
   const userName = localStorage.getItem("name");
-  const dashboardStrategyType = sessionStorage.getItem("dashboardStrategyType");
+  const StrategyType = sessionStorage.getItem("StrategyType"); 
   const addVia = sessionStorage.getItem("addVia");
   const groupName = sessionStorage.getItem("groupName");
   const [activeTab1, setActiveTab1] = useState("CurrentPosition");
   const [activeTab, setActiveTab] = useState(addVia || "currentScript");
-  const [subTab, setSubTab] = useState(dashboardStrategyType || "Scalping");
+  const [subTab, setSubTab] = useState(StrategyType || "Scalping");
   const [refresh, setRefresh] = useState(false);
   const [getGroup, setGroup] = useState(groupName || "");
   const [strategyType, setStrategyType] = useState([]);
   const [tableType, setTableType] = useState(
-    dashboardStrategyType || "MultiCondition"
+    StrategyType || "MultiCondition"
   );
   const [serviceStatus, setServiceStatus] = useState({
     status: false,
@@ -678,9 +678,9 @@ const Userdashboard = () => {
 
   useEffect(() => {
     if (subTab === "Scalping") {
-      setTableType(dashboardStrategyType || "MultiCondition");
+      setTableType(StrategyType || "MultiCondition");
     } else {
-      setTableType(dashboardStrategyType || "Scalping");
+      setTableType(StrategyType || "Scalping");
     }
   }, [subTab]);
 
@@ -822,7 +822,7 @@ const Userdashboard = () => {
                           onChange={(e) => {
                             setSubTab(e.target.value);
                             sessionStorage.setItem(
-                              "dashboardStrategyType",
+                              "StrategyType",
                               e.target.value
                             );
                           }}
