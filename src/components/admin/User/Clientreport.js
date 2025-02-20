@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { Get_Client_Report } from '../../CommonAPI/Admin'
 import FullDataTable from '../../../ExtraComponent/CommanDataTable';
 import Checkbox from '@mui/material/Checkbox';
-import {ClientReportColumn} from './UserAllColumn'
+import { ClientReportColumn } from './UserAllColumn'
 import NoDataFound from '../../../ExtraComponent/NoDataFound';
-
+import Content from '../../../ExtraComponent/Content';
 
 
 const Clientreport = () => {
@@ -42,7 +42,7 @@ const Clientreport = () => {
         GetClientData()
     }, [selectUserName])
 
- 
+
 
     useEffect(() => {
         setSelectUserName(Username || 'AllUser')
@@ -51,54 +51,45 @@ const Clientreport = () => {
 
 
     return (
-        <div>
-            <div>
-                <div className='container-fluid' style={{marginTop:"2rem"}}>
-                    <div className='row'>
-                        <div className="col-sm-12 col-lg-12">
-                            <div className="iq-card">
-                                <div className="iq-card-header d-flex justify-content-between">
-                                    <div className="iq-header-title">
-                                        <h4 className="card-title">Thread Report</h4>
-                                    </div>
-                                </div>
-                                <div className="iq-card-body">
-                                    <div>
-                                        <div className="row">
-                                            <div className="form-group col-md-6">
-                                                <label htmlFor="validationDefault01" className='mb-1'>Select Username</label>
-                                                <select className="form-select" required=""
-                                                    onChange={(e) => {
-                                                        setSelectUserName(e.target.value)
-                                                        sessionStorage.setItem("Username",e.target.value)
-                                                    }}
-                                                    value={selectUserName}>
-                                                    <option value={"AllUser"}>AllUser</option>
-                                                    <option value={"ReadData"}>ReadData</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="modal-body">
-                                        {
-                                            getTableData.data && getTableData.data.length > 0 ? 
-                                                (<FullDataTable
-                                                    columns={ClientReportColumn()}
-                                                    data={getTableData.data}
-                                                    checkBox={false}
-                                                />)
-                                            :
-                                            (<NoDataFound />)
-                                        }
-                                       
-                                    </div>
-                                </div>
-                            </div>
+        <Content
+            Page_title={" 📉 Thread Report"}
+            button_status={false}
+            backbutton_status={true}
+        >
+
+            <div className="iq-card-body">
+                <div>
+                    <div className="row">
+                        <div className="form-group col-md-6">
+                            <label htmlFor="validationDefault01" className='mb-1'>Select Username</label>
+                            <select className="form-select" required=""
+                                onChange={(e) => {
+                                    setSelectUserName(e.target.value)
+                                    sessionStorage.setItem("Username", e.target.value)
+                                }}
+                                value={selectUserName}>
+                                <option value={"AllUser"}>AllUser</option>
+                                <option value={"ReadData"}>ReadData</option>
+                            </select>
                         </div>
                     </div>
                 </div>
+                <div className="modal-body">
+                    {
+                        getTableData.data && getTableData.data.length > 0 ?
+                            (<FullDataTable
+                                columns={ClientReportColumn()}
+                                data={getTableData.data}
+                                checkBox={false}
+                            />)
+                            :
+                            (<NoDataFound />)
+                    }
+
+                </div>
             </div>
-        </div>
+
+        </Content>
     )
 }
 

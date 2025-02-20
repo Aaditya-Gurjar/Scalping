@@ -8,6 +8,7 @@ import DropdownMultiselect from 'react-multiselect-dropdown-bootstrap';
 import AddForm from '../../../ExtraComponent/FormData';
 import Swal from 'sweetalert2';
 import NoDataFound from '../../../ExtraComponent/NoDataFound';
+import Content from '../../../ExtraComponent/Content';
 
 
 
@@ -194,33 +195,29 @@ const AllSubadmin = () => {
 
     return (
         <>
-            <div className='container-fluid' style={{marginTop:"2rem"}}>
-                <div className='row'>
-                    <div className='col-sm-12'>
-                        <div className='iq-card'>
-                            <div className='iq-card-header d-flex justify-content-between'>
-                                <div className='iq-header-title'>
-                                    <h4 className='card-title'>SubAdmin</h4>
-                                </div>
-                                <Link to='/admin/addSubadmin' className='btn btn-primary rounded'>
-                                    Add SubAdmin
-                                </Link>
-                            </div>
-                            <div className='iq-card-body'>
-                                <div className='mb-3 col-lg-3'>
-                                    <input type="text" className=' form-control rounded p-1 px-2' placeholder="Search..." onChange={(e) => setSearchInput(e.target.value)} value={searchInput} />
-                                </div>
-                                {
-                                    clientService.data && clientService.data.length > 0 ?
-                                        (<FullDataTable columns={columns} data={clientService.data} checkBox={false} />)
-                                        :
-                                        (<NoDataFound />)
-                                }
-                            </div>
-                        </div>
+            <Content
+                Page_title={" 📉 SubAdmin"}
+                button_status={true}
+                backbutton_status={true}
+                route={"/admin/addSubadmin"}
+                button_title={"Add SubAdmin"}
+
+            >
+
+                <div className='iq-card-body'>
+                    <div className='mb-3 col-lg-3'>
+                        <input type="text" className=' form-control rounded p-1 px-2' placeholder="Search..." onChange={(e) => setSearchInput(e.target.value)} value={searchInput} />
                     </div>
+                    {
+                        clientService.data && clientService.data.length > 0 ?
+                            (<FullDataTable columns={columns} data={clientService.data} checkBox={false} />)
+                            :
+                            (<NoDataFound />)
+                    }
                 </div>
-            </div>
+
+
+            </Content>
 
         </>
     );

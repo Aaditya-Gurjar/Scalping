@@ -6,6 +6,7 @@ import { useFormik } from 'formik';
 import Swal from 'sweetalert2';
 import AddForm from '../../../ExtraComponent/FormData';
 import NoDataFound from '../../../ExtraComponent/NoDataFound';
+import Content from '../../../ExtraComponent/Content';
 
 const ClientThreadReport = () => {
 
@@ -329,14 +330,14 @@ const ClientThreadReport = () => {
 
     return (
         <>
-            <div className="container-fluid" style={{marginTop:"2rem"}}>
-                <div className="row">
-                    <div className="iq-card">
-                        <div className="iq-card-header d-flex justify-content-between">
-                            <div className="iq-header-title">
-                                <h4 className="card-title">Client Details</h4>
-                            </div>
-                        </div>
+        <Content
+                Page_title={"Client Details"}
+                button_status={false}
+                backbutton_status={true}
+               
+
+            >
+           
                         <div className="iq-card-body">
                             <div className="was-validated ">
                                 <div className='d-flex'>
@@ -373,9 +374,7 @@ const ClientThreadReport = () => {
                             }
 
                         </div>
-                    </div>
-                </div>
-            </div>
+                   
 
             {showModal && (
                 <div className='modal custom-modal d-flex' id='add_vendor' role='dialog'>
@@ -410,6 +409,7 @@ const ClientThreadReport = () => {
                     </div>
                 </div>
             )}
+            </Content>
         </>
     )
 }
