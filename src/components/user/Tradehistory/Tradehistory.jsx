@@ -1122,7 +1122,6 @@ import ChartComponent from "../../admin/AdvanceChart/ChartComponent";
 
 const Tradehistory = () => {
   const StrategyType = sessionStorage.getItem("StrategyType");
-
   const location = useLocation();
   const sectionRefs = useRef({});
   const [selectStrategyType, setStrategyType] = useState(
@@ -1222,8 +1221,11 @@ const Tradehistory = () => {
     )}.${String(dateObj.getDate()).padStart(2, "0")}`;
   };
 
+  // When a row is selected, reset open sections and hide report sections.
   const handleRowSelect = (rowData) => {
     setSelectedRowData(rowData);
+    setOpenSections({});
+    setShowReportSections(false);
   };
 
   const handleSubmit = async () => {
@@ -1235,6 +1237,17 @@ const Tradehistory = () => {
       });
       return;
     }
+
+    // Reset loaded sections so that new data will be fetched
+    setLoadedSections({
+      overview: false,
+      pnlAnalysis: false,
+      equity: false,
+      drawdown: false,
+      trades: false,
+      profitLoss: false,
+      consistent: false,
+    });
 
     try {
       const basicData = {
@@ -1383,7 +1396,7 @@ const Tradehistory = () => {
   // Instead of a single shared state, track open/closed state for each section.
   const [openSections, setOpenSections] = useState({});
 
-  // Updated ReportSection component uses its own open state from openSections.
+  // ReportSection component uses its own open state from openSections.
   const ReportSection = ({ title, section, children }) => {
     const isOpen = openSections[section] || false;
 
