@@ -15,8 +15,8 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
   );
 
   useEffect(() => {
-    setSelectedColumns(columns.slice(0, 7)); 
-    setTempSelectedColumns(columns.slice(0, 7)); 
+    setSelectedColumns(columns.slice(0, 7));
+    setTempSelectedColumns(columns.slice(0, 7));
   }, [columns]);
 
   // Memoized modal handlers
@@ -66,7 +66,11 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
       search: false,
       filter: false,
       sort: false,
-      rowsPerPageOptions: [10, 25, 50, 100],
+      rowsPerPage: 5,
+      rowsPerPageOptions: [5, 10, 25, 50, 100],
+      fixedHeader: true,  
+      tableBodyHeight: "320px",
+      tableBodyMaxHeight: "320px",
       setCellProps: () => ({
         style: { textAlign: "center" },
       }),

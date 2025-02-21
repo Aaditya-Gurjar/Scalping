@@ -205,6 +205,23 @@ const Tradehistory = () => {
 
         {showTable && (
           <>
+          <p
+                className="bold mt-4"
+                style={{
+                  fontWeight: "bold",
+                  fontSize: "20px",
+                  color: "black",
+                }}
+              >
+                Total Profit and Loss :{" "}
+                <span
+                  style={{
+                    color: getPnLData.data2 < 0 ? "red" : "green",
+                  }}
+                >
+                  {getPnLData.data2.toFixed(2)}
+                </span>
+              </p>
             <div className="mt-3">
               <GridExample
                 columns={
@@ -226,25 +243,9 @@ const Tradehistory = () => {
                                             Total Profit and Loss : <span style={{ color: getPnLData.data2 < 0 ? 'red' : 'green' }}>{parseFloat(getPnLData.data2).toFixed(4)}</span>
                                         </p> */}
 
-              <p
-                className="bold mt-4"
-                style={{
-                  fontWeight: "bold",
-                  fontSize: "20px",
-                  color: "black",
-                }}
-              >
-                Total Profit and Loss :{" "}
-                <span
-                  style={{
-                    color: getPnLData.data2 < 0 ? "red" : "green",
-                  }}
-                >
-                  {getPnLData.data2.toFixed(2)}
-                </span>
-              </p>
+              
             </div>
-            <div className="mt-3">
+            {/* <div className="mt-3">
               <GridExample
                 columns={
                   selectStrategyType == "Scalping"
@@ -258,7 +259,7 @@ const Tradehistory = () => {
                 data={getPnLData.data}
                 checkBox={false}
               />
-            </div>
+            </div> */}
           </>
         )}
       </div>

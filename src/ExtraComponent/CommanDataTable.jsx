@@ -17,7 +17,7 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
     isChecked !== undefined ? [isChecked] : []
   );
 
-let Theme = localStorage.getItem("theme");
+  let Theme = localStorage.getItem("theme");
 
   useEffect(() => {
     setSelectedColumns(columns.slice(0, 7)); // Reset selected columns to default
@@ -71,7 +71,11 @@ let Theme = localStorage.getItem("theme");
       search: false,
       filter: false,
       sort: false,
-      rowsPerPageOptions: [10, 25, 50, 100],
+      rowsPerPage: 5,
+      rowsPerPageOptions: [5, 10, 25, 50, 100],
+      fixedHeader: true,  
+      tableBodyHeight: "320px",
+      tableBodyMaxHeight: "320px",
       setCellProps: () => ({
         style: { textAlign: "center" },
       }),
@@ -79,16 +83,16 @@ let Theme = localStorage.getItem("theme");
         return {
           style: {
             // backgroundColor: dataIndex % 2 === 0 ? "#f9f9f9" : "#ffffff", 
-            backgroundColor: Theme == "light" ? (dataIndex % 2 === 0 ? "#f9f9f9" : "#ffffff") : (dataIndex % 2 === 0 ? "#333" : "#000"), 
+            backgroundColor: Theme == "light" ? (dataIndex % 2 === 0 ? "#f9f9f9" : "#ffffff") : (dataIndex % 2 === 0 ? "#333" : "#000"),
 
             transition: "background-color 0.3s ease",
             cursor: "pointer",
           },
           onMouseEnter: (e) => {
-            e.currentTarget.style.backgroundColor = Theme == "light" ? "#f0f0f0" : "#666"; 
+            e.currentTarget.style.backgroundColor = Theme == "light" ? "#f0f0f0" : "#666";
           },
           onMouseLeave: (e) => {
-            e.currentTarget.style.backgroundColor =Theme == "light" ? (dataIndex % 2 === 0 ? "#f9f9f9" : "#ffffff") : (dataIndex % 2 === 0 ? "#333" : "#000"); 
+            e.currentTarget.style.backgroundColor = Theme == "light" ? (dataIndex % 2 === 0 ? "#f9f9f9" : "#ffffff") : (dataIndex % 2 === 0 ? "#333" : "#000");
           },
         };
       },
@@ -161,14 +165,14 @@ let Theme = localStorage.getItem("theme");
   return (
     <>
       <div
-        // className="table-container"
-        // style={{
-        //   boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-        //   border: "1px solid #ddd",
-        //   borderRadius: "8px",
-        //   overflow: "hidden",
-        // }}
-        >
+      // className="table-container"
+      // style={{
+      //   boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+      //   border: "1px solid #ddd",
+      //   borderRadius: "8px",
+      //   overflow: "hidden",
+      // }}
+      >
         <MUIDataTable
           title={""}
           data={data}
