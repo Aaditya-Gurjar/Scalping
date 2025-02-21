@@ -58,7 +58,7 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox }) => {
                 textAlign: 'center',
             }
         }),
-        rowsPerPageOptions: [10, 25, 50, 100],
+        rowsPerPageOptions: [5, 10, 25, 50, 100],
     };
 
     const customizedColumns = columns.map(column => ({

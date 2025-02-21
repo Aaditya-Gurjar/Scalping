@@ -158,6 +158,17 @@ export const getColumns1 = () => [
             }
         },
     },
+
+    {
+        name: "Symbol",
+        label: "Symbol",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+
+    
     {
         name: "STG",
         label: "Strategy Type",
@@ -200,14 +211,7 @@ export const getColumns1 = () => [
             sort: true,
         }
     },
-    {
-        name: "Symbol",
-        label: "Symbol",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+    
 
     {
         name: "Expirytype",
@@ -639,6 +643,71 @@ export const getColumns9 = () => [
         },
     },
     {
+        name: "Symbol",
+        label: "Symbol",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "TType",
+        label: "Trade Type",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Targetselection",
+        label: "Target Selection",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+
+    {
+        name: "Lot",
+        label: "Quantity",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Booking Point",
+        label: "Target",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Re-entry Point",
+        label: "Re-Entry",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {
         name: "ScalpType",
         label: "ScalpType",
         options: {
@@ -654,14 +723,7 @@ export const getColumns9 = () => [
             sort: true,
         }
     },
-    {
-        name: "Symbol",
-        label: "Symbol",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+    
     {
         name: "Token",
         label: "Token",
@@ -670,22 +732,8 @@ export const getColumns9 = () => [
             sort: true,
         }
     },
-    {
-        name: "TType",
-        label: "Trade Type",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Lot",
-        label: "Quantity",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+    
+    
 
     {
         name: "ExpiryDate",
@@ -786,14 +834,7 @@ export const getColumns9 = () => [
             sort: true,
         }
     },
-    {
-        name: "Targetselection",
-        label: "Target Selection",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+    
     {
         name: "Booking Point2",
         label: "Booking Point2",

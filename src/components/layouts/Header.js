@@ -383,7 +383,7 @@ const Header = () => {
     await GetUserBalence(req)
       .then((response) => {
         if (response.Status) {
-          // console.log("response.Balance",response);
+          // console.log("response.Balance",response.Balance);
 
           setWalletBalance(response.Balance);
         } else {

@@ -29,6 +29,27 @@ const ServicesList = () => {
   });
   const [purchasedPlans, setPurchasedPlans] = useState([]);
   const expire = localStorage.getItem("expire");
+
+
+  const [expandedOptions, setExpandedOptions] = useState([]);
+  const [expandedPatternItems, setExpandedPatternItems] = useState([]);
+
+  const toggleOptions = (index) => {
+    setExpandedOptions((prev) =>
+      prev.includes(index)
+        ? prev.filter((i) => i !== index)
+        : [...prev, index]
+    );
+  };
+
+  const toggleExpand = (index) => {
+    setExpandedPatternItems((prev) =>
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+    );
+  };
+
+
+
   useEffect(() => {
     fetchPlans();
     fetchPurchasedPlans();
@@ -310,7 +331,7 @@ const ServicesList = () => {
                 },
               }}
             >
-              <Tab label="📊 Scalping" value="1" />
+              <Tab label="📊 SOP" value="1" />
               <Tab label=" ⚡ Charting" value="2" />
             </TabList>
           </Box>
@@ -344,11 +365,44 @@ const ServicesList = () => {
                       </p>
                       <p>
                         <strong>Options:</strong>{" "}
-                        {plan["Option Strategy"]?.join(", ")}
+                        {plan["Option Strategy"]?.length > 1 ? (
+                          <>
+                            {plan["Option Strategy"][0]}{" "}
+                            <span
+                              className="show-more"
+                              onClick={() => toggleOptions(index)}
+                            >
+                              ...
+                            </span>
+                            {expandedOptions.includes(index) && (
+                              <span> , {plan["Option Strategy"].slice(1).join(", ")}</span>
+                            )}
+                          </>
+                        ) : (
+                          plan["Option Strategy"]?.join(", ")
+                        )}
                       </p>
+
                       <p>
-                        <strong>Patterns:</strong> {plan.Pattern?.join(", ")}
+                        <strong>Patterns:</strong>{" "}
+                        {plan.Pattern?.length > 1 ? (
+                          <>
+                            {plan.Pattern[0]}{" "}
+                            <span
+                              className="show-more"
+                              onClick={() => toggleExpand(index)}
+                            >
+                              ...
+                            </span>
+                            {expandedPatternItems.includes(index) && (
+                              <span> , {plan.Pattern.slice(1).join(", ")}</span>
+                            )}
+                          </>
+                        ) : (
+                          plan.Pattern?.join(", ")
+                        )}
                       </p>
+
                     </div>
                     {isPlanPurchased(plan.PlanName) ? (
                       <button
@@ -370,52 +424,53 @@ const ServicesList = () => {
               )}
             </div>
           </TabPanel>
+
           <TabPanel value="2">
-          <div className="d-flex flex-wrap gap-3">
-            {plansData.loading ? (
-              <p className="allplan-loading">Loading...</p>
-            ) : (
-              getUpdatedPlansCharting?.map((plan, index) => (
-                <div key={index} className="allplan-card">
-                  <div className="plan-header">
-                    <h2 className="allplan-card-title">{plan.PlanName}</h2>
-                    {isPlanPurchased(plan.PlanName) && (
-                      <BadgeCheck className="purchased-badge" />
+            <div className="d-flex flex-wrap gap-3">
+              {plansData.loading ? (
+                <p className="allplan-loading">Loading...</p>
+              ) : (
+                getUpdatedPlansCharting?.map((plan, index) => (
+                  <div key={index} className="allplan-card">
+                    <div className="plan-header">
+                      <h2 className="allplan-card-title">{plan.PlanName}</h2>
+                      {isPlanPurchased(plan.PlanName) && (
+                        <BadgeCheck className="purchased-badge" />
+                      )}
+                    </div>
+                    <h4 className="allplan-card-subtitle">
+                      <FaRupeeSign /> {plan.payment}
+                    </h4>
+                    <h4 className="allplan-card-subtitle">
+                      Duration: {plan["Plan Validity"]}
+                    </h4>
+                    <h4 className="allplan-card-subtitle">
+                      Scripts: {plan.NumberofScript}
+                    </h4>
+                    <div className="plan-details">
+                      <p>
+                        <strong>Charting Signals:</strong>{" "}
+                        {plan.ChartingSignal?.join(", ")}
+                      </p>
+                    </div>
+                    {isPlanPurchased(plan.PlanName) ? (
+                      <button
+                        className="allplan-button buy-again"
+                        onClick={() => HandleBuyPlan(index, 0, true)}
+                      >
+                        🔄 Buy Again
+                      </button>
+                    ) : (
+                      <button
+                        className="allplan-button"
+                        onClick={() => HandleBuyPlan(index, 1, true)}
+                      >
+                        🛒 Buy Now
+                      </button>
                     )}
                   </div>
-                  <h2 className="allplan-card-subtitle">
-                    <FaRupeeSign /> {plan.payment}
-                  </h2>
-                  <h2 className="allplan-card-subtitle">
-                    Duration: {plan["Plan Validity"]}
-                  </h2>
-                  <h2 className="allplan-card-subtitle">
-                    Scripts: {plan.NumberofScript}
-                  </h2>
-                  <div className="plan-details">
-                    <p>
-                      <strong>Charting Signals:</strong>{" "}
-                      {plan.ChartingSignal?.join(", ")}
-                    </p>
-                  </div>
-                  {isPlanPurchased(plan.PlanName) ? (
-                    <button
-                      className="allplan-button buy-again"
-                      onClick={() => HandleBuyPlan(index, 0, true)}
-                    >
-                      🔄 Buy Again
-                    </button>
-                  ) : (
-                    <button
-                      className="allplan-button"
-                      onClick={() => HandleBuyPlan(index, 1, true)}
-                    >
-                      🛒 Buy Now
-                    </button>
-                  )}
-                </div>
-              ))
-            )}
+                ))
+              )}
             </div>
           </TabPanel>
         </TabContext>
