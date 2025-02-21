@@ -951,7 +951,7 @@ const DynamicForm = ({
                                       <div
                                         className={`col-lg-${item.col_size}`}
                                       >
-                                        <div className="input-block mb-3 flex-column">
+                                        <div className="input-block mb-4 flex-column">
                                           <label
                                             className={`col-lg-${item.label_size}`}
                                           >

@@ -5681,7 +5681,7 @@ option[value="Reject"] {
 }
 
 .trading-icon svg {
-  color: #ffffff;
+  color: var(--text-color);
 }
 
 /* Responsive Layout */
@@ -6225,4 +6225,12 @@ ul.breadcrumb-links li a {
 .text-white {
   --bs-text-opacity: 1;
   color:var(--text-color) !important;
+}
+
+.input-block {
+  margin-bottom: 1  ;
+}
+
+svg {
+  color: var(--text-color) !important;
 }
