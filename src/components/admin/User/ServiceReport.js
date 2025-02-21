@@ -31,7 +31,7 @@ const Userlog = () => {
         if (selectStrategyType == '') {
             return ""
         }
-        const data = { Strategy: selectStrategyType && selectStrategyType == "Scalping" ? "NewScalping" : selectStrategyType }
+        const data = { Strategy: selectStrategyType && selectStrategyType  == "Scalping" ? "NewScalping" : selectStrategyType }
         await Get_All_Service(data)
             .then((response) => {
                 if (response.Status) {

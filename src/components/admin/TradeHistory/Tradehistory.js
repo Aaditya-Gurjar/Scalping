@@ -807,7 +807,6 @@
 
 // export default Tradehistory;
 
-
 import React, { useState, useEffect, useRef } from "react";
 import {
     get_User_Data,
@@ -852,7 +851,6 @@ import Content from '../../../ExtraComponent/Content';
 
 const Tradehistory = () => {
     const StrategyType = sessionStorage.getItem("StrategyType");
-
     const location = useLocation();
     const sectionRefs = useRef({});
     const [selectStrategyType, setStrategyType] = useState(StrategyType || "Scalping");
@@ -867,8 +865,8 @@ const Tradehistory = () => {
     const [selectSegmentType, setSegmentType] = useState("");
     const [getChartingSegments, setChartingSegments] = useState([]);
     const [getGroupData, setGroupData] = useState({ loading: true, data: [] });
-    const Username = sessionStorage.getItem('Username');
-    const [selectGroup, setSelectGroup] = useState(Username || '');
+    const Username = sessionStorage.getItem("Username");
+    const [selectGroup, setSelectGroup] = useState(Username || "");
 
     // Track if data for a section has been loaded.
     const [loadedSections, setLoadedSections] = useState({
@@ -913,8 +911,8 @@ const Tradehistory = () => {
         if (getGroupData?.data?.length > 0) {
             setSelectGroup(Username || getGroupData.data[0].Username);
         }
-        setStrategyType(StrategyType || 'Scalping');
-    }, [getGroupData, Username, StrategyType]); // Added dependencies to avoid stale closures
+        setStrategyType(StrategyType || "Scalping");
+    }, [getGroupData, Username, StrategyType]);
 
     const fetchStrategyTypes = async () => {
         try {
@@ -931,8 +929,7 @@ const Tradehistory = () => {
 
     const GetAllGroupDetails = async () => {
         try {
-            const response = await GetClientService(); // Avoid unnecessary .then chaining
-
+            const response = await GetClientService();
             if (response?.Status) {
                 setGroupData({
                     loading: false,
@@ -944,7 +941,7 @@ const Tradehistory = () => {
                     data: [],
                 });
             }
-        } catch (error) { // Catch block should receive the error
+        } catch (error) {
             console.error("Error fetching group data:", error);
             setGroupData({
                 loading: false,
@@ -976,10 +973,11 @@ const Tradehistory = () => {
         }
     };
 
+    // Now fetch trade history whenever strategy type or selected group (name) changes.
     useEffect(() => {
         fetchStrategyTypes();
         fetchTradeHistory();
-    }, [selectStrategyType]);
+    }, [selectStrategyType, selectGroup]);
 
     const convertDateFormat = (date) => {
         if (!date) return "";
@@ -990,8 +988,11 @@ const Tradehistory = () => {
         )}.${String(dateObj.getDate()).padStart(2, "0")}`;
     };
 
+    // Modified handleRowSelect: on selecting a row, close all open dropdowns and hide report sections.
     const handleRowSelect = (rowData) => {
         setSelectedRowData(rowData);
+        setOpenSections({}); // Close any open report sections
+        setShowReportSections(false); // Hide report sections until "Generate History" is clicked
     };
 
     const handleSubmit = async () => {
@@ -1003,6 +1004,17 @@ const Tradehistory = () => {
             });
             return;
         }
+
+        // Reset loaded sections so new data is fetched
+        setLoadedSections({
+            overview: false,
+            pnlAnalysis: false,
+            equity: false,
+            drawdown: false,
+            trades: false,
+            profitLoss: false,
+            consistent: false,
+        });
 
         try {
             const basicData = {
@@ -1066,11 +1078,11 @@ const Tradehistory = () => {
         }
     };
 
-    // loadSectionData simply loads the data if not already loaded.
+    // loadSectionData loads data for a report section if not already loaded.
     const loadSectionData = async (section) => {
         if (loadedSections[section]) return;
         try {
-            // For "overview", assume data is already loaded via handleSubmit.
+            // For "overview", data is assumed to be loaded via handleSubmit.
             if (section === "overview") {
                 setLoadedSections((prev) => ({ ...prev, [section]: true }));
                 return;
@@ -1148,10 +1160,10 @@ const Tradehistory = () => {
         }
     };
 
-    // Instead of a single shared state, track open/closed state for each section.
+    // Track open/closed state for each report section.
     const [openSections, setOpenSections] = useState({});
 
-    // Updated ReportSection component uses its own open state from openSections.
+    // ReportSection component for each section.
     const ReportSection = ({ title, section, children }) => {
         const isOpen = openSections[section] || false;
 
@@ -1331,10 +1343,7 @@ const Tradehistory = () => {
                             </div>
                             {showReportSections && (
                                 <div className="mt-5">
-                                    <ReportSection
-                                        title="Total Profit/Loss Overview"
-                                        section="overview"
-                                    >
+                                    <ReportSection title="Total Profit/Loss Overview" section="overview">
                                         <div
                                             className="pnl-overview"
                                             style={{
@@ -1368,9 +1377,7 @@ const Tradehistory = () => {
                                                         borderRadius: "4px",
                                                     }}
                                                 >
-                                                    {getAllTradeData.Overall[0]?.PnL >= 0
-                                                        ? "Profit"
-                                                        : "Loss"}
+                                                    {getAllTradeData.Overall[0]?.PnL >= 0 ? "Profit" : "Loss"}
                                                 </span>
                                             </h4>
                                         </div>
@@ -1381,10 +1388,7 @@ const Tradehistory = () => {
                                         />
                                     </ReportSection>
 
-                                    <ReportSection
-                                        title="Profit/Loss Analysis"
-                                        section="pnlAnalysis"
-                                    >
+                                    <ReportSection title="Profit/Loss Analysis" section="pnlAnalysis">
                                         <ProfitAndLossGraph data={getPnLData.data} />
                                     </ReportSection>
                                     <ReportSection title="Equity Curve Analysis" section="equity">

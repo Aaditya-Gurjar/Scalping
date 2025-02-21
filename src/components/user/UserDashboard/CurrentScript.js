@@ -49,7 +49,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
     PremiumRotation: [],
   });
 
-  console.log("getAllService", getAllService);
 
   useEffect(() => {
     GetUserAllScripts();
@@ -104,7 +103,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
       timerProgressBar: true,
     });
   };
-  console.log("getAllService", getAllService);
 
   const handleDelete = async (rowData, type) => {
     console.log("data", data);
@@ -112,20 +110,20 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
     const req =
       data == "Scalping" && type == 1
         ? {
-            Username: userName,
-            MainStrategy: data,
-            Strategy: getAllService.ScalpingData[index].ScalpType,
-            Symbol: getAllService.ScalpingData[index].Symbol,
-            ETPattern: "",
-            Timeframe: "",
-            TType: "",
-            Group: getAllService.ScalpingData[index].GroupN,
-            TradePattern: "",
-            TSymbol: "",
-            PatternName: "",
-          }
+          Username: userName,
+          MainStrategy: data,
+          Strategy: getAllService.ScalpingData[index].ScalpType,
+          Symbol: getAllService.ScalpingData[index].Symbol,
+          ETPattern: "",
+          Timeframe: "",
+          TType: "",
+          Group: getAllService.ScalpingData[index].GroupN,
+          TradePattern: "",
+          TSymbol: "",
+          PatternName: "",
+        }
         : data == "Option Strategy"
-        ? {
+          ? {
             MainStrategy: data,
             Strategy: getAllService.OptionData[index].STG,
             Symbol: getAllService.OptionData[index].MainSymbol,
@@ -138,35 +136,35 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             TradePattern: "",
             PatternName: "",
           }
-        : data == "Pattern" || data == "Pattern Script"
-        ? {
-            MainStrategy: "Pattern",
-            Strategy: getAllService.PatternData[index].TradePattern,
-            Symbol: getAllService.PatternData[index].Symbol,
-            Username: userName,
-            ETPattern: getAllService.PatternData[index].Pattern,
-            Timeframe: getAllService.PatternData[index].TimeFrame,
-            TType: getAllService.PatternData[index].TType,
-            Group: "",
-            TSymbol: "",
-            TradePattern: "",
-            PatternName: "",
-          }
-        : data == "Scalping" && type == 2
-        ? {
-            Username: userName,
-            MainStrategy: "NewScalping",
-            Strategy: getAllService.NewScalping[index].Targetselection,
-            Symbol: getAllService.NewScalping[index].Symbol,
-            ETPattern: "",
-            Timeframe: "",
-            TType: "",
-            Group: getAllService.NewScalping[index].GroupN,
-            TradePattern: "",
-            TSymbol: "",
-            PatternName: "",
-          }
-        : "";
+          : data == "Pattern" || data == "Pattern Script"
+            ? {
+              MainStrategy: "Pattern",
+              Strategy: getAllService.PatternData[index].TradePattern,
+              Symbol: getAllService.PatternData[index].Symbol,
+              Username: userName,
+              ETPattern: getAllService.PatternData[index].Pattern,
+              Timeframe: getAllService.PatternData[index].TimeFrame,
+              TType: getAllService.PatternData[index].TType,
+              Group: "",
+              TSymbol: "",
+              TradePattern: "",
+              PatternName: "",
+            }
+            : data == "Scalping" && type == 2
+              ? {
+                Username: userName,
+                MainStrategy: "NewScalping",
+                Strategy: getAllService.NewScalping[index].Targetselection,
+                Symbol: getAllService.NewScalping[index].Symbol,
+                ETPattern: "",
+                Timeframe: "",
+                TType: "",
+                Group: getAllService.NewScalping[index].GroupN,
+                TradePattern: "",
+                TSymbol: "",
+                PatternName: "",
+              }
+              : "";
 
     Swal.fire({
       title: "Are you sure?",
@@ -332,24 +330,24 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
           const req =
             data == "Scalping" && type == 1
               ? {
-                  Username: userName,
-                  MainStrategy: data,
-                  Strategy:
-                    getAllService.ScalpingData[index].ScalpType ==
+                Username: userName,
+                MainStrategy: data,
+                Strategy:
+                  getAllService.ScalpingData[index].ScalpType ==
                     "Multi_Conditional"
-                      ? getAllService.NewScalping[index].Targetselection
-                      : getAllService.ScalpingData[index].ScalpType,
-                  Symbol: getAllService.ScalpingData[index].Symbol,
-                  ETPattern: "",
-                  Timeframe: "",
-                  TType: "",
-                  Group: getAllService.ScalpingData[index].GroupN,
-                  TradePattern: "",
-                  TSymbol: "",
-                  PatternName: "",
-                }
+                    ? getAllService.NewScalping[index].Targetselection
+                    : getAllService.ScalpingData[index].ScalpType,
+                Symbol: getAllService.ScalpingData[index].Symbol,
+                ETPattern: "",
+                Timeframe: "",
+                TType: "",
+                Group: getAllService.ScalpingData[index].GroupN,
+                TradePattern: "",
+                TSymbol: "",
+                PatternName: "",
+              }
               : data == "Option Strategy"
-              ? {
+                ? {
                   MainStrategy: data,
                   Strategy: getAllService.OptionData[index].STG,
                   Symbol: getAllService.OptionData[index].MainSymbol,
@@ -362,41 +360,41 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                   TradePattern: "",
                   PatternName: "",
                 }
-              : data == "Pattern" || data == "Pattern Script"
-              ? {
-                  MainStrategy: data,
-                  Strategy: getAllService.PatternData[index].TradePattern,
-                  Symbol: getAllService.PatternData[index].Symbol,
-                  Username: userName,
-                  ETPattern: getAllService.PatternData[index].Pattern,
-                  Timeframe: getAllService.PatternData[index].TimeFrame,
-                  TType: getAllService.PatternData[index].TType,
-                  Group: "",
-                  TSymbol: "",
-                  TradePattern: "",
-                  PatternName: "",
-                }
-              : data == "Scalping" && type == 2
-              ? {
-                  Username: userName,
-                  MainStrategy: "NewScalping",
-                  Strategy: getAllService.NewScalping[index].Targetselection,
-                  Symbol: getAllService.NewScalping[index].Symbol,
-                  ETPattern: "",
-                  Timeframe: "",
-                  TType: "",
-                  Group: getAllService.NewScalping[index].GroupN,
-                  TradePattern: "",
-                  TSymbol: "",
-                  PatternName: "",
-                }
-              : data == "ChartingPlatform"
-              ? {
-                  Username: userName,
-                  User: getCharting[index]?.AccType,
-                  Symbol: getCharting[index]?.TSymbol,
-                }
-              : "";
+                : data == "Pattern" || data == "Pattern Script"
+                  ? {
+                    MainStrategy: data,
+                    Strategy: getAllService.PatternData[index].TradePattern,
+                    Symbol: getAllService.PatternData[index].Symbol,
+                    Username: userName,
+                    ETPattern: getAllService.PatternData[index].Pattern,
+                    Timeframe: getAllService.PatternData[index].TimeFrame,
+                    TType: getAllService.PatternData[index].TType,
+                    Group: "",
+                    TSymbol: "",
+                    TradePattern: "",
+                    PatternName: "",
+                  }
+                  : data == "Scalping" && type == 2
+                    ? {
+                      Username: userName,
+                      MainStrategy: "NewScalping",
+                      Strategy: getAllService.NewScalping[index].Targetselection,
+                      Symbol: getAllService.NewScalping[index].Symbol,
+                      ETPattern: "",
+                      Timeframe: "",
+                      TType: "",
+                      Group: getAllService.NewScalping[index].GroupN,
+                      TradePattern: "",
+                      TSymbol: "",
+                      PatternName: "",
+                    }
+                    : data == "ChartingPlatform"
+                      ? {
+                        Username: userName,
+                        User: getCharting[index]?.AccType,
+                        Symbol: getCharting[index]?.TSymbol,
+                      }
+                      : "";
 
           if (data == "ChartingPlatform") {
             await DeleteSingleChartingScript(req).then((response) => {
@@ -476,20 +474,20 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             const req =
               data == "Scalping" && type == 1
                 ? {
-                    Username: userName,
-                    MainStrategy: data,
-                    Strategy: getAllService.ScalpingData[index].ScalpType,
-                    Symbol: getAllService.ScalpingData[index].Symbol,
-                    ETPattern: "",
-                    Timeframe: "",
-                    TType: "",
-                    Group: getAllService.ScalpingData[index].GroupN,
-                    TradePattern: "",
-                    TSymbol: "",
-                    PatternName: "",
-                  }
+                  Username: userName,
+                  MainStrategy: data,
+                  Strategy: getAllService.ScalpingData[index].ScalpType,
+                  Symbol: getAllService.ScalpingData[index].Symbol,
+                  ETPattern: "",
+                  Timeframe: "",
+                  TType: "",
+                  Group: getAllService.ScalpingData[index].GroupN,
+                  TradePattern: "",
+                  TSymbol: "",
+                  PatternName: "",
+                }
                 : data == "Option Strategy"
-                ? {
+                  ? {
                     MainStrategy: data,
                     Strategy: getAllService.OptionData[index].STG,
                     Symbol: getAllService.OptionData[index].MainSymbol,
@@ -502,35 +500,35 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                     TradePattern: "",
                     PatternName: "",
                   }
-                : data == "Pattern" || data == "Pattern Script"
-                ? {
-                    MainStrategy: data,
-                    Strategy: getAllService.PatternData[index].TradePattern,
-                    Symbol: getAllService.PatternData[index].Symbol,
-                    Username: userName,
-                    ETPattern: getAllService.PatternData[index].Pattern,
-                    Timeframe: getAllService.PatternData[index].TimeFrame,
-                    TType: getAllService.PatternData[index].TType,
-                    Group: "",
-                    TSymbol: "",
-                    TradePattern: "",
-                    PatternName: "",
-                  }
-                : data == "Scalping" && type == 2
-                ? {
-                    Username: userName,
-                    MainStrategy: "NewScalping",
-                    Strategy: getAllService.NewScalping[index].Targetselection,
-                    Symbol: getAllService.NewScalping[index].Symbol,
-                    ETPattern: "",
-                    Timeframe: "",
-                    TType: "",
-                    Group: getAllService.NewScalping[index].GroupN,
-                    TradePattern: "",
-                    TSymbol: "",
-                    PatternName: "",
-                  }
-                : "";
+                  : data == "Pattern" || data == "Pattern Script"
+                    ? {
+                      MainStrategy: data,
+                      Strategy: getAllService.PatternData[index].TradePattern,
+                      Symbol: getAllService.PatternData[index].Symbol,
+                      Username: userName,
+                      ETPattern: getAllService.PatternData[index].Pattern,
+                      Timeframe: getAllService.PatternData[index].TimeFrame,
+                      TType: getAllService.PatternData[index].TType,
+                      Group: "",
+                      TSymbol: "",
+                      TradePattern: "",
+                      PatternName: "",
+                    }
+                    : data == "Scalping" && type == 2
+                      ? {
+                        Username: userName,
+                        MainStrategy: "NewScalping",
+                        Strategy: getAllService.NewScalping[index].Targetselection,
+                        Symbol: getAllService.NewScalping[index].Symbol,
+                        ETPattern: "",
+                        Timeframe: "",
+                        TType: "",
+                        Group: getAllService.NewScalping[index].GroupN,
+                        TradePattern: "",
+                        TSymbol: "",
+                        PatternName: "",
+                      }
+                      : "";
 
             await Continue(req)
               .then((response) => {
@@ -810,16 +808,14 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         values.EntryTime <
         (EditDataScalping.Exchange === "MCX" ? mcxMinTime : minTime)
       ) {
-        errors.EntryTime = `Entry Time Must be After ${
-          EditDataScalping.Exchange === "MCX" ? mcxMinTime : minTime
-        }.`;
+        errors.EntryTime = `Entry Time Must be After ${EditDataScalping.Exchange === "MCX" ? mcxMinTime : minTime
+          }.`;
       } else if (
         values.EntryTime >
         (EditDataScalping.Exchange === "MCX" ? mcxMaxTime : maxTime)
       ) {
-        errors.EntryTime = `Entry Time Must be Before ${
-          EditDataScalping.Exchange === "MCX" ? mcxMaxTime : maxTime
-        }.`;
+        errors.EntryTime = `Entry Time Must be Before ${EditDataScalping.Exchange === "MCX" ? mcxMaxTime : maxTime
+          }.`;
       }
 
       if (values.ExitTime == "") {
@@ -828,16 +824,14 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         values.ExitTime <
         (EditDataScalping.Exchange === "MCX" ? mcxMinTime : minTime)
       ) {
-        errors.ExitTime = `Exit Time Must be After ${
-          EditDataScalping.Exchange === "MCX" ? mcxMinTime : minTime
-        }.`;
+        errors.ExitTime = `Exit Time Must be After ${EditDataScalping.Exchange === "MCX" ? mcxMinTime : minTime
+          }.`;
       } else if (
         values.ExitTime >
         (EditDataScalping.Exchange === "MCX" ? mcxMaxTime : maxTime)
       ) {
-        errors.ExitTime = `Exit Time Must be Before ${
-          EditDataScalping.Exchange === "MCX" ? mcxMaxTime : maxTime
-        }.`;
+        errors.ExitTime = `Exit Time Must be Before ${EditDataScalping.Exchange === "MCX" ? mcxMaxTime : maxTime
+          }.`;
       }
 
       if (
@@ -1046,16 +1040,14 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         values.EntryTime <
         (EditDataOption.Exchange === "MCX" ? mcxMinTime : minTime)
       ) {
-        errors.EntryTime = `Entry Time Must be After ${
-          EditDataOption.Exchange === "MCX" ? mcxMinTime : minTime
-        }.`;
+        errors.EntryTime = `Entry Time Must be After ${EditDataOption.Exchange === "MCX" ? mcxMinTime : minTime
+          }.`;
       } else if (
         values.EntryTime >
         (EditDataOption.Exchange === "MCX" ? mcxMaxTime : maxTime)
       ) {
-        errors.EntryTime = `Entry Time Must be Before ${
-          EditDataOption.Exchange === "MCX" ? mcxMaxTime : maxTime
-        }.`;
+        errors.EntryTime = `Entry Time Must be Before ${EditDataOption.Exchange === "MCX" ? mcxMaxTime : maxTime
+          }.`;
       }
 
       if (values.ExitTime == "") {
@@ -1064,16 +1056,14 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         values.ExitTime <
         (EditDataOption.Exchange === "MCX" ? mcxMinTime : minTime)
       ) {
-        errors.ExitTime = `Exit Time Must be After ${
-          EditDataOption.Exchange === "MCX" ? mcxMinTime : minTime
-        }.`;
+        errors.ExitTime = `Exit Time Must be After ${EditDataOption.Exchange === "MCX" ? mcxMinTime : minTime
+          }.`;
       } else if (
         values.ExitTime >
         (EditDataOption.Exchange === "MCX" ? mcxMaxTime : maxTime)
       ) {
-        errors.ExitTime = `Exit Time Must be Before ${
-          EditDataOption.Exchange === "MCX" ? mcxMaxTime : maxTime
-        }.`;
+        errors.ExitTime = `Exit Time Must be Before ${EditDataOption.Exchange === "MCX" ? mcxMaxTime : maxTime
+          }.`;
       }
 
       if (
@@ -1273,16 +1263,14 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         values.EntryTime <
         (EditDataPattern.Exchange === "MCX" ? mcxMinTime : minTime)
       ) {
-        errors.EntryTime = `Entry Time Must be After ${
-          EditDataPattern.Exchange === "MCX" ? mcxMinTime : minTime
-        }.`;
+        errors.EntryTime = `Entry Time Must be After ${EditDataPattern.Exchange === "MCX" ? mcxMinTime : minTime
+          }.`;
       } else if (
         values.EntryTime >
         (EditDataPattern.Exchange === "MCX" ? mcxMaxTime : maxTime)
       ) {
-        errors.EntryTime = `Entry Time Must be Before ${
-          EditDataPattern.Exchange === "MCX" ? mcxMaxTime : maxTime
-        }.`;
+        errors.EntryTime = `Entry Time Must be Before ${EditDataPattern.Exchange === "MCX" ? mcxMaxTime : maxTime
+          }.`;
       }
 
       if (values.ExitTime == "") {
@@ -1291,16 +1279,14 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         values.ExitTime <
         (EditDataPattern.Exchange === "MCX" ? mcxMinTime : minTime)
       ) {
-        errors.ExitTime = `Exit Time Must be After ${
-          EditDataPattern.Exchange === "MCX" ? mcxMinTime : minTime
-        }.`;
+        errors.ExitTime = `Exit Time Must be After ${EditDataPattern.Exchange === "MCX" ? mcxMinTime : minTime
+          }.`;
       } else if (
         values.ExitTime >
         (EditDataPattern.Exchange === "MCX" ? mcxMaxTime : maxTime)
       ) {
-        errors.ExitTime = `Exit Time Must be Before ${
-          EditDataPattern.Exchange === "MCX" ? mcxMaxTime : maxTime
-        }.`;
+        errors.ExitTime = `Exit Time Must be Before ${EditDataPattern.Exchange === "MCX" ? mcxMaxTime : maxTime
+          }.`;
       }
 
       if (
@@ -1980,158 +1966,158 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
       formik2.setFieldValue("ExitTime", EditDataPattern.ExitTime);
       formik2.setFieldValue("TradeCount", EditDataPattern.TradeCount);
     }
-  }, [showEditModal, data, EditDataScalping]);
 
-  const updatedFields = fields.filter((item) => {
-    return item.hiding == false;
-  });
-
-  return (
-    <>
-      {data && (
-        <>
-        <div className="card p-3">
-  <div className="d-flex justify-content-between align-items-center">
-    <h2 className="mb-0"> 
-      {tableType === "MultiCondition" ? "Multi Condition" : data}
-    </h2>
-
-    <button
-      className="btn btn-primary"
-      style={{
-        fontSize: "18px",
-        padding: "6px 14px",
-        height: "47px",
-      }}
-      onClick={() => AddScript(data)}
-    >
-      Add Script
-    </button>
-  </div>
-</div>
+  })
 
 
-          {getAllService.loading ? (
-            <Loader />
-          ) : (data === "Scalping" && getAllService.NewScalping?.length > 0) ||
-            (data === "Option Strategy" &&
-              getAllService.OptionData?.length > 0) ||
-            ((data === "Pattern" || data === "Pattern Script") &&
-              getAllService.PatternData?.length > 0) ||
-            (data === "ChartingPlatform" && getCharting?.length > 0) ? (
-            <FullDataTable
-              columns={
-                data === "Scalping"
-                  ? getColumns6(
-                      handleDelete,
-                      handleEdit,
-                      HandleContinueDiscontinue,
-                      handleMatchPosition
-                    )
-                  : data === "Option Strategy"
-                  ? getColumns4(
-                      handleDelete,
-                      handleEdit,
-                      HandleContinueDiscontinue
-                    )
-                  : data === "Pattern" || data === "Pattern Script"
-                  ? getColumns5(
-                      handleDelete,
-                      handleEdit,
-                      HandleContinueDiscontinue
-                    )
-                  : data === "ChartingPlatform"
-                  ? getColumns8(HandleContinueDiscontinue)
-                  : getColumns3(
-                      handleDelete,
-                      handleEdit,
-                      HandleContinueDiscontinue
-                    )
-              }
-              data={
-                data === "Scalping"
-                  ? getAllService.NewScalping
-                  : data === "Option Strategy"
-                  ? getAllService.OptionData
-                  : data === "Pattern" || data === "Pattern Script"
-                  ? getAllService.PatternData
-                  : data === "ChartingPlatform"
-                  ? getCharting
-                  : []
-              }
-              checkBox={false}
-            />
-          ) : (
-            <NoDataFound />
-          )}
-          </>
-      )}
 
-      {showEditModal && (
-        <div
-          className="modal show"
-          id="exampleModal"
-          style={{ display: "block" }}
-        >
-          <div className="modal-dialog modal-xl modal-dialog-centered p-2">
-            <div className="modal-content ">
-              <div className="modal-header ">
-                <h5 className="modal-title">📝 Edit Script</h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                  onClick={() => {
-                    setShowEditModal(false);
-                    formik.resetForm();
-                  }}
-                />
-              </div>
-              {data == "Scalping" ? (
-                <>
-                  <div className="p-4">
-                    <Formikform
-                      fields={(EditDataScalping.PositionType !== "Multiple"
-                        ? updatedFields
-                        : fields
-                      ).filter(
-                        (field) =>
-                          !field.showWhen || field.showWhen(formik.values)
-                      )}
-                      btn_name="Update"
-                      formik={formik}
-                    />
-                  </div>
-                </>
-              ) : data == "Option Strategy" ? (
-                <>
-                  <div className="p-4">
-                    <Formikform
-                      fields={fields1}
-                      btn_name="Update"
-                      formik={formik1}
-                    />
-                  </div>
-                </>
-              ) : (
-                <div className="p-4">
-                  <Formikform
-                    fields={fields2.filter(
-                      (field) =>
-                        !field.showWhen || field.showWhen(formik2.values)
+    useEffect(() => {
+      if (data == "Scalping") {
+        const WorkingDay = EditDataScalping?.WorkingDay?.map(day => {
+          return { label: day, value: day }
+        })
+        console.log("EditDataScalping.TargetExit", EditDataScalping.TargetExit)
+
+        formik.setFieldValue('EntryPrice', EditDataScalping.EntryPrice)
+        formik.setFieldValue('EntryRange', EditDataScalping.EntryRange)
+        formik.setFieldValue('Targetvalue', parseFloat(EditDataScalping['Booking Point']))
+        formik.setFieldValue('tgp2', parseFloat(EditDataScalping['Booking Point2']))
+        formik.setFieldValue('tgp3', parseFloat(EditDataScalping['Booking Point3']))
+        formik.setFieldValue('Slvalue', parseFloat(EditDataScalping['Re-entry Point']))
+        formik.setFieldValue('HoldExit', EditDataScalping.HoldExit)
+        formik.setFieldValue('EntryTime', EditDataScalping.EntryTime)
+        formik.setFieldValue('ExitTime', EditDataScalping.ExitTime)
+        formik.setFieldValue('Quantity', EditDataScalping.Quantity)
+        formik.setFieldValue('TradeCount', EditDataScalping.TradeCount)
+        formik.setFieldValue("TType", EditDataScalping.TType)
+        formik.setFieldValue("TStype", EditDataScalping.TStype)
+        formik.setFieldValue("Quantity", EditDataScalping.Quantity)
+        formik.setFieldValue("EntryPrice", parseFloat(EditDataScalping.EntryPrice))
+        formik.setFieldValue("EntryRange", parseFloat(EditDataScalping.EntryRange))
+        formik.setFieldValue("HoldExit", EditDataScalping.HoldExit)
+        formik.setFieldValue("Symbol", EditDataScalping.Symbol)
+        formik.setFieldValue("ExitDay", EditDataScalping.ExitDay)
+        formik.setFieldValue("RepeatationCount", EditDataScalping.RepeatationCount)
+        formik.setFieldValue("RolloverTF", EditDataScalping.RolloverTF)
+        formik.setFieldValue("Profit", EditDataScalping.Profit)
+        formik.setFieldValue("Loss", EditDataScalping.Loss)
+        formik.setFieldValue("TargetExit", EditDataScalping.TargetExit)
+        formik.setFieldValue('WorkingDay', WorkingDay);
+
+
+      }
+      else if (data == "Option Strategy") {
+
+        const WorkingDay = EditDataOption?.WorkingDay?.map(day => {
+          return { label: day, value: day }
+        })
+        formik1.setFieldValue('TStype', EditDataOption.strategytype)
+        formik1.setFieldValue('Targetvalue', EditDataOption['Target value'])
+        formik1.setFieldValue('Slvalue', EditDataOption['SL value'])
+        formik1.setFieldValue('Quantity', EditDataOption['Lot Size'])
+        formik1.setFieldValue('EntryTime', EditDataOption['Entry Time'])
+        formik1.setFieldValue('ExitTime', EditDataOption['Exit Time'])
+        formik1.setFieldValue('TradeCount', EditDataOption.TradeCount)
+        formik1.setFieldValue('WorkingDay', WorkingDay)
+      }
+      else if (data == "Pattern") {
+
+        formik2.setFieldValue('TStype', EditDataPattern.TStype)
+        formik2.setFieldValue('Targetvalue', EditDataPattern['Target value'])
+        formik2.setFieldValue('Slvalue', EditDataPattern['SL value'])
+        formik2.setFieldValue('Quantity', EditDataPattern.Quantity)
+        formik2.setFieldValue('EntryTime', EditDataPattern.EntryTime)
+        formik2.setFieldValue('ExitTime', EditDataPattern.ExitTime)
+        formik2.setFieldValue('TradeCount', EditDataPattern.TradeCount)
+
+      }
+    }, [showEditModal, data, EditDataScalping])
+
+
+    const updatedFields = fields.filter((item) => {
+      return item.hiding == false
+    })
+
+    return (
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-sm-12">
+            <div className="iq-card">
+              <div className="iq-card-body" style={{ padding: '3px' }}>
+                <div className="tab-content2" id="myTabContent-3" style={{ marginTop: "1rem !important" }}>
+
+                  <div className="tab-pane fade show active" id="home-justify" role="tabpanel" aria-labelledby="home-tab-justify">
+                    {data && (
+                      <>
+                        <div className="iq-card-header d-flex justify-content-between">
+                          <div className="iq-header-title">
+                            {tableType === "MultiCondition" ? <h4 className="card-title">{"Multi Condition"}</h4> : <h4 className="card-title">{data}</h4>}
+                          </div>
+                          <div className='d-flex justify-content-end'>
+                            <button className='btn btn-primary mt-1' style={{ fontSize: '18px', padding: '6px 14px', height: "47px" }} onClick={() => AddScript(data)}>Add Script</button>
+                          </div>
+
+                        </div>
+                        <div className="iq-card-body " style={{ padding: '3px' }}>
+                          <div className="table-responsive">
+
+                            {getAllService.loading ? (
+                              <Loader />
+                            ) : (
+
+                              (data === "Scalping" && getAllService.NewScalping?.length > 0) ||
+                                (data === "Option Strategy" && getAllService.OptionData?.length > 0) ||
+                                ((data === "Pattern" || data === "Pattern Script") && getAllService.PatternData?.length > 0) ||
+                                (data === "ChartingPlatform" && getCharting?.length > 0) ? (
+                                <FullDataTable
+                                  columns={
+                                    data === "Scalping"
+                                      ? getColumns6(handleDelete, handleEdit, HandleContinueDiscontinue, handleMatchPosition)
+                                      : data === "Option Strategy"
+                                        ? getColumns4(handleDelete, handleEdit, HandleContinueDiscontinue)
+                                        : (data === "Pattern" || data === "Pattern Script")
+                                          ? getColumns5(handleDelete, handleEdit, HandleContinueDiscontinue)
+                                          : data === "ChartingPlatform"
+                                            ? getColumns8(HandleContinueDiscontinue)
+                                            : getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue)
+                                  }
+                                  data={
+                                    data === "Scalping"
+                                      ? getAllService.NewScalping
+                                      : data === "Option Strategy"
+                                        ? getAllService.OptionData
+                                        : (data === "Pattern" || data === "Pattern Script")
+                                          ? getAllService.PatternData
+                                          : data === "ChartingPlatform"
+                                            ? getCharting
+                                            : []
+                                  }
+                                  checkBox={false}
+                                />
+                              ) : (
+                                <NoDataFound />
+                              )
+
+
+                            )
+
+
+
+                            }
+                          </div>
+                        </div>
+                      </>
                     )}
-                    btn_name="Update"
-                    formik={formik2}
-                  />
+                  </div>
                 </div>
-              )}
+              </div>
             </div>
           </div>
-        </div>
-      )}
-    </>
-  );
-};
 
-export default Coptyscript;
+        </div>
+      </div>
+
+    )
+  };
+
+  export default Coptyscript;

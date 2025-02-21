@@ -642,6 +642,22 @@ const AddClient = () => {
 
   const ExitRuleArr = [
     {
+      name: "TStype",
+      label: "Measurement Type",
+      type: "select",
+      options: [
+        { label: "Point", value: "Point" },
+        { label: "Percantage", value: "Percantage" },
+      ],
+
+      label_size: 12,
+      hiding: false,
+      headingtype: 4,
+      col_size: 4,
+      disable: false,
+    },
+
+    {
       name: "Targetvalue",
       label: "Target",
       type: "text3",
@@ -664,38 +680,23 @@ const AddClient = () => {
   ];
   const RiskManagementArr = [
     {
-      name: "TStype",
-      label: "Measurement Type",
-      type: "select",
-      options: [
-        { label: "Point", value: "Point" },
-        { label: "Percantage", value: "Percantage" },
-      ],
-
-      label_size: 12,
-      hiding: false,
-      headingtype: 4,
-      col_size: 4,
-      disable: false,
-    },
-
-    {
       name: "Quantity",
       label: formik.values.Exchange == "NFO" ? "Lot" : "Quantity",
       type: "text3",
 
       label_size: 12,
       hiding: false,
-      col_size: 4,
+      col_size: 6,
       headingtype: 4,
       disable: false,
     },
+
     {
       name: "Trade_Count",
       label: "Trade Count",
       type: "text3",
       label_size: 12,
-      col_size: 4,
+      col_size: 6,
       disable: false,
       hiding: false,
     },

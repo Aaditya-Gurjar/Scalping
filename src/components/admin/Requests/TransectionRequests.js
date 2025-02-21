@@ -4,6 +4,7 @@ import FullDataTable from '../../../ExtraComponent/CommanDataTable';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Swal from 'sweetalert2';
+import NoDataFound from '../../../ExtraComponent/NoDataFound';
 import Content from '../../../ExtraComponent/Content';
 
 const Clientservice = () => {
@@ -62,7 +63,7 @@ const Clientservice = () => {
                         color = 'red';
                         sign = '-';
                     } else if (Transactiontype === 'Purchase') {
-                        color = 'blue';
+                        color = 'red';
                         sign = '-';
                     } else {
                         color = 'green';
@@ -111,7 +112,7 @@ const Clientservice = () => {
                     } else if (value === 'Withdrawal') {
                         style = { color: 'red', fontWeight: '800' };
                     } else {
-                        style = { color: 'black', fontWeight: '800' };
+                        style = { color: 'red', fontWeight: '800' };
                     }
 
                     return <span style={style}>{value || '-'}</span>;
@@ -250,30 +251,43 @@ const Clientservice = () => {
                                     <Tab eventKey="PendingRequest" title="Pending">
                                         <div className="">
                                             <h5 className="mb-4">
-                                                <FullDataTable
-                                                    columns={columns}
-                                                    data={getAllRequest.pending}
-                                                    checkBox={false}
-                                                />
+                                                {getAllRequest.pending && getAllRequest.pending.length > 0 ? (
+                                                    <FullDataTable
+                                                        columns={columns}
+                                                        data={getAllRequest.pending}
+                                                        checkBox={false}
+                                                    />
+                                                ) : (
+                                                    <NoDataFound />
+                                                )}
+
                                             </h5>
                                         </div>
                                     </Tab>
                                     <Tab eventKey="RejectRequest" title="Rejected">
                                         <div className="">
-                                            <FullDataTable
-                                                columns={columns}
-                                                data={getAllRequest.rejected}
-                                                checkBox={false}
-                                            />
+                                            {getAllRequest.rejected && getAllRequest.rejected.length > 0 ? (
+                                                <FullDataTable
+                                                    columns={columns}
+                                                    data={getAllRequest.rejected}
+                                                    checkBox={false}
+                                                />) : (
+                                                <NoDataFound />
+                                            )
+                                            }
                                         </div>
                                     </Tab>
                                     <Tab eventKey="AproveRequest" title="Approved">
                                         <div className="">
-                                            <FullDataTable
-                                                columns={columns}
-                                                data={getAllRequest.Complete}
-                                                checkBox={false}
-                                            />
+                                            {
+                                                getAllRequest.Complete && getAllRequest.Complete.length > 0 ? (<FullDataTable
+                                                    columns={columns}
+                                                    data={getAllRequest.Complete}
+                                                    checkBox={false}
+                                                />)
+                                                    : (<NoDataFound />)
+                                            }
+
                                         </div>
                                     </Tab>
                                 </Tabs>
