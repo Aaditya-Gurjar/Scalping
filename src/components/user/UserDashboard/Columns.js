@@ -655,7 +655,7 @@ export const getColumns1 = (handleAddScript2) => [
 
     {
         name: "Targettype",
-        label: "Target Type",
+        label: "Risk Handle",
         options: {
             filter: true,
             sort: true,
@@ -1463,7 +1463,7 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
 
     {
         name: "Targettype",
-        label: "Target Type",
+        label: "Risk Handle",
         options: {
             filter: true,
             sort: true,
@@ -1972,60 +1972,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             }
         },
     },
-    // {
-    //     name: "Action",
-    //     label: "Action",
-    //     options: {
-    //         filter: true,
-    //         sort: true,
-    //         customBodyRender: (value, tableMeta, updateValue) => {
-    //             return <><button className='btn btn-primary' onClick={() => handleDelete(tableMeta, 2)}>
-    //                 Square Off
-    //             </button>
-    //             </>
-    //         }
-    //     }
-    // },
-
-
-
-    // {
-    //     name: "Edit",
-    //     label: "Edit",
-    //     options: {
-    //         filter: true,
-    //         sort: true,
-    //         customBodyRender: (value, tableMeta, updateValue) => {
-    //             return <><button className='btn' onClick={() => handleEdit(tableMeta, 2)}>
-    //                 <SquarePen style={{ color: "white" }} />
-
-    //             </button>
-    //             </>
-    //         }
-    //     }
-    // },
-
-
-
-    // {
-    //     name: "Trading",
-    //     label: "Trading",
-    //     options: {
-    //         filter: true,
-    //         sort: true,
-    //         customBodyRender: (value, tableMeta, updateValue) => {
-    //             const isChecked = Boolean(value);
-
-    //             return (
-    //                 <Checkbox
-    //                     checked={isChecked}
-    //                     onClick={() => handleContinutyDiscontinuty(tableMeta, 2)}
-    //                 />
-
-    //             );
-    //         }
-    //     }
-    // },
+    
     {
         name: "Trading",
         label: "Trading",
@@ -2066,14 +2013,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
         }
     },
 
-    {
-        name: "Quantity",
-        label: "Quantity",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+   
     {
         name: "Targetselection",
         label: "Target Selection",
@@ -2082,7 +2022,14 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
-
+    {
+        name: "Quantity",
+        label: "Lot",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
 
 
     {
