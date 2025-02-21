@@ -5,6 +5,8 @@ import Loader from '../../../ExtraComponent/Loader'
 import FullDataTable from '../../../ExtraComponent/CommanDataTable'
 import { ReportColumns5, ReportColumns4, ReportColumns3 } from './UserAllColumn'
 import NoDataFound from '../../../ExtraComponent/NoDataFound';
+import Content from '../../../ExtraComponent/Content';
+
 
 const Userlog = () => {
 
@@ -33,8 +35,8 @@ const Userlog = () => {
         await Get_All_Service(data)
             .then((response) => {
                 if (response.Status) {
-                    console.log("response",response);
-                    
+                    console.log("response", response);
+
                     setServiceDetails({
                         loading: false,
                         data: response.Data
@@ -533,109 +535,107 @@ const Userlog = () => {
 
     return (
         <>
-            <div className="container-fluid" style={{ marginTop: "2rem" }}>
-                <div className="row">
-                    <div className="iq-card">
-                        <div className="iq-card-header d-flex justify-content-between">
-                            <div className="iq-header-title">
-                                <h4 className="card-title">Service Report</h4>
+            <Content
+                Page_title={" 📉 Service Report"}
+                button_status={false}
+                backbutton_status={true}
+
+            >
+                
+                            <div className="iq-card-body">
+
+                                <div className="was-validated ">
+                                    <div className='d-flex'>
+
+                                        <div className="form-group col-md-4 ms-2">
+                                            <label>Strategy Type</label>
+                                            <select className="form-select" required=""
+                                                onChange={(e) => {
+                                                    setStrategyType(e.target.value)
+                                                    sessionStorage.setItem('StrategyType', e.target.value)
+                                                }}
+                                                value={selectStrategyType}>
+                                                <option value={"Scalping"}>Scalping</option>
+                                                <option value={"Option Strategy"}>Option Strategy</option>
+                                                <option value={"Pattern"}>Pattern Script</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                {getServiceDetails.loading ? (
+                                    <Loader />
+                                ) : (
+                                    <>
+                                        {selectStrategyType === "Scalping" && (
+                                            getServiceDetails.data?.length > 0 ? (
+                                                <div className="iq-card-body px-2">
+                                                    <FullDataTable columns={columns} data={getServiceDetails.data} checkBox={false} />
+                                                </div>
+                                            ) : <NoDataFound />
+                                        )}
+
+                                        {selectStrategyType === "Option Strategy" && (
+                                            getServiceDetails.data?.length > 0 ? (
+                                                <div className="iq-card-body px-2">
+                                                    <FullDataTable columns={columns1} data={getServiceDetails.data} checkBox={false} />
+                                                </div>
+                                            ) : <NoDataFound />
+                                        )}
+
+                                        {selectStrategyType === "Pattern" && (
+                                            getServiceDetails.data?.length > 0 ? (
+                                                <div className="iq-card-body px-2">
+                                                    <FullDataTable columns={columns2} data={getServiceDetails.data} checkBox={false} />
+                                                </div>
+                                            ) : <NoDataFound />
+                                        )}
+                                    </>
+                                )}
+
                             </div>
-                        </div>
-                        <div className="iq-card-body">
+                       
+                {
+                    <>
+                        <div
+                            className={`modal fade bd-example-modal-lg ${showModal ? 'show' : ''}`}
+                            tabIndex={-1}
+                            style={{ display: showModal ? 'block' : 'none' }}
+                            aria-hidden={!showModal}
+                            role="dialog"
+                        >
+                            <div className="modal-dialog modal-xl modal-dialog-centered">
+                                <div className="modal-content">
+                                    <div className="modal-header">
+                                        <h5 className="modal-title">All Scripts</h5>
+                                        <button
+                                            type="button"
+                                            className="btn-close"
+                                            data-bs-dismiss="modal"
+                                            aria-label="Close"
+                                            onClick={() => setShowModal(false)}
+                                        />
+                                    </div>
+                                    <div className="modal-body">
+                                        {
+                                            getUserData.data && getUserData.data.length > 0 ?
+                                                (
+                                                    <FullDataTable
+                                                        columns={selectStrategyType == "Scalping" ? ReportColumns3() : selectStrategyType == "Option Strategy" ? ReportColumns4() : selectStrategyType == "Pattern" ? ReportColumns5() : []}
+                                                        data={getUserData.data}
+                                                        checkBox={false}
+                                                    />
+                                                )
+                                                :
+                                                (<NoDataFound />)
+                                        }
 
-                            <div className="was-validated ">
-                                <div className='d-flex'>
-
-                                    <div className="form-group col-md-4 ms-2">
-                                        <label>Strategy Type</label>
-                                        <select className="form-select" required=""
-                                            onChange={(e) => {
-                                                setStrategyType(e.target.value)
-                                                sessionStorage.setItem('StrategyType', e.target.value)
-                                            }}
-                                            value={selectStrategyType}>
-                                            <option value={"Scalping"}>Scalping</option>
-                                            <option value={"Option Strategy"}>Option Strategy</option>
-                                            <option value={"Pattern"}>Pattern Script</option>
-                                        </select>
                                     </div>
                                 </div>
                             </div>
-                            {getServiceDetails.loading ? (
-                                <Loader />
-                            ) : (
-                                <>
-                                    {selectStrategyType === "Scalping" && (
-                                        getServiceDetails.data?.length > 0 ? (
-                                            <div className="iq-card-body px-2">
-                                                <FullDataTable columns={columns} data={getServiceDetails.data} checkBox={false} />
-                                            </div>
-                                        ) : <NoDataFound />
-                                    )}
-
-                                    {selectStrategyType === "Option Strategy" && (
-                                        getServiceDetails.data?.length > 0 ? (
-                                            <div className="iq-card-body px-2">
-                                                <FullDataTable columns={columns1} data={getServiceDetails.data} checkBox={false} />
-                                            </div>
-                                        ) : <NoDataFound />
-                                    )}
-
-                                    {selectStrategyType === "Pattern" && (
-                                        getServiceDetails.data?.length > 0 ? (
-                                            <div className="iq-card-body px-2">
-                                                <FullDataTable columns={columns2} data={getServiceDetails.data} checkBox={false} />
-                                            </div>
-                                        ) : <NoDataFound />
-                                    )}
-                                </>
-                            )}
-
                         </div>
-                    </div>
-                </div>
-            </div>
-            {
-                <>
-                    <div
-                        className={`modal fade bd-example-modal-lg ${showModal ? 'show' : ''}`}
-                        tabIndex={-1}
-                        style={{ display: showModal ? 'block' : 'none' }}
-                        aria-hidden={!showModal}
-                        role="dialog"
-                    >
-                        <div className="modal-dialog modal-xl modal-dialog-centered">
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <h5 className="modal-title">All Scripts</h5>
-                                    <button
-                                        type="button"
-                                        className="btn-close"
-                                        data-bs-dismiss="modal"
-                                        aria-label="Close"
-                                        onClick={() => setShowModal(false)}
-                                    />
-                                </div>
-                                <div className="modal-body">
-                                    {
-                                        getUserData.data && getUserData.data.length > 0 ?
-                                            (
-                                                <FullDataTable
-                                                    columns={selectStrategyType == "Scalping" ? ReportColumns3() : selectStrategyType == "Option Strategy" ? ReportColumns4() : selectStrategyType == "Pattern" ? ReportColumns5() : []}
-                                                    data={getUserData.data}
-                                                    checkBox={false}
-                                                />
-                                            )
-                                            :
-                                            (<NoDataFound />)
-                                    }
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </>
-            }
+                    </>
+                }
+            </Content>
         </>
     )
 }

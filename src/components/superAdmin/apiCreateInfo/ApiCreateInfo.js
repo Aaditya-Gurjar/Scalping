@@ -4,6 +4,7 @@ import { apiCreateInfo } from '../../CommonAPI/SuperAdmin'
 import AddForm from "../../../ExtraComponent/FormData";
 import { useFormik } from "formik";
 import { useNavigate } from 'react-router-dom';
+import Content from '../../../ExtraComponent/Content';
 
 const Adduser = () => {
 
@@ -21,11 +22,11 @@ const Adduser = () => {
             step4image: "",
             step5: "",
             step5image: "",
-            
+
         },
         validate: (values) => {
             let errors = {};
-           
+
             return errors;
         },
         onSubmit: async (values) => {
@@ -42,14 +43,14 @@ const Adduser = () => {
                 step5: values.step5,
                 step5image: values.step5image,
             }
-           
+
             await apiCreateInfo(req)
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Admin Created!",
                             text: response.message,
                             icon: "success",
@@ -62,9 +63,9 @@ confirmButtonColor: "#1ccc8a",
                     }
                     else {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Error!",
                             text: response.message,
                             icon: "error",
@@ -144,7 +145,7 @@ confirmButtonColor: "#1ccc8a",
             col_size: 6,
             disable: false,
         },
-       
+
         {
             name: "step4",
             label: "Step 4",
@@ -154,7 +155,7 @@ confirmButtonColor: "#1ccc8a",
             col_size: 6,
             disable: false,
         },
-         {
+        {
             name: "step4image",
             label: "Step 4 Image",
             type: "file1",
@@ -163,7 +164,7 @@ confirmButtonColor: "#1ccc8a",
             col_size: 6,
             disable: false,
         },
-         {
+        {
             name: "step5",
             label: "Step 5",
             type: "text2",
@@ -185,14 +186,21 @@ confirmButtonColor: "#1ccc8a",
 
     return (
         <>
-            <AddForm
-                fields={fields}
-                page_title="Api Create Info"
-                btn_name="Add"
-                btn_name1="Cancel"
-                formik={formik}
-                btn_name1_route={"/admin/clientservice"}
-            />
+            <Content
+                Page_title={"Api Create Info"}
+                button_status={false}
+                backbutton_status={true}
+
+
+            >
+                <AddForm
+                    fields={fields}
+                    btn_name="Add"
+                    btn_name1="Cancel"
+                    formik={formik}
+                    btn_name1_route={"/admin/clientservice"}
+                />
+            </Content>
         </>
     );
 };

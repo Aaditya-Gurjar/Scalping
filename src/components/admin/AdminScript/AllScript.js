@@ -5,6 +5,8 @@ import FullDataTable from '../../../ExtraComponent/CommanDataTable';
 import Swal from 'sweetalert2';
 import { columns2, columns1, columns } from './ScriptColumns'
 import NoDataFound from '../../../ExtraComponent/NoDataFound';
+import Content from '../../../ExtraComponent/Content';
+
 
 
 const Addscript = () => {
@@ -25,7 +27,7 @@ const Addscript = () => {
 
     const [getGroupData, setGroupData] = useState({ loading: true, data: [] })
 
-  
+
 
 
     const handleDelete = async (rowData) => {
@@ -226,97 +228,95 @@ const Addscript = () => {
 
 
     return (
-        <div>
-            <div className="container-fluid" style={{marginTop:"2rem"}}>
-                <div className="row">
-                    <div className="iq-card">
-                        <div className="iq-card-header d-flex justify-content-between">
-                            <div className="iq-header-title">
-                                <h4 className="card-title">Add Scripts</h4>
+        <Content
+            Page_title={" 📉 Add Scripts"}
+            button_status={false}
+            backbutton_status={true}
+        // route={"/admin/addSubadmin"}
+        // button_title={"Add SubAdmin"}
+
+        >
+          
+                            <div className="iq-card-body">
+                                <form className="was-validated ">
+                                    <div className='d-md-flex'>
+                                        <div className={`form-group ${"col-md-5"} ms-3`}>
+                                            <label>Group Name</label>
+                                            <select className="form-select "
+                                                required=""
+                                                onChange={(e) => {
+                                                    setSelectGroup(e.target.value)
+                                                    sessionStorage.setItem('GroupName', e.target.value)
+                                                }}
+                                                value={selectGroup}
+                                            >
+                                                {getGroupData.data && getGroupData.data.map((item) => {
+                                                    return <>
+                                                        <option value={item.GroupName}>{item.GroupName}</option>
+                                                    </>
+                                                })}
+
+                                            </select>
+                                            {GroupError && <div style={{ "color": "red" }}>
+                                                {GroupError}
+                                            </div>}
+                                        </div>
+                                        <div className={`form-group ${"col-md-5"} ms-3`}>
+                                            <label>Strategy Type</label>
+                                            <select className="form-select" required=""
+                                                onChange={(e) => {
+                                                    setAllservice({ loading: true, data: [] });
+                                                    setStrategyType(e.target.value);
+                                                    sessionStorage.setItem('StrategyType', e.target.value)
+                                                }}
+                                                value={selectStrategyType}>
+                                                {strategyNames.filter((item) => { return item != "ChartingPlatform" }).map((item, index) => {
+                                                    return (
+                                                        <option key={index} value={item}>
+                                                            {item}
+                                                        </option>
+                                                    );
+                                                })}
+
+                                            </select>
+                                            {stgError && <div style={{ "color": "red" }}>
+                                                {stgError}
+                                            </div>}
+                                        </div>
+
+                                        <div className='col-md-2 ms-3 mt-3 strategy'>
+                                            <button style={{ fontSize: '18px', padding: '6px 14px', height: "47px" }} className='btn btn-primary mt-1' onClick={handleAddScript}>Add Script</button>
+                                        </div>
+
+                                    </div>
+                                </form>
+
+                                {
+                                    selectStrategyType == "Scalping" && getAllService?.data1?.length > 0 ? (
+                                        <>
+                                            <h4 className="mt-3">{StrategyType || "Scalping"}</h4>
+                                            <FullDataTable
+                                                columns={columns(handleDelete)}
+                                                data={getAllService.data1}
+                                                checkBox={false}
+                                            />
+                                        </>
+
+                                    ) : selectStrategyType != "Scalping" && getAllService?.data?.length > 0 ? (
+                                        <>
+                                            <h4 className="mt-3">{StrategyType || "Scalping"}</h4>
+                                            <FullDataTable
+                                                columns={selectStrategyType == "Option Strategy" ? columns1(handleDelete) : columns2(handleDelete)}
+                                                data={getAllService.data}
+                                                checkBox={false}
+                                            />
+                                        </>
+                                    ) : <NoDataFound />
+                                }
+
                             </div>
-                        </div>
-                        <div className="iq-card-body">
-                            <form className="was-validated ">
-                                <div className='d-md-flex'>
-                                    <div className={`form-group ${"col-md-5"} ms-3`}>
-                                    <label>Group Name</label>
-                                    <select className="form-select "
-                                        required=""
-                                        onChange={(e) => {
-                                            setSelectGroup(e.target.value)
-                                            sessionStorage.setItem('GroupName',e.target.value)
-                                        }}
-                                        value={selectGroup}
-                                    >
-                                        {getGroupData.data && getGroupData.data.map((item) => {
-                                            return <>
-                                                <option value={item.GroupName}>{item.GroupName}</option>
-                                            </>
-                                        })}
-
-                                    </select>
-                                    {GroupError && <div style={{ "color": "red" }}>
-                                        {GroupError}
-                                    </div>}
-                                </div>
-                                <div className={`form-group ${"col-md-5"} ms-3`}>
-                                    <label>Strategy Type</label>
-                                    <select className="form-select" required=""
-                                        onChange={(e) => { 
-                                            setAllservice({ loading: true, data: [] }); 
-                                            setStrategyType(e.target.value);
-                                            sessionStorage.setItem('StrategyType',e.target.value)
-                                        }}
-                                        value={selectStrategyType}>
-                                        {strategyNames.filter((item)=> {return item != "ChartingPlatform"}).map((item, index) => {
-                                            return (
-                                                <option key={index} value={item}>
-                                                    {item}
-                                                </option>
-                                            );
-                                        })}
-
-                                    </select>
-                                    {stgError && <div style={{ "color": "red" }}>
-                                        {stgError}
-                                    </div>}
-                                </div>
-                               
-                                <div className='col-md-2 ms-3 mt-3 strategy'>
-                                    <button style={{ fontSize: '18px', padding: '6px 14px', height: "47px" }} className='btn btn-primary mt-1' onClick={handleAddScript}>Add Script</button>
-                                </div>
-
-                        </div>
-                    </form>
-
-                    {
-                        selectStrategyType == "Scalping" && getAllService?.data1?.length > 0 ? (
-                            <>
-                                <h4 className="mt-3">{StrategyType || "Scalping"}</h4>
-                                <FullDataTable
-                                    columns={columns(handleDelete)}
-                                    data={getAllService.data1}
-                                    checkBox={false}
-                                />
-                            </> 
-
-                        ) :  selectStrategyType != "Scalping" && getAllService?.data?.length > 0   ? (
-                            <>
-                            <h4 className="mt-3">{StrategyType || "Scalping"}</h4>
-                            <FullDataTable
-                                columns={selectStrategyType=="Option Strategy" ?  columns1(handleDelete) : columns2(handleDelete)}
-                                data={getAllService.data}
-                                checkBox={false}
-                            />
-                        </>
-                        ) : <NoDataFound />
-                    }
-            
-                </div>
-            </div>
-        </div>
-            </div >
-        </div >
+                        
+        </Content>
 
     )
 }

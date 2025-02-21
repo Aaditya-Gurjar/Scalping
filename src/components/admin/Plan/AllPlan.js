@@ -6,6 +6,8 @@ import { Get_All_Plans } from "../../CommonAPI/User";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import "./AllPlan.css";  // Import the external CSS file
+import Content from '../../../ExtraComponent/Content';
+
 
 const AdminServicesList = () => {
   const [plansData, setPlansData] = useState({
@@ -14,7 +16,7 @@ const AdminServicesList = () => {
     data1: [],
   });
 
-  
+
 
   useEffect(() => {
     fetchPlans();
@@ -50,19 +52,16 @@ const AdminServicesList = () => {
 
 
   return (
-   
-      <div className="container-fluid" style={{marginTop:"2rem"}}>
-        <div className="row">
-          <div className="col-sm-12">
-            <div className="iq-card">
-              <div className="iq-card-header d-flex justify-content-between">
-                <div className="iq-header-title">
-                  <h4 className="card-title">Admin All Plans</h4>
-                </div>
-                <Link to="/admin/addplan" className="btn btn-primary rounded">
-                  Add Plan
-                </Link>
-              </div>
+
+    <Content
+      Page_title={" 📉 Admin All Plans"}
+      button_status={true}
+      backbutton_status={true}
+      route={"/admin/addplan"}
+      button_title={"Add Plan"}
+
+    >
+      
 
               <div className="iq-card-body">
                 <div className="container mt-4">
@@ -152,11 +151,10 @@ const AdminServicesList = () => {
                   </Tabs>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    
+           
+
+    </Content>
+
   );
 };
 

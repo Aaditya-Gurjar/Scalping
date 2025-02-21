@@ -7,6 +7,7 @@ import AddForm from '../../../ExtraComponent/FormData'
 import { useFormik } from 'formik';
 import { width } from '@fortawesome/free-solid-svg-icons/fa0';
 import NoDataFound from '../../../ExtraComponent/NoDataFound';
+import Content from '../../../ExtraComponent/Content';
 
 const Strategygroup = () => {
     const username = localStorage.getItem('name')
@@ -273,14 +274,12 @@ const Strategygroup = () => {
     ];
 
     return (
-        <div>
-            <div className="container-fluid" style={{marginTop:"2rem"}}>
-                <div className="row">
-                    <div className="iq-card">
-                        <div className="iq-card-header d-flex justify-content-between">
-                            <div className="iq-header-title">
-                                <h4 className="card-title">Strategy Group</h4>
-                            </div>
+        <Content
+                Page_title={" 📉 Strategy Group"}
+                button_status={false}
+                backbutton_status={true}
+            >
+       
                             <div className="iq-card-header-toolbar d-flex align-items-center">
                                 <button
                                     type="button"
@@ -290,7 +289,7 @@ const Strategygroup = () => {
                                     Add New Group
                                 </button>
                             </div>
-                        </div>
+                        
 
                         <div className="iq-card-body">
                             <div className="table-responsive customtable">
@@ -309,9 +308,7 @@ const Strategygroup = () => {
 
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    
 
             {showModal && (
                 <div className="modal custom-modal d-flex" id="add_vendor" role="dialog">
@@ -343,7 +340,8 @@ const Strategygroup = () => {
                     </div>
                 </div>
             )}
-        </div>
+       
+        </Content>
     );
 };
 

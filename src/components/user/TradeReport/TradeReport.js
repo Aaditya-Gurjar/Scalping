@@ -27,6 +27,7 @@ import {
 } from './ReportColumn';
 import { useLocation } from 'react-router-dom';
 import NoDataFound from '../../../ExtraComponent/NoDataFound';
+import Content from '../../../ExtraComponent/Content';
 
 const TradeReport = () => {
     const location = useLocation();
@@ -362,39 +363,35 @@ const TradeReport = () => {
     ];
 
     return (
+        <Content Page_title={"📑 Trade Report"}
+        button_status={false}
+        backbutton_status={true} >
+     
+       
 
-        <div className="container-fluid" style={{ marginTop: "2rem" }}>
-            <div className="row">
-                <div className="iq-card">
-                    <div className="iq-card-header d-flex justify-content-between">
-                        <div className="iq-header-title">
-                            <h4 className="card-title">📑 Trade Report</h4>
-                        </div>
-                    </div>
-                    <div className="iq-card-body">
-                        <div className="was-validated ">
-                            <div className="row">
-                                {/* Select Strategy Type */}
-                                <div className={`form-group ${selectStrategyType === "ChartingPlatform" ? "col-lg-3" : "col-lg-4"}`}>
-                                    <label>Select Strategy Type</label>
-                                    <select
-                                        className="form-select"
-                                        required=""
-                                        onChange={(e) => {
-                                            setStrategyType(e.target.value)
-                                            sessionStorage.setItem('StrategyType', e.target.value);
-                                            setCheckedRows("");
-                                        }}
-                                        value={selectStrategyType}
-                                    >
-                                        <option value="">Select Strategy Type</option>
-                                        {strategyNames.map((type, index) => (
-                                            <option key={index} value={type}>
-                                                {type}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
+                        <div className="iq-card-body">
+                            <div className="was-validated ">
+                                <div className="row">
+                                    {/* Select Strategy Type */}
+                                    <div className={`form-group ${selectStrategyType === "ChartingPlatform" ? "col-lg-3" : "col-lg-4"}`}>
+                                        <label>Select Strategy Type</label>
+                                        <select
+                                            className="form-select"
+                                            required=""
+                                            onChange={(e) => {
+                                                setStrategyType(e.target.value)
+                                                sessionStorage.setItem('StrategyType', e.target.value)
+                                            }}
+                                            value={selectStrategyType}
+                                        >
+                                            <option value="">Select Strategy Type</option>
+                                            {strategyNames.map((type, index) => (
+                                                <option key={index} value={type}>
+                                                    {type}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
 
                                 {/* Removed: Select Table Type */}
 
@@ -524,11 +521,12 @@ const TradeReport = () => {
                         )}
 
 
-                    </div>
-                </div>
-            </div>
-        </div>
+                        </div>
 
+                 
+
+            </Content>
+        
     );
 };
 

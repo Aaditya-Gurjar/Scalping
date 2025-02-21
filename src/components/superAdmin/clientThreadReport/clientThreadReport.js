@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { getCompanyName, clientThreadeReport } from '../../CommonAPI/SuperAdmin'
 import FullDataTable from '../../../ExtraComponent/CommanDataTable'
 import NoDataFound from '../../../ExtraComponent/NoDataFound'
+import Content from '../../../ExtraComponent/Content';
 
 const ClientThreadReport = () => {
 
@@ -145,34 +146,33 @@ const ClientThreadReport = () => {
 
     return (
         <>
-            <div className="container-fluid" style={{marginTop:"2rem"}}>
-                <div className="row">
-                    <div className="iq-card">
-                        <div className="iq-card-header d-flex justify-content-between">
-                            <div className="iq-header-title">
-                                <h4 className="card-title">Client Thread Report</h4>
+            <Content
+                Page_title={"Client Thread Report"}
+                button_status={false}
+                backbutton_status={true}
+
+            >
+
+                <div className="iq-card-body">
+                    <div className="was-validated ">
+                        <div className='d-flex'>
+                            <div className="form-group col-md-3 ms-2">
+                                <label>Select Panel Name</label>
+                                <select className="form-select" required=""
+                                    onChange={(e) => {
+                                        setCompanyName(e.target.value)
+                                        sessionStorage.setItem('SelectPanelName', e.target.value)
+                                    }}
+                                    value={comapnyName}
+                                >
+                                    {getAllComapny && getAllComapny.map((item, index) => {
+                                        return (
+                                            <option key={index} value={item}>{item}</option>
+                                        )
+                                    })}
+                                </select>
                             </div>
-                        </div>
-                        <div className="iq-card-body">
-                            <div className="was-validated ">
-                                <div className='d-flex'>
-                                    <div className="form-group col-md-3 ms-2">
-                                        <label>Select Panel Name</label>
-                                        <select className="form-select" required=""
-                                            onChange={(e) => {
-                                                setCompanyName(e.target.value)
-                                                sessionStorage.setItem('SelectPanelName',e.target.value)
-                                            }}
-                                            value={comapnyName}
-                                        >
-                                            {getAllComapny && getAllComapny.map((item, index) => {
-                                                return (
-                                                    <option key={index} value={item}>{item}</option>
-                                                )
-                                            })}
-                                        </select>
-                                    </div>
-                                    {/* <div className="form-group col-md-3 ms-2">
+                            {/* <div className="form-group col-md-3 ms-2">
                                         <label>Select Username</label>
                                         <select className="form-select" required=""
                                             onChange={(e) => setCompanyName(e.target.value)}
@@ -185,23 +185,22 @@ const ClientThreadReport = () => {
                                             })}
                                         </select>
                                     </div> */}
-                                </div>
-                            </div>
-                            {
-                                getAllClientThreadeReport?.length > 0 ?
-                                    (<FullDataTable
-                                        columns={columns}
-                                        data={getAllClientThreadeReport}
-                                        checkBox={false}
-                                    />)
-                                    :
-                                    (<NoDataFound />)
-                            }
-
                         </div>
                     </div>
+                    {
+                        getAllClientThreadeReport?.length > 0 ?
+                            (<FullDataTable
+                                columns={columns}
+                                data={getAllClientThreadeReport}
+                                checkBox={false}
+                            />)
+                            :
+                            (<NoDataFound />)
+                    }
+
                 </div>
-            </div>
+
+            </Content>
         </>
     )
 }

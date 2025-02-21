@@ -9,6 +9,7 @@ import { useFormik } from 'formik';
 import Swal from 'sweetalert2';
 import Select from 'react-select';
 import NoDataFound from '../../../ExtraComponent/NoDataFound';
+import Content from '../../../ExtraComponent/Content';
 
 
 
@@ -310,19 +311,15 @@ confirmButtonColor: "#1ccc8a",
 
     return (
         <>
-            <div className='row' style={{marginTop:"2rem"}}>
-                <div className='col-sm-12'>
-                    <div className='iq-card'>
-                        <div className='iq-card-header d-flex justify-content-between'>
-                            <div className='iq-header-title'>
-                                <h4 className='card-title'>All Client</h4>
-                            </div>
-                            {permission.includes('AddClient') && (
-                                <Link to='/subadmin/addclient' className='btn btn-primary rounded'>
-                                    Add Client
-                                </Link>
-                            )}
-                        </div>
+        <Content
+                Page_title={" 📉 All Client"}
+                button_status={true}
+                backbutton_status={true}
+                route={"/subadmin/addclient"}
+                button_title={"Add Client"}
+
+            >
+           
                         <div className='iq-card-body'>
                             <div className='mb-3 col-lg-3'>
                                 <input type="text" className=' form-control rounded p-1 px-2' placeholder="Search..." onChange={(e) => setSearchInput(e.target.value)} value={searchInput} />
@@ -339,8 +336,7 @@ confirmButtonColor: "#1ccc8a",
                             }
                             
                         </div>
-                    </div>
-                </div>
+                    
                 {showModal && (
                     <div className='modal custom-modal d-flex' id='add_vendor' role='dialog'>
                         <div className='modal-dialog modal-dialog-centered modal-lg'>
@@ -392,8 +388,8 @@ confirmButtonColor: "#1ccc8a",
                         </div>
                     </div>
                 )}
-            </div>
-
+            
+            </Content>
         </>
     );
 };

@@ -5,6 +5,7 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Swal from 'sweetalert2';
 import NoDataFound from '../../../ExtraComponent/NoDataFound';
+import Content from '../../../ExtraComponent/Content';
 
 const Clientservice = () => {
     const [getAllRequest, setAllRequest] = useState({ pending: [], rejected: [], Complete: [], data: [] });
@@ -228,16 +229,16 @@ const Clientservice = () => {
 
     return (
         <>
-            <div className='row'>
-                <div className='col-sm-12'>
-                    <div className='iq-card'>
-                        <div className='iq-card-header d-flex justify-content-between'>
-                            <div className='iq-header-title'>
-                                <h4 className='card-title'>Transaction Request</h4>
-                            </div>
-                        </div>
+        <Content
+                Page_title={" 📉 Transaction Request"}
+                button_status={false}
+                backbutton_status={true}
+                
+
+            >
+           
                         <div className='iq-card-body'>
-                            <div className="container mt-4">
+                            <div className="container ">
                                 {
                                     console.log("getAllRequest", getAllRequest)
                                 }
@@ -292,9 +293,8 @@ const Clientservice = () => {
                                 </Tabs>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                   
+            </Content>
         </>
     );
 };

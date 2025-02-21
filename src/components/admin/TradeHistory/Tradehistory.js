@@ -846,6 +846,8 @@ import { useLocation } from "react-router-dom";
 import DrawdownChartComponent from "../../admin/AdvanceChart/DrawdownChartComponent";
 import ProfitAndLossGraph from "../../admin/AdvanceChart/ProfitAndLossGraph";
 import ChartComponent from "../../admin/AdvanceChart/ChartComponent";
+import Content from '../../../ExtraComponent/Content';
+
 
 const Tradehistory = () => {
     const StrategyType = sessionStorage.getItem("StrategyType");
@@ -1227,14 +1229,12 @@ const Tradehistory = () => {
     };
 
     return (
-        <div className="container-fluid" style={{ marginTop: "2rem" }}>
-            <div className="row">
-                <div className="iq-card">
-                    <div className="iq-card-header d-flex justify-content-between">
-                        <div className="iq-header-title">
-                            <h4 className="card-title">📊 Trade History Analysis</h4>
-                        </div>
-                    </div>
+        <Content
+                Page_title={" 📊 Trade History Analysis"}
+                button_status={false}
+                backbutton_status={true}               
+            >
+ 
 
                     <div className="iq-card-body">
                         <div className="card-body">
@@ -1457,9 +1457,8 @@ const Tradehistory = () => {
                             )}
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
+                
+        </Content>
     );
 };
 

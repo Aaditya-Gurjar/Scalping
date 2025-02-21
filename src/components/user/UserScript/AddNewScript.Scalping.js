@@ -13,6 +13,7 @@ import { AddScript, CheckPnLScalping } from "../../CommonAPI/User";
 import { text } from "../../../ExtraComponent/IconTexts";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import Content from "../../../ExtraComponent/Content";
 
 const AddClient = () => {
   const userName = localStorage.getItem("name");
@@ -1947,148 +1948,157 @@ const AddClient = () => {
   };
 
   return (
-    <>
-      <AddForm
-        fields={fields.filter(
-          (field) => !field.showWhen || field.showWhen(formik.values)
-        )}
-        page_title="Add Script scalping"
-        btn_name="Add"
-        btn_name1="Cancel"
-        formik={formik}
-        btn_name1_route={"/user/dashboard"}
-        additional_field={
-          <div>
-            {![
-              "CoveredCall",
-              "CoveredPut",
-              "LongCollar",
-              "ShortCollar",
-              "LongFourLegStretegy",
-              "ShortFourLegStretegy",
-            ].includes(formik.values.Strategy) &&
-              formik.values?.FixedSM !== "Single" && (
-                <p
-                  className="btn btn-primary"
-                  onClick={() => checkModalCondition()}
-                >
-                  Check PnL
-                </p>
-              )}
-          </div>
-        }
-      />
-
-      <Modal
-        show={openModel1}
-        onHide={() => setOpenModel1(false)}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
+    
+      <Content
+        Page_title={"📌 Add Script scalping"}
+        button_status={false}
+        backbutton_status={false}
       >
-        <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            Margin Value
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="modal-body">
-            <div className="row">
-              <div className="col-lg-12 col-sm-12">
-                <div className="input-block mb-3">
-                  <label
-                    className="form-label"
-                    style={{ fontWeight: "bold", color: "#fff" }}
+        <AddForm
+          fields={fields.filter(
+            (field) => !field.showWhen || field.showWhen(formik.values)
+          )}
+          // page_title="Add Script scalping"
+          btn_name="Add"
+          btn_name1="Cancel"
+          formik={formik}
+          btn_name1_route={"/user/dashboard"}
+          additional_field={
+            <div>
+              {![
+                "CoveredCall",
+                "CoveredPut",
+                "LongCollar",
+                "ShortCollar",
+                "LongFourLegStretegy",
+                "ShortFourLegStretegy",
+              ].includes(formik.values.Strategy) &&
+                formik.values?.FixedSM !== "Single" && (
+                  <p
+                    className="btn btn-primary"
+                    onClick={() => checkModalCondition()}
                   >
-                    Margin Value
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={marginValue}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      if (/^\d*$/.test(value)) {
-                        // ✅ Only numbers allowed
-                        setMarginValue(value);
-                        setError(""); // Reset error if valid
-                      } else {
-                        setError("Only numbers are allowed");
-                      }
-                    }}
-                  />
-                  {error && <p className="text-danger">{error}</p>}
+                    Check PnL
+                  </p>
+                )}
+            </div>
+          }
+        />
+
+        <Modal
+          show={openModel1}
+          onHide={() => setOpenModel1(false)}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">
+              Margin Value
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="modal-body">
+              <div className="row">
+                <div className="col-lg-12 col-sm-12">
+                  <div className="input-block mb-3">
+                    <label
+                      className="form-label"
+                      style={{ fontWeight: "bold", color: "#fff" }}
+                    >
+                      Margin Value
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={marginValue}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (/^\d*$/.test(value)) {
+                          // ✅ Only numbers allowed
+                          setMarginValue(value);
+                          setError(""); // Reset error if valid
+                        } else {
+                          setError("Only numbers are allowed");
+                        }
+                      }}
+                    />
+                    {error && <p className="text-danger">{error}</p>}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={() => setOpenModel1(false)}>Close</Button>
-          <Button
-            onClick={() => {
-              if (!marginValue.trim()) {
-                setError("Margin Value required");
-                return;
-              }
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={() => setOpenModel1(false)}>Close</Button>
+            <Button
+              onClick={() => {
+                if (!marginValue.trim()) {
+                  setError("Margin Value required");
+                  return;
+                }
 
-              handleCheckPnl();
-              setOpenModel1(false);
-              setMarginValue("");
-            }}
-          >
-            Submit
-          </Button>
-        </Modal.Footer>
-      </Modal>
+                handleCheckPnl();
+                setOpenModel1(false);
+                setMarginValue("");
+              }}
+            >
+              Submit
+            </Button>
+          </Modal.Footer>
+        </Modal>
 
-      <Modal
-        show={openModel}
-        onHide={() => setOpenModel(false)}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            PnL Details
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {PnlData ? (
-            [
-
-              { label: "Token", value: PnlData.Token },
-              { label: "Total Margin", value: PnlData.TotalMargin },
-              { label: "Total PnL", value: PnlData.TotalPnL == 0 ? "0" : PnlData.TotalPnL },
-              { label: "Trading Symbol", value: PnlData.TradingSymbol },
-            ].map(({ label, value }, index) => (
-              <div key={index} className="d-flex align-items-center py-1">
-                <label
-                  className="fw-bold text-white mb-0 me-2"
-                  style={{ fontSize: "20px", minWidth: "150px" }}
-                >
-                  {label}:
-                </label>
-                <span
-                  className="text-white mb-0"
-                  style={{ fontSize: "20px", fontWeight: "500" }}
-                >
-                  {value || "N/A"}
-                </span>
-              </div>
-            ))
-          ) : (
-            <p className="text-danger text-center">❌ No data available</p>
-          )}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setOpenModel(false)}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </>
+        <Modal
+          show={openModel}
+          onHide={() => setOpenModel(false)}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">
+              PnL Details
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {console.log("PnlData", PnlData)}
+            {PnlData ? (
+              [
+                { label: "Token", value: PnlData.Token },
+                { label: "Total Margin", value: PnlData.TotalMargin },
+                {
+                  label: "Total PnL",
+                  value: PnlData.TotalPnL == 0 ? "0" : PnlData.TotalPnL,
+                },
+                { label: "Trading Symbol", value: PnlData.TradingSymbol },
+              ].map(({ label, value }, index) => (
+                <div key={index} className="d-flex align-items-center py-1">
+                  <label
+                    className="fw-bold text-white mb-0 me-2"
+                    style={{ fontSize: "20px", minWidth: "150px" }}
+                  >
+                    {label}:
+                  </label>
+                  <span
+                    className="text-white mb-0"
+                    style={{ fontSize: "20px", fontWeight: "500" }}
+                  >
+                    {value || "N/A"}
+                  </span>
+                </div>
+              ))
+            ) : (
+              <p className="text-danger text-center">❌ No data available</p>
+            )}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setOpenModel(false)}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </Content>
+    
   );
 };
 export default AddClient;

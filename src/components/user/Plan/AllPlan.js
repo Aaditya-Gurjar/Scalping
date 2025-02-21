@@ -8,10 +8,17 @@ import {
   AddBalance,
 } from "../../CommonAPI/User";
 import Swal from "sweetalert2";
-import Tab from "react-bootstrap/Tab";
+// import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import NewsTicker from "./Expair";
 import "./AllPlan.css";
+import Content from "../../../ExtraComponent/Content";
+
+import Box from "@mui/material/Box";
+import Tab from "@mui/material/Tab";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
 
 const ServicesList = () => {
   const username = localStorage.getItem("name");
@@ -247,147 +254,173 @@ const ServicesList = () => {
       plan.PlanName !== "One Week Demo"
   );
 
-  return (
-    <div className="container-fluid" style={{ marginTop: "2rem" }}>
-      <div className="row">
-        <div className="iq-card">
-          <div className="iq-card-header d-flex justify-content-between">
-            <div className="iq-header-title">
-              <h4 className="card-title">📌 All Plans</h4>
-            </div>
-          </div>
+  const [value, setValue] = useState("1");
 
-          <div className="iq-card-body">
-            <div className="">
-              {expire?.includes(1) ? (
-                <div className="col-lg-9">
-                  <NewsTicker />
-                </div>
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  return (
+    <Content
+      Page_title={"📌 All Plans"}
+      button_status={false}
+      backbutton_status={false}
+    >
+      <div className="">
+        {expire?.includes(1) ? (
+          <div className="col-lg-9">
+            <NewsTicker />
+          </div>
+        ) : (
+          ""
+        )}
+      </div>
+
+      <Box sx={{ width: "100%", typography: "body1" }}>
+        <TabContext value={value}>
+          {/* 🛠️ Styled Tabs */}
+          <Box
+            sx={{
+              borderBottom: 1,
+              borderColor: "divider",
+              backgroundColor: "#f8f9fa", // Light background for tabs
+              borderRadius: "8px 8px 0 0",
+              padding: "10px",
+              width: "100%",
+              alignItems: "center",
+              justifyContent: "center",
+              display: { xs: "none", md: "flex" },
+
+            }}
+          >
+            <TabList
+              onChange={handleChange}
+              aria-label="lab API tabs example"
+              sx={{
+                "& .MuiTab-root": {
+                  width: "50%", // Equal width for all tabs
+                  fontSize: "20px", // Bigger font size
+                  fontWeight: "bold", // Bold text
+                  textTransform: "none", // Remove uppercase
+                  padding: "12px 20px",
+                },
+                "& .Mui-selected": {
+                  color: "#1976d2", // Highlight active tab
+                  borderBottom: "3px solid #1976d2", // Underline effect
+                },
+              }}
+            >
+              <Tab label="📊 Scalping" value="1" />
+              <Tab label=" ⚡ Charting" value="2" />
+            </TabList>
+          </Box>
+
+          {/* Tabs Content */}
+          <TabPanel value="1">
+            <div className="d-flex flex-wrap gap-3">
+              {plansData.loading ? (
+                <p className="allplan-loading">Loading...</p>
               ) : (
-                ""
+                getUpdatedPlans?.map((plan, index) => (
+                  <div key={index} className="allplan-card ">
+                    <div className="plan-header">
+                      <h2 className="allplan-card-title">{plan.PlanName}</h2>
+                      {isPlanPurchased(plan.PlanName) && (
+                        <BadgeCheck className="purchased-badge" />
+                      )}
+                    </div>
+                    <h4 className="allplan-card-subtitle">
+                      <FaRupeeSign /> {plan.payment}
+                    </h4>
+                    <h4 className="allplan-card-subtitle">
+                      Duration: {plan["Plan Validity"]}
+                    </h4>
+                    <h4 className="allplan-card-subtitle">
+                      Scripts: {plan.NumberofScript}
+                    </h4>
+                    <div className="plan-details">
+                      <p>
+                        <strong>Scalping:</strong> {plan.Scalping?.join(", ")}
+                      </p>
+                      <p>
+                        <strong>Options:</strong>{" "}
+                        {plan["Option Strategy"]?.join(", ")}
+                      </p>
+                      <p>
+                        <strong>Patterns:</strong> {plan.Pattern?.join(", ")}
+                      </p>
+                    </div>
+                    {isPlanPurchased(plan.PlanName) ? (
+                      <button
+                        className="allplan-button buy-again"
+                        onClick={() => HandleBuyPlan(index, 0, false)}
+                      >
+                        🔄 Buy Again
+                      </button>
+                    ) : (
+                      <button
+                        className="allplan-button"
+                        onClick={() => HandleBuyPlan(index, 1, false)}
+                      >
+                        🛒 Buy Now
+                      </button>
+                    )}
+                  </div>
+                ))
               )}
             </div>
-
-            <Tabs
-              defaultActiveKey="Scalping"
-              id="plans-tabs"
-              className="mb-3 allplan-custom-tabs"
-              fill
-            >
-              <Tab eventKey="Scalping" title="⚡ Scalping">
-                <div className="allplan-grid">
-                  {plansData.loading ? (
-                    <p className="allplan-loading">Loading...</p>
+          </TabPanel>
+          <TabPanel value="2">
+          <div className="d-flex flex-wrap gap-3">
+            {plansData.loading ? (
+              <p className="allplan-loading">Loading...</p>
+            ) : (
+              getUpdatedPlansCharting?.map((plan, index) => (
+                <div key={index} className="allplan-card">
+                  <div className="plan-header">
+                    <h2 className="allplan-card-title">{plan.PlanName}</h2>
+                    {isPlanPurchased(plan.PlanName) && (
+                      <BadgeCheck className="purchased-badge" />
+                    )}
+                  </div>
+                  <h4 className="allplan-card-subtitle">
+                    <FaRupeeSign /> {plan.payment}
+                  </h4>
+                  <h4 className="allplan-card-subtitle">
+                    Duration: {plan["Plan Validity"]}
+                  </h4>
+                  <h4 className="allplan-card-subtitle">
+                    Scripts: {plan.NumberofScript}
+                  </h4>
+                  <div className="plan-details">
+                    <p>
+                      <strong>Charting Signals:</strong>{" "}
+                      {plan.ChartingSignal?.join(", ")}
+                    </p>
+                  </div>
+                  {isPlanPurchased(plan.PlanName) ? (
+                    <button
+                      className="allplan-button buy-again"
+                      onClick={() => HandleBuyPlan(index, 0, true)}
+                    >
+                      🔄 Buy Again
+                    </button>
                   ) : (
-                    getUpdatedPlans?.map((plan, index) => (
-                      <div key={index} className="allplan-card">
-                        <div className="plan-header">
-                          <h2 className="allplan-card-title">
-                            {plan.PlanName}
-                          </h2>
-                          {isPlanPurchased(plan.PlanName) && (
-                            <BadgeCheck className="purchased-badge" />
-                          )}
-                        </div>
-                        <h4 className="allplan-card-subtitle">
-                          <FaRupeeSign /> {plan.payment}
-                        </h4>
-                        <h4 className="allplan-card-subtitle">
-                          Duration: {plan["Plan Validity"]}
-                        </h4>
-                        <h4 className="allplan-card-subtitle">
-                          Scripts: {plan.NumberofScript}
-                        </h4>
-                        <div className="plan-details">
-                          <p>
-                            <strong>Scalping:</strong>{" "}
-                            {plan.Scalping?.join(", ")}
-                          </p>
-                          <p>
-                            <strong>Options:</strong>{" "}
-                            {plan["Option Strategy"]?.join(", ")}
-                          </p>
-                          <p>
-                            <strong>Patterns:</strong>{" "}
-                            {plan.Pattern?.join(", ")}
-                          </p>
-                        </div>
-                        {isPlanPurchased(plan.PlanName) ? (
-                          <button
-                            className="allplan-button buy-again"
-                            onClick={() => HandleBuyPlan(index, 0, false)}
-                          >
-                            🔄 Buy Again
-                          </button>
-                        ) : (
-                          <button
-                            className="allplan-button"
-                            onClick={() => HandleBuyPlan(index, 1, false)}
-                          >
-                            🛒 Buy Now
-                          </button>
-                        )}
-                      </div>
-                    ))
+                    <button
+                      className="allplan-button"
+                      onClick={() => HandleBuyPlan(index, 1, true)}
+                    >
+                      🛒 Buy Now
+                    </button>
                   )}
                 </div>
-              </Tab>
-
-              <Tab eventKey="Charting" title=" 📊 Charting">
-                <div className="allplan-grid">
-                  {plansData.loading ? (
-                    <p className="allplan-loading">Loading...</p>
-                  ) : (
-                    getUpdatedPlansCharting?.map((plan, index) => (
-                      <div key={index} className="allplan-card">
-                        <div className="plan-header">
-                          <h2 className="allplan-card-title">
-                            {plan.PlanName}
-                          </h2>
-                          {isPlanPurchased(plan.PlanName) && (
-                            <BadgeCheck className="purchased-badge" />
-                          )}
-                        </div>
-                        <h4 className="allplan-card-subtitle">
-                          <FaRupeeSign /> {plan.payment}
-                        </h4>
-                        <h4 className="allplan-card-subtitle">
-                          Duration: {plan["Plan Validity"]}
-                        </h4>
-                        <h4 className="allplan-card-subtitle">
-                          Scripts: {plan.NumberofScript}
-                        </h4>
-                        <div className="plan-details">
-                          <p>
-                            <strong>Charting Signals:</strong>{" "}
-                            {plan.ChartingSignal?.join(", ")}
-                          </p>
-                        </div>
-                        {isPlanPurchased(plan.PlanName) ? (
-                          <button
-                            className="allplan-button buy-again"
-                            onClick={() => HandleBuyPlan(index, 0, true)}
-                          >
-                            🔄 Buy Again
-                          </button>
-                        ) : (
-                          <button
-                            className="allplan-button"
-                            onClick={() => HandleBuyPlan(index, 1, true)}
-                          >
-                            🛒 Buy Now
-                          </button>
-                        )}
-                      </div>
-                    ))
-                  )}
-                </div>
-              </Tab>
-            </Tabs>
-          </div>
-        </div>
-      </div>
-    </div>
+              ))
+            )}
+            </div>
+          </TabPanel>
+        </TabContext>
+      </Box>
+    </Content>
   );
 };
 

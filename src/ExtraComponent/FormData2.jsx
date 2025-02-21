@@ -60,14 +60,15 @@ const DynamicForm = ({
 
   return (
     <>
-      <div className="iq-card content " data-aos="fade-left">
-        <div className="card mb-0">
-          {page_title ? (
+      <div data-aos="fade-left">
+        <div className="mb-0">
+          {page_title && (
             <div className="card-header">
               {page_title ? (
                 <h5
                   className="card-title mb-0 w-auto mt-2 mb-2"
-                  style={{ fontWeight: "600", fontSize: "23px" }}>
+                  style={{ fontWeight: "600", fontSize: "23px" }}
+                >
                   <i className="fa-regular fa-circle-user pe-2"></i>
                   {page_title}
                 </h5>
@@ -75,9 +76,8 @@ const DynamicForm = ({
                 ""
               )}
             </div>
-          ) : (
-            ""
           )}
+
           <form onSubmit={formik.handleSubmit}>
             <div className="card-body ">
               <div className="page-header">
@@ -108,16 +108,13 @@ const DynamicForm = ({
                         style={{
                           boxShadow:
                             "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
-                        }}>
+                        }}
+                      >
                         {field.label === "Symbol_Selection" && (
                           <>
-                            <div className="iq-card-header d-flex justify-content-between ">
+                            <div className=" d-flex justify-content-between ">
                               <div className="iq-header-title">
-                                <h4
-                                  className="card-title"
-                                  style={{ color: "#000", fontWeight: "450" }}>
-                                  Symbol Selection
-                                </h4>
+                                <h4 className="card-title">Symbol Selection</h4>
                               </div>
                             </div>
 
@@ -128,10 +125,12 @@ const DynamicForm = ({
                                     return (
                                       <div
                                         className={`col-lg-${item.col_size}`}
-                                        key={index}>
+                                        key={index}
+                                      >
                                         <div className="input-block mb-3 flex-column">
                                           <label
-                                            className={`col-lg-${item.label_size}`}>
+                                            className={`col-lg-${item.label_size}`}
+                                          >
                                             {item.label}
                                             <span className="text-danger">
                                               i
@@ -168,7 +167,8 @@ const DynamicForm = ({
                                     return (
                                       <div
                                         className={`col-lg-${item.col_size}`}
-                                        key={index}>
+                                        key={index}
+                                      >
                                         <div className="row d-flex">
                                           <div className="col-lg-12">
                                             <div className="form-group input-block mb-3">
@@ -222,10 +222,12 @@ const DynamicForm = ({
                                     return (
                                       <div
                                         className={`col-lg-${item.col_size}`}
-                                        key={index}>
+                                        key={index}
+                                      >
                                         <div className="input-block mb-3 flex-column">
                                           <label
-                                            className={`col-lg-${item.label_size}`}>
+                                            className={`col-lg-${item.label_size}`}
+                                          >
                                             {item.label}
                                             <span className="text-danger">
                                               *
@@ -263,18 +265,21 @@ const DynamicForm = ({
                                     return (
                                       <div
                                         className={`col-lg-${item.col_size}`}
-                                        key={index}>
+                                        key={index}
+                                      >
                                         <div className="input-block row mb-3">
                                           <label
                                             className={`col-lg-${item.label_size}`}
-                                            htmlFor={item.name}>
+                                            htmlFor={item.name}
+                                          >
                                             {item.label}
 
                                             {item.iconText && (
                                               <span className="custom-tooltip-wrapper">
                                                 <span
                                                   className="info-icon-container"
-                                                  data-tooltip={item.iconText}>
+                                                  data-tooltip={item.iconText}
+                                                >
                                                   <Info
                                                     style={{
                                                       width: "15px",
@@ -303,7 +308,8 @@ const DynamicForm = ({
                                               id={item.name}
                                               {...formik.getFieldProps(
                                                 item.name
-                                              )}>
+                                              )}
+                                            >
                                               <option value="">{`Select ${item.label}`}</option>
                                               {item.options
                                                 .filter((option) =>
@@ -315,7 +321,8 @@ const DynamicForm = ({
                                                   <option
                                                     key={option.value}
                                                     value={option.value}
-                                                    className="green">
+                                                    className="green"
+                                                  >
                                                     {option.label}
                                                   </option>
                                                 ))}
@@ -330,7 +337,8 @@ const DynamicForm = ({
                                                   <option
                                                     key={option.value}
                                                     value={option.value}
-                                                    className="black">
+                                                    className="black"
+                                                  >
                                                     {option.label}
                                                   </option>
                                                 ))}
@@ -349,7 +357,8 @@ const DynamicForm = ({
                                     return (
                                       <div
                                         className={`col-lg-${item.col_size}`}
-                                        key={index}>
+                                        key={index}
+                                      >
                                         <div className="row d-flex">
                                           <div className="col-lg-12">
                                             <div className="form-group input-block mt-3">
@@ -366,7 +375,8 @@ const DynamicForm = ({
                                       <div className="iq-card" key={index}>
                                         <div className="iq-card-body">
                                           <div
-                                            className={`col-lg-${item.col_size}`}>
+                                            className={`col-lg-${item.col_size}`}
+                                          >
                                             <div className="input-block mb-3"></div>
                                           </div>
                                         </div>
@@ -384,15 +394,14 @@ const DynamicForm = ({
                         style={{
                           boxShadow:
                             "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
-                        }}>
+                        }}
+                      >
                         {/* {console.log("field.label", field.label)} */}
                         {field.label === "Entry_Rule" && (
                           <>
-                            <div className="iq-card-header d-flex justify-content-between">
+                            <div className=" d-flex justify-content-between">
                               <div className="iq-header-title">
-                                <h4
-                                  className="card-title"
-                                  style={{ color: "#000", fontWeight: "450" }}>
+                                <h4 className="card-title">
                                   Entry Rule
                                 </h4>
                               </div>
@@ -403,7 +412,8 @@ const DynamicForm = ({
                                   <>
                                     {item.type === "text" ? (
                                       <div
-                                        className={`col-lg-${item.col_size}`}>
+                                        className={`col-lg-${item.col_size}`}
+                                      >
                                         <div className="input-block mb-3 flex-column">
                                           <label htmlFor={item.name}>
                                             {item.label}
@@ -412,7 +422,8 @@ const DynamicForm = ({
                                             <span className="custom-tooltip-wrapper">
                                               <span
                                                 className="info-icon-container"
-                                                data-tooltip={item.iconText}>
+                                                data-tooltip={item.iconText}
+                                              >
                                                 <Info
                                                   style={{
                                                     width: "15px",
@@ -450,7 +461,8 @@ const DynamicForm = ({
                                       </div>
                                     ) : item.type === "text5" ? (
                                       <div
-                                        className={`col-lg-${item.col_size}`}>
+                                        className={`col-lg-${item.col_size}`}
+                                      >
                                         <div className="row d-flex">
                                           <div className="col-lg-12">
                                             <div className="form-group input-block mb-3">
@@ -501,7 +513,8 @@ const DynamicForm = ({
                                     ) : item.type === "number" ? (
                                       <>
                                         <div
-                                          className={`col-lg-${item.col_size}`}>
+                                          className={`col-lg-${item.col_size}`}
+                                        >
                                           <div className="row d-flex">
                                             <div className="col-lg-12 ">
                                               <div className="form-group input-block mb-3">
@@ -514,7 +527,8 @@ const DynamicForm = ({
                                                       className="info-icon-container"
                                                       data-tooltip={
                                                         item.iconText
-                                                      }>
+                                                      }
+                                                    >
                                                       <Info
                                                         style={{
                                                           width: "15px",
@@ -551,11 +565,13 @@ const DynamicForm = ({
                                       </>
                                     ) : item.type === "select" ? (
                                       <div
-                                        className={`col-lg-${item.col_size}`}>
+                                        className={`col-lg-${item.col_size}`}
+                                      >
                                         <div className="input-block row mb-3">
                                           <label
                                             className={`col-lg-${item.label_size}`}
-                                            htmlFor={item.name}>
+                                            htmlFor={item.name}
+                                          >
                                             {item.label}
                                             {/* {console.log(
                                               "item.iconText",
@@ -565,7 +581,8 @@ const DynamicForm = ({
                                               <span className="custom-tooltip-wrapper">
                                                 <span
                                                   className="info-icon-container"
-                                                  data-tooltip={item.iconText}>
+                                                  data-tooltip={item.iconText}
+                                                >
                                                   <Info
                                                     style={{
                                                       width: "15px",
@@ -585,7 +602,8 @@ const DynamicForm = ({
                                               id={item.name}
                                               {...formik.getFieldProps(
                                                 item.name
-                                              )}>
+                                              )}
+                                            >
                                               <option value="">{`Select ${item.label}`}</option>
                                               {/* Filtered options */}
                                               {item.options
@@ -598,7 +616,8 @@ const DynamicForm = ({
                                                   <option
                                                     className="green"
                                                     key={option.value}
-                                                    value={option.value}>
+                                                    value={option.value}
+                                                  >
                                                     {option.label}
                                                   </option>
                                                 ))}
@@ -614,7 +633,8 @@ const DynamicForm = ({
                                                   <option
                                                     className="black"
                                                     key={option.value}
-                                                    value={option.value}>
+                                                    value={option.value}
+                                                  >
                                                     {option.label}
                                                   </option>
                                                 ))}
@@ -631,11 +651,13 @@ const DynamicForm = ({
                                     ) : item.type === "select1" ? (
                                       <>
                                         <div
-                                          className={` col-lg-${item.col_size}`}>
+                                          className={` col-lg-${item.col_size}`}
+                                        >
                                           <div className="input-block row mb-3">
                                             <label
                                               className={` col-lg-${item.label_size}`}
-                                              htmlFor={item.name}>
+                                              htmlFor={item.name}
+                                            >
                                               {item.label}
                                               <span className="text-danger">
                                                 *
@@ -649,13 +671,15 @@ const DynamicForm = ({
                                                 id={item.name}
                                                 {...formik.getFieldProps(
                                                   item.name
-                                                )}>
+                                                )}
+                                              >
                                                 <option value="">{`Select ${item.label}`}</option>
                                                 {item.options.map(
                                                   (option, index) => (
                                                     <option
                                                       key={option.value}
-                                                      value={option.value}>
+                                                      value={option.value}
+                                                    >
                                                       {option.label}
                                                     </option>
                                                   )
@@ -674,7 +698,8 @@ const DynamicForm = ({
                                     ) : item.type === "text4" ? (
                                       <>
                                         <div
-                                          className={`col-lg-${item.col_size}`}>
+                                          className={`col-lg-${item.col_size}`}
+                                        >
                                           <div className="row d-flex">
                                             <div className="col-lg-12">
                                               <div className="form-group input-block mb-3">
@@ -687,7 +712,8 @@ const DynamicForm = ({
                                                       className="info-icon-container"
                                                       data-tooltip={
                                                         item.iconText
-                                                      }>
+                                                      }
+                                                    >
                                                       <Info
                                                         style={{
                                                           width: "15px",
@@ -746,7 +772,8 @@ const DynamicForm = ({
                                     ) : item.type === "text3" ? (
                                       <>
                                         <div
-                                          className={`col-lg-${item.col_size}`}>
+                                          className={`col-lg-${item.col_size}`}
+                                        >
                                           <div className="row d-flex">
                                             <div className="col-lg-12">
                                               <div className="form-group input-block mb-3">
@@ -759,7 +786,8 @@ const DynamicForm = ({
                                                       className="info-icon-container"
                                                       data-tooltip={
                                                         item.iconText
-                                                      }>
+                                                      }
+                                                    >
                                                       <Info
                                                         style={{
                                                           width: "15px",
@@ -810,7 +838,8 @@ const DynamicForm = ({
                                     ) : item.type === "OnlyCharacter" ? (
                                       <>
                                         <div
-                                          className={`col-lg-${item.col_size}`}>
+                                          className={`col-lg-${item.col_size}`}
+                                        >
                                           <div className="row d-flex">
                                             <div className="col-lg-12">
                                               <div className="form-group input-block mb-3">
@@ -823,7 +852,8 @@ const DynamicForm = ({
                                                       className="info-icon-container"
                                                       data-tooltip={
                                                         item.iconText
-                                                      }>
+                                                      }
+                                                    >
                                                       <Info
                                                         style={{
                                                           width: "15px",
@@ -873,7 +903,8 @@ const DynamicForm = ({
                                       </>
                                     ) : item.type === "heading" ? (
                                       <div
-                                        className={`col-lg-${item.col_size}`}>
+                                        className={`col-lg-${item.col_size}`}
+                                      >
                                         <div className="row d-flex">
                                           <div className="col-lg-12">
                                             <div className="form-group input-block mt-3">
@@ -898,14 +929,16 @@ const DynamicForm = ({
                         style={{
                           boxShadow:
                             "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
-                        }}>
+                        }}
+                      >
                         {field.label === "Exit_Rule" && (
                           <>
-                            <div className="iq-card-header d-flex justify-content-between">
+                            <div className=" d-flex justify-content-between">
                               <div className="iq-header-title">
                                 <h4
                                   className="card-title"
-                                  style={{ color: "#000", fontWeight: "450" }}>
+                                  
+                                >
                                   Exit Rule
                                 </h4>
                               </div>
@@ -916,10 +949,12 @@ const DynamicForm = ({
                                   <>
                                     {item.type === "text" ? (
                                       <div
-                                        className={`col-lg-${item.col_size}`}>
+                                        className={`col-lg-${item.col_size}`}
+                                      >
                                         <div className="input-block mb-3 flex-column">
                                           <label
-                                            className={`col-lg-${item.label_size}`}>
+                                            className={`col-lg-${item.label_size}`}
+                                          >
                                             {item.label}
                                             <span className="text-danger">
                                               *
@@ -953,7 +988,8 @@ const DynamicForm = ({
                                     ) : item.type === "text3" ? (
                                       <>
                                         <div
-                                          className={`col-lg-${item.col_size}`}>
+                                          className={`col-lg-${item.col_size}`}
+                                        >
                                           <div className="row d-flex">
                                             <div className="col-lg-12">
                                               <div className="form-group input-block mb-3">
@@ -1003,19 +1039,20 @@ const DynamicForm = ({
                                     ) : item.type === "select1" ? (
                                       <>
                                         <div
-                                          className={` col-lg-${item.col_size}`}>
+                                          className={` col-lg-${item.col_size}`}
+                                        >
                                           <div className="input-block row mb-3">
                                             <label
                                               className={` col-lg-${item.label_size}`}
-                                              htmlFor={item.name}>
+                                              htmlFor={item.name}
+                                            >
                                               {item.label}
                                               {item.iconText && (
                                                 <span className="custom-tooltip-wrapper">
                                                   <span
                                                     className="info-icon-container"
-                                                    data-tooltip={
-                                                      item.iconText
-                                                    }>
+                                                    data-tooltip={item.iconText}
+                                                  >
                                                     <Info
                                                       style={{
                                                         width: "15px",
@@ -1035,13 +1072,15 @@ const DynamicForm = ({
                                                 id={item.name}
                                                 {...formik.getFieldProps(
                                                   item.name
-                                                )}>
+                                                )}
+                                              >
                                                 <option value="">{`Select ${item.label}`}</option>
                                                 {item.options.map(
                                                   (option, index) => (
                                                     <option
                                                       key={option.value}
-                                                      value={option.value}>
+                                                      value={option.value}
+                                                    >
                                                       {option.label}
                                                     </option>
                                                   )
@@ -1060,11 +1099,13 @@ const DynamicForm = ({
                                     ) : item.type === "select" ? (
                                       <>
                                         <div
-                                          className={` col-lg-${item.col_size}`}>
+                                          className={` col-lg-${item.col_size}`}
+                                        >
                                           <div className="input-block row mb-3">
                                             <label
                                               className={` col-lg-${item.label_size}`}
-                                              htmlFor={item.name}>
+                                              htmlFor={item.name}
+                                            >
                                               {item.label}
                                               <span className="text-danger">
                                                 *
@@ -1078,13 +1119,15 @@ const DynamicForm = ({
                                                 id={item.name}
                                                 {...formik.getFieldProps(
                                                   item.name
-                                                )}>
+                                                )}
+                                              >
                                                 <option value="">{`Select ${item.label}`}</option>
                                                 {item.options.map(
                                                   (option, index) => (
                                                     <option
                                                       key={option.value}
-                                                      value={option.value}>
+                                                      value={option.value}
+                                                    >
                                                       {option.label}
                                                     </option>
                                                   )
@@ -1102,7 +1145,8 @@ const DynamicForm = ({
                                       </>
                                     ) : item.type === "heading" ? (
                                       <div
-                                        className={`col-lg-${item.col_size}`}>
+                                        className={`col-lg-${item.col_size}`}
+                                      >
                                         <div className="row d-flex">
                                           <div className="col-lg-12">
                                             <div className="form-group input-block mt-3"></div>
@@ -1123,14 +1167,16 @@ const DynamicForm = ({
                         style={{
                           boxShadow:
                             "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
-                        }}>
+                        }}
+                      >
                         {field.label === "Risk_Management" && (
                           <>
-                            <div className="iq-card-header d-flex justify-content-between">
+                            <div className=" d-flex justify-content-between">
                               <div className="iq-header-title">
                                 <h4
                                   className="card-title"
-                                  style={{ color: "#000", fontWeight: "450" }}>
+                                  
+                                >
                                   Risk Management
                                 </h4>
                               </div>
@@ -1141,10 +1187,12 @@ const DynamicForm = ({
                                   <>
                                     {item.type === "text" ? (
                                       <div
-                                        className={`col-lg-${item.col_size}`}>
+                                        className={`col-lg-${item.col_size}`}
+                                      >
                                         <div className="input-block mb-3 flex-column">
                                           <label
-                                            className={`col-lg-${item.label_size}`}>
+                                            className={`col-lg-${item.label_size}`}
+                                          >
                                             {item.label}
                                             <span className="text-danger">
                                               *
@@ -1177,10 +1225,12 @@ const DynamicForm = ({
                                       </div>
                                     ) : item.type === "multiselect" ? (
                                       <div
-                                        className={`col-lg-${item.col_size}`}>
+                                        className={`col-lg-${item.col_size}`}
+                                      >
                                         <div className="input-block mb-3 flex-column">
                                           <label
-                                            className={`col-lg-${item.label_size} mb-1`}>
+                                            className={`col-lg-${item.label_size} mb-1`}
+                                          >
                                             {item.label}
                                             <span className="text-danger">
                                               *
@@ -1216,7 +1266,8 @@ const DynamicForm = ({
                                     ) : item.type === "text3" ? (
                                       <>
                                         <div
-                                          className={`col-lg-${item.col_size}`}>
+                                          className={`col-lg-${item.col_size}`}
+                                        >
                                           <div className="row d-flex">
                                             <div className="col-lg-12">
                                               <div className="form-group input-block mb-3">
@@ -1229,7 +1280,8 @@ const DynamicForm = ({
                                                       className="info-icon-container"
                                                       data-tooltip={
                                                         item.iconText
-                                                      }>
+                                                      }
+                                                    >
                                                       <Info
                                                         style={{
                                                           width: "15px",
@@ -1280,10 +1332,12 @@ const DynamicForm = ({
                                     ) : item.type === "timepiker" ? (
                                       <>
                                         <div
-                                          className={`col-lg-${item.col_size}`}>
+                                          className={`col-lg-${item.col_size}`}
+                                        >
                                           <div className="input-block mb-3 flex-column">
                                             <label
-                                              className={`col-lg-${item.label_size}`}>
+                                              className={`col-lg-${item.label_size}`}
+                                            >
                                               {item.label}
                                               <span className="text-danger">
                                                 *
@@ -1291,7 +1345,8 @@ const DynamicForm = ({
                                             </label>
 
                                             <LocalizationProvider
-                                              dateAdapter={AdapterDayjs}>
+                                              dateAdapter={AdapterDayjs}
+                                            >
                                               <TimePicker
                                                 value={
                                                   formik.values[item.name]
@@ -1344,20 +1399,21 @@ const DynamicForm = ({
                                     ) : item.type === "select" ? (
                                       <>
                                         <div
-                                          className={` col-lg-${item.col_size}`}>
+                                          className={` col-lg-${item.col_size}`}
+                                        >
                                           <div className="input-block row mb-3">
                                             <label
                                               className={` col-lg-${item.label_size}`}
-                                              htmlFor={item.name}>
+                                              htmlFor={item.name}
+                                            >
                                               {item.label}
 
                                               {item.iconText && (
                                                 <span className="custom-tooltip-wrapper">
                                                   <span
                                                     className="info-icon-container"
-                                                    data-tooltip={
-                                                      item.iconText
-                                                    }>
+                                                    data-tooltip={item.iconText}
+                                                  >
                                                     <Info
                                                       style={{
                                                         width: "15px",
@@ -1377,13 +1433,15 @@ const DynamicForm = ({
                                                 id={item.name}
                                                 {...formik.getFieldProps(
                                                   item.name
-                                                )}>
+                                                )}
+                                              >
                                                 <option value="">{`Select ${item.label}`}</option>
                                                 {item.options.map(
                                                   (option, index) => (
                                                     <option
                                                       key={option.value}
-                                                      value={option.value}>
+                                                      value={option.value}
+                                                    >
                                                       {option.label}
                                                     </option>
                                                   )
@@ -1401,7 +1459,8 @@ const DynamicForm = ({
                                       </>
                                     ) : item.type === "heading" ? (
                                       <div
-                                        className={`col-lg-${item.col_size}`}>
+                                        className={`col-lg-${item.col_size}`}
+                                      >
                                         <div className="row d-flex">
                                           <div className="col-lg-12">
                                             <div className="form-group input-block mt-3">
@@ -1426,14 +1485,16 @@ const DynamicForm = ({
                         style={{
                           boxShadow:
                             "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
-                        }}>
+                        }}
+                      >
                         {field.label === "Time_Duration" && (
                           <>
-                            <div className="iq-card-header d-flex justify-content-between">
+                            <div className=" d-flex justify-content-between">
                               <div className="iq-header-title">
                                 <h4
                                   className="card-title"
-                                  style={{ color: "#000", fontWeight: "450" }}>
+                                  
+                                >
                                   Time Duration
                                 </h4>
                               </div>
@@ -1445,7 +1506,8 @@ const DynamicForm = ({
                                     <div className={`col-lg-${item.col_size}`}>
                                       <div className="input-block mb-3 flex-column">
                                         <label
-                                          className={`col-lg-${item.label_size}`}>
+                                          className={`col-lg-${item.label_size}`}
+                                        >
                                           {item.label}
                                           <span className="text-danger">*</span>
                                         </label>
@@ -1472,17 +1534,20 @@ const DynamicForm = ({
                                   ) : item.type === "timepiker" ? (
                                     <>
                                       <div
-                                        className={`col-lg-${item.col_size}`}>
+                                        className={`col-lg-${item.col_size}`}
+                                      >
                                         <div className="input-block mb-3 flex-column">
                                           <label
-                                            className={`col-lg-${item.label_size}`}>
+                                            className={`col-lg-${item.label_size}`}
+                                          >
                                             {item.label}
                                             <span className="text-danger">
                                               *
                                             </span>
                                           </label>
                                           <LocalizationProvider
-                                            dateAdapter={AdapterDayjs}>
+                                            dateAdapter={AdapterDayjs}
+                                          >
                                             <TimePicker
                                               value={
                                                 formik.values[item.name]
@@ -1580,7 +1645,8 @@ const DynamicForm = ({
                                       <div className="input-block row mb-3">
                                         <label
                                           className={`col-lg-${item.label_size}`}
-                                          htmlFor={item.name}>
+                                          htmlFor={item.name}
+                                        >
                                           {item.label}
                                           <span className="text-danger">*</span>
                                         </label>
@@ -1589,14 +1655,14 @@ const DynamicForm = ({
                                             className="default-select wide form-control"
                                             disabled={item.disable}
                                             id={item.name}
-                                            {...formik.getFieldProps(
-                                              item.name
-                                            )}>
+                                            {...formik.getFieldProps(item.name)}
+                                          >
                                             <option value="">{`Select ${item.label}`}</option>
                                             {item.options.map((option) => (
                                               <option
                                                 key={option.value}
-                                                value={option.value}>
+                                                value={option.value}
+                                              >
                                                 {option.label}
                                               </option>
                                             ))}
@@ -1635,14 +1701,16 @@ const DynamicForm = ({
                         style={{
                           boxShadow:
                             "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
-                        }}>
+                        }}
+                      >
                         {field.label === "Other_Parameters" && (
                           <>
-                            <div className="iq-card-header d-flex justify-content-between">
+                            <div className=" d-flex justify-content-between">
                               <div className="iq-header-title">
                                 <h4
                                   className="card-title"
-                                  style={{ color: "#000", fontWeight: "450" }}>
+                                  
+                                >
                                   Other Parameters
                                 </h4>
                               </div>
@@ -1700,7 +1768,8 @@ const DynamicForm = ({
                                       <div className="input-block row mb-3">
                                         <label
                                           className={`col-lg-${item.label_size}`}
-                                          htmlFor={item.name}>
+                                          htmlFor={item.name}
+                                        >
                                           {item.label}
                                           <span className="text-danger">*</span>
                                         </label>
@@ -1709,14 +1778,14 @@ const DynamicForm = ({
                                             className="default-select wide form-control"
                                             disabled={item.disable}
                                             id={item.name}
-                                            {...formik.getFieldProps(
-                                              item.name
-                                            )}>
+                                            {...formik.getFieldProps(item.name)}
+                                          >
                                             <option value="">{`Select ${item.label}`}</option>
                                             {item.options.map((option) => (
                                               <option
                                                 key={option.value}
-                                                value={option.value}>
+                                                value={option.value}
+                                              >
                                                 {option.label}
                                               </option>
                                             ))}
@@ -1904,7 +1973,8 @@ const DynamicForm = ({
                             <div className="mb-3">
                               <label
                                 className={`col-form-${field.label_size}`}
-                                htmlFor={field.name}>
+                                htmlFor={field.name}
+                              >
                                 {field.label}
                               </label>
                               <input
@@ -1931,7 +2001,8 @@ const DynamicForm = ({
                           <div className="input-block row mb-3">
                             <label
                               className={` col-lg-${field.label_size}`}
-                              htmlFor={field.name}>
+                              htmlFor={field.name}
+                            >
                               {field.label}
                               <span className="text-danger">*</span>
                             </label>
@@ -1941,7 +2012,8 @@ const DynamicForm = ({
                                 aria-describedby="basic-addon1"
                                 disabled={field.disable}
                                 id={field.name}
-                                {...formik.getFieldProps(field.name)}>
+                                {...formik.getFieldProps(field.name)}
+                              >
                                 {field.options
                                   .filter((option) =>
                                     field?.options1?.includes(option?.label)
@@ -1950,7 +2022,8 @@ const DynamicForm = ({
                                     <option
                                       className="green"
                                       key={option.value}
-                                      value={option.value}>
+                                      value={option.value}
+                                    >
                                       {option.label}
                                     </option>
                                   ))}
@@ -1965,7 +2038,8 @@ const DynamicForm = ({
                                     <option
                                       className="black"
                                       key={option.value}
-                                      value={option.value}>
+                                      value={option.value}
+                                    >
                                       {option.label}
                                     </option>
                                   ))}
@@ -1987,7 +2061,8 @@ const DynamicForm = ({
                           <div className="input-block row mb-3">
                             <label
                               className={` col-lg-${field.label_size}`}
-                              htmlFor={field.name}>
+                              htmlFor={field.name}
+                            >
                               {field.label}
                               <span className="text-danger">*</span>
                             </label>
@@ -1997,12 +2072,14 @@ const DynamicForm = ({
                                 aria-describedby="basic-addon1"
                                 disabled={field.disable}
                                 id={field.name}
-                                {...formik.getFieldProps(field.name)}>
+                                {...formik.getFieldProps(field.name)}
+                              >
                                 <option value="">{`Select ${field.label}`}</option>
                                 {field.options.map((option, index) => (
                                   <option
                                     key={option.value}
-                                    value={option.value}>
+                                    value={option.value}
+                                  >
                                     {option.label}
                                   </option>
                                 ))}
@@ -2024,7 +2101,8 @@ const DynamicForm = ({
                           <div className="input-block row mb-3">
                             <label
                               className={` col-lg-${field.label_size}`}
-                              htmlFor={field.name}>
+                              htmlFor={field.name}
+                            >
                               {field.label}
                               <span className="text-danger">*</span>
                             </label>
@@ -2064,7 +2142,8 @@ const DynamicForm = ({
                                       />
                                       <label
                                         className="form-check-label"
-                                        htmlFor="defaultCheckbox">
+                                        htmlFor="defaultCheckbox"
+                                      >
                                         Select All
                                       </label>
                                     </div>
@@ -2074,7 +2153,8 @@ const DynamicForm = ({
                               {field.options.map((opData) => (
                                 <div
                                   className="col-lg-3 col-md-4 col-sm-6"
-                                  key={opData.value}>
+                                  key={opData.value}
+                                >
                                   <div className="row d-flex justify-content-start">
                                     <div className="mb-4">
                                       <div className="form-check custom-checkbox">
@@ -2112,7 +2192,8 @@ const DynamicForm = ({
                                         />
                                         <label
                                           className="form-check-label"
-                                          htmlFor={opData.label}>
+                                          htmlFor={opData.label}
+                                        >
                                           {opData.label}
                                         </label>
                                       </div>
@@ -2150,7 +2231,8 @@ const DynamicForm = ({
                                 />
                                 <label
                                   className="form-check-label"
-                                  htmlFor={field.label}>
+                                  htmlFor={field.label}
+                                >
                                   {field.label}
                                 </label>
                               </div>
@@ -2174,9 +2256,11 @@ const DynamicForm = ({
                                       </label> */}
 
                           <div
-                            className={`d-flex mb-4 col-lg-${field.col_size}`}>
+                            className={`d-flex mb-4 col-lg-${field.col_size}`}
+                          >
                             <div
-                              className={`col-lg-${field.col_size} form-check custom-checkbox d-flex align-items-center`}>
+                              className={`col-lg-${field.col_size} form-check custom-checkbox d-flex align-items-center`}
+                            >
                               <input
                                 type={field.type}
                                 name={field.name}
@@ -2187,12 +2271,14 @@ const DynamicForm = ({
                               />
                               <label
                                 className={`col-lg-${field.label_size} col-form-label mx-2`}
-                                htmlFor={field.title1}>
+                                htmlFor={field.title1}
+                              >
                                 {field.title1}
                               </label>
                             </div>
                             <div
-                              className={`col-lg-${field.col_size} form-check custom-checkbox d-flex align-items-center`}>
+                              className={`col-lg-${field.col_size} form-check custom-checkbox d-flex align-items-center`}
+                            >
                               <input
                                 type={field.type}
                                 name={field.name}
@@ -2203,12 +2289,14 @@ const DynamicForm = ({
                               />
                               <label
                                 className={`col-lg-${field.label_size} col-form-label  mx-2`}
-                                htmlFor={field.title2}>
+                                htmlFor={field.title2}
+                              >
                                 {field.title2}
                               </label>
                             </div>
                             <div
-                              className={`col-lg-${field.col_size} form-check custom-checkbox d-flex align-items-center`}>
+                              className={`col-lg-${field.col_size} form-check custom-checkbox d-flex align-items-center`}
+                            >
                               <input
                                 type={field.type}
                                 name={field.name}
@@ -2219,12 +2307,14 @@ const DynamicForm = ({
                               />
                               <label
                                 className={`col-lg-${field.label_size} col-form-label  mx-2`}
-                                htmlFor={field.title3}>
+                                htmlFor={field.title3}
+                              >
                                 {field.title3}
                               </label>
                             </div>
                             <div
-                              className={`col-lg-${field.col_size} form-check custom-checkbox d-flex align-items-center `}>
+                              className={`col-lg-${field.col_size} form-check custom-checkbox d-flex align-items-center `}
+                            >
                               <input
                                 type={field.type}
                                 name={field.name}
@@ -2235,7 +2325,8 @@ const DynamicForm = ({
                               />
                               <label
                                 className={`col-lg-${field.label_size} col-form-label  mx-2`}
-                                htmlFor={field.title4}>
+                                htmlFor={field.title4}
+                              >
                                 {field.title4}
                               </label>
                             </div>
@@ -2320,7 +2411,8 @@ const DynamicForm = ({
                               field.title.map((item) => (
                                 <div
                                   className={`form-check custom-checkbox d-flex align-items-center col-lg-3`}
-                                  key={item.title}>
+                                  key={item.title}
+                                >
                                   <input
                                     type="radio"
                                     name={field.name}
@@ -2334,7 +2426,8 @@ const DynamicForm = ({
                                   />
                                   <label
                                     className={`col-lg-${field.label_size} col-form-label mx-2`}
-                                    htmlFor={item.title}>
+                                    htmlFor={item.title}
+                                  >
                                     {item.title}
                                   </label>
                                 </div>
@@ -2351,12 +2444,14 @@ const DynamicForm = ({
                     ) : field.type === "radio2" ? (
                       <>
                         <div
-                          className={`d-flex justify-content-center mb-4 col-lg-${field.col_size}`}>
+                          className={`d-flex justify-content-center mb-4 col-lg-${field.col_size}`}
+                        >
                           {field.title &&
                             field.title.map((item) => (
                               <div
                                 className={`form-check custom-checkbox d-flex align-items-center col-lg-3`}
-                                key={item.title}>
+                                key={item.title}
+                              >
                                 <input
                                   type="radio"
                                   name={field.name}
@@ -2370,7 +2465,8 @@ const DynamicForm = ({
                                 />
                                 <label
                                   className={`col-lg-${field.label_size} col-form-label mx-2`}
-                                  htmlFor={item.title}>
+                                  htmlFor={item.title}
+                                >
                                   {item.title}
                                 </label>
                               </div>
@@ -2383,7 +2479,8 @@ const DynamicForm = ({
                           <div className=" input-block row mb-3">
                             <label
                               className={`col-lg-${field.label_size} col-form-labelp-0 `}
-                              htmlFor={field.name}>
+                              htmlFor={field.name}
+                            >
                               {field.label}
                               <span className="text-danger">*</span>
                             </label>
@@ -2418,7 +2515,8 @@ const DynamicForm = ({
                                     ...prevState,
                                     [field.name]: !prevState[field.name],
                                   }))
-                                }></i>
+                                }
+                              ></i>
                               {formik.touched[field.name] &&
                               formik.errors[field.name] ? (
                                 <div style={{ color: "red" }}>
@@ -2435,7 +2533,8 @@ const DynamicForm = ({
                           <div className=" input-block row">
                             <label
                               className={`col-lg-${field.label_size} col-form-labelp-0 `}
-                              htmlFor={field.name}>
+                              htmlFor={field.name}
+                            >
                               {field.label}
                               <span className="text-danger">*</span>
                             </label>
@@ -2471,7 +2570,8 @@ const DynamicForm = ({
                               <div className="form-check custom-checkbox input-block p-0">
                                 <label
                                   className="col-lg-6 "
-                                  htmlFor={field.label}>
+                                  htmlFor={field.label}
+                                >
                                   {field.label}
                                 </label>
                                 <input
@@ -2499,7 +2599,8 @@ const DynamicForm = ({
                             <div className="mb-3 input-block">
                               <label
                                 className={`col-lg-${field.label_size}`}
-                                htmlFor={field.name}>
+                                htmlFor={field.name}
+                              >
                                 {field.label}
                               </label>
                               <textarea
@@ -2508,7 +2609,8 @@ const DynamicForm = ({
                                 id={field.name}
                                 name={field.name}
                                 {...formik.getFieldProps(field.name)}
-                                placeholder={field.label}></textarea>
+                                placeholder={field.label}
+                              ></textarea>
                               {formik.touched[field.name] &&
                                 formik.errors[field.name] && (
                                   <div style={{ color: "red" }}>
@@ -2705,7 +2807,8 @@ const DynamicForm = ({
                   {btn_name1 ? (
                     <Link
                       to={btn_name1_route}
-                      className="btn customer-btn-cancel mx-3  btn-primary">
+                      className="btn customer-btn-cancel mx-3  btn-primary"
+                    >
                       {btn_name1}
                     </Link>
                   ) : (
@@ -2715,13 +2818,15 @@ const DynamicForm = ({
                     <>
                       <button
                         type="submit"
-                        className="btn customer-btn-save btn-primary">
+                        className="btn customer-btn-save btn-primary"
+                      >
                         {btn_name}
                       </button>
                       {btn_name2 ? (
                         <button
                           type="submit"
-                          className="btn customer-btn-save btn-primary">
+                          className="btn customer-btn-save btn-primary"
+                        >
                           {btn_name2}
                         </button>
                       ) : (

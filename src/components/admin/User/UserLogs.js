@@ -3,6 +3,8 @@ import FullDataTable from '../../../ExtraComponent/CommanDataTable'
 import { GetAllTaskStatus, GetClientService, Get_All_Client_Logs, getStrategyType } from '../../CommonAPI/Admin'
 import { columns3, columns2, columns1, columns } from './UserAllColumn'
 import NoDataFound from '../../../ExtraComponent/NoDataFound'
+import Content from '../../../ExtraComponent/Content';
+
 
 const Pannel = () => {
 
@@ -142,16 +144,13 @@ const Pannel = () => {
 
     return (
         <>
-            <div>
-                <div className='container-fluid' style={{marginTop:"2rem"}}>
-                    <div className='row'>
-                        <div className="col-sm-12 col-lg-12">
-                            <div className="iq-card">
-                                <div className="iq-card-header d-flex justify-content-between">
-                                    <div className="iq-header-title">
-                                        <h4 className="card-title">User Panel Logs</h4>
-                                    </div>
-                                </div>
+        <Content
+                Page_title={" 📉 User Panel Logs"}
+                button_status={false}
+                backbutton_status={true}
+               
+            >
+            
                                 <div className="iq-card-body">
                                     <div>
                                         <div className="row">
@@ -274,11 +273,8 @@ const Pannel = () => {
 
                                 </div>
 
-                            </div >
-                        </div >
-                    </div>
-                </div>
-            </div>
+                           
+            </Content>
         </>
     )
 }
