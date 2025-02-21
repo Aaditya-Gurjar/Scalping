@@ -503,6 +503,7 @@ const Userlog = () => {
         setStrategyType(StrategyType || 'Scalping')
     }, []);
 
+    console.log("getUserData", getUserData)
 
     const handleModal = async (rowIndex) => {
         const data = { Data: selectStrategyType, Username: rowIndex?.Username }
@@ -510,10 +511,12 @@ const Userlog = () => {
 
         await get_User_Data(data)
             .then((response) => {
+                console.log("Response", response)
+
                 if (response.Status) {
                     setUserData({
                         loading: false,
-                        data: response.Data
+                        data: response.NewScalping
                     })
                 }
                 else {
@@ -531,7 +534,7 @@ const Userlog = () => {
 
     return (
         <>
-            <div className="container-fluid" style={{marginTop:"2rem"}}>
+            <div className="container-fluid" style={{ marginTop: "2rem" }}>
                 <div className="row">
                     <div className="iq-card">
                         <div className="iq-card-header d-flex justify-content-between">
@@ -549,7 +552,7 @@ const Userlog = () => {
                                         <select className="form-select" required=""
                                             onChange={(e) => {
                                                 setStrategyType(e.target.value)
-                                                sessionStorage.setItem('StrategyType',e.target.value)
+                                                sessionStorage.setItem('StrategyType', e.target.value)
                                             }}
                                             value={selectStrategyType}>
                                             <option value={"Scalping"}>Scalping</option>

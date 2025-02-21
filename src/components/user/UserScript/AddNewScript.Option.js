@@ -559,7 +559,7 @@ const AddClient = () => {
             : 0,
 
 
-        ExitType:
+        ExitRuleO:
           values.Measurment_Type != "Shifting_FourLeg" &&
             values.ETPattern == "Leg vice"
             ? values.ExitType
@@ -1061,7 +1061,7 @@ const AddClient = () => {
       label: "Exit Type",
       type: "select1",
       options: [
-        { label: "Cost to cost", value: "Cost to cost" },
+        { label: "Cost to Cost", value: "Cost to Cost" },
         { label: "Normal", value: "Normal" },
       ],
       showWhen: (value) =>
@@ -1169,6 +1169,7 @@ const AddClient = () => {
       label: "Working Day",
       type: "multiselect",
       options: [
+        { label: "Select All", value: "all" },
         { label: "Monday", value: "Monday" },
         { label: "Tuesday", value: "Tuesday" },
         { label: "Wednesday", value: "Wednesday" },

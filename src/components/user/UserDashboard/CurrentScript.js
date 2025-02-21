@@ -1358,6 +1358,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             label: "Working Day ",
             type: "multiselect",
             options: [
+                { label: "Select All", value: "all" },
+
                 { label: "Monday", value: "Monday" },
                 { label: "Tuesday", value: "Tuesday" },
                 { label: "Wednesday", value: "Wednesday" },
@@ -1630,6 +1632,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             label: "Working Day",
             type: "multiselect",
             options: [
+                { label: "Select All", value: "all" },
                 { label: "Monday", value: "Monday" },
                 { label: "Tuesday", value: "Tuesday" },
                 { label: "Wednesday", value: "Wednesday" },

@@ -272,7 +272,7 @@ const AddClient = () => {
                 PEDeepLower: Number(values.PEDeepLower),
                 PEDeepHigher: Number(values.PEDeepHigher),
 
-                ExitType:
+                ExitRuleO:
                     values.Measurment_Type != "Shifting/FourLeg" &&
                         values.ETPattern == "Leg vice"
                         ? values.ExitType
@@ -641,7 +641,7 @@ const AddClient = () => {
             label: "Exit Type",
             type: "select1",
             options: [
-                { label: "Cost to cost", value: "Cost to cost" },
+                { label: "Cost to Cost", value: "Cost to Cost" },
                 { label: "Normal", value: "Normal" },
             ],
             showWhen: (value) =>

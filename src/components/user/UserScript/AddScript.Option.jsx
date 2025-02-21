@@ -99,6 +99,7 @@ const AddClient = () => {
       Shifting_Point: 1,
       Profit: 0,
       Loss: 0,
+      ExitType: "",
       WorkingDay: [],
     },
     validate: (values) => {
@@ -402,9 +403,16 @@ const AddClient = () => {
         errors.Profit = "Please Enter Maximum Loss";
       }
 
-      
       if (!values.WorkingDay.length > 0) {
         errors.WorkingDay = "Please select Working day";
+      }
+
+      if (
+        !values.ExitType &&
+        values.Measurment_Type != "Shifting_FourLeg" &&
+        values.ETPattern == "Leg vice"
+      ) {
+        errors.ExitType = "Please Select Exit Type";
       }
 
       // ScrollToViewFirstError(errors);
@@ -547,7 +555,13 @@ const AddClient = () => {
           values.Strategy == "Multi_Conditional"
             ? values.Profit
             : 0,
-      
+
+        ExitRuleO:
+          values.Measurment_Type != "Shifting_FourLeg" &&
+          values.ETPattern == "Leg vice"
+            ? values.ExitType
+            : "",
+
         WorkingDay: values.WorkingDay
           ? values?.WorkingDay?.map((item) => item?.value || item)
           : [],
@@ -1021,6 +1035,25 @@ const AddClient = () => {
       headingtype: 3,
       disable: false,
     },
+
+    {
+      name: "ExitType",
+      label: "Exit Type",
+      type: "select1",
+      options: [
+        { label: "Cost to Cost", value: "Cost to Cost" },
+        { label: "Normal", value: "Normal" },
+      ],
+      showWhen: (value) =>
+        value.Measurment_Type != "Shifting_FourLeg" &&
+        value.ETPattern == "Leg vice",
+      hiding: false,
+      label_size: 12,
+      col_size: formik.values.Measurment_Type != "Shifting_FourLeg" ? 3 : 4,
+      headingtype: 3,
+      disable: false,
+    },
+
     {
       name: "Targetvalue",
       label: "Target Value",
@@ -1116,6 +1149,7 @@ const AddClient = () => {
       label: "Working Day",
       type: "multiselect",
       options: [
+        { label: "Select All", value: "all" },
         { label: "Monday", value: "Monday" },
         { label: "Tuesday", value: "Tuesday" },
         { label: "Wednesday", value: "Wednesday" },
@@ -1165,6 +1199,7 @@ const AddClient = () => {
       headingtype: 5,
       disable: false,
     },
+
     {
       name: "ExitTime",
       label: "Exit Time",
@@ -1176,6 +1211,7 @@ const AddClient = () => {
 
       disable: false,
     },
+
     {
       name: "ExitDay",
       label: "Exit Day",
@@ -1190,7 +1226,6 @@ const AddClient = () => {
       headingtype: 5,
       disable: false,
     },
-    
   ];
 
   const OtherParameterArr = [

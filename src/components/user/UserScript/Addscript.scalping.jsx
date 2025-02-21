@@ -519,21 +519,23 @@ const AddClient = () => {
           values.Strategy == "Multi_Conditional"
             ? values.Profit
             : 0,
-        RollOver:
+        RolloverTF:
           values.position_type == "Multiple" &&
           values.Strategy == "Multi_Conditional"
             ? values.RollOver
             : false,
-        NumberOfDays:
+        RolloverDay:
           values.position_type == "Multiple" &&
           values.Strategy == "Multi_Conditional" &&
           values.RollOver == "true"
             ? values.NumberOfDays
             : 0,
-        RollOverExitTime:
-          values.position_type == "Multiple" &&
-          values.Strategy == "Multi_Conditional" &&
-          values.RollOver == "true"
+        RolloverTime:
+          values.ExitDay == "Intraday"
+            ? "00:00:00"
+            : values.position_type == "Multiple" &&
+              values.Strategy == "Multi_Conditional" &&
+              values.RollOver == "true"
             ? values.RollOverExitTime
             : "00:00:00",
         TargetExit:
@@ -726,6 +728,13 @@ const AddClient = () => {
       formik.setFieldValue("RollOverExitTime", "23:00:00");
     }
   }, [formik.values.Exchange]);
+
+  useEffect(() => {
+    if (formik.values.ExitDay == "Intraday") {
+      formik.setFieldValue("RollOver", false);
+      formik.setFieldValue("NumberOfDays", "0");
+    }
+  }, [formik.values.ExitDay]);
 
   useEffect(() => {
     formik.setFieldValue("Strategy", location?.state?.data?.ScalpType);
@@ -1321,6 +1330,7 @@ const AddClient = () => {
       label: "Working Day",
       type: "multiselect",
       options: [
+        { label: "Select All", value: "all" },
         { label: "Monday", value: "Monday" },
         { label: "Tuesday", value: "Tuesday" },
         { label: "Wednesday", value: "Wednesday" },
@@ -1465,6 +1475,10 @@ const AddClient = () => {
       headingtype: 4,
       showWhen: (values) =>
         values.ExitDay == "Delivery" &&
+        ((values.Exchange == "MCX" && values.Instrument !== "OPTFUT") ||
+          (values.Exchange == "NFO" &&
+            values.Instrument !== "OPTIDX" &&
+            values.Instrument !== "OPTSTK")) &&
         values.Strategy == "Multi_Conditional" &&
         values.position_type == "Multiple",
       disable: false,
@@ -1768,7 +1782,6 @@ const AddClient = () => {
     }
   };
 
-  
   useEffect(() => {
     getExpiry();
   }, [

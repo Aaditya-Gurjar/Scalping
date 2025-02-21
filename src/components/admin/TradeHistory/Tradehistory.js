@@ -807,6 +807,8 @@
 
 // export default Tradehistory;
 
+
+
 import React, { useState, useEffect, useRef } from "react";
 import {
     get_User_Data,
@@ -971,7 +973,7 @@ const Tradehistory = () => {
         }
     };
 
-    // Now fetch trade history whenever strategy type or selected group (name) changes.
+    // Fetch trade history whenever strategy type or selected username changes.
     useEffect(() => {
         fetchStrategyTypes();
         fetchTradeHistory();
@@ -980,17 +982,14 @@ const Tradehistory = () => {
     const convertDateFormat = (date) => {
         if (!date) return "";
         const dateObj = new Date(date);
-        return `${dateObj.getFullYear()}.${String(dateObj.getMonth() + 1).padStart(
-            2,
-            "0"
-        )}.${String(dateObj.getDate()).padStart(2, "0")}`;
+        return `${dateObj.getFullYear()}.${String(dateObj.getMonth() + 1).padStart(2, "0")}.${String(dateObj.getDate()).padStart(2, "0")}`;
     };
 
-    // Modified handleRowSelect: on selecting a row, close all open dropdowns and hide report sections.
+    // When a row is selected, close all open report sections and hide report area.
     const handleRowSelect = (rowData) => {
         setSelectedRowData(rowData);
-        setOpenSections({}); // Close any open report sections
-        setShowReportSections(false); // Hide report sections until "Generate History" is clicked
+        setOpenSections({});
+        setShowReportSections(false);
     };
 
     const handleSubmit = async () => {
@@ -1003,7 +1002,7 @@ const Tradehistory = () => {
             return;
         }
 
-        // Reset loaded sections so new data is fetched
+        // Reset loaded sections so new data is fetched.
         setLoadedSections({
             overview: false,
             pnlAnalysis: false,
@@ -1076,11 +1075,9 @@ const Tradehistory = () => {
         }
     };
 
-    // loadSectionData loads data for a report section if not already loaded.
     const loadSectionData = async (section) => {
         if (loadedSections[section]) return;
         try {
-            // For "overview", data is assumed to be loaded via handleSubmit.
             if (section === "overview") {
                 setLoadedSections((prev) => ({ ...prev, [section]: true }));
                 return;
@@ -1161,7 +1158,7 @@ const Tradehistory = () => {
     // Track open/closed state for each report section.
     const [openSections, setOpenSections] = useState({});
 
-    // ReportSection component for each section.
+    // ReportSection component.
     const ReportSection = ({ title, section, children }) => {
         const isOpen = openSections[section] || false;
 
@@ -1178,15 +1175,9 @@ const Tradehistory = () => {
             if (!isOpen) {
                 return "Show Data";
             } else {
-                return loadedSections[section] ? (
-                    "Hide Data"
-                ) : (
-                    <span
-                        className="spinner-border spinner-border-sm me-1"
-                        role="status"
-                        aria-hidden="true"
-                    />
-                );
+                return loadedSections[section]
+                    ? "Hide Data"
+                    : <span className="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true" />;
             }
         };
 
@@ -1200,11 +1191,7 @@ const Tradehistory = () => {
                 </div>
                 {isOpen && (
                     <div className="card-body">
-                        {loadedSections[section] ? (
-                            children
-                        ) : (
-                            <div className="spinner-border text-primary" />
-                        )}
+                        {loadedSections[section] ? children : <div className="spinner-border text-primary" />}
                     </div>
                 )}
             </div>
@@ -1344,114 +1331,143 @@ const Tradehistory = () => {
                             {showReportSections && (
                                 <div className="mt-5">
                                     <ReportSection title="Total Profit/Loss Overview" section="overview">
-                                        <div
-                                            className="pnl-overview"
-                                            style={{
-                                                background:
-                                                    "linear-gradient(to right, #1e3c72, #2a5298)",
-                                                color: "#fff",
-                                                padding: "20px",
-                                                borderRadius: "8px",
-                                                textAlign: "center",
-                                                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                                                marginBottom: "20px",
-                                            }}
-                                        >
-                                            <h4
-                                                style={{
-                                                    margin: 0,
-                                                    fontSize: "1.75rem",
-                                                    fontWeight: "bold",
-                                                }}
-                                            >
-                                                Total PnL: ₹
-                                                {getAllTradeData.Overall[0]?.PnL?.toFixed(2) || "0.00"}
-                                                <span
-                                                    className={`badge ms-2 ${getAllTradeData.Overall[0]?.PnL >= 0
-                                                        ? "bg-success"
-                                                        : "bg-danger"
-                                                        }`}
+                                        {getAllTradeData.data && getAllTradeData.data.length > 0 ? (
+                                            <>
+                                                <div
+                                                    className="pnl-overview"
                                                     style={{
-                                                        fontSize: "1rem",
-                                                        padding: "0.5rem 1rem",
-                                                        borderRadius: "4px",
+                                                        background: "linear-gradient(to right, #1e3c72, #2a5298)",
+                                                        color: "#fff",
+                                                        padding: "20px",
+                                                        borderRadius: "8px",
+                                                        textAlign: "center",
+                                                        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                                                        marginBottom: "20px",
                                                     }}
                                                 >
-                                                    {getAllTradeData.Overall[0]?.PnL >= 0 ? "Profit" : "Loss"}
-                                                </span>
-                                            </h4>
-                                        </div>
-                                        <GridExample
-                                            columns={columns3(selectStrategyType)}
-                                            data={getAllTradeData.data}
-                                            checkBox={false}
-                                        />
+                                                    <h4
+                                                        style={{
+                                                            margin: 0,
+                                                            fontSize: "1.75rem",
+                                                            fontWeight: "bold",
+                                                        }}
+                                                    >
+                                                        Total PnL: ₹
+                                                        {getAllTradeData.Overall[0]?.PnL?.toFixed(2) || "0.00"}
+                                                        <span
+                                                            className={`badge ms-2 ${getAllTradeData.Overall[0]?.PnL >= 0
+                                                                ? "bg-success"
+                                                                : "bg-danger"
+                                                                }`}
+                                                            style={{
+                                                                fontSize: "1rem",
+                                                                padding: "0.5rem 1rem",
+                                                                borderRadius: "4px",
+                                                            }}
+                                                        >
+                                                            {getAllTradeData.Overall[0]?.PnL >= 0 ? "Profit" : "Loss"}
+                                                        </span>
+                                                    </h4>
+                                                </div>
+                                                <GridExample
+                                                    columns={columns3(selectStrategyType)}
+                                                    data={getAllTradeData.data}
+                                                    checkBox={false}
+                                                />
+                                            </>
+                                        ) : (
+                                            <NoDataFound />
+                                        )}
                                     </ReportSection>
 
                                     <ReportSection title="Profit/Loss Analysis" section="pnlAnalysis">
-                                        <ProfitAndLossGraph data={getPnLData.data} />
+                                        {getPnLData.data && getPnLData.data.length > 0 ? (
+                                            <ProfitAndLossGraph data={getPnLData.data} />
+                                        ) : (
+                                            <NoDataFound />
+                                        )}
                                     </ReportSection>
+
                                     <ReportSection title="Equity Curve Analysis" section="equity">
-                                        <div style={{ height: "350px", overflow: "hidden" }}>
-                                            <ChartComponent data={getEquityCurveDetails.data} />
-                                        </div>
-                                        <GridExample
-                                            columns={columns5(selectStrategyType)}
-                                            data={getEquityCurveDetails.data}
-                                            checkBox={false}
-                                        />
+                                        {getEquityCurveDetails.data && getEquityCurveDetails.data.length > 0 ? (
+                                            <>
+                                                <div style={{ height: "350px", overflow: "hidden" }}>
+                                                    <ChartComponent data={getEquityCurveDetails.data} />
+                                                </div>
+                                                <GridExample
+                                                    columns={columns5(selectStrategyType)}
+                                                    data={getEquityCurveDetails.data}
+                                                    checkBox={false}
+                                                />
+                                            </>
+                                        ) : (
+                                            <NoDataFound />
+                                        )}
                                     </ReportSection>
+
                                     <ReportSection title="Drawdown Analysis" section="drawdown">
-                                        <div style={{ height: "350px", overflow: "hidden" }}>
-                                            <DrawdownChartComponent data={getDropDownData.data} />
-                                        </div>
-                                        <GridExample
-                                            columns={columns6()}
-                                            data={getDropDownData.data}
-                                            checkBox={false}
-                                        />
+                                        {getDropDownData.data && getDropDownData.data.length > 0 ? (
+                                            <>
+                                                <div style={{ height: "350px", overflow: "hidden" }}>
+                                                    <DrawdownChartComponent data={getDropDownData.data} />
+                                                </div>
+                                                <GridExample
+                                                    columns={columns6()}
+                                                    data={getDropDownData.data}
+                                                    checkBox={false}
+                                                />
+                                            </>
+                                        ) : (
+                                            <NoDataFound />
+                                        )}
                                     </ReportSection>
+
                                     <ReportSection title="Top Trades Analysis" section="trades">
-                                        <div className="row">
-                                            <div className="col-md-6">
-                                                <div className="card h-100">
-                                                    <div className="card-header bg-success text-white">
-                                                        Top Profitable Trades
-                                                    </div>
-                                                    <div className="card-body">
-                                                        <ApexCharts
-                                                            options={getChartOptions(
-                                                                getFiveProfitTrade.data,
-                                                                "Profit"
+                                        {((getFiveProfitTrade.data && getFiveProfitTrade.data.length > 0) ||
+                                            (getFiveLossTrade.data && getFiveLossTrade.data.length > 0)) ? (
+                                            <div className="row">
+                                                <div className="col-md-6">
+                                                    <div className="card h-100">
+                                                        <div className="card-header bg-success text-white">
+                                                            Top Profitable Trades
+                                                        </div>
+                                                        <div className="card-body">
+                                                            {getFiveProfitTrade.data && getFiveProfitTrade.data.length > 0 ? (
+                                                                <ApexCharts
+                                                                    options={getChartOptions(getFiveProfitTrade.data, "Profit")}
+                                                                    series={getFiveProfitTrade.data.map((t) => t.PnL)}
+                                                                    type="pie"
+                                                                    height={350}
+                                                                />
+                                                            ) : (
+                                                                <NoDataFound />
                                                             )}
-                                                            series={getFiveProfitTrade.data.map((t) => t.PnL)}
-                                                            type="pie"
-                                                            height={350}
-                                                        />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <div className="card h-100">
+                                                        <div className="card-header bg-danger text-white">
+                                                            Top Loss-making Trades
+                                                        </div>
+                                                        <div className="card-body">
+                                                            {getFiveLossTrade.data && getFiveLossTrade.data.length > 0 ? (
+                                                                <ApexCharts
+                                                                    options={getChartOptions(getFiveLossTrade.data, "Loss")}
+                                                                    series={getFiveLossTrade.data.map((t) => Math.abs(t.PnL))}
+                                                                    type="pie"
+                                                                    height={350}
+                                                                />
+                                                            ) : (
+                                                                <NoDataFound />
+                                                            )}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="col-md-6">
-                                                <div className="card h-100">
-                                                    <div className="card-header bg-danger text-white">
-                                                        Top Loss-making Trades
-                                                    </div>
-                                                    <div className="card-body">
-                                                        <ApexCharts
-                                                            options={getChartOptions(
-                                                                getFiveLossTrade.data,
-                                                                "Loss"
-                                                            )}
-                                                            series={getFiveLossTrade.data.map((t) =>
-                                                                Math.abs(t.PnL)
-                                                            )}
-                                                            type="pie"
-                                                            height={350}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        ) : (
+                                            <NoDataFound />
+                                        )}
                                     </ReportSection>
                                 </div>
                             )}

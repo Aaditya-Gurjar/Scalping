@@ -1,7 +1,7 @@
 import Checkbox from '@mui/material/Checkbox';
 
 // Client Activity Column
-export const ClientActivityPage =()=> [
+export const ClientActivityPage = () => [
     {
         name: "S.No",
         label: "S.No",
@@ -14,14 +14,14 @@ export const ClientActivityPage =()=> [
             }
         },
     },
-    {
-        name: "Username",
-        label: "Username",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+    // {
+    //     name: "Username",
+    //     label: "Username",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
     {
         name: "ServiceCount",
         label: "ServiceCount",
@@ -98,106 +98,106 @@ export const ClientActivityPage =()=> [
 ];
 
 //Client Report Column
-export const ClientReportColumn =()=>[
-        {
-            name: "S.No",
-            label: "S.No",
-            options: {
-                filter: true,
-                sort: true,
-                customBodyRender: (value, tableMeta, updateValue) => {
-                    const rowIndex = tableMeta.rowIndex;
-                    return rowIndex + 1;
-                }
-            },
-        },
-        {
-            name: "Thread",
-            label: "Thread",
-            options: {
-                filter: true,
-                sort: true,
+export const ClientReportColumn = () => [
+    {
+        name: "S.No",
+        label: "S.No",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value, tableMeta, updateValue) => {
+                const rowIndex = tableMeta.rowIndex;
+                return rowIndex + 1;
             }
         },
-        {
-            name: "Username",
-            label: "Username",
-            options: {
-                filter: true,
-                sort: true,
+    },
+    {
+        name: "Thread",
+        label: "Thread",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Username",
+        label: "Username",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "ScalpType",
+        label: "ScalpType",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Targettype",
+        label: "Targettype",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Symbol",
+        label: "Symbol",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Threading Status",
+        label: "Threading Status",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value, tableMeta, updateValue) => {
+                const isChecked = Boolean(value);
+                return (
+                    <Checkbox
+                        checked={isChecked}
+                    />
+                );
             }
-        },
-        {
-            name: "ScalpType",
-            label: "ScalpType",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
-        {
-            name: "Targettype",
-            label: "Targettype",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
-        {
-            name: "Symbol",
-            label: "Symbol",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
-        {
-            name: "Threading Status",
-            label: "Threading Status",
-            options: {
-                filter: true,
-                sort: true,
-                customBodyRender: (value, tableMeta, updateValue) => {
-                    const isChecked = Boolean(value);
-                    return (
-                        <Checkbox
-                            checked={isChecked}
-                        />
-                    );
-                }
-            }
-        },
-        {
-            name: "ThreadName",
-            label: "ThreadName",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
-        {
-            name: "Time",
-            label: "Time",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
-        {
-            name: "ProjectName",
-            label: "ProjectName",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
+        }
+    },
+    {
+        name: "ThreadName",
+        label: "ThreadName",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Time",
+        label: "Time",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "ProjectName",
+        label: "ProjectName",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
 
-    
+
 
 ]
 
 // USER LOG
-export const columns =()=> [
+export const columns = () => [
     {
         name: "S.No",
         label: "S.No",
@@ -317,7 +317,7 @@ export const columns =()=> [
             sort: true,
         }
     },
-    
+
     {
         name: "Instrument Symbol",
         label: "Instrument Symbol",
@@ -366,7 +366,7 @@ export const columns =()=> [
             sort: true,
         }
     },
-    
+
     {
         name: "Profit",
         label: "Profit",
@@ -423,8 +423,8 @@ export const columns =()=> [
             sort: true,
         }
     },
-     
-    
+
+
     {
         name: "SSDate",
         label: "SSDate",
@@ -441,7 +441,7 @@ export const columns =()=> [
             sort: true,
         }
     },
-  
+
     {
         name: "TaskStatus",
         label: "TaskStatus",
@@ -466,7 +466,7 @@ export const columns =()=> [
             sort: true,
         }
     },
-     
+
     {
         name: "TradeCount",
         label: "Trade Count",
@@ -479,7 +479,7 @@ export const columns =()=> [
 
 ];
 
-export const columns1 = ()=>[
+export const columns1 = () => [
     {
         name: "S.No",
         label: "S.No",
@@ -502,7 +502,7 @@ export const columns1 = ()=>[
             sort: true,
         }
     },
-     
+
     {
         name: "STG",
         label: "Strategy",
@@ -535,7 +535,7 @@ export const columns1 = ()=>[
             sort: true,
         }
     },
-    
+
     {
         name: "Instrument Type",
         label: "Instrument Type",
@@ -544,7 +544,7 @@ export const columns1 = ()=>[
             sort: true,
         }
     },
-     
+
     {
         name: "Token",
         label: "Token",
@@ -649,7 +649,7 @@ export const columns1 = ()=>[
             sort: true,
         }
     },
-   
+
     {
         name: "SSDate",
         label: "SSDate",
@@ -666,7 +666,7 @@ export const columns1 = ()=>[
             sort: true,
         }
     },
-   
+
     {
         name: "StrikeType",
         label: "StrikeType",
@@ -763,7 +763,7 @@ export const columns1 = ()=>[
             sort: true,
         }
     },
-     
+
     {
         name: "TradeCount",
         label: "TradeCount",
@@ -783,7 +783,7 @@ export const columns1 = ()=>[
                 return (
                     <Checkbox
                         checked={isChecked}
-                        
+
                     />
 
                 );
@@ -802,7 +802,7 @@ export const columns1 = ()=>[
 
 ];
 
-export const columns2 = ()=>[
+export const columns2 = () => [
     {
         name: "S.No",
         label: "S.No",
@@ -865,8 +865,8 @@ export const columns2 = ()=>[
             sort: true,
         }
     },
-    
-   
+
+
     {
         name: "Instrument Type",
         label: "Instrument Type",
@@ -947,7 +947,7 @@ export const columns2 = ()=>[
             sort: true,
         }
     },
-    
+
     {
         name: "EntryTime",
         label: "EntryTime",
@@ -972,7 +972,7 @@ export const columns2 = ()=>[
             sort: true,
         }
     },
-    
+
     {
         name: "SSDate",
         label: "SSDate",
@@ -981,7 +981,7 @@ export const columns2 = ()=>[
             sort: true,
         }
     },
-   
+
     {
         name: "SEDate",
         label: "SEDate",
@@ -990,7 +990,7 @@ export const columns2 = ()=>[
             sort: true,
         }
     },
-    
+
     {
         name: "TaskStatus",
         label: "TaskStatus",
@@ -1020,10 +1020,10 @@ export const columns2 = ()=>[
 
 
 // USER LOG
-export const columns3 =()=> [
+export const columns3 = () => [
     {
         name: "S.No",
-        label: "S.No",  
+        label: "S.No",
 
         options: {
             filter: true,
@@ -1140,7 +1140,7 @@ export const columns3 =()=> [
             sort: true,
         }
     },
-    
+
     {
         name: "Instrument Symbol",
         label: "Instrument Symbol",
@@ -1189,7 +1189,7 @@ export const columns3 =()=> [
             sort: true,
         }
     },
-    
+
     {
         name: "Profit",
         label: "Profit",
@@ -1246,8 +1246,8 @@ export const columns3 =()=> [
             sort: true,
         }
     },
-     
-    
+
+
     {
         name: "SSDate",
         label: "SSDate",
@@ -1264,7 +1264,7 @@ export const columns3 =()=> [
             sort: true,
         }
     },
-  
+
     {
         name: "TaskStatus",
         label: "TaskStatus",
@@ -1289,7 +1289,7 @@ export const columns3 =()=> [
             sort: true,
         }
     },
-     
+
     {
         name: "TradeCount",
         label: "Trade Count",
@@ -1303,7 +1303,7 @@ export const columns3 =()=> [
 ];
 
 //User Report Column
-export const ReportColumns3 =()=> [
+export const ReportColumns3 = () => [
     {
         name: "S.No",
         label: "S.No",
@@ -1372,7 +1372,7 @@ export const ReportColumns3 =()=> [
             sort: true,
         }
     },
-     
+
     {
         name: "Quantity",
         label: "Quantity",
@@ -1421,7 +1421,7 @@ export const ReportColumns3 =()=> [
             sort: true,
         }
     },
-    
+
     {
         name: "SSDate",
         label: "SSDate",
@@ -1438,7 +1438,7 @@ export const ReportColumns3 =()=> [
             sort: true,
         }
     },
-   
+
     {
         name: "TaskStatus",
         label: "TaskStatus",
@@ -1467,7 +1467,7 @@ export const ReportColumns3 =()=> [
 
 ];
 
-export const ReportColumns4 =()=> [
+export const ReportColumns4 = () => [
     {
         name: "S.No",
         label: "S.No",
@@ -1488,7 +1488,7 @@ export const ReportColumns4 =()=> [
             sort: true,
         }
     },
-    
+
     {
         name: "Targettype",
         label: "Targettype",
@@ -1497,7 +1497,7 @@ export const ReportColumns4 =()=> [
             sort: true,
         }
     },
-    
+
     {
         name: "Instrument Type",
         label: "Instrument Type",
@@ -1682,7 +1682,7 @@ export const ReportColumns4 =()=> [
             sort: true,
         }
     },
-   
+
     {
         name: "TaskStatus",
         label: "TaskStatus",
@@ -1703,7 +1703,7 @@ export const ReportColumns4 =()=> [
 
 ];
 
-export const ReportColumns5 =()=> [
+export const ReportColumns5 = () => [
     {
         name: "S.No",
         label: "S.No",
@@ -1772,8 +1772,8 @@ export const ReportColumns5 =()=> [
             sort: true,
         }
     },
-     
-   
+
+
     {
         name: "Instrument Type",
         label: "Instrument Type",
@@ -1838,7 +1838,7 @@ export const ReportColumns5 =()=> [
             sort: true,
         }
     },
-    
+
     {
         name: "ExitDay",
         label: "ExitDay",
@@ -1910,4 +1910,3 @@ export const ReportColumns5 =()=> [
 
 
 
- 

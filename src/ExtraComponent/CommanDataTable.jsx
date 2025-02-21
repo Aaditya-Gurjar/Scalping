@@ -521,6 +521,27 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
     [selectedColumns, handleModalOpen]
   );
 
+  // const customizedColumns = useMemo(
+  //   () =>
+  //     visibleColumns.map((column) => ({
+  //       ...column,
+  //       options: {
+  //         ...column.options,
+  //         sort: false,
+  //         setCellProps: () => ({
+  //           style: { width: column.width || "auto", minWidth: "100px" },
+  //         }),
+  //         setHeaderProps: () => ({
+  //           style: {
+  //             pointerEvents: column.name === "Action" ? "auto" : "none",
+  //             cursor: column.name === "Action" ? "pointer" : "default",
+  //           },
+  //         }),
+  //       },
+  //     })),
+  //   [visibleColumns]
+  // );
+
   const customizedColumns = useMemo(
     () =>
       visibleColumns.map((column) => ({
@@ -533,6 +554,7 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
           }),
           setHeaderProps: () => ({
             style: {
+              fontWeight: "bold", // Makes the header text bold
               pointerEvents: column.name === "Action" ? "auto" : "none",
               cursor: column.name === "Action" ? "pointer" : "default",
             },
