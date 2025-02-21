@@ -432,7 +432,7 @@ const TradeResponse = () => {
             selectStrategyType === "Scalping" && (
               <div>
                 <div className="iq-header-title mt-4">
-                  <h4 className="card-title">Multi Conditional</h4>
+                  <h3 className="card-title">Multi Conditional</h3>
                 </div>
                 <div className="modal-body">
                   {tradeHistory?.data1 && tradeHistory?.data1.length > 0 ? (

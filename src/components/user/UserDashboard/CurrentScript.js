@@ -2051,10 +2051,12 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                       <>
                         <div className="iq-card-header d-flex justify-content-between">
                           <div className="iq-header-title">
-                            {tableType === "MultiCondition" ? <h4 className="card-title">{"Multi Condition"}</h4> : <h4 className="card-title">{data}</h4>}
+                            {tableType === "MultiCondition" ? <h3 className="card-title">{"Multi Condition"}</h3> : <h4 className="card-title">{data}</h4>}
                           </div>
                           <div className='d-flex justify-content-end'>
-                            <button className='btn btn-primary mt-1' style={{ fontSize: '18px', padding: '6px 14px', height: "47px" }} onClick={() => AddScript(data)}>Add Script</button>
+                            <button className='addbtn btn btn-primary rounded mx-2 mt-1' onClick={() => AddScript(data)}>Add Script</button>
+                            <button className='addbtn mx-2 mt-1' onClick={() => AddScript(data)}>Add Script</button>
+                          
                           </div>
 
                         </div>

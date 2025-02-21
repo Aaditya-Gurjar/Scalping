@@ -833,7 +833,7 @@ const Header = () => {
                       ) : (
                         <span>
                           <Eye />
-                          <strong>*****</strong>
+                          {/* <strong>*****</strong> */}
                         </span>
                       )}
                     </button>

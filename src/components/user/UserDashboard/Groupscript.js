@@ -271,7 +271,7 @@ const GroupScript = ({ data, selectedType, GroupName, data2 }) => {
                                                 getAllService.data1?.length > 0 &&
                                                 <div className="mt-4">
                                                     <div className="iq-header-title">
-                                                        <h4 className="card-title">Multi Conditional</h4>
+                                                        <h3 className="card-title">Multi Conditional</h3>
                                                     </div>
                                                     {getAllService?.loading ? (
                                                         <Loader />

@@ -249,7 +249,7 @@ const TradeReport = () => {
 
                             {
                                 showTable && <>
-                                    <h4 className='mt-4 mb-2'>Open Trade</h4>
+                                    <h3 className='mt-4 mb-2'>Open Trade</h3>
                                     <GridExample
                                         columns={selectStrategyType === "Scalping" ? getColumns3() :
                                             selectStrategyType === "Option Strategy" ? getColumns4() :
@@ -260,7 +260,7 @@ const TradeReport = () => {
                                         checkBox={false}
                                     />
                                     <div className='mt-3'>
-                                        <h4 className='mt-3 mb-2'>Close Trade</h4>
+                                        <h3 className='mt-3 mb-2'>Close Trade</h3>
                                         <GridExample
                                             columns={selectStrategyType === "Scalping" ? getColumns6() :
                                                 selectStrategyType === "Option Strategy" ? getColumns7() :

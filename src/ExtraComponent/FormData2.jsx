@@ -105,10 +105,7 @@ const DynamicForm = ({
                     {field?.headingtype == 1 ? (
                       <div
                         className="iq-card mt-4"
-                        style={{
-                          boxShadow:
-                            "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
-                        }}
+                      
                       >
                         {field.label === "Symbol_Selection" && (
                           <>
@@ -391,10 +388,7 @@ const DynamicForm = ({
                     ) : field?.headingtype == 2 ? (
                       <div
                         className="iq-card"
-                        style={{
-                          boxShadow:
-                            "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
-                        }}
+                        
                       >
                         {/* {console.log("field.label", field.label)} */}
                         {field.label === "Entry_Rule" && (
@@ -926,10 +920,7 @@ const DynamicForm = ({
                     ) : field?.headingtype == 3 ? (
                       <div
                         className="iq-card"
-                        style={{
-                          boxShadow:
-                            "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
-                        }}
+                        
                       >
                         {field.label === "Exit_Rule" && (
                           <>
@@ -951,7 +942,7 @@ const DynamicForm = ({
                                       <div
                                         className={`col-lg-${item.col_size}`}
                                       >
-                                        <div className="input-block mb-3 flex-column">
+                                        <div className="input-block mb-4 flex-column">
                                           <label
                                             className={`col-lg-${item.label_size}`}
                                           >
@@ -1164,10 +1155,7 @@ const DynamicForm = ({
                     ) : field?.headingtype == 4 ? (
                       <div
                         className="iq-card"
-                        style={{
-                          boxShadow:
-                            "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
-                        }}
+                        
                       >
                         {field.label === "Risk_Management" && (
                           <>
@@ -1482,10 +1470,7 @@ const DynamicForm = ({
                     ) : field?.headingtype == 5 ? (
                       <div
                         className="iq-card"
-                        style={{
-                          boxShadow:
-                            "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
-                        }}
+                        
                       >
                         {field.label === "Time_Duration" && (
                           <>
@@ -1698,10 +1683,7 @@ const DynamicForm = ({
                     ) : field?.headingtype == 6 ? (
                       <div
                         className="iq-card"
-                        style={{
-                          boxShadow:
-                            "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px",
-                        }}
+                        
                       >
                         {field.label === "Other_Parameters" && (
                           <>

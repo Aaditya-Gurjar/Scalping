@@ -447,7 +447,7 @@ const TradeReport = () => {
                         {tableType === "MultiCondition" && selectStrategyType === "Scalping" && (
                             <div>
                                 <div className="iq-header-title mt-4">
-                                    <h4 className="card-title">Multi Conditional</h4>
+                                    <h3 className="card-title">Multi Conditional</h3>
                                 </div>
                                 {tradeReport?.data1 && tradeReport?.data1?.length > 0 ? (
                                     <div className="modal-body">
@@ -473,7 +473,7 @@ const TradeReport = () => {
                             <>
                                 {getAllTradeData?.data2?.length > 0 && (
                                     <>
-                                        <h4 className='mt-4 mb-2'>Open Trade</h4>
+                                        <h3 className='mt-4 mb-2'>Open Trade</h3>
                                         <GridExample
                                             columns={
                                                 selectStrategyType === "Scalping"
@@ -495,7 +495,7 @@ const TradeReport = () => {
 
                                 {getAllTradeData?.data1?.length > 0 && (
                                     <div className='mt-3'>
-                                        <h4 className='mt-3 mb-2'>Close Trade</h4>
+                                        <h3 className='mt-3 mb-2'>Close Trade</h3>
                                         <GridExample
                                             columns={
                                                 selectStrategyType === "Scalping"
