@@ -855,19 +855,19 @@ const Dashboards = () => {
                         </div>
                         <hr />
                         <ul className="doctoe-sedual d-flex align-items-center justify-content-between p-0">
-                          <h6 className="mb-0 ">
+                          <h4 className="mb-0 ">
                             Total Revenue{" "}
                             <span style={{ marginLeft: "10px" }}>-</span>
-                          </h6>
+                          </h4>
 
                           <h3 className="counter">{Data2.data1}</h3>
                         </ul>
                         <hr />
                         <ul className="doctoe-sedual d-flex align-items-center justify-content-between p-0">
-                          <h6 className="mb-0 ">
+                          <h4 className="mb-0 ">
                             Total Clients{" "}
                             <span style={{ marginLeft: "28px" }}>-</span>
-                          </h6>
+                          </h4>
 
                           <h3 className="counter">{Data2.data}</h3>
                         </ul>

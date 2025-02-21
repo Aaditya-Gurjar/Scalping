@@ -5735,7 +5735,7 @@ ul.nav.nav-tabs.justify-content-center,
 }
 .plan-data h2,
 .plan-data h4 {
-  color: #495057;
+  color: var(--text-color) !important;
 }
 tbody.MuiTableBody-root.css-apqrd9-MuiTableBody-root,
 tfoot.MuiTableFooter-root,
@@ -5764,7 +5764,8 @@ h5,
 body,
 .table td,
 .table th {
-  color: var(--text-color) !important;
+  color: rgb(120, 75, 161) !important;
+ font-size: 22px;
 }
 .modal-content,
 .setApi .card-body,
