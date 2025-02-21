@@ -863,21 +863,7 @@ const AddClient = () => {
       hiding: false,
       disable: false,
     },
-    // {
-    //   name: "expirydata1",
-    //   label: "Expiry Date",
-    //   type: "select",
-    //   options: getExpiryDate && getExpiryDate.data.map((item) => ({
-    //     label: item,
-    //     value: item
-    //   })),
-    //   showWhen: (values) => values.Exchange === "NFO" || values.Exchange === "CDS" || values.Exchange === "MCX",
-    //   label_size: 12,
-    //   headingtype: 1,
-    //   hiding: false,
-    //   col_size: formik.values.Instrument === "FUTSTK" || formik.values.Instrument === "FUTIDX" ? 3 : 4,
-    //   disable: false,
-    // },
+   
     {
       name: "expirydata1",
       label: "Expiry Date",

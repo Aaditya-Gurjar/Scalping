@@ -696,7 +696,6 @@ const AddClient = () => {
 
 
 
-  console.log("location?.state?.data", location?.state?.data);
   useEffect(() => {
 
     const workingDay = location?.state?.data?.WorkingDay?.map((item) => ({ label: item, value: item }));

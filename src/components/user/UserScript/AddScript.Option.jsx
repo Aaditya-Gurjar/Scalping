@@ -30,6 +30,9 @@ const AddClient = () => {
     }
   };
 
+
+  console.log("location", location.state);
+
   const SweentAlertFun = (text) => {
     Swal.fire({
       background: "#1a1e23 ",
@@ -386,19 +389,11 @@ const AddClient = () => {
         }
       }
 
-      if (
-        !values.Loss &&
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple"
-      ) {
+      if (values.Loss==undefined || values.Loss == "" || values.Loss == null) {
         errors.Loss = "Please Enter Maximum Loss";
       }
 
-      if (
-        !values.Profit &&
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple"
-      ) {
+      if (values.Profit==undefined || values.Profit == "" || values.Profit == null) {
         errors.Profit = "Please Enter Maximum Loss";
       }
 
@@ -536,17 +531,8 @@ const AddClient = () => {
         TradeCount: values.Trade_Count,
         TradeExecution: values.Trade_Execution,
         stretegytag: values.Measurment_Type,
-        Loss:
-          values.position_type == "Multiple" &&
-          values.Strategy == "Multi_Conditional"
-            ? values.Loss
-            : 0,
-
-        Profit:
-          values.position_type == "Multiple" &&
-          values.Strategy == "Multi_Conditional"
-            ? values.Profit
-            : 0,
+        Loss: values.Loss,
+        Profit: values.Profit,
       
         WorkingDay: values.WorkingDay
           ? values?.WorkingDay?.map((item) => item?.value || item)
@@ -646,6 +632,10 @@ const AddClient = () => {
   });
 
   useEffect(() => {
+
+    const workingDay = location?.state?.data?.WorkingDay?.map((item) => ({ label: item, value: item }));
+
+
     formik.setFieldValue(
       "Measurment_Type",
       location.state.data.STG == "ShortStrangle" ||
@@ -716,6 +706,9 @@ const AddClient = () => {
     formik.setFieldValue("PEDeepLower", location.state.data.PEDeepLower);
     formik.setFieldValue("PEDeepHigher", location.state.data.PEDeepHigher);
     formik.setFieldValue("Shifting_Point", location.state.data["Target value"]);
+    formik.setFieldValue("Profit", location.state.data.Profit);
+    formik.setFieldValue("Loss", location.state.data.Loss);
+    formik.setFieldValue("WorkingDay", workingDay);
   }, []);
 
   const SymbolSelectionArr = [
