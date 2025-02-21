@@ -828,7 +828,7 @@ const Userdashboard = () => {
                             onChange={(e) => {
                               setSubTab(e.target.value);
                               sessionStorage.setItem(
-                                "dashboardStrategyType",
+                                "StrategyType",
                                 e.target.value
                               );
                             }}
