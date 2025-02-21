@@ -91,16 +91,11 @@ confirmButtonColor: "#1ccc8a",
                 Page_title={"New Updates"}
                 button_status={false}
                 backbutton_status={true}
-                
-
             >
             <AddForm
-                fields={fields}
-                
+                fields={fields}                
                 btn_name="Add"
-
                 formik={formik}
-
             />
             </Content>
         </>

@@ -54,7 +54,7 @@ const AdminServicesList = () => {
   return (
 
     <Content
-      Page_title={" 📉 Admin All Plans"}
+      Page_title={" 📜 Admin All Plans"}
       button_status={true}
       backbutton_status={true}
       route={"/admin/addplan"}

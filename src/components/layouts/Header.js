@@ -207,7 +207,7 @@ const Header = () => {
 
   const clearSession = () => {
     var decoded = jwtDecode(token);
-    console.log("decoded", new Date(decoded?.exp * 1000), new Date());
+    // console.log("decoded", new Date(decoded?.exp * 1000), new Date());
 
     if (decoded.exp * 1000 < new Date().getTime()) {
       localStorage.clear();
@@ -641,10 +641,10 @@ const Header = () => {
                 <ul className="navbar-nav ms-auto navbar-list align-items-center">
                   <li className="nav-item">
                     <button
-                      className="btn btn-primary mt-3 mx-3 btn1"
+                      className="btn btn-primary mx-3 btn1"
                       style={{ pointerEvents: "none" }}
                     >
-                      Hello, SubAdmin
+                      Hello, {Username}
                     </button>
                   </li>
                  
