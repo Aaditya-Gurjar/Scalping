@@ -16,18 +16,15 @@
   text-shadow: none;
 } */
 
-
-
 /* Default (Light Theme) */
 :root {
-  --bg-color: #ffffff;
+  --bg-color: #f0f8ff;
   --text-color: #2a2a2a;
   --navbar-bg: #ffffff;
   --navbar-shadow: 0px 0px 25px 0px rgba(45, 69, 95, 0.1);
-  --thead-bg: #ced1d4;
-  --dark-txt-color :black;
+  --thead-bg: #e7effd;
+  --dark-txt-color: black;
 }
-
 
 /* Dark Theme */
 [data-theme="dark"] {
@@ -35,16 +32,9 @@
   --text-color: #ffffff;
   --navbar-bg: #2a2a2a;
   --navbar-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.5);
-  --thead-bg: #2a2a2a;
-  --dark-txt-color :white;
+  --thead-bg: #0e1218;
+  --dark-txt-color: white;
 }
-
-
-
-
-
-
-
 
 /* Definition Lists */
 dl dd {
@@ -785,7 +775,6 @@ ul.iq-menu a span {
   text-transform: capitalize;
 }
 
-
 .iq-sidebar-menu .iq-menu li li a {
   font-size: 14px;
 }
@@ -842,11 +831,11 @@ ul.iq-menu a span {
 }
 
 .iq-sidebar-menu .iq-menu li a:hover {
-  color: #ffffff;
+  color: var(--text-color);
 }
 
 .iq-sidebar-menu .iq-menu li.active > a {
-  color: #3f414d;
+  color: var(--bg-color);
   text-decoration: none;
   text-decoration: none;
 }
@@ -869,7 +858,7 @@ ul.iq-menu a span {
 
 .iq-sidebar-menu .iq-menu li .iq-submenu li a:hover,
 .iq-sidebar-menu .iq-menu li.active .iq-submenu li > a {
-  background: transparent;
+  background: "#green";
 }
 
 .iq-sidebar-menu .iq-menu li.active .iq-submenu li.active > a {
@@ -888,7 +877,6 @@ ul.iq-menu a span {
 
 .iq-sidebar-menu .iq-menu > li {
   margin-bottom: 0;
-  background: transparent;
   border-radius: 25px;
   box-shadow: none;
   -webkit-transition: all 0.5s ease-out 0s;
@@ -901,7 +889,8 @@ ul.iq-menu a span {
 .iq-sidebar-menu .iq-menu > li.menu-open,
 .iq-sidebar-menu .iq-menu > li.active {
   margin-bottom: 10px;
-  background: #fff;
+  background: var(--text-color);
+  color: white;
   box-shadow: 3px 2px 20px 1px rgba(0, 0, 0, 0.1);
 }
 
@@ -1449,7 +1438,7 @@ body.sidebar-main .iq-menu-bt-sidebar .iq-menu-bt {
 .iq-top-navbar .iq-sub-dropdown .iq-card-body div {
   border-radius: 10px 10px 0 0;
 }
-.iq-card-body{
+.iq-card-body {
   background-color: var(--bg-color);
 }
 
@@ -5207,8 +5196,8 @@ a {
   position: sticky;
   top: 0px;
   z-index: 100;
-  color: #bdbec0 !important;
-  background: transparent !important;
+  background-color: var(--thead-bg) !important;
+  color: var(--text-color) !important;
 }
 .MuiTypography-root,
 .MuiTablePagination-toolbar,
@@ -5278,9 +5267,6 @@ a {
   }
 }
 
-.iq-card .iq-card-header {
-  padding: 1px 18px !important;
-}
 
 .input-container {
   position: relative;
@@ -5493,8 +5479,6 @@ a {
   }
 }
 
-
-
 @media (max-width: 381px) {
   .forgett {
     width: 367px !important;
@@ -5634,7 +5618,7 @@ option[value="Reject"] {
 }
 
 .broker-card {
-  background-color:var(--bg-color); /* Yellow background */
+  background-color: var(--bg-color); /* Yellow background */
   border-radius: 12px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -5713,7 +5697,7 @@ a.nav-link.active,
 .MuiInputBase-root {
   background-color: var(--bg-color) !important;
   color: var(--text-color) !important;
-  border: 1px solid #4b5055 !important;
+  /* border: 1px solid #4b5055 !important; */
 }
 ul.nav.nav-tabs.justify-content-center,
 .nav-tabs.nav-fill,
@@ -5748,13 +5732,10 @@ tfoot.MuiTableFooter-root,
   border: 1px solid #4b5055 !important;
 }
 .MuiTableRow-head {
-  border-top: 2px solid #fff;
+  /* border-top: 2px solid #fff; */
   background: transparent;
 }
-.MuiTableHead-root {
-  background-color: var(--thead-bg) !important;
-  color: var(--text-color) !important;
-}
+
 p,
 h1,
 h2,
@@ -5764,9 +5745,14 @@ h5,
 body,
 .table td,
 .table th {
-  color: rgb(120, 75, 161) !important;
- font-size: 22px;
+  color: var(--text-color) !important;
+  font-size: 22px;
 }
+h4 {
+  color: rgb(120, 75, 161) !important;
+  font-size: 22px;
+}
+
 .modal-content,
 .setApi .card-body,
 .setApi .card,
@@ -5806,7 +5792,6 @@ body,
 button.btn.btn-primary,
 .swal2-confirm,
 .all-plan-card button {
-
   background: rgba(46, 213, 115, 0.2) !important;
   color: #2ed573 !important;
 }
@@ -5824,13 +5809,13 @@ button.btn.btn-primary,
 }
 .dark-card {
   background: var(--bg-color);
-  border: 1px dashed #e2e8f0;
+  border: 1px dashed var(--text-color) !important;
   border-radius: 23px;
 }
 .swal2-show {
   border: 1px dashed #e2e8f0;
   border-radius: 20px;
-  background: #1a1e23 !important;
+  background: var(--bg-color) !important;
 }
 
 .css-1ps6pg7-MuiPaper-root {
@@ -6125,15 +6110,10 @@ button.btn.btn-primary,
   margin-top: -9rem;
 }
 
-
-
-
-
-
 .breadcrumb {
   display: flex;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
-  rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
   padding: 0.75rem 1.25rem;
   border-radius: 5px !important;
   background-color: var(--bg-color) !important;
@@ -6203,8 +6183,7 @@ ul.breadcrumb-links li a {
   background-color: var(--bg-color) !important;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-
+  /* padding: 20px; */
 }
 
 .MuiBox-root {
@@ -6212,25 +6191,64 @@ ul.breadcrumb-links li a {
   color: var(--text-color) !important;
 }
 
-.MuiButtonBase-root  {
+.MuiButtonBase-root {
   color: var(--text-color) !important;
   font-size: "20px";
 }
 
-.MuiTypography-root, .MuiTablePagination-toolbar, .MuiTablePagination-actions button svg {
+.MuiTypography-root,
+.MuiTablePagination-toolbar,
+.MuiTablePagination-actions button svg {
   color: var(--dark-txt-color) !important;
 }
 
-
 .text-white {
   --bs-text-opacity: 1;
-  color:var(--text-color) !important;
+  color: var(--text-color) !important;
 }
 
 .input-block {
-  margin-bottom: 1  ;
+  margin-bottom: 1;
 }
 
 svg {
   color: var(--text-color) !important;
+}
+
+.addbtn {
+  color: var(--bg-color) !important ;/* Dark text for better readability */
+  background-color: var(--text-color) !important; /* Light grey background */
+  border-radius: 12px; /* Smooth rounded edges */
+  font-size: 16px;
+  padding: 0px 10px; /* More balanced padding */
+  height: 50px; /* Slightly adjusted height */
+  border: 1px solid #ccc; /* Subtle border */
+  transition: all 0.3s ease-in-out; /* Smooth hover effect */
+  margin: 0 ;
+}
+
+.addbtn:hover {
+  background-color: #e2e6ea; /* Slightly darker on hover */
+  border-color: #bbb;
+  color: black;
+}
+
+@media (min-width: 600px) {
+  .css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar {
+      min-height: 52px;
+      padding-right: 2px;
+      padding-top: 10px;
+  }
+}
+
+
+.css-6hp17o-MuiList-root-MuiMenu-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  outline: 0;
+  background-color: var(--bg-color) !important;
 }

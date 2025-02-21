@@ -329,15 +329,15 @@ const ServicesList = () => {
                         <BadgeCheck className="purchased-badge" />
                       )}
                     </div>
-                    <h4 className="allplan-card-subtitle">
+                    <h3 className="allplan-card-subtitle">
                       <FaRupeeSign /> {plan.payment}
-                    </h4>
-                    <h4 className="allplan-card-subtitle">
+                    </h3>
+                    <h3 className="allplan-card-subtitle">
                       Duration: {plan["Plan Validity"]}
-                    </h4>
-                    <h4 className="allplan-card-subtitle">
+                    </h3>
+                    <h3 className="allplan-card-subtitle">
                       Scripts: {plan.NumberofScript}
-                    </h4>
+                    </h3>
                     <div className="plan-details">
                       <p>
                         <strong>Scalping:</strong> {plan.Scalping?.join(", ")}
@@ -383,15 +383,15 @@ const ServicesList = () => {
                       <BadgeCheck className="purchased-badge" />
                     )}
                   </div>
-                  <h4 className="allplan-card-subtitle">
+                  <h2 className="allplan-card-subtitle">
                     <FaRupeeSign /> {plan.payment}
-                  </h4>
-                  <h4 className="allplan-card-subtitle">
+                  </h2>
+                  <h2 className="allplan-card-subtitle">
                     Duration: {plan["Plan Validity"]}
-                  </h4>
-                  <h4 className="allplan-card-subtitle">
+                  </h2>
+                  <h2 className="allplan-card-subtitle">
                     Scripts: {plan.NumberofScript}
-                  </h4>
+                  </h2>
                   <div className="plan-details">
                     <p>
                       <strong>Charting Signals:</strong>{" "}

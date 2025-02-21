@@ -300,7 +300,7 @@ const Tradehistory = () => {
         const pnlRes = await get_PnL_Data(params);
         setPnlData({ data: pnlRes.Barchart || [] });
       } else if (section?.includes("equity")) {
-        console.log("section->", section);
+      
 
         const equityRes = await get_EQuityCurveData(params);
         setEquityCurveDetails({ data: equityRes.Equitycurve || [] });
@@ -322,7 +322,7 @@ const Tradehistory = () => {
         icon: "error",
         title: `Failed to load ${section} data`,
         text: error.message,
-        confirmButtonColor: "#1ccc8a",
+        // confirmButtonColor: "#1ccc8a",
       });
     }
   };
@@ -444,47 +444,7 @@ const Tradehistory = () => {
                     </select>
                   </div>
                 </div>
-                {selectStrategyType === "ChartingPlatform" && (
-                  <div className="col-12 col-md-6 col-lg-3">
-                    <div className="form-group">
-                      <label className="form-label">Segment Type</label>
-                      <div onWheel={(e) => e.stopPropagation()}>
-                        <select
-                          className="form-select"
-                          value={selectSegmentType}
-                          onChange={(e) => setSegmentType(e.target.value)}>
-                          {getChartingSegments.map((item) => (
-                            <option key={item.Segment} value={item.Segment}>
-                              {item.Segment}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                )}
-                <div className="col-12 col-md-6 col-lg-3">
-                  <div className="form-group">
-                    <label className="form-label">From Date</label>
-                    <DatePicker
-                      className="form-control"
-                      selected={FromDate || formattedDate}
-                      onChange={setFromDate}
-                      dateFormat="yyyy.MM.dd"
-                    />
-                  </div>
-                </div>
-                <div className="col-12 col-md-6 col-lg-3">
-                  <div className="form-group">
-                    <label className="form-label">To Date</label>
-                    <DatePicker
-                      className="form-control"
-                      selected={ToDate || Defult_To_Date}
-                      onChange={setToDate}
-                      dateFormat="yyyy.MM.dd"
-                    />
-                  </div>
-                </div>
+              
               </div>
             )}
             <div className="col-12 col-md-6 col-lg-3">
@@ -542,7 +502,7 @@ const Tradehistory = () => {
           )}
           <div className="d-grid gap-2">
             <button
-              className="btn btn-primary btn-lg"
+              className="addbtn"
               onClick={handleSubmit}
               disabled={!selectedRowData}
             >

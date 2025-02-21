@@ -4,6 +4,7 @@ import { GetAllTransection, AddBalance } from '../../CommonAPI/User';
 import { DollarSign } from 'lucide-react';
 import Swal from 'sweetalert2';
 import { GetUserBalence } from '../../CommonAPI/User'
+import Content from '../../../ExtraComponent/Content';
 
 const Clientservice = () => {
     const username = localStorage.getItem('name')
@@ -289,14 +290,13 @@ confirmButtonColor: "#1ccc8a",
 
     return (
         <>
-            <div className='row'>
-                <div className='col-sm-12'>
-                    <div className='iq-card'>
-                        <div className='iq-card-header d-flex justify-content-between'>
-                            <div className='iq-header-title'>
-                                <h4 className='card-title'>Transaction</h4>
-                            </div>
-                        </div>
+        <Content
+        Page_title={"📉 Transaction"}
+        button_status={false}
+        backbutton_status={false}
+      >
+            
+
                         <div className='iq-card-body'>
                             <div className='d-flex justify-content-between'>
                                 <div className="wallet-balance-container">
@@ -319,9 +319,7 @@ confirmButtonColor: "#1ccc8a",
                             </div>
                             <FullDataTable columns={columns} data={AllTransectionData} checkBox={false} />
                         </div>
-                    </div>
-                </div>
-            </div>
+
 
             {
                 showAddMoneyModal && (
@@ -473,6 +471,7 @@ confirmButtonColor: "#1ccc8a",
                     </div>
                 )
             }
+            </Content>
         </>
     );
 };
