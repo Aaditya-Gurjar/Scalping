@@ -559,7 +559,7 @@ const AddClient = () => {
             : 0,
 
 
-        ExitType:
+        ExitRuleO:
           values.Measurment_Type != "Shifting_FourLeg" &&
             values.ETPattern == "Leg vice"
             ? values.ExitType
@@ -1063,9 +1063,9 @@ const AddClient = () => {
         formik.values.ETPattern == "Premium Addition"
           ? [{ label: "Point", value: "Point" }]
           : [
-              { label: "Point", value: "Point" },
-              { label: "Percentage", value: "Percentage" },
-            ],
+            { label: "Point", value: "Point" },
+            { label: "Percentage", value: "Percentage" },
+          ],
       hiding: false,
       label_size: 12,
       showWhen: (value) =>
@@ -1083,7 +1083,7 @@ const AddClient = () => {
       label: "Exit Type",
       type: "select1",
       options: [
-        { label: "Cost to cost", value: "Cost to cost" },
+        { label: "Cost to Cost", value: "Cost to Cost" },
         { label: "Normal", value: "Normal" },
       ],
       showWhen: (value) =>
@@ -1143,28 +1143,7 @@ const AddClient = () => {
   ];
 
   const RiskManagementArr = [
-    // {
-    //   name: "TStype",
-    //   label: "Measurement Type",
-    //   type: "select",
-    //   options:
-    //     formik.values.ETPattern == "Premium Addition"
-    //       ? [{ label: "Point", value: "Point" }]
-    //       : [
-    //           { label: "Point", value: "Point" },
-    //           { label: "Percentage", value: "Percentage" },
-    //         ],
-    //   hiding: false,
-    //   label_size: 12,
-    //   showWhen: (value) =>
-    //     value.Measurment_Type != "Shifting_FourLeg" ||
-    //     (value.Measurment_Type == "Shifting_FourLeg" &&
-    //       (value.Strategy == "ShortFourLegStretegy" ||
-    //         value.Strategy == "LongFourLegStretegy")),
-    //   col_size: 4,
-    //   headingtype: 4,
-    //   disable: false,
-    // },
+
     {
       name: "Quantity",
       label: "Lot",

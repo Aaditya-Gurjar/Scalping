@@ -548,7 +548,7 @@ const AddClient = () => {
               values.Strategy == "Multi_Conditional" &&
               values.RollOver == "true"
               ? values.NumberOfDays
-              : 0,
+              : "0",
           RolloverTime:
             values.FixedSM == "Multiple" &&
               values.Strategy == "Multi_Conditional" &&
