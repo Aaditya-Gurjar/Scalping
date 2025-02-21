@@ -1967,7 +1967,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
       formik2.setFieldValue("TradeCount", EditDataPattern.TradeCount);
     }
 
-  })
+  },[showEditModal, data, EditDataScalping]);
 
 
 
