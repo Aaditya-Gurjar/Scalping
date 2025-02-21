@@ -14,6 +14,7 @@ export const base_url = `http://217.145.69.50:8000/`;
 // export const base_url = `https://tools.easytrades.in//backend/`;
 //if superAdmin login then change the url only for it
 // export const superAdmin_base_url = `${window.location.origin}/superbackend/`
+
 export const superAdmin_base_url = `https://soptools.tradestreet.in/superbackend/`;
 // export const base_url = `http://217.145.69.50:8000/`;
 

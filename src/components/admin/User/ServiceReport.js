@@ -507,6 +507,7 @@ const Userlog = () => {
         setStrategyType(StrategyType || 'Scalping')
     }, []);
 
+    console.log("getUserData", getUserData)
 
     const handleModal = async (rowIndex) => {
         const data = { Data: selectStrategyType, Username: rowIndex?.Username }
@@ -514,10 +515,12 @@ const Userlog = () => {
 
         await get_User_Data(data)
             .then((response) => {
+                console.log("Response", response)
+
                 if (response.Status) {
                     setUserData({
                         loading: false,
-                        data: response.Data
+                        data: response.NewScalping
                     })
                 }
                 else {

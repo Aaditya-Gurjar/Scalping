@@ -1228,14 +1228,53 @@ const DynamicForm = ({
                                             options={item.options}
                                             isMulti
                                             className="basic-multi-select"
-                                            value={formik.values[item.name]} // Bind to Formik's values
-                                            onChange={
-                                              (selected) =>
+                                            value={formik.values[item.name]}
+                                            onChange={(selected) => {
+                                              if (selected) {
+                                                // Check if "Select All" (value "all") is part of the selection.
+                                                const isSelectAllSelected =
+                                                  selected.some(
+                                                    (option) =>
+                                                      option.value === "all"
+                                                  );
+
+                                                if (isSelectAllSelected) {
+                                                  // Get all options excluding the "Select All" option.
+                                                  const allOptions =
+                                                    item.options.filter(
+                                                      (option) =>
+                                                        option.value !== "all"
+                                                    );
+
+                                                  // Toggle behavior: if all options are already selected, clear them; otherwise, select all.
+                                                  if (
+                                                    selected.length ===
+                                                    item.options.length
+                                                  ) {
+                                                    formik.setFieldValue(
+                                                      item.name,
+                                                      []
+                                                    );
+                                                  } else {
+                                                    formik.setFieldValue(
+                                                      item.name,
+                                                      allOptions
+                                                    );
+                                                  }
+                                                } else {
+                                                  formik.setFieldValue(
+                                                    item.name,
+                                                    selected
+                                                  );
+                                                }
+                                              } else {
+                                                // If no option is selected, clear the field.
                                                 formik.setFieldValue(
                                                   item.name,
-                                                  selected
-                                                ) // Use Formik's setFieldValue
-                                            }
+                                                  []
+                                                );
+                                              }
+                                            }}
                                             placeholder={
                                               item.placeholder
                                                 ? item.placeholder

@@ -945,6 +945,7 @@ const AddClient = () => {
       label: "Working Day",
       type: "multiselect",
       options: [
+        { label: "Select All", value: "all" },
         { label: "Monday", value: "Monday" },
         { label: "Tuesday", value: "Tuesday" },
         { label: "Wednesday", value: "Wednesday" },
