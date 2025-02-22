@@ -204,7 +204,7 @@ const LastPattern = () => {
     await GetSingleChart(data)
       .then((response) => {
         if (response.status) {
-          setSingleChartImg({ loading: false, data: response.data });
+          setSingleChartImg({ loading: false, data: response.image_data });
         } else {
           setSingleChartImg({ loading: false, data: [] });
         }

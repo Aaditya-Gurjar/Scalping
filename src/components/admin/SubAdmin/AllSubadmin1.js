@@ -26,7 +26,6 @@ const AllSubadmin = () => {
     }, [searchInput]);
 
     useEffect(() => {
-        // console.log("ClientService Updated:", clientService); // Debug clientService after state update
     }, [clientService]);
 
 
@@ -63,7 +62,6 @@ const AllSubadmin = () => {
 
 
     const EditSubadmindetail = (value, tableMeta) => {
-        console.log("clientService",value);
         
         
         const rowIndex = tableMeta.rowIndex;
@@ -113,16 +111,11 @@ const AllSubadmin = () => {
               filter: true,
               sort: true,
               customBodyRender: (value, tableMeta) => {
-                // console.log("rowData nnnnnnnn",clientService);
                   
                 const rowData = clientService.data[tableMeta.rowIndex]; // Row ka pura object
-                // console.log("clientService clientService clientService",rowData);
-
-                
                 return (
                   <SquarePen
                     onClick={() => {
-                      console.log("Row Data:", rowData); // Row ka pura object log karna
                       EditSubadmindetail(value, tableMeta); // Navigate karna ya handle karna
                     }}
                   />

@@ -32,6 +32,8 @@ import NewStrategy from '../components/user/NewStrategy/NewStrategy';
 
 import AddChartingScript from '../components/user/UserScript/AddChartingScript';
 import MyPlans from '../components/user/Plan/MyPlans';
+import Group from '../components/user/Group/Group';
+import ViewGroup from '../components/user/Group/ViewGroup';
 
 import { SidebarProvider } from "../components/layouts/SidebarContext";
 
@@ -62,6 +64,8 @@ const UserRoute = () => {
             <Route path="/profitandloss" element={<ProfitAndLoss />} />
             <Route path="/pannel" element={<Pannel />} />
             <Route path="/tradereport" element={<TradeReport />} />
+            <Route path="/Group" element={<Group />} />
+            <Route path="/ViewGroup" element={<ViewGroup />} />
             <Route path="/newscript/scalping" element={<AddNewScalpingScript />} />
             <Route path="/newscript/option" element={<AddNewScalpingOption />} />
             <Route path="/newscript/pattern" element={<AddNewScalpingPattern />} />
