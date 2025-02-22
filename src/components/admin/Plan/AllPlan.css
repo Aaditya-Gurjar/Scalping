@@ -1,4 +1,27 @@
-/* Container with dark background */
+:root {
+    --bg-color: #f0f8ff;
+    --text-color: #2a2a2a;
+    --navbar-bg: #ffffff;
+    --navbar-shadow: 0px 0px 25px 0px rgba(45, 69, 95, 0.1);
+    --thead-bg: #e7effd;
+    --dark-txt-color: black;
+    --broker_card_bg: #c3d9ff;
+  }
+  
+  /* Dark Theme */
+  [data-theme="dark"] {
+    --bg-color: #2a2a2a;
+    --text-color: #ffffff;
+    --navbar-bg: #2a2a2a;
+    --navbar-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.5);
+    --thead-bg: #0e1218;
+    --dark-txt-color: white;
+    --broker_card_bg: #0e1218;
+  
+  }/*
+
+
+Container with dark background */
 .allplan-container {
     padding: 2rem;
     background-color: #121212;
@@ -48,20 +71,12 @@
     font-weight: bold;
 }
 
-/* Grid container for cards */
-.allplan-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 2rem;
-    margin-top: 8rem;
-}
 
 /* Card styling */
 .allplan-card {
-    background-color: #1f1f1f;
+    background-color: var(--broker_card_bg) !important;
     border-radius: 15px;
-    width: 300px;
+    width: 300px !important;
     padding: 20px;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
     display: flex;
@@ -69,7 +84,19 @@
     justify-content: space-between;
     border: 1px solid #007bff;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+
+/* Grid container for cards */
+.allplan-grid {
+    /* display: flex; */
+    /* flex-wrap: wrap; */
+    /* justify-content: center; */
+    /* gap: 2rem; */
+    /* margin-top: 8rem; */
 }
+
+
 
 .allplan-card:hover {
     transform: translateY(-8px);
@@ -91,7 +118,13 @@
 .allplan-card-subtitle {
     font-size: 1.2rem;
     color: #bbb;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem; /* Reduce the bottom margin */
+    
+}
+.plan-data .text-start {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Adjust spacing */
 }
 
 /* Plan details styling */
@@ -161,3 +194,4 @@
     margin: 5px 0;
     text-align: left;
 }
+
