@@ -432,7 +432,7 @@ const TradeResponse = () => {
             selectStrategyType === "Scalping" && (
               <div>
                 <div className="iq-header-title mt-4">
-                  <h3 className="card-title">Multi Conditional</h3>
+                  <h3 className="card-title">Scalping</h3>
                 </div>
                 <div className="modal-body">
                   {tradeHistory?.data1 && tradeHistory?.data1.length > 0 ? (
@@ -450,7 +450,7 @@ const TradeResponse = () => {
               </div>
             )}
 
-          {selectStrategyType === "Scalping" &&
+          {/* {selectStrategyType === "Scalping" &&
             tableType === "MultiCondition" &&
             tradeHistory.data1?.length > 0 && (
               <button
@@ -458,7 +458,7 @@ const TradeResponse = () => {
                 onClick={handleSubmit}>
                 Submit
               </button>
-            )}
+            )} */}
 
 
           {!(

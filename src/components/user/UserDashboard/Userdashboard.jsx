@@ -906,7 +906,8 @@ const Userdashboard = () => {
           <>
             {getPositionData.NewScalping?.length > 0 && (
               <>
-                <h4>Multi Condition</h4>
+                {/* <h4>Multi Condition</h4> */}
+                <h4>Scalping</h4>
                 <FullDataTable
                   columns={columns4}
                   data={getPositionData.NewScalping}

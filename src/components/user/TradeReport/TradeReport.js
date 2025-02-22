@@ -443,7 +443,8 @@ const TradeReport = () => {
                 {tableType === "MultiCondition" && selectStrategyType === "Scalping" && (
                     <div>
                         <div className="iq-header-title mt-4">
-                            <h4 className="card-title">Multi Conditional</h4>
+                            {/* <h4 className="card-title">Multi Conditional</h4> */}
+                            <h4 className="card-title">Scalping</h4>
                         </div>
                         {tradeReport?.data1 && tradeReport?.data1?.length > 0 ? (
                             <div className="modal-body">
