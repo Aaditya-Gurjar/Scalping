@@ -24,6 +24,7 @@
   --navbar-shadow: 0px 0px 25px 0px rgba(45, 69, 95, 0.1);
   --thead-bg: #e7effd;
   --dark-txt-color: black;
+  --broker_card_bg: #c3d9ff;
 }
 
 /* Dark Theme */
@@ -34,6 +35,8 @@
   --navbar-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.5);
   --thead-bg: #0e1218;
   --dark-txt-color: white;
+  --broker_card_bg: #0e1218;
+
 }
 
 /* Definition Lists */
@@ -4953,9 +4956,7 @@ a {
   padding-left: 5px;
 }
 
-.card-title {
-  margin-bottom: 0.75rem;
-}
+
 
 .form-group {
   margin-bottom: 1rem;
@@ -5198,6 +5199,8 @@ a {
   z-index: 100;
   background-color: var(--thead-bg) !important;
   color: var(--text-color) !important;
+  font-weight: 900 !important;
+  font-size: 0.955rem;
 }
 .MuiTypography-root,
 .MuiTablePagination-toolbar,
@@ -5618,11 +5621,14 @@ option[value="Reject"] {
 }
 
 .broker-card {
-  background-color: var(--bg-color); /* Yellow background */
+  background-color: var(--broker_card_bg); /* Yellow background */
   border-radius: 12px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
+}
+.broker-card-icon {
+  color: #ffffff !important;
 }
 
 .broker-card:hover {
@@ -5633,7 +5639,8 @@ option[value="Reject"] {
 .card-title {
   font-size: 1.2rem;
   font-weight: bold;
-  color: #333;
+  color: var(--text-color) !important;
+  margin-bottom: 0.75rem;
 }
 
 .card-actions {
@@ -5784,7 +5791,6 @@ h4 {
 .plan-data {
   text-align: center;
 }
-.card.broker-card,
 .card {
   background: var(--bg-color);
   --bs-card-bg: var(--bg-color) !important;
@@ -6258,4 +6264,46 @@ svg {
 .show-more {
   cursor: pointer;
   color: blue;
+}
+
+
+.css-hbtnrh-MuiTableCell-root {
+  font-weight: 900 !important;
+}
+
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.tooltip-container::before {
+  content: attr(data-title);
+  position: absolute;
+  left: 50%;
+  bottom: 120%;
+  transform: translateX(-50%);
+  background: black;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.tooltip-container:hover::before {
+  opacity: 1;
+  visibility: visible;
+}
+
+.add-btn-custom {
+  background-color: #2ed573 ;
+  color: white;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }

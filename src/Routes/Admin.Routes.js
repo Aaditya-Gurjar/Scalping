@@ -3,7 +3,7 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import Loader from '../ExtraComponent/Loader';
 import Dashboards from '../components/admin/Dashboard/Dashboards';
 // import Dashboards from '../components/admin/Dashboard/Dashboards';
-
+import { SidebarProvider } from "../components/layouts/SidebarContext";
 import Sidebar from '../components/layouts/Sidebar';
 import Header from '../components/layouts/Header';
 import Adduser from '../components/admin/User/Adduser';
@@ -63,7 +63,8 @@ const AdminRoute = () => {
   return (
     <>
       <div className='wrapper'>
-        <Sidebar />
+      <SidebarProvider> 
+        <Sidebar position="left" />
         <div id="content-page" className="content-page">
           <Header />
 
@@ -94,7 +95,8 @@ const AdminRoute = () => {
             <Route path="/chart" element={<ChartComponent />} />
           </Routes>
         </div>
-        <SidebarRight />
+        <SidebarRight position="right"/>
+        </SidebarProvider>
       </div >
     </>
   );

@@ -1,455 +1,319 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import $ from 'jquery';
-import { ListCollapse, Users, BadgeDollarSign, Pyramid, MessageCircleReply, BookUser, Webhook, BadgePlus } from 'lucide-react';
+import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
+import $ from "jquery";
+import { ListCollapse, Users, BadgeDollarSign, Pyramid } from "lucide-react";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
+import { useSidebar } from "./SidebarContext";
 
-const Sidebar = () => {
-    const role = localStorage.getItem("Role");
-    const [isActive, setIsActive] = useState(true);
-    const [activeItem, setActiveItem] = useState('');
-    const sidebarRef = useRef(null);
-    const fevicon = localStorage.getItem("fevicon");
-    const header_img1 = localStorage.getItem("header_img1");
-    const header_img2 = localStorage.getItem("header_img2");
-    const logo = localStorage.getItem("logo");
-    const pannel_name = localStorage.getItem("pannel_name");
-    const permission = localStorage.getItem('SubAdminPermission');
-    const expire = localStorage.getItem('expire');
+const Sidebar = ({position}) => {
+  const role = localStorage.getItem("Role");
+  const [isActive, setIsActive] = useState(true);
+//   const [activeItem, setActiveItem] = useState("");
+  const sidebarRef = useRef(null);
+  const fevicon = localStorage.getItem("fevicon");
+  const header_img1 = localStorage.getItem("header_img1");
+  const header_img2 = localStorage.getItem("header_img2");
+  const logo = localStorage.getItem("logo");
+  const pannel_name = localStorage.getItem("pannel_name");
+  const permission = localStorage.getItem("SubAdminPermission");
+  const expire = localStorage.getItem("expire");
 
-    const setImages = async () => {
-        $(".header_img1").attr('src', header_img1);
-        $(".header_img2").attr('src', header_img2);
-        $(".title_name").text(pannel_name);
-        $(".set_Favicon")
-        let favicon = $("link[rel='icon']").length
-            ? $("link[rel='icon']")
-            : $("<link rel='icon' type='image/x-icon' />");
-        favicon.attr('href', fevicon && fevicon);
-        $('head').append(favicon);
-    }
-    useEffect(() => {
-        setImages();
-    }, []);
+  const { activeItem, setActiveItem } = useSidebar();
 
+  const setImages = async () => {
+    $(".header_img1").attr("src", header_img1);
+    $(".header_img2").attr("src", header_img2);
+    $(".title_name").text(pannel_name);
+    $(".set_Favicon");
+    let favicon = $("link[rel='icon']").length
+      ? $("link[rel='icon']")
+      : $("<link rel='icon' type='image/x-icon' />");
+    favicon.attr("href", fevicon && fevicon);
+    $("head").append(favicon);
+  };
+  useEffect(() => {
+    setImages();
+  }, []);
 
-    // const closeSidebarOnSmallScreen = () => {
-    //     if (window.innerWidth <= 991) {
-    //         document.body.classList.remove('sidebar-main');
-    //     }
-    // };
+  useEffect(() => {
+    document.body.classList.toggle("sidebar-main", isActive);
+  }, [isActive]);
 
+  const handleSidebarClick = (event, item) => {
+    setActiveItem(item);
+  };
 
-    // useEffect(() => {
-    //     const sidebar = sidebarRef.current;
-    //     const handleAnchorClick = (event) => {
-    //         closeSidebarOnSmallScreen();
-    //     };
+  useEffect(() => {
+    const sidebar = sidebarRef.current;
+    const handleSidebarItemClick = (event) => {
+      const li = event.currentTarget;
+      const submenu = li.querySelector(".iq-submenu");
 
-    //     const anchors = sidebar.querySelectorAll('a');
-    //     anchors.forEach((anchor) => {
-    //         anchor.addEventListener('click', handleAnchorClick);
-    //     });
-
-    //     return () => {
-    //         anchors.forEach((anchor) => {
-    //             anchor.removeEventListener('click', handleAnchorClick);
-    //         });
-    //     };
-
-    // }, [isActive]);
-
-
-    useEffect(() => {
-        document.body.classList.toggle('sidebar-main', isActive);
-    }, [isActive]);
-
-    const handleClick = () => setIsActive(prevState => !prevState);
-
-    const handleSidebarClick = (event, item) => {
-        setActiveItem(item);
+      if (submenu) {
+        submenu.style.display = li.classList.toggle("menu-open")
+          ? "block"
+          : "none";
+      }
     };
 
-    useEffect(() => {
-        const sidebar = sidebarRef.current;
-        const handleSidebarItemClick = (event) => {
-            const li = event.currentTarget;
-            const submenu = li.querySelector('.iq-submenu');
-
-            if (submenu) {
-                submenu.style.display = li.classList.toggle('menu-open') ? 'block' : 'none';
-            }
-        };
-
-        const sidebarItems = sidebar?.querySelectorAll('.iq-sidebar-menu li') || [];
-        sidebarItems.forEach(item => item.addEventListener('click', handleSidebarItemClick));
-
-        return () => {
-            sidebarItems.forEach(item => item.removeEventListener('click', handleSidebarItemClick));
-        };
-    }, []);
-
-
-    useEffect(() => {
-        const sidebar = sidebarRef.current;
-        const handleSidebarItemClick = (event) => {
-            const li = event.currentTarget;
-            const submenu = li.querySelector('.iq-submenu');
-
-            if (li.classList.contains('menu-open')) {
-                if (submenu) {
-                    submenu.style.display = 'none';
-                }
-                li.classList.remove('menu-open');
-                const openItems = li.querySelectorAll('.menu-open');
-                openItems.forEach((item) => {
-                    item.classList.remove('menu-open');
-                });
-            } else if (submenu) {
-                submenu.style.display = 'block';
-                li.classList.add('menu-open');
-                submenu.classList.add('menu-open');
-            }
-        };
-
-        const activeItems = sidebar.querySelectorAll('.iq-sidebar-menu .active');
-        activeItems.forEach((item) => {
-            const submenu = item.querySelector('.iq-submenu');
-            if (submenu) {
-                item.classList.add('menu-open');
-                submenu.classList.add('menu-open');
-            }
-        });
-
-        const sidebarItems = sidebar.querySelectorAll('.iq-sidebar-menu li');
-        sidebarItems.forEach((item) => {
-            item.addEventListener('click', handleSidebarItemClick);
-        });
-
-        return () => {
-            sidebarItems.forEach((item) => {
-                item.removeEventListener('click', handleSidebarItemClick);
-            });
-        };
-    }, []);
-
-
-    const subadminSideBaar = [
-        {
-            path: '/subadmin/dashboard',
-            icon: 'ri-dashboard-fill', // Dashboard icon
-            label: 'Dashboard',
-            permission: [] // No restriction
-        },
-        {
-            path: '/subadmin/allclient',
-            icon: 'ri-group-fill', // Group or users icon for All Clients
-            label: 'All Clients',
-            permission: [] // No restriction
-        },
-        {
-            path: '/subadmin/groups',
-            icon: 'ri-group-fill', // Teams icon for Sub Admin Groups
-            label: 'Sub Admin Groups',
-            permission: [] // No restriction
-        },
-        
-        
-    ];
-
-
-    // const adminSideBaar = [
-    //     {
-    //         path: '/admin/dashboard',
-    //         icon: 'ri-home-8-fill', // Dashboard icon
-    //         label: 'Dashboard',
-    //         permission: [] // No restriction
-    //     },
-    //     {
-    //         path: '/admin/strategygroup',
-    //         icon: 'la la-sellsy', // Icon for Strategy Group
-    //         label: 'Strategy Group',
-    //         permission: [] // No restriction
-    //     },
-    //     {
-    //         path: '/admin/clientservice',
-    //         icon: 'ri-group-fill', // Client Service icon
-    //         label: 'Client Service',
-    //         permission: [] // No restriction
-    //     },
-    //     {
-    //         path: '/admin/allSubadmin',
-    //         icon: 'ri-group-fill', // SubAdmin icon
-    //         label: 'SubAdmin',
-    //         permission: [] // No restriction
-    //     },
-    //     {
-    //         path: '/admin/allplan',
-    //         icon: 'la la-sellsy', // Plan icon
-    //         label: 'Plan',
-    //         permission: [] // No restriction
-    //     },
-    //     {
-    //         path: '/admin/allscript',
-    //         icon: 'ri-home-fill', // Add Script icon
-    //         label: 'Add Script',
-    //         permission: [] // No restriction
-    //     },
-    //     {
-    //         path: '/admin/userlogs',
-    //         icon: 'la la-envelope-open', // User Panel Log icon
-    //         label: 'User Panel Log',
-    //         permission: [] // No restriction
-    //     },
-    //     {
-    //         path: '/admin/servicreport',
-    //         icon: 'la la-cog', // Service Report icon
-    //         label: 'Service Report',
-    //         permission: [] // No restriction
-    //     },
-
-    // ];
-
-    const adminSideBaar = [
-        {
-            path: '/admin/dashboard',
-            icon: 'ri-home-8-line', // Dashboard icon
-            label: 'Dashboard',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/strategygroup',
-            icon: 'la la-sellsy', // Icon for Strategy Group (Project Diagram)
-            label: 'Strategy Group',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/clientservice',
-            icon: 'fa fa-users', // Client Service icon (Users)
-            label: 'Client Service',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/allSubadmin',
-            icon: 'ri-group-fill', // SubAdmin icon (Shield icon for admin-like users)
-            label: 'SubAdmin',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/allplan',
-            icon: 'fa fa-list-alt', // Plan icon (List icon)
-            label: 'Plan',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/allscript',
-            icon: 'fa fa-code', // Add Script icon (Code icon)
-            label: 'Add Script',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/userlogs',
-            icon: 'fa fa-history', // User Panel Log icon (History icon)
-            label: 'User Panel Log',
-            permission: [] // No restriction
-        },
-        {
-            path: '/admin/servicreport',
-             icon: 'la la-cog', // Service Report icon (Clipboard List)
-            label: 'Service Report',
-            permission: [] // No restriction
-        },
-
-    ];
-
-    const superAdmin = [
-        {
-            path: '/superadmin/dashboard',
-            icon: <i className="ri-home-fill" />, // Default icon
-            label: 'Dashboard',
-            permission: [] // No restriction
-        },
-        {
-            path: '/superadmin/create-admin',
-            icon: <Users />, // Custom icon
-            label: 'Create Admin',
-            permission: [] // No restriction
-        },
-        {
-            path: '/superadmin/admin-details',
-            icon: <ListCollapse />, // Custom icon
-            label: 'Admin Details',
-            permission: [] // No restriction
-        },
-        {
-            path: '/superadmin/amount-details',
-            icon: <BadgeDollarSign />, // Custom icon
-            label: 'Amount Details',
-            permission: [] // No restriction
-        },
-        {
-            path: '/superadmin/client-thread-report',
-            icon: <Pyramid />, // Custom icon
-            label: 'Client Trade Report',
-            permission: [] // No restriction
-        },
-        
-    ];
-
-    const userSidebarItems = [
-        {
-            path: '/user/dashboard',
-            icon: <i className="ri-home-8-line" />,
-            label: 'Dashboard',
-            permission: [] // No restriction
-        },
-        {
-            path: 'technical/pattern',
-            icon: <i className="fa fa-puzzle-piece" />, // Changed icon to puzzle piece for patterns
-            label: 'Technical Patterns',
-            permission: [] // No restriction
-        },
-        {
-            path: 'lastpattern',
-            icon: <i className="fa fa-random" />, // Random icon for last patterns
-            label: 'Last Patterns',
-            permission: [] // No restriction
-        },
-        {
-            path: 'all/plan',
-            icon: <i className="ri-folder-chart-line" />, // Sitemap icon for all plans
-            label: 'All Plans',
-            permission: [] // No restriction
-        },
-        {
-            path: 'tradereport',
-            icon: <i className="la la-sellsy" />,
-            label: 'Trade Report',
-            permission: [] // No restriction
-        },
-    ];
-
-
-
-    return (
-        <div className="iq-sidebar" onClick={()=>sessionStorage.clear()}>
-            <div className="iq-sidebar-logo d-flex justify-content-between">
-          
-            </div>
-            <div
-                id="sidebar-scrollbar"
-                data-scrollbar="true"
-                tabIndex={-1}
-                style={{ overflow: 'hidden', outline: 'none' }}
-            >
-                <div className="scroll-content">
-                    <nav ref={sidebarRef} className="iq-sidebar-menu">
-                        <ul className="iq-menu">
-                            {role === 'Admin' ? (
-                                <>
-                                    {adminSideBaar
-                                        .filter(item =>
-                                            item.permission.length === 0 || item.permission.some(p => permission?.includes(p))
-                                        )
-                                        .map(item => (
-                                            <li
-                                                key={item.path}
-                                                className={activeItem === item.path ? 'active' : ''}
-                                                onClick={(e) => handleSidebarClick(e, item.path)}
-                                            >
-                                                <Link to={item.path} className="iq-waves-effect">
-                                                    <div data-toggle="tooltip" data-placement="left" title={item.label}>
-                                                        <i className={item.icon} />
-                                                    </div>
-
-                                                    <span>{item.label}</span>
-                                                </Link>
-                                            </li>
-                                        ))}
-                                </>
-                            ) : role === 'Superadmin' ?
-                                (
-                                    <>
-                                        {superAdmin
-                                            .filter(item =>
-                                                item.permission.length === 0 || item.permission.some(p => permission?.includes(p))
-                                            )
-                                            .map(item => (
-                                                <li
-                                                    key={item.path}
-                                                    className={activeItem === item.path ? 'active' : ''}
-                                                    onClick={(e) => handleSidebarClick(e, item.path)}
-                                                >
-                                                    <Link to={item.path} className="iq-waves-effect">
-                                                        {item.icon}
-                                                        <span style={{ marginLeft: '8px' }}>{item.label}</span>
-                                                    </Link>
-                                                </li>
-                                            ))}
-                                    </>
-                                )
-                                : role === 'Subadmin' ?
-                                    (
-                                        <>
-                                            {subadminSideBaar
-                                                .filter(item =>
-                                                    item.permission.length === 0 || item.permission.some(p => permission?.includes(p))
-                                                )
-                                                .map(item => (
-                                                    <li
-                                                        key={item.path}
-                                                        className={activeItem === item.path ? 'active' : ''}
-                                                        onClick={(e) => handleSidebarClick(e, item.path)}
-                                                    >
-                                                        <Link to={item.path} className="iq-waves-effect">
-                                                            <i className={item.icon} />
-                                                            <span>{item.label}</span>
-                                                        </Link>
-                                                    </li>
-                                                ))}
-                                        </>
-                                    )
-                                    : (
-                                        <>
-                                            {userSidebarItems.map(item => (
-                                                <li
-                                                    key={item.path}
-                                                    className={activeItem === item.path ? 'active' : ''}
-                                                    onClick={(e) => handleSidebarClick(e, item.path)}
-                                                >
-                                                    <Link to={expire?.includes(1) ? "/user/all/plan" : item.path} className="iq-waves-effect">
-
-                                                        <div data-toggle="tooltip" data-placement="left" title={item.label}>
-                                                            {item.icon}
-                                                        </div>
-
-                                                        <span style={{ marginLeft: '8px' }}>{item.label}</span>
-                                                    </Link>
-                                                </li>
-                                            ))}
-                                        </>
-                                    )}
-                        </ul>
-                    </nav>
-                    <div className="p-3" />
-                </div>
-                <div className="scrollbar-track scrollbar-track-x" style={{ display: 'none' }}>
-                    <div
-                        className="scrollbar-thumb scrollbar-thumb-x"
-                        style={{ width: 80, transform: 'translate3d(0px, 0px, 0px)' }}
-                    />
-                </div>
-                <div className="scrollbar-track scrollbar-track-y" style={{ display: 'block' }}>
-                    <div
-                        className="scrollbar-thumb scrollbar-thumb-y"
-                        style={{
-                            height: '84.5734px',
-                            transform: 'translate3d(0px, 0px, 0px)',
-                        }}
-                    />
-                </div>
-            </div>
-        </div>
+    const sidebarItems = sidebar?.querySelectorAll(".iq-sidebar-menu li") || [];
+    sidebarItems.forEach((item) =>
+      item.addEventListener("click", handleSidebarItemClick)
     );
+
+    return () => {
+      sidebarItems.forEach((item) =>
+        item.removeEventListener("click", handleSidebarItemClick)
+      );
+    };
+  }, []);
+
+  useEffect(() => {
+    const sidebar = sidebarRef.current;
+    const handleSidebarItemClick = (event) => {
+      const li = event.currentTarget;
+      const submenu = li.querySelector(".iq-submenu");
+
+      if (li.classList.contains("menu-open")) {
+        if (submenu) {
+          submenu.style.display = "none";
+        }
+        li.classList.remove("menu-open");
+        const openItems = li.querySelectorAll(".menu-open");
+        openItems.forEach((item) => {
+          item.classList.remove("menu-open");
+        });
+      } else if (submenu) {
+        submenu.style.display = "block";
+        li.classList.add("menu-open");
+        submenu.classList.add("menu-open");
+      }
+    };
+
+    const activeItems = sidebar.querySelectorAll(".iq-sidebar-menu .active");
+    activeItems.forEach((item) => {
+      const submenu = item.querySelector(".iq-submenu");
+      if (submenu) {
+        item.classList.add("menu-open");
+        submenu.classList.add("menu-open");
+      }
+    });
+
+    const sidebarItems = sidebar.querySelectorAll(".iq-sidebar-menu li");
+    sidebarItems.forEach((item) => {
+      item.addEventListener("click", handleSidebarItemClick);
+    });
+
+    return () => {
+      sidebarItems.forEach((item) => {
+        item.removeEventListener("click", handleSidebarItemClick);
+      });
+    };
+  }, []);
+
+  const subadminSideBaar = [
+    {
+      path: "/subadmin/dashboard",
+      icon: <i className="ri-dashboard-fill" />, // Dashboard icon
+      label: "Dashboard",
+      permission: [], // No restriction
+    },
+    {
+      path: "/subadmin/allclient",
+      icon: <i className="ri-group-fill" />, // Group or users icon for All Clients
+      label: "All Clients",
+      permission: [],
+    },
+    {
+      path: "/subadmin/groups",
+      icon: <i className="ri-group-fill" />, // Teams icon for Sub Admin Groups
+      label: "Sub Admin Groups",
+      permission: [],
+    },
+  ];
+  
+  const adminSideBaar = [
+    {
+      path: "/admin/dashboard",
+      icon: <i className="ri-home-8-line" />, // Dashboard icon
+      label: "Dashboard",
+      permission: [],
+    },
+    {
+      path: "/admin/strategygroup",
+      icon: <i className="la la-sellsy" />, // Strategy Group icon
+      label: "Strategy Group",
+      permission: [],
+    },
+    {
+      path: "/admin/clientservice",
+      icon: <i className="fa fa-users" />, // Client Service icon
+      label: "Client Service",
+      permission: [],
+    },
+    {
+      path: "/admin/allSubadmin",
+      icon: <i className="ri-group-fill" />, // SubAdmin icon
+      label: "SubAdmin",
+      permission: [],
+    },
+    {
+      path: "/admin/allplan",
+      icon: <i className="fa fa-list-alt" />, // Plan icon
+      label: "Plan",
+      permission: [],
+    },
+    {
+      path: "/admin/allscript",
+      icon: <i className="fa fa-code" />, // Add Script icon
+      label: "Add Script",
+      permission: [],
+    },
+    {
+      path: "/admin/userlogs",
+      icon: <i className="fa fa-history" />, // User Panel Log icon
+      label: "User Panel Log",
+      permission: [],
+    },
+    {
+      path: "/admin/servicreport",
+      icon: <i className="la la-cog" />, // Service Report icon
+      label: "Service Report",
+      permission: [],
+    },
+  ];
+  
+  const superAdmin = [
+    {
+      path: "/superadmin/dashboard",
+      icon: <i className="ri-home-fill" />, // Dashboard icon
+      label: "Dashboard",
+      permission: [],
+    },
+    {
+      path: "/superadmin/create-admin",
+      icon: <Users />, // Create Admin icon
+      label: "Create Admin",
+      permission: [],
+    },
+    {
+      path: "/superadmin/admin-details",
+      icon: <ListCollapse />, // Admin Details icon
+      label: "Admin Details",
+      permission: [],
+    },
+    {
+      path: "/superadmin/amount-details",
+      icon: <BadgeDollarSign />, // Amount Details icon
+      label: "Amount Details",
+      permission: [],
+    },
+    {
+      path: "/superadmin/client-thread-report",
+      icon: <Pyramid />, // Client Trade Report icon
+      label: "Client Trade Report",
+      permission: [],
+    },
+  ];
+  
+  const userSidebarItems = [
+    {
+      path: "/user/dashboard",
+      icon: <i className="ri-home-8-line" />, // Dashboard icon
+      label: "Dashboard",
+      permission: [],
+    },
+    {
+      path: "technical/pattern",
+      icon: <i className="fa fa-puzzle-piece" />, // Technical Patterns icon
+      label: "Technical Patterns",
+      permission: [],
+    },
+    {
+      path: "lastpattern",
+      icon: <i className="fa fa-random" />, // Last Patterns icon
+      label: "Last Patterns",
+      permission: [],
+    },
+    {
+      path: "all/plan",
+      icon: <i className="ri-folder-chart-line" />, // All Plans icon
+      label: "All Plans",
+      permission: [],
+    },
+    {
+      path: "tradereport",
+      icon: <i className="la la-sellsy" />, // Trade Report icon
+      label: "Trade Report",
+      permission: [],
+    },
+  ];
+
+
+  const renderSidebarItems = (items) =>
+    items
+      .filter(
+        (item) =>
+          item.permission.length === 0 ||
+          item.permission.some((p) => permission?.includes(p))
+      )
+      .map((item) => (
+        <li
+          key={item.path}
+          className={activeItem === item.path ? "active" : ""}
+          onClick={(e) => handleSidebarClick(e, item.path)}
+        >
+          <Link to={expire?.includes(1) ? "/user/all/plan" : item.path} className="iq-waves-effect">
+            <OverlayTrigger
+              placement="right"
+              delay={{ show: 250, hide: 400 }}
+              overlay={<Tooltip id={`tooltip-${item.label}`}>{item.label}</Tooltip>}
+            >
+              <div className="d-inline-block">{item.icon}</div>
+            </OverlayTrigger>
+            <span style={{ marginLeft: "8px" }}>{item.label}</span>
+          </Link>
+        </li>
+      ));
+
+  const getSidebarItems = () => {
+
+  
+
+    switch (role) {
+      case "Admin":
+        return renderSidebarItems(adminSideBaar);
+      case "Superadmin":
+        return renderSidebarItems(superAdmin);
+      case "Subadmin":
+        return renderSidebarItems(subadminSideBaar);
+      default:
+        return renderSidebarItems(userSidebarItems);
+    }
+  };
+
+  return (
+    <div className="iq-sidebar" onClick={() => sessionStorage.clear()}>
+    <div className="iq-sidebar-logo d-flex justify-content-between"></div>
+    <div
+      id="sidebar-scrollbar"
+      data-scrollbar="true"
+      tabIndex={-1}
+      style={{ overflow: "hidden", outline: "none" }}
+    >
+      <div className="scroll-content">
+        <nav ref={sidebarRef} className="iq-sidebar-menu">
+          <ul className="iq-menu">{getSidebarItems()}</ul>
+        </nav>
+        <div className="p-3" />
+      </div>
+      <div className="scrollbar-track scrollbar-track-y" style={{ display: "block" }}>
+        <div className="scrollbar-thumb scrollbar-thumb-y" style={{ height: "84.57px" }} />
+      </div>
+    </div>
+  </div>
+  );
 };
 
 export default Sidebar;

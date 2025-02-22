@@ -33,6 +33,7 @@ import NewStrategy from '../components/user/NewStrategy/NewStrategy';
 import AddChartingScript from '../components/user/UserScript/AddChartingScript';
 import MyPlans from '../components/user/Plan/MyPlans';
 
+import { SidebarProvider } from "../components/layouts/SidebarContext";
 
 
 const UserRoute = () => {
@@ -40,7 +41,8 @@ const UserRoute = () => {
   return (
     <>
       <div className='wrapper'>
-        <Sidebar />
+      <SidebarProvider> 
+      <Sidebar position="left" />
 
         <div id="content-page" className="content-page">
           <Header />
@@ -75,7 +77,8 @@ const UserRoute = () => {
 
         </div>
 
-        <SidebarRight />
+        <SidebarRight position="right"/>
+        </SidebarProvider>
       </div>
     </>
   );

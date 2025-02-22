@@ -133,8 +133,8 @@ const Dashboards = () => {
           <div className="container-fluid" style={{ marginTop: "2rem" }}>
             <div className="row">
               <div className="col-sm-12">
-                <div className="row">
-                  <div className="col-lg-4">
+                <div className="row ">
+                  <div className="col-lg-4 ">
                     <div className="iq-card ">
                       <div className="progress">
                         <div
@@ -188,7 +188,7 @@ const Dashboards = () => {
                       </div>
                       <div className="iq-card-header d-flex justify-content-between">
                         <div className="iq-header-title">
-                          <h4 className="card-title">Live Account</h4>
+                          <h3 className="card-title">Live Account</h3>
                         </div>
                       </div>
 
@@ -302,7 +302,7 @@ const Dashboards = () => {
                       </div>
                       <div className="iq-card-header d-flex justify-content-between">
                         <div className="iq-header-title">
-                          <h4 className="card-title">Free Demo Account</h4>
+                          <h3 className="card-title">Free Demo Account</h3>
                         </div>
                       </div>
                       <div className="iq-card-body p-2">
@@ -421,9 +421,9 @@ const Dashboards = () => {
                       </div>
                       <div className="iq-card-header d-flex justify-content-between">
                         <div className="iq-header-title">
-                          <h4 className="card-title">
+                          <h3 className="card-title">
                             Three Days Live Account
-                          </h4>
+                          </h3>
                         </div>
                       </div>
                       <div className="iq-card-body p-2">
@@ -544,9 +544,9 @@ const Dashboards = () => {
                       </div>
                       <div className="iq-card-header d-flex justify-content-between">
                         <div className="iq-header-title">
-                          <h4 className="card-title">
+                          <h3 className="card-title">
                             Total Service Count of 1
-                          </h4>
+                         </h3> 
                         </div>
                       </div>
                       <div className="iq-card-body p-2">
@@ -659,9 +659,9 @@ const Dashboards = () => {
                       </div>
                       <div className="iq-card-header d-flex justify-content-between">
                         <div className="iq-header-title">
-                          <h4 className="card-title">
+                          <h3 className="card-title">
                             Total Service Count of 2
-                          </h4>
+                         </h3> 
                         </div>
                       </div>
                       <div className="iq-card-body p-2">
@@ -774,9 +774,9 @@ const Dashboards = () => {
                       </div>
                       <div className="iq-card-header d-flex justify-content-between">
                         <div className="iq-header-title">
-                          <h4 className="card-title">
+                          <h3 className="card-title">
                             Total Service Count of 5
-                          </h4>
+                         </h3> 
                         </div>
                       </div>
                       <div className="iq-card-body p-2">
@@ -849,25 +849,25 @@ const Dashboards = () => {
                           />
                         </div>
                         <div className="text-center mt-3">
-                          <h4 className="mb-0 ">
+                          <h3 className="mb-0 ">
                             Admin
-                          </h4>
+                         </h3> 
                         </div>
                         <hr />
                         <ul className="doctoe-sedual d-flex align-items-center justify-content-between p-0">
-                          <h4 className="mb-0 ">
+                          <h3 className="mb-0 ">
                             Total Revenue{" "}
                             <span style={{ marginLeft: "10px" }}>-</span>
-                          </h4>
+                         </h3> 
 
                           <h3 className="counter">{Data2.data1}</h3>
                         </ul>
                         <hr />
                         <ul className="doctoe-sedual d-flex align-items-center justify-content-between p-0">
-                          <h4 className="mb-0 ">
+                          <h3 className="mb-0 ">
                             Total Clients{" "}
                             <span style={{ marginLeft: "28px" }}>-</span>
-                          </h4>
+                         </h3> 
 
                           <h3 className="counter">{Data2.data}</h3>
                         </ul>
@@ -875,17 +875,7 @@ const Dashboards = () => {
                     </div>
                   </div>
                 </div>
-                {/* <div className="col-lg-8">
-                                    <div className="iq-card">
-                                        <div className="iq-card-header d-flex justify-content-between">
-                                            <div className="iq-header-title">
-                                                <h4 className="card-title">Earning Per Day</h4>
-                                            </div>
-                                        </div>
-                                        <AgChartsReact options={options} />
-
-                                    </div>
-                                </div> */}
+             
                 <AdminDashboardChart />
               </div>
             </div>
