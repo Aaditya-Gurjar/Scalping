@@ -51,7 +51,7 @@ const AddClient = () => {
       timerProgressBar: true,
     });
   };
-  const dataWithoutLastItem = location?.state.data.scriptType.data.slice(0, -1);
+  const dataWithoutLastItem = location?.state?.data?.scriptType?.data?.slice(0, -1);
 
   const getEndData = (stg) => {
     console.log("stg", stg);
@@ -1278,7 +1278,7 @@ const AddClient = () => {
       type: "multiselect",
       options: [
 
-        { label: "Select All", value: "all" },
+        // { label: "Select All", value: "all" },
         { label: "Monday", value: "Monday" },
         { label: "Tuesday", value: "Tuesday" },
         { label: "Wednesday", value: "Wednesday" },
