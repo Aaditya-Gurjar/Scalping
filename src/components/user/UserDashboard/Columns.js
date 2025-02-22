@@ -1984,12 +1984,14 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
                 const labelStyle = value ? { backgroundColor: 'green', color: 'white' } : { backgroundColor: 'red', color: 'white' };
 
                 return (
-                    <button
-                        onClick={() => handleContinutyDiscontinuty(tableMeta, 2)}
-                        style={{ ...labelStyle, border: 'none', padding: '5px 10px', cursor: 'pointer', borderRadius: '5px' }}
-                    >
-                        {label}
-                    </button>
+              
+                    label === "Continue" ? (
+                        <button style={{width:"7rem"}} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-success">{label}</button> ) :(
+                            <button style={{width:"7rem"}} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-danger">{label}</button>
+                        )
+
+                    
+                 
                 );
             }
         }
