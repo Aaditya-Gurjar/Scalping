@@ -367,15 +367,26 @@ const ServicesList = () => {
                         <strong>Options:</strong>{" "}
                         {plan["Option Strategy"]?.length > 1 ? (
                           <>
-                            {plan["Option Strategy"][0]}{" "}
-                            <span
-                              className="show-more"
-                              onClick={() => toggleOptions(index)}
-                            >
-                              ...
-                            </span>
-                            {expandedOptions.includes(index) && (
-                              <span> , {plan["Option Strategy"].slice(1).join(", ")}</span>
+                            {expandedOptions.includes(index) ? (
+                              <>
+                                {plan["Option Strategy"].join(", ")}
+                                <span
+                                  className="show-more"
+                                  onClick={() => toggleOptions(index)}
+                                >
+                                   {" "}🔼
+                                </span>
+                              </>
+                            ) : (
+                              <>
+                                {plan["Option Strategy"][0]}
+                                <span
+                                  className="show-more"
+                                  onClick={() => toggleOptions(index)}
+                                >
+                                   {" "}🔽
+                                </span>
+                              </>
                             )}
                           </>
                         ) : (
@@ -383,25 +394,38 @@ const ServicesList = () => {
                         )}
                       </p>
 
+
                       <p>
                         <strong>Patterns:</strong>{" "}
                         {plan.Pattern?.length > 1 ? (
                           <>
-                            {plan.Pattern[0]}{" "}
-                            <span
-                              className="show-more"
-                              onClick={() => toggleExpand(index)}
-                            >
-                              ...
-                            </span>
-                            {expandedPatternItems.includes(index) && (
-                              <span> , {plan.Pattern.slice(1).join(", ")}</span>
+                            {expandedPatternItems.includes(index) ? (
+                              <>
+                                {plan.Pattern.join(", ")}
+                                <span
+                                  className="show-more"
+                                  onClick={() => toggleExpand(index)}
+                                >
+                                   {" "}🔼
+                                </span>
+                              </>
+                            ) : (
+                              <>
+                                {plan.Pattern[0]}
+                                <span
+                                  className="show-more"
+                                  onClick={() => toggleExpand(index)}
+                                >
+                                   {" "}🔽
+                                </span>
+                              </>
                             )}
                           </>
                         ) : (
                           plan.Pattern?.join(", ")
                         )}
                       </p>
+
 
                     </div>
                     {isPlanPurchased(plan.PlanName) ? (

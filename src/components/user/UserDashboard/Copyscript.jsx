@@ -363,7 +363,8 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
                               <div>
                                 <div className="iq-header-title mt-4">
                                   <h4 className="card-title">
-                                    Multi Conditional
+                                    {/* Multi Conditional */}
+                                    Scalping
                                   </h4>
                                 </div>
                                 {getAllService.loading ? (

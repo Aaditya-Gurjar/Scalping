@@ -74,7 +74,7 @@
 //       search: false,
 //       filter: false,
 //       sort: false,
-//       rowsPerPageOptions: [10, 25, 50, 100],
+//       rowsPerPageOptions: [5, 10, 25, 50, 100],
 //       setCellProps: () => ({ style: { textAlign: "center" } }),
 //       setRowProps: (row, dataIndex) => ({
 //         style: {
