@@ -233,7 +233,7 @@ const CustomMultiSelect = ({ label, options, selected, onChange, disabled }) => 
     };
 
     return (
-        <div className="col-lg-6 mt-2">
+        <div className="col-lg-6">
             <h6>{label}</h6>
             <Select
                 isMulti

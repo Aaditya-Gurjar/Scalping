@@ -548,7 +548,7 @@ const AddClient = () => {
               values.Strategy == "Multi_Conditional" &&
               values.RollOver == "true"
               ? values.NumberOfDays
-              : 0,
+              : "0",
           RolloverTime:
             values.FixedSM == "Multiple" &&
               values.Strategy == "Multi_Conditional" &&
@@ -863,21 +863,7 @@ const AddClient = () => {
       hiding: false,
       disable: false,
     },
-    // {
-    //   name: "expirydata1",
-    //   label: "Expiry Date",
-    //   type: "select",
-    //   options: getExpiryDate && getExpiryDate.data.map((item) => ({
-    //     label: item,
-    //     value: item
-    //   })),
-    //   showWhen: (values) => values.Exchange === "NFO" || values.Exchange === "CDS" || values.Exchange === "MCX",
-    //   label_size: 12,
-    //   headingtype: 1,
-    //   hiding: false,
-    //   col_size: formik.values.Instrument === "FUTSTK" || formik.values.Instrument === "FUTIDX" ? 3 : 4,
-    //   disable: false,
-    // },
+   
     {
       name: "expirydata1",
       label: "Expiry Date",
@@ -1291,6 +1277,8 @@ const AddClient = () => {
       label: "Working Day",
       type: "multiselect",
       options: [
+
+        { label: "Select All", value: "all" },
         { label: "Monday", value: "Monday" },
         { label: "Tuesday", value: "Tuesday" },
         { label: "Wednesday", value: "Wednesday" },
@@ -1431,6 +1419,8 @@ const AddClient = () => {
       col_size: 4,
       headingtype: 4,
       showWhen: (values) =>
+        ((values.Exchange == "MCX" && values.Instrument !== "OPTFUT") || (values.Exchange == "NFO" && values.Instrument !== "OPTIDX" && values.Instrument !== "OPTSTK")) &&
+
         values.ExitDay == "Delivery" &&
         values.Strategy == "Multi_Conditional" &&
         values.FixedSM == "Multiple",
@@ -1465,7 +1455,7 @@ const AddClient = () => {
       label_size: 12,
       showWhen: (values) => {
         const rollOverBoolean = values.RollOver === "true" &&
-          (values.Exchange == "NFO" && (values.Instrument == "FUTIDX" || values.Instrument == "FUTSTK")) || (values.Exchange == "MCX" && values.Instrument == "FUTCOM");
+          (values.Exchange == "NFO" && ((values.Instrument == "FUTIDX" || values.Instrument == "FUTSTK")) || (values.Exchange == "MCX" && values.Instrument == "FUTCOM"));
         return (
           rollOverBoolean &&
           values.Strategy == "Multi_Conditional" &&
@@ -1734,6 +1724,18 @@ const AddClient = () => {
       formik.setFieldValue("Optiontype", "");
     }
   }, [formik.values.Instrument, formik.values.Exchange]);
+
+
+  useEffect(() => {
+    if (
+      formik.values.ExitDay == "Intraday"
+    ) {
+      formik.setFieldValue("RollOver", false);
+      formik.setFieldValue("NumberOfDays", "0");
+      // formik.setFieldValue("Strike", "");
+    }
+  }, [formik.values.ExitDay]);
+
 
   // useEffect(() => {
   //   // console.log("testing")

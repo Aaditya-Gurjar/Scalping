@@ -12,33 +12,8 @@ export const columns = () => [
     },
   },
   {
-    name: "ScalpType",
-    label: "ScalpType",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
     name: "Symbol",
     label: "Symbol",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-
-  {
-    name: "Booking Point",
-    label: "Target",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
-    name: "Re-entry Point",
-    label: "Re-entry",
     options: {
       filter: true,
       sort: true,
@@ -52,6 +27,54 @@ export const columns = () => [
       sort: true,
     },
   },
+  {
+    name: "Targetselection",
+    label: "Target Selection",
+    options: {
+        filter: true,
+        sort: true,
+    }
+},
+{
+  name: "Lot",
+  label: "Quantity",
+  options: {
+      filter: true,
+      sort: true,
+  }
+},
+{
+  name: "Booking Point",
+  label: "Target",
+  options: {
+    filter: true,
+    sort: true,
+  },
+},
+{
+  name: "Re-entry Point",
+  label: "Re-entry",
+  options: {
+    filter: true,
+    sort: true,
+  },
+},
+
+
+
+  {
+    name: "ScalpType",
+    label: "ScalpType",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+ 
+
+ 
+ 
+  
   {
     name: "Lot",
     label: "Quantity",

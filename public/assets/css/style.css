@@ -6252,3 +6252,10 @@ svg {
   outline: 0;
   background-color: var(--bg-color) !important;
 }
+ 
+
+
+.show-more {
+  cursor: pointer;
+  color: blue;
+}

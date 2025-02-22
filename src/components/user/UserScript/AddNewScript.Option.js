@@ -137,8 +137,8 @@ const AddClient = () => {
       quantityselection: "",
       quantityvalue: 0.0,
       targetselection: "",
-      Profit: 0,
-      Loss: 0,
+      Profit: "0",
+      Loss: "0",
       ExitType: "",
       WorkingDay: [],
     },
@@ -417,19 +417,11 @@ const AddClient = () => {
           errors.Shifting_Value = "Please Enter Number of Shifts Between 1-5";
         }
       }
-      if (
-        !values.Loss &&
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple"
-      ) {
+      if (values.Loss==undefined || values.Loss == "" || values.Loss==null) {
         errors.Loss = "Please Enter Maximum Loss";
       }
 
-      if (
-        !values.Profit &&
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple"
-      ) {
+      if (values.Profit ==undefined || values.Profit == "" || values.Profit==null) {
         errors.Profit = "Please Enter Maximum Loss";
       }
 
@@ -546,20 +538,9 @@ const AddClient = () => {
         quantityselection: "",
         quantityvalue: 0.0,
         targetselection: "",
-        Loss:
-          values.position_type == "Multiple" &&
-            values.Strategy == "Multi_Conditional"
-            ? values.Loss
-            : 0,
-
-        Profit:
-          values.position_type == "Multiple" &&
-            values.Strategy == "Multi_Conditional"
-            ? values.Profit
-            : 0,
-
-
-        ExitType:
+        Loss: Number(values.Loss),
+        Profit: Number(values.Profit),
+        ExitRuleO:
           values.Measurment_Type != "Shifting_FourLeg" &&
             values.ETPattern == "Leg vice"
             ? values.ExitType
@@ -623,7 +604,6 @@ const AddClient = () => {
         }
       }
 
-      console.log("req", req);
 
       await AddScript(req)
         .then((response) => {
@@ -671,8 +651,6 @@ const AddClient = () => {
               value: exchange,
             })
           );
-
-          // Update the state with the formatted options
           setExchangeOptions(formattedExchangeOptions);
           formik.setFieldValue(
             "Exchange",
@@ -1063,9 +1041,9 @@ const AddClient = () => {
         formik.values.ETPattern == "Premium Addition"
           ? [{ label: "Point", value: "Point" }]
           : [
-              { label: "Point", value: "Point" },
-              { label: "Percentage", value: "Percentage" },
-            ],
+            { label: "Point", value: "Point" },
+            { label: "Percentage", value: "Percentage" },
+          ],
       hiding: false,
       label_size: 12,
       showWhen: (value) =>
@@ -1083,7 +1061,7 @@ const AddClient = () => {
       label: "Exit Type",
       type: "select1",
       options: [
-        { label: "Cost to cost", value: "Cost to cost" },
+        { label: "Cost to Cost", value: "Cost to Cost" },
         { label: "Normal", value: "Normal" },
       ],
       showWhen: (value) =>
@@ -1143,28 +1121,7 @@ const AddClient = () => {
   ];
 
   const RiskManagementArr = [
-    // {
-    //   name: "TStype",
-    //   label: "Measurement Type",
-    //   type: "select",
-    //   options:
-    //     formik.values.ETPattern == "Premium Addition"
-    //       ? [{ label: "Point", value: "Point" }]
-    //       : [
-    //           { label: "Point", value: "Point" },
-    //           { label: "Percentage", value: "Percentage" },
-    //         ],
-    //   hiding: false,
-    //   label_size: 12,
-    //   showWhen: (value) =>
-    //     value.Measurment_Type != "Shifting_FourLeg" ||
-    //     (value.Measurment_Type == "Shifting_FourLeg" &&
-    //       (value.Strategy == "ShortFourLegStretegy" ||
-    //         value.Strategy == "LongFourLegStretegy")),
-    //   col_size: 4,
-    //   headingtype: 4,
-    //   disable: false,
-    // },
+
     {
       name: "Quantity",
       label: "Lot",
@@ -1191,6 +1148,7 @@ const AddClient = () => {
       label: "Working Day",
       type: "multiselect",
       options: [
+        { label: "Select All", value: "all" },
         { label: "Monday", value: "Monday" },
         { label: "Tuesday", value: "Tuesday" },
         { label: "Wednesday", value: "Wednesday" },
@@ -1628,7 +1586,6 @@ const AddClient = () => {
       FixedSM: "",
       TType: "",
       serendate: getEndData(formik.values.Measurment_Type),
-      // expirydata1: formik.values.Expirytype == "Weekly" ? getExpiry && getExpiry.data[0] : formik.values.Expirytype == "Next Week" ? getExpiry && getExpiry.data[1] : getExpiry && getExpiry.data[2],
       expirydata1: getExpiry && getExpiry.data[0],
 
       Expirytype: formik.values.Expirytype,

@@ -30,6 +30,9 @@ const AddClient = () => {
     }
   };
 
+
+  console.log("location", location.state);
+
   const SweentAlertFun = (text) => {
     Swal.fire({
       background: "#1a1e23 ",
@@ -99,6 +102,7 @@ const AddClient = () => {
       Shifting_Point: 1,
       Profit: 0,
       Loss: 0,
+      ExitType: "",
       WorkingDay: [],
     },
     validate: (values) => {
@@ -386,25 +390,24 @@ const AddClient = () => {
         }
       }
 
-      if (
-        !values.Loss &&
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple"
-      ) {
+      if (values.Loss==undefined || values.Loss == "" || values.Loss == null) {
         errors.Loss = "Please Enter Maximum Loss";
       }
 
-      if (
-        !values.Profit &&
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple"
-      ) {
+      if (values.Profit==undefined || values.Profit == "" || values.Profit == null) {
         errors.Profit = "Please Enter Maximum Loss";
       }
 
-      
       if (!values.WorkingDay.length > 0) {
         errors.WorkingDay = "Please select Working day";
+      }
+
+      if (
+        !values.ExitType &&
+        values.Measurment_Type != "Shifting_FourLeg" &&
+        values.ETPattern == "Leg vice"
+      ) {
+        errors.ExitType = "Please Select Exit Type";
       }
 
       // ScrollToViewFirstError(errors);
@@ -536,17 +539,8 @@ const AddClient = () => {
         TradeCount: values.Trade_Count,
         TradeExecution: values.Trade_Execution,
         stretegytag: values.Measurment_Type,
-        Loss:
-          values.position_type == "Multiple" &&
-          values.Strategy == "Multi_Conditional"
-            ? values.Loss
-            : 0,
-
-        Profit:
-          values.position_type == "Multiple" &&
-          values.Strategy == "Multi_Conditional"
-            ? values.Profit
-            : 0,
+        Loss: values.Loss,
+        Profit: values.Profit,
       
         WorkingDay: values.WorkingDay
           ? values?.WorkingDay?.map((item) => item?.value || item)
@@ -646,6 +640,10 @@ const AddClient = () => {
   });
 
   useEffect(() => {
+
+    const workingDay = location?.state?.data?.WorkingDay?.map((item) => ({ label: item, value: item }));
+
+
     formik.setFieldValue(
       "Measurment_Type",
       location.state.data.STG == "ShortStrangle" ||
@@ -716,6 +714,9 @@ const AddClient = () => {
     formik.setFieldValue("PEDeepLower", location.state.data.PEDeepLower);
     formik.setFieldValue("PEDeepHigher", location.state.data.PEDeepHigher);
     formik.setFieldValue("Shifting_Point", location.state.data["Target value"]);
+    formik.setFieldValue("Profit", location.state.data.Profit);
+    formik.setFieldValue("Loss", location.state.data.Loss);
+    formik.setFieldValue("WorkingDay", workingDay);
   }, []);
 
   const SymbolSelectionArr = [
@@ -1021,6 +1022,25 @@ const AddClient = () => {
       headingtype: 3,
       disable: false,
     },
+
+    {
+      name: "ExitType",
+      label: "Exit Type",
+      type: "select1",
+      options: [
+        { label: "Cost to Cost", value: "Cost to Cost" },
+        { label: "Normal", value: "Normal" },
+      ],
+      showWhen: (value) =>
+        value.Measurment_Type != "Shifting_FourLeg" &&
+        value.ETPattern == "Leg vice",
+      hiding: false,
+      label_size: 12,
+      col_size: formik.values.Measurment_Type != "Shifting_FourLeg" ? 3 : 4,
+      headingtype: 3,
+      disable: false,
+    },
+
     {
       name: "Targetvalue",
       label: "Target Value",
@@ -1116,6 +1136,7 @@ const AddClient = () => {
       label: "Working Day",
       type: "multiselect",
       options: [
+        { label: "Select All", value: "all" },
         { label: "Monday", value: "Monday" },
         { label: "Tuesday", value: "Tuesday" },
         { label: "Wednesday", value: "Wednesday" },
@@ -1165,6 +1186,7 @@ const AddClient = () => {
       headingtype: 5,
       disable: false,
     },
+
     {
       name: "ExitTime",
       label: "Exit Time",
@@ -1176,6 +1198,7 @@ const AddClient = () => {
 
       disable: false,
     },
+
     {
       name: "ExitDay",
       label: "Exit Day",
@@ -1190,7 +1213,6 @@ const AddClient = () => {
       headingtype: 5,
       disable: false,
     },
-    
   ];
 
   const OtherParameterArr = [

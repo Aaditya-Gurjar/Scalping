@@ -150,6 +150,56 @@ export const columns6 = [
     },
   },
   {
+    name: "Symbol",
+    label: "Symbol",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "TType",
+    label: "Trade Type",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Targetselection",
+    label: "Target Selection",
+    options: {
+        filter: true,
+        sort: true,
+    }
+},
+{
+  name: "Quantity",
+  label: "Quantity",
+  options: {
+    filter: true,
+    sort: true,
+  },
+},
+{
+  name: "Booking Point",
+  label: "Target",
+  options: {
+    filter: true,
+    sort: true,
+  },
+},
+{
+  name: "Re-entry Point",
+  label: "Re-entry",
+  options: {
+    filter: true,
+    sort: true,
+  },
+},
+
+
+  {
     name: "ScalpType",
     label: "ScalpType",
     options: {
@@ -165,14 +215,7 @@ export const columns6 = [
       sort: true,
     },
   },
-  {
-    name: "Symbol",
-    label: "Symbol",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
+ 
   {
     name: "Token",
     label: "Token",
@@ -181,22 +224,8 @@ export const columns6 = [
       sort: true,
     },
   },
-  {
-    name: "TType",
-    label: "Trade Type",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
-    name: "Quantity",
-    label: "Quantity",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
+  
+ 
 
   {
     name: "ExpiryDate",

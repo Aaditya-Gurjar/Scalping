@@ -175,8 +175,8 @@ const AddClient = () => {
           values.Slvalue == 0
             ? "Stoploss can not be Zero"
             : Number(values.Slvalue) < 0
-            ? "Stoploss can not be Negative"
-            : "Please Enter Stoploss Value.";
+              ? "Stoploss can not be Negative"
+              : "Please Enter Stoploss Value.";
       }
       if (
         !values.Targetvalue ||
@@ -187,8 +187,8 @@ const AddClient = () => {
           values.Targetvalue == 0
             ? "Target can not be Zero"
             : Number(values.Targetvalue) < 0
-            ? "Target can not be Negative"
-            : "Please Enter Target Value.";
+              ? "Target can not be Negative"
+              : "Please Enter Target Value.";
       }
       if (!values.TType) {
         errors.TType = "Please Enter Transaction Type.";
@@ -207,15 +207,13 @@ const AddClient = () => {
       } else if (
         values.EntryTime < (values.Exchange === "MCX" ? mcxMinTime : minTime)
       ) {
-        errors.EntryTime = `Entry Time Must be After ${
-          values.Exchange === "MCX" ? mcxMinTime : minTime
-        }.`;
+        errors.EntryTime = `Entry Time Must be After ${values.Exchange === "MCX" ? mcxMinTime : minTime
+          }.`;
       } else if (
         values.EntryTime > (values.Exchange === "MCX" ? mcxMaxTime : maxTime)
       ) {
-        errors.EntryTime = `Entry Time Must be Before ${
-          values.Exchange === "MCX" ? mcxMaxTime : maxTime
-        }.`;
+        errors.EntryTime = `Entry Time Must be Before ${values.Exchange === "MCX" ? mcxMaxTime : maxTime
+          }.`;
       }
 
       if (values.ExitTime == "") {
@@ -223,15 +221,13 @@ const AddClient = () => {
       } else if (
         values.ExitTime < (values.Exchange === "MCX" ? mcxMinTime : minTime)
       ) {
-        errors.ExitTime = `Exit Time Must be After ${
-          values.Exchange === "MCX" ? mcxMinTime : minTime
-        }.`;
+        errors.ExitTime = `Exit Time Must be After ${values.Exchange === "MCX" ? mcxMinTime : minTime
+          }.`;
       } else if (
         values.ExitTime > (values.Exchange === "MCX" ? mcxMaxTime : maxTime)
       ) {
-        errors.ExitTime = `Exit Time Must be Before ${
-          values.Exchange === "MCX" ? mcxMaxTime : maxTime
-        }.`;
+        errors.ExitTime = `Exit Time Must be Before ${values.Exchange === "MCX" ? mcxMaxTime : maxTime
+          }.`;
       }
 
       if (
@@ -279,7 +275,13 @@ const AddClient = () => {
         TType: values.TType,
         serendate: getEndData(values.Strategy),
         expirydata1:
-          values.Exchange == "NSE" ? getExpiryDate.data[0] : values.expirydata1,
+          values.expirydata1 == "Monthly"
+            ? getExpiryDate?.data?.[0]
+            : values.expirydata1 == "Next_Month"
+              ? getExpiryDate?.data?.[1]
+              : values.Exchange == "NSE"
+                ? getExpiryDate?.data?.[0]
+                : values.expirydata1,
         Expirytype: "",
         Striketype: "",
         DepthofStrike: 0,
@@ -416,14 +418,14 @@ const AddClient = () => {
       disable: true,
       col_size:
         formik.values.Exchange == "NFO" &&
-        (formik.values.Instrument == "FUTIDX" ||
-          formik.values.Instrument == "FUTSTK")
+          (formik.values.Instrument == "FUTIDX" ||
+            formik.values.Instrument == "FUTSTK")
           ? 3
           : formik.values.Exchange == "NFO" &&
             (formik.values.Instrument == "OPTIDX" ||
               formik.values.Instrument == "OPTSTK")
-          ? 4
-          : 6,
+            ? 4
+            : 6,
     },
     {
       name: "Instrument",
@@ -432,23 +434,23 @@ const AddClient = () => {
       options:
         formik.values.Exchange == "NFO"
           ? [
-              { label: "FUTIDX", value: "FUTIDX" },
-              { label: "FUTSTK", value: "FUTSTK" },
-              { label: "OPTIDX", value: "OPTIDX" },
-              { label: "OPTSTK", value: "OPTSTK" },
-            ]
+            { label: "FUTIDX", value: "FUTIDX" },
+            { label: "FUTSTK", value: "FUTSTK" },
+            { label: "OPTIDX", value: "OPTIDX" },
+            { label: "OPTSTK", value: "OPTSTK" },
+          ]
           : formik.values.Exchange == "MCX"
-          ? [
+            ? [
               { label: "OPTFUT", value: "OPTFUT" },
               { label: "FUTCOM", value: "FUTCOM" },
               { label: "FUTIDX", value: "FUTIDX" },
             ]
-          : formik.values.Exchange == "CDS"
-          ? [
-              { label: "OPTCUR", value: "OPTCUR" },
-              { label: "FUTCUR", value: "FUTCUR" },
-            ]
-          : [],
+            : formik.values.Exchange == "CDS"
+              ? [
+                { label: "OPTCUR", value: "OPTCUR" },
+                { label: "FUTCUR", value: "FUTCUR" },
+              ]
+              : [],
       showWhen: (values) =>
         values.Exchange == "NFO" ||
         values.Exchange == "CDS" ||
@@ -459,14 +461,14 @@ const AddClient = () => {
       disable: true,
       col_size:
         formik.values.Exchange == "NFO" &&
-        (formik.values.Instrument == "FUTIDX" ||
-          formik.values.Instrument == "FUTSTK")
+          (formik.values.Instrument == "FUTIDX" ||
+            formik.values.Instrument == "FUTSTK")
           ? 3
           : formik.values.Exchange == "NFO" &&
             (formik.values.Instrument == "OPTIDX" ||
               formik.values.Instrument == "OPTSTK")
-          ? 4
-          : 6,
+            ? 4
+            : 6,
     },
     {
       name: "Symbol",
@@ -489,14 +491,14 @@ const AddClient = () => {
       hiding: false,
       col_size:
         formik.values.Exchange == "NFO" &&
-        (formik.values.Instrument == "FUTIDX" ||
-          formik.values.Instrument == "FUTSTK")
+          (formik.values.Instrument == "FUTIDX" ||
+            formik.values.Instrument == "FUTSTK")
           ? 3
           : formik.values.Exchange == "NFO" &&
             (formik.values.Instrument == "OPTIDX" ||
               formik.values.Instrument == "OPTSTK")
-          ? 4
-          : 6,
+            ? 4
+            : 6,
       disable: false,
     },
     {
@@ -537,8 +539,14 @@ const AddClient = () => {
       name: "expirydata1",
       label: "Expiry Date",
       type: "select",
-      options:
-        getExpiryDate &&
+      options: formik.values.Exchange == "NFO" &&
+        (formik.values.Instrument == "FUTIDX" ||
+          formik.values.Instrument == "FUTSTK")
+        ? [
+          { label: "Monthly", value: "Monthly" },
+          { label: "Next Month", value: "Next_Month" },
+        ]
+        : getExpiryDate &&
         getExpiryDate.data.map((item) => ({
           label: item,
           value: item,
@@ -552,14 +560,14 @@ const AddClient = () => {
       hiding: false,
       col_size:
         formik.values.Exchange == "NFO" &&
-        (formik.values.Instrument == "FUTIDX" ||
-          formik.values.Instrument == "FUTSTK")
+          (formik.values.Instrument == "FUTIDX" ||
+            formik.values.Instrument == "FUTSTK")
           ? 3
           : formik.values.Exchange == "NFO" &&
             (formik.values.Instrument == "OPTIDX" ||
               formik.values.Instrument == "OPTSTK")
-          ? 4
-          : 4,
+            ? 4
+            : 4,
       disable: false,
     },
   ];
@@ -592,8 +600,8 @@ const AddClient = () => {
           item == "ChartingPattern"
             ? "Charting Pattern"
             : item == "CandlestickPattern"
-            ? "Candlestick Pattern"
-            : item,
+              ? "Candlestick Pattern"
+              : item,
         value: item,
       })),
       label_size: 12,
@@ -609,15 +617,15 @@ const AddClient = () => {
       options:
         formik.values.Strategy == "ChartingPattern"
           ? getChartPattern.data &&
-            getChartPattern.data.map((item) => ({
-              label: item,
-              value: item,
-            }))
+          getChartPattern.data.map((item) => ({
+            label: item,
+            value: item,
+          }))
           : getPattern.data &&
-            getPattern.data.map((item) => ({
-              label: item,
-              value: item,
-            })),
+          getPattern.data.map((item) => ({
+            label: item,
+            value: item,
+          })),
       label_size: 12,
       hiding: false,
       headingtype: 2,

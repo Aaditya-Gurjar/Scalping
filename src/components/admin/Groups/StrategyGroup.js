@@ -280,7 +280,7 @@ const Strategygroup = () => {
 
     return (
         <Contnet
-            Page_title={"📉 Strategy Group"}
+            Page_title={"📈 Strategy Group"}
             button_status={false}
             backbutton_status={true}
 

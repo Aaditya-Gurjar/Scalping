@@ -327,10 +327,10 @@ const Tradehistory = () => {
     }
   };
 
-  // Instead of a single shared state, track open/closed state for each section.
+  // Track open/closed state for each section.
   const [openSections, setOpenSections] = useState({});
 
-  // ReportSection component uses its own open state from openSections.
+  // ReportSection component.
   const ReportSection = ({ title, section, children }) => {
     const isOpen = openSections[section] || false;
 
