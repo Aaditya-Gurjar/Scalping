@@ -314,7 +314,7 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
       rowsPerPage: 5,
       rowsPerPageOptions: [5, 10, 25, 50, 100],
       fixedHeader: true,  
-      tableBodyHeight: "320px",
+      // tableBodyHeight: "320px",
       tableBodyMaxHeight: "320px",
       setCellProps: () => ({
         style: { textAlign: "center" },
