@@ -192,9 +192,9 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
                   checked={tempSelectedColumns.length === columns.length}
                   onChange={handleSelectAllChange}
                 />
-                <label className="form-check-label" htmlFor="select-all">
+                {/* <label className="form-check-label" htmlFor="select-all">
                   Select All
-                </label>
+                </label> */}
               </div>
             </div>
 

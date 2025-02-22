@@ -1465,9 +1465,9 @@ const DynamicForm = ({
                                                         }
                                                       }}
                                                     />
-                                                    <label className="form-check-label" htmlFor="defaultCheckbox">
+                                                    {/* <label className="form-check-label" htmlFor="defaultCheckbox">
                                                       Select All
-                                                    </label>
+                                                    </label> */}
                                                   </div>
                                                 </div>
                                               </div>

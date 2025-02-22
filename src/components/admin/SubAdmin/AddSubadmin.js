@@ -130,8 +130,6 @@ const AddSubadmin = () => {
         },
     });
 
-    ;
-
     const fields = [
         {
             name: "Name",
