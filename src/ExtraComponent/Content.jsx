@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { House, Tally1 } from "lucide-react";
 
+import { Plus,ArrowLeft  } from 'lucide-react';
 const Content = ({
   Page_title,
   button_title,
@@ -51,7 +51,7 @@ const Content = ({
               {backbutton_status && backbutton_title && (
                 <button
                   onClick={handleBackClick}
-                  className="btn btn-primary float-sm-end  ms-3  mt-3 mt-sm-0 "
+                  className="btn btn-primary float-sm-end  ms-3  mt-3 mt-sm-0 add"
 
                 >
                   <i
@@ -66,13 +66,12 @@ const Content = ({
               {button_status === false ? null : (
                 <Link
                   to={route}
-                  className="btn btn-primary  float-sm-end  float-start mt-3 mt-sm-0"
+                  className="btn btn-primary  mx-3 btn1"
                   style={{ padding: "10px !important" }}
                 >
-                  <i
-                    className={`fa-solid  ${button_title === "Back" ? "fa-arrow-left" : "fa-plus"
-                      } `}
-                  ></i>{" "}
+                 {button_title === "Back" ? <ArrowLeft size={20}/> : <Plus size={20} />}
+                 
+                 {" "}
                   {button_title}
                 </Link>
               )}
@@ -80,7 +79,7 @@ const Content = ({
                 <Link
                   to={route1}
                   state={state1}
-                  className="btn btn-primary  float-sm-end  float-start mt-3 mt-sm-0"
+                  className="btn btn-primary  mx-3 btn1"
                   style={{ padding: "10px !important" }}
                 >
                   <i

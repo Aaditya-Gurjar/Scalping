@@ -190,7 +190,7 @@ body.sidebar-main .iq-sidebar:hover+div.content-page {
 
 
 	body.sidebar-main-menu.sidebar-main .iq-top-navbar {
-		width: calc(100% - 54px) !important;
+		width: calc(100% - 0px) !important;
 	}
 
 	body.sidebar-main-menu.sidebar-main .iq-top-navbar.fixed-header {
