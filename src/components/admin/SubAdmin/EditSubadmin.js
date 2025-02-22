@@ -289,7 +289,6 @@ const EditSubadmin = () => {
       return errors;
     },
     onSubmit: async (values) => {
-      console.log("Val;ues are ", values);
 
       const req = {
         Username: values.Username,

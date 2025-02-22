@@ -327,7 +327,6 @@ confirmButtonColor: "#1ccc8a",
                             <div className='mb-3 col-lg-3'>
                                 <input type="text" className=' form-control rounded p-1 px-2' placeholder="Search..." onChange={(e) => setSearchInput(e.target.value)} value={searchInput} />
                             </div>
-                            {console.log("clientService.data", clientService.data)}
                              
                             {
                                 clientService.data && clientService.data.length > 0 ? 

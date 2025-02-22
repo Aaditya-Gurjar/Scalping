@@ -34,7 +34,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         PremiumRotation: []
     });
 
-    console.log("getAllService", getAllService)
 
     useEffect(() => {
         GetUserAllScripts()
@@ -96,7 +95,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
             timerProgressBar: true
         });
     }
-    console.log("getAllService", getAllService)
 
     const handleDelete = async (rowData, type) => {
         console.log("data", data)

@@ -326,6 +326,13 @@ const Sidebar = () => {
             label: 'Trade Report',
             permission: [] // No restriction
         },
+
+        {
+            path: 'Group',
+            icon: <i className="la la-users" />,
+            label: 'Group',
+            permission: [] // No restriction
+        },
     ];
 
 

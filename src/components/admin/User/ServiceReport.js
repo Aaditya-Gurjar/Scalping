@@ -503,7 +503,6 @@ const Userlog = () => {
         setStrategyType(StrategyType || 'Scalping')
     }, []);
 
-    console.log("getUserData", getUserData)
 
     const handleModal = async (rowIndex) => {
         const data = { Data: selectStrategyType, Username: rowIndex?.Username }

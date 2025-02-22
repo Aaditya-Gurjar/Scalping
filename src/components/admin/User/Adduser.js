@@ -28,7 +28,6 @@ const Adduser = () => {
 
 
     const [GetAllPlans, setAllPlans] = useState({ LivePlanName: [], DemoPlanName: [], data: [] });
-    console.log("GetAllPlans",GetAllPlans);
     
 
 
@@ -127,8 +126,7 @@ const Adduser = () => {
     const GetAllPlansData = async () => {
         await Get_All_Plans()
             .then((response) => {
-                console.log("GetAllPlansData",response);
-                
+               
                 if (response.Status) {
                     const LivePlanName = [
                         ...response.Admin.filter((item) => item.PlanName !== 'One Week Demo' && item.PlanName !== 'Two Days Demo'),

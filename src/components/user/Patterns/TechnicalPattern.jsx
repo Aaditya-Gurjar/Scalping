@@ -50,7 +50,7 @@ const LastPattern = () => {
     loading: true,
     data: "",
   });
-  console.log("getSingleChartImg", getSingleChartImg);
+
   const [chartingPatternNames, setChartingPatternNames] = useState({
     loading: true,
     data: [],
@@ -200,7 +200,6 @@ const LastPattern = () => {
     await GetSingleChart(data)
       .then((response) => {
         if (response.status) {
-          console.log("response", response);
           setSingleChartImg({ loading: false, data: response.image_data });
         } else {
           setSingleChartImg({ loading: false, data: [] });
@@ -236,7 +235,7 @@ const LastPattern = () => {
   }, [selectedPatternType]);
 
   return (
-    <div className="container-fluid" style={{marginTop:"2rem"}}>
+    <div className="container-fluid" style={{ marginTop: "2rem" }}>
       <div className="row">
         <div className="col-sm-12">
           <div className="iq-card">
@@ -392,25 +391,24 @@ const LastPattern = () => {
             </div>
 
             <div className="table-responsive">
-              {selectedPatternType === "Candlestick Patterns" ? (
-                getCandlestickTable?.data2 &&
-                getCandlestickTable.data2.length > 0 && (
-
-                  <FullDataTable
-                    columns={columns1()}
-                    data={getCandlestickTable.data2}
-                    checkBox={false}
-                  />
-                ) 
-              ) : ChartPatternTableData?.PatternData &&
-                ChartPatternTableData.PatternData.length > 0 && (
-                <FullDataTable
-                  columns={columns()}
-                  data={ChartPatternTableData.PatternData}
-                  onRowSelect={handleRowSelect}
-                  checkBox={true}
-                />
-              ) }
+              {selectedPatternType === "Candlestick Patterns"
+                ? getCandlestickTable?.data2 &&
+                  getCandlestickTable.data2.length > 0 && (
+                    <FullDataTable
+                      columns={columns1()}
+                      data={getCandlestickTable.data2}
+                      checkBox={false}
+                    />
+                  )
+                : ChartPatternTableData?.PatternData &&
+                  ChartPatternTableData.PatternData.length > 0 && (
+                    <FullDataTable
+                      columns={columns()}
+                      data={ChartPatternTableData.PatternData}
+                      onRowSelect={handleRowSelect}
+                      checkBox={true}
+                    />
+                  )}
             </div>
 
             {showCandle && (

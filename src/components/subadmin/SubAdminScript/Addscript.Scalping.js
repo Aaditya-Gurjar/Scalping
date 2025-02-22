@@ -541,7 +541,6 @@ const AddClient = () => {
   // }, [formik.values.Exchange]);
 
   useEffect(() => {
-    console.log("testing")
     if (formik.values.Exchange !== 'MCX') {
       formik.setFieldValue('ExitTime', '15:15:00');
       formik.setFieldValue('EntryTime', '09:15:00');

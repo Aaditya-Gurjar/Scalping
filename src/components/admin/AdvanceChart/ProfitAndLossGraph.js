@@ -54,7 +54,6 @@ const ProfitAndLossGraph = ({ data }) => {
 
   useEffect(() => {
     if (data && data.length > 0) {
-      console.log("🔍 Full Data:", data);
 
       const firstTime = new Date(data[0].ETime); // Correctly parse full timestamp
       const oneHourLater = new Date(firstTime.getTime() + 60 * 60 * 1000);

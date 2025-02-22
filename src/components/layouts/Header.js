@@ -176,7 +176,6 @@ const Header = () => {
 
   const handleToggle = async (value) => {
     const newStatus = value;
-    console.log("newStatus", newStatus)
 
     if (newStatus == true) {
       const requestData = {
