@@ -351,6 +351,7 @@ const ServicesList = () => {
                       )}
                     </div>
                     <h3 className="allplan-card-subtitle">
+                    <strong>Price:</strong>
                       <FaRupeeSign /> {plan.payment}
                     </h3>
                     <h3 className="allplan-card-subtitle">
