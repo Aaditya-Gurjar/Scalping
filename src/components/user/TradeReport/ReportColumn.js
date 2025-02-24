@@ -168,7 +168,7 @@ export const getColumns1 = () => [
         }
     },
 
-    
+
     {
         name: "STG",
         label: "Strategy Type",
@@ -211,7 +211,7 @@ export const getColumns1 = () => [
             sort: true,
         }
     },
-    
+
 
     {
         name: "Expirytype",
@@ -668,8 +668,8 @@ export const getColumns9 = () => [
     },
 
     {
-        name: "Lot",
-        label: "Quantity",
+        name: "Quantity",
+        label: "Lot",
         options: {
             filter: true,
             sort: true,
@@ -723,7 +723,7 @@ export const getColumns9 = () => [
             sort: true,
         }
     },
-    
+
     {
         name: "Token",
         label: "Token",
@@ -732,8 +732,8 @@ export const getColumns9 = () => [
             sort: true,
         }
     },
-    
-    
+
+
 
     {
         name: "ExpiryDate",
@@ -812,7 +812,7 @@ export const getColumns9 = () => [
     },
     {
         name: "StepUp",
-        label: "StepUp",
+        label: "Step Up",
         options: {
             filter: true,
             sort: true,
@@ -824,6 +824,7 @@ export const getColumns9 = () => [
         options: {
             filter: true,
             sort: true,
+            customBodyRender: (value) => value ? value : "-"
         }
     },
     {
@@ -834,7 +835,7 @@ export const getColumns9 = () => [
             sort: true,
         }
     },
-    
+
     {
         name: "Booking Point2",
         label: "Booking Point2",
@@ -889,6 +890,227 @@ export const getColumns9 = () => [
             },
         },
     },
+    {
+        name: "TStype",
+        label: "Measurement Type",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "PositionType",
+        label: "Position Type",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Trading",
+        label: "Trading",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => value ? "true" : "false"
+        }
+    },
+    {
+        name: "Profit",
+        label: "Profit",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Loss",
+        label: "Loss",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "HoldExit",
+        label: "Hold / Exit",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Instrument Symbol",
+        label: "Instrument Symbol",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Username",
+        label: "Username",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "EntryPrice",
+        label: "Entry Price",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "EntryRange",
+        label: "Entry Range",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "GroupN",
+        label: "GroupN",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "TaskStatus",
+        label: "Task Status",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Instrument Type",
+        label: "Instrument Type",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "MainSymbol",
+        label: "Main Symbol",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Expirytype",
+        label: "Expiry Type",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => value ? value : "-"
+        }
+    },
+    {
+        name: "OrderType",
+        label: "OrderType",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "RolloverTF",
+        label: "Rollover TF",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => value ? "true" : "false"
+        }
+    },
+    {
+        name: "RolloverDay",
+        label: "Rollover Day",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => value ? value : "-"
+        }
+    },
+    {
+        name: "RolloverTime",
+        label: "Rollover Time",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => value ? value : "-"
+        }
+    },
+    {
+        name: "TargetExit",
+        label: "Target Exit",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => value ? "true" : "false"
+        }
+    },
+    {
+        name: "RepeatationCount",
+        label: "Repeatation Count",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Token1",
+        label: "Token1",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "MatchPosition",
+        label: "Match Position",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => value ? "true" : "false"
+        }
+    },
+    {
+        name: "WorkingDay",
+        label: "Working Day",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => {
+                if (!value || (Array.isArray(value) && value.length === 0)) {
+                    return "-";
+                }
+                if (Array.isArray(value)) {
+                    if (value.length && typeof value[0] === "object" && value[0].label) {
+                        return value.map((day) => day.label).join(", ");
+                    }
+                    // Fallback: if it's an array of strings
+                    return value.join(", ");
+                }
+                return value;
+            },
+        },
+    },
+    {
+        name: "FinalTarget",
+        label: "Final Target",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+
 
 ]
 

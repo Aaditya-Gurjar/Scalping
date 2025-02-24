@@ -115,6 +115,8 @@ const Tradehistory = () => {
           Data: selectStrategyType,
           Username,
         });
+        console.log("fetchTradeHistory",response);
+        
         setTradeHistory(
           response.Status
             ? {

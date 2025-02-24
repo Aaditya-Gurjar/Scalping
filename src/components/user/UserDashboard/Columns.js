@@ -141,7 +141,7 @@ const DropdownComponent = ({ tableMeta, handleDelete, type, handleMatchPosition,
                             <li
                                 onClick={() =>
                                     navigate("/user/tradereport", {
-                                        state: { type, RowIndex: tableMeta?.rowIndex , goto: "dashboard" },
+                                        state: { type, RowIndex: tableMeta?.rowIndex, goto: "dashboard" },
                                     })
                                 }
                                 style={{ padding: "8px 16px", cursor: "pointer", color: "#fff" }}
@@ -1635,14 +1635,14 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
-    // {
-    //     name: "LowerRange",
-    //     label: "Lower Range",
-    //     options: {
-    //         filter: true,
-    //         sort: true,
-    //     }
-    // },
+    {
+        name: "LowerRange",
+        label: "Lower Range",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
     // {
     //     name: "HigherRange",
     //     label: "Higher Range",
@@ -1661,7 +1661,7 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
     },
     {
         name: "TaskTime",
-        label: "TaskTime",
+        label: "Task Time",
         options: {
             filter: true,
             sort: true,
@@ -1675,6 +1675,161 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
+    {
+        name: "CEDeepHigher",
+        label: "CE Deep Higher",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "CEDeepLower",
+        label: "CE Deep Lower",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "CEDepthHigher",
+        label: "CE Depth Higher",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "CEDepthLower",
+        label: "CE Depth Lower",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "ExitRuleO",
+        label: "Exit Rule O",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "FixedSM",
+        label: "Fixed SM",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender:(value)=>value?value:"-"
+        }
+    },
+    {
+        name: "GroupN",
+        label: "Group N",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender:(value)=>value?value:"-"
+        }
+    },
+    {
+        name: "HigherRange",
+        label: "Higher Range",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "MainSymbol",
+        label: "Main Symbol",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "PEDeepHigher",
+        label: "PE Deep Higher",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "PEDeepLower",
+        label: "PE Deep Lower",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "PEDepthHigher",
+        label: "PE Depth Higher",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "PEDepthLower",
+        label: "PE Depth Lower",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Profit",
+        label: "Profit",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Spread",
+        label: "Spread",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Username",
+        label: "Username",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "WorkingDay",
+        label: "Working Day",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => {
+
+                if (!value || (Array.isArray(value) && value.length === 0)) {
+                    return "-";
+                }
+                if (Array.isArray(value)) {
+                    if (value.length && typeof value[0] === "object" && value[0].label) {
+                        return value.map((day) => day.label).join(", ");
+                    }
+                    // Fallback: if it's an array of strings
+                    return value.join(", ");
+                }
+                return value;
+            },
+        },
+    },
+
+
+
 
 ];
 
@@ -1875,7 +2030,7 @@ export const
         },
         {
             name: "Quantity",
-            label: "Quantity",
+            label: "Lot",
             options: {
                 filter: true,
                 sort: true,
@@ -1956,6 +2111,55 @@ export const
                 sort: true,
             }
         },
+        {
+            name: "Instrument Type",
+            label: "Instrument Type",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "MainSymbol",
+            label: "Main Symbol",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "TaskStatus",
+            label: "Task Status",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "TaskTime",
+            label: "Task Time",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "Trend",
+            label: "Trend",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "Username",
+            label: "Username",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+
     ];
 
 
@@ -1972,7 +2176,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             }
         },
     },
-    
+
     {
         name: "Trading",
         label: "Trading",
@@ -1984,14 +2188,14 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
                 const labelStyle = value ? { backgroundColor: 'green', color: 'white' } : { backgroundColor: 'red', color: 'white' };
 
                 return (
-              
-                    label === "Continue" ? (
-                        <button style={{width:"7rem"}} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-success">{label}</button> ) :(
-                            <button style={{width:"7rem"}} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-danger">{label}</button>
-                        )
 
-                    
-                 
+                    label === "Continue" ? (
+                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-success">{label}</button>) : (
+                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-danger">{label}</button>
+                    )
+
+
+
                 );
             }
         }
@@ -2015,7 +2219,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
         }
     },
 
-   
+
     {
         name: "Targetselection",
         label: "Target Selection",
@@ -2059,14 +2263,14 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
         },
     },
 
-    // {
-    //     name: "ScalpType",
-    //     label: "Scalp Type",
-    //     options: {
-    //         filter: true,
-    //         sort: true,
-    //     }
-    // },
+    {
+        name: "ScalpType",
+        label: "Scalp Type",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
 
     {
         name: "Exchange",
@@ -2106,6 +2310,14 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
     {
         name: "Token",
         label: "Token",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Token1",
+        label: "Token 1",
         options: {
             filter: true,
             sort: true,
@@ -2243,7 +2455,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
     },
     {
         name: "StepUp",
-        label: "StepUp",
+        label: "Step Up",
         options: {
             filter: true,
             sort: true,
@@ -2298,6 +2510,230 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
+    {
+        name: "Target value",
+        label: "Target value",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => value ? value : "-"
+        }
+    },
+    {
+        name: "SL value",
+        label: "Re-entry",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "ExitDay",
+        label: "Product Type",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "TradeExecution",
+        label: "Trade Execution",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "IName",
+        label: "IName",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Expirytype",
+        label: "Expiry Type",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => value ? value : "-"
+        }
+    },
+    {
+        name: "FinalTarget",
+        label: "Final Target",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "HoldExit",
+        label: "Hold / Exit",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Incrementvalue",
+        label: "Increment Value",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Instrument Type",
+        label: "Instrument Type",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Loss",
+        label: "Loss",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "MainSymbol",
+        label: "Main Symbol",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "MatchPosition",
+        label: "Match Position",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => value ? "true" : "false"
+        }
+    },
+    {
+        name: "OrderType",
+        label: "Order Type",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "PositionType",
+        label: "Position Type",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Profit",
+        label: "Profit",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "RepeatationCount",
+        label: "Repeatation Count",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "RolloverDay",
+        label: "Rollover Day",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => value ? value : "-"
+        }
+    },
+    {
+        name: "RolloverTF",
+        label: "Rollover TF",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => value ? "true" : "false"
+        }
+    },
+    {
+        name: "RolloverTime",
+        label: "Rollover Time",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => value ? value : "-"
+        }
+    },
+    {
+        name: "TargetExit",
+        label: "Target Exit",
+        options: {
+            filter: true,
+            sort: true,
+             customBodyRender: (value) => value ? "true" : "false"
+        }
+    },
+    {
+        name: "TaskStatus",
+        label: "Task Status",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "TaskTime",
+        label: "Task Time",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Username",
+        label: "Username",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "WorkingDay",
+        label: "Working Day",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => {
+                if (!value || (Array.isArray(value) && value.length === 0)) {
+                    return "-";
+                }
+                if (Array.isArray(value)) {
+                    if (value.length && typeof value[0] === "object" && value[0].label) {
+                        return value.map((day) => day.label).join(", ");
+                    }
+                    // Fallback: if it's an array of strings
+                    return value.join(", ");
+                }
+                return value;
+            },
+        },
+    },
+
+
+
+
 ];
 
 export const getColumns8 = (handleContinutyDiscontinuty) => [

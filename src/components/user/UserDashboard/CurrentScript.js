@@ -662,6 +662,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
     await GetAllUserScript(data)
       .then((response) => {
         if (response.Status) {
+          // console.log("GetAllUserScriptDetails",response);
+          
           setAllservice({
             loading: false,
             ScalpingData: response.Scalping,
