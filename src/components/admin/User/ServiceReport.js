@@ -158,7 +158,39 @@ const Userlog = () => {
                 sort: true,
             }
         },
-
+        {
+            name: "MCX",
+            label: "MCX",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "CDS",
+            label: "CDS",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "Candlestickpattern",
+            label: "Candlestickpattern",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "ChartPattern",
+            label: "ChartPattern",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        
 
     ];
 
@@ -500,6 +532,23 @@ const Userlog = () => {
                 sort: true,
             }
         },
+        {
+            name: "MCX",
+            label: "MCX",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "CDS",
+            label: "CDS",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+
 
     ];
 

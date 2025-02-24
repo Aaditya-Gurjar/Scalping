@@ -80,12 +80,21 @@ const Strategygroup = () => {
             }
         },
         {
-            name: "Message ",
+            name: "Message",
             label: "Message",
             options: {
                 filter: true,
                 sort: true,
                 width: '20%'
+            }
+        },
+        {
+            name: "SubAdmin",
+            label: "SubAdmin",
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value) => value || '-'
             }
         },
     ];

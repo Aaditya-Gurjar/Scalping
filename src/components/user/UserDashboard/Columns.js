@@ -1547,7 +1547,7 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
     },
     {
         name: "SL value",
-        label: "Re-entry",
+        label: "Stoploss",
         options: {
             filter: true,
             sort: true,
@@ -1563,7 +1563,7 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
     },
     {
         name: "Lot Size",
-        label: "Quantity",
+        label: "Lot",
         options: {
             filter: true,
             sort: true,

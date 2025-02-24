@@ -187,6 +187,51 @@ const AllSubadmin = () => {
             }
         },
 
+        {
+            name: 'CreateDate',
+            label: 'Create Date',
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value) => value || '-'
+            }
+        },
+        {
+            name: 'Key',
+            label: 'Key',
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value) => value || '-'
+            }
+        },
+        {
+            name: 'Permission',
+            label: 'Permission',
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value) => {
+                    if (Array.isArray(value)) {
+                        return (
+                            <>
+                                {value.map((item, index) => (
+                                    <React.Fragment key={index}>
+                                        {item}
+                                        {(index + 1) % 3 === 0 ? <br /> : ", "}
+                                    </React.Fragment>
+                                ))}
+                            </>
+                        );
+                    }
+                    return value || '-';
+                }
+            }
+        }
+        
+        
+        
+
 
 
     ];
