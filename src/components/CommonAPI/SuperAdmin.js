@@ -361,7 +361,6 @@ export const apiCreateInfo = async (data) => {
         formData.append('step5', data.step5);
         formData.append('step5image', data.step5image);
 
-        console.log("formData", formData)
 
         const res = await axios.post(`${Config.superAdmin_base_url}BrokerApiCreate`, formData,
             {

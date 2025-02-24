@@ -28,7 +28,6 @@ ChartJS.register(
 
 const ChartComponent = ({ data }) => {
   const [timeFormat, setTimeFormat] = useState("minute");
-  console.log("data", data)
   // Chart data from passed `data` prop
   const chartData = {
     labels: data?.map((item) => new Date(item?.ETime || item?.ExitTime || Date.now())), // Fallback to current time if ETime or ExitTime is missing

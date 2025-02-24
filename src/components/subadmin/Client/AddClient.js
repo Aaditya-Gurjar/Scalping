@@ -30,7 +30,7 @@ const Adduser = () => {
 
 
 
-    console.log("getGroupData", getGroupData)
+   
     useEffect(() => {
         getBrokerName()
         GetAllGroupDetails()
