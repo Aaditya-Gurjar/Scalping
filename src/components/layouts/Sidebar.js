@@ -6,10 +6,10 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import { useSidebar } from "./SidebarContext";
 
-const Sidebar = ({position}) => {
+const Sidebar = ({ position }) => {
   const role = localStorage.getItem("Role");
   const [isActive, setIsActive] = useState(true);
-//   const [activeItem, setActiveItem] = useState("");
+  //   const [activeItem, setActiveItem] = useState("");
   const sidebarRef = useRef(null);
   const fevicon = localStorage.getItem("fevicon");
   const header_img1 = localStorage.getItem("header_img1");
@@ -132,7 +132,7 @@ const Sidebar = ({position}) => {
       permission: [],
     },
   ];
-  
+
   const adminSideBaar = [
     {
       path: "/admin/dashboard",
@@ -176,14 +176,9 @@ const Sidebar = ({position}) => {
       label: "User Panel Log",
       permission: [],
     },
-    {
-      path: "/admin/servicreport",
-      icon: <i className="la la-cog" />, // Service Report icon
-      label: "Service Report",
-      permission: [],
-    },
+
   ];
-  
+
   const superAdmin = [
     {
       path: "/superadmin/dashboard",
@@ -216,7 +211,7 @@ const Sidebar = ({position}) => {
       permission: [],
     },
   ];
-  
+
   const userSidebarItems = [
     {
       path: "/user/dashboard",
@@ -248,12 +243,12 @@ const Sidebar = ({position}) => {
       label: "Trade Report",
       permission: [],
     },
-    {
-      path: 'Group',
-      icon: <i className="la la-users" />,
-      label: 'Group',
-      permission: [] // No restriction
-  },
+    //   {
+    //     path: 'Group',
+    //     icon: <i className="la la-users" />,
+    //     label: 'Group',
+    //     permission: [] // No restriction
+    // },
   ];
 
 
@@ -285,7 +280,7 @@ const Sidebar = ({position}) => {
 
   const getSidebarItems = () => {
 
-  
+
 
     switch (role) {
       case "Admin":
@@ -301,24 +296,24 @@ const Sidebar = ({position}) => {
 
   return (
     <div className="iq-sidebar" onClick={() => sessionStorage.clear()}>
-    <div className="iq-sidebar-logo d-flex justify-content-between"></div>
-    <div
-      id="sidebar-scrollbar"
-      data-scrollbar="true"
-      tabIndex={-1}
-      style={{ overflow: "hidden", outline: "none" }}
-    >
-      <div className="scroll-content">
-        <nav ref={sidebarRef} className="iq-sidebar-menu">
-          <ul className="iq-menu">{getSidebarItems()}</ul>
-        </nav>
-        <div className="p-3" />
-      </div>
-      <div className="scrollbar-track scrollbar-track-y" style={{ display: "block" }}>
-        <div className="scrollbar-thumb scrollbar-thumb-y" style={{ height: "84.57px" }} />
+      <div className="iq-sidebar-logo d-flex justify-content-between"></div>
+      <div
+        id="sidebar-scrollbar"
+        data-scrollbar="true"
+        tabIndex={-1}
+        style={{ overflow: "hidden", outline: "none" }}
+      >
+        <div className="scroll-content">
+          <nav ref={sidebarRef} className="iq-sidebar-menu">
+            <ul className="iq-menu">{getSidebarItems()}</ul>
+          </nav>
+          <div className="p-3" />
+        </div>
+        <div className="scrollbar-track scrollbar-track-y" style={{ display: "block" }}>
+          <div className="scrollbar-thumb scrollbar-thumb-y" style={{ height: "84.57px" }} />
+        </div>
       </div>
     </div>
-  </div>
   );
 };
 
