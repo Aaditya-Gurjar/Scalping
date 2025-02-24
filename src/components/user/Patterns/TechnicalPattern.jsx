@@ -237,7 +237,7 @@ const LastPattern = () => {
         backbutton_status={true}
       >
         <div className="row">
-        
+
           <div className="col-xl-12">
             <div className="row">
               <div className={`col-md-3`}>
@@ -298,11 +298,10 @@ const LastPattern = () => {
                 ""
               ) : (
                 <div
-                  className={`${
-                    selectedPatternType == "Charting Patterns"
+                  className={`${selectedPatternType == "Charting Patterns"
                       ? "col-md-2"
                       : "col-md-3"
-                  }`}
+                    }`}
                 >
                   <div className="form-group">
                     <label>Script</label>
@@ -319,11 +318,10 @@ const LastPattern = () => {
                 </div>
               )}
               <div
-                className={`${
-                  selectedPatternType == "Charting Patterns"
+                className={`${selectedPatternType == "Charting Patterns"
                     ? "col-md-2"
                     : "col-md-3"
-                }`}
+                  }`}
               >
                 <div className="form-group">
                   <label>Time Frame</label>
@@ -342,11 +340,10 @@ const LastPattern = () => {
                 </div>
               </div>
               <div
-                className={`${
-                  selectedPatternType == "Charting Patterns"
+                className={`${selectedPatternType == "Charting Patterns"
                     ? "col-md-2"
                     : "col-md-3"
-                }`}
+                  }`}
               >
                 <div className="form-group">
                   <label>Select Specific Pattern</label>
@@ -373,48 +370,48 @@ const LastPattern = () => {
 
 
           <div className="container-fluid">
-  <div className="row justify-content-center">
-    {getSingleChartImg?.data?.length === 0 ? null : (
-      <div className="col-12">
-        <div
-          className="card p-3"
-          style={{
-            maxHeight: "auto",
-            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-          }}
-        >
-          <div className="row g-0 align-items-center">
-            {/* Left Side - Text Content */}
-            <div className="col-12 col-md-6 p-3">
-              <h3>
-                Pattern: {getSingleChartImg?.data[0]?.Pattern || "N/A"}
-              </h3>
-              <h3>
-                Pattern Type: {getSingleChartImg?.data[0]?.PatternType || "N/A"}
-              </h3>
-              <h5 className="mt-3">Description</h5>
-              <p>{getSingleChartImg?.data[0]?.Description || "N/A"}</p>
-            </div>
+            <div className="row justify-content-center">
+              {getSingleChartImg?.data?.length === 0 ? null : (
+                <div className="col-12">
+                  <div
+                    className="card p-3"
+                    style={{
+                      maxHeight: "auto",
+                      boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                    }}
+                  >
+                    <div className="row g-0 align-items-center">
+                      {/* Left Side - Text Content */}
+                      <div className="col-12 col-md-6 p-3">
+                        <h3>
+                          Pattern: {getSingleChartImg?.data[0]?.Pattern || "N/A"}
+                        </h3>
+                        <h3>
+                          Pattern Type: {getSingleChartImg?.data[0]?.PatternType || "N/A"}
+                        </h3>
+                        <h5 className="mt-3">Description</h5>
+                        <p>{getSingleChartImg?.data[0]?.Description || "N/A"}</p>
+                      </div>
 
-            {/* Right Side - Image */}
-            <div className="col-12 col-md-6 d-flex align-items-center justify-content-center p-2">
-              <img
-                src={`data:image/png;base64,${getSingleChartImg?.data[0]?.image_data}`}
-                className="img-fluid rounded shadow"
-                alt="Pattern Image"
-                style={{
-                  width: "100%",
-                  maxHeight: "300px",
-                  objectFit: "contain",
-                }}
-              />
+                      {/* Right Side - Image */}
+                      <div className="col-12 col-md-6 d-flex align-items-center justify-content-center p-2">
+                        <img
+                          src={`data:image/png;base64,${getSingleChartImg?.data[0]?.image_data}`}
+                          className="img-fluid rounded shadow"
+                          alt="Pattern Image"
+                          style={{
+                            width: "100%",
+                            maxHeight: "300px",
+                            objectFit: "contain",
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
-        </div>
-      </div>
-    )}
-  </div>
-</div>
 
 
 
@@ -422,22 +419,22 @@ const LastPattern = () => {
           <div className="col-xl-12 mt-3">
             {selectedPatternType === "Candlestick Patterns"
               ? getCandlestickTable?.data2 &&
-                getCandlestickTable.data2.length > 0 && (
-                  <FullDataTable
-                    columns={columns1()}
-                    data={getCandlestickTable.data2}
-                    checkBox={false}
-                  />
-                )
+              getCandlestickTable.data2.length > 0 && (
+                <FullDataTable
+                  columns={columns1()}
+                  data={getCandlestickTable.data2}
+                  checkBox={false}
+                />
+              )
               : ChartPatternTableData?.PatternData &&
-                ChartPatternTableData.PatternData.length > 0 && (
-                  <FullDataTable
-                    columns={columns()}
-                    data={ChartPatternTableData.PatternData}
-                    onRowSelect={handleRowSelect}
-                    checkBox={true}
-                  />
-                )}
+              ChartPatternTableData.PatternData.length > 0 && (
+                <FullDataTable
+                  columns={columns()}
+                  data={ChartPatternTableData.PatternData}
+                  onRowSelect={handleRowSelect}
+                  checkBox={true}
+                />
+              )}
           </div>
 
 
@@ -445,7 +442,7 @@ const LastPattern = () => {
             <div className="col-xl-12 mt-3">
               {(!getCandlestickTable.loading ||
                 !ChartPatternTableData.loading) &&
-              selectedPatternType === "Candlestick Patterns" ? (
+                selectedPatternType === "Candlestick Patterns" ? (
                 <AgChartsReact
                   ChartData={getCandlestickTable && getCandlestickTable?.data1}
                   timeFrame={selectedTimeFrame}

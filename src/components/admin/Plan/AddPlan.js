@@ -450,7 +450,7 @@ const AddPlanPage = () => {
                     {formik.values.PlanType == "Charting" && (
                         <>
                             <CustomMultiSelect
-                                label={<span style={{ color: "white" }}>Segment</span>}
+                                label={<span >Segment</span>}
                                 options={[
                                     { value: "Cash", label: "Cash" },
                                     { value: "Future", label: "Future" },
@@ -465,7 +465,7 @@ const AddPlanPage = () => {
 
                     {formik.values.PlanType == "Scalping" && (
                         <CustomMultiSelect
-                            label={<span style={{ color: "#fff" }}>Scalping</span>}
+                            label={<span >Scalping</span>}
                             options={scalpingStratgy.map(strategy => ({ value: strategy, label: strategy }))}
                             selected={selecteScalping}
                             onChange={(selected) => handleSelectChange("scalping", selected)}
@@ -474,7 +474,7 @@ const AddPlanPage = () => {
 
                     {formik.values.PlanType == "Scalping" && (
                         <CustomMultiSelect
-                            label={<span style={{ color: "#fff" }}>Option</span>}
+                            label={<span >Option</span>}
                             options={OptionStratgy.map(strategy => ({ value: strategy, label: strategy }))}
                             selected={selecteOptions}
                             onChange={(selected) => handleSelectChange("option", selected)}
@@ -483,7 +483,7 @@ const AddPlanPage = () => {
 
                     {formik.values.PlanType == "Scalping" && (
                         <CustomMultiSelect
-                            label={<span style={{ color: "#fff" }}>Pattern</span>}
+                            label={<span >Pattern</span>}
                             options={PatternStratgy.map(strategy => ({ value: strategy, label: strategy }))}
                             selected={selectePattern}
                             onChange={(selected) => handleSelectChange("pattern", selected)}

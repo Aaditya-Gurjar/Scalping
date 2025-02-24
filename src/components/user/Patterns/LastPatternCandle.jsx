@@ -11,8 +11,7 @@ const ChartExample = ({ ChartData }) => {
       const dateObj = new Date(date);
       return new Date(dateObj.getTime());
     };
-
-    console.log("ChartData", ChartData);
+ 
 
     const processedData = ChartData.map((item) => ({
       ...item,

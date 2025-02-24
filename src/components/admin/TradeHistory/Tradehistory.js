@@ -509,15 +509,17 @@ const Tradehistory = () => {
                                     )}
                                 </div>
                             )}
+                         
+
                             <div className="d-grid gap-2">
-                                <button
-                                    className="btn btn-primary btn-lg"
-                                    onClick={handleSubmit}
-                                    disabled={!selectedRowData}
-                                >
-                                    Generate History
-                                </button>
-                            </div>
+            <button
+              className="addbtn"
+              onClick={handleSubmit}
+              disabled={!selectedRowData}
+            >
+              📜 Generate History
+            </button>
+          </div>
                             {showReportSections && (
                                 <div className="mt-5">
                                     <ReportSection title="Total Profit/Loss Overview" section="overview">

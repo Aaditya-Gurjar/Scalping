@@ -5,9 +5,8 @@ import { Link } from "react-router-dom";
 import { Get_All_Plans } from "../../CommonAPI/User";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-import "./AllPlan.css";  // Import the external CSS file
-import Content from '../../../ExtraComponent/Content';
-
+import "./AllPlan.css"; // Import the external CSS file
+import Content from "../../../ExtraComponent/Content";
 
 const AdminServicesList = () => {
   const [plansData, setPlansData] = useState({
@@ -68,16 +67,13 @@ const AdminServicesList = () => {
     }
   };
 
-
   return (
-
     <Content
-      Page_title={"📌 All Plans"}
+      Page_title={"📌 All Admin Plans"}
       button_status={true}
       backbutton_status={true}
       route={"/admin/addplan"}
       button_title={"Add Plan"}
-
     >
 
 
@@ -224,7 +220,6 @@ const AdminServicesList = () => {
 
 
     </Content>
-
   );
 };
 

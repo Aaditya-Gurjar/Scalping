@@ -10,7 +10,6 @@ const Dashboard = () => {
     try {
       const req = {userName:userName};
       const response = await subAdminDashboard(req);
-      console.log("Dashboard Response: ", response.Data);
       
       if (response?.Status) {
         setData({ loading: false, data: response.Data });
@@ -46,7 +45,6 @@ const Dashboard = () => {
                
                 
                 <>
-                {console.log("item",item.Total_Live_Account)}
                 <div className="col-lg-4" >
                   <div className="iq-card">
                     <div className="iq-card-header d-flex justify-content-between">

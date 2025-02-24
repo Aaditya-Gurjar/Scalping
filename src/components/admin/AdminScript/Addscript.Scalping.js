@@ -558,7 +558,6 @@ const AddClient = () => {
   }, [])
 
   useEffect(() => {
-    console.log("testing")
     if (formik.values.Exchange !== 'MCX') {
       formik.setFieldValue('ExitTime', '15:25:00');
       formik.setFieldValue('EntryTime', '09:15:00');
@@ -705,7 +704,6 @@ const AddClient = () => {
   ]
 
 
-  console.log("formik", formik.values.Strategy)
   const EntryRuleArr = [
     {
       name: "position_type",

@@ -51,7 +51,7 @@ const Content = ({
               {backbutton_status && backbutton_title && (
                 <button
                   onClick={handleBackClick}
-                  className="btn btn-primary float-sm-end  ms-3  mt-3 mt-sm-0 add"
+                  className="btn btn-primary float-sm-end  ms-3  mt-3 mt-sm-0 "
 
                 >
                   <i
@@ -66,7 +66,7 @@ const Content = ({
               {button_status === false ? null : (
                 <Link
                   to={route}
-                  className="btn btn-primary  mx-3 btn1"
+                  className="btn btn-primary  float-sm-end  float-start mt-3 mt-sm-0"
                   style={{ padding: "10px !important" }}
                 >
                  {button_title === "Back" ? <ArrowLeft size={20}/> : <Plus size={20} />}
@@ -79,7 +79,7 @@ const Content = ({
                 <Link
                   to={route1}
                   state={state1}
-                  className="btn btn-primary  mx-3 btn1"
+                  className="btn btn-primary  float-sm-end  float-start mt-3 mt-sm-0"
                   style={{ padding: "10px !important" }}
                 >
                   <i
