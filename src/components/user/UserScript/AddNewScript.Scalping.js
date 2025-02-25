@@ -23,7 +23,6 @@ const AddClient = () => {
   const [getSymbolData, setSymbolData] = useState({ loading: true, data: [] });
   const [getStricke, setStricke] = useState({ loading: true, data: [] });
   const [getExpiryDate, setExpiryDate] = useState({ loading: true, data: [] });
-
   const [openModel, setOpenModel] = useState(false);
   const [openModel1, setOpenModel1] = useState(false);
   const [marginValue, setMarginValue] = useState("");
@@ -52,10 +51,10 @@ const AddClient = () => {
       timerProgressBar: true,
     });
   };
+
   const dataWithoutLastItem = location?.state?.data?.scriptType?.data?.slice(0, -1);
 
   const getEndData = (stg) => {
-    console.log("stg", stg);
     const foundItem = dataWithoutLastItem.find((item) => {
       return item.Scalping.includes(stg);
     });
@@ -396,7 +395,7 @@ const AddClient = () => {
         errors.FinalTarget = "Please Enter Final Target";
       }
 
-      // console.log("errors", errors)
+      console.log("cp", errors)
       // ScrollToViewFirstError(errors);
       return errors;
     },
@@ -714,8 +713,7 @@ const AddClient = () => {
     formik.setFieldValue("TStype", "Point");
   }, []);
 
-
-  console.log("values.Strategy", formik.values.Strategy);
+ 
 
   const SymbolSelectionArr = [
     {
@@ -912,8 +910,7 @@ const AddClient = () => {
       ],
       label_size: 12,
       headingtype: 2,
-      hiding: false,
-      // col_size: formik.values.Strategy == "Multi_Conditional" ? 3 : 4,
+      hiding: false, 
       col_size: 6,
       showWhen: (values) => values.Strategy == "Multi_Conditional",
       disable: false,
@@ -1507,16 +1504,7 @@ const AddClient = () => {
   ];
 
   const fields = [
-    // {
-    //   name: "Strategy",
-    //   label: "Scalping Type",
-    //   type: "radio2",
-    //   title: location?.state?.data?.scriptType?.data?.[location?.state?.data?.scriptType?.len]?.CombineScalping.map((item) => ({ title: item, value: item })),
-    //   hiding: false,
-    //   label_size: 12,
-    //   col_size: 12,
-    //   disable: false,
-    // },
+    
     {
       name: "Heading",
       label: "Symbol_Selection",
@@ -1737,20 +1725,7 @@ const AddClient = () => {
     }
   }, [formik.values.ExitDay]);
 
-
-  // useEffect(() => {
-  //   // console.log("testing")
-  //   if (formik.values.Exchange === 'NSE') {
-  //     formik.setFieldValue('ExitTime', '15:15:00');
-  //   } else {
-  //     formik.setFieldValue('ExitTime', '15:25:00');
-  //   }
-  // }, [formik.values.Exchange]);
-
-
-  // RollOverExitTime
-  useEffect(() => {
-    console.log("testing");
+  useEffect(() => { 
     if (formik.values.Exchange !== "MCX") {
       formik.setFieldValue("ExitTime", "15:14:00");
       formik.setFieldValue("EntryTime", "09:15:00");
@@ -1796,6 +1771,8 @@ const AddClient = () => {
       );
       return;
     }
+
+    
 
     const req = {
       MainStrategy: location?.state?.data?.selectStrategyType,
@@ -1936,7 +1913,17 @@ const AddClient = () => {
   }, [formik.values]);
 
   // setOpenModel1(true)
-  const checkModalCondition = () => {
+  const checkModalCondition = async() => {
+
+    const errors = await formik.validateForm();
+
+    
+
+  if (Object.keys(errors).length > 0) {
+   
+    return SweentAlertFun(Object.values(errors)[0])
+  }
+
     if (
       formik.values.Exchange === "NSE" ||
       (formik.values.Exchange === "NFO" &&
@@ -1944,9 +1931,9 @@ const AddClient = () => {
         (formik.values.Instrument === "OPTIDX" ||
           formik.values.Instrument === "OPTSTK"))
     ) {
+      
       handleCheckPnl();
     } else {
-      // handleCheckPnl()
       setOpenModel1(true);
     }
   };
