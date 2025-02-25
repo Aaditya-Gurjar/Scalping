@@ -353,6 +353,60 @@ const Clientservice = () => {
                 customBodyRender: (value) => value || '-'
             }
         },
+        {
+            name: 'Licanse',
+            label: 'Licanse',
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value) => value || '-'
+            }
+        },
+        {
+            name: 'LicanseStartDate',
+            label: 'LicanseStartDate',
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value) => value || '-'
+            }
+        },
+        {
+            name: 'ServiceCount',
+            label: 'Service Count',
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value) => value || '-'
+            }
+        },
+        {
+            name: 'AutoLogin',
+            label: 'Auto Login',
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value) => value || '-'
+            }
+        },
+        {
+            name: 'SubAdmin',
+            label: 'SubAdmin',
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value) => value || '-'
+            }
+        },
+        {
+            name: 'Key',
+            label: 'Key',
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value) => value || '-'
+            }
+        },
     ];
 
 

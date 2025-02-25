@@ -94,6 +94,86 @@ export const ClientActivityPage = () => [
             sort: true,
         }
     },
+    {
+        name: "SubAdmin",
+        label: "SubAdmin",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => value ? value : "-"
+        }
+    },
+    {
+        name: "Scalping",
+        label: "Scalping",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => {
+                return value && value.toString().trim() !== "" ? value : "NA";
+            },
+        }
+    },
+    {
+        name: "Option Strategy",
+        label: "Option Strategy",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => {
+                if (Array.isArray(value)) {
+                    return (
+                        <div style={{
+                            display: "grid",
+                            gridTemplateColumns: "repeat(3, 1fr)",
+                            gap: "0px" // Extra gap hata diya
+                        }}>
+                            {value.map((item, index) => (
+                                <span key={index} style={{ whiteSpace: "nowrap" }}>
+                                    {item.trim()}
+                                    {index !== value.length - 1 ? ", " : ""}
+                                </span>
+                            ))}
+                        </div>
+                    );
+                }
+                return value && value.toString().trim() !== "" ? value : "NA";
+            },
+        }
+    },
+
+
+    {
+        name: "Pattern",
+        label: "Pattern",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => {
+                return value && value.toString().trim() !== "" ? value : "NA";
+            },
+        }
+    },
+    {
+        name: "ChartingSignal",
+        label: "Charting Signal",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => {
+                return value && value.toString().trim() !== "" ? value : "NA";
+            },
+        }
+    },
+    {
+        name: "Username",
+        label: "Username",
+        options: {
+            filter: true,
+            sort: true,
+
+        }
+    },
 
 ];
 

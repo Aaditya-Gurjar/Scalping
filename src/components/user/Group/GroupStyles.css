@@ -7,7 +7,6 @@
     background-color: #0f0f0f;
 }
 
-/* Individual Strategy Card */
 .group-card {
     background: #1a1a1a;
     color: white;
@@ -23,7 +22,6 @@
     transform: scale(1.02);
 }
 
-/* Header */
 .group-header {
     display: flex;
     flex-direction: column;
@@ -48,14 +46,12 @@
     background: green;
 }
 
-/* Date */
 .group-date {
     font-size: 0.8rem;
     color: #aaa;
     margin-top: 5px;
 }
 
-/* Category Tags */
 .group-category {
     display: flex;
     flex-wrap: wrap;
@@ -71,7 +67,6 @@
     color: white;
 }
 
-/* Chart Section */
 .group-chart {
     margin-top: 15px;
     height: 150px;
@@ -88,7 +83,6 @@
     font-size: 0.9rem;
 }
 
-/* Buttons */
 .group-buttons {
     display: flex;
     justify-content: space-between;
@@ -122,7 +116,6 @@
     background: #2ea657;
 }
 
-/* Premium Tag */
 .group-premium {
     display: block;
     background: gold;
@@ -134,7 +127,6 @@
     border-radius: 5px;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .group-container {
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -152,24 +144,13 @@
     .group-btn-backtest,
     .group-btn-deploy {
         width: 100%;
+        
     }
 }
 
 
-/* --------------------------------------------Css for ViewGroup_________________ */
 
-/* General Container */
-/* .container_view {
-    width: 80%;
-    margin: 20px auto;
-    font-family: Arial, sans-serif;
-    background: #1e1e1e;
-    color: white;
-    padding: 20px;
-    border-radius: 10px;
-} */
 
-/* Header */
 .header_view {
     text-align: center;
     margin-bottom: 20px;
@@ -197,7 +178,6 @@
     color: #f39c12;
 }
 
-/* Tab Content */
 .tab_content_view {
     display: flex;
     justify-content: center;
@@ -206,7 +186,6 @@
     padding: 20px;
 }
 
-/* Image */
 .chart_view {
     width: 100%;
     max-height: 300px;
@@ -214,7 +193,6 @@
     margin-bottom: 20px;
 }
 
-/* Content */
 .content_view {
     text-align: left;
 }
@@ -233,17 +211,13 @@
     margin-bottom: 5px;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .container_view {
         width: 95%;
     }
 }
- 
 
 
-
- /* General Container */
  .container_view {
      width: 80%;
      margin: 20px auto;
@@ -254,13 +228,11 @@
      border-radius: 10px;
  }
 
- /* Header */
  .header_view {
      text-align: center;
      margin-bottom: 20px;
  }
 
- /* Tabs */
  .tabs_view {
      display: flex;
      justify-content: center;
@@ -282,7 +254,6 @@
      color: #f39c12;
  }
 
- /* Tab Content */
  .tab_content_view {
      display: flex;
      flex-direction: row;
@@ -290,7 +261,6 @@
      padding: 10px;
  }
 
- /* Image */
  .chart_view {
      width: 100%;
      max-height: 300px;
@@ -298,7 +268,6 @@
      margin-bottom: 20px;
  }
 
- /* Content */
  .content_view {
      text-align: left;
      max-width: 800px;
@@ -318,7 +287,6 @@
      margin-bottom: 5px;
  }
 
- /* Responsive Design */
  @media (max-width: 768px) {
      .container_view {
          width: 95%;
@@ -328,20 +296,16 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    /* Full width */
     padding: 12px 20px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    /* Thin separator */
 }
 
 .row_view:last-child {
     border-bottom: none;
-    /* No border on the last row */
 }
 
 .row_view h3 {
     color: #3ea6ff;
-    /* Same blue as the selected tab */
     font-size: 16px;
     font-weight: 600;
     margin-bottom: 5px;
@@ -353,3 +317,6 @@
     margin: 0;
 }
 
+strong {
+    color: #fff;
+}

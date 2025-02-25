@@ -31,34 +31,34 @@ export const columns = () => [
     name: "Targetselection",
     label: "Target Selection",
     options: {
-        filter: true,
-        sort: true,
-    }
-},
-{
-  name: "Lot",
-  label: "Quantity",
-  options: {
       filter: true,
       sort: true,
-  }
-},
-{
-  name: "Booking Point",
-  label: "Target",
-  options: {
-    filter: true,
-    sort: true,
+    }
   },
-},
-{
-  name: "Re-entry Point",
-  label: "Re-entry",
-  options: {
-    filter: true,
-    sort: true,
+  {
+    name: "Lot",
+    label: "Quantity",
+    options: {
+      filter: true,
+      sort: true,
+    }
   },
-},
+  {
+    name: "Booking Point",
+    label: "Target",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Re-entry Point",
+    label: "Re-entry",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
 
 
 
@@ -70,11 +70,11 @@ export const columns = () => [
       sort: true,
     },
   },
- 
 
- 
- 
-  
+
+
+
+
   {
     name: "Lot",
     label: "Quantity",
@@ -144,6 +144,312 @@ export const columns = () => [
       },
     },
   },
+  {
+    name: "Booking Point2",
+    label: "Booking Point2",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Booking Point3",
+    label: "Booking Point3",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "EntryPrice",
+    label: "Entry Price",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "EntryRange",
+    label: "Entry Range",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Exchange",
+    label: "Exchange",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "ExpiryDate",
+    label: "Expiry Date",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Expirytype",
+    label: "Expiry type",
+    options: {
+      filter: true,
+      sort: true,
+      customBodyRender: (value) => value ? value : "-"
+    },
+  },
+  {
+    name: "FinalTarget",
+    label: "Final Target",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "GroupN",
+    label: "Unique ID",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "HoldExit",
+    label: "Hold / Exit",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "IncrementType",
+    label: "Increment Type",
+    options: {
+      filter: true,
+      sort: true,
+      customBodyRender: (value) => value ? value : "-"
+    },
+  },
+  {
+    name: "Incrementvalue",
+    label: "Increment Value",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Instrument Symbol",
+    label: "Instrument Symbol",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Instrument Type",
+    label: "Instrument Type",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Loss",
+    label: "Loss",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "MainSymbol",
+    label: "Main Symbol",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "MatchPosition",
+    label: "Match Position",
+    options: {
+      filter: true,
+      sort: true,
+      customBodyRender: (value) => value ? "true" : "false"
+    },
+  },
+  {
+    name: "OrderType",
+    label: "Order Type",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "PositionType",
+    label: "Position Type",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Profit",
+    label: "Profit",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Quantity",
+    label: "Lot",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Quantity2",
+    label: "Quantity2",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Quantity3",
+    label: "Quantity3",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "RepeatationCount",
+    label: "Repeatation Count",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "RolloverDay",
+    label: "Rollover Day",
+    options: {
+      filter: true,
+      sort: true,
+      customBodyRender: (value) => value ? value : "-"
+    },
+  },
+  {
+    name: "RolloverTF",
+    label: "Rollover TF",
+    options: {
+      filter: true,
+      sort: true,
+      customBodyRender: (value) => value ? "true" : "false"
+    },
+  },
+  {
+    name: "RolloverTime",
+    label: "Rollover Time",
+    options: {
+      filter: true,
+      sort: true,
+      customBodyRender: (value) => value ? value : "-"
+    },
+  },
+  {
+    name: "SSDate",
+    label: "SS Date",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "StepUp",
+    label: "StepUp",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "TStype",
+    label: "TStype",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "TargetExit",
+    label: "Target Exit",
+    options: {
+      filter: true,
+      sort: true,
+      customBodyRender: (value) => value ? "true" : "false"
+    },
+  },
+  {
+    name: "TaskStatus",
+    label: "Task Status",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "TaskTime",
+    label: "Task Time",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Token",
+    label: "Token",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "TradeCount",
+    label: "Trade Count",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Trading",
+    label: "Trading",
+    options: {
+      filter: true,
+      sort: true,
+      customBodyRender: (value) => value ? "true" : "false"
+    }
+  },
+  {
+    name: "Username",
+    label: "Username",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+
+
 ];
 
 export const columns1 = () => [
@@ -255,6 +561,7 @@ export const columns1 = () => [
     options: {
       filter: true,
       sort: true,
+      customBodyRender: (value) => value ? value : "-"
     },
   },
   {
@@ -391,6 +698,154 @@ export const columns1 = () => [
       },
     },
   },
+  {
+    name: "Exchange",
+    label: "Exchange",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "ExitRuleO",
+    label: "Exit Rule",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Expirydate",
+    label: "Expiry Date",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Expirytype",
+    label: "Expiry type",
+    options: {
+      filter: true,
+      sort: true,
+      customBodyRender: (value) => value ? value : "-"
+    },
+  },
+  {
+    name: "FixedSM",
+    label: "Fixed SM",
+    options: {
+      filter: true,
+      sort: true,
+      customBodyRender: (value) => value ? value : "-"
+    },
+  },
+  {
+    name: "IName",
+    label: "IName",
+    options: {
+      filter: true,
+      sort: true,
+      customBodyRender: (value) => value ? value : "-"
+    },
+  },
+  {
+    name: "Instrument Type",
+    label: "Instrument Type",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Loss",
+    label: "Loss",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "MainSymbol",
+    label: "Main Symbol",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Profit",
+    label: "Profit",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "SSDate",
+    label: "SS Date",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Spread",
+    label: "Spread",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "TaskStatus",
+    label: "Task Status",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "TaskTime",
+    label: "Task Time",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Token",
+    label: "Token",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "TradeCount",
+    label: "Trade Count",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Trading",
+    label: "Trading",
+    options: {
+      filter: true,
+      sort: true,
+      customBodyRender: (value) => value ? "true" : "false"
+    }
+  },
+  {
+    name: "Username",
+    label: "Username",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
 ];
 
 export const columns2 = () => [
@@ -464,7 +919,7 @@ export const columns2 = () => [
   },
   {
     name: "Quantity",
-    label: "Quantity",
+    label: "Lot",
     options: {
       filter: true,
       sort: true,
@@ -514,6 +969,121 @@ export const columns2 = () => [
   {
     name: "SSDate",
     label: "SS Date",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Exchange",
+    label: "Exchange",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Expiry Date",
+    label: "Expiry Date",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Expirytype",
+    label: "Expiry type",
+    options: {
+      filter: true,
+      sort: true,
+      customBodyRender: (value) => value ? value : "-"
+    },
+  },
+  {
+    name: "Instrument Name",
+    label: "Instrument Name",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Instrument Type",
+    label: "Instrument Type",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "MainSymbol",
+    label: "Main Symbol",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "SEDate",
+    label: "SE Date",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  
+  {
+    name: "TaskStatus",
+    label: "Task Status",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "TaskTime",
+    label: "Task Time",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Token",
+    label: "Token",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "TradeCount",
+    label: "Trade Count",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Trading",
+    label: "Trading",
+    options: {
+      filter: true,
+      sort: true,
+      customBodyRender: (value) => value ? "true" : "false"
+    }
+  },
+  {
+    name: "Trend",
+    label: "Trend",
+    options: {
+      filter: true,
+      sort: true,
+    }
+  },
+  {
+    name: "Username",
+    label: "Username",
     options: {
       filter: true,
       sort: true,
@@ -580,14 +1150,14 @@ export const columns3 = (selectStrategyType) => [
       selectStrategyType == "Option Strategy"
         ? "LotSize"
         : selectStrategyType == "Scalping"
-        ? "Quantity"
-        : "Quantity",
+          ? "Quantity"
+          : "Quantity",
     label:
       selectStrategyType == "Option Strategy"
         ? "LotSize"
         : selectStrategyType == "Scalping"
-        ? "Quantity"
-        : "Quantity",
+          ? "Quantity"
+          : "Quantity",
     options: {
       filter: true,
       sort: true,

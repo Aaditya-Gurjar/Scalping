@@ -19,7 +19,7 @@ const LastPattern = () => {
     data: [],
   });
   const [getCandleData, setCandleData] = useState({ loading: true, data: [] });
-  const [getPatternType, setPatternType] = useState("");
+  const [getPatternType, setPatternType] = useState("Doji");
   const [selectPattern, setSelectPattern] = useState("Candlestick Patterns");
   const [getChartPattern, setChartPattern] = useState("");
   const [selectedRowData, setSelectedRowData] = useState("");
@@ -111,8 +111,7 @@ const LastPattern = () => {
     <Content
       Page_title="📈 Last Pattern"
       button_status={false}
-      backbutton_status={false}
-    >
+      backbutton_status={false}>
       <div className="iq-card-body">
         <div className="row">
           <div className="col-md-6">
@@ -121,8 +120,7 @@ const LastPattern = () => {
               <select
                 className="form-control  mt-2"
                 onChange={(e) => setSelectPattern(e.target.value)}
-                value={selectPattern}
-              >
+                value={selectPattern}>
                 <option value="">Please Select Patterns</option>
                 <option value="Candlestick Patterns">
                   Candlestick Patterns
@@ -137,8 +135,7 @@ const LastPattern = () => {
               <select
                 className="form-control  mt-2"
                 onChange={(e) => setPatternType(e.target.value)}
-                value={getPatternType}
-              >
+                value={getPatternType}>
                 {/* <option value="">
                             Please Select Specific Pattern
                           </option> */}

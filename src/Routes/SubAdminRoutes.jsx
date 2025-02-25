@@ -38,11 +38,15 @@ import AllScript from "../components/subadmin/SubAdminScript/AllScript";
 import ChangePassword from "../components/subadmin/Password/ChangePassword";
 
 
+
+import { SidebarProvider } from "../components/layouts/SidebarContext";
+
 const SubAdminRoutes = () => {
 
   return (
     <div className="wrapper">
-      <Sidebar />
+         <SidebarProvider> 
+         <Sidebar position="left" />
       <div id="content-page" className="content-page">
         <Header />
         
@@ -63,6 +67,7 @@ const SubAdminRoutes = () => {
           </Routes>
         </Suspense>
       </div>
+      </SidebarProvider>
     </div>
   );
 };
