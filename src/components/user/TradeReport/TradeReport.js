@@ -7,7 +7,7 @@ import {
     getChartingReport,
 } from '../../CommonAPI/User';
 import { Eye, Tablet } from "lucide-react";
-import GridExample from '../../../ExtraComponent/CommanDataTable(original)';
+import GridExample from '../../../ExtraComponent/CommanDataTable';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Swal from 'sweetalert2';
@@ -431,7 +431,7 @@ const TradeReport = () => {
                                 data={selectStrategyType === "ChartingPlatform" ? chartingData : tradeReport?.data}
                                 onRowSelect={handleRowSelect}
                                 checkBox={selectStrategyType !== "ChartingPlatform"}
-                                isChecked={StrategyType === selectStrategyType ? checkedRows : []}
+                                isChecked={checkedRows}
                             />
                         ) : (
                             <NoDataFound />
@@ -453,7 +453,7 @@ const TradeReport = () => {
                                     data={tradeReport?.data1}
                                     onRowSelect={handleRowSelect}
                                     checkBox={true}
-                                    isChecked={StrategyType === selectStrategyType ? checkedRows : []}
+                                    isChecked={checkedRows}
                                 />
                             </div>
                         ) : (

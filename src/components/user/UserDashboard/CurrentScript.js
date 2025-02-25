@@ -663,7 +663,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
       .then((response) => {
         if (response.Status) {
           // console.log("GetAllUserScriptDetails",response);
-          
+
           setAllservice({
             loading: false,
             ScalpingData: response.Scalping,
@@ -1046,7 +1046,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
       Targetvalue: 0,
       Slvalue: 0,
       TStype: "",
-      Quantity: "",
       LowerRange: 0,
       HigherRange: 0,
       HoldExit: "",
@@ -1183,7 +1182,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         Targetvalue: values.Targetvalue,
         Slvalue: Number(values.Slvalue),
         TStype: values.TStype,
-        // Quantity: Number(values.Quantity),
         LowerRange: EditDataOption.LowerRange,
         HigherRange: EditDataOption.HigherRange,
         HoldExit: "",
@@ -1203,13 +1201,12 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         PEDeepLower: EditDataOption.PEDeepLower,
         PEDeepHigher: EditDataOption.PEDeepHigher,
         DepthofStrike: EditDataOption.DepthofStrike,
-        TradeCount: values.TradeCount,
+        TradeCount: values.TradeCount || EditDataOption.TradeCount,
         WorkingDay: values.WorkingDay?.map((day) => day?.value || day) || [], // list (array)
 
         HoldExit: EditDataScalping.HoldExit || "HoldExit", // str
         EntryPrice: 0.0, // float
         EntryRange: 0.0, // float
-        TradeCount: EditDataScalping.TradeCount || 0, // int
         tgp2: 0.0, // float
         tgp3: 0.0, // float
         RolloverTF: EditDataOption.RolloverTF || false, // bool
@@ -1220,14 +1217,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         Profit: 0.0, // float
         Loss: 0.0, // float
 
-        // formik1.setFieldValue('TStype', EditDataOption.strategytype)
-        // formik1.setFieldValue('Targetvalue', EditDataOption['Target value'])
-        // formik1.setFieldValue('Slvalue', EditDataOption['SL value'])
-        // formik1.setFieldValue('Quantity', EditDataOption['Lot Size'])
-        // formik1.setFieldValue('EntryTime', EditDataOption['Entry Time'])
-        // formik1.setFieldValue('ExitTime', EditDataOption['Exit Time'])
-        // formik1.setFieldValue('TradeCount', EditDataOption.TradeCount)
-        // formik1.setFieldValue('WorkingDay', WorkingDay)
+
       };
 
       if (values.EntryTime >= values.ExitTime) {
@@ -1358,6 +1348,53 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
       return errors;
     },
     onSubmit: async (values) => {
+
+      // MainStrategy: "NewScalping", // str
+      //   Strategy: values.Strategy || EditDataScalping.Targetselection, // str
+      //   // Strategy:  , // str
+      //   Symbol: values.Symbol || EditDataScalping.Symbol, // str
+      //   Username: userName, // str
+      //   ETPattern: "", // str (Trade type)
+      //   Timeframe: "", // str
+      //   Targetvalue: parseFloat(values.Targetvalue) || parseFloat(EditDataScalping["Booking Point"]), // float
+      //   Slvalue: parseFloat(values.Slvalue), // float
+      //   TStype: EditDataScalping.ScalpType != "Fixed Price" ? values.TStype : EditDataScalping.TStype, // str
+      //   LowerRange: values.LowerRange || 0.0, // float (Profit in scalping)
+      //   HigherRange: values.HigherRange || 0.0, // float (Loss in scalping)
+      //   HoldExit: values.HoldExit || EditDataScalping.HoldExit || "HoldExit", // str
+      //   EntryPrice: values.EntryPrice || parseFloat(EditDataScalping.EntryPrice) || 0.0, // float
+      //   EntryRange: values.EntryRange || parseFloat(EditDataScalping.EntryRange) || 0.0, // float
+      //   EntryTime: values.EntryTime || EditDataScalping.EntryTime, // str
+      //   ExitTime: values.ExitTime || EditDataScalping?.ExitTime, // str
+      //   ExitDay: values.ExitDay || EditDataScalping.ExitDay || "", // str
+      //   TradeExecution: values.TradeExecution || EditDataScalping.TradeExecution || "", // str
+      //   Group: values.Group || EditDataScalping.GroupN || "", // str
+
+      //   // Depth values for CE and PE options
+      //   CEDepthLower: 0.0, // float
+      //   CEDepthHigher: 0.0, // float
+      //   PEDepthLower: 0.0, // float
+      //   PEDepthHigher: 0.0, // float
+      //   CEDeepLower: 0.0, // float
+      //   CEDeepHigher: 0.0, // float
+      //   PEDeepLower: 0.0, // float
+      //   PEDeepHigher: 0.0, // float
+      //   DepthofStrike: 0.0, // float
+
+      //   TradeCount: values.TradeCount || EditDataScalping.TradeCount || 0, // int
+
+      //   // Additional trade parameters
+      //   tgp2: values.tgp2 || EditDataScalping["Booking Point 2"] || 0.0,
+      //   tgp3: values.tgp3 || EditDataScalping["Booking Point 3"] || 0.0,
+      //   RolloverTF: values.RolloverTF || EditDataScalping.RolloverTF || false, // bool
+      //   RolloverDay: values.RolloverDay || "", // str
+      //   RolloverTime: values.RolloverTime || "", // str
+      //   TargetExit: values.TargetExit, // bool
+      //   RepeatationCount: values.RepeatationCount || EditDataScalping.RepeatationCount || 0, // int
+      //   Profit: values.Profit || EditDataScalping.Profit || 0.0, // float
+      //   Loss: values.Loss || EditDataScalping.Loss || 0.0, // float
+      //   WorkingDay: values.WorkingDay?.map(day => day?.value || day) || formik?.values?.WorkingDay?.map(day => day?.value || day) || [] // list (array)
+
       const req = {
         MainStrategy: data,
         Strategy: EditDataPattern.TradePattern,
@@ -1368,7 +1405,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         Targetvalue: Number(values.Targetvalue),
         Slvalue: Number(values.Slvalue),
         TStype: EditDataPattern.TStype,
-        Quantity: Number(values.Quantity),
         LowerRange: 0.0,
         HigherRange: 0.0,
         HoldExit: "",
@@ -1389,6 +1425,18 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         PEDeepHigher: 0.0,
         DepthofStrike: 1,
         TradeCount: Number(values.TradeCount),
+
+        tgp2: values.tgp2 || 0.0,
+        tgp3: values.tgp3 || 0.0,
+        RolloverTF: values.RolloverTF || false, // bool
+        RolloverDay: values.RolloverDay || "", // str
+        RolloverTime: values.RolloverTime || "", // str
+        TargetExit: values.TargetExit, // bool
+        RepeatationCount: values.RepeatationCount || 0, // int
+        Profit: values.Profit || EditDataScalping.Profit || 0.0, // float
+        Loss: values.Loss || 0.0, // float
+        WorkingDay: [] // list (array)
+
       };
 
       if (values.EntryTime >= values.ExitTime) {
@@ -1968,11 +2016,10 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
       formik.setFieldValue("HoldExit", EditDataScalping.HoldExit);
       formik.setFieldValue("EntryTime", EditDataScalping.EntryTime);
       formik.setFieldValue("ExitTime", EditDataScalping.ExitTime);
-      formik.setFieldValue("Quantity", EditDataScalping.Quantity);
       formik.setFieldValue("TradeCount", EditDataScalping.TradeCount);
       formik.setFieldValue("TType", EditDataScalping.TType);
       formik.setFieldValue("TStype", EditDataScalping.TStype);
-      formik.setFieldValue("Quantity", EditDataScalping.Quantity);
+      // formik.setFieldValue("Quantity", EditDataScalping.Quantity);
       formik.setFieldValue(
         "EntryPrice",
         parseFloat(EditDataScalping.EntryPrice)
@@ -2000,7 +2047,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
       formik1.setFieldValue("TStype", EditDataOption.strategytype);
       formik1.setFieldValue("Targetvalue", EditDataOption["Target value"]);
       formik1.setFieldValue("Slvalue", EditDataOption["SL value"]);
-      formik1.setFieldValue("Quantity", EditDataOption["Lot Size"]);
+      // formik1.setFieldValue("Quantity", EditDataOption["Lot Size"]);
       formik1.setFieldValue("EntryTime", EditDataOption["Entry Time"]);
       formik1.setFieldValue("ExitTime", EditDataOption["Exit Time"]);
       formik1.setFieldValue("TradeCount", EditDataOption.TradeCount);
@@ -2009,7 +2056,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
       formik2.setFieldValue("TStype", EditDataPattern.TStype);
       formik2.setFieldValue("Targetvalue", EditDataPattern["Target value"]);
       formik2.setFieldValue("Slvalue", EditDataPattern["SL value"]);
-      formik2.setFieldValue("Quantity", EditDataPattern.Quantity);
+      // formik2.setFieldValue("Quantity", EditDataPattern.Quantity);
       formik2.setFieldValue("EntryTime", EditDataPattern.EntryTime);
       formik2.setFieldValue("ExitTime", EditDataPattern.ExitTime);
       formik2.setFieldValue("TradeCount", EditDataPattern.TradeCount);
@@ -2035,11 +2082,10 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
       formik.setFieldValue('HoldExit', EditDataScalping.HoldExit)
       formik.setFieldValue('EntryTime', EditDataScalping.EntryTime)
       formik.setFieldValue('ExitTime', EditDataScalping.ExitTime)
-      formik.setFieldValue('Quantity', EditDataScalping.Quantity)
       formik.setFieldValue('TradeCount', EditDataScalping.TradeCount)
       formik.setFieldValue("TType", EditDataScalping.TType)
       formik.setFieldValue("TStype", EditDataScalping.TStype)
-      formik.setFieldValue("Quantity", EditDataScalping.Quantity)
+      // formik.setFieldValue("Quantity", EditDataScalping.Quantity)
       formik.setFieldValue("EntryPrice", parseFloat(EditDataScalping.EntryPrice))
       formik.setFieldValue("EntryRange", parseFloat(EditDataScalping.EntryRange))
       formik.setFieldValue("HoldExit", EditDataScalping.HoldExit)
@@ -2062,7 +2108,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
       formik1.setFieldValue('TStype', EditDataOption.strategytype)
       formik1.setFieldValue('Targetvalue', EditDataOption['Target value'])
       formik1.setFieldValue('Slvalue', EditDataOption['SL value'])
-      formik1.setFieldValue('Quantity', EditDataOption['Lot Size'])
+      // formik1.setFieldValue('Quantity', EditDataOption['Lot Size'])
       formik1.setFieldValue('EntryTime', EditDataOption['Entry Time'])
       formik1.setFieldValue('ExitTime', EditDataOption['Exit Time'])
       formik1.setFieldValue('TradeCount', EditDataOption.TradeCount)
@@ -2073,7 +2119,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
       formik2.setFieldValue('TStype', EditDataPattern.TStype)
       formik2.setFieldValue('Targetvalue', EditDataPattern['Target value'])
       formik2.setFieldValue('Slvalue', EditDataPattern['SL value'])
-      formik2.setFieldValue('Quantity', EditDataPattern.Quantity)
       formik2.setFieldValue('EntryTime', EditDataPattern.EntryTime)
       formik2.setFieldValue('ExitTime', EditDataPattern.ExitTime)
       formik2.setFieldValue('TradeCount', EditDataPattern.TradeCount)
