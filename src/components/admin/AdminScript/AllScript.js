@@ -285,7 +285,7 @@ const Addscript = () => {
                                         </div>
 
                                         <div className='col-md-2 ms-3 mt-3 strategy'>
-                                            <button style={{ fontSize: '18px', padding: '6px 14px', height: "47px" }} className='btn btn-primary mt-1' onClick={handleAddScript}>Add Script</button>
+                                            <button style={{ fontSize: '18px', padding: '6px 14px', height: "47px" }} className='addbtn mt-2' onClick={handleAddScript}>Add Script</button>
                                         </div>
 
                                     </div>

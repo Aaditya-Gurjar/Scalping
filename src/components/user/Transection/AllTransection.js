@@ -300,17 +300,17 @@ confirmButtonColor: "#1ccc8a",
                         <div className='iq-card-body'>
                             <div className='d-flex justify-content-between'>
                                 <div className="wallet-balance-container">
-                                    <span className="balance-label" style={{color:'white'}}>Remaining Balance:</span>
+                                    <span className="balance-label">Remaining Balance:</span>
                                     <span className="balance-amount"> ₹ {walletBalance}</span>
                                 </div>
 
                                 <div className=''>
-                                    <button to='/admin/adduser' className='btn btn-primary rounded mx-2'
+                                    <button to='/admin/adduser' className='addbtn mx-2 mb-2'
                                         onClick={() => setShowAddMoneyModal(true)}
                                     >
                                         Add Money
                                     </button>
-                                    <button to='/admin/adduser' className='btn btn-primary rounded'
+                                    <button to='/admin/adduser' className='addbtn'
                                         onClick={() => setShowWithdrawalModal(true)}
                                     >
                                         Withdraw Amount

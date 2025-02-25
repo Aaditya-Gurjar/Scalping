@@ -259,7 +259,8 @@ const Strategygroup = () => {
             <div className="modal-dialog modal-dialog-centered modal-lg">
               <div className="modal-content">
                 <div className="modal-header">
-                  <h4 className="modal-title">Update Panel</h4>
+                <h3 className="modal-title">🔄 Update Panel</h3>
+
                   <button
                     type="button"
                     className="btn-close"

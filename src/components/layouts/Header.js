@@ -510,11 +510,12 @@ const Header = () => {
           {role === "Admin" ? (
             <nav className="navbar navbar-expand-lg navbar-light p-0">
               <button
-                className="btn btn-primary mx-4"
+                className="addbtn mx-4"
                 onClick={() => setShowModal(true)}
               >
-                Auto Login
+                🔑 Auto Login
               </button>
+
               <button
                 className="navbar-toggler ms-3"
                 type="button"
@@ -534,25 +535,23 @@ const Header = () => {
                 id="navbarSupportedContent"
               >
                 <ul className="navbar-nav ms-auto navbar-list align-items-center">
-            
-
                   <li className="nav-item">
                     <button
                       type="button"
-                      className="btn btn-primary  mx-3 btn1"
+                      className="addbtn mx-3 btn1"
                       onClick={(e) => setIsModalVisible(true)}
                     >
-                      Set API Key
+                      🔐 Set API Key
                     </button>
                   </li>
 
                   <li className="nav-item">
                     <button
                       type="button"
-                      className="btn btn-primary  mx-3 btn1"
+                      className="addbtn  mx-3 btn1"
                       onClick={(e) => navigate("/admin/transectionrequest")}
                     >
-                      Transaction Requests
+                      💵 Transaction Requests
                     </button>
                   </li>
 
@@ -573,12 +572,10 @@ const Header = () => {
                   <li className="nav-item iq-full-screen">
                     <button
                       onClick={toggleTheme}
-                      className={`btn btn-sm ${
-                        theme === "light" ? "btn-dark" : "btn-light"
-                      } ms-auto`}
+                      className={`addbtn  ms-auto`}
                       style={{
-                        backgroundColor: theme === "light" ? "#222" : "#f8f9fa",
-                        color: theme === "light" ? "#fff" : "#000",
+                        // backgroundColor: theme === "light" ? "#222" : "#f8f9fa",
+                        // color: theme === "light" ? "#fff" : "#000",
                         border: "none",
                         padding: "8px 15px",
                         borderRadius: "5px",
@@ -603,12 +600,12 @@ const Header = () => {
                     >
                       <div className="caption">
                         <button
-                          className="btn btn-primary iq-sign-btn"
+                          className="addbtn iq-sign-btn"
                           onClick={logout}
                           role="button"
                         >
                           Log out
-                          <i className="ri-login-box-line ms-2" />
+                          <i className="iconcol ri-login-box-line ms-2" />
                         </button>
                       </div>
                     </a>
@@ -618,7 +615,6 @@ const Header = () => {
             </nav>
           ) : role === "Subadmin" ? (
             <nav className="navbar navbar-expand-lg navbar-light p-0">
-              {/* <button className='btn btn-primary mx-4' onClick={() => setShowModal(true)}>Auto Login</button> */}
               <button
                 className="navbar-toggler ms-3"
                 type="button"
@@ -640,13 +636,12 @@ const Header = () => {
                 <ul className="navbar-nav ms-auto navbar-list align-items-center">
                   <li className="nav-item">
                     <button
-                      className="btn btn-primary mx-3 btn1"
+                      className="addbtn mx-3 btn1"
                       style={{ pointerEvents: "none" }}
                     >
                       Hello, {Username}
                     </button>
                   </li>
-                 
 
                   <li
                     className="nav-item iq-full-screen"
@@ -666,12 +661,10 @@ const Header = () => {
                   <li className="nav-item iq-full-screen">
                     <button
                       onClick={toggleTheme}
-                      className={`btn btn-sm ${
-                        theme === "light" ? "btn-dark" : "btn-light"
-                      } ms-auto`}
+                      className={`addbtn  ms-auto`}
                       style={{
-                        backgroundColor: theme === "light" ? "#222" : "#f8f9fa",
-                        color: theme === "light" ? "#fff" : "#000",
+                        // backgroundColor: theme === "light" ? "#222" : "#f8f9fa",
+                        // color: theme === "light" ? "#fff" : "#000",
                         border: "none",
                         padding: "8px 15px",
                         borderRadius: "5px",
@@ -696,12 +689,12 @@ const Header = () => {
                     >
                       <div className="caption">
                         <button
-                          className="btn btn-primary iq-sign-btn"
+                          className="addbtn iq-sign-btn"
                           onClick={logout}
                           role="button"
                         >
                           Log out
-                          <i className="ri-login-box-line ms-2" />
+                          <i className="iconcol ri-login-box-line ms-2" />
                         </button>
                       </div>
                     </a>
@@ -730,8 +723,6 @@ const Header = () => {
                 className="collapse navbar-collapse"
                 id="navbarSupportedContent"
               >
-            
-
                 <div
                   className="btn-group"
                   role="group"
@@ -786,53 +777,34 @@ const Header = () => {
                 </div>
 
                 <ul className="navbar-nav ms-auto navbar-list align-items-center">
-                  {/* <li className="nav-item">
-                    <button
-                      className="btn btn-primary mt-3 mx-3 btn1"
-                      style={{ pointerEvents: "none" }}>
-                      Hello, User
-                    </button>
-                  </li> */}
+                
                   {getBrokerName && getBrokerName == "Demo" ? (
                     <li className="nav-item">
-                      <button type="button" className="btn btn-primary  btn1">
+                      <button type="button" className="addbtn  btn1">
                         Demo Account
                       </button>
                     </li>
                   ) : (
-                    <>
-                      {/* <li className="nav-item">
-                        <button
-                          type="button"
-                          className="btn btn-primary mt-4 btn1"
-                          onClick={(e) => setIsModalVisible(true)}>
-                          Set API Key
-                        </button>
-                      </li> */}
-                    </>
+                    <></>
                   )}
 
                   <li className="nav-item mx-3" onClick={toggleFundsVisibility}>
                     <button
                       type="button"
                       data-bs-dismiss="modal"
-                      className="btn btn-primary mt-0 btn1"
+                      className="addbtn mt-0 btn1"
                     >
                       {showFunds ? (
                         <span>
                           <IndianRupee
                             style={{ height: "24px", marginRight: "10px" }}
                           />
-                          {/* <strong>
-                            {formatNumber(walletBalance && walletBalance) ||
-                              "-"}
-                          </strong> */}
+                       
                           <strong>{walletBalance || "-"}</strong>
                         </span>
                       ) : (
                         <span>
-                          <Eye />
-                          {/* <strong>*****</strong> */}
+                          <Eye className="iconcol"/>
                         </span>
                       )}
                     </button>
@@ -856,12 +828,10 @@ const Header = () => {
                   <li className="nav-item iq-full-screen">
                     <button
                       onClick={toggleTheme}
-                      className={`btn btn-sm ${
-                        theme === "light" ? "btn-dark" : "btn-light"
-                      } ms-auto`}
+                      className={`addbtn  ms-auto`}
                       style={{
-                        backgroundColor: theme === "light" ? "#222" : "#f8f9fa",
-                        color: theme === "light" ? "#fff" : "#000",
+                        // backgroundColor: theme === "light" ? "#222" : "#f8f9fa",
+                        // color: theme === "light" ? "#fff" : "#000",
                         border: "none",
                         padding: "8px 15px",
                         borderRadius: "5px",
@@ -903,12 +873,8 @@ const Header = () => {
                       <div className="iq-card shadow-none m-0">
                         <div className="iq-card-body p-0 ">
                           <div className="bg-primary p-3">
-                            <h5 className="mb-0 text-white line-height">
-                              {Username}
-                            </h5>
-                            <span className="text-white font-size-12">
-                              online
-                            </span>
+                            <h5 className="mb-0  line-height">{Username}</h5>
+                            <span className=" font-size-12">online</span>
                           </div>
                           <Link
                             to="/user/profile"
@@ -973,12 +939,12 @@ const Header = () => {
 
                           <div className="d-inline-block w-100 text-center p-3">
                             <button
-                              className="btn btn-primary iq-sign-btn"
+                              className="addbtn iq-sign-btn"
                               onClick={logout}
                               role="button"
                             >
                               Log out
-                              <i className="ri-login-box-line ms-2" />
+                              <i className="iconcol ri-login-box-line ms-2" />
                             </button>
                           </div>
                         </div>
@@ -993,7 +959,7 @@ const Header = () => {
               <div className="nav-item mx-5">
                 <button
                   type="button"
-                  className="btn btn-primary "
+                  className="addbtn "
                   onClick={(e) => setShowAddBrokerModal(true)}
                 >
                   Add Broker
@@ -1020,7 +986,7 @@ const Header = () => {
                 <ul className="navbar-nav ms-auto navbar-list align-items-center">
                   <li className="nav-item">
                     <button
-                      className="btn btn-primary  mx-3 btn1"
+                      className="addbtn  mx-3 btn1"
                       style={{ pointerEvents: "none" }}
                     >
                       Hello, {userName}
@@ -1042,16 +1008,13 @@ const Header = () => {
                     </a>
                   </li>
 
-
                   <li className="nav-item iq-full-screen">
                     <button
                       onClick={toggleTheme}
-                      className={`btn btn-sm ${
-                        theme === "light" ? "btn-dark" : "btn-light"
-                      } ms-auto`}
+                      className={`addbtn  ms-auto`}
                       style={{
-                        backgroundColor: theme === "light" ? "#222" : "#f8f9fa",
-                        color: theme === "light" ? "#fff" : "#000",
+                        // backgroundColor: theme === "light" ? "#222" : "#f8f9fa",
+                        // color: theme === "light" ? "#fff" : "#000",
                         border: "none",
                         padding: "8px 15px",
                         borderRadius: "5px",
@@ -1076,12 +1039,12 @@ const Header = () => {
                     >
                       <div className="caption">
                         <button
-                          className="btn btn-primary iq-sign-btn"
+                          className="addbtn iq-sign-btn"
                           onClick={logout}
                           role="button"
                         >
                           Log out
-                          <i className="ri-login-box-line ms-2" />
+                          <i className="iconcol ri-login-box-line ms-2" />
                         </button>
                       </div>
                     </a>
@@ -1089,80 +1052,6 @@ const Header = () => {
                 </ul>
               </div>
             </nav>
-
-            // <nav className="navbar navbar-expand-lg navbar-light p-0">
-            //     <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            //         <div className="nav-item mx-5">
-            //             <button type="button" className="btn btn-primary "
-            //                 onClick={(e) => setShowAddBrokerModal(true)}
-            //             >
-            //                 Add Broker
-            //             </button>
-            //         </div>
-
-            //         <ul className="navbar-nav ms-auto navbar-list align-items-center">
-
-            //             <li className={`nav-item ${activeElement === 'profile' ? 'iq-show' : ''}`}>
-
-            //                 <a href="#"
-
-            //                     className={`search-toggle d-flex align-items-center iq-waves-effectt ${activeElement === 'profile' ? 'active' : ''}`}
-
-            //                     onClick={(e) => handleClick(e, 'profile')}
-            //                 >
-            //                     <img
-            //                         src="/assets/images/user/1.jpg"
-            //                         className="img-fluid rounded-circle me-3"
-            //                         alt="user"
-            //                     />
-            //                     <div className="caption">
-            //                         <h6 className="mb-0 line-height">{Username}</h6>
-            //                         <span className="font-size-12">online</span>
-            //                     </div>
-            //                 </a>
-            //                 <div className="iq-sub-dropdown iq-user-dropdown">
-            //                     <div className="iq-card shadow-none m-0">
-            //                         <div className="iq-card-body p-0 ">
-            //                             <div className="bg-primary p-3">
-            //                                 <h5 className="mb-0 text-white line-height">{Username}</h5>
-            //                                 <span className="text-white font-size-12">online</span>
-            //                             </div>
-            //                             <Link to="/user/profile" className="iq-sub-card iq-bg-primary-hover">
-            //                                 <div className="media align-items-center d-flex">
-            //                                     <div className="rounded card-icon bg-soft-primary">
-            //                                         <i className="ri-file-user-line" />
-            //                                     </div>
-            //                                     <div className="media-body ms-3">
-            //                                         <h6 className="mb-0 ">My Profile</h6>
-            //                                         <p className="mb-0 font-size-12">View personal profile details.</p>
-            //                                     </div>
-            //                                 </div>
-            //                             </Link>
-            //                             <Link to="/user/editprofile" className="iq-sub-card iq-bg-warning-hover">
-            //                                 <div className="media align-items-center d-flex">
-            //                                     <div className="rounded card-icon bg-soft-warning">
-            //                                         <i className="ri-profile-line" />
-            //                                     </div>
-            //                                     <div className="media-body ms-3">
-            //                                         <h6 className="mb-0 ">Change Password</h6>
-            //                                     </div>
-            //                                 </div>
-            //                             </Link>
-
-            //                             <div className="d-inline-block w-100 text-center p-3">
-            //                                 <button className="btn btn-primary iq-sign-btn" onClick={logout} role="button">
-            //                                     Log out
-            //                                     <i className="ri-login-box-line ms-2" />
-            //                                 </button>
-            //                             </div>
-            //                         </div>
-            //                     </div>
-            //                 </div>
-            //             </li>
-            //         </ul>
-            //     </div>
-
-            // </nav>
           )}
         </div>
       </div>
@@ -1182,12 +1071,11 @@ const Header = () => {
             aria-hidden="true"
           ></div>
           <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
+            <div className="modal-content shadow-lg border-0 rounded-4">
+              <div className="modal-header bg-primary">
                 <h5 className="modal-title" id="exampleModalLabel">
-                  Auto Login
+                  🔑 Auto Login
                 </h5>
-
                 <button
                   type="button"
                   className="btn-close"
@@ -1196,37 +1084,32 @@ const Header = () => {
                   onClick={() => setShowModal(false)}
                 />
               </div>
-              <div className="">
-                <div className="d-flex justify-content-center">
-                  <div className="m-4">
-                    <button
-                      className="btn btn-primary"
-                      onClick={handleAutoLoginbtn}
-                    >
-                      Auto Login
-                    </button>
-                  </div>
-                </div>
-                <div className="d-flex justify-content-center">
-                  <div className="m-4">
-                    <button
-                      className="btn btn-primary"
-                      onClick={handleDataStart}
-                    >
-                      Data Start
-                    </button>
-                  </div>
-                </div>
 
-                <div className="d-flex justify-content-center">
-                  <div className="m-4">
-                    <button
-                      className="btn btn-primary"
-                      onClick={handleLastPattern}
-                    >
-                      Last Pattern
-                    </button>
-                  </div>
+              <div className="modal-body">
+                <div className="d-flex flex-column align-items-center gap-3">
+                  {/* Auto Login Button */}
+                  <button
+                    className="addbtn w-75 py-2 shadow-sm btn btn-outline-primary"
+                    onClick={handleAutoLoginbtn}
+                  >
+                    🔑 <strong>Auto Login</strong>
+                  </button>
+
+                  {/* Data Start Button */}
+                  <button
+                    className="addbtn w-75 py-2 shadow-sm btn btn-outline-success"
+                    onClick={handleDataStart}
+                  >
+                    🚀 <strong>Data Start</strong>
+                  </button>
+
+                  {/* Last Pattern Button */}
+                  <button
+                    className="addbtn w-75 py-2 shadow-sm btn btn-outline-warning"
+                    onClick={handleLastPattern}
+                  >
+                    🔍 <strong>Last Pattern</strong>
+                  </button>
                 </div>
               </div>
             </div>
@@ -1277,7 +1160,7 @@ const Header = () => {
                   />
                 </div>
                 <div className="d-flex justify-content-end mb-4 mx-4">
-                  <button className="btn btn-primary" onClick={handleAddBroker}>
+                  <button className="addbtn" onClick={handleAddBroker}>
                     Save
                   </button>
                 </div>

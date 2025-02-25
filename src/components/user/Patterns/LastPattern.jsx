@@ -186,7 +186,7 @@ const LastPattern = () => {
 
         {selectPattern == "Charting Patterns" ? (
           <div className="mt-3">
-            <button className="btn btn-primary" onClick={HandleSubmit}>
+            <button className="addbtn" onClick={HandleSubmit}>
               Submit
             </button>
           </div>

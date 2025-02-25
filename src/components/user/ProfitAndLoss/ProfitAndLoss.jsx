@@ -199,7 +199,7 @@ const Tradehistory = () => {
           </div>
         </div>
 
-        <button className="btn btn-primary mt-2" onClick={handleSubmit}>
+        <button className="addbtn mt-2" onClick={handleSubmit}>
           Submit
         </button>
 

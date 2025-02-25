@@ -5487,7 +5487,7 @@ a {
 
 .balance-label {
   margin-right: 8px;
-  color: #333;
+  color: var(--text-color);
 }
 
 .balance-amount {
@@ -5748,7 +5748,7 @@ button.btn.btn-primary,
 }
 
 .navbar-nav li a,
-.navbar-nav li i {
+.navbar-nav li  {
   color: var(--text-color) !important;
   text-decoration: none;
 }
@@ -6285,7 +6285,9 @@ span {
   width: 50% !important;
 }
 
-
+.iconcol {
+  color: var(--bg-color) !important;
+}
 
 
 

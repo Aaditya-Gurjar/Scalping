@@ -67,7 +67,7 @@ const GroupStrategyList = () => {
   
   return (
     <Content
-    Page_title={"📌 All Plans"}
+    Page_title={"📌 All Groups"}
     button_status={false}
     backbutton_status={false}
   >

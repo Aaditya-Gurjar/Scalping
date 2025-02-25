@@ -296,7 +296,7 @@ const Strategygroup = () => {
         >
             <button
                 type="button"
-                className="btn btn-primary"
+                className='addbtn mx-3'
                 onClick={() => setShowModal(true)}
             >
                 Add New Group

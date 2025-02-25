@@ -1978,12 +1978,12 @@ const AddClient = () => {
               "ShortFourLegStretegy",
             ].includes(formik.values.Strategy) &&
               formik.values?.FixedSM !== "Single" && (
-                <p
-                  className={`custom-btn custom-btn-dark `}
+                <button
+                  className={`addbtn `}
                   onClick={checkModalCondition}
                 >
                   Check PnL
-                </p>
+                </button>
 
               )}
           </div>

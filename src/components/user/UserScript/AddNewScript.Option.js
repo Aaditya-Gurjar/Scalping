@@ -1690,9 +1690,9 @@ const AddClient = () => {
               formik.values.Strategy == "ShortFourLegStretegy" ? (
               ""
             ) : (
-              <p className="btn btn-primary" onClick={() => handleCheckPnl()}>
+              <button className="addbtn" onClick={() => handleCheckPnl()}>
                 Check PnL
-              </p>
+              </button>
             )}
           </div>
         }
