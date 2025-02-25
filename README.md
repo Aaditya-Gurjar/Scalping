@@ -39,7 +39,7 @@ Ensure you have the following installed:
 ```sh
 cd backend
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate  
 pip install -r requirements.txt
 uvicorn main:app --reload  # For FastAPI
 ```

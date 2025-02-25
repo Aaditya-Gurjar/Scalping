@@ -266,7 +266,7 @@ a:hover {
 }
 
 .avatar-upload .avatar-edit input + label:after {
-  content: "\f040";
+  content: "f040";
   font-family: "FontAwesome";
   color: #374948;
   position: absolute;
@@ -1071,7 +1071,7 @@ body.sidebar-main .iq-sidebar:hover .iq-menu li.menu-open > a {
 }
 
 .breadcrumb-item + .breadcrumb-item::before {
-  content: "\ea5f";
+  content: "ea5f";
   font-family: "remixicon";
   font-size: 14px;
   vertical-align: sub;
@@ -1390,8 +1390,6 @@ body.sidebar-main .iq-menu-bt-sidebar .iq-menu-bt {
   transform: rotate(-90deg) translateX(-3px);
 }
 
-.main-circle {
-}
 
 .hover-circle {
   opacity: 0;
@@ -2872,7 +2870,7 @@ FAQ
 .iq-accordion.career-style.faq-style .accordion-title:before {
   display: inline-block;
   cursor: pointer;
-  content: "\f218";
+  content: "f218";
   font-family: "Ionicons";
   position: absolute;
   top: -8px;
@@ -2907,7 +2905,7 @@ FAQ
 .iq-accordion.career-style.faq-style
   .iq-accordion-block.accordion-active
   .accordion-title:before {
-  content: "\f209";
+  content: "f209";
   display: inline-block;
 }
 
@@ -6312,4 +6310,8 @@ svg {
 
 span {
   color: var(--text-color);
+}
+
+.MuiTabs-root {
+  width: 50% !important;
 }

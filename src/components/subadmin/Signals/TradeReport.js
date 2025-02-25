@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { get_User_Data } from '../../CommonAPI/Admin'
 import { get_Trade_Report } from '../../CommonAPI/User'
-import Loader from '../../../ExtraComponent/Loader'
 import GridExample from '../../../ExtraComponent/CommanDataTable'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";

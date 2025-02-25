@@ -22,9 +22,7 @@ const Userdashboard = () => {
   const [refresh, setRefresh] = useState(false);
   const [getGroup, setGroup] = useState(groupName || "");
   const [strategyType, setStrategyType] = useState([]);
-  const [tableType, setTableType] = useState(
-    StrategyType || "MultiCondition"
-  );
+  const [tableType, setTableType] = useState(StrategyType || "MultiCondition");
   const [serviceStatus, setServiceStatus] = useState({
     status: false,
     msg: "",
@@ -691,9 +689,7 @@ const Userdashboard = () => {
       button_status={false}
       backbutton_status={false}
     >
-
       <div className="iq-card-body" style={{ padding: "3px" }}>
-
         <ul
           className="nav nav-tabs justify-content-center"
           id="myTab-2"
@@ -701,8 +697,9 @@ const Userdashboard = () => {
         >
           <li className="nav-item" role="presentation">
             <a
-              className={`nav-link d-flex align-items-center gap-2 ${activeTab1 === "CurrentPosition" ? "active" : ""
-                }`}
+              className={`nav-link d-flex align-items-center gap-2 ${
+                activeTab1 === "CurrentPosition" ? "active" : ""
+              }`}
               id="home-tab-justify"
               data-bs-toggle="tab"
               href="#home-justify"
@@ -716,8 +713,9 @@ const Userdashboard = () => {
           </li>
           <li className="nav-item" role="presentation">
             <a
-              className={`nav-link d-flex align-items-center gap-2 ${activeTab1 === "OpenPosition" ? "active" : ""
-                }`}
+              className={`nav-link d-flex align-items-center gap-2 ${
+                activeTab1 === "OpenPosition" ? "active" : ""
+              }`}
               id="profile-tab-justify"
               data-bs-toggle="tab"
               href="#profile-justify"
@@ -735,16 +733,17 @@ const Userdashboard = () => {
           {activeTab1 === "CurrentPosition" && (
             <div className="d-flex">
               <div
-                className={`form-group ${activeTab == "currentScript" && subTab == "Scalping"
+                className={`form-group ${
+                  activeTab == "currentScript" && subTab == "Scalping"
                     ? "col-lg-6"
                     : activeTab == "group" && subTab == "Scalping"
-                      ? "col-lg-4"
-                      : activeTab == "currentScript"
-                        ? "col-lg-6"
-                        : activeTab == "group"
-                          ? "col-lg-4"
-                          : "col-lg-4"
-                  }`}
+                    ? "col-lg-4"
+                    : activeTab == "currentScript"
+                    ? "col-lg-6"
+                    : activeTab == "group"
+                    ? "col-lg-4"
+                    : "col-lg-4"
+                }`}
               >
                 <div className="px-3">
                   <label>Add Via</label>
@@ -757,25 +756,24 @@ const Userdashboard = () => {
                     }}
                     value={activeTab}
                   >
-                    <option value="currentScript">
-                      Current Script
-                    </option>
+                    <option value="currentScript">Current Script</option>
                     <option value="group">Group Script</option>
                   </select>
                 </div>
               </div>
               {activeTab == "group" && (
                 <div
-                  className={`form-group ${activeTab == "currentScript" && subTab == "Scalping"
+                  className={`form-group ${
+                    activeTab == "currentScript" && subTab == "Scalping"
                       ? "col-lg-4"
                       : activeTab == "group" && subTab == "Scalping"
-                        ? "col-lg-4"
-                        : activeTab == "currentScript"
-                          ? "col-lg-6"
-                          : activeTab == "group"
-                            ? "col-lg-4"
-                            : "col-lg-4"
-                    }`}
+                      ? "col-lg-4"
+                      : activeTab == "currentScript"
+                      ? "col-lg-6"
+                      : activeTab == "group"
+                      ? "col-lg-4"
+                      : "col-lg-4"
+                  }`}
                 >
                   <div className="px-3">
                     <label>Group Name</label>
@@ -784,10 +782,7 @@ const Userdashboard = () => {
                       required=""
                       onChange={(e) => {
                         setGroup(e.target.value);
-                        sessionStorage.setItem(
-                          "groupName",
-                          e.target.value
-                        );
+                        sessionStorage.setItem("groupName", e.target.value);
                       }}
                       value={getGroup}
                     >
@@ -804,16 +799,17 @@ const Userdashboard = () => {
               )}
 
               <div
-                className={`form-group ${activeTab == "currentScript" && subTab == "Scalping"
+                className={`form-group ${
+                  activeTab == "currentScript" && subTab == "Scalping"
                     ? "col-lg-6"
                     : activeTab == "group" && subTab == "Scalping"
-                      ? "col-lg-4"
-                      : activeTab == "currentScript"
-                        ? "col-lg-6"
-                        : activeTab == "group"
-                          ? "col-lg-4"
-                          : "col-lg-4"
-                  }`}
+                    ? "col-lg-4"
+                    : activeTab == "currentScript"
+                    ? "col-lg-6"
+                    : activeTab == "group"
+                    ? "col-lg-4"
+                    : "col-lg-4"
+                }`}
               >
                 <div className="px-3">
                   <label>Strategy Type</label>
@@ -840,16 +836,17 @@ const Userdashboard = () => {
 
               {subTab === "Scalping" && (
                 <div
-                  className={`form-group ${activeTab == "currentScript" && subTab == "Scalping"
+                  className={`form-group ${
+                    activeTab == "currentScript" && subTab == "Scalping"
                       ? "col-lg-4"
                       : activeTab == "group" && subTab == "Scalping"
-                        ? "col-lg-4"
-                        : activeTab == "currentScript"
-                          ? "col-lg-6"
-                          : activeTab == "group"
-                            ? "col-lg-4"
-                            : "col-lg-4"
-                    }`}
+                      ? "col-lg-4"
+                      : activeTab == "currentScript"
+                      ? "col-lg-6"
+                      : activeTab == "group"
+                      ? "col-lg-4"
+                      : "col-lg-4"
+                  }`}
                 ></div>
               )}
             </div>
@@ -883,22 +880,22 @@ const Userdashboard = () => {
                   ) : null}
                 </div>
               </div>
-            ) : activeTab === "currentScript" ? (
+            ) : activeTab === "currentScript" && (
               <div
                 className="tab-pane fade show active"
                 id="home-justify"
                 role="tabpanel"
               >
-                {subTab && serviceStatus ? (
+                {subTab && serviceStatus && (
                   <CurrentScript
                     tableType={tableType}
                     data={subTab}
                     selectedType={activeTab}
                     data2={serviceStatus}
                   />
-                ) : null}
+                ) }
               </div>
-            ) : null}
+            ) }
           </>
         )}
 
@@ -906,7 +903,7 @@ const Userdashboard = () => {
           <>
             {getPositionData.NewScalping?.length > 0 && (
               <>
-                {/* <h4>Multi Condition</h4> */}
+              
                 <h4>Scalping</h4>
                 <FullDataTable
                   columns={columns4}
@@ -959,7 +956,6 @@ const Userdashboard = () => {
           getPositionData.Pattern?.length === 0 &&
           getPositionData.ChartingData?.length === 0 && <NoDataFound />}
       </div>
-
     </Content>
   );
 };
