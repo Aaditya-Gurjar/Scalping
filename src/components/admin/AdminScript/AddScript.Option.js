@@ -157,7 +157,7 @@ const AddClient = () => {
                 errors.Striketype = "Please Select a Strike Type.";
             }
             if (!values.Unique_ID && (values.Strategy == "LongFourLegStretegy" || values.Strategy == "ShortFourLegStretegy")) {
-                errors.Unique_ID = "Please Select Unique ID.";
+                errors.Unique_ID = "Please Select Unique Name.";
             }
             if (!values.PEDeepLower && values.PEDeepLower == 0 && (values.Strategy == 'ShortFourLegStretegy' || values.Strategy == 'LongFourLegStretegy')) {
                 errors.PEDeepLower = values.PEDeepLower == 0 ? "PE Hedge Lower Cannot Be Zero." : "Please Enter PE Hedge Lower.";
@@ -635,7 +635,7 @@ const AddClient = () => {
         },
         {
             name: "Unique_ID",
-            label: "Unique ID",
+            label: "Unique Name",
             type: "select1",
             options: [
                 { label: "A", value: "A" },

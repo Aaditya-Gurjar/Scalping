@@ -212,7 +212,7 @@ const Userdashboard = () => {
     },
     {
       name: "GroupN",
-      label: "Unique ID",
+      label: "Unique Name",
       options: {
         filter: true,
         sort: true,
@@ -339,7 +339,7 @@ const Userdashboard = () => {
     },
     {
       name: "GroupN",
-      label: "Unique ID",
+      label: "Unique Name",
       options: {
         filter: true,
         sort: true,
@@ -547,7 +547,7 @@ const Userdashboard = () => {
     },
     {
       name: "GroupN",
-      label: "Unique ID",
+      label: "Unique Name",
       options: {
         filter: true,
         sort: true,

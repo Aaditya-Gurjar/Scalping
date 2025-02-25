@@ -169,39 +169,39 @@ export const columns6 = [
     name: "Targetselection",
     label: "Target Selection",
     options: {
-        filter: true,
-        sort: true,
+      filter: true,
+      sort: true,
     }
-},
-{
-  name: "Quantity",
-  label: "Quantity",
-  options: {
-    filter: true,
-    sort: true,
   },
-},
-{
-  name: "Booking Point",
-  label: "Target",
-  options: {
-    filter: true,
-    sort: true,
+  {
+    name: "Quantity",
+    label: "Quantity",
+    options: {
+      filter: true,
+      sort: true,
+    },
   },
-},
-{
-  name: "Re-entry Point",
-  label: "Re-entry",
-  options: {
-    filter: true,
-    sort: true,
+  {
+    name: "Booking Point",
+    label: "Target",
+    options: {
+      filter: true,
+      sort: true,
+    },
   },
-},
+  {
+    name: "Re-entry Point",
+    label: "Re-entry",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
 
 
   {
     name: "ScalpType",
-    label: "ScalpType",
+    label: "Scalp Type",
     options: {
       filter: true,
       sort: true,
@@ -215,7 +215,7 @@ export const columns6 = [
       sort: true,
     },
   },
- 
+
   {
     name: "Token",
     label: "Token",
@@ -224,8 +224,8 @@ export const columns6 = [
       sort: true,
     },
   },
-  
- 
+
+
 
   {
     name: "ExpiryDate",
@@ -321,6 +321,261 @@ export const columns6 = [
       },
     },
   },
+  {
+    name: "TStype",
+    label: "Measurement Type",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "PositionType",
+    label: "Position Type",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Trading",
+    label: "Trading",
+    options: {
+      filter: true,
+      sort: true,
+      customBodyRender: (value) => value ? "true" : "false"
+    },
+  },
+  {
+    name: "Profit",
+    label: "Profit",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Loss",
+    label: "Loss",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "HoldExit",
+    label: "Hold / Exit",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Instrument Symbol",
+    label: "Instrument Symbol",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Username",
+    label: "Username",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "EntryPrice",
+    label: "Entry Price",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "EntryRange",
+    label: "Entry Range",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "GroupN",
+    label: "Unique Name",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "TaskStatus",
+    label: "Task Status",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Instrument Type",
+    label: "Instrument Type",
+    options: {
+      filter: true,
+      sort: true,
+      customBodyRender: (value) => value ? value : "-"
+    },
+  },
+  {
+    name: "Lot",
+    label: "Quantity",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "MainSymbol",
+    label: "Main Symbol",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "StepUp",
+    label: "Step Up",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "IncrementType",
+    label: "Increment Type",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Incrementvalue",
+    label: "Increment Value",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Expirytype",
+    label: "Expiry Type",
+    options: {
+      filter: true,
+      sort: true,
+      customBodyRender: (value) => value ? value : "-"
+    },
+  },
+  {
+    name: "Booking Point2",
+    label: "Booking Point 2",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Booking Point3",
+    label: "Booking Point 3",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Quantity2",
+    label: "Quantity 2",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Quantity3",
+    label: "Quantity 3",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "RolloverTF",
+    label: "RolloverTF",
+    options: {
+      filter: true,
+      sort: true,
+      customBodyRender: (value) => value ? "true" : "false"
+    },
+  },
+  {
+    name: "RolloverDay",
+    label: "Rollover Day",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "RolloverTime",
+    label: "Rollover Time",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "TargetExit",
+    label: "Target Exit",
+    options: {
+      filter: true,
+      sort: true,
+      customBodyRender: (value) => value ? "true" : "false"
+    },
+  },
+  {
+    name: "RepeatationCount",
+    label: "Repeatation Count",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Token1",
+    label: "Token1",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "MatchPosition",
+    label: "Match Position",
+    options: {
+      filter: true,
+      sort: true,
+      customBodyRender: (value) => value ? "true" : "false"
+    },
+  },
+  {
+    name: "FinalTarget",
+    label: "Final Target",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+
 ];
 
 // Option
@@ -583,7 +838,7 @@ export const columns1 = [
   },
   {
     name: "GroupN",
-    label: "Unique ID",
+    label: "Unique Name",
     options: {
       filter: true,
       sort: true,
@@ -911,7 +1166,7 @@ export const columns3 = [
   },
   {
     name: "GroupN",
-    label: "Unique ID",
+    label: "Unique Name",
     options: {
       filter: true,
       sort: true,
@@ -1016,7 +1271,7 @@ export const columns4 = [
   },
   {
     name: "GroupN",
-    label: "Unique ID",
+    label: "Unique Name",
     options: {
       filter: true,
       sort: true,
@@ -1136,7 +1391,7 @@ export const columns5 = [
   },
   {
     name: "GroupN",
-    label: "Unique ID",
+    label: "Unique Name",
     options: {
       filter: true,
       sort: true,

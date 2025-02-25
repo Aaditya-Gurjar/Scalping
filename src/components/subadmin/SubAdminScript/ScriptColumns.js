@@ -180,7 +180,7 @@ export const columns = (handleDelete)=>[
     },
     {
         name: "GroupN",
-        label: "Unique ID",
+        label: "Unique Name",
         options: {
             filter: true,
             sort: true,

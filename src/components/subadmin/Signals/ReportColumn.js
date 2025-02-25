@@ -408,7 +408,7 @@ export const getColumns1 = () => [
     },
     {
         name: "GroupN",
-        label: "Unique ID",
+        label: "Unique Name",
         options: {
             filter: true,
             sort: true,
@@ -694,7 +694,7 @@ export const getColumns3 = () => [
     },
     {
         name: "GroupN",
-        label: "Unique ID",
+        label: "Unique Name",
         options: {
             filter: true,
             sort: true,
@@ -813,7 +813,7 @@ export const getColumns6 = () => [
 
     {
         name: "GroupN",
-        label: "Unique ID",
+        label: "Unique Name",
         options: {
             filter: true,
             sort: true,
@@ -956,7 +956,7 @@ export const getColumns4 = () => [
 
     {
         name: "GroupN",
-        label: "Unique ID",
+        label: "Unique Name",
         options: {
             filter: true,
             sort: true,
@@ -1116,7 +1116,7 @@ export const getColumns7 = () => [
 
     {
         name: "GroupN",
-        label: "Unique ID",
+        label: "Unique Name",
         options: {
             filter: true,
             sort: true,
