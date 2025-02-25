@@ -1390,8 +1390,7 @@ body.sidebar-main .iq-menu-bt-sidebar .iq-menu-bt {
   transform: rotate(-90deg) translateX(-3px);
 }
 
-.main-circle {
-}
+ 
 
 .hover-circle {
   opacity: 0;
@@ -6234,7 +6233,7 @@ svg {
 }
 
 .addbtn:hover {
-  background-color: #e2e6ea; /* Slightly darker on hover */
+  background-color: #e2e6ea;
   border-color: #bbb;
   color: black;
 }
