@@ -144,6 +144,7 @@
     .group-btn-backtest,
     .group-btn-deploy {
         width: 100%;
+        
     }
 }
 
@@ -215,7 +216,6 @@
         width: 95%;
     }
 }
-
 
 
  .container_view {

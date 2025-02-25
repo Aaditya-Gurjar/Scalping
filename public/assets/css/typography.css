@@ -78,8 +78,8 @@ General
   --text-color: #2a2a2a;
   --navbar-bg: #ffffff;
   --navbar-shadow: 0px 0px 25px 0px rgba(45, 69, 95, 0.1);
-  
-  --dark-txt-color :black;
+
+  --dark-txt-color: black;
 }
 
 
@@ -90,7 +90,7 @@ General
   --navbar-bg: #2a2a2a;
   --navbar-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.5);
 
-  --dark-txt-color :white;
+  --dark-txt-color: white;
 }
 
 
@@ -126,7 +126,7 @@ h3,
 h4,
 h5,
 h6 {
- font-family: "Inter", serif;
+  font-family: "Inter", serif;
   font-weight: 400;
   margin: 0px;
   line-height: 1.5;
@@ -204,6 +204,7 @@ input.form-control[type="file"] {
 .form-select[multiple] {
   height: auto;
 }
+
 .form-control {
   height: 45px;
   background-color: black !important;
@@ -226,9 +227,10 @@ input.form-control[type="file"] {
 .form-control:-webkit-autofill:focus {
   background-color: black !important;
   color: white !important;
-  -webkit-text-fill-color: white !important;
+  -webkit-text-fill-color:var(--text-color) !important;
   transition: background-color 5000s ease-in-out 0s;
 }
+
 /* Definition Lists */
 dl dd {
   margin-bottom: 15px;
@@ -1274,7 +1276,7 @@ Card
 /*--------------*/
 .nav-pills .nav-item a {
   color: #393c52;
- font-family: "Inter", serif;
+  font-family: "Inter", serif;
 }
 
 .nav-pills .nav-link.active,
@@ -1295,13 +1297,14 @@ Card
 
 .nav-tabs .nav-item a {
   color: var(--dark-txt-color);
- font-family: "Inter", serif;
+  font-family: "Inter", serif;
   border: none;
   border-bottom: 2px solid transparent;
   font-size: 25px;
 }
 
-.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
   border-bottom: 2px solid #089bab;
   color: #089bab;
   background: transparent !important;
@@ -1460,7 +1463,7 @@ Buttons
 ------------------------------------------------*/
 .btn {
   font-size: 14px;
- font-family: "Inter", serif;
+  font-family: "Inter", serif;
 }
 
 .btn.focus,
@@ -1501,17 +1504,18 @@ Buttons
 
 
 .btn-secondary {
-    color: #92a6be !important;
-    background: rgb(0 0 0 / 28%) !important;
-    background: -moz-linear-gradient(left, rgba(120, 125, 118, 1) 0%, rgba(171, 171, 171, 1) 100%);
-    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(120, 125, 118, 1)), color-stop(100%, rgba(171, 171, 171, 1)));
-    /* background: -webkit-linear-gradient(left, rgba(120, 125, 118, 1) 0%, rgba(171, 171, 171, 1) 100%); */
-    background: -o-linear-gradient(left, rgba(120, 125, 118, 1) 0%, rgba(171, 171, 171, 1) 100%);
-    background: -ms-linear-gradient(left, rgba(120, 125, 118, 1) 0%, rgba(171, 171, 171, 1) 100%);
-    /* background: linear-gradient(to right, rgba(120, 125, 118, 1) 0%, rgba(171, 171, 171, 1) 100%); */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#787d76', endColorstr='#ababab', GradientType=1);
-    /* border-color: #a09e9e; */
+  color: #92a6be !important;
+  background: rgb(0 0 0 / 28%) !important;
+  background: -moz-linear-gradient(left, rgba(120, 125, 118, 1) 0%, rgba(171, 171, 171, 1) 100%);
+  background: -webkit-gradient(left top, right top, color-stop(0%, rgba(120, 125, 118, 1)), color-stop(100%, rgba(171, 171, 171, 1)));
+  /* background: -webkit-linear-gradient(left, rgba(120, 125, 118, 1) 0%, rgba(171, 171, 171, 1) 100%); */
+  background: -o-linear-gradient(left, rgba(120, 125, 118, 1) 0%, rgba(171, 171, 171, 1) 100%);
+  background: -ms-linear-gradient(left, rgba(120, 125, 118, 1) 0%, rgba(171, 171, 171, 1) 100%);
+  /* background: linear-gradient(to right, rgba(120, 125, 118, 1) 0%, rgba(171, 171, 171, 1) 100%); */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#787d76', endColorstr='#ababab', GradientType=1);
+  /* border-color: #a09e9e; */
 }
+
 .btn-success {
   color: #ffffff;
   background: rgba(49, 192, 44, 1);

@@ -737,7 +737,7 @@ const AddClient = () => {
 
     {
       name: "EntryPrice",
-      label: formik.values.position_type == 'Multiple' ? "First Trade Lower Range" : "Lower Price",
+      label: "First Trade Lower Range",
       type: "text3",
       col_size: formik.values.Strategy == 'Fixed Price' || formik.values.Strategy == 'Multi_Conditional' ? 3 : 4,
       disable: false,
@@ -747,7 +747,7 @@ const AddClient = () => {
 
     {
       name: "EntryRange",
-      label: formik.values.position_type == 'Multiple' ? "First Trade Lower Range" : "Higher Price",
+      label: "First Trade Higher Range",
       type: "text3",
       label_size: 12,
       headingtype: 2,
@@ -851,7 +851,7 @@ const AddClient = () => {
 
     {
       name: "Slvalue",
-      label: formik.values.Strategy == "Fixed Price" ? "Stoploss" : formik.values.position_type == "Single" && formik.values.Strategy == "Multi_Conditional" ? "Stoploss" : "Re-Entry Point",
+      label: formik.values.Strategy == "Fixed Price" ? "Stoploss" : formik.values.position_type == "Single" && formik.values.Strategy == "Multi_Conditional" ? "Stoploss" : "Re-Entry",
       type: "text3",
       label_size: 12,
       col_size: formik.values.position_type == "Multiple" ? 3 : 4,
@@ -1035,8 +1035,15 @@ const AddClient = () => {
     {
       name: "NumberOfDays",
       label: "No. of Days",
-      type: "text3",
+      type: "select",
       label_size: 12,
+      options: [
+        { label: "1", value: "1" },
+        { label: "2", value: "2" },
+        { label: "3", value: "3" },
+        { label: "4", value: "4" },
+        { label: "5", value: "5" }
+      ],
       showWhen: (values) => {
         const rollOverBoolean = values.RollOver === "true";
         return (

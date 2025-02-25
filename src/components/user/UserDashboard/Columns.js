@@ -141,7 +141,7 @@ const DropdownComponent = ({ tableMeta, handleDelete, type, handleMatchPosition,
                             <li
                                 onClick={() =>
                                     navigate("/user/tradereport", {
-                                        state: { type, RowIndex: tableMeta?.rowIndex , goto: "dashboard" },
+                                        state: { type, RowIndex: tableMeta?.rowIndex, goto: "dashboard" },
                                     })
                                 }
                                 style={{ padding: "8px 16px", cursor: "pointer", color: "#fff" }}
@@ -1145,12 +1145,14 @@ export const getColumns3 = (handleDelete, handleEdit, handleContinutyDiscontinut
                 const labelStyle = value ? { backgroundColor: 'green', color: 'white' } : { backgroundColor: 'red', color: 'white' };
 
                 return (
-                    <button
-                        onClick={() => handleContinutyDiscontinuty(tableMeta, 1)}
-                        style={{ ...labelStyle, border: 'none', padding: '5px 10px', cursor: 'pointer', borderRadius: '5px' }}
-                    >
-                        {label}
-                    </button>
+
+                    label === "Continue" ? (
+                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-success">{label}</button>) : (
+                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-danger">{label}</button>
+                    )
+
+
+
                 );
             }
         }
@@ -1433,12 +1435,14 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
                 const labelStyle = value ? { backgroundColor: 'green', color: 'white' } : { backgroundColor: 'red', color: 'white' };
 
                 return (
-                    <button
-                        onClick={() => handleContinutyDiscontinuty(tableMeta, 2)}
-                        style={{ ...labelStyle, border: 'none', padding: '5px 10px', cursor: 'pointer', borderRadius: '5px' }}
-                    >
-                        {label}
-                    </button>
+
+                    label === "Continue" ? (
+                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-success">{label}</button>) : (
+                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-danger">{label}</button>
+                    )
+
+
+
                 );
             }
         }
@@ -1571,7 +1575,7 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
     },
     {
         name: "Product Type",
-        label: "Product Type",
+        label: "Exit Day",
         options: {
             filter: true,
             sort: true,
@@ -1737,12 +1741,14 @@ export const
                     const labelStyle = value ? { backgroundColor: 'green', color: 'white' } : { backgroundColor: 'red', color: 'white' };
 
                     return (
-                        <button
-                            onClick={() => handleContinutyDiscontinuty(tableMeta, 1)}
-                            style={{ ...labelStyle, border: 'none', padding: '5px 10px', cursor: 'pointer', borderRadius: '5px' }}
-                        >
-                            {label}
-                        </button>
+
+                        label === "Continue" ? (
+                            <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-success">{label}</button>) : (
+                            <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-danger">{label}</button>
+                        )
+
+
+
                     );
                 }
             }
@@ -1875,7 +1881,7 @@ export const
         },
         {
             name: "Quantity",
-            label: "Quantity",
+            label: "Lot",
             options: {
                 filter: true,
                 sort: true,
@@ -1972,7 +1978,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             }
         },
     },
-    
+
     {
         name: "Trading",
         label: "Trading",
@@ -1984,14 +1990,14 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
                 const labelStyle = value ? { backgroundColor: 'green', color: 'white' } : { backgroundColor: 'red', color: 'white' };
 
                 return (
-              
-                    label === "Continue" ? (
-                        <button style={{width:"7rem"}} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-success">{label}</button> ) :(
-                            <button style={{width:"7rem"}} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-danger">{label}</button>
-                        )
 
-                    
-                 
+                    label === "Continue" ? (
+                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-success">{label}</button>) : (
+                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-danger">{label}</button>
+                    )
+
+
+
                 );
             }
         }
@@ -2015,7 +2021,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
         }
     },
 
-   
+
     {
         name: "Targetselection",
         label: "Target Selection",
@@ -2268,7 +2274,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
 
     {
         name: "Booking Point2",
-        label: "Booking Point2",
+        label: "Target 2",
         options: {
             filter: true,
             sort: true,
@@ -2276,7 +2282,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
     },
     {
         name: "Booking Point3",
-        label: "Booking Point3",
+        label: "Target 3",
         options: {
             filter: true,
             sort: true,
@@ -2284,7 +2290,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
     },
     {
         name: "Quantity2",
-        label: "Quantity2",
+        label: "Lot2",
         options: {
             filter: true,
             sort: true,
@@ -2292,7 +2298,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
     },
     {
         name: "Quantity3",
-        label: "Quantity3",
+        label: "Lot3",
         options: {
             filter: true,
             sort: true,
@@ -2340,18 +2346,18 @@ export const getColumns8 = (handleContinutyDiscontinuty) => [
             filter: true,
             sort: true,
             customBodyRender: (value, tableMeta, updateValue) => {
-                // console.log("page ma kya value aa rhe hai ", value);
-
                 const label = value ? "Continue" : "Discontinue";
-                const labelStyle = value ? { color: 'green' } : { color: 'red' };
+                const labelStyle = value ? { backgroundColor: 'green', color: 'white' } : { backgroundColor: 'red', color: 'white' };
 
                 return (
-                    <span
-                        onClick={() => handleContinutyDiscontinuty(tableMeta, 2)}
-                        style={labelStyle}
-                    >
-                        {label}
-                    </span>
+
+                    label === "Continue" ? (
+                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-success">{label}</button>) : (
+                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-danger">{label}</button>
+                    )
+
+
+
                 );
             }
         }
