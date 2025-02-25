@@ -171,7 +171,6 @@ const AddClient = () => {
           values.Instrument === "OPTIDX" ||
           (values.Instrument == "OPTFUT" && values.Exchange === "MCX"))
       ) {
-        console.log("optioni");
 
         errors.Optiontype = "Please Select Option Type.";
       }
@@ -181,7 +180,6 @@ const AddClient = () => {
           values.Instrument === "OPTIDX" ||
           (values.Instrument == "OPTFUT" && values.Exchange === "MCX"))
       ) {
-        console.log("strike");
         errors.Strike = "Please Select Strike Price.";
       }
       if (!values.expirydata1 && values.Exchange !== "NSE") {
@@ -395,12 +393,12 @@ const AddClient = () => {
         errors.FinalTarget = "Please Enter Final Target";
       }
 
-      console.log("cp", errors)
       // ScrollToViewFirstError(errors);
       return errors;
     },
 
     onSubmit: async (values) => {
+
 
       try {
         const req = {
@@ -572,7 +570,8 @@ const AddClient = () => {
               : 0.0,
         };
 
-
+ 
+        console.log("assss")
 
         if (
           (Number(values.EntryPrice) > 0 || Number(values.EntryRange) > 0) &&
@@ -665,8 +664,8 @@ const AddClient = () => {
               );
             }
         }
-        console.log("req", req);
-
+        
+        return 
         await AddScript(req)
           .then((response) => {
             if (response.Status) {
@@ -1751,26 +1750,7 @@ const AddClient = () => {
   }, [formik.values.Symbol]);
 
   const handleCheckPnl = async () => {
-    const weekend = new Date().getDay();
-    const currentDate = new Date();
-    const currentTime =
-      currentDate.getHours() +
-      ":" +
-      currentDate.getMinutes() +
-      ":" +
-      currentDate.getSeconds();
-
-    if (
-      weekend == 6 ||
-      weekend == 0 ||
-      currentTime >= "15:30:00" ||
-      currentTime <= "09:15:00"
-    ) {
-      SweentAlertFun(
-        "⚠️ Market is closed. Please try again during trading hours. ⏳"
-      );
-      return;
-    }
+    
 
     
 
@@ -1873,6 +1853,7 @@ const AddClient = () => {
           : 1,
     };
 
+
     await CheckPnLScalping(req)
       .then((response) => {
         if (response.Status) {
@@ -1911,13 +1892,33 @@ const AddClient = () => {
   useEffect(() => {
     setShowPnl(false);
   }, [formik.values]);
-
-  // setOpenModel1(true)
+ 
   const checkModalCondition = async() => {
 
-    const errors = await formik.validateForm();
+   
 
-    
+    const weekend = new Date().getDay();
+    const currentDate = new Date();
+    const currentTime =
+      currentDate.getHours() +
+      ":" +
+      currentDate.getMinutes() +
+      ":" +
+      currentDate.getSeconds();
+
+    if (
+      weekend == 6 ||
+      weekend == 0 ||
+      currentTime >= "15:30:00" ||
+      currentTime <= "09:15:00"
+    ) {
+      SweentAlertFun(
+        "⚠️ Market is closed. Please try again during trading hours. ⏳"
+      );
+      return;
+    }
+
+    const errors = await formik.validateForm();
 
   if (Object.keys(errors).length > 0) {
    
@@ -1931,9 +1932,13 @@ const AddClient = () => {
         (formik.values.Instrument === "OPTIDX" ||
           formik.values.Instrument === "OPTSTK"))
     ) {
+      console.log("req");
+
       
       handleCheckPnl();
     } else {
+      console.log("req 222");
+
       setOpenModel1(true);
     }
   };
@@ -1966,6 +1971,7 @@ const AddClient = () => {
             ].includes(formik.values.Strategy) &&
               formik.values?.FixedSM !== "Single" && (
                 <button
+                type="button"
                   className={`addbtn `}
                   onClick={checkModalCondition}
                 >
@@ -2053,7 +2059,7 @@ const AddClient = () => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {console.log("PnlData", PnlData)}
+     
           {PnlData ? (
             [
               { label: "Token", value: PnlData.Token },
