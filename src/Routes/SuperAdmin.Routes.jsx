@@ -43,11 +43,15 @@ import SidebarRight from '../components/layouts/SidebarRight';
 // const ApiCreateInfo = lazy(() => import('../components/superAdmin/apiCreateInfo/ApiCreateInfo'));
 // const NewUpdate = lazy(() => import('../components/superAdmin/newUpdate/NewUpdate'));
 
+
+import { SidebarProvider } from "../components/layouts/SidebarContext";
+
 const SuperAdminRoute = () => {
   return (
     <>
       <div className="wrapper">
-        <Sidebar />
+      <SidebarProvider> 
+      <Sidebar position="left" />
         <div id="content-page" className="content-page">
           <Header />
 
@@ -74,7 +78,8 @@ const SuperAdminRoute = () => {
             <Route path="/new-update" element={<NewUpdate />} />
           </Routes>
         </div>
-        <SidebarRight />
+        <SidebarRight position="right"/>
+        </SidebarProvider>
       </div>
     </>
   );
