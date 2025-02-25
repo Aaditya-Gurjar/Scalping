@@ -854,32 +854,83 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
       return errors;
     },
     onSubmit: async (values) => {
+      // const req = {
+      //   MainStrategy: "NewScalping", // str
+      //   Strategy: EditDataScalping.Targetselection, // str
+      //   // Strategy:  , // str
+      //   Symbol: EditDataScalping.Symbol, // str
+      //   Username: userName, // str
+      //   ETPattern: "", // str (Trade type)
+      //   Timeframe: "", // str
+      //   Targetvalue:
+      //     parseFloat(EditDataScalping["Booking Point"]) ||
+      //     parseFloat(values.Targetvalue), // float
+      //   Slvalue: parseFloat(values.Slvalue), // float
+      //   TStype:
+      //     EditDataScalping.ScalpType != "Fixed Price"
+      //       ? values.TStype
+      //       : EditDataScalping.TStype, // str
+      //   LowerRange: 0.0,
+      //   HigherRange: 0.0,
+      //   HoldExit: EditDataScalping.HoldExit || "HoldExit", // str
+      //   EntryPrice: parseFloat(EditDataScalping.EntryPrice) || 0.0, // float
+      //   EntryRange: parseFloat(EditDataScalping.EntryRange) || 0.0, // float
+      //   EntryTime: EditDataScalping.EntryTime, // str
+      //   ExitTime: EditDataScalping?.ExitTime, // str
+      //   ExitDay: EditDataScalping.ExitDay || "", // str
+      //   TradeExecution: EditDataScalping.TradeExecution || "", // str
+      //   Group: EditDataScalping.GroupN || "", // str
+
+      //   // Depth values for CE and PE options
+      //   CEDepthLower: 0.0, // float
+      //   CEDepthHigher: 0.0, // float
+      //   PEDepthLower: 0.0, // float
+      //   PEDepthHigher: 0.0, // float
+      //   CEDeepLower: 0.0, // float
+      //   CEDeepHigher: 0.0, // float
+      //   PEDeepLower: 0.0, // float
+      //   PEDeepHigher: 0.0, // float
+      //   DepthofStrike: 0.0, // float
+
+      //   TradeCount: EditDataScalping.TradeCount || 0, // int
+
+      //   // Additional trade parameters
+      //   tgp2: EditDataScalping["Booking Point 2"] || 0.0,
+      //   tgp3: EditDataScalping["Booking Point 3"] || 0.0,
+      //   RolloverTF: EditDataScalping.RolloverTF || false, // bool
+      //   RolloverDay: "", // str
+      //   RolloverTime: "", // str
+      //   TargetExit: values.TargetExit, // bool
+      //   RepeatationCount: EditDataScalping.RepeatationCount || 0, // int
+      //   Profit: EditDataScalping.Profit || 0.0, // float
+      //   Loss: EditDataScalping.Loss || 0.0, // float
+      //   WorkingDay:
+      //     formik?.values?.WorkingDay?.map((day) => day?.value || day) || [], // list (array)
+      // };
+
+
       const req = {
+
         MainStrategy: "NewScalping", // str
-        Strategy: EditDataScalping.Targetselection, // str
+        Strategy: values.Strategy || EditDataScalping.Targetselection, // str
         // Strategy:  , // str
-        Symbol: EditDataScalping.Symbol, // str
+        Symbol: values.Symbol || EditDataScalping.Symbol, // str
         Username: userName, // str
         ETPattern: "", // str (Trade type)
         Timeframe: "", // str
-        Targetvalue:
-          parseFloat(EditDataScalping["Booking Point"]) ||
-          parseFloat(values.Targetvalue), // float
+        Targetvalue: parseFloat(values.Targetvalue) || parseFloat(EditDataScalping["Booking Point"]), // float
         Slvalue: parseFloat(values.Slvalue), // float
-        TStype:
-          EditDataScalping.ScalpType != "Fixed Price"
-            ? values.TStype
-            : EditDataScalping.TStype, // str
-        LowerRange: 0.0, // float (Profit in scalping)
-        HigherRange: 0.0, // float (Loss in scalping)
-        HoldExit: EditDataScalping.HoldExit || "HoldExit", // str
-        EntryPrice: parseFloat(EditDataScalping.EntryPrice) || 0.0, // float
-        EntryRange: parseFloat(EditDataScalping.EntryRange) || 0.0, // float
-        EntryTime: EditDataScalping.EntryTime, // str
-        ExitTime: EditDataScalping?.ExitTime, // str
-        ExitDay: EditDataScalping.ExitDay || "", // str
-        TradeExecution: EditDataScalping.TradeExecution || "", // str
-        Group: EditDataScalping.GroupN || "", // str
+        TStype: EditDataScalping.ScalpType != "Fixed Price" ? values.TStype : EditDataScalping.TStype, // str
+        LowerRange: values.LowerRange || 0.0, // float (Profit in scalping)
+        HigherRange: values.HigherRange || 0.0, // float (Loss in scalping)
+        HoldExit: values.HoldExit || EditDataScalping.HoldExit || "HoldExit", // str
+        EntryPrice: values.EntryPrice || parseFloat(EditDataScalping.EntryPrice) || 0.0, // float
+        EntryRange: values.EntryRange || parseFloat(EditDataScalping.EntryRange) || 0.0, // float
+        EntryTime: values.EntryTime || EditDataScalping.EntryTime, // str
+        ExitTime: values.ExitTime || EditDataScalping?.ExitTime, // str
+        ExitDay: values.ExitDay || EditDataScalping.ExitDay || "", // str
+        TradeExecution: values.TradeExecution || EditDataScalping.TradeExecution || "", // str
+        Group: values.Group || EditDataScalping.GroupN || "", // str
 
         // Depth values for CE and PE options
         CEDepthLower: 0.0, // float
@@ -892,21 +943,22 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         PEDeepHigher: 0.0, // float
         DepthofStrike: 0.0, // float
 
-        TradeCount: EditDataScalping.TradeCount || 0, // int
+        TradeCount: values.TradeCount || EditDataScalping.TradeCount || 0, // int
 
         // Additional trade parameters
-        tgp2: EditDataScalping["Booking Point 2"] || 0.0,
-        tgp3: EditDataScalping["Booking Point 3"] || 0.0,
-        RolloverTF: EditDataScalping.RolloverTF || false, // bool
-        RolloverDay: "", // str
-        RolloverTime: "", // str
+        tgp2: values.tgp2 || EditDataScalping["Booking Point 2"] || 0.0,
+        tgp3: values.tgp3 || EditDataScalping["Booking Point 3"] || 0.0,
+        RolloverTF: values.RolloverTF || EditDataScalping.RolloverTF || false, // bool
+        RolloverDay: values.RolloverDay || "", // str
+        RolloverTime: values.RolloverTime || "", // str
         TargetExit: values.TargetExit, // bool
-        RepeatationCount: EditDataScalping.RepeatationCount || 0, // int
-        Profit: EditDataScalping.Profit || 0.0, // float
-        Loss: EditDataScalping.Loss || 0.0, // float
-        WorkingDay:
-          formik?.values?.WorkingDay?.map((day) => day?.value || day) || [], // list (array)
-      };
+        RepeatationCount: values.RepeatationCount || EditDataScalping.RepeatationCount || 0, // int
+        Profit: values.Profit || EditDataScalping.Profit || 0.0, // float
+        Loss: values.Loss || EditDataScalping.Loss || 0.0, // float
+        WorkingDay: values.WorkingDay?.map(day => day?.value || day) || formik?.values?.WorkingDay?.map(day => day?.value || day) || [] // list (array)
+
+
+      }
       if (
         Number(values.EntryPrice) > 0 &&
         Number(values.EntryRange) &&
@@ -1552,10 +1604,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
     {
       name: "EntryPrice",
-      label:
-        showEditModal && EditDataScalping.PositionType === "Single"
-          ? "Lower Price"
-          : "First Trade Lower Range",
+      label: "First Trade Lower Range",
       type: "text3",
       col_size: 4,
       disable: false,
@@ -1565,10 +1614,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
     {
       name: "EntryRange",
-      label:
-        showEditModal && EditDataScalping.PositionType === "Single"
-          ? "Higher Price"
-          : "First Trade Higher Range",
+      label: "First Trade Higher Range",
       type: "text3",
       label_size: 12,
       headingtype: 2,
@@ -1579,33 +1625,33 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
   ];
 
   const RiskManagementArr = [
-    {
-      name: "LowerRange",
-      label: "Lower Range",
-      type: "text3",
-      label_size: 12,
-      col_size: 4,
-      showWhen: () =>
-        showEditModal && EditDataScalping.PositionType === "Multiple",
-      // showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
-      headingtype: 4,
-      disable: false,
-      hiding: false,
-    },
+    // {
+    //   name: "LowerRange",
+    //   label: "Lower Range",
+    //   type: "text3",
+    //   label_size: 12,
+    //   col_size: 4,
+    //   showWhen: () =>
+    //     showEditModal && EditDataScalping.PositionType === "Multiple",
+    //   // showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
+    //   headingtype: 4,
+    //   disable: false,
+    //   hiding: false,
+    // },
 
-    {
-      name: "HigherRange",
-      label: "Higher Range",
-      type: "text3",
-      label_size: 12,
-      col_size: 4,
-      headingtype: 4,
-      // showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
-      showWhen: () =>
-        showEditModal && EditDataScalping.PositionType === "Multiple",
-      disable: false,
-      hiding: false,
-    },
+    // {
+    //   name: "HigherRange",
+    //   label: "Higher Range",
+    //   type: "text3",
+    //   label_size: 12,
+    //   col_size: 4,
+    //   headingtype: 4,
+    //   // showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
+    //   showWhen: () =>
+    //     showEditModal && EditDataScalping.PositionType === "Multiple",
+    //   disable: false,
+    //   hiding: false,
+    // },
 
     {
       name: "HoldExit",
@@ -1673,22 +1719,22 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
       hiding: false,
     },
 
-    {
-      name: "HoldExit",
-      label: "Hold/Exit",
-      type: "select",
-      options: [
-        { label: "Hold", value: "Hold" },
-        { label: "Exit", value: "Exit" },
-      ],
-      showWhen: () =>
-        showEditModal && EditDataScalping.PositionType === "Multiple",
-      label_size: 12,
-      col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
-      headingtype: 4,
-      disable: false,
-      hiding: false,
-    },
+    // {
+    //   name: "HoldExit",
+    //   label: "Hold/Exit",
+    //   type: "select",
+    //   options: [
+    //     { label: "Hold", value: "Hold" },
+    //     { label: "Exit", value: "Exit" },
+    //   ],
+    //   showWhen: () =>
+    //     showEditModal && EditDataScalping.PositionType === "Multiple",
+    //   label_size: 12,
+    //   col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
+    //   headingtype: 4,
+    //   disable: false,
+    //   hiding: false,
+    // },
 
     {
       name: "WorkingDay",
@@ -1969,159 +2015,210 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
       formik2.setFieldValue("TradeCount", EditDataPattern.TradeCount);
     }
 
-  },[showEditModal, data, EditDataScalping]);
+  }, [showEditModal, data, EditDataScalping]);
 
 
 
-    useEffect(() => {
-      if (data == "Scalping") {
-        const WorkingDay = EditDataScalping?.WorkingDay?.map(day => {
-          return { label: day, value: day }
-        })
-        console.log("EditDataScalping.TargetExit", EditDataScalping.TargetExit)
+  useEffect(() => {
+    if (data == "Scalping") {
+      const WorkingDay = EditDataScalping?.WorkingDay?.map(day => {
+        return { label: day, value: day }
+      })
+      console.log("EditDataScalping.TargetExit", EditDataScalping.TargetExit)
 
-        formik.setFieldValue('EntryPrice', EditDataScalping.EntryPrice)
-        formik.setFieldValue('EntryRange', EditDataScalping.EntryRange)
-        formik.setFieldValue('Targetvalue', parseFloat(EditDataScalping['Booking Point']))
-        formik.setFieldValue('tgp2', parseFloat(EditDataScalping['Booking Point2']))
-        formik.setFieldValue('tgp3', parseFloat(EditDataScalping['Booking Point3']))
-        formik.setFieldValue('Slvalue', parseFloat(EditDataScalping['Re-entry Point']))
-        formik.setFieldValue('HoldExit', EditDataScalping.HoldExit)
-        formik.setFieldValue('EntryTime', EditDataScalping.EntryTime)
-        formik.setFieldValue('ExitTime', EditDataScalping.ExitTime)
-        formik.setFieldValue('Quantity', EditDataScalping.Quantity)
-        formik.setFieldValue('TradeCount', EditDataScalping.TradeCount)
-        formik.setFieldValue("TType", EditDataScalping.TType)
-        formik.setFieldValue("TStype", EditDataScalping.TStype)
-        formik.setFieldValue("Quantity", EditDataScalping.Quantity)
-        formik.setFieldValue("EntryPrice", parseFloat(EditDataScalping.EntryPrice))
-        formik.setFieldValue("EntryRange", parseFloat(EditDataScalping.EntryRange))
-        formik.setFieldValue("HoldExit", EditDataScalping.HoldExit)
-        formik.setFieldValue("Symbol", EditDataScalping.Symbol)
-        formik.setFieldValue("ExitDay", EditDataScalping.ExitDay)
-        formik.setFieldValue("RepeatationCount", EditDataScalping.RepeatationCount)
-        formik.setFieldValue("RolloverTF", EditDataScalping.RolloverTF)
-        formik.setFieldValue("Profit", EditDataScalping.Profit)
-        formik.setFieldValue("Loss", EditDataScalping.Loss)
-        formik.setFieldValue("TargetExit", EditDataScalping.TargetExit)
-        formik.setFieldValue('WorkingDay', WorkingDay);
-
-
-      }
-      else if (data == "Option Strategy") {
-
-        const WorkingDay = EditDataOption?.WorkingDay?.map(day => {
-          return { label: day, value: day }
-        })
-        formik1.setFieldValue('TStype', EditDataOption.strategytype)
-        formik1.setFieldValue('Targetvalue', EditDataOption['Target value'])
-        formik1.setFieldValue('Slvalue', EditDataOption['SL value'])
-        formik1.setFieldValue('Quantity', EditDataOption['Lot Size'])
-        formik1.setFieldValue('EntryTime', EditDataOption['Entry Time'])
-        formik1.setFieldValue('ExitTime', EditDataOption['Exit Time'])
-        formik1.setFieldValue('TradeCount', EditDataOption.TradeCount)
-        formik1.setFieldValue('WorkingDay', WorkingDay)
-      }
-      else if (data == "Pattern") {
-
-        formik2.setFieldValue('TStype', EditDataPattern.TStype)
-        formik2.setFieldValue('Targetvalue', EditDataPattern['Target value'])
-        formik2.setFieldValue('Slvalue', EditDataPattern['SL value'])
-        formik2.setFieldValue('Quantity', EditDataPattern.Quantity)
-        formik2.setFieldValue('EntryTime', EditDataPattern.EntryTime)
-        formik2.setFieldValue('ExitTime', EditDataPattern.ExitTime)
-        formik2.setFieldValue('TradeCount', EditDataPattern.TradeCount)
-
-      }
-    }, [showEditModal, data, EditDataScalping])
+      formik.setFieldValue('EntryPrice', EditDataScalping.EntryPrice)
+      formik.setFieldValue('EntryRange', EditDataScalping.EntryRange)
+      formik.setFieldValue('Targetvalue', parseFloat(EditDataScalping['Booking Point']))
+      formik.setFieldValue('tgp2', parseFloat(EditDataScalping['Booking Point2']))
+      formik.setFieldValue('tgp3', parseFloat(EditDataScalping['Booking Point3']))
+      formik.setFieldValue('Slvalue', parseFloat(EditDataScalping['Re-entry Point']))
+      formik.setFieldValue('HoldExit', EditDataScalping.HoldExit)
+      formik.setFieldValue('EntryTime', EditDataScalping.EntryTime)
+      formik.setFieldValue('ExitTime', EditDataScalping.ExitTime)
+      formik.setFieldValue('Quantity', EditDataScalping.Quantity)
+      formik.setFieldValue('TradeCount', EditDataScalping.TradeCount)
+      formik.setFieldValue("TType", EditDataScalping.TType)
+      formik.setFieldValue("TStype", EditDataScalping.TStype)
+      formik.setFieldValue("Quantity", EditDataScalping.Quantity)
+      formik.setFieldValue("EntryPrice", parseFloat(EditDataScalping.EntryPrice))
+      formik.setFieldValue("EntryRange", parseFloat(EditDataScalping.EntryRange))
+      formik.setFieldValue("HoldExit", EditDataScalping.HoldExit)
+      formik.setFieldValue("Symbol", EditDataScalping.Symbol)
+      formik.setFieldValue("ExitDay", EditDataScalping.ExitDay)
+      formik.setFieldValue("RepeatationCount", EditDataScalping.RepeatationCount)
+      formik.setFieldValue("RolloverTF", EditDataScalping.RolloverTF)
+      formik.setFieldValue("Profit", EditDataScalping.Profit)
+      formik.setFieldValue("Loss", EditDataScalping.Loss)
+      formik.setFieldValue("TargetExit", EditDataScalping.TargetExit)
+      formik.setFieldValue('WorkingDay', WorkingDay);
 
 
-    const updatedFields = fields.filter((item) => {
-      return item.hiding == false
-    })
+    }
+    else if (data == "Option Strategy") {
 
-    return (
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-sm-12">
-            <div className="iq-card">
-              <div className="iq-card-body" style={{ padding: '3px' }}>
-                <div className="tab-content2" id="myTabContent-3" style={{ marginTop: "1rem !important" }}>
+      const WorkingDay = EditDataOption?.WorkingDay?.map(day => {
+        return { label: day, value: day }
+      })
+      formik1.setFieldValue('TStype', EditDataOption.strategytype)
+      formik1.setFieldValue('Targetvalue', EditDataOption['Target value'])
+      formik1.setFieldValue('Slvalue', EditDataOption['SL value'])
+      formik1.setFieldValue('Quantity', EditDataOption['Lot Size'])
+      formik1.setFieldValue('EntryTime', EditDataOption['Entry Time'])
+      formik1.setFieldValue('ExitTime', EditDataOption['Exit Time'])
+      formik1.setFieldValue('TradeCount', EditDataOption.TradeCount)
+      formik1.setFieldValue('WorkingDay', WorkingDay)
+    }
+    else if (data == "Pattern") {
 
-                  <div className="tab-pane fade show active" id="home-justify" role="tabpanel" aria-labelledby="home-tab-justify">
-                    {data && (
-                      <>
-                        <div className="iq-card-header d-flex justify-content-between">
-                          <div className="iq-header-title">
-                            {tableType === "MultiCondition" ? <h3 className="card-title">{"Scalping"}</h3> : <h4 className="card-title">{data}</h4>}
-                          </div>
-                          <div className='d-flex justify-content-end'>
-                            <button className='addbtn btn btn-primary rounded mx-2 mt-1' onClick={() => AddScript(data)}>Add Script</button>
-                            <button className='addbtn mx-2 mt-1' onClick={() => AddScript(data)}>Add Script</button>
-                          
-                          </div>
+      formik2.setFieldValue('TStype', EditDataPattern.TStype)
+      formik2.setFieldValue('Targetvalue', EditDataPattern['Target value'])
+      formik2.setFieldValue('Slvalue', EditDataPattern['SL value'])
+      formik2.setFieldValue('Quantity', EditDataPattern.Quantity)
+      formik2.setFieldValue('EntryTime', EditDataPattern.EntryTime)
+      formik2.setFieldValue('ExitTime', EditDataPattern.ExitTime)
+      formik2.setFieldValue('TradeCount', EditDataPattern.TradeCount)
+
+    }
+  }, [showEditModal, data, EditDataScalping])
+
+
+  const updatedFields = fields.filter((item) => {
+    return item.hiding == false
+  })
+
+  return (
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col-sm-12">
+          <div className="iq-card">
+            <div className="iq-card-body" style={{ padding: '3px' }}>
+              <div className="tab-content2" id="myTabContent-3" style={{ marginTop: "1rem !important" }}>
+
+                <div className="tab-pane fade show active" id="home-justify" role="tabpanel" aria-labelledby="home-tab-justify">
+                  {data && (
+                    <>
+                      <div className="iq-card-header d-flex justify-content-between">
+                        <div className="iq-header-title">
+                          {tableType === "MultiCondition" ? <h3 className="card-title">{"Scalping"}</h3> : <h4 className="card-title">{data}</h4>}
+                        </div>
+                        <div className='d-flex justify-content-end'>
+                          {/* <button className='addbtn btn btn-primary rounded mx-2 mt-1' onClick={() => AddScript(data)}>Add Script</button> */}
+                          <button className='addbtn mx-2 mt-1' onClick={() => AddScript(data)}>Add Script</button>
 
                         </div>
-                        <div className="iq-card-body " style={{ padding: '3px' }}>
-                          <div className="table-responsive">
 
-                            {getAllService.loading ? (
-                              <Loader />
+                      </div>
+                      <div className="iq-card-body " style={{ padding: '3px' }}>
+                        <div className="table-responsive">
+
+                          {getAllService.loading ? (
+                            <Loader />
+                          ) : (
+
+                            (data === "Scalping" && getAllService.NewScalping?.length > 0) ||
+                              (data === "Option Strategy" && getAllService.OptionData?.length > 0) ||
+                              ((data === "Pattern" || data === "Pattern Script") && getAllService.PatternData?.length > 0) ||
+                              (data === "ChartingPlatform" && getCharting?.length > 0) ? (
+                              <FullDataTable
+                                columns={
+                                  data === "Scalping"
+                                    ? getColumns6(handleDelete, handleEdit, HandleContinueDiscontinue, handleMatchPosition)
+                                    : data === "Option Strategy"
+                                      ? getColumns4(handleDelete, handleEdit, HandleContinueDiscontinue)
+                                      : (data === "Pattern" || data === "Pattern Script")
+                                        ? getColumns5(handleDelete, handleEdit, HandleContinueDiscontinue)
+                                        : data === "ChartingPlatform"
+                                          ? getColumns8(HandleContinueDiscontinue)
+                                          : getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue)
+                                }
+                                data={
+                                  data === "Scalping"
+                                    ? getAllService.NewScalping
+                                    : data === "Option Strategy"
+                                      ? getAllService.OptionData
+                                      : (data === "Pattern" || data === "Pattern Script")
+                                        ? getAllService.PatternData
+                                        : data === "ChartingPlatform"
+                                          ? getCharting
+                                          : []
+                                }
+                                checkBox={false}
+                              />
                             ) : (
-
-                              (data === "Scalping" && getAllService.NewScalping?.length > 0) ||
-                                (data === "Option Strategy" && getAllService.OptionData?.length > 0) ||
-                                ((data === "Pattern" || data === "Pattern Script") && getAllService.PatternData?.length > 0) ||
-                                (data === "ChartingPlatform" && getCharting?.length > 0) ? (
-                                <FullDataTable
-                                  columns={
-                                    data === "Scalping"
-                                      ? getColumns6(handleDelete, handleEdit, HandleContinueDiscontinue, handleMatchPosition)
-                                      : data === "Option Strategy"
-                                        ? getColumns4(handleDelete, handleEdit, HandleContinueDiscontinue)
-                                        : (data === "Pattern" || data === "Pattern Script")
-                                          ? getColumns5(handleDelete, handleEdit, HandleContinueDiscontinue)
-                                          : data === "ChartingPlatform"
-                                            ? getColumns8(HandleContinueDiscontinue)
-                                            : getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue)
-                                  }
-                                  data={
-                                    data === "Scalping"
-                                      ? getAllService.NewScalping
-                                      : data === "Option Strategy"
-                                        ? getAllService.OptionData
-                                        : (data === "Pattern" || data === "Pattern Script")
-                                          ? getAllService.PatternData
-                                          : data === "ChartingPlatform"
-                                            ? getCharting
-                                            : []
-                                  }
-                                  checkBox={false}
-                                />
-                              ) : (
-                                <NoDataFound />
-                              )
-
-
+                              <NoDataFound />
                             )
 
 
+                          )
 
-                            }
-                          </div>
+                          }
                         </div>
-                      </>
-                    )}
-                  </div>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
           </div>
-
         </div>
+
       </div>
 
-    )
-  };
+      {showEditModal && <div className="modal show" id="exampleModal" style={{ display: "block", marginTop: "5rem" }}>
+        <div className="modal-dialog modal-xl modal-dialog-centered p-2">
+          <div className="modal-content ">
+            <div className="modal-header ">
+              <h5 className="modal-title">Edit Script</h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={() => { setShowEditModal(false); formik.resetForm() }}
+              />
+            </div>
+            {
+              data == "Scalping" ? <>
+                <div className='p-4'>
 
-  export default Coptyscript;
+                  <Formikform
+                    fields={(EditDataScalping.PositionType !== "Multiple" ? updatedFields : fields).filter(
+                      (field) => !field.showWhen || field.showWhen(formik.values)
+                    )}
+
+                    btn_name="Update"
+                    formik={formik}
+                  />
+                </div>
+              </> :
+                data == "Option Strategy" ? <>
+
+                  <div className='p-4'>
+                    <Formikform
+                      fields={fields1}
+                      btn_name="Update"
+                      formik={formik1}
+                    />
+                  </div>
+                </>
+                  :
+                  <div className='p-4'>
+                    <Formikform
+                      fields={fields2.filter(
+                        (field) => !field.showWhen || field.showWhen(formik2.values)
+                      )}
+
+                      btn_name="Update"
+                      formik={formik2}
+                    />
+                  </div>
+            }
+          </div>
+        </div>
+      </div>}
+    </div>
+
+  )
+};
+
+export default Coptyscript;

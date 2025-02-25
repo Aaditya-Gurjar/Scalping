@@ -234,10 +234,8 @@ const LastPattern = () => {
       <Contnet
         Page_title={"📉 Technical Pattern"}
         button_status={false}
-        backbutton_status={true}
-      >
+        backbutton_status={true}>
         <div className="row">
-
           <div className="col-xl-12">
             <div className="row">
               <div className={`col-md-3`}>
@@ -246,8 +244,7 @@ const LastPattern = () => {
                   <select
                     className="form-control  mt-2"
                     onChange={(e) => setSelectedPatternType(e.target.value)}
-                    value={selectedPatternType}
-                  >
+                    value={selectedPatternType}>
                     <option value="Candlestick Patterns" selected>
                       Candlestick Patterns
                     </option>
@@ -263,8 +260,7 @@ const LastPattern = () => {
                       <select
                         className="form-control  mt-2"
                         onChange={(e) => setCandlestickPattern(e.target.value)}
-                        value={candlestickPattern}
-                      >
+                        value={candlestickPattern}>
                         {/* <option value="">Please Select Pattern</option> */}
                         {patternNames.data &&
                           patternNames.data.map((item) => (
@@ -280,8 +276,7 @@ const LastPattern = () => {
                       <select
                         className="form-control  mt-2"
                         onChange={(e) => setChartingPattern(e.target.value)}
-                        value={chartingPattern}
-                      >
+                        value={chartingPattern}>
                         {/* <option value="">Please Select Pattern</option> */}
                         {chartingPatternNames.data.map((item) => (
                           <option value={item} key={item}>
@@ -298,18 +293,17 @@ const LastPattern = () => {
                 ""
               ) : (
                 <div
-                  className={`${selectedPatternType == "Charting Patterns"
+                  className={`${
+                    selectedPatternType == "Charting Patterns"
                       ? "col-md-2"
                       : "col-md-3"
-                    }`}
-                >
+                  }`}>
                   <div className="form-group">
                     <label>Script</label>
                     <select
                       className="form-control  mt-2"
                       onChange={(e) => setScriptType(e.target.value)}
-                      value={scriptType}
-                    >
+                      value={scriptType}>
                       {/* <option value="">Please Select Script</option> */}
                       <option value="AvailableScript">Available Script</option>
                       <option value="MyScript">My Script</option>
@@ -318,18 +312,17 @@ const LastPattern = () => {
                 </div>
               )}
               <div
-                className={`${selectedPatternType == "Charting Patterns"
+                className={`${
+                  selectedPatternType == "Charting Patterns"
                     ? "col-md-2"
                     : "col-md-3"
-                  }`}
-              >
+                }`}>
                 <div className="form-group">
                   <label>Time Frame</label>
                   <select
                     className="form-control  mt-2"
                     onChange={(e) => setSelectedTimeFrame(e.target.value)}
-                    value={selectedTimeFrame}
-                  >
+                    value={selectedTimeFrame}>
                     {/* <option value="">Please Select Time Frame</option> */}
                     {timeFrameData?.data?.map((item) => (
                       <option value={item} key={item}>
@@ -340,18 +333,17 @@ const LastPattern = () => {
                 </div>
               </div>
               <div
-                className={`${selectedPatternType == "Charting Patterns"
+                className={`${
+                  selectedPatternType == "Charting Patterns"
                     ? "col-md-2"
                     : "col-md-3"
-                  }`}
-              >
+                }`}>
                 <div className="form-group">
                   <label>Select Specific Pattern</label>
                   <select
                     className="form-control  mt-2"
                     onChange={(e) => setChartPattern(e.target.value)}
-                    value={chartPattern}
-                  >
+                    value={chartPattern}>
                     {allSymbols.length === 0 ? (
                       <option value="">No Pattern Script Subscribed</option>
                     ) : (
@@ -368,7 +360,6 @@ const LastPattern = () => {
             </div>
           </div>
 
-
           <div className="container-fluid">
             <div className="row justify-content-center">
               {getSingleChartImg?.data?.length === 0 ? null : (
@@ -378,19 +369,14 @@ const LastPattern = () => {
                     style={{
                       maxHeight: "auto",
                       boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-                    }}
-                  >
+                    }}>
                     <div className="row g-0 align-items-center">
                       {/* Left Side - Text Content */}
                       <div className="col-12 col-md-6 p-3">
-                        <h3>
-                          Pattern: {getSingleChartImg?.data[0]?.Pattern || "N/A"}
-                        </h3>
-                        <h3>
-                          Pattern Type: {getSingleChartImg?.data[0]?.PatternType || "N/A"}
-                        </h3>
                         <h5 className="mt-3">Description</h5>
-                        <p>{getSingleChartImg?.data[0]?.Description || "N/A"}</p>
+                        <p>
+                          {getSingleChartImg?.data[0]?.Description || "N/A"}
+                        </p>
                       </div>
 
                       {/* Right Side - Image */}
@@ -413,36 +399,32 @@ const LastPattern = () => {
             </div>
           </div>
 
-
-
-
           <div className="col-xl-12 mt-3">
             {selectedPatternType === "Candlestick Patterns"
               ? getCandlestickTable?.data2 &&
-              getCandlestickTable.data2.length > 0 && (
-                <FullDataTable
-                  columns={columns1()}
-                  data={getCandlestickTable.data2}
-                  checkBox={false}
-                />
-              )
+                getCandlestickTable.data2.length > 0 && (
+                  <FullDataTable
+                    columns={columns1()}
+                    data={getCandlestickTable.data2}
+                    checkBox={false}
+                  />
+                )
               : ChartPatternTableData?.PatternData &&
-              ChartPatternTableData.PatternData.length > 0 && (
-                <FullDataTable
-                  columns={columns()}
-                  data={ChartPatternTableData.PatternData}
-                  onRowSelect={handleRowSelect}
-                  checkBox={true}
-                />
-              )}
+                ChartPatternTableData.PatternData.length > 0 && (
+                  <FullDataTable
+                    columns={columns()}
+                    data={ChartPatternTableData.PatternData}
+                    onRowSelect={handleRowSelect}
+                    checkBox={true}
+                  />
+                )}
           </div>
-
 
           {showCandle && (
             <div className="col-xl-12 mt-3">
               {(!getCandlestickTable.loading ||
                 !ChartPatternTableData.loading) &&
-                selectedPatternType === "Candlestick Patterns" ? (
+              selectedPatternType === "Candlestick Patterns" ? (
                 <AgChartsReact
                   ChartData={getCandlestickTable && getCandlestickTable?.data1}
                   timeFrame={selectedTimeFrame}
@@ -457,7 +439,6 @@ const LastPattern = () => {
               )}
             </div>
           )}
-
         </div>
       </Contnet>
     </>

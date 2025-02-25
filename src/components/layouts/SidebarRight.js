@@ -4,7 +4,7 @@ import $ from "jquery";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import { useSidebar } from "./SidebarContext";
-const Sidebar =  ({position}) => {
+const Sidebar = ({ position }) => {
   const role = localStorage.getItem("Role");
   const { activeItem, setActiveItem } = useSidebar();
 
@@ -51,11 +51,21 @@ const Sidebar =  ({position}) => {
   }, []);
 
   const sidebarItems = {
+
+
     Admin: [
+
+
       {
         path: "/admin/tradehistory",
         icon: <i className="la la-history"></i>,
         label: "Trade History",
+      },
+      {
+        path: "/admin/servicreport",
+        icon: <i className="la la-cog" />, // Service Report icon
+        label: "Service Report",
+        // permission: [],
       },
       {
         path: "/admin/clientactivity",
