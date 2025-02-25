@@ -24,6 +24,7 @@ const Clientreport = () => {
                         loading: false,
                         data: response.Data
                     })
+                    setSelectUserName(Username || 'AllUser')
                 }
                 else {
                     setTableData({

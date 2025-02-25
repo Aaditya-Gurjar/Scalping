@@ -207,22 +207,89 @@ const ClientThreadReport = () => {
             }
         },
 
-        // {
-        //     name: "Group",
-        //     label: "Group",
-        //     options: {
-        //         filter: true,
-        //         sort: true,
-        //     }
-        // },
-        // {
-        //     name: "Planname",
-        //     label: "Planname",
-        //     options: {
-        //         filter: true,
-        //         sort: true,
-        //     }
-        // },
+       
+        
+
+        {
+            name: "LicanseStartDate",
+            label: "Licanse Start Date",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "ServiceStartDate",
+            label: "Service Start Date",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "ServiceEndDate",
+            label: "Service End Date",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "ServiceCount",
+            label: "Service Count",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "AutoLogin",
+            label: "Auto Login",
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value) => value ? value : "-"
+            }
+        },
+         {
+            name: "Group",
+            label: "Group",
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value) => value ? value : "NA"
+            }
+        },
+        {
+            name: "Planname",
+            label: "Planname",
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value) => {
+                    if (Array.isArray(value)) {
+                        let formattedText = value
+                            .map((item, index) => ((index + 1) % 2 === 0 ? item + "<br/>" : item)) // Har 2nd item ke baad new line
+                            .join(", "); // Comma separated format
+                
+                        return <div dangerouslySetInnerHTML={{ __html: formattedText }} />;
+                    }
+                    return value;
+                }
+            }
+        },
+        {
+            name: "SubAdmin",
+            label: "Sub Admin",
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value) => value ? value : "-"
+            }
+        },
+        
+        
+
 
 
     ];
@@ -330,85 +397,85 @@ const ClientThreadReport = () => {
 
     return (
         <>
-        <Content
+            <Content
                 Page_title={"Client Details"}
                 button_status={false}
                 backbutton_status={true}
-               
+
 
             >
-           
-                        <div className="iq-card-body">
-                            <div className="was-validated ">
-                                <div className='d-flex'>
-                                    <div className="form-group col-md-3 ms-2">
-                                        <label>Select Panel Name</label>
-                                        <select className="form-select" required=""
-                                            onChange={(e) => {
-                                                setCompanyName(e.target.value)
-                                                sessionStorage.setItem("PanelName",e.target.value)
-                                            }}
-                                            value={comapnyName}
-                                        >
-                                            {getAllComapny && getAllComapny.map((item, index) => {
-                                                return (
-                                                    <option key={index} value={item}>{item}</option>
-                                                )
-                                            })}
-                                        </select>
-                                    </div>
 
-                                </div>
-                            </div>
-                            {
-                                getAllClientdetails && getAllClientdetails.length > 0 ?
-                                    (
-                                        <FullDataTable
-                                            columns={columns}
-                                            data={getAllClientdetails}
-                                            checkBox={false}
-                                        />
-                                    )
-                                    :
-                                    (<NoDataFound />)
-                            }
-
-                        </div>
-                   
-
-            {showModal && (
-                <div className='modal custom-modal d-flex' id='add_vendor' role='dialog'>
-                    <div className='modal-dialog modal-dialog-centered modal-lg'>
-                        <div className='modal-content'>
-                            <div className='modal-header clientheader border-0 pb-0'>
-                                <div className='form-header modal-header-title text-start mb-0'>
-                                    <h4 className='mb-0'>Edit Client </h4>
-                                </div>
-                                <button
-                                    type='button'
-                                    className='btn-close'
-                                    data-bs-dismiss='modal'
-                                    aria-label='Close'
-                                    onClick={() => {
-                                        setShowModal(false);
-                                        formik.resetForm();
+                <div className="iq-card-body">
+                    <div className="was-validated ">
+                        <div className='d-flex'>
+                            <div className="form-group col-md-3 ms-2">
+                                <label>Select Panel Name</label>
+                                <select className="form-select" required=""
+                                    onChange={(e) => {
+                                        setCompanyName(e.target.value)
+                                        sessionStorage.setItem("PanelName", e.target.value)
                                     }}
-                                ></button>
+                                    value={comapnyName}
+                                >
+                                    {getAllComapny && getAllComapny.map((item, index) => {
+                                        return (
+                                            <option key={index} value={item}>{item}</option>
+                                        )
+                                    })}
+                                </select>
                             </div>
-                            <hr />
-                            <AddForm
-                                fields={fields.filter(
-                                    field => !field.showWhen || field.showWhen(formik.values)
-                                )}
-                                btn_name='Update'
-                                formik={formik}
-                                btn_name1_route='/admin/clientservice'
 
-                            />
                         </div>
                     </div>
+                    {
+                        getAllClientdetails && getAllClientdetails.length > 0 ?
+                            (
+                                <FullDataTable
+                                    columns={columns}
+                                    data={getAllClientdetails}
+                                    checkBox={false}
+                                />
+                            )
+                            :
+                            (<NoDataFound />)
+                    }
+
                 </div>
-            )}
+
+
+                {showModal && (
+                    <div className='modal custom-modal d-flex' id='add_vendor' role='dialog'>
+                        <div className='modal-dialog modal-dialog-centered modal-lg'>
+                            <div className='modal-content'>
+                                <div className='modal-header clientheader border-0 pb-0'>
+                                    <div className='form-header modal-header-title text-start mb-0'>
+                                        <h4 className='mb-0'>Edit Client </h4>
+                                    </div>
+                                    <button
+                                        type='button'
+                                        className='btn-close'
+                                        data-bs-dismiss='modal'
+                                        aria-label='Close'
+                                        onClick={() => {
+                                            setShowModal(false);
+                                            formik.resetForm();
+                                        }}
+                                    ></button>
+                                </div>
+                                <hr />
+                                <AddForm
+                                    fields={fields.filter(
+                                        field => !field.showWhen || field.showWhen(formik.values)
+                                    )}
+                                    btn_name='Update'
+                                    formik={formik}
+                                    btn_name1_route='/admin/clientservice'
+
+                                />
+                            </div>
+                        </div>
+                    </div>
+                )}
             </Content>
         </>
     )
