@@ -99,6 +99,7 @@ const ClientThreadReport = () => {
             options: {
                 filter: true,
                 sort: true,
+                customBodyRender: (value) => value ? value : "-"
             }
         },
         {
@@ -115,6 +116,7 @@ const ClientThreadReport = () => {
             options: {
                 filter: true,
                 sort: true,
+                customBodyRender: (value) => value ? "true" : "false"
             }
         },
         {
