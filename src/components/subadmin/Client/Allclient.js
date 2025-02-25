@@ -135,12 +135,12 @@ const AllClient = () => {
                                 Swal.fire("You don't have permission to edit!");
                             }
                         }}
-                    /> 
+                    />
                 ),
             },
         },
 
-        
+
         {
             name: 'Username',
             label: 'Username',
@@ -222,6 +222,55 @@ const AllClient = () => {
                 customBodyRender: (value) => viewClient ? value?.join(', ') || '-' : maskValue(value?.join(', ')),
             },
         },
+        {
+            name: 'Licanse',
+            label: 'Licanse',
+            options: {
+                filter: true,
+                sort: false,
+            },
+        },
+        {
+            name: 'LicanseStartDate',
+            label: 'Licanse Start Date',
+            options: {
+                filter: true,
+                sort: false,
+            },
+        },
+        {
+            name: 'ServiceCount',
+            label: 'Service Count',
+            options: {
+                filter: true,
+                sort: false,
+            },
+        },
+        {
+            name: 'AutoLogin',
+            label: 'Auto Login',
+            options: {
+                filter: true,
+                sort: false,
+                customBodyRender: (value) => value ? value : "-"
+            },
+        },
+        {
+            name: 'SubAdmin',
+            label: 'SubAdmin',
+            options: {
+                filter: true,
+                sort: false,
+            },
+        },
+        {
+            name: 'Key',
+            label: 'Key',
+            options: {
+                filter: true,
+                sort: false,
+            },
+        },
     ];
 
 
@@ -248,15 +297,15 @@ const AllClient = () => {
                 User: values.User,
                 GroupName: selectedOptions.map(item => item.value),
                 Broker: values.Broker,
-                SubAdmin : userName
+                SubAdmin: userName
             }
             try {
                 const response = await EditClientPanle(req);
                 if (response.Status) {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Updated",
                         text: response.message,
                         icon: "success",
@@ -271,9 +320,9 @@ confirmButtonColor: "#1ccc8a",
                     fetchAllSubadmin();
                 } else {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Error",
                         text: response.message,
                         icon: "error",
@@ -311,7 +360,7 @@ confirmButtonColor: "#1ccc8a",
 
     return (
         <>
-        <Content
+            <Content
                 Page_title={" 📉 All Client"}
                 button_status={true}
                 backbutton_status={true}
@@ -319,23 +368,23 @@ confirmButtonColor: "#1ccc8a",
                 button_title={"Add Client"}
 
             >
-           
-                        <div className='iq-card-body'>
-                            <div className='mb-3 col-lg-3'>
-                                <input type="text" className=' form-control rounded p-1 px-2' placeholder="Search..." onChange={(e) => setSearchInput(e.target.value)} value={searchInput} />
-                            </div>
-                             
-                            {
-                                clientService.data && clientService.data.length > 0 ? 
-                                (
-                                    <FullDataTable columns={columns} data={clientService.data} checkBox={false} />
-                                )
-                                :
-                                (<NoDataFound /> )
-                            }
-                            
-                        </div>
-                    
+
+                <div className='iq-card-body'>
+                    <div className='mb-3 col-lg-3'>
+                        <input type="text" className=' form-control rounded p-1 px-2' placeholder="Search..." onChange={(e) => setSearchInput(e.target.value)} value={searchInput} />
+                    </div>
+
+                    {
+                        clientService.data && clientService.data.length > 0 ?
+                            (
+                                <FullDataTable columns={columns} data={clientService.data} checkBox={false} />
+                            )
+                            :
+                            (<NoDataFound />)
+                    }
+
+                </div>
+
                 {showModal && (
                     <div className='modal custom-modal d-flex' id='add_vendor' role='dialog'>
                         <div className='modal-dialog modal-dialog-centered modal-lg'>
@@ -387,7 +436,7 @@ confirmButtonColor: "#1ccc8a",
                         </div>
                     </div>
                 )}
-            
+
             </Content>
         </>
     );

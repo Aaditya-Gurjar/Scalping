@@ -15,7 +15,7 @@ export const columns = [
     },
     {
         name: "ScalpType",
-        label: "ScalpType",
+        label: "Scalp Type",
         options: {
             filter: true,
             sort: true,
@@ -61,7 +61,7 @@ export const columns = [
             sort: true,
         }
     },
-    
+
     {
         name: "ExpiryDate",
         label: "Expiry Date",
@@ -102,7 +102,7 @@ export const columns = [
             sort: true,
         }
     },
-     
+
     {
         name: "SSDate",
         label: "SSDate",
@@ -118,7 +118,7 @@ export const columns = [
             filter: true,
             sort: true,
         }
-    }, 
+    },
     {
         name: "TaskTime",
         label: "Task Time",
@@ -135,6 +135,189 @@ export const columns = [
             sort: true,
         }
     },
+    {
+        name: "TStype",
+        label: "Measurement Type",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Booking Point",
+        label: "Booking Point",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Re-entry Point",
+        label: "Re-entry Point",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Trading",
+        label: "Trading",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => value ? "true" : "false"
+        }
+    },
+    {
+        name: "LowerRange",
+        label: "Lower Range",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "HigherRange",
+        label: "Higher Range",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "HoldExit",
+        label: "Hold / Exit",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "closescript",
+        label: "close Script",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => value ? "true" : "false"
+        }
+    },
+    {
+        name: "Instrument Symbol",
+        label: "Instrument Symbol",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Username",
+        label: "Username",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "EntryPrice",
+        label: "Entry Price",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "EntryRange",
+        label: "Entry Range",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "GroupN",
+        label: "Unique Name",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => value ? value : "-"
+        }
+    },
+    {
+        name: "ExitRule",
+        label: "Exit Rule",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => value ? value : "-"
+        }
+    },
+    {
+        name: "Profit",
+        label: "Profit",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Loss",
+        label: "Loss",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "FixedSM",
+        label: "FixedSM",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => value ? value : "-"
+        }
+    },
+    {
+        name: "MTrade",
+        label: "MTrade",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Expirytype",
+        label: "Expiry Type",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => value ? value : "-"
+        }
+    },
+    {
+        name: "TaskStatus",
+        label: "Task Status",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Instrument Type",
+        label: "Instrument Type",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "MainSymbol",
+        label: "Main Symbol",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+
 ];
 
 // Option
@@ -162,7 +345,7 @@ export const columns1 = [
             sort: true,
         }
     },
-    
+
     {
         name: "Targettype",
         label: "Risk Handle",
@@ -171,7 +354,7 @@ export const columns1 = [
             sort: true,
         }
     },
-    
+
     {
         name: "Instrument Type",
         label: "Instrument Type",
@@ -204,7 +387,7 @@ export const columns1 = [
             sort: true,
         }
     },
-     
+
     {
         name: "Expirytype",
         label: "Expiry Type",
@@ -399,10 +582,11 @@ export const columns1 = [
     },
     {
         name: "GroupN",
-        label: "Unique ID",
+        label: "Unique Name",
         options: {
             filter: true,
             sort: true,
+            customBodyRender: (value) => value ? value : "-"
         }
     },
     {
@@ -411,6 +595,80 @@ export const columns1 = [
         options: {
             filter: true,
             sort: true,
+        }
+    },
+    {
+        name: "Exchange",
+        label: "Exchange",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Trading",
+        label: "Trading",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => value ? "true" : "false"
+        }
+    },
+    {
+        name: "Username",
+        label: "Username",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "MainSymbol",
+        label: "Main Symbol",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "IName",
+        label: "IName",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Spread",
+        label: "Spread",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "TaskStatus",
+        label: "Task Status",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "TaskTime",
+        label: "Task Time",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "FixedSM",
+        label: "FixedSM",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => value ? value : "-"
         }
     },
 ];
@@ -504,7 +762,7 @@ export const columns2 = [
             sort: true,
         }
     },
-     
+
     {
         name: "Expiry Date",
         label: "Expiry Date",
@@ -588,6 +846,73 @@ export const columns2 = [
     {
         name: "TradeCount",
         label: "Trade Count",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+
+    {
+        name: "Trading",
+        label: "Trading",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => value ? "true" : "false"
+        }
+    },
+    {
+        name: "Instrument Name",
+        label: "Instrument Name",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Username",
+        label: "Username",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Expirytype",
+        label: "Expiry Type",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => value ? value : "-"
+        }
+    },
+    {
+        name: "TaskStatus",
+        label: "Task Status",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "TaskTime",
+        label: "Task Time",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Instrument Type",
+        label: "Instrument Type",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "MainSymbol",
+        label: "Main Symbol",
         options: {
             filter: true,
             sort: true,
@@ -708,13 +1033,13 @@ export const columns3 = [
     },
     {
         name: "GroupN",
-        label: "Unique ID",
+        label: "Unique Name",
         options: {
             filter: true,
             sort: true,
         }
     },
-    
+
 ];
 
 // option
@@ -803,7 +1128,7 @@ export const columns4 = [
             sort: true,
         }
     },
-  
+
     {
         name: "Response",
         label: "Response",
@@ -814,13 +1139,13 @@ export const columns4 = [
     },
     {
         name: "GroupN",
-        label: "Unique ID",
+        label: "Unique Name",
         options: {
             filter: true,
             sort: true,
         }
     },
-    
+
 ];
 
 // pattern
@@ -935,11 +1260,11 @@ export const columns5 = [
     },
     {
         name: "GroupN",
-        label: "Unique ID",
+        label: "Unique Name",
         options: {
             filter: true,
             sort: true,
         }
     },
-    
+
 ];

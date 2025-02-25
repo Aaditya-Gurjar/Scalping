@@ -525,6 +525,25 @@ const Strategygroup = () => {
 
             }
         },
+        {
+            name: "BrokerPermission",
+            label: "Broker Permission",
+            options: {
+                filter: true,
+                sort: false,
+                customBodyRender: (value) => {
+                    if (Array.isArray(value)) {
+                        let formattedText = value
+                            .map((item, index) => ((index + 1) % 3 === 0 ? item + "\n" : item)) // Har 3rd element ke baad new line
+                            .join(", "); // Comma separated format
+        
+                        return <pre style={{ whiteSpace: "pre-wrap" }}>{formattedText}</pre>;
+                    }
+                    return value;
+                }
+            }
+        }
+        
     ];
 
     const handleAddFound = (index) => {

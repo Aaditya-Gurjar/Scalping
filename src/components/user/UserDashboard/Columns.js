@@ -369,7 +369,7 @@ export const getColumns = (handleAddScript1) => [
     },
     {
         name: "GroupN",
-        label: "Unique ID",
+        label: "Unique Name",
         options: {
             filter: true,
             sort: true,
@@ -572,7 +572,7 @@ export const getColumns7 = (handleAddScript1) => [
     },
     {
         name: "GroupN",
-        label: "Unique ID",
+        label: "Unique Name",
         options: {
             filter: true,
             sort: true,
@@ -1335,7 +1335,7 @@ export const getColumns3 = (handleDelete, handleEdit, handleContinutyDiscontinut
     },
     {
         name: "GroupN",
-        label: "Unique ID",
+        label: "Unique Name",
         options: {
             filter: true,
             sort: true,
@@ -2445,7 +2445,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
     },
     {
         name: "GroupN",
-        label: "Unique ID",
+        label: "Unique Name",
         options: {
             filter: true,
             sort: true,

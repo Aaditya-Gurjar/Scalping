@@ -98,11 +98,28 @@ const AmountDetails = () => {
             options: {
                 filter: true,
                 sort: true,
+                customBodyRender: (value) => value ? value : "-"
             }
         },
         {
             name: "Status",
             label: "Status",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "Companyname",
+            label: "Company Name",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "AdminName",
+            label: "Admin Name",
             options: {
                 filter: true,
                 sort: true,

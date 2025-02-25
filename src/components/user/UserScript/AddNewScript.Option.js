@@ -222,7 +222,7 @@ const AddClient = () => {
         (values.Strategy == "LongFourLegStretegy" ||
           values.Strategy == "ShortFourLegStretegy")
       ) {
-        errors.Unique_ID = "Please select Unique ID.";
+        errors.Unique_ID = "Please select Unique Name.";
       }
       if (
         !values.PEDeepLower &&
@@ -982,7 +982,7 @@ const AddClient = () => {
     },
     {
       name: "Unique_ID",
-      label: "Unique ID",
+      label: "Unique Name",
       type: "select1",
       options: [
         { label: "A", value: "A" },

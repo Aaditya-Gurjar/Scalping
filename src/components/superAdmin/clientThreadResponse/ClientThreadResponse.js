@@ -220,7 +220,7 @@ const TradeResponse = () => {
     }
 
     useEffect(() => {
-        setStrategyType('Scalping')
+        setStrategyType(StrategyType || 'Scalping')
     }, []);
 
     useEffect(() => {
