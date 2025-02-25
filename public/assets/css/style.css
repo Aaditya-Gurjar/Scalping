@@ -5486,7 +5486,7 @@ a {
 
 .balance-label {
   margin-right: 8px;
-  color: #333;
+  /* color: #333; */
 }
 
 .balance-amount {
