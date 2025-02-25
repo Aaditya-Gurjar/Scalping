@@ -351,7 +351,7 @@ const ServicesList = () => {
                       )}
                     </div>
                     <h3 className="allplan-card-subtitle">
-                    <strong>Price:</strong>
+                      <strong className="card-text-Color">Price:</strong>
                       <FaRupeeSign /> {plan.payment}
                     </h3>
                     <h3 className="allplan-card-subtitle">
@@ -362,10 +362,10 @@ const ServicesList = () => {
                     </h3>
                     <div className="plan-details">
                       <p>
-                        <strong>Scalping:</strong> {plan.Scalping?.join(", ")}
+                        <strong className="card-text-Color">Scalping:</strong> {plan.Scalping?.join(", ")}
                       </p>
                       <p>
-                        <strong>Options:</strong>{" "}
+                        <strong className="card-text-Color">Options:</strong>{" "}
                         {plan["Option Strategy"]?.length > 1 ? (
                           <>
                             {expandedOptions.includes(index) ? (
@@ -375,7 +375,7 @@ const ServicesList = () => {
                                   className="show-more"
                                   onClick={() => toggleOptions(index)}
                                 >
-                                   {" "}🔼
+                                  {" "}🔼
                                 </span>
                               </>
                             ) : (
@@ -385,7 +385,7 @@ const ServicesList = () => {
                                   className="show-more"
                                   onClick={() => toggleOptions(index)}
                                 >
-                                   {" "}🔽
+                                  {" "}🔽
                                 </span>
                               </>
                             )}
@@ -397,7 +397,7 @@ const ServicesList = () => {
 
 
                       <p>
-                        <strong>Patterns:</strong>{" "}
+                        <strong className="card-text-Color">Patterns:</strong>{" "}
                         {plan.Pattern?.length > 1 ? (
                           <>
                             {expandedPatternItems.includes(index) ? (
@@ -407,7 +407,7 @@ const ServicesList = () => {
                                   className="show-more"
                                   onClick={() => toggleExpand(index)}
                                 >
-                                   {" "}🔼
+                                  {" "}🔼
                                 </span>
                               </>
                             ) : (
@@ -417,7 +417,7 @@ const ServicesList = () => {
                                   className="show-more"
                                   onClick={() => toggleExpand(index)}
                                 >
-                                   {" "}🔽
+                                  {" "}🔽
                                 </span>
                               </>
                             )}
@@ -474,7 +474,7 @@ const ServicesList = () => {
                     </h3>
                     <div className="plan-details">
                       <p>
-                        <strong>Charting Signals:</strong>{" "}
+                        <strong className="card-text-Color">Charting Signals:</strong>{" "}
                         {plan.ChartingSignal?.join(", ")}
                       </p>
                     </div>

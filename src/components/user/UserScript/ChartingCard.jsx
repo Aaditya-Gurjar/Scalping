@@ -1,4 +1,3 @@
-
 // import React from "react";
 
 // const ChartingCard = ({
@@ -243,12 +242,11 @@
 
 // export default ChartingCard;
 
-
 // ----------
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import NoDataFound from "../../../ExtraComponent/NoDataFound";
-
+//
 const ChartingCard = ({
   item,
   index,
@@ -318,12 +316,14 @@ const ChartingCard = ({
   return (
     <div className="col-md-4 mb-4">
       <div
-        className="card border-0 shadow-lg"
+        className="card border-0 shadow-lg "
         style={{ backgroundColor: "#000", color: "white" }}>
         <div
-          className="card-header py-3"
+          className="card-header py-3 card-text-Color"
           style={{ backgroundColor: "#111", borderBottom: "1px solid #222" }}>
-          <h5 className="mb-0 text-center fw-semibold">{item.Segment}</h5>
+          <h5 className="mb-0 text-center fw-semibold  text-white">
+            {item.Segment}
+          </h5>
         </div>
         <div className="card-body px-4 py-3">
           <Formik
@@ -364,7 +364,9 @@ const ChartingCard = ({
                   <div className="d-flex justify-content-evenly align-items-center mb-4">
                     <div className="toggle-group">
                       <label className="d-flex align-items-center gap-2">
-                        <span style={labelStyle}>Trade Status</span>
+                        <span style={labelStyle} className="card-text-Color">
+                          Trade Status
+                        </span>
                         <div className="form-switch">
                           <Field name="tradeStatus">
                             {({ field }) => (
@@ -382,13 +384,15 @@ const ChartingCard = ({
                     </div>
                     <div className="toggle-group">
                       <label className="d-flex align-items-center gap-2">
-                        <span style={labelStyle}>Admin Signal</span>
+                        <span style={labelStyle} className="card-text-Color">
+                          Admin Signal
+                        </span>
                         <div className="form-switch">
                           <Field name="adminStatus">
                             {({ field }) => (
                               <input
                                 type="checkbox"
-                                className="form-check-input"
+                                className="form-check-input card-text-Color"
                                 style={{ width: "40px", height: "20px" }}
                                 {...field}
                                 checked={field.value}
@@ -403,13 +407,15 @@ const ChartingCard = ({
                   {/* Input Grid */}
                   <div className="row g-3 mb-4">
                     <div className="col-6">
-                      <label className="form-label" style={labelStyle}>
+                      <label
+                        className="form-label card-text-Color"
+                        style={labelStyle}>
                         {item.Segment === "Cash" ? "Fund" : "Lot"}
                       </label>
                       <Field
                         name="fundOrLot"
                         type="number"
-                        className="form-control form-control-lg"
+                        className="form-control form-control-lg card-text-Color"
                         style={inputStyle}
                         placeholder={
                           item.Segment === "Cash" ? "Enter Fund" : "Enter Lot"
@@ -424,13 +430,15 @@ const ChartingCard = ({
                       </ErrorMessage>
                     </div>
                     <div className="col-6">
-                      <label className="form-label" style={labelStyle}>
+                      <label
+                        className="form-label card-text-Color"
+                        style={labelStyle}>
                         Trade/Day
                       </label>
                       <Field
                         name="tradePerDay"
                         type="number"
-                        className="form-control form-control-lg"
+                        className="form-control form-control-lg card-text-Color"
                         style={inputStyle}
                         placeholder="Enter trade per day"
                       />
@@ -443,13 +451,15 @@ const ChartingCard = ({
                       </ErrorMessage>
                     </div>
                     <div className="col-6">
-                      <label className="form-label" style={labelStyle}>
+                      <label
+                        className="form-label card-text-Color"
+                        style={labelStyle}>
                         Max Loss
                       </label>
                       <Field
                         name="maxLoss"
                         type="number"
-                        className="form-control form-control-lg"
+                        className="form-control form-control-lg card-text-Color"
                         style={inputStyle}
                         placeholder="Enter max loss"
                       />
@@ -462,13 +472,15 @@ const ChartingCard = ({
                       </ErrorMessage>
                     </div>
                     <div className="col-6">
-                      <label className="form-label" style={labelStyle}>
+                      <label
+                        className="form-label card-text-Color"
+                        style={labelStyle}>
                         Max Profit
                       </label>
                       <Field
                         name="maxProfit"
                         type="number"
-                        className="form-control form-control-lg"
+                        className="form-control form-control-lg card-text-Color"
                         style={inputStyle}
                         placeholder="Enter max profit"
                       />
@@ -481,13 +493,15 @@ const ChartingCard = ({
                       </ErrorMessage>
                     </div>
                     <div className="col-12">
-                      <label className="form-label" style={labelStyle}>
+                      <label
+                        className="form-label card-text-Color"
+                        style={labelStyle}>
                         Running Trade
                       </label>
                       <Field
                         name="runningTrade"
                         type="number"
-                        className="form-control form-control-lg"
+                        className="form-control form-control-lg card-text-Color"
                         style={inputStyle}
                         placeholder="Enter running trade"
                       />
@@ -503,7 +517,9 @@ const ChartingCard = ({
 
                   {/* Trade Mode Toggle */}
                   <div className="mb-4">
-                    <label className="d-block mb-2" style={labelStyle}>
+                    <label
+                      className="d-block mb-2 card-text-Color"
+                      style={labelStyle}>
                       Trade Mode
                     </label>
                     <div
@@ -551,7 +567,7 @@ const ChartingCard = ({
 
                   <button
                     type="submit"
-                    className="btn btn-primary w-100 py-2 fw-semibold"
+                    className="btn btn-primary w-100 py-2 fw-semibold card-text-Color"
                     style={{
                       borderRadius: "8px",
                       backgroundColor: "#7367f0",

@@ -1,4 +1,3 @@
-
 // import React, { useState, useCallback, useMemo, useEffect } from "react";
 // import MUIDataTable from "mui-datatables";
 // import Modal from "react-bootstrap/Modal";
@@ -256,6 +255,7 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
   const [checkedRows, setCheckedRows] = useState(
     isChecked !== undefined ? [isChecked] : []
   );
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   let Theme = localStorage.getItem("theme");
 
@@ -311,9 +311,10 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
       search: false,
       filter: false,
       sort: false,
-      rowsPerPage: 5,
+      rowsPerPage: rowsPerPage,
       rowsPerPageOptions: [5, 10, 25, 50, 100],
-      fixedHeader: true,  
+      onChangeRowsPerPage: (row) => setRowsPerPage(row),
+      fixedHeader: true,
       // tableBodyHeight: "320px",
       tableBodyMaxHeight: "320px",
       setCellProps: () => ({
@@ -322,17 +323,32 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
       setRowProps: (row, dataIndex) => {
         return {
           style: {
-            // backgroundColor: dataIndex % 2 === 0 ? "#f9f9f9" : "#ffffff", 
-            backgroundColor: Theme == "light" ? (dataIndex % 2 === 0 ? "#f9f9f9" : "#ffffff") : (dataIndex % 2 === 0 ? "#333" : "#000"),
+            // backgroundColor: dataIndex % 2 === 0 ? "#f9f9f9" : "#ffffff",
+            backgroundColor:
+              Theme == "light"
+                ? dataIndex % 2 === 0
+                  ? "#f9f9f9"
+                  : "#ffffff"
+                : dataIndex % 2 === 0
+                ? "#333"
+                : "#000",
 
             transition: "background-color 0.3s ease",
             cursor: "pointer",
           },
           onMouseEnter: (e) => {
-            e.currentTarget.style.backgroundColor = Theme == "light" ? "#f0f0f0" : "#666";
+            e.currentTarget.style.backgroundColor =
+              Theme == "light" ? "#f0f0f0" : "#666";
           },
           onMouseLeave: (e) => {
-            e.currentTarget.style.backgroundColor = Theme == "light" ? (dataIndex % 2 === 0 ? "#f9f9f9" : "#ffffff") : (dataIndex % 2 === 0 ? "#333" : "#000");
+            e.currentTarget.style.backgroundColor =
+              Theme == "light"
+                ? dataIndex % 2 === 0
+                  ? "#f9f9f9"
+                  : "#ffffff"
+                : dataIndex % 2 === 0
+                ? "#333"
+                : "#000";
           },
         };
       },
@@ -459,8 +475,7 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
                   id="select-all"
                   checked={tempSelectedColumns.length === columns.length}
                   onChange={handleSelectAllChange}
-                />Select All
-                
+                />
               </div>
             </div>
 
