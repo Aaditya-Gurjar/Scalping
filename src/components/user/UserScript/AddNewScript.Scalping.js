@@ -29,6 +29,7 @@ const AddClient = () => {
   const [marginValue, setMarginValue] = useState("");
   const [error, setError] = useState("");
   const [showPnl, setShowPnl] = useState(false);
+  const theme = localStorage.getItem("theme");
 
   const [PnlData, setPnlData] = useState({
     InstrumentName: "",
@@ -137,7 +138,7 @@ const AddClient = () => {
       RollOverExitTime: "00:00:00",
       TargetExit: false,
       WorkingDay: [],
-      OrderType: "Market",
+      OrderType: "Pending",
       FinalTarget: 0.0,
     },
     validate: (values) => {
@@ -396,7 +397,7 @@ const AddClient = () => {
       }
 
       // console.log("errors", errors)
-      ScrollToViewFirstError(errors);
+      // ScrollToViewFirstError(errors);
       return errors;
     },
 
@@ -863,7 +864,7 @@ const AddClient = () => {
       hiding: false,
       disable: false,
     },
-   
+
     {
       name: "expirydata1",
       label: "Expiry Date",
@@ -939,12 +940,7 @@ const AddClient = () => {
 
     {
       name: "EntryPrice",
-      label:
-        formik.values.Strategy == "Fixed Price" ||
-          (formik.values.FixedSM == "Single" &&
-            formik.values.Strategy == "Multi_Conditional")
-          ? "Lower Price"
-          : "First Trade Lower Range",
+      label: "First Trade Lower Range",
       type: "text3",
       col_size: 4,
       disable: false,
@@ -959,12 +955,7 @@ const AddClient = () => {
     },
     {
       name: "EntryRange",
-      label:
-        formik.values.Strategy == "Fixed Price" ||
-          (formik.values.FixedSM == "Single" &&
-            formik.values.Strategy == "Multi_Conditional")
-          ? "Higher Price"
-          : "First Trade Higher Range",
+      label: "First Trade Higher Range",
       type: "text3",
       label_size: 12,
       headingtype: 2,
@@ -1018,7 +1009,7 @@ const AddClient = () => {
           (formik.values.FixedSM == "Single" &&
             formik.values.Strategy == "Multi_Conditional")
           ? "Stoploss"
-          : "Re-Entry Point",
+          : "Re-Entry",
       type: "text3",
       label_size: 12,
       col_size: formik.values.FixedSM == "Multiple" ? 3 : 6,
@@ -1431,8 +1422,15 @@ const AddClient = () => {
     {
       name: "NumberOfDays",
       label: "No. of Days",
-      type: "text3",
+      type: "select",
       label_size: 12,
+      options: [
+        { label: "1", value: "1" },
+        { label: "2", value: "2" },
+        { label: "3", value: "3" },
+        { label: "4", value: "4" },
+        { label: "5", value: "5" }
+      ],
       showWhen: (values) => {
         const rollOverBoolean = values.RollOver === "true";
         return (
@@ -1485,6 +1483,8 @@ const AddClient = () => {
       disable: false,
       hiding: false,
     },
+
+
     {
       name: "OrderType",
       label: "Order Type",
@@ -1494,9 +1494,10 @@ const AddClient = () => {
         { label: "Market", value: "Market" },
       ],
       showWhen: (values) =>
-        values.position_type == "Multiple" &&
+        values.FixedSM == "Multiple" &&
         values.Trade_Execution == "Live Trade" &&
         values.Strategy == "Multi_Conditional",
+
       label_size: 12,
       col_size: 4,
       headingtype: 4,
@@ -1945,162 +1946,164 @@ const AddClient = () => {
     ) {
       handleCheckPnl();
     } else {
+      // handleCheckPnl()
       setOpenModel1(true);
     }
   };
 
   return (
-    
-      <Content
-        Page_title={"📌 Add Script scalping"}
-        button_status={false}
-        backbutton_status={false}
-      >
-        <AddForm
-          fields={fields.filter(
-            (field) => !field.showWhen || field.showWhen(formik.values)
-          )}
-          // page_title="Add Script scalping"
-          btn_name="Add"
-          btn_name1="Cancel"
-          formik={formik}
-          btn_name1_route={"/user/dashboard"}
-          additional_field={
-            <div>
-              {![
-                "CoveredCall",
-                "CoveredPut",
-                "LongCollar",
-                "ShortCollar",
-                "LongFourLegStretegy",
-                "ShortFourLegStretegy",
-              ].includes(formik.values.Strategy) &&
-                formik.values?.FixedSM !== "Single" && (
-                  <p
-                    className="btn btn-primary"
-                    onClick={() => checkModalCondition()}
-                  >
-                    Check PnL
-                  </p>
-                )}
-            </div>
-          }
-        />
 
-        <Modal
-          show={openModel1}
-          onHide={() => setOpenModel1(false)}
-          size="lg"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-        >
-          <Modal.Header closeButton>
-            <Modal.Title id="contained-modal-title-vcenter">
-              Margin Value
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <div className="modal-body">
-              <div className="row">
-                <div className="col-lg-12 col-sm-12">
-                  <div className="input-block mb-3">
-                    <label
-                      className="form-label"
-                      style={{ fontWeight: "bold", color: "#fff" }}
-                    >
-                      Margin Value
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={marginValue}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        if (/^\d*$/.test(value)) {
-                          // ✅ Only numbers allowed
-                          setMarginValue(value);
-                          setError(""); // Reset error if valid
-                        } else {
-                          setError("Only numbers are allowed");
-                        }
-                      }}
-                    />
-                    {error && <p className="text-danger">{error}</p>}
-                  </div>
+    <Content
+      Page_title={"📌 Add Script scalping"}
+      button_status={false}
+      backbutton_status={false}
+    >
+      <AddForm
+        fields={fields.filter(
+          (field) => !field.showWhen || field.showWhen(formik.values)
+        )}
+        // page_title="Add Script scalping"
+        btn_name="Add"
+        btn_name1="Cancel"
+        formik={formik}
+        btn_name1_route={"/user/dashboard"}
+        additional_field={
+          <div>
+            {![
+              "CoveredCall",
+              "CoveredPut",
+              "LongCollar",
+              "ShortCollar",
+              "LongFourLegStretegy",
+              "ShortFourLegStretegy",
+            ].includes(formik.values.Strategy) &&
+              formik.values?.FixedSM !== "Single" && (
+                <p
+                  className={`custom-btn custom-btn-dark `}
+                  onClick={checkModalCondition}
+                >
+                  Check PnL
+                </p>
+
+              )}
+          </div>
+        }
+      />
+
+      <Modal
+        show={openModel1}
+        onHide={() => setOpenModel1(false)}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Margin Value
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="modal-body">
+            <div className="row">
+              <div className="col-lg-12 col-sm-12">
+                <div className="input-block mb-3">
+                  <label
+                    className="form-label"
+                    style={{ fontWeight: "bold", color: "#fff" }}
+                  >
+                    Margin Value
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={marginValue}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (/^\d*$/.test(value)) {
+                        // ✅ Only numbers allowed
+                        setMarginValue(value);
+                        setError(""); // Reset error if valid
+                      } else {
+                        setError("Only numbers are allowed");
+                      }
+                    }}
+                  />
+                  {error && <p className="text-danger">{error}</p>}
                 </div>
               </div>
             </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button onClick={() => setOpenModel1(false)}>Close</Button>
-            <Button
-              onClick={() => {
-                if (!marginValue.trim()) {
-                  setError("Margin Value required");
-                  return;
-                }
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={() => setOpenModel1(false)}>Close</Button>
+          <Button
+            onClick={() => {
+              if (!marginValue.trim()) {
+                setError("Margin Value required");
+                return;
+              }
 
-                handleCheckPnl();
-                setOpenModel1(false);
-                setMarginValue("");
-              }}
-            >
-              Submit
-            </Button>
-          </Modal.Footer>
-        </Modal>
+              handleCheckPnl();
+              setOpenModel1(false);
+              setMarginValue("");
+            }}
+          >
+            Submit
+          </Button>
+        </Modal.Footer>
+      </Modal>
 
-        <Modal
-          show={openModel}
-          onHide={() => setOpenModel(false)}
-          size="lg"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-        >
-          <Modal.Header closeButton>
-            <Modal.Title id="contained-modal-title-vcenter">
-              PnL Details
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            {console.log("PnlData", PnlData)}
-            {PnlData ? (
-              [
-                { label: "Token", value: PnlData.Token },
-                { label: "Total Margin", value: PnlData.TotalMargin },
-                {
-                  label: "Total PnL",
-                  value: PnlData.TotalPnL == 0 ? "0" : PnlData.TotalPnL,
-                },
-                { label: "Trading Symbol", value: PnlData.TradingSymbol },
-              ].map(({ label, value }, index) => (
-                <div key={index} className="d-flex align-items-center py-1">
-                  <label
-                    className="fw-bold text-white mb-0 me-2"
-                    style={{ fontSize: "20px", minWidth: "150px" }}
-                  >
-                    {label}:
-                  </label>
-                  <span
-                    className="text-white mb-0"
-                    style={{ fontSize: "20px", fontWeight: "500" }}
-                  >
-                    {value || "N/A"}
-                  </span>
-                </div>
-              ))
-            ) : (
-              <p className="text-danger text-center">❌ No data available</p>
-            )}
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => setOpenModel(false)}>
-              Close
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </Content>
-    
+      <Modal
+        show={openModel}
+        onHide={() => setOpenModel(false)}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            PnL Details
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {console.log("PnlData", PnlData)}
+          {PnlData ? (
+            [
+              { label: "Token", value: PnlData.Token },
+              { label: "Margin", value: PnlData.TotalMargin },
+              {
+                label: "Maximum Loss",
+                value: PnlData.TotalPnL == 0 ? "0" : PnlData.TotalPnL,
+              },
+              { label: "Symbol", value: PnlData.TradingSymbol },
+            ].map(({ label, value }, index) => (
+              <div key={index} className="d-flex align-items-center py-1">
+                <label
+                  className="fw-bold text-white mb-0 me-2"
+                  style={{ fontSize: "20px", minWidth: "150px" }}
+                >
+                  {label}:
+                </label>
+                <span
+                  className="text-white mb-0"
+                  style={{ fontSize: "20px", fontWeight: "500" }}
+                >
+                  {value || "N/A"}
+                </span>
+              </div>
+            ))
+          ) : (
+            <p className="text-danger text-center">❌ No data available</p>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setOpenModel(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </Content>
+
   );
 };
 export default AddClient;
