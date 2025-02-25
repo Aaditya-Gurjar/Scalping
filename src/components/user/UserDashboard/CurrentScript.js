@@ -757,9 +757,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
       ) {
         errors.TStype = "Please select Measurement Type";
       }
-      if (!values.Quantity || values.Quantity == 0) {
-        errors.Quantity = "Please enter Quantity";
-      }
+     
       if (values.Targetvalue == 0.0 || !values.Targetvalue) {
         errors.Targetvalue = "Please enter Target value";
       }
@@ -850,7 +848,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
       if (!values.TType) {
         errors.TType = "Please Select Transaction Type.";
       }
-      // console.log("errors", errors)
+      console.log("errors", errors)
       return errors;
     },
     onSubmit: async (values) => {
