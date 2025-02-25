@@ -713,7 +713,7 @@ const AddClient = () => {
     formik.setFieldValue("TStype", "Point");
   }, []);
 
- 
+
 
   const SymbolSelectionArr = [
     {
@@ -910,7 +910,7 @@ const AddClient = () => {
       ],
       label_size: 12,
       headingtype: 2,
-      hiding: false, 
+      hiding: false,
       col_size: 6,
       showWhen: (values) => values.Strategy == "Multi_Conditional",
       disable: false,
@@ -1504,7 +1504,7 @@ const AddClient = () => {
   ];
 
   const fields = [
-    
+
     {
       name: "Heading",
       label: "Symbol_Selection",
@@ -1725,7 +1725,7 @@ const AddClient = () => {
     }
   }, [formik.values.ExitDay]);
 
-  useEffect(() => { 
+  useEffect(() => {
     if (formik.values.Exchange !== "MCX") {
       formik.setFieldValue("ExitTime", "15:14:00");
       formik.setFieldValue("EntryTime", "09:15:00");
@@ -1772,7 +1772,7 @@ const AddClient = () => {
       return;
     }
 
-    
+
 
     const req = {
       MainStrategy: location?.state?.data?.selectStrategyType,
@@ -1913,16 +1913,16 @@ const AddClient = () => {
   }, [formik.values]);
 
   // setOpenModel1(true)
-  const checkModalCondition = async() => {
+  const checkModalCondition = async () => {
 
     const errors = await formik.validateForm();
 
-    
 
-  if (Object.keys(errors).length > 0) {
-   
-    return SweentAlertFun(Object.values(errors)[0])
-  }
+
+    if (Object.keys(errors).length > 0) {
+
+      return SweentAlertFun(Object.values(errors)[0])
+    }
 
     if (
       formik.values.Exchange === "NSE" ||
@@ -1931,7 +1931,7 @@ const AddClient = () => {
         (formik.values.Instrument === "OPTIDX" ||
           formik.values.Instrument === "OPTSTK"))
     ) {
-      
+
       handleCheckPnl();
     } else {
       setOpenModel1(true);
@@ -1966,6 +1966,7 @@ const AddClient = () => {
             ].includes(formik.values.Strategy) &&
               formik.values?.FixedSM !== "Single" && (
                 <button
+                  type="button"
                   className={`addbtn `}
                   onClick={checkModalCondition}
                 >
