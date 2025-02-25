@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -7,14 +7,17 @@ import {
   LinearScale,
   PointElement,
 } from "chart.js";
-import "./GroupStyles.css";
 import { useNavigate } from "react-router-dom";
+import { Modal, Button } from "react-bootstrap"; // Import Bootstrap Modal
+import "./GroupStyles.css";
+import Viewcard from './ViewGroup'
 
 // Register Chart.js components
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
 const GroupCard = ({ strategy }) => {
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const chartData = {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
@@ -30,7 +33,7 @@ const GroupCard = ({ strategy }) => {
   };
 
   const handleViewClick = () => {
-    navigate("/user/ViewGroup");  
+    setIsModalOpen(true);
   };
 
   return (
@@ -74,6 +77,17 @@ const GroupCard = ({ strategy }) => {
       </div>
 
       {strategy.premium && <span className="group-premium">Premium</span>}
+
+      {/* Bootstrap Modal */}
+      <Modal  size="xl" show={isModalOpen} onHide={() => setIsModalOpen(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>{strategy.name}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        <Viewcard/>
+        </Modal.Body>
+       
+      </Modal>
     </div>
   );
 };

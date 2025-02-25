@@ -117,7 +117,7 @@ Container with dark background */
 /* Card subtitle styling */
 .allplan-card-subtitle {
     font-size: 1.2rem;
-    color: #bbb;
+    color: var(--text-color);
     margin-bottom: 0.5rem; /* Reduce the bottom margin */
     
 }

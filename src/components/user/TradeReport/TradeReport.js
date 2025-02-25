@@ -463,7 +463,7 @@ const TradeReport = () => {
                 )}
 
                 {selectStrategyType === "ChartingPlatform" ? "" :
-                    <button className='btn btn-primary mt-2' onClick={handleSubmit}>Submit</button>
+                    <button className='addbtn mt-2' onClick={handleSubmit}>Submit</button>
                 }
 
                 {showTable && (getAllTradeData?.data2?.length > 0 || getAllTradeData?.data1?.length > 0) ? (

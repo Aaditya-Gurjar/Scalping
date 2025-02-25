@@ -10,6 +10,7 @@ import {
 import "./GroupStyles.css";
 import { useNavigate } from "react-router-dom";
 import GroupCard from "./GroupCard";
+import Content from "../../../ExtraComponent/Content"
 
 // Register Chart.js components
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
@@ -65,11 +66,17 @@ const strategies = [
 const GroupStrategyList = () => {
   
   return (
+    <Content
+    Page_title={"📌 All Groups"}
+    button_status={false}
+    backbutton_status={false}
+  >
     <div className="group-container">
       {strategies.map((strategy, index) => (
         <GroupCard key={index} strategy={strategy} />
       ))}
     </div>
+    </Content>
   );
 };
 

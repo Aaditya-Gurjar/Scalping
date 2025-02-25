@@ -1,4 +1,3 @@
-// export const react_domain = `${window.location.origin}`;
 // export const base_url = `${window.location.origin}/backend/`
 // export const base_url = `http://193.239.237.144:8002/`;
 // export const base_url = `http://193.239.237.147:8000/`;

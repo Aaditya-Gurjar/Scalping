@@ -2072,13 +2072,13 @@ const DynamicForm = ({
                   )}
                   {
                     <>
-                      <button type="submit" className="btn customer-btn-save btn-primary">
+                      <button type="submit" className="btn customer-btn-save addbtn">
                         {btn_name}
                       </button>
                       {btn_name2 ? (
                         <button
                           type="submit"
-                          className="btn customer-btn-save btn-primary"
+                          className="btn customer-btn-save addbtn"
                         >
                           {btn_name2}
                         </button>
