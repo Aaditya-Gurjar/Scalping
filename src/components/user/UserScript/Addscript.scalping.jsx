@@ -898,7 +898,9 @@ const AddClient = () => {
         { label: "PE", value: "PE" },
       ],
       showWhen: (values) =>
-        values.Instrument == "OPTIDX" || values.Instrument == "OPTSTK",
+        (values.Instrument == "OPTFUT" && values.Exchange === "MCX") ||
+        values.Instrument == "OPTIDX" ||
+        values.Instrument == "OPTSTK",
       label_size: 12,
       hiding: false,
       col_size: 4,
@@ -916,7 +918,9 @@ const AddClient = () => {
           value: item,
         })),
       showWhen: (values) =>
-        values.Instrument == "OPTIDX" || values.Instrument == "OPTSTK",
+        (values.Instrument == "OPTFUT" && values.Exchange === "MCX") ||
+        values.Instrument == "OPTIDX" ||
+        values.Instrument == "OPTSTK",
       label_size: 12,
       headingtype: 1,
       col_size: 4,
