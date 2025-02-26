@@ -53,7 +53,7 @@ const Sidebar = ({ position }) => {
   const sidebarItems = {
 
 
-    Admin: [
+    Admin: [ 
 
 
       {
@@ -188,7 +188,7 @@ const Sidebar = ({ position }) => {
   };
 
   return (
-    <div className="iq-sidebar sidebar-right" ref={sidebarRef}>
+    <div className="iq-sidebar sidebar-right" ref={sidebarRef} onClick={() => sessionStorage.clear()}>
       <div id="sidebar-scrollbar" data-scrollbar="true">
         <nav className="iq-sidebar-menu">
           <ul className="iq-menu">

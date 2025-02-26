@@ -292,7 +292,6 @@ const Strategygroup = () => {
             Page_title={"📈 Strategy Group"}
             button_status={false}
             backbutton_status={true}
-
         >
             <button
                 type="button"

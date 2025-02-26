@@ -29,7 +29,7 @@ const AddClient = () => {
   const [error, setError] = useState("");
   const [showPnl, setShowPnl] = useState(false);
   const theme = localStorage.getItem("theme");
-
+ 
   const [PnlData, setPnlData] = useState({
     InstrumentName: "",
     LotSize: "",

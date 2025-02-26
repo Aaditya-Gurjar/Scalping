@@ -6177,9 +6177,9 @@ ul.breadcrumb-links li a {
   margin-bottom: 1;
 }
 
-svg {
+/* svg {
   color: var(--text-color) !important;
-}
+} */
 
 .addbtn {
   color: var(--bg-color) !important;

@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import { AddAdminScript, GET_EXPIRY_DATE } from '../../CommonAPI/Admin'
 import axios from "axios";
 import * as Config from "../../../Utils/Config";
-
+import Content from "../../../ExtraComponent/Content";
 
 
 
@@ -391,30 +391,30 @@ const AddClient = () => {
 
     useEffect(() => {
         axios
-          .get(`${Config.base_url}OptionExchange`)
-          .then((response) => {
-            if (response.data && response.data.Exchange) {
-              const formattedExchangeOptions = response.data.Exchange.map(
-                (exchange) => ({
-                  label: exchange,
-                  value: exchange,
-                })
-              );
-    
-              // Update the state with the formatted options
-              setExchangeOptions(formattedExchangeOptions);
-              formik.setFieldValue(
-                "Exchange",
-                formattedExchangeOptions[0]?.value || ""
-              );
-            } else {
-              console.error("Unexpected API response:", response.data);
-            }
-          })
-          .catch((error) => {
-            console.error("Error fetching symbols:", error);
-          });
-      }, []);
+            .get(`${Config.base_url}OptionExchange`)
+            .then((response) => {
+                if (response.data && response.data.Exchange) {
+                    const formattedExchangeOptions = response.data.Exchange.map(
+                        (exchange) => ({
+                            label: exchange,
+                            value: exchange,
+                        })
+                    );
+
+                    // Update the state with the formatted options
+                    setExchangeOptions(formattedExchangeOptions);
+                    formik.setFieldValue(
+                        "Exchange",
+                        formattedExchangeOptions[0]?.value || ""
+                    );
+                } else {
+                    console.error("Unexpected API response:", response.data);
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching symbols:", error);
+            });
+    }, []);
 
 
     const SymbolSelectionArr = [
@@ -1022,15 +1022,20 @@ const AddClient = () => {
 
     return (
         <>
-            <AddForm
-                fields={fields.filter((field) => !field.showWhen || field.showWhen(formik.values))}
-                page_title={`Add Script - Option Strategy  , Group Name : ${location.state.data.selectGroup}`}
-                btn_name="Add"
-                btn_name1="Cancel"
-                formik={formik}
-                btn_name1_route={"/admin/allscript"}
-            />
-
+            <Content
+                Page_title={`Add Script - Option Strategy  , Group Name : ${location.state.data.selectGroup}`}
+                button_status={false}
+                backbutton_status={false}
+            >
+                <AddForm
+                    fields={fields.filter((field) => !field.showWhen || field.showWhen(formik.values))}
+                    // page_title={`Add Script - Option Strategy  , Group Name : ${location.state.data.selectGroup}`}
+                    btn_name="Add"
+                    btn_name1="Cancel"
+                    formik={formik}
+                    btn_name1_route={"/admin/allscript"}
+                />
+            </Content>
         </>
     );
 };
