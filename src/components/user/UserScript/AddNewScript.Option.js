@@ -417,11 +417,11 @@ const AddClient = () => {
           errors.Shifting_Value = "Please Enter Number of Shifts Between 1-5";
         }
       }
-      if (values.Loss==undefined || values.Loss == "" || values.Loss==null) {
+      if (values.Loss == undefined || values.Loss == "" || values.Loss == null) {
         errors.Loss = "Please Enter Maximum Loss";
       }
 
-      if (values.Profit ==undefined || values.Profit == "" || values.Profit==null) {
+      if (values.Profit == undefined || values.Profit == "" || values.Profit == null) {
         errors.Profit = "Please Enter Maximum Loss";
       }
 
@@ -695,7 +695,6 @@ const AddClient = () => {
 
     // formik.setFieldValue('Exchange', "NSE");
     formik.setFieldValue("Symbol", symbolOptions[0]?.value || "");
-    formik.setFieldValue("Expirytype", "Weekly");
     formik.setFieldValue("ETPattern", "Future");
     formik.setFieldValue("TStype", "Percentage");
     formik.setFieldValue("Targetvalue", 1.0);
@@ -714,6 +713,16 @@ const AddClient = () => {
     formik.setFieldValue("Shifting_Value", 1);
     formik.setFieldValue("Trade_Count", 1);
   }, []);
+
+  useEffect(() => {
+    if (formik.values.Symbol == 'NIFTY') {
+      formik.setFieldValue("Expirytype", "Weekly");
+    }
+    else {
+      formik.setFieldValue("Expirytype", "Monthly");
+    }
+
+  }, [formik.values.Symbol])
 
   const SymbolSelectionArr = [
     {

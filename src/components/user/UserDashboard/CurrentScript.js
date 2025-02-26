@@ -757,7 +757,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
       ) {
         errors.TStype = "Please select Measurement Type";
       }
-     
+
       if (values.Targetvalue == 0.0 || !values.Targetvalue) {
         errors.Targetvalue = "Please enter Target value";
       }
@@ -845,9 +845,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
       if (!values.TradeCount) {
         errors.TradeCount = "Please Enter Trade Count.";
       }
-      if (!values.TType) {
-        errors.TType = "Please Select Transaction Type.";
-      }
+
       console.log("errors", errors)
       return errors;
     },
@@ -914,7 +912,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         // Strategy:  , // str
         Symbol: values.Symbol || EditDataScalping.Symbol, // str
         Username: userName, // str
-        ETPattern: "", // str (Trade type)
+        ETPattern: values.ETPattern || EditDataScalping.TType, // str (Trade type)
         Timeframe: "", // str
         Targetvalue: parseFloat(values.Targetvalue) || parseFloat(EditDataScalping["Booking Point"]), // float
         Slvalue: parseFloat(values.Slvalue), // float
@@ -1075,9 +1073,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
       if (!values.TStype) {
         errors.TStype = "Please Select Measurement Type.";
       }
-      if (!values.Quantity) {
-        errors.Quantity = "Please Enter Lot Size.";
-      }
+
       if (!values.Targetvalue) {
         errors.Targetvalue = "Please Enter Target Value.";
       }
@@ -1132,6 +1128,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
       if (!values?.WorkingDay?.length > 0) {
         errors.WorkingDay = "Please select Working day";
       }
+      console.log("Errr", errors)
 
       return errors;
     },
@@ -1177,6 +1174,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         Username: userName,
         ETPattern: EditDataOption.Targettype,
         Timeframe: "",
+        // Quantity: Number(values.Quantity),
         Targetvalue: values.Targetvalue,
         Slvalue: Number(values.Slvalue),
         TStype: values.TStype,
@@ -1289,9 +1287,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
       if (!values.TStype) {
         errors.TStype = "Please Select Measurement Type.";
       }
-      if (!values.Quantity) {
-        errors.Quantity = "Please Enter Lot Size.";
-      }
+
       if (!values.Targetvalue) {
         errors.Targetvalue = "Please Enter Target Value.";
       }
@@ -1342,6 +1338,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
       if (!values.TradeCount) {
         errors.TradeCount = "Please Enter Trade Count.";
       }
+      console.log("Errr", errors)
+
 
       return errors;
     },
@@ -1404,6 +1402,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
         Slvalue: Number(values.Slvalue),
         TStype: EditDataPattern.TStype,
         LowerRange: 0.0,
+        Quantity: Number(values.Quantity),
         HigherRange: 0.0,
         HoldExit: "",
         EntryPrice: 0.0,
@@ -1481,18 +1480,18 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
       hiding: false,
       disable: false,
     },
-    {
-      name: "Quantity",
-      label:
-        showEditModal && EditDataScalping.Exchange == "NFO"
-          ? "Lot"
-          : "Quantity",
-      type: "text5",
-      label_size: 12,
-      col_size: 6,
-      hiding: false,
-      disable: false,
-    },
+    // {
+    //   name: "Quantity",
+    //   label:
+    //     showEditModal && EditDataScalping.Exchange == "NFO"
+    //       ? "Lot"
+    //       : "Quantity",
+    //   type: "text5",
+    //   label_size: 12,
+    //   col_size: 6,
+    //   hiding: false,
+    //   disable: false,
+    // },
     {
       name: "Targetvalue",
       label: "Target",
@@ -1575,15 +1574,15 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
       hiding: false,
       disable: false,
     },
-    {
-      name: "Quantity",
-      label: "Lot Size",
-      type: "text5",
-      label_size: 12,
-      col_size: 6,
-      hiding: false,
-      disable: false,
-    },
+    // {
+    //   name: "Quantity",
+    //   label: "Lot Size",
+    //   type: "text5",
+    //   label_size: 12,
+    //   col_size: 6,
+    //   hiding: false,
+    //   disable: false,
+    // },
     {
       name: "Targetvalue",
       label: "Target",
@@ -1633,20 +1632,20 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
   ];
 
   const EntryRuleArr = [
-    {
-      name: "TType",
-      label: "Transaction Type",
-      type: "select1",
-      options: [
-        { label: "BUY", value: "BUY" },
-        { label: "SELL", value: "SELL" },
-      ],
-      label_size: 12,
-      headingtype: 2,
-      hiding: false,
-      col_size: 4,
-      disable: false,
-    },
+    // {
+    //   name: "TType",
+    //   label: "Transaction Type",
+    //   type: "select1",
+    //   options: [
+    //     { label: "BUY", value: "BUY" },
+    //     { label: "SELL", value: "SELL" },
+    //   ],
+    //   label_size: 12,
+    //   headingtype: 2,
+    //   hiding: false,
+    //   col_size: 4,
+    //   disable: false,
+    // },
 
     {
       name: "EntryPrice",
@@ -2015,7 +2014,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
       formik.setFieldValue("EntryTime", EditDataScalping.EntryTime);
       formik.setFieldValue("ExitTime", EditDataScalping.ExitTime);
       formik.setFieldValue("TradeCount", EditDataScalping.TradeCount);
-      formik.setFieldValue("TType", EditDataScalping.TType);
+      formik.setFieldValue("ETPattern", EditDataScalping.TType);
       formik.setFieldValue("TStype", EditDataScalping.TStype);
       // formik.setFieldValue("Quantity", EditDataScalping.Quantity);
       formik.setFieldValue(
@@ -2045,7 +2044,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
       formik1.setFieldValue("TStype", EditDataOption.strategytype);
       formik1.setFieldValue("Targetvalue", EditDataOption["Target value"]);
       formik1.setFieldValue("Slvalue", EditDataOption["SL value"]);
-      // formik1.setFieldValue("Quantity", EditDataOption["Lot Size"]);
+      formik1.setFieldValue("Quantity", EditDataOption["Lot Size"]);
       formik1.setFieldValue("EntryTime", EditDataOption["Entry Time"]);
       formik1.setFieldValue("ExitTime", EditDataOption["Exit Time"]);
       formik1.setFieldValue("TradeCount", EditDataOption.TradeCount);

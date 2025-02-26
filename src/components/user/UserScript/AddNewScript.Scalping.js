@@ -570,7 +570,7 @@ const AddClient = () => {
               : 0.0,
         };
 
- 
+
         console.log("assss")
 
         if (
@@ -664,8 +664,7 @@ const AddClient = () => {
               );
             }
         }
-        
-        return 
+
         await AddScript(req)
           .then((response) => {
             if (response.Status) {
@@ -712,7 +711,7 @@ const AddClient = () => {
     formik.setFieldValue("TStype", "Point");
   }, []);
 
- 
+
 
   const SymbolSelectionArr = [
     {
@@ -832,9 +831,10 @@ const AddClient = () => {
         { label: "PE", value: "PE" },
       ],
       showWhen: (values) =>
+        (values.Instrument == "OPTFUT" && values.Exchange === "MCX") || (
         values.Instrument == "OPTIDX" ||
-        values.Instrument == "OPTSTK" ||
-        (values.Instrument == "OPTFUT" && values.Exchange === "MCX"),
+        values.Instrument == "OPTSTK" )
+       ,
       label_size: 12,
       hiding: false,
       col_size: 4,
@@ -852,9 +852,9 @@ const AddClient = () => {
           value: item,
         })),
       showWhen: (values) =>
-        values.Instrument == "OPTIDX" ||
-        values.Instrument == "OPTSTK" ||
-        (values.Instrument == "OPTFUT" && values.Exchange === "MCX"),
+        (values.Instrument == "OPTFUT" && values.Exchange === "MCX") || 
+        (values.Instrument == "OPTIDX" ||
+        values.Instrument == "OPTSTK" ),
       label_size: 12,
       headingtype: 1,
       col_size: 4,
@@ -909,7 +909,7 @@ const AddClient = () => {
       ],
       label_size: 12,
       headingtype: 2,
-      hiding: false, 
+      hiding: false,
       col_size: 6,
       showWhen: (values) => values.Strategy == "Multi_Conditional",
       disable: false,
@@ -1503,7 +1503,7 @@ const AddClient = () => {
   ];
 
   const fields = [
-    
+
     {
       name: "Heading",
       label: "Symbol_Selection",
@@ -1724,7 +1724,7 @@ const AddClient = () => {
     }
   }, [formik.values.ExitDay]);
 
-  useEffect(() => { 
+  useEffect(() => {
     if (formik.values.Exchange !== "MCX") {
       formik.setFieldValue("ExitTime", "15:14:00");
       formik.setFieldValue("EntryTime", "09:15:00");
@@ -1750,9 +1750,9 @@ const AddClient = () => {
   }, [formik.values.Symbol]);
 
   const handleCheckPnl = async () => {
-    
 
-    
+
+
 
     const req = {
       MainStrategy: location?.state?.data?.selectStrategyType,
@@ -1892,10 +1892,10 @@ const AddClient = () => {
   useEffect(() => {
     setShowPnl(false);
   }, [formik.values]);
- 
-  const checkModalCondition = async() => {
 
-   
+  const checkModalCondition = async () => {
+
+
 
     const weekend = new Date().getDay();
     const currentDate = new Date();
@@ -1920,10 +1920,11 @@ const AddClient = () => {
 
     const errors = await formik.validateForm();
 
-  if (Object.keys(errors).length > 0) {
-   
-    return SweentAlertFun(Object.values(errors)[0])
-  }
+
+    if (Object.keys(errors).length > 0) {
+
+      return SweentAlertFun(Object.values(errors)[0])
+    }
 
     if (
       formik.values.Exchange === "NSE" ||
@@ -1934,7 +1935,7 @@ const AddClient = () => {
     ) {
       console.log("req");
 
-      
+
       handleCheckPnl();
     } else {
       console.log("req 222");
@@ -1971,7 +1972,7 @@ const AddClient = () => {
             ].includes(formik.values.Strategy) &&
               formik.values?.FixedSM !== "Single" && (
                 <button
-                type="button"
+                  type="button"
                   className={`addbtn `}
                   onClick={checkModalCondition}
                 >
@@ -2059,7 +2060,7 @@ const AddClient = () => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-     
+
           {PnlData ? (
             [
               { label: "Token", value: PnlData.Token },
