@@ -18,7 +18,6 @@ const Clientservice = () => {
     const [clientService, setClientService] = useState({ loading: true, data: [] });
     const [showModal, setShowModal] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState([]);
-
     const [optionsArray, setOptionsArray] = useState([]);
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [groupData, setGroupData] = useState({ loading: true, data: [] });
@@ -160,13 +159,11 @@ const Clientservice = () => {
         onSubmit: async (values) => {
             const req = {
                 User: values.User,
-                GroupName: selectedOptions.map((values) => values.value),
+                GroupName: selectedOptions?.map((item) => item?.value || item),
                 Broker: values.Broker,
 
             }
-
-
-
+ 
             try {
                 const response = await EditClientPanle(req);
                 if (response.Status) {
@@ -412,20 +409,22 @@ const Clientservice = () => {
         },
     ];
 
+    console.log("selectedIndex", selectedIndex);
 
 
     useEffect(() => {
         if (showModal) {
             formik.setFieldValue('Broker', selectedIndex.BrokerName == 'Demo' ? "" : selectedIndex.BrokerName);
             formik.setFieldValue('User', selectedIndex.Username);
-            setSelectedOptions(showModal && selectedIndex.Planname)
+            setSelectedOptions(showModal && selectedIndex?.Group?.map((item) => {
+                return { value: item, label: item }
+            }));
         }
     }, [showModal])
 
 
     return (
         <>
-            {/* <div className='container-fluid' style={{marginTop:"2rem"}}> */}
 
             <Content
                 Page_title={" 📉 Client Service"}
@@ -433,106 +432,105 @@ const Clientservice = () => {
                 backbutton_status={true}
                 route={"/admin/adduser"}
                 button_title={"Create Account"}
-                
+
             >
-                            <div className="iq-card-body">
-                                <div className="mb-3 col-lg-3">
-                                    <input
-                                        type="text"
-                                        className=" form-control rounded p-1 px-2"
-                                        placeholder="Search..."
-                                        onChange={(e) => setSearchInput(e.target.value)}
-                                        value={searchInput}
-                                    />
-                                </div>
-                                {
-                                    clientService.data && clientService.data.length > 0 ?
-                                        (<FullDataTable
-                                            columns={columns}
-                                            data={clientService.data}
-                                            checkBox={false}
-                                        />)
-                                        :
-                                        (<NoDataFound />)
-                                }
+                <div className="iq-card-body">
+                    <div className="mb-3 col-lg-3">
+                        <input
+                            type="text"
+                            className=" form-control rounded p-1 px-2"
+                            placeholder="Search..."
+                            onChange={(e) => setSearchInput(e.target.value)}
+                            value={searchInput}
+                        />
+                    </div>
+                    {
+                        clientService.data && clientService.data.length > 0 ?
+                            (<FullDataTable
+                                columns={columns}
+                                data={clientService.data}
+                                checkBox={false}
+                            />)
+                            :
+                            (<NoDataFound />)
+                    }
 
-                            </div>
-                       
-            {showModal && (
-                <>
-                    {/* Darkened background overlay */}
-                    <div className="modal-backdrop fade show"></div>
+                </div>
+                {showModal && (
+                    <>
+                        {/* Darkened background overlay */}
+                        <div className="modal-backdrop fade show"></div>
 
-                    <div
-                        className="modal fade show"
-                        id="add_vendor"
-                        tabIndex="-1"
-                        role="dialog"
-                        aria-labelledby="modalLabel"
-                        aria-hidden="true"
-                        style={{ display: "block" }}>
-                        <div className="modal-dialog modal-dialog-centered custom-modal-width">
-                            <div className="modal-content">
-                                <div className="modal-header p-3">
-                                    {" "}
-                                    {/* Adjusted padding */}
-                                    <h5 className="modal-title" id="modalLabel">
-                                        Edit Client: {selectedIndex?.Username}
-                                    </h5>
-                                    <button
-                                        type="button"
-                                        className="btn-close"
-                                        data-bs-dismiss="modal"
-                                        aria-label="Close"
-                                        onClick={() => {
-                                            setShowModal(false);
-                                            formik.resetForm();
-                                            setSelectedOptions([]);
-                                        }}
-                                    />
-                                </div>
-                                <hr style={{ margin: "0" }} /> {/* Remove margin from hr */}
-                                <div className="modal-body p-1">
-                                    {" "}
-                                    {/* Adjusted padding */}
-                                    <AddForm
-                                        fields={fields.filter(
-                                            (field) =>
-                                                !field.showWhen || field.showWhen(formik.values)
-                                        )}
-                                        btn_name="Update"
-                                        formik={formik}
-                                        btn_name1_route="/admin/clientservice"
-                                        additional_field={
-                                            <div className="mt-2">
-                                                <div className="row">
-                                                    <div className="col-lg-12">
-                                                        <h6 style={{ color: "white" }}>Select Group</h6>
+                        <div
+                            className="modal fade show"
+                            id="add_vendor"
+                            tabIndex="-1"
+                            role="dialog"
+                            aria-labelledby="modalLabel"
+                            aria-hidden="true"
+                            style={{ display: "block" }}>
+                            <div className="modal-dialog modal-dialog-centered custom-modal-width">
+                                <div className="modal-content">
+                                    <div className="modal-header p-3">
+                                        {" "}
+                                        {/* Adjusted padding */}
+                                        <h5 className="modal-title" id="modalLabel">
+                                            Edit Client: {selectedIndex?.Username}
+                                        </h5>
+                                        <button
+                                            type="button"
+                                            className="btn-close"
+                                            data-bs-dismiss="modal"
+                                            aria-label="Close"
+                                            onClick={() => {
+                                                setShowModal(false);
+                                                formik.resetForm();
+                                                setSelectedOptions([]);
+                                            }}
+                                        />
+                                    </div>
+                                    <hr style={{ margin: "0" }} /> {/* Remove margin from hr */}
+                                    <div className="modal-body p-1">
+                                        {" "}
+                                        {/* Adjusted padding */}
+                                        <AddForm
+                                            fields={fields.filter(
+                                                (field) =>
+                                                    !field.showWhen || field.showWhen(formik.values)
+                                            )}
+                                            btn_name="Update"
+                                            formik={formik}
+                                            btn_name1_route="/admin/clientservice"
+                                            additional_field={
+                                                <div className="mt-2">
+                                                    <div className="row">
+                                                        <div className="col-lg-12">
+                                                            <h6 style={{ color: "white" }}>Select Group</h6>
 
-                                                        <Select
-                                                            defaultValue={selectedIndex?.Group?.map((item) => {
-                                                                return { value: item, label: item }
-                                                            })}
-                                                            isMulti
-                                                            options={optionsArray}
-                                                            selected={showModal ? selectedIndex?.Group : ""}
-                                                            onChange={(selected) =>
-                                                                setSelectedOptions(selected)
-                                                            }
-                                                            className="basic-multi-select"
-                                                            classNamePrefix="select"
-                                                        />
+                                                            <Select
+                                                                defaultValue={selectedIndex?.Group?.map((item) => {
+                                                                    return { value: item, label: item }
+                                                                })}
+                                                                isMulti
+                                                                options={optionsArray}
+                                                                selected={showModal ? selectedIndex?.Group : ""}
+                                                                onChange={(selected) =>
+                                                                    setSelectedOptions(selected)
+                                                                }
+                                                                className="basic-multi-select"
+                                                                classNamePrefix="select"
+                                                            />
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        }
-                                    />
+                                            }
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </>
-            )}
+                    </>
+                )}
             </Content>
         </>
     );
