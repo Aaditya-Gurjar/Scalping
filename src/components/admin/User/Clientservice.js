@@ -389,15 +389,7 @@ const Clientservice = () => {
                 customBodyRender: (value) => value || '-'
             }
         },
-        {
-            name: 'SubAdmin',
-            label: 'SubAdmin',
-            options: {
-                filter: true,
-                sort: true,
-                customBodyRender: (value) => value || '-'
-            }
-        },
+        
         {
             name: 'Key',
             label: 'Key',

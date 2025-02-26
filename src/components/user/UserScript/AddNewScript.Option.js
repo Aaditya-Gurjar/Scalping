@@ -11,6 +11,7 @@ import axios from "axios";
 import * as Config from "../../../Utils/Config";
 import { text } from "../../../ExtraComponent/IconTexts";
 import { Modal } from "react-bootstrap";
+import Content from "../../../ExtraComponent/Content";
 
 const AddClient = () => {
   const location = useLocation();
@@ -1671,11 +1672,16 @@ const AddClient = () => {
 
   return (
     <>
+    <Content
+      Page_title={"📌 Add Script option"}
+      button_status={false}
+      backbutton_status={false}
+    >
       <AddForm
         fields={fields.filter(
           (field) => !field.showWhen || field.showWhen(formik.values)
         )}
-        page_title="Add Script option"
+       
         btn_name="Add"
         btn_name1="Cancel"
         formik={formik}
@@ -1765,6 +1771,7 @@ const AddClient = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+      </Content>
     </>
   );
 };

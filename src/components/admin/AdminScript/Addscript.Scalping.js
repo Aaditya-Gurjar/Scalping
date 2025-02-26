@@ -5,6 +5,8 @@ import { useState, useEffect } from "react";
 import Swal from 'sweetalert2';
 import { Get_Symbol, Get_StrikePrice, GET_EXPIRY_DATE, AddAdminScript, GetExchange } from '../../CommonAPI/Admin'
 import { text } from "../../../ExtraComponent/IconTexts";
+import Content from "../../../ExtraComponent/Content";
+
 
 
 const AddClient = () => {
@@ -1293,16 +1295,22 @@ const AddClient = () => {
 
   return (
     <>
+    <Content
+      Page_title={`📌 Add Script - Scalping  , Group Name : ${location?.state?.data?.selectGroup}`}
+      button_status={false}
+      backbutton_status={false}
+    >
       <AddForm
         fields={fields.filter(
           (field) => !field.showWhen || field.showWhen(formik.values)
         )}
-        page_title={`Add Script - Scalping  , Group Name : ${location?.state?.data?.selectGroup}`}
+        // page_title={`Add Script - Scalping  , Group Name : ${location?.state?.data?.selectGroup}`}
         btn_name="Add"
         btn_name1="Cancel"
         formik={formik}
         btn_name1_route={"/admin/allscript"}
       />
+      </Content>
     </>
   );
 };

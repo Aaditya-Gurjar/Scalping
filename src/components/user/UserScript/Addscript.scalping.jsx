@@ -12,6 +12,8 @@ import {
 } from "../../CommonAPI/Admin";
 import { AddScript } from "../../CommonAPI/User";
 import { text } from "../../../ExtraComponent/IconTexts";
+import Content from "../../../ExtraComponent/Content";
+
 
 const AddClient = () => {
   const userName = localStorage.getItem("name");
@@ -1777,16 +1779,22 @@ const AddClient = () => {
 
   return (
     <>
+    <Content
+      Page_title={`📌 Add Script - scalping , Group Name : ${location.state.data.Username}`}
+      button_status={false}
+      backbutton_status={false}
+    >
       <AddForm
         fields={fields.filter(
           (field) => !field.showWhen || field.showWhen(formik.values)
         )}
-        page_title={`Add Script - scalping , Group Name : ${location.state.data.Username}`}
+        // page_title={`Add Script - scalping , Group Name : ${location.state.data.Username}`}
         btn_name="Add"
         btn_name1="Cancel"
         formik={formik}
         btn_name1_route={"/user/dashboard"}
       />
+      </Content>
     </>
   );
 };

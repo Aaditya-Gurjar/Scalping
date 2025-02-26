@@ -20,7 +20,7 @@ const Userdashboard = () => {
   const [activeTab, setActiveTab] = useState(addVia || "currentScript");
   const [subTab, setSubTab] = useState(StrategyType || "Scalping");
   const [refresh, setRefresh] = useState(false);
-  const [getGroup, setGroup] = useState(groupName || "");
+  const [getGroup, setGroup] = useState(groupName || "copyScript");
   const [strategyType, setStrategyType] = useState([]);
   const [tableType, setTableType] = useState(
     StrategyType || "MultiCondition"
