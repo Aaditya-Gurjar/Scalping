@@ -14,7 +14,6 @@ import { AddScript } from "../../CommonAPI/User";
 import { text } from "../../../ExtraComponent/IconTexts";
 import Content from "../../../ExtraComponent/Content";
 
-
 const AddClient = () => {
   const userName = localStorage.getItem("name");
   const navigate = useNavigate();
@@ -1487,6 +1486,7 @@ const AddClient = () => {
       type: "select",
       label_size: 12,
       options: [
+        { label: "0", value: "0" },
         { label: "1", value: "1" },
         { label: "2", value: "2" },
         { label: "3", value: "3" },
@@ -1783,21 +1783,20 @@ const AddClient = () => {
 
   return (
     <>
-    <Content
-      Page_title={`📌 Add Script - scalping , Group Name : ${location.state.data.Username}`}
-      button_status={false}
-      backbutton_status={false}
-    >
-      <AddForm
-        fields={fields.filter(
-          (field) => !field.showWhen || field.showWhen(formik.values)
-        )}
-        // page_title={`Add Script - scalping , Group Name : ${location.state.data.Username}`}
-        btn_name="Add"
-        btn_name1="Cancel"
-        formik={formik}
-        btn_name1_route={"/user/dashboard"}
-      />
+      <Content
+        Page_title={`📌 Add Script - scalping , Group Name : ${location.state.data.Username}`}
+        button_status={false}
+        backbutton_status={false}>
+        <AddForm
+          fields={fields.filter(
+            (field) => !field.showWhen || field.showWhen(formik.values)
+          )}
+          // page_title={`Add Script - scalping , Group Name : ${location.state.data.Username}`}
+          btn_name="Add"
+          btn_name1="Cancel"
+          formik={formik}
+          btn_name1_route={"/user/dashboard"}
+        />
       </Content>
     </>
   );
