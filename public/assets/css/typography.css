@@ -1853,3 +1853,7 @@ Border Color
   color: var(--text-color) !important;
 }
 
+.btn-text-color{
+  color: var(--bg-color) !important;
+}
+

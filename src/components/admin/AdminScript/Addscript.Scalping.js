@@ -64,7 +64,7 @@ const AddClient = () => {
       Quantity: 1,
       LowerRange: 0,
       HigherRange: 0,
-      // HoldExit: "Hold",
+      HoldExit: "",
       EntryPrice: 0,
       EntryRange: 0,
       EntryTime: "09:15:00",
@@ -302,6 +302,7 @@ const AddClient = () => {
             ? 0
             : Number(values.HigherRange),
         // HoldExit: (values.Strategy === "Multi Directional" || values.Strategy === "One Directional" || values.Strategy == "Multi_Conditional") ? values.HoldExit : "",
+        HoldExit: "",
         ExitDay: values.ExitDay,
         EntryTime: values.EntryTime,
         ExitTime: values.ExitTime,
@@ -497,11 +498,7 @@ const AddClient = () => {
       formik.setFieldValue('ExitTime', '23:25:00');
       formik.setFieldValue('EntryTime', '09:00:00');
     }
-
-
   }, [formik.values.Exchange]);
-
-
 
 
   const SymbolSelectionArr = [
@@ -958,9 +955,9 @@ const AddClient = () => {
       col_size: 4,
       headingtype: 4,
       showWhen: (values) =>
-        values.ExitDay == "Delivery" &&
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple" &&
+        (values.ExitDay == "Delivery" &&
+          values.Strategy == "Multi_Conditional" &&
+          values.position_type == "Multiple") &&
         values.Instrument !== "FUTIDX",
       disable: false,
       hiding: false,
@@ -972,6 +969,7 @@ const AddClient = () => {
       type: "select",
       label_size: 12,
       options: [
+        { label: "0", value: "0" },
         { label: "1", value: "1" },
         { label: "2", value: "2" },
         { label: "3", value: "3" },
@@ -1160,6 +1158,7 @@ const AddClient = () => {
     get_Exchange()
   }, [])
 
+
   const getExpiry = async () => {
     if (formik.values.Instrument && formik.values.Exchange && formik.values.Symbol) {
       const data = {
@@ -1198,6 +1197,19 @@ const AddClient = () => {
 
 
   useEffect(() => {
+    if (formik.values.Exchange !== "MCX") {
+      formik.setFieldValue("ExitTime", "15:14:00");
+      formik.setFieldValue("EntryTime", "09:15:00");
+      formik.setFieldValue("RollOverExitTime", "14:00:00");
+    } else if (formik.values.Exchange === "MCX") {
+      formik.setFieldValue("ExitTime", "23:25:00");
+      formik.setFieldValue("EntryTime", "09:00:00");
+      formik.setFieldValue("RollOverExitTime", "23:00:00");
+
+    }
+  }, [formik.values.Exchange]);
+
+  useEffect(() => {
     if (formik.values.Instrument == "FUTIDX" || formik.values.Instrument == "FUTSTK") {
       formik.setFieldValue('Optiontype', "")
       formik.setFieldValue('Strike', "")
@@ -1227,21 +1239,21 @@ const AddClient = () => {
 
   return (
     <>
-    <Content
-      Page_title={`📌 Add Script - Scalping  , Group Name : ${location?.state?.data?.selectGroup}`}
-      button_status={false}
-      backbutton_status={false}
-    >
-      <AddForm
-        fields={fields.filter(
-          (field) => !field.showWhen || field.showWhen(formik.values)
-        )}
-        // page_title={`Add Script - Scalping  , Group Name : ${location?.state?.data?.selectGroup}`}
-        btn_name="Add"
-        btn_name1="Cancel"
-        formik={formik}
-        btn_name1_route={"/admin/allscript"}
-      />
+      <Content
+        Page_title={`📌 Add Script - Scalping  , Group Name : ${location?.state?.data?.selectGroup}`}
+        button_status={false}
+        backbutton_status={false}
+      >
+        <AddForm
+          fields={fields.filter(
+            (field) => !field.showWhen || field.showWhen(formik.values)
+          )}
+          // page_title={`Add Script - Scalping  , Group Name : ${location?.state?.data?.selectGroup}`}
+          btn_name="Add"
+          btn_name1="Cancel"
+          formik={formik}
+          btn_name1_route={"/admin/allscript"}
+        />
       </Content>
     </>
   );

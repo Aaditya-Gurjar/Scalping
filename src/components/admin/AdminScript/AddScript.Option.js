@@ -362,6 +362,15 @@ const AddClient = () => {
             }
         }
     });
+    useEffect(() => {
+        if (formik.values.Symbol == 'NIFTY') {
+            formik.setFieldValue("Expirytype", "Weekly");
+        }
+        else {
+            formik.setFieldValue("Expirytype", "Monthly");
+        }
+
+    }, [formik.values.Symbol])
 
     useEffect(() => {
         formik.setFieldValue('Measurment_Type', "Straddle/Strangle")
@@ -661,82 +670,7 @@ const AddClient = () => {
     ]
 
     const ExitRuleArr = [
-        {
-            name: "ETPattern",
-            label: "Risk Handle",
-            type: "select1",
-            options: formik.values.Strategy == "CoveredPut" || formik.values.Strategy == "CoveredCall" || formik.values.Strategy == "ShortCollar" || formik.values.Strategy == "LongCollar" ?
-                [
-                    { label: "Future", value: "Future" },
-                    { label: "Leg vice", value: "Leg vice" },
-                ] :
-                [
-                    { label: "Future", value: "Future" },
-                    { label: "Leg vice", value: "Leg vice" },
-                    { label: "Premium Addition", value: "Premium Addition" },
-                ],
-            showWhen: (value) => value.Measurment_Type != "Shifting/FourLeg",
-            hiding: false,
-            label_size: 12,
-            col_size: 4,
-            headingtype: 3,
-            disable: false,
-        },
-        {
-            name: "ExitType",
-            label: "Exit Type",
-            type: "select1",
-            options: [
-                { label: "Cost to Cost", value: "Cost to Cost" },
-                { label: "Normal", value: "Normal" },
-            ],
-            showWhen: (value) =>
-                value.Measurment_Type != "Shifting/FourLeg" &&
-                value.ETPattern == "Leg vice",
-            hiding: false,
-            label_size: 12,
-            col_size: formik.values.Measurment_Type != "Shifting/FourLeg" ? 3 : 4,
-            headingtype: 3,
-            disable: false,
-        },
-        {
-            name: "Targetvalue",
-            label: "Target Value",
-            type: "text3",
-            hiding: false,
-            label_size: 12,
-            showWhen: (value) => value.Measurment_Type != "Shifting/FourLeg" || (value.Measurment_Type == "Shifting/FourLeg" && (value.Strategy == 'ShortFourLegStretegy' || value.Strategy == 'LongFourLegStretegy')),
-            headingtype: 3,
-            col_size: 4,
-            disable: false,
-        },
-        {
-            name: "Slvalue",
-            label: "StopLoss Value",
-            type: "text3",
-            hiding: false,
-            label_size: 12,
-            showWhen: (value) => value.Measurment_Type != "Shifting/FourLeg" || (value.Measurment_Type == "Shifting/FourLeg" && (value.Strategy == 'ShortFourLegStretegy' || value.Strategy == 'LongFourLegStretegy')),
-            col_size: 4,
-            headingtype: 3,
-            disable: false,
 
-        },
-        {
-            name: "Shifting_Value",
-            label: "Number of Shifts",
-            type: "text3",
-            showWhen: (value) => value.Measurment_Type == "Shifting/FourLeg" && value.Strategy != 'ShortFourLegStretegy' && value.Strategy != 'LongFourLegStretegy',
-            hiding: false,
-            label_size: 12,
-            col_size: 4,
-            headingtype: 3,
-            disable: false,
-        },
-
-    ]
-
-    const RiskManagementArr = [
         {
             name: "TStype",
             label: "Measurement Type",
@@ -756,6 +690,83 @@ const AddClient = () => {
             headingtype: 4,
             disable: false,
         },
+        {
+            name: "ETPattern",
+            label: "Risk Handle",
+            type: "select1",
+            options: formik.values.Strategy == "CoveredPut" || formik.values.Strategy == "CoveredCall" || formik.values.Strategy == "ShortCollar" || formik.values.Strategy == "LongCollar" ?
+                [
+                    { label: "Future", value: "Future" },
+                    { label: "Leg vice", value: "Leg vice" },
+                ] :
+                [
+                    { label: "Future", value: "Future" },
+                    { label: "Leg vice", value: "Leg vice" },
+                    { label: "Premium Addition", value: "Premium Addition" },
+                ],
+            showWhen: (value) => value.Measurment_Type != "Shifting/FourLeg",
+            hiding: false,
+            label_size: 12,
+            col_size: 3,
+            headingtype: 3,
+            disable: false,
+        },
+        {
+            name: "ExitType",
+            label: "Exit Type",
+            type: "select1",
+            options: [
+                { label: "Cost to Cost", value: "Cost to Cost" },
+                { label: "Normal", value: "Normal" },
+            ],
+            showWhen: (value) =>
+                value.Measurment_Type != "Shifting/FourLeg" &&
+                value.ETPattern == "Leg vice",
+            hiding: false,
+            label_size: 12,
+            col_size: 3,
+            headingtype: 3,
+            disable: false,
+        },
+        {
+            name: "Targetvalue",
+            label: "Target Value",
+            type: "text3",
+            hiding: false,
+            label_size: 12,
+            showWhen: (value) => value.Measurment_Type != "Shifting/FourLeg" || (value.Measurment_Type == "Shifting/FourLeg" && (value.Strategy == 'ShortFourLegStretegy' || value.Strategy == 'LongFourLegStretegy')),
+            headingtype: 3,
+            col_size: 3,
+            disable: false,
+        },
+        {
+            name: "Slvalue",
+            label: "StopLoss Value",
+            type: "text3",
+            hiding: false,
+            label_size: 12,
+            showWhen: (value) => value.Measurment_Type != "Shifting/FourLeg" || (value.Measurment_Type == "Shifting/FourLeg" && (value.Strategy == 'ShortFourLegStretegy' || value.Strategy == 'LongFourLegStretegy')),
+            col_size: 3,
+            headingtype: 3,
+            disable: false,
+
+        },
+        {
+            name: "Shifting_Value",
+            label: "Number of Shifts",
+            type: "text3",
+            showWhen: (value) => value.Measurment_Type == "Shifting/FourLeg" && value.Strategy != 'ShortFourLegStretegy' && value.Strategy != 'LongFourLegStretegy',
+            hiding: false,
+            label_size: 12,
+            col_size: 3,
+            headingtype: 3,
+            disable: false,
+        },
+
+    ]
+
+    const RiskManagementArr = [
+
         {
             name: "Quantity",
             label: "Lot",

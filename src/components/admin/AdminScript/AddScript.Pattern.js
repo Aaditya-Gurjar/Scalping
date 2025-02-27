@@ -263,7 +263,7 @@ const AddClient = () => {
     useEffect(() => {
         formik.setFieldValue('Strategy', "CandlestickPattern")
         formik.setFieldValue('Exchange', "NFO")
-        formik.setFieldValue('Instrument', "FUTIDX")
+        formik.setFieldValue('Instrument', "OPTFUT")
         formik.setFieldValue('Timeframe', "1M")
         formik.setFieldValue('EntryTime', "09:15:00")
         formik.setFieldValue('ExitTime', "15:25:00")
@@ -326,7 +326,7 @@ const AddClient = () => {
                     [
                         { label: "OPTFUT", value: "OPTFUT" },
                         { label: "FUTCOM", value: "FUTCOM" },
-                        { label: "FUTIDX", value: "FUTIDX" },
+                        // { label: "FUTIDX", value: "FUTIDX" },
                     ]
                     : formik.values.Exchange == "CDS" ?
                         [
@@ -404,7 +404,7 @@ const AddClient = () => {
             headingtype: 1,
 
             hiding: false,
-            col_size: formik.values.Exchange == "NFO" && (formik.values.Instrument == 'FUTIDX' || formik.values.Instrument == 'FUTSTK') ? 3 : formik.values.Exchange == "NFO" && (formik.values.Instrument == 'OPTIDX' || formik.values.Instrument == 'OPTSTK') ? 4 : 4,
+            col_size: formik.values.Exchange == "NFO" && (formik.values.Instrument == 'FUTIDX' || formik.values.Instrument == 'FUTSTK') ? 3 : formik.values.Exchange == "NFO" && (formik.values.Instrument == 'OPTIDX' || formik.values.Instrument == 'OPTSTK') ? 4 : 6,
             disable: false,
         },
 
@@ -477,32 +477,6 @@ const AddClient = () => {
     ]
 
     const ExitRuleArr = [
-
-        {
-            name: "Targetvalue",
-            label: "Target",
-            type: "text3",
-            label_size: 12,
-            hiding: false,
-            headingtype: 3,
-            col_size: 4,
-            disable: false,
-        },
-        {
-            name: "Slvalue",
-            // label: "Re-entry",
-            label: "Re-entry",
-            type: "text3",
-            label_size: 12,
-            headingtype: 3,
-            hiding: false,
-            col_size: 4,
-            disable: false,
-        },
-
-    ]
-
-    const RiskManagementArr = [
         {
 
             name: "TStype",
@@ -519,6 +493,33 @@ const AddClient = () => {
             col_size: 4,
             disable: false,
         },
+
+        {
+            name: "Targetvalue",
+            label: "Target",
+            type: "text3",
+            label_size: 12,
+            hiding: false,
+            headingtype: 3,
+            col_size: 4,
+            disable: false,
+        },
+        {
+            name: "Slvalue",
+            // label: "Re-entry",
+            label: "Stoploss",
+            type: "text3",
+            label_size: 12,
+            headingtype: 3,
+            hiding: false,
+            col_size: 4,
+            disable: false,
+        },
+
+    ]
+
+    const RiskManagementArr = [
+        
 
         {
             name: "Quantity",

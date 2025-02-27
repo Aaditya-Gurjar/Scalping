@@ -587,15 +587,13 @@ const Header = () => {
                   </li>
 
                   <li
-                    className={`nav-item ${
-                      activeElement === "profile" ? "iq-show" : ""
-                    }`}
+                    className={`nav-item ${activeElement === "profile" ? "iq-show" : ""
+                      }`}
                   >
                     <a
                       href="#"
-                      className={`search-toggle d-flex align-items-center iq-waves-effectt ${
-                        activeElement === "profile" ? "active" : ""
-                      }`}
+                      className={`search-toggle d-flex align-items-center iq-waves-effectt ${activeElement === "profile" ? "active" : ""
+                        }`}
                       onClick={(e) => handleClick(e, "profile")}
                     >
                       <div className="caption">
@@ -676,15 +674,13 @@ const Header = () => {
                   </li>
 
                   <li
-                    className={`nav-item ${
-                      activeElement === "profile" ? "iq-show" : ""
-                    }`}
+                    className={`nav-item ${activeElement === "profile" ? "iq-show" : ""
+                      }`}
                   >
                     <a
                       href="#"
-                      className={`search-toggle d-flex align-items-center iq-waves-effectt ${
-                        activeElement === "profile" ? "active" : ""
-                      }`}
+                      className={`search-toggle d-flex align-items-center iq-waves-effectt ${activeElement === "profile" ? "active" : ""
+                        }`}
                       onClick={(e) => handleClick(e, "profile")}
                     >
                       <div className="caption">
@@ -777,7 +773,7 @@ const Header = () => {
                 </div>
 
                 <ul className="navbar-nav ms-auto navbar-list align-items-center">
-                
+
                   {getBrokerName && getBrokerName == "Demo" ? (
                     <li className="nav-item">
                       <button type="button" className="addbtn  btn1">
@@ -788,23 +784,23 @@ const Header = () => {
                     <></>
                   )}
 
-                  <li className="nav-item mx-3" onClick={toggleFundsVisibility}>
+                  <li className="nav-item mx-3 btn-text-color" onClick={toggleFundsVisibility}>
                     <button
                       type="button"
                       data-bs-dismiss="modal"
-                      className="addbtn mt-0 btn1"
+                      className="addbtn mt-0 btn1 "
                     >
                       {showFunds ? (
-                        <span>
+                        <span className="btn-text-color" >
                           <IndianRupee
                             style={{ height: "24px", marginRight: "10px" }}
                           />
-                       
-                          <strong>{walletBalance || "-"}</strong>
+
+                          <strong >{walletBalance || "-"}</strong>
                         </span>
                       ) : (
                         <span>
-                          <Eye className="iconcol"/>
+                          <Eye className="iconcol" />
                         </span>
                       )}
                     </button>
@@ -843,15 +839,13 @@ const Header = () => {
                   </li>
 
                   <li
-                    className={`nav-item ${
-                      activeElement === "profile" ? "iq-show" : ""
-                    }`}
+                    className={`nav-item ${activeElement === "profile" ? "iq-show" : ""
+                      }`}
                   >
                     <a
                       href="#"
-                      className={`text-decoration-none search-toggle d-flex align-items-center iq-waves-effectt ${
-                        activeElement === "profile" ? "active" : ""
-                      }`}
+                      className={`text-decoration-none search-toggle d-flex align-items-center iq-waves-effectt ${activeElement === "profile" ? "active" : ""
+                        }`}
                       onClick={(e) => handleClick(e, "profile")}
                     >
                       {/* <img
@@ -1026,15 +1020,13 @@ const Header = () => {
                   </li>
 
                   <li
-                    className={`nav-item ${
-                      activeElement === "profile" ? "iq-show" : ""
-                    }`}
+                    className={`nav-item ${activeElement === "profile" ? "iq-show" : ""
+                      }`}
                   >
                     <a
                       href="#"
-                      className={`search-toggle d-flex align-items-center iq-waves-effectt ${
-                        activeElement === "profile" ? "active" : ""
-                      }`}
+                      className={`search-toggle d-flex align-items-center iq-waves-effectt ${activeElement === "profile" ? "active" : ""
+                        }`}
                       onClick={(e) => handleClick(e, "profile")}
                     >
                       <div className="caption">
