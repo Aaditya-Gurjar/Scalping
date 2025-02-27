@@ -533,7 +533,7 @@ const AddClient = () => {
             }, 1500)
           }
           else {
-            Swal.fire({
+            Swal.fire({ 
               title: "Error !",
               text: response.message,
               icon: "error",

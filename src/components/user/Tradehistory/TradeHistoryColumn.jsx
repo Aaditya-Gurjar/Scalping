@@ -76,14 +76,6 @@ export const columns = () => [
 
 
   {
-    name: "Lot",
-    label: "Quantity",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
     name: "TradeExecution",
     label: "Trade Execution",
     options: {

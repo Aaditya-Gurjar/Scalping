@@ -227,12 +227,12 @@ import { Get_All_Plans } from "../../CommonAPI/User";
 const EditSubadmin = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  
-  const { rowData,rowIndex } = location.state || {};
+
+  const { rowData, rowIndex } = location.state || {};
 
 
 
-  
+
 
   const Name_regex = (name) => {
     const nameRegex = /^[a-zA-Z]+$/;
@@ -249,7 +249,7 @@ const EditSubadmin = () => {
 
   const [permissions, setPermissions] = useState([]);
 
-  const [subAdminDetails,setSubAdminDetails] = useState({})
+  const [subAdminDetails, setSubAdminDetails] = useState({})
 
   const formik = useFormik({
 
@@ -298,9 +298,9 @@ const EditSubadmin = () => {
         .then((response) => {
           if (response.Status) {
             Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+              background: "#1a1e23 ",
+              backdrop: "#121010ba",
+              confirmButtonColor: "#1ccc8a",
               title: "User Created!",
               text: response.message,
               icon: "success",
@@ -312,9 +312,9 @@ confirmButtonColor: "#1ccc8a",
             }, 1500);
           } else {
             Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+              background: "#1a1e23 ",
+              backdrop: "#121010ba",
+              confirmButtonColor: "#1ccc8a",
               title: "Error!",
               text: response.message,
               icon: "error",
@@ -329,22 +329,22 @@ confirmButtonColor: "#1ccc8a",
     },
   });
 
-  
+
 
   useEffect(() => {
     const GetAllSubadminData = async () => {
       const response = await GetAllSubadmin();
 
-      const matchuser = response.Data.find((item,index) => {        
+      const matchuser = response.Data.find((item, index) => {
         // return item.Username === rowIndex?.Username; 
-        if(index === rowIndex){
+        if (index === rowIndex) {
           return item
         }
       });
-      
+
 
       if (matchuser) {
-        
+
         setPermissions(matchuser.Permission); // Set the permissions array if match is found
         setSubAdminDetails(matchuser)
 
@@ -364,7 +364,7 @@ confirmButtonColor: "#1ccc8a",
   }, [rowIndex]);
 
 
-  
+
 
   useEffect(() => {
     if (permissions.length) {
