@@ -6289,7 +6289,10 @@ span {
   color: var(--bg-color) !important;
 }
 
+ .MuiButtonBase-root {
+   background: var(--bg-color) !important;
+ }
 
-
-
-
+.MuiButtonBase-root.Mui-selected {
+  background: #1976d2 !important;
+}
