@@ -601,13 +601,13 @@ export const GetSingleChart = async (data) => {
     try {
         console.log(data)
 
-        const res = await axios.post(`${Config.base_url}PatternDetail`,data,
+        const res = await axios.post(`${Config.base_url}PatternDetail`, data,
             {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 }
-                
+
             }
         )
         return res?.data
@@ -765,7 +765,7 @@ export const addChartingScript = async (data) => {
 export const getChargingPlatformDataApi = async (username) => {
     var token = localStorage.getItem('token')
     try {
-        const res = await axios.get(`${Config.base_url}ChartingPlatformData/${username}`, 
+        const res = await axios.get(`${Config.base_url}ChartingPlatformData/${username}`,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -837,7 +837,43 @@ export const DeleteSingleChartingScript = async (data) => {
 }
 
 
+export const ScalpingPositionDetails = async (data) => {
+    var token = localStorage.getItem('token')
+    try {
+        const res = await axios.post(`${Config.base_url}ScalpingPositionDetails`, data,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+}
 
+// https://soptools.tradestreet.in/backend/Option_Detail
+
+export const Option_Detail = async (data) => {
+    var token = localStorage.getItem('token')
+    try {
+        const res = await axios.post(`${Config.base_url}Option_Detail`, data,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+}
 
 
 

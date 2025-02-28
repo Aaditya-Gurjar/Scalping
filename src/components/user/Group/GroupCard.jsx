@@ -10,12 +10,13 @@ import {
 import { useNavigate } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap"; // Import Bootstrap Modal
 import "./GroupStyles.css";
-import Viewcard from './ViewGroup'
+import Viewcard from "./ViewGroup";
 
 // Register Chart.js components
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
-const GroupCard = ({ strategy, name }) => {
+const GroupCard = ({ strategy }) => {
+  console.log("strategy", strategy);
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -33,13 +34,14 @@ const GroupCard = ({ strategy, name }) => {
   };
 
   const handleViewClick = () => {
-    setIsModalOpen(true);
+    // setIsModalOpen(true);
+     navigate("/user/viewgroup", { state: strategy });
   };
 
   return (
     <div className="group-card">
       <div className="group-header">
-        <h3 className="group-title">{name}</h3>
+        <h3 className="group-title">{strategy.name}</h3>
         <span
           className={`group-badge ${
             strategy.type === "My Strategy" ? "group-my-strategy" : ""
@@ -79,18 +81,7 @@ const GroupCard = ({ strategy, name }) => {
       {strategy.premium && <span className="group-premium">Premium</span>}
 
       {/* Bootstrap Modal */}
-      <Modal
-        size="xl"
-        show={isModalOpen}
-        onHide={() => setIsModalOpen(false)}
-        centered>
-        <Modal.Header closeButton>
-          <Modal.Title>{strategy.name}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Viewcard />
-        </Modal.Body>
-      </Modal>
+    
     </div>
   );
 };

@@ -1860,3 +1860,9 @@ Border Color
 .MuiPickersLayout-root .css-1st8yxe-MuiPickersLayout-root {
   background-color: black !important;
 }
+
+.form-select,
+.form-control,
+.MuiInputBase-root{
+  border: 0.5px solid white;
+}
