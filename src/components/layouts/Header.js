@@ -45,6 +45,9 @@ const Header = () => {
   const [userName, setUserName] = useState("");
   const [permissionData, setPermissionData] = useState("");
   const { theme, toggleTheme } = useTheme();
+  const [autoLoginLoading, setAutoLoginLoading] = useState(false);
+  const [dataStartloading, setDataStartLoading] = useState(false);
+  const [lastPatternloading, setLastPatternLoading] = useState(false);
 
   const AdminPermission = async () => {
     try {
@@ -295,63 +298,70 @@ const Header = () => {
   }, []);
 
   const handleAutoLoginbtn = async () => {
-    await AutoLogin().then((response) => {
-      if (response.Status) {
-        Swal.fire({
-          background: "#1a1e23 ",
-          backdrop: "#121010ba",
-          confirmButtonColor: "#1ccc8a",
-          title: "Auto Login On !",
-          text: response.message,
-          icon: "success",
-          timer: 1500,
-          timerProgressBar: true,
-        });
-      } else {
-        Swal.fire({
-          background: "#1a1e23 ",
-          backdrop: "#121010ba",
-          confirmButtonColor: "#1ccc8a",
-          title: "Error !",
-          text: response.message,
-          icon: "error",
-          timer: 1500,
-          timerProgressBar: true,
-        });
-      }
-    });
+    setAutoLoginLoading(true); // Loader start
+    try {
+      const response = await AutoLogin();
+      Swal.fire({
+        background: "#1a1e23",
+        backdrop: "#121010ba",
+        confirmButtonColor: "#1ccc8a",
+        title: response.Status ? "Auto Login On!" : "Error!",
+        text: response.message,
+        icon: response.Status ? "success" : "error",
+        timer: 1500,
+        timerProgressBar: true,
+      });
+    } catch (error) {
+      Swal.fire({
+        background: "#1a1e23",
+        backdrop: "#121010ba",
+        confirmButtonColor: "#1ccc8a",
+        title: "Error!",
+        text: "Something went wrong. Please try again.",
+        icon: "error",
+        timer: 1500,
+        timerProgressBar: true,
+      });
+    } finally {
+      setAutoLoginLoading(false); // Loader stop
+    }
   };
 
   const handleDataStart = async () => {
-    await DataStart().then((response) => {
-      if (response.Status) {
-        Swal.fire({
-          background: "#1a1e23 ",
-          backdrop: "#121010ba",
-          confirmButtonColor: "#1ccc8a",
-          title: "Data Start !",
-          text: response.message,
-          icon: "success",
-          timer: 1500,
-          timerProgressBar: true,
-        });
-      } else {
-        Swal.fire({
-          background: "#1a1e23 ",
-          backdrop: "#121010ba",
-          confirmButtonColor: "#1ccc8a",
-          title: "Error !",
-          text: response.message,
-          icon: "error",
-          timer: 1500,
-          timerProgressBar: true,
-        });
-      }
-    });
+    setDataStartLoading(true); // Loader start
+    try {
+      const response = await DataStart(); // API call
+
+      Swal.fire({
+        background: "#1a1e23",
+        backdrop: "#121010ba",
+        confirmButtonColor: "#1ccc8a",
+        title: response.Status ? "Data Start!" : "Error!",
+        text: response.message,
+        icon: response.Status ? "success" : "error",
+        timer: 1500,
+        timerProgressBar: true,
+      });
+    } catch (error) {
+      Swal.fire({
+        background: "#1a1e23",
+        backdrop: "#121010ba",
+        confirmButtonColor: "#1ccc8a",
+        title: "Error!",
+        text: "Something went wrong. Please try again.",
+        icon: "error",
+        timer: 1500,
+        timerProgressBar: true,
+      });
+    } finally {
+      setDataStartLoading(false); // Loader stop
+    }
   };
+
   const handleLastPattern = async () => {
-    await LastPattern().then((response) => {
-      if (response.Status) {
+    setLastPatternLoading(true);
+    try {
+      const response = await LastPattern(); // API call
         Swal.fire({
           background: "#1a1e23 ",
           backdrop: "#121010ba",
@@ -362,19 +372,20 @@ const Header = () => {
           timer: 1500,
           timerProgressBar: true,
         });
-      } else {
+      } catch (error) {
         Swal.fire({
           background: "#1a1e23 ",
           backdrop: "#121010ba",
           confirmButtonColor: "#1ccc8a",
           title: "Error !",
-          text: response.message,
+          text: error.response?.data?.message || "Something went wrong. Please try again.",
           icon: "error",
           timer: 1500,
           timerProgressBar: true,
         });
+      }finally {
+        setLastPatternLoading(false); // Loader stop
       }
-    });
   };
 
   const GetBalence = async () => {
@@ -1083,24 +1094,55 @@ const Header = () => {
                   <button
                     className="addbtn w-75 py-2 shadow-sm btn btn-outline-primary"
                     onClick={handleAutoLoginbtn}
+                    disabled={autoLoginLoading}
                   >
-                    🔑 <strong>Auto Login</strong>
+                    {autoLoginLoading ? (
+                      <>
+                        <span className="spinner-border spinner-border-sm me-2" role="status"></span>
+                        Processing...
+                      </>
+                    ) : (
+                      <>
+                        🔑 <strong>Auto Login</strong>
+                      </>
+                    )}
                   </button>
+
 
                   {/* Data Start Button */}
                   <button
                     className="addbtn w-75 py-2 shadow-sm btn btn-outline-success"
                     onClick={handleDataStart}
+                    disabled={dataStartloading}
                   >
-                    🚀 <strong>Data Start</strong>
+                    {dataStartloading ? (
+                      <>
+                        <span className="spinner-border spinner-border-sm me-2" role="status"></span>
+                        Processing...
+                      </>
+                    ) : (
+                      <>
+                        🚀 <strong>Data Start</strong>
+                      </>
+                    )}
                   </button>
 
                   {/* Last Pattern Button */}
                   <button
                     className="addbtn w-75 py-2 shadow-sm btn btn-outline-warning"
                     onClick={handleLastPattern}
+                    disabled={lastPatternloading}
                   >
+                    {lastPatternloading ? (
+                      <>
+                      <span className="spinner-border spinner-border-sm me-2" role="status"></span>
+                      Processing...
+                      </>
+                      ) : (
+                        <>
                     🔍 <strong>Last Pattern</strong>
+                    </>
+                    )}
                   </button>
                 </div>
               </div>

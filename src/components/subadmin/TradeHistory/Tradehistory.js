@@ -10,6 +10,8 @@ import ApexCharts from 'react-apexcharts';
 import { GetAllSubadminClient } from '../../CommonAPI/SubAdmin';
 import Swal from 'sweetalert2';
 import "react-datepicker/dist/react-datepicker.css";
+import Content from '../../../ExtraComponent/Content';
+
 
 
 const Tradehistory = () => {
@@ -406,7 +408,14 @@ confirmButtonColor: "#1ccc8a",
 
 
     return (
-        <div>
+        <Content
+                Page_title={" 📊 Trade History"}
+                button_status={false}
+                backbutton_status={false}
+                
+
+            >
+        {/* <div>
             <div className="container-fluid" style={{marginTop:"2rem"}}>
                 <div className="row">
                     <div className="iq-card">
@@ -414,7 +423,7 @@ confirmButtonColor: "#1ccc8a",
                             <div className="iq-header-title">
                                 <h4 className="card-title">Trade History</h4>
                             </div>
-                        </div>
+                        </div> */}
 
                         <div className="iq-card-body">
                             <div className="was-validated ">
@@ -646,10 +655,11 @@ confirmButtonColor: "#1ccc8a",
                             </>}
 
                         </div>
-                    </div>
+                    {/* </div>
                 </div>
             </div>
-        </div>
+        </div> */}
+        </Content>
     );
 };
 

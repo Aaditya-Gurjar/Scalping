@@ -3,7 +3,6 @@ import Swal from 'sweetalert2'
 import { CreateAccount, Get_Broker_Name, GetGroupNames } from '../../CommonAPI/Admin'
 import AddForm from "../../../ExtraComponent/FormData";
 import { useFormik } from "formik";
-import DropdownMultiselect from "react-multiselect-dropdown-bootstrap";
 import { useNavigate } from 'react-router-dom';
 import Loader from '../../../ExtraComponent/Loader';
 import { Get_All_Plans } from "../../CommonAPI/User";
@@ -15,22 +14,9 @@ const Adduser = () => {
     const [getBroker, setBroker] = useState({ loading: true, data: [] })
     const [getGroupData, setGroupData] = useState({ loading: true, data: [] })
     const [selectedOptions, setSelectedOptions] = useState([]);
-    // console.log("selectedOptions", selectedOptions);
-
     const [optionsArray, setOptionsArray] = useState([]);
-    // console.log("optionsArray", optionsArray);
-
     const [selectedIndex, setSelectedIndex] = useState([]);
-    const [showModal, setShowModal] = useState(false);
-
-
-
-
-
     const [GetAllPlans, setAllPlans] = useState({ LivePlanName: [], DemoPlanName: [], data: [] });
-    
-
-
     const Name_regex = (name) => {
         const nameRegex = /^[a-zA-Z]+$/;
         return nameRegex.test(name);
@@ -66,38 +52,6 @@ const Adduser = () => {
             })
     }
 
-    // const GetAllGroupDetails = async () => {
-    //     try {
-    //         await GetGroupNames()
-    //             .then((response) => {
-    //                 if (response.Status) {
-    //                     const options = response.Data.map(item => ({
-    //                         label: item.GroupName,
-    //                         key: item.GroupName
-    //                     }));
-    //                     setOptionsArray(options);
-    //                     setGroupData({
-    //                         loading: false,
-    //                         data: response.Data
-    //                     })
-    //                 }
-    //                 else {
-    //                     setGroupData({
-    //                         loading: false,
-    //                         data: []
-    //                     })
-    //                 }
-    //             })
-    //             .catch((err) => {
-    //                 console.log("Error in data fetch", err)
-    //             })
-    //     }
-    //     catch {
-    //         console.log("Error group data fetch")
-    //     }
-    // }
-
-
     const GetAllGroupDetails = async () => {
         try {
             const response = await GetGroupNames();
@@ -126,21 +80,21 @@ const Adduser = () => {
     const GetAllPlansData = async () => {
         await Get_All_Plans()
             .then((response) => {
-               
+
                 if (response.Status) {
                     const LivePlanName = [
                         ...response.Admin.filter((item) => item.PlanName !== 'One Week Demo' && item.PlanName !== 'Two Days Demo'),
                         ...response.Charting // Charting array ko add kar diya
                     ];
-                
+
                     const DemoPlanName = response.Admin.filter((item) => item.PlanName === 'One Week Demo' || item.PlanName === 'Two Days Demo');
-                
-                    setAllPlans({ 
-                        DemoPlanName: DemoPlanName, 
-                        LivePlanName: LivePlanName, 
-                        data: response.Admin 
+
+                    setAllPlans({
+                        DemoPlanName: DemoPlanName,
+                        LivePlanName: LivePlanName,
+                        data: response.Admin
                     });
-                }                
+                }
                 else {
                     setAllPlans({ DemoPlanName: [], LivePlanName: [], data: [] });
                 }
@@ -176,19 +130,16 @@ const Adduser = () => {
             } else {
                 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|co\.in|in|net|org|edu|gov|uk|us|info|biz|io|co)$/i;
 
-                // Trim spaces
                 const trimmedEmail = values.email.trim();
 
                 if (!emailRegex.test(trimmedEmail)) {
                     errors.email = "Please Enter a Valid Email ID";
                 }
 
-                // Check for multiple dots in domain like "abc@gmail..com"
                 else if (/\.\./.test(trimmedEmail)) {
                     errors.email = "Invalid Email Format";
                 }
 
-                // Check if email starts or ends with a special character
                 else if (/^[._%+-]|[._%+-]$/.test(trimmedEmail)) {
                     errors.email = "Email cannot start or end with special characters";
                 }
@@ -353,23 +304,7 @@ const Adduser = () => {
             col_size: 6,
             disable: false,
         },
-        // {
-        //     name: "planname",
-        //     label: "Plan Name",
-        //     type: "select1",
-        //     options: formik.values.Select_License == '' ? [] : formik.values.Select_License == 1 ? GetAllPlans.DemoPlanName && GetAllPlans.DemoPlanName.map((item) => ({
-        //         label: item.PlanName,
-        //         value: item.PlanName
-        //     })) :
-        //         GetAllPlans.LivePlanName && GetAllPlans.LivePlanName.map((item) => ({
-        //             label: item.PlanName,
-        //             value: item.PlanName
-        //         })),
-        //     label_size: 12,
-        //     hiding: false,
-        //     col_size: 6,
-        //     disable: false,
-        // },
+
         {
             name: "planname",
             label: "Plan Name",
@@ -409,13 +344,6 @@ const Adduser = () => {
 
     ];
 
-    // useEffect(() => {
-    //     formik.setFieldValue('bname', "")
-    //     formik.setFieldValue('ClientAmmount', 0)
-    //     formik.setFieldValue('planname', "")
-    //     setSelectedOptions(showModal && selectedIndex.Planname)
-
-    // }, [formik.values.Select_License])
     useEffect(() => {
         if (formik.values.Select_License === '1') {
             formik.setFieldValue('bname', "DEMO");
@@ -442,32 +370,10 @@ const Adduser = () => {
                         btn_name1="Cancel"
                         formik={formik}
                         btn_name1_route={"/admin/clientservice"}
-                        // additional_field={
-                        //     <div className='col-lg-6 mt-2 dropdownuser' >
-                        //         <h6>Select Group</h6>
 
-
-                        //         <Select
-                        //             defaultValue={selectedIndex?.Planname?.map((item) => ({
-                        //                  value: item, label: item 
-                        //             }))}
-                        //             isMulti
-                        //             options={optionsArray}
-                        //             // selected={showModal ? selectedIndex.Group : ""}
-                        //             onChange={(selected) =>{
-                        //                 setSelectedOptions(selected);
-                        //                 formik.setFieldValue('groupName', selected.map((option) => option.value));
-                        //             }}
-                        //             className="basic-multi-select"
-                        //             classNamePrefix="select"
-
-                        //         />
-                        //     </div>
-                        // }
 
                         additional_field={
                             <div className="col-lg-6 dropdownuser">
-                                {/* <h6 style={{color:"white"}}>Select Group</h6> */}
                                 <label>Select Group</label>
                                 <Select
                                     defaultValue={selectedIndex?.Planname?.map((item) => ({

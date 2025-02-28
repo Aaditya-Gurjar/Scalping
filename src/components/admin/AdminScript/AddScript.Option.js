@@ -17,8 +17,6 @@ const AddClient = () => {
     const [getExpiry, setExpiry] = useState({ loading: true, data: [] })
     const [exchangeOptions, setExchangeOptions] = useState([]);
 
-
-
     const SweentAlertFun = (text) => {
         Swal.fire({
             background: "#1a1e23 ",
@@ -424,7 +422,6 @@ const AddClient = () => {
                 console.error("Error fetching symbols:", error);
             });
     }, []);
-
 
     const SymbolSelectionArr = [
         {
@@ -952,8 +949,6 @@ const AddClient = () => {
 
     ];
 
-
-
     const getExpriyData = async () => {
         const data = { Exchange: "NFO", Instrument: "FUTIDX", Symbol: formik.values.Symbol, Strike: "" }
 
@@ -982,9 +977,6 @@ const AddClient = () => {
         getExpriyData()
 
     }, [formik.values.Symbol])
-
-
-
 
     useEffect(() => {
 
@@ -1040,7 +1032,6 @@ const AddClient = () => {
             >
                 <AddForm
                     fields={fields.filter((field) => !field.showWhen || field.showWhen(formik.values))}
-                    // page_title={`Add Script - Option Strategy  , Group Name : ${location.state.data.selectGroup}`}
                     btn_name="Add"
                     btn_name1="Cancel"
                     formik={formik}

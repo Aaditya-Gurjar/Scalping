@@ -71,21 +71,12 @@ const Tradehistory = () => {
     });
 
     // Data states
-    const [getAllTradeData, setAllTradeData] = useState({
-        data: [],
-        Overall: [],
-    });
+    const [getAllTradeData, setAllTradeData] = useState({ data: [], Overall: [], });
     const [getPnLData, setPnlData] = useState({ data: [] });
     const [getEquityCurveDetails, setEquityCurveDetails] = useState({ data: [] });
     const [getDropDownData, setDropDownData] = useState({ data: [] });
-    const [getFiveLossTrade, setFiveLossTrade] = useState({
-        data: [],
-        data1: [],
-    });
-    const [getFiveProfitTrade, setFiveProfitTrade] = useState({
-        data: [],
-        data1: [],
-    });
+    const [getFiveLossTrade, setFiveLossTrade] = useState({ data: [], data1: [], });
+    const [getFiveProfitTrade, setFiveProfitTrade] = useState({ data: [], data1: [], });
 
     // Date configuration
     const currentDate = new Date();
@@ -116,6 +107,8 @@ const Tradehistory = () => {
 
     useEffect(() => {
         fetchStrategyTypes();
+        GetAllGroupDetails();
+
     }, []);
 
     const GetAllGroupDetails = async () => {
@@ -141,14 +134,10 @@ const Tradehistory = () => {
         }
     };
 
-    useEffect(() => {
-        GetAllGroupDetails();
-    }, []);
-
     const fetchTradeHistory = async () => {
         try {
             const response = await get_User_Data({
-                Data: selectStrategyType && selectStrategyType =="Scalping" ? "NewScalping" : selectStrategyType ,
+                Data: selectStrategyType && selectStrategyType == "Scalping" ? "NewScalping" : selectStrategyType,
                 Username: selectGroup,
             });
             setTradeHistory(
@@ -406,266 +395,264 @@ const Tradehistory = () => {
 
     return (
         <Content
-                Page_title={" 📊 Trade History Analysis"}
-                button_status={false}
-                backbutton_status={true}               
-            >
- 
-
-                    <div className="iq-card-body">
-                        <div className="card-body">
-                            <div className="row g-3 mb-4">
-                                <div className="col-12 col-md-4 col-lg-3">
-                                    <div className="form-group">
-                                        <label>Select Username</label>
-                                        <select
-                                            className="form-select mt-2"
-                                            required=""
-                                            onChange={(e) => {
-                                                setSelectGroup(e.target.value);
-                                                sessionStorage.setItem("Username", e.target.value);
-                                            }}
-                                            value={selectGroup}
-                                        >
-                                            <option value="">Select Username</option>
-                                            {getGroupData.data &&
-                                                getGroupData.data.map((item) => (
-                                                    <option key={item.Username} value={item.Username}>
-                                                        {item.Username}
-                                                    </option>
-                                                ))}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div className="col-12 col-md-4 col-lg-3">
-                                    <div className="form-group">
-                                        <label className="form-label">Strategy Type</label>
-                                        <select
-                                            className="form-select"
-                                            value={selectStrategyType}
-                                            onChange={(e) => {
-                                                setStrategyType(e.target.value);
-                                                sessionStorage.setItem("StrategyType", e.target.value);
-                                            }}
-                                        >
-                                            {strategyNames.map((item) => (
-                                                <option key={item} value={item}>
-                                                    {item}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div className="col-12 col-md-4 col-lg-3">
-                                    <div className="form-group">
-                                        <label className="form-label">From Date</label>
-                                        <DatePicker
-                                            className="form-control"
-                                            selected={FromDate || formattedDate}
-                                            onChange={setFromDate}
-                                            dateFormat="yyyy.MM.dd"
-                                        />
-                                    </div>
-                                </div>
-                                <div className="col-12 col-md-4 col-lg-3">
-                                    <div className="form-group">
-                                        <label className="form-label">To Date</label>
-                                        <DatePicker
-                                            className="form-control"
-                                            selected={ToDate || Defult_To_Date}
-                                            onChange={setToDate}
-                                            dateFormat="yyyy.MM.dd"
-                                        />
-                                    </div>
-                                </div>
+            Page_title={" 📊 Trade History Analysis"}
+            button_status={false}
+            backbutton_status={true}
+        >
+            <div className="iq-card-body">
+                <div className="card-body">
+                    <div className="row g-3 mb-4">
+                        <div className="col-12 col-md-4 col-lg-3">
+                            <div className="form-group">
+                                <label>Select Username</label>
+                                <select
+                                    className="form-select mt-2"
+                                    required=""
+                                    onChange={(e) => {
+                                        setSelectGroup(e.target.value);
+                                        sessionStorage.setItem("Username", e.target.value);
+                                    }}
+                                    value={selectGroup}
+                                >
+                                    <option value="">Select Username</option>
+                                    {getGroupData.data &&
+                                        getGroupData.data.map((item) => (
+                                            <option key={item.Username} value={item.Username}>
+                                                {item.Username}
+                                            </option>
+                                        ))}
+                                </select>
                             </div>
-                            {selectStrategyType === "Scalping" ? (
-                                <div className="mb-4">
-                                    {/* <h5>Multi Conditional Strategies</h5> */}
-                                    <h5>Scalping</h5>
-                                    {tradeHistory.data1?.length > 0 ? (
-                                        <GridExample
-                                            columns={getColumnsForStrategy()}
-                                            data={tradeHistory.data1}
-                                            onRowSelect={handleRowSelect}
-                                            checkBox={true}
-                                        />
-                                    ) : (
-                                        <NoDataFound />
-                                    )}
-                                </div>
-                            ) : (
-                                <div className="mb-4">
-                                    <h5>{selectStrategyType} Strategies</h5>
-                                    {tradeHistory.data?.length > 0 ? (
-                                        <GridExample
-                                            columns={getColumnsForStrategy()}
-                                            data={tradeHistory.data}
-                                            onRowSelect={handleRowSelect}
-                                            checkBox={true}
-                                        />
-                                    ) : (
-                                        <NoDataFound />
-                                    )}
-                                </div>
-                            )}
-                         
-
-                            <div className="d-grid gap-2">
-            <button
-              className="addbtn"
-              onClick={handleSubmit}
-              disabled={!selectedRowData}
-            >
-              📜 Generate History
-            </button>
-          </div>
-                            {showReportSections && (
-                                <div className="mt-5">
-                                    <ReportSection title="Total Profit/Loss Overview" section="overview">
-                                        {getAllTradeData.data && getAllTradeData.data.length > 0 ? (
-                                            <>
-                                                <div
-                                                    className="pnl-overview"
-                                                    style={{
-                                                        background: "linear-gradient(to right, #1e3c72, #2a5298)",
-                                                        color: "#fff",
-                                                        padding: "20px",
-                                                        borderRadius: "8px",
-                                                        textAlign: "center",
-                                                        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                                                        marginBottom: "20px",
-                                                    }}
-                                                >
-                                                    <h4
-                                                        style={{
-                                                            margin: 0,
-                                                            fontSize: "1.75rem",
-                                                            fontWeight: "bold",
-                                                        }}
-                                                    >
-                                                        Total PnL: ₹
-                                                        {getAllTradeData.Overall[0]?.PnL?.toFixed(2) || "0.00"}
-                                                        <span
-                                                            className={`badge ms-2 ${getAllTradeData.Overall[0]?.PnL >= 0
-                                                                ? "bg-success"
-                                                                : "bg-danger"
-                                                                }`}
-                                                            style={{
-                                                                fontSize: "1rem",
-                                                                padding: "0.5rem 1rem",
-                                                                borderRadius: "4px",
-                                                            }}
-                                                        >
-                                                            {getAllTradeData.Overall[0]?.PnL >= 0 ? "Profit" : "Loss"}
-                                                        </span>
-                                                    </h4>
-                                                </div>
-                                                <GridExample
-                                                    columns={columns3(selectStrategyType)}
-                                                    data={getAllTradeData.data}
-                                                    checkBox={false}
-                                                />
-                                            </>
-                                        ) : (
-                                            <NoDataFound />
-                                        )}
-                                    </ReportSection>
-
-                                    <ReportSection title="Profit/Loss Analysis" section="pnlAnalysis">
-                                        {getPnLData.data && getPnLData.data.length > 0 ? (
-                                            <ProfitAndLossGraph data={getPnLData.data} />
-                                        ) : (
-                                            <NoDataFound />
-                                        )}
-                                    </ReportSection>
-
-                                    <ReportSection title="Equity Curve Analysis" section="equity">
-                                        {getEquityCurveDetails.data && getEquityCurveDetails.data.length > 0 ? (
-                                            <>
-                                                <div style={{ height: "350px", overflow: "hidden" }}>
-                                                    <ChartComponent data={getEquityCurveDetails.data} />
-                                                </div>
-                                                <GridExample
-                                                    columns={columns5(selectStrategyType)}
-                                                    data={getEquityCurveDetails.data}
-                                                    checkBox={false}
-                                                />
-                                            </>
-                                        ) : (
-                                            <NoDataFound />
-                                        )}
-                                    </ReportSection>
-
-                                    <ReportSection title="Drawdown Analysis" section="drawdown">
-                                        {getDropDownData.data && getDropDownData.data.length > 0 ? (
-                                            <>
-                                                <div style={{ height: "350px", overflow: "hidden" }}>
-                                                    <DrawdownChartComponent data={getDropDownData.data} />
-                                                </div>
-                                                <GridExample
-                                                    columns={columns6()}
-                                                    data={getDropDownData.data}
-                                                    checkBox={false}
-                                                />
-                                            </>
-                                        ) : (
-                                            <NoDataFound />
-                                        )}
-                                    </ReportSection>
-
-                                    <ReportSection title="Top Trades Analysis" section="trades">
-                                        {((getFiveProfitTrade.data && getFiveProfitTrade.data.length > 0) ||
-                                            (getFiveLossTrade.data && getFiveLossTrade.data.length > 0)) ? (
-                                            <div className="row">
-                                                <div className="col-md-6">
-                                                    <div className="card h-100">
-                                                        <div className="card-header bg-success text-white">
-                                                            Top Profitable Trades
-                                                        </div>
-                                                        <div className="card-body">
-                                                            {getFiveProfitTrade.data && getFiveProfitTrade.data.length > 0 ? (
-                                                                <ApexCharts
-                                                                    options={getChartOptions(getFiveProfitTrade.data, "Profit")}
-                                                                    series={getFiveProfitTrade.data.map((t) => t.PnL)}
-                                                                    type="pie"
-                                                                    height={350}
-                                                                />
-                                                            ) : (
-                                                                <NoDataFound />
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="col-md-6">
-                                                    <div className="card h-100">
-                                                        <div className="card-header bg-danger text-white">
-                                                            Top Loss-making Trades
-                                                        </div>
-                                                        <div className="card-body">
-                                                            {getFiveLossTrade.data && getFiveLossTrade.data.length > 0 ? (
-                                                                <ApexCharts
-                                                                    options={getChartOptions(getFiveLossTrade.data, "Loss")}
-                                                                    series={getFiveLossTrade.data.map((t) => Math.abs(t.PnL))}
-                                                                    type="pie"
-                                                                    height={350}
-                                                                />
-                                                            ) : (
-                                                                <NoDataFound />
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <NoDataFound />
-                                        )}
-                                    </ReportSection>
-                                </div>
-                            )}
+                        </div>
+                        <div className="col-12 col-md-4 col-lg-3">
+                            <div className="form-group">
+                                <label className="form-label">Strategy Type</label>
+                                <select
+                                    className="form-select"
+                                    value={selectStrategyType}
+                                    onChange={(e) => {
+                                        setStrategyType(e.target.value);
+                                        sessionStorage.setItem("StrategyType", e.target.value);
+                                    }}
+                                >
+                                    {strategyNames.map((item) => (
+                                        <option key={item} value={item}>
+                                            {item}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+                        <div className="col-12 col-md-4 col-lg-3">
+                            <div className="form-group">
+                                <label className="form-label">From Date</label>
+                                <DatePicker
+                                    className="form-control"
+                                    selected={FromDate || formattedDate}
+                                    onChange={setFromDate}
+                                    dateFormat="yyyy.MM.dd"
+                                />
+                            </div>
+                        </div>
+                        <div className="col-12 col-md-4 col-lg-3">
+                            <div className="form-group">
+                                <label className="form-label">To Date</label>
+                                <DatePicker
+                                    className="form-control"
+                                    selected={ToDate || Defult_To_Date}
+                                    onChange={setToDate}
+                                    dateFormat="yyyy.MM.dd"
+                                />
+                            </div>
                         </div>
                     </div>
-                
+                    {selectStrategyType === "Scalping" ? (
+                        <div className="mb-4">
+                            {/* <h5>Multi Conditional Strategies</h5> */}
+                            <h5>Scalping</h5>
+                            {tradeHistory.data1?.length > 0 ? (
+                                <GridExample
+                                    columns={getColumnsForStrategy()}
+                                    data={tradeHistory.data1}
+                                    onRowSelect={handleRowSelect}
+                                    checkBox={true}
+                                />
+                            ) : (
+                                <NoDataFound />
+                            )}
+                        </div>
+                    ) : (
+                        <div className="mb-4">
+                            <h5>{selectStrategyType} Strategies</h5>
+                            {tradeHistory.data?.length > 0 ? (
+                                <GridExample
+                                    columns={getColumnsForStrategy()}
+                                    data={tradeHistory.data}
+                                    onRowSelect={handleRowSelect}
+                                    checkBox={true}
+                                />
+                            ) : (
+                                <NoDataFound />
+                            )}
+                        </div>
+                    )}
+
+
+                    <div className="d-grid gap-2">
+                        <button
+                            className="addbtn"
+                            onClick={handleSubmit}
+                            disabled={!selectedRowData}
+                        >
+                            📜 Generate History
+                        </button>
+                    </div>
+                    {showReportSections && (
+                        <div className="mt-5">
+                            <ReportSection title="Total Profit/Loss Overview" section="overview">
+                                {getAllTradeData.data && getAllTradeData.data.length > 0 ? (
+                                    <>
+                                        <div
+                                            className="pnl-overview"
+                                            style={{
+                                                background: "linear-gradient(to right, #1e3c72, #2a5298)",
+                                                color: "#fff",
+                                                padding: "20px",
+                                                borderRadius: "8px",
+                                                textAlign: "center",
+                                                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                                                marginBottom: "20px",
+                                            }}
+                                        >
+                                            <h4
+                                                style={{
+                                                    margin: 0,
+                                                    fontSize: "1.75rem",
+                                                    fontWeight: "bold",
+                                                }}
+                                            >
+                                                Total PnL: ₹
+                                                {getAllTradeData.Overall[0]?.PnL?.toFixed(2) || "0.00"}
+                                                <span
+                                                    className={`badge ms-2 ${getAllTradeData.Overall[0]?.PnL >= 0
+                                                        ? "bg-success"
+                                                        : "bg-danger"
+                                                        }`}
+                                                    style={{
+                                                        fontSize: "1rem",
+                                                        padding: "0.5rem 1rem",
+                                                        borderRadius: "4px",
+                                                    }}
+                                                >
+                                                    {getAllTradeData.Overall[0]?.PnL >= 0 ? "Profit" : "Loss"}
+                                                </span>
+                                            </h4>
+                                        </div>
+                                        <GridExample
+                                            columns={columns3(selectStrategyType)}
+                                            data={getAllTradeData.data}
+                                            checkBox={false}
+                                        />
+                                    </>
+                                ) : (
+                                    <NoDataFound />
+                                )}
+                            </ReportSection>
+
+                            <ReportSection title="Profit/Loss Analysis" section="pnlAnalysis">
+                                {getPnLData.data && getPnLData.data.length > 0 ? (
+                                    <ProfitAndLossGraph data={getPnLData.data} />
+                                ) : (
+                                    <NoDataFound />
+                                )}
+                            </ReportSection>
+
+                            <ReportSection title="Equity Curve Analysis" section="equity">
+                                {getEquityCurveDetails.data && getEquityCurveDetails.data.length > 0 ? (
+                                    <>
+                                        <div style={{ height: "350px", overflow: "hidden" }}>
+                                            <ChartComponent data={getEquityCurveDetails.data} />
+                                        </div>
+                                        <GridExample
+                                            columns={columns5(selectStrategyType)}
+                                            data={getEquityCurveDetails.data}
+                                            checkBox={false}
+                                        />
+                                    </>
+                                ) : (
+                                    <NoDataFound />
+                                )}
+                            </ReportSection>
+
+                            <ReportSection title="Drawdown Analysis" section="drawdown">
+                                {getDropDownData.data && getDropDownData.data.length > 0 ? (
+                                    <>
+                                        <div style={{ height: "350px", overflow: "hidden" }}>
+                                            <DrawdownChartComponent data={getDropDownData.data} />
+                                        </div>
+                                        <GridExample
+                                            columns={columns6()}
+                                            data={getDropDownData.data}
+                                            checkBox={false}
+                                        />
+                                    </>
+                                ) : (
+                                    <NoDataFound />
+                                )}
+                            </ReportSection>
+
+                            <ReportSection title="Top Trades Analysis" section="trades">
+                                {((getFiveProfitTrade.data && getFiveProfitTrade.data.length > 0) ||
+                                    (getFiveLossTrade.data && getFiveLossTrade.data.length > 0)) ? (
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <div className="card h-100">
+                                                <div className="card-header bg-success text-white">
+                                                    Top Profitable Trades
+                                                </div>
+                                                <div className="card-body">
+                                                    {getFiveProfitTrade.data && getFiveProfitTrade.data.length > 0 ? (
+                                                        <ApexCharts
+                                                            options={getChartOptions(getFiveProfitTrade.data, "Profit")}
+                                                            series={getFiveProfitTrade.data.map((t) => t.PnL)}
+                                                            type="pie"
+                                                            height={350}
+                                                        />
+                                                    ) : (
+                                                        <NoDataFound />
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6">
+                                            <div className="card h-100">
+                                                <div className="card-header bg-danger text-white">
+                                                    Top Loss-making Trades
+                                                </div>
+                                                <div className="card-body">
+                                                    {getFiveLossTrade.data && getFiveLossTrade.data.length > 0 ? (
+                                                        <ApexCharts
+                                                            options={getChartOptions(getFiveLossTrade.data, "Loss")}
+                                                            series={getFiveLossTrade.data.map((t) => Math.abs(t.PnL))}
+                                                            type="pie"
+                                                            height={350}
+                                                        />
+                                                    ) : (
+                                                        <NoDataFound />
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <NoDataFound />
+                                )}
+                            </ReportSection>
+                        </div>
+                    )}
+                </div>
+            </div>
+
         </Content>
     );
 };
