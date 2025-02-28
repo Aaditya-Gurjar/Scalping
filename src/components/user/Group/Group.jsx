@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -10,7 +10,8 @@ import {
 import "./GroupStyles.css";
 import { useNavigate } from "react-router-dom";
 import GroupCard from "./GroupCard";
-import Content from "../../../ExtraComponent/Content"
+import Content from "../../../ExtraComponent/Content";
+import { GetGroupNames } from "../../CommonAPI/Admin";
 
 // Register Chart.js components
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
@@ -64,18 +65,27 @@ const strategies = [
 
 // Strategy List Component
 const GroupStrategyList = () => {
-  
+  const [group, setGroup] = useState([]);
+
+  useEffect(() => {
+    const fetchGroups = async () => {
+      const response = await GetGroupNames();
+      setGroup(response.Data);
+    };
+    fetchGroups();
+  }, []);
+  console.log("Group data is ", group);
+
   return (
     <Content
-    Page_title={"📌 All Groups"}
-    button_status={false}
-    backbutton_status={false}
-  >
-    <div className="group-container">
-      {strategies.map((strategy, index) => (
-        <GroupCard key={index} strategy={strategy} />
-      ))}
-    </div>
+      Page_title={"📌 All Groups"}
+      button_status={false}
+      backbutton_status={false}>
+      <div className="group-container">
+        {group && group?.map((strategy, index) => (
+          <GroupCard key={index} strategy={strategy} name={group.GroupName} />
+        ))}
+      </div>
     </Content>
   );
 };
