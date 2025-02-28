@@ -153,13 +153,14 @@ const AddClient = () => {
       }
 
 
-      if (!values.ExitTime) {
+      if (values.ExitTime=="") {
         errors.ExitTime = "Please Select Exit Time.";
       } else if (values.ExitTime > (values.Exchange === "MCX" ? mcxMaxTime : maxTime)) {
+        console.log("values.ExitTime", values.ExitTime)
         errors.ExitTime = `Exit Time Must be Before ${values.Exchange === "MCX" ? "23:29:59" : "15:29:59"}.`;
       }
 
-      if (!values.EntryTime) {
+      if (values.EntryTime=="") {
         errors.EntryTime = "Please Select Entry Time.";
       } else if (values.EntryTime < (values.Exchange === "MCX" ? mcxMinTime : minTime)) {
         errors.EntryTime = `Entry Time Must be After ${values.Exchange === "MCX" ? "09:00:00" : "09:15:00"}.`;
@@ -204,9 +205,7 @@ const AddClient = () => {
       if (!values.Group) {
         errors.Group = "Please Enter Unique Name.";
       }
-      // if (!values.HoldExit && values.Strategy != "Fixed Price") {
-      //   errors.HoldExit = "Please Select Whether To Hold Or Exit.";
-      // }
+      
       if (!values.Slvalue) {
         errors.Slvalue = values.Strategy == "Fixed Price" ? "Please Enter Stop Loss Price." : "Please Select Stop Loss Value.";
       }
@@ -245,40 +244,7 @@ const AddClient = () => {
       if (values.Strategy == "Multi_Conditional" && !values.position_type) {
         errors.position_type = "Please Select Position Type";
       }
-      // if (
-      //   !values.RepeatationCount &&
-      //   values.Strategy == "Multi_Conditional" &&
-      //   values.position_type == "Multiple"
-      // ) {
-      //   errors.RepeatationCount = "Please Enter No. of Repeatation";
-      // }
-
-
-      // if (
-      //   !values.Loss &&
-      //   values.Strategy == "Multi_Conditional" &&
-      //   values.position_type == "Multiple"
-      // ) {
-      //   errors.Loss = "Please Enter Maximum Loss";
-      // }
-
-      // if (
-      //   !values.Profit &&
-      //   values.Strategy == "Multi_Conditional" &&
-      //   values.position_type == "Multiple"
-      // ) {
-      //   errors.Profit = "Please Enter Maximum Loss";
-      // }
-
-      // ----------
-
-      // if (
-      //   !values.RollOver &&
-      //   values.Strategy == "Multi_Conditional" &&
-      //   values.position_type == "Multiple"
-      // ) {
-      //   errors.RollOver = "Please Enter RollOver";
-      // }
+     
 
 
       if (
@@ -298,25 +264,11 @@ const AddClient = () => {
       ) {
         errors.RollOverExitTime = "Please Enter RollOver Exit Time";
       }
-      // if (
-      //   !values.TargetExit &&
-      //   values.Strategy == "Multi_Conditional" &&
-      //   values.position_type == "Multiple"
-      // ) {
-      //   errors.TargetExit = "Please select Continue After Cycle Exit";
-      // }
-      // if (
-      //   !values.WorkingDay.length > 0 &&
-      //   values.Strategy == "Multi_Conditional" &&
-      //   values.position_type == "Multiple"
-      // ) {
-      //   errors.WorkingDay = "Please select Working day";
-      // }
+      
       if (values.FinalTarget == undefined || values.FinalTarget == "" && (formik.values.position_type == "Multiple" && (formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise Target"))) {
         errors.FinalTarget = "Please Enter Final Target";
       }
-      // console.log("errors", errors)
-      // ScrollToViewFirstError(errors)
+    
 
       return errors;
     },
@@ -381,22 +333,7 @@ const AddClient = () => {
         quantityselection: values.position_type == "Multiple" && values.Strategy == "Multi_Conditional" ? values.quantityselection : "",
         quantityvalue: values.position_type == "Multiple" && values.Strategy == "Multi_Conditional" ? Number(values.quantityvalue) : 0,
         targetselection: values.position_type == "Multiple" && values.Strategy == "Multi_Conditional" ? values.Targetselection : "Single",
-        // RepeatationCount:
-        //   values.position_type == "Multiple" &&
-        //     values.Strategy == "Multi_Conditional"
-        //     ? values.RepeatationCount
-        //     : 1,
-        // Loss:
-        //   values.position_type == "Multiple" &&
-        //     values.Strategy == "Multi_Conditional"
-        //     ? values.Loss
-        //     : 0,
-
-        // Profit:
-        //   values.position_type == "Multiple" &&
-        //     values.Strategy == "Multi_Conditional"
-        //     ? values.Profit
-        //     : 0,
+        
         RollOver: (values.position_type ==
           "Multiple" && values.Strategy == "Multi_Conditional"
           ? values.RollOver
@@ -413,16 +350,7 @@ const AddClient = () => {
             values.RollOver == true
             ? values.RollOverExitTime
             : "00:00:00",
-        // TargetExit:
-        //   values.position_type == "Multiple" &&
-        //     values.Strategy == "Multi_Conditional"
-        //     ? values.TargetExit
-        //     : false,
-        // WorkingDay:
-        //   values.position_type == "Multiple" &&
-        //     values.Strategy == "Multi_Conditional"
-        //     ? values.WorkingDay
-        //     : [],
+        
         FinalTarget: (formik.values.position_type == "Multiple" && formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise Target") ? parseFloat(values.FinalTarget) : 0.0,
 
       };
@@ -550,6 +478,7 @@ const AddClient = () => {
     }
   });
 
+
   useEffect(() => {
     formik.setFieldValue('Exchange', "NFO")
     formik.setFieldValue("TType", "BUY")
@@ -561,6 +490,7 @@ const AddClient = () => {
     formik.setFieldValue("TStype", "Point")
   }, [])
 
+  
   useEffect(() => {
     if (formik.values.Exchange !== 'MCX') {
       formik.setFieldValue('ExitTime', '15:25:00');
@@ -569,11 +499,7 @@ const AddClient = () => {
       formik.setFieldValue('ExitTime', '23:25:00');
       formik.setFieldValue('EntryTime', '09:00:00');
     }
-
-
   }, [formik.values.Exchange]);
-
-
 
 
   const SymbolSelectionArr = [
@@ -1030,9 +956,9 @@ const AddClient = () => {
       col_size: 4,
       headingtype: 4,
       showWhen: (values) =>
-        values.ExitDay == "Delivery" &&
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple" &&
+        (values.ExitDay == "Delivery" &&
+          values.Strategy == "Multi_Conditional" &&
+          values.position_type == "Multiple") &&
         values.Instrument !== "FUTIDX",
       disable: false,
       hiding: false,
@@ -1044,6 +970,7 @@ const AddClient = () => {
       type: "select",
       label_size: 12,
       options: [
+        { label: "0", value: "0" },
         { label: "1", value: "1" },
         { label: "2", value: "2" },
         { label: "3", value: "3" },
@@ -1232,6 +1159,7 @@ const AddClient = () => {
     get_Exchange()
   }, [])
 
+
   const getExpiry = async () => {
     if (formik.values.Instrument && formik.values.Exchange && formik.values.Symbol) {
       const data = {
@@ -1270,6 +1198,19 @@ const AddClient = () => {
 
 
   useEffect(() => {
+    if (formik.values.Exchange !== "MCX") {
+      formik.setFieldValue("ExitTime", "15:14:00");
+      formik.setFieldValue("EntryTime", "09:15:00");
+      formik.setFieldValue("RollOverExitTime", "14:00:00");
+    } else if (formik.values.Exchange === "MCX") {
+      formik.setFieldValue("ExitTime", "23:25:00");
+      formik.setFieldValue("EntryTime", "09:00:00");
+      formik.setFieldValue("RollOverExitTime", "23:00:00");
+
+    }
+  }, [formik.values.Exchange]);
+
+  useEffect(() => {
     if (formik.values.Instrument == "FUTIDX" || formik.values.Instrument == "FUTSTK") {
       formik.setFieldValue('Optiontype', "")
       formik.setFieldValue('Strike', "")
@@ -1299,21 +1240,21 @@ const AddClient = () => {
 
   return (
     <>
-    <Content
-      Page_title={`📌 Add Script - Scalping  , Group Name : ${location?.state?.data?.selectGroup}`}
-      button_status={false}
-      backbutton_status={false}
-    >
-      <AddForm
-        fields={fields.filter(
-          (field) => !field.showWhen || field.showWhen(formik.values)
-        )}
-        // page_title={`Add Script - Scalping  , Group Name : ${location?.state?.data?.selectGroup}`}
-        btn_name="Add"
-        btn_name1="Cancel"
-        formik={formik}
-        btn_name1_route={"/admin/allscript"}
-      />
+      <Content
+        Page_title={`📌 Add Script - Scalping  , Group Name : ${location?.state?.data?.selectGroup}`}
+        button_status={false}
+        backbutton_status={false}
+      >
+        <AddForm
+          fields={fields.filter(
+            (field) => !field.showWhen || field.showWhen(formik.values)
+          )}
+          // page_title={`Add Script - Scalping  , Group Name : ${location?.state?.data?.selectGroup}`}
+          btn_name="Add"
+          btn_name1="Cancel"
+          formik={formik}
+          btn_name1_route={"/admin/allscript"}
+        />
       </Content>
     </>
   );

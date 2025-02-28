@@ -29,7 +29,7 @@ const AddClient = () => {
   const [error, setError] = useState("");
   const [showPnl, setShowPnl] = useState(false);
   const theme = localStorage.getItem("theme");
- 
+
   const [PnlData, setPnlData] = useState({
     InstrumentName: "",
     LotSize: "",
@@ -832,9 +832,9 @@ const AddClient = () => {
       ],
       showWhen: (values) =>
         (values.Instrument == "OPTFUT" && values.Exchange === "MCX") || (
-        values.Instrument == "OPTIDX" ||
-        values.Instrument == "OPTSTK" )
-       ,
+          values.Instrument == "OPTIDX" ||
+          values.Instrument == "OPTSTK")
+      ,
       label_size: 12,
       hiding: false,
       col_size: 4,
@@ -852,9 +852,9 @@ const AddClient = () => {
           value: item,
         })),
       showWhen: (values) =>
-        (values.Instrument == "OPTFUT" && values.Exchange === "MCX") || 
+        (values.Instrument == "OPTFUT" && values.Exchange === "MCX") ||
         (values.Instrument == "OPTIDX" ||
-        values.Instrument == "OPTSTK" ),
+          values.Instrument == "OPTSTK"),
       label_size: 12,
       headingtype: 1,
       col_size: 4,
@@ -1421,6 +1421,7 @@ const AddClient = () => {
       type: "select",
       label_size: 12,
       options: [
+        { label: "0", value: "0" },
         { label: "1", value: "1" },
         { label: "2", value: "2" },
         { label: "3", value: "3" },

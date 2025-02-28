@@ -75,7 +75,7 @@ const DropdownComponent = ({ tableMeta, handleDelete, type, handleMatchPosition,
                     padding: 0,
                 }}
             >
-                <EllipsisVertical style={{ color: "white" }} />
+                <EllipsisVertical className="card-text-Color" />
             </button>
 
             {/* Dropdown Menu using Portal to prevent clipping */}
@@ -1725,7 +1725,7 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
         options: {
             filter: true,
             sort: true,
-            customBodyRender:(value)=>value?value:"-"
+            customBodyRender: (value) => value ? value : "-"
         }
     },
     {
@@ -1734,7 +1734,7 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
         options: {
             filter: true,
             sort: true,
-            customBodyRender:(value)=>value?value:"-"
+            customBodyRender: (value) => value ? value : "-"
         }
     },
     {
@@ -2255,6 +2255,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
                 return (
                     <div>
                         <DropdownComponent
+
                             tableMeta={tableMeta}
                             handleDelete={() => handleDelete(tableMeta, 2)}
                             handleMatchPosition={() => handleMatchPosition(tableMeta, 2)}
@@ -2688,7 +2689,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
         options: {
             filter: true,
             sort: true,
-             customBodyRender: (value) => value ? "true" : "false"
+            customBodyRender: (value) => value ? "true" : "false"
         }
     },
     {
