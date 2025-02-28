@@ -44,6 +44,12 @@ export const ClientActivityPage = () => [
         options: {
             filter: true,
             sort: true,
+            customBodyRender: (value) => {
+                if (value.length == 0)
+                    return "-";
+                else
+                    return value;
+            },
         }
     },
     {

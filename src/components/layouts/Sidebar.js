@@ -5,9 +5,13 @@ import { ListCollapse, Users, BadgeDollarSign, Pyramid } from "lucide-react";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import { useSidebar } from "./SidebarContext";
+import { SubAdminPermission } from '../CommonAPI/Admin'
+
 
 const Sidebar = ({ position }) => {
   const role = localStorage.getItem("Role");
+  const name = localStorage.getItem("name");
+
   const [isActive, setIsActive] = useState(true);
   //   const [activeItem, setActiveItem] = useState("");
   const sidebarRef = useRef(null);
@@ -16,7 +20,11 @@ const Sidebar = ({ position }) => {
   const header_img2 = localStorage.getItem("header_img2");
   const logo = localStorage.getItem("logo");
   const pannel_name = localStorage.getItem("pannel_name");
-  const permission = localStorage.getItem("SubAdminPermission");
+  const [permission, setPermission] = useState(
+    JSON.parse(localStorage.getItem("SubAdminPermission")) || null
+  );
+
+
   const expire = localStorage.getItem("expire");
 
   const { activeItem, setActiveItem } = useSidebar();
@@ -39,6 +47,26 @@ const Sidebar = ({ position }) => {
   useEffect(() => {
     document.body.classList.toggle("sidebar-main", isActive);
   }, [isActive]);
+
+  
+
+  const getSubAdminPermission = async () => {
+    const req = { username: name }
+    await SubAdminPermission(req)
+      .then((response) => {
+        if (response.Status) {
+          localStorage.setItem("SubAdminPermission", JSON.stringify(response.Data))
+          setPermission(response.Data)
+        }
+      })
+      .catch((err) => {
+        console.log("Error in fetching the permission", err)
+      })
+  }
+  useEffect(() => {
+    getSubAdminPermission();
+  }, []);
+
 
   const handleSidebarClick = (event, item) => {
     setActiveItem(item);
@@ -68,6 +96,8 @@ const Sidebar = ({ position }) => {
       );
     };
   }, []);
+
+
 
   useEffect(() => {
     const sidebar = sidebarRef.current;
@@ -121,15 +151,27 @@ const Sidebar = ({ position }) => {
     },
     {
       path: "/subadmin/allclient",
-      icon: <i className="ri-group-fill" />, // Group or users icon for All Clients
+      icon: <i className="fa fa-users" />,
       label: "All Clients",
-      permission: [],
+      permission: ["AddClient", "ViewClient", "EditClient",],
     },
     {
       path: "/subadmin/groups",
       icon: <i className="ri-group-fill" />, // Teams icon for Sub Admin Groups
       label: "Sub Admin Groups",
       permission: [],
+    },
+    {
+      path: "/subadmin/trade-history",
+      icon: <i className="la la-history"></i>,
+      label: "Trade History",
+      permission: ["TradeHistory"],
+    },
+    {
+      path: "/subadmin/signals",
+      icon: <i className="la la-briefcase"></i>,
+      label: "Trade Report",
+      permission: ["TradeReport"],
     },
   ];
 
@@ -248,7 +290,7 @@ const Sidebar = ({ position }) => {
       icon: <i className="la la-users" />,
       label: 'Group',
       permission: [] // No restriction
-  },
+    },
   ];
 
 

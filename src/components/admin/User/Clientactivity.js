@@ -11,20 +11,9 @@ const Clientactivity = () => {
     const Username = sessionStorage.getItem('Username')
     const [ToDate, setToDate] = useState('');
     const [FromDate, setFromDate] = useState('');
-
-    const [getClientActivityDetails, setClientActivityDetails] = useState({
-        loading: true,
-        data: []
-    })
-    const [getUserName, setUserName] = useState({
-        loading: true,
-        data: []
-    })
+    const [getClientActivityDetails, setClientActivityDetails] = useState({ loading: true, data: [] })
+    const [getUserName, setUserName] = useState({ loading: true, data: [] })
     const [selectUserName, setSelectUserName] = useState(Username || '')
-
-
-
-
 
     // set Defult Date 
     const currentDate = new Date();
@@ -34,11 +23,8 @@ const Clientactivity = () => {
     const day = String(currentDate.getDate()).padStart(2, '0');
     const formattedDate = `${year}-${month}-${day}`;
 
-
-
     // from date
     const DefultToDate = new Date();
-
     DefultToDate.setDate(DefultToDate.getDate() + 1);
     const year1 = DefultToDate.getFullYear();
     const month1 = String(DefultToDate.getMonth() + 1).padStart(2, '0');
@@ -77,8 +63,6 @@ const Clientactivity = () => {
         GetAllUserDetails()
     }, [])
 
-
-
     const getClientTetails = async () => {
         const data = { User: selectUserName, From_date: FromDate == "" ? formattedDate : FromDate, To_date: ToDate == "" ? Defult_To_Date : ToDate }
         await GetClientLogs(data)
@@ -100,7 +84,6 @@ const Clientactivity = () => {
                 console.log("Error In finding the client details", err)
             })
     }
-
 
     useEffect(() => {
         getClientTetails()

@@ -88,15 +88,7 @@ const Strategygroup = () => {
                 width: '20%'
             }
         },
-        {
-            name: "SubAdmin",
-            label: "SubAdmin",
-            options: {
-                filter: true,
-                sort: true,
-                customBodyRender: (value) => value || '-'
-            }
-        },
+       
     ];
 
     const GetAllGroupDetails = async () => {

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Get_Client_Report } from '../../CommonAPI/Admin'
 import FullDataTable from '../../../ExtraComponent/CommanDataTable';
-import Checkbox from '@mui/material/Checkbox';
 import { ClientReportColumn } from './UserAllColumn'
 import NoDataFound from '../../../ExtraComponent/NoDataFound';
 import Content from '../../../ExtraComponent/Content';
@@ -10,10 +9,7 @@ import Content from '../../../ExtraComponent/Content';
 const Clientreport = () => {
     const Username = sessionStorage.getItem("Username")
     const [selectUserName, setSelectUserName] = useState(Username || 'AllUser')
-    const [getTableData, setTableData] = useState({
-        loading: true,
-        data: []
-    })
+    const [getTableData, setTableData] = useState({ loading: true, data: [] })
 
     const GetClientData = async () => {
         const data = { User: selectUserName }
@@ -38,19 +34,14 @@ const Clientreport = () => {
             })
     }
 
-
     useEffect(() => {
         GetClientData()
     }, [selectUserName])
 
-
-
     useEffect(() => {
         setSelectUserName(Username || 'AllUser')
     }, [])
-
-
-
+    
     return (
         <Content
             Page_title={" 📉 Thread Report"}
