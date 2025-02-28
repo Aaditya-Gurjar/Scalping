@@ -8,6 +8,8 @@ import Swal from 'sweetalert2';
 import { GetAllSubadminClient } from '../../CommonAPI/SubAdmin';
 
 import { getColumns3, getColumns2, getColumns1, getColumns, getColumns4, getColumns5, getColumns8, getColumns7, getColumns6 } from './ReportColumn'
+import Content from '../../../ExtraComponent/Content';
+
 
 const TradeReport = () => {
     const [selectStrategyType, setStrategyType] = useState('')
@@ -180,7 +182,16 @@ const TradeReport = () => {
 
 
     return (
-        <div>
+        <>
+            <Content
+                Page_title={" 📉 Trade Report"}
+                button_status={false}
+                backbutton_status={false}
+
+
+            >
+
+                {/* <div>
             <div className="container-fluid" style={{marginTop:"2rem"}}>
                 <div className="row">
                     <div className="iq-card">
@@ -188,95 +199,98 @@ const TradeReport = () => {
                             <div className="iq-header-title">
                                 <h4 className="card-title">Trade Report</h4>
                             </div>
-                        </div>
-                        <div className="iq-card-body">
-                            <div className="was-validated ">
-                                <div className='row'>
+                        </div> */}
+                <div className="iq-card-body">
+                    <div className="was-validated ">
+                        <div className='row'>
 
-                                    <div className="form-group col-lg-3">
-                                        <label>Select UserName</label>
-                                        <select className="form-select" required=""
-                                            onChange={(e) => setSelectClientName(e.target.value)}
-                                            value={SelectClientName}>
-                                            <option value="">Select Client</option>
-                                            {getClientName.data.map((item, index) => {
-                                                return (
-                                                    <option value={item.Username}>{item.Username}</option>
-                                                )
-                                            })}
-                                        </select>
-                                    </div>
-                                    <div className="form-group col-lg-3">
-                                        <label>Select Strategy Type</label>
-                                        <select className="form-select" required=""
-                                            onChange={(e) => setStrategyType(e.target.value)}
-                                            value={selectStrategyType}>
-                                            <option value={"Scalping"}>Scalping</option>
-                                            <option value={"Option Strategy"}>Option Strategy</option>
-                                            <option value={"Pattern"}>Pattern Script</option>
-
-                                        </select>
-                                    </div>
-
-
-                                    <div className="form-group col-lg-3">
-                                        <label>Select form Date</label>
-                                        <DatePicker className="form-select" selected={FromDate == '' ? formattedDate : FromDate} onChange={(date) => setFromDate(date)} />
-
-                                    </div>
-                                    <div className="form-group col-lg-3">
-                                        <label>Select To Date</label>
-                                        <DatePicker className="form-select" selected={ToDate == '' ? Defult_To_Date : ToDate} onChange={(date) => setToDate(date)} />
-
-                                    </div>
-                                </div>
+                            <div className="form-group col-lg-3">
+                                <label>Select UserName</label>
+                                <select className="form-select" required=""
+                                    onChange={(e) => setSelectClientName(e.target.value)}
+                                    value={SelectClientName}>
+                                    <option value="">Select Client</option>
+                                    {getClientName.data.map((item, index) => {
+                                        return (
+                                            <option value={item.Username}>{item.Username}</option>
+                                        )
+                                    })}
+                                </select>
                             </div>
-                            {
-                                <div className="modal-body">
-                                    <GridExample
-                                        columns={selectStrategyType === "Scalping" ? getColumns() :
-                                            selectStrategyType === "Option Strategy" ? getColumns1() :
-                                                selectStrategyType === "Pattern" ? getColumns2() : getColumns()
-                                        }
-                                        data={tradeReport.data}
-                                        onRowSelect={handleRowSelect}
-                                        checkBox={true}
-                                    />
-                                </div>
-                            }
-                            <button className='btn btn-primary mt-2' onClick={handleSubmit}>Submit</button>
+                            <div className="form-group col-lg-3">
+                                <label>Select Strategy Type</label>
+                                <select className="form-select" required=""
+                                    onChange={(e) => setStrategyType(e.target.value)}
+                                    value={selectStrategyType}>
+                                    <option value={"Scalping"}>Scalping</option>
+                                    <option value={"Option Strategy"}>Option Strategy</option>
+                                    <option value={"Pattern"}>Pattern Script</option>
 
-                            {
-                                showTable && <>
-                                    <h3 className='mt-4 mb-2'>Open Trade</h3>
-                                    <GridExample
-                                        columns={selectStrategyType === "Scalping" ? getColumns3() :
-                                            selectStrategyType === "Option Strategy" ? getColumns4() :
-                                                selectStrategyType === "Pattern" ? getColumns5() : getColumns3()
-                                        }
-                                        data={getAllTradeData.data2}
-                                        onRowSelect={handleRowSelect}
-                                        checkBox={false}
-                                    />
-                                    <div className='mt-3'>
-                                        <h3 className='mt-3 mb-2'>Close Trade</h3>
-                                        <GridExample
-                                            columns={selectStrategyType === "Scalping" ? getColumns6() :
-                                                selectStrategyType === "Option Strategy" ? getColumns7() :
-                                                    selectStrategyType === "Pattern" ? getColumns8() : getColumns6()
-                                            }
-                                            data={getAllTradeData.data1}
-                                            onRowSelect={handleRowSelect}
-                                            checkBox={false}
-                                        />
-                                    </div>
-                                </>
-                            }
+                                </select>
+                            </div>
+
+
+                            <div className="form-group col-lg-3">
+                                <label>Select form Date</label>
+                                <DatePicker className="form-select" selected={FromDate == '' ? formattedDate : FromDate} onChange={(date) => setFromDate(date)} />
+
+                            </div>
+                            <div className="form-group col-lg-3">
+                                <label>Select To Date</label>
+                                <DatePicker className="form-select" selected={ToDate == '' ? Defult_To_Date : ToDate} onChange={(date) => setToDate(date)} />
+
+                            </div>
                         </div>
                     </div>
+                    {
+                        <div className="modal-body">
+                            <GridExample
+                                columns={selectStrategyType === "Scalping" ? getColumns() :
+                                    selectStrategyType === "Option Strategy" ? getColumns1() :
+                                        selectStrategyType === "Pattern" ? getColumns2() : getColumns()
+                                }
+                                data={tradeReport.data}
+                                onRowSelect={handleRowSelect}
+                                checkBox={true}
+                            />
+                        </div>
+                    }
+                    <button className='btn btn-primary mt-2' onClick={handleSubmit}>Submit</button>
+
+                    {
+                        showTable && <>
+                            <h3 className='mt-4 mb-2'>Open Trade</h3>
+                            <GridExample
+                                columns={selectStrategyType === "Scalping" ? getColumns3() :
+                                    selectStrategyType === "Option Strategy" ? getColumns4() :
+                                        selectStrategyType === "Pattern" ? getColumns5() : getColumns3()
+                                }
+                                data={getAllTradeData.data2}
+                                onRowSelect={handleRowSelect}
+                                checkBox={false}
+                            />
+                            <div className='mt-3'>
+                                <h3 className='mt-3 mb-2'>Close Trade</h3>
+                                <GridExample
+                                    columns={selectStrategyType === "Scalping" ? getColumns6() :
+                                        selectStrategyType === "Option Strategy" ? getColumns7() :
+                                            selectStrategyType === "Pattern" ? getColumns8() : getColumns6()
+                                    }
+                                    data={getAllTradeData.data1}
+                                    onRowSelect={handleRowSelect}
+                                    checkBox={false}
+                                />
+                            </div>
+                        </>
+                    }
+                    {/* </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            </div> */}
+                </div>
+            </Content>
+        </>
+
     );
 };
 

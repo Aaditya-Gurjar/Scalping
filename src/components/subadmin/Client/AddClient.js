@@ -394,7 +394,7 @@ confirmButtonColor: "#1ccc8a",
                 formik={formik}
                 btn_name1_route={"/subadmin/allclient"}
                 additional_field={
-                    <div className='col-lg-6 mt-2 dropdownuser' >
+                    <div className='col-lg-6 dropdownuser' >
                         <h6>Select Group</h6>
                         <Select
                             options={optionsArray}

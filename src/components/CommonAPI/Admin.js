@@ -1127,6 +1127,7 @@ export const SubAdminPermission = async (data) => {
 }
 
 export const AdminPermission = async (data) => {
+    console.log("username", data)
     try {
         const res = await axios.get(`${Config.base_url}Permissiondata/${data.username}`)
         return res?.data
