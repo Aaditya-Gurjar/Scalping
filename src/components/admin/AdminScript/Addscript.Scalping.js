@@ -65,6 +65,7 @@ const AddClient = () => {
       LowerRange: 0,
       HigherRange: 0,
       // HoldExit: "Hold",
+      HoldExit:"",
       EntryPrice: 0,
       EntryRange: 0,
       EntryTime: "09:15:00",
@@ -350,6 +351,7 @@ const AddClient = () => {
             ? 0
             : Number(values.HigherRange),
         // HoldExit: (values.Strategy === "Multi Directional" || values.Strategy === "One Directional" || values.Strategy == "Multi_Conditional") ? values.HoldExit : "",
+        HoldExit: "",
         ExitDay: values.ExitDay,
         EntryTime: values.EntryTime,
         ExitTime: values.ExitTime,
@@ -533,7 +535,7 @@ const AddClient = () => {
             }, 1500)
           }
           else {
-            Swal.fire({ 
+            Swal.fire({
               title: "Error !",
               text: response.message,
               icon: "error",
