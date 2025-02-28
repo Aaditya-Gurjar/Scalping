@@ -6277,9 +6277,9 @@ ul.breadcrumb-links li a {
 
 
 
-span {
+/* span {
   color: var(--text-color);
-}
+} */
 
 .MuiTabs-root {
   width: 50% !important;

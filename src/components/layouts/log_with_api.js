@@ -19,9 +19,9 @@ const loginWithApi = async (UserDetails) => {
                 if (response.data.Status) {
 
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: 'Success!',
                         text: 'Trading On successfully.',
                         icon: 'success',
@@ -35,9 +35,9 @@ confirmButtonColor: "#1ccc8a",
                 } else {
 
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: 'Error!',
                         text: response.data.message,
                         icon: 'error',
@@ -53,9 +53,9 @@ confirmButtonColor: "#1ccc8a",
             } catch (err) {
                 console.error("Error in ConnectBroker request", err);
                 Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                    background: "#1a1e23 ",
+                    backdrop: "#121010ba",
+                    confirmButtonColor: "#1ccc8a",
                     title: 'Error!',
                     text: 'An error occurred. Please try again later.',
                     icon: 'error',
@@ -104,9 +104,9 @@ confirmButtonColor: "#1ccc8a",
                 .then((response) => {
                     if (response.data.Status == true) {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: 'Success!',
                             text: response.data.message,
                             icon: 'success',
@@ -121,9 +121,9 @@ confirmButtonColor: "#1ccc8a",
                     }
                     else {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: 'Error!',
                             text: response.data.message,
                             icon: 'error',
@@ -283,9 +283,9 @@ confirmButtonColor: "#1ccc8a",
                 if (response.data.Status) {
 
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: 'Success!',
                         text: 'Trading On successfully.',
                         icon: 'success',
@@ -299,9 +299,9 @@ confirmButtonColor: "#1ccc8a",
                 } else {
 
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: 'Error!',
                         text: 'Trading Off successfully.',
                         icon: 'error',
@@ -317,9 +317,9 @@ confirmButtonColor: "#1ccc8a",
             } catch (err) {
                 console.error("Error in ConnectBroker request", err);
                 Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                    background: "#1a1e23 ",
+                    backdrop: "#121010ba",
+                    confirmButtonColor: "#1ccc8a",
                     title: 'Error!',
                     text: 'An error occurred. Please try again later.',
                     icon: 'error',
@@ -466,7 +466,7 @@ confirmButtonColor: "#1ccc8a",
                     };
                     if (response.data.Status) {
                         let value = prompt("Enter OTP", "");
-                        const req= {
+                        const req = {
                             Username: UserDetails.Username,
                             session: value,
                             AccToken: response.data.access_token,
@@ -503,7 +503,7 @@ confirmButtonColor: "#1ccc8a",
                             })
                             .catch((error) => {
                                 console.log("Error", error);
-                            });  
+                            });
 
                     } else {
                         swalOptions.title = 'Error!';

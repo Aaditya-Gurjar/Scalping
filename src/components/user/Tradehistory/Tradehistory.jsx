@@ -407,7 +407,7 @@ const Tradehistory = () => {
       <div className="iq-card-body">
         <div className="card-body">
           <div className="row g-3 mb-4">
-            <div className="col-12 col-md-6 col-lg-3">
+            <div className={`col-12 col-md-6 ${selectStrategyType === "ChartingPlatform" ?"col-lg-3":"col-lg-4"}`}>
               <div className="form-group">
                 <label className="form-label">Strategy Type</label>
                 <select
@@ -449,7 +449,7 @@ const Tradehistory = () => {
               
               </div>
             )}
-            <div className="col-12 col-md-6 col-lg-3">
+            <div className={`col-12 col-md-6 ${selectStrategyType === "ChartingPlatform" ?"col-lg-3":"col-lg-4"}`}>
               <div className="form-group">
                 <label className="form-label">From Date</label>
                 <DatePicker
@@ -460,7 +460,7 @@ const Tradehistory = () => {
                 />
               </div>
             </div>
-            <div className="col-12 col-md-6 col-lg-3">
+            <div className={`col-12 col-md-6 ${selectStrategyType === "ChartingPlatform" ?"col-lg-3":"col-lg-4"}`}>
               <div className="form-group">
                 <label className="form-label">To Date</label>
                 <DatePicker

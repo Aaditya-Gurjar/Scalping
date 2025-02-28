@@ -369,7 +369,7 @@ const TradeReport = () => {
                 <div className="was-validated ">
                     <div className="row">
                         {/* Select Strategy Type */}
-                        <div className={`form-group ${selectStrategyType === "ChartingPlatform" ? "col-lg-3" : "col-lg-4"}`}>
+                        <div className={`form-group ${selectStrategyType === "ChartingPlatform" ? "col-lg-4" : "col-lg-4"}`}>
                             <label>Select Strategy Type</label>
                             <select
                                 className="form-select"
@@ -392,7 +392,7 @@ const TradeReport = () => {
                         {/* Removed: Select Table Type */}
 
                         {/* Select From Date */}
-                        <div className={`form-group ${selectStrategyType === "ChartingPlatform" ? "col-lg-3" : "col-lg-4"}`}>
+                        <div className={`form-group ${selectStrategyType === "ChartingPlatform" ? "col-lg-4" : "col-lg-4"}`}>
                             <label>Select form Date</label>
                             <DatePicker
                                 className="form-select"
@@ -402,7 +402,7 @@ const TradeReport = () => {
                         </div>
 
                         {/* Select To Date */}
-                        <div className={`form-group ${selectStrategyType === "ChartingPlatform" ? "col-lg-3" : "col-lg-4"}`}>
+                        <div className={`form-group ${selectStrategyType === "ChartingPlatform" ? "col-lg-4" : "col-lg-4"}`}>
                             <label>Select To Date</label>
                             <DatePicker
                                 className="form-select"
