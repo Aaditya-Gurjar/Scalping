@@ -11,6 +11,8 @@ import { useNavigate } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap"; // Import Bootstrap Modal
 import "./GroupStyles.css";
 import Viewcard from "./ViewGroup";
+import { ClientGroupAllot } from "../../CommonAPI/User";
+import Swal from "sweetalert2";
 
 // Register Chart.js components
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
@@ -19,6 +21,7 @@ const GroupCard = ({ strategy }) => {
   console.log("strategy", strategy);
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const username = localStorage.getItem("name");
 
   const chartData = {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
@@ -35,7 +38,33 @@ const GroupCard = ({ strategy }) => {
 
   const handleViewClick = () => {
     // setIsModalOpen(true);
-     navigate("/user/viewgroup", { state: strategy });
+    navigate("/user/viewgroup", { state: strategy });
+  };
+
+  const handleSubscribe = async () => {
+    try {
+      const reqData = {
+        User: username,
+        GroupName: [strategy.name],
+        SubAdmin: "",
+      };
+      const res = await ClientGroupAllot(reqData);
+      console.log("respnse is ", res);
+      if (res.Status) {
+        Swal.fire({
+          title: "Subscribed Successfully!",
+          icon: "success",
+          draggable: true,
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        title: "Error !",
+        icon: "false",
+        draggable: true,
+      });
+      console.log("error in subscribe", error);
+    }
   };
 
   return (
@@ -75,13 +104,14 @@ const GroupCard = ({ strategy }) => {
         <button className="group-btn-backtest" onClick={handleViewClick}>
           View
         </button>
-        <button className="group-btn-deploy">Subscribe</button>
+        <button className="group-btn-deploy" onClick={handleSubscribe}>
+          Subscribe
+        </button>
       </div>
 
       {strategy.premium && <span className="group-premium">Premium</span>}
 
       {/* Bootstrap Modal */}
-    
     </div>
   );
 };

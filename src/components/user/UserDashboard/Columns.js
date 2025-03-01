@@ -2270,14 +2270,14 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
         },
     },
 
-    {
-        name: "ScalpType",
-        label: "Scalp Type",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+    // {
+    //     name: "ScalpType",
+    //     label: "Scalp Type",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
 
     {
         name: "Exchange",
@@ -2322,14 +2322,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
-    {
-        name: "Token1",
-        label: "Token 1",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
     {
         name: "TStype",
         label: "Measurement Type",
@@ -2404,14 +2397,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
-    {
-        name: "ExitDay",
-        label: "Exit Day",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
     {
         name: "EntryTime",
         label: "Entry Time",
@@ -2423,6 +2409,14 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
     {
         name: "ExitTime",
         label: "Exit Time",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "ExitDay",
+        label: "Exit Day",
         options: {
             filter: true,
             sort: true,
@@ -2452,9 +2446,19 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
+
+    {
+        name: "TargetExit",
+        label: "Continue after cycle exit",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => value ? "true" : "false"
+        }
+    },
     {
         name: "TradeCount",
-        label: "Trade Count",
+        label: "No. of Cycle",
         options: {
             filter: true,
             sort: true,
@@ -2517,59 +2521,28 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
-    {
-        name: "Target value",
-        label: "Target value",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value) => value ? value : "-"
-        }
-    },
-    {
-        name: "SL value",
-        label: "Re-entry",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "ExitDay",
-        label: "Product Type",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "TradeExecution",
-        label: "Trade Execution",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "IName",
-        label: "IName",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Expirytype",
-        label: "Expiry Type",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value) => value ? value : "-"
-        }
-    },
+
+
+    // {
+    //     name: "Expirytype",
+    //     label: "Expiry Type",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //         customBodyRender: (value) => value ? value : "-"
+    //     }
+    // },
     {
         name: "FinalTarget",
         label: "Final Target",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "RepeatationCount",
+        label: "Repeatation Count",
         options: {
             filter: true,
             sort: true,
@@ -2583,14 +2556,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
-    {
-        name: "Incrementvalue",
-        label: "Increment Value",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
     {
         name: "Instrument Type",
         label: "Instrument Type",
@@ -2599,22 +2565,15 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
-    {
-        name: "Loss",
-        label: "Loss",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "MainSymbol",
-        label: "Main Symbol",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
+    // {
+    //     name: "MainSymbol",
+    //     label: "Main Symbol",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
     {
         name: "MatchPosition",
         label: "Match Position",
@@ -2648,14 +2607,26 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
+
     {
-        name: "RepeatationCount",
-        label: "Repeatation Count",
+        name: "Loss",
+        label: "Loss",
         options: {
             filter: true,
             sort: true,
         }
     },
+
+    {
+        name: "RolloverTF",
+        label: "Rollover",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => value ? "true" : "false"
+        }
+    },
+
     {
         name: "RolloverDay",
         label: "Rollover Day",
@@ -2665,15 +2636,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             customBodyRender: (value) => value ? value : "-"
         }
     },
-    {
-        name: "RolloverTF",
-        label: "Rollover TF",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value) => value ? "true" : "false"
-        }
-    },
+
     {
         name: "RolloverTime",
         label: "Rollover Time",
@@ -2683,23 +2646,8 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             customBodyRender: (value) => value ? value : "-"
         }
     },
-    {
-        name: "TargetExit",
-        label: "Target Exit",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value) => value ? "true" : "false"
-        }
-    },
-    {
-        name: "TaskStatus",
-        label: "Task Status",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
+
     {
         name: "TaskTime",
         label: "Task Time",
@@ -2708,35 +2656,8 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
-    {
-        name: "Username",
-        label: "Username",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "WorkingDay",
-        label: "Working Day",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value) => {
-                if (!value || (Array.isArray(value) && value.length === 0)) {
-                    return "-";
-                }
-                if (Array.isArray(value)) {
-                    if (value.length && typeof value[0] === "object" && value[0].label) {
-                        return value.map((day) => day.label).join(", ");
-                    }
-                    // Fallback: if it's an array of strings
-                    return value.join(", ");
-                }
-                return value;
-            },
-        },
-    },
+
+
 
 
 

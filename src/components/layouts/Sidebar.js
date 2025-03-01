@@ -48,7 +48,7 @@ const Sidebar = ({ position }) => {
     document.body.classList.toggle("sidebar-main", isActive);
   }, [isActive]);
 
-  
+
 
   const getSubAdminPermission = async () => {
     const req = { username: name }

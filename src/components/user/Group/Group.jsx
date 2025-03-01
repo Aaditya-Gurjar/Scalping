@@ -73,8 +73,8 @@ const GroupStrategyList = () => {
       console.log("response is ", response);
       const updatedGroups = response.Data.map((group, index) => ({
         name: group.GroupName, // Set name as GroupName from API response
-        type: "My Strategy",
-        created: "30 days ago",
+        // type: "My Strategy",
+        // created: "30 days ago",
         category: ["Scalping", "BANKNIFTY", "INTRADAY"], // Adjust this as needed
         backtestAvailable: true,
         data: [25, 8, 12, 1, 0, 5, 30, 50, 40],
