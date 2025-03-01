@@ -2026,14 +2026,14 @@ export const
                 sort: true,
             }
         },
-        {
-            name: "TType",
-            label: "Trade Type",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
+        // {
+        //     name: "TType",
+        //     label: "Trade Type",
+        //     options: {
+        //         filter: true,
+        //         sort: true,
+        //     }
+        // },
         {
             name: "Quantity",
             label: "Lot",
@@ -2298,21 +2298,22 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             filter: true,
             sort: true,
             customBodyRender: (value) => {
-
                 if (!value || (Array.isArray(value) && value.length === 0)) {
                     return "-";
                 }
                 if (Array.isArray(value)) {
-                    if (value.length && typeof value[0] === "object" && value[0].label) {
-                        return value.map((day) => day.label).join(", ");
-                    }
-                    // Fallback: if it's an array of strings
-                    return value.join(", ");
+                    return (
+                        <span>
+                            {value.map((day, index) => 
+                                (index > 0 && index % 3 === 0 ? <><br />{day}</> : (index === 0 ? day : `, ${day}`))
+                            )}
+                        </span>
+                    );
                 }
                 return value;
             },
         },
-    },
+    },    
 
     {
         name: "Token",

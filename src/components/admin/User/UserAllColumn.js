@@ -1208,6 +1208,7 @@ export const columns3 = () => [
         options: {
             filter: true,
             sort: true,
+            customBodyRender: (value) => value ? value : "-"
         }
     },
     {
@@ -1216,6 +1217,7 @@ export const columns3 = () => [
         options: {
             filter: true,
             sort: true,
+            customBodyRender: (value) => value ? value : "-"
         }
     },
     {
@@ -1298,6 +1300,7 @@ export const columns3 = () => [
         options: {
             filter: true,
             sort: true,
+            customBodyRender: (value) => value ? value : "-"
         }
     },
     {
@@ -1330,6 +1333,7 @@ export const columns3 = () => [
         options: {
             filter: true,
             sort: true,
+            customBodyRender: (value) => value ? value : "-"
         }
     },
 
@@ -1373,6 +1377,7 @@ export const columns3 = () => [
         options: {
             filter: true,
             sort: true,
+            customBodyRender: (value) => value ? value : "-"
         }
     },
 

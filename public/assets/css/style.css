@@ -6297,6 +6297,10 @@ ul.breadcrumb-links li a {
   background: #1976d2 !important;
 }
 
+button:hover{
+  scale: 1.1;
+}
+
 
 /* ______group css testing_________ */
 /* Custom modal dialog styling to center the modal and limit its width */

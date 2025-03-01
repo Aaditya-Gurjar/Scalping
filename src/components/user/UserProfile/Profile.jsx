@@ -9,14 +9,18 @@ const ProfilePage = () => {
   const username = localStorage.getItem("name");
   const cachedProfile = localStorage.getItem("profileData");
   const [data, setData] = useState(cachedProfile ? JSON.parse(cachedProfile) : { loading: false, data: {} });
+  console.log("data mai kya aa rha hai", data);
 
- 
+
+
   // Fetch profile data with caching
   const getProfileData = async () => {
     if (!cachedProfile) {
       try {
         const requestData = { username };
         const response = await Get_Profile_Data(requestData);
+        console.log("response", response);
+
         if (response.Status) {
           localStorage.setItem("expire", "false");
           localStorage.setItem("profileData", JSON.stringify(response?.Data[0])); // Cache data
@@ -35,13 +39,15 @@ const ProfilePage = () => {
 
   useEffect(() => {
     getProfileData();
+    console.log("getProfileData", getProfileData());
+
   }, []);
 
 
 
   return (
     <>
-      <Container style={{ paddingTop:"10%" }}>
+      <Container style={{ paddingTop: "10%" }}>
         <Row className="justify-content-center">
           <Col xs={12} sm={10} md={8} lg={6}>
             <Card >
@@ -62,12 +68,42 @@ const ProfilePage = () => {
                 {/* Info Grid */}
                 <Row className="g-3">
                   {[
-                    { icon: <FaPhone />, text: data?.data?.Mobile_No || "-", color: "#4e54c8" },
-                    { icon: <FaEnvelope />, text: data?.data?.EmailId || "-", color: "#8f94fb" },
-                    { icon: <FaUserTie />, text: `Broker: ${data?.data?.BrokerName || "-"}`, color: "#00b4d8" },
-                    { icon: <FaClipboardList />, text: `Scripts: ${data?.data?.NumberofScript || "-"}`, color: "#00f5d4" },
-                    { icon: <FaUsers />, text: data?.data?.Group?.length ? data?.data?.Group.join(", ") : "No Group Available", color: "#9d4edd" },
-                    { icon: <FaRegStar />, text: data?.data?.Planname?.length ? data?.data?.Planname.join(", ") : "No Plan Available", color: "#ff9e00" },
+                    // { icon: <FaPhone />, text: data?.data?.Mobile_No || "-", color: "#4e54c8" },
+                    // { icon: <FaEnvelope />, text: data?.data?.EmailId || "-", color: "#8f94fb" },
+                    // { icon: <FaUserTie />, text: `Broker: ${data?.data?.BrokerName || "-"}`, color: "#00b4d8" },
+                    // { icon: <FaClipboardList />, text: `Scripts: ${data?.data?.NumberofScript || "-"}`, color: "#00f5d4" },
+                    // { icon: <FaUsers />, text: data?.data?.Group?.length ? data?.data?.Group.join(", ") : "No Group Available", color: "#9d4edd" },
+                    // { icon: <FaRegStar />, text: data?.data?.Planname?.length ? data?.data?.Planname.join(", ") : "No Plan Available", color: "#ff9e00" },
+
+
+                    { icon: <FaPhone />, text: data?.Mobile_No || "-", color: "#4e54c8" },
+                    { icon: <FaEnvelope />, text: data?.EmailId || "-", color: "#8f94fb" },
+                    { icon: <FaUserTie />, text: `Broker: ${data?.BrokerName || "-"}`, color: "#00b4d8" },
+                    { icon: <FaClipboardList />, text: `Scripts: ${data?.NumberofScript || "-"}`, color: "#00f5d4" },
+                    { icon: <FaUsers />, text: data?.Group?.length ? data?.Group.join(", ") : "No Group Available", color: "#9d4edd" },
+
+                    {
+                      icon: <FaRegStar />,
+                      text: data?.Planname?.length
+                        ? (
+                          <>
+                            {data.Planname.slice(0, 2).join(", ")}
+                            {data.Planname.length > 2 && (
+                              <span
+                                onClick={() => alert(data.Planname.join(", "))}
+                                style={{ color: "blue", cursor: "pointer" }}
+                              >
+                                ...
+                              </span>
+                            )}
+                          </>
+                        )
+                        : "No Plan Available",
+                      color: "#ff9e00"
+                    }
+
+
+
                   ].map((item, index) => (
                     <Col xs={12} sm={6} key={index}>
                       <Card className="info-card hover-transform" style={{ "--hover-color": item.color }}>
@@ -87,7 +123,7 @@ const ProfilePage = () => {
         </Row>
       </Container>
 
-  
+
     </>
   );
 };
