@@ -475,7 +475,7 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
                   id="select-all"
                   checked={tempSelectedColumns.length === columns.length}
                   onChange={handleSelectAllChange}
-                />Select All
+                /> Select All
               </div>
             </div>
 

@@ -1,6 +1,6 @@
 import { Trash2 } from 'lucide-react';
 
-export const columns = (handleDelete)=>[
+export const columns = (handleDelete) => [
     {
         name: "S.No",
         label: "S.No",
@@ -129,6 +129,7 @@ export const columns = (handleDelete)=>[
         options: {
             filter: true,
             sort: true,
+            customBodyRender: (value) => value ? value : "-"
         }
     },
     {
@@ -177,6 +178,8 @@ export const columns = (handleDelete)=>[
         options: {
             filter: true,
             sort: true,
+            customBodyRender: (value) => value ? value : "-"
+
         }
     },
     {
@@ -236,7 +239,7 @@ export const columns = (handleDelete)=>[
             filter: true,
             sort: true,
             customBodyRender: (value) => (value ? value : "NA")
-            
+
         }
     },
     {
@@ -388,11 +391,11 @@ export const columns = (handleDelete)=>[
         }
     },
 
-    
+
 
 
 ];
-export const columns2 = (handleDelete)=> [
+export const columns2 = (handleDelete) => [
     {
         name: "S.No",
         label: "S.No",
@@ -652,12 +655,12 @@ export const columns2 = (handleDelete)=> [
             sort: true,
         }
     },
-    
+
 
 
 ];
 
-export const columns1 =(handleDelete)=> [
+export const columns1 = (handleDelete) => [
     {
         name: "S.No",
         label: "S.No",
