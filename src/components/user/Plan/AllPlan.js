@@ -469,9 +469,9 @@ const ServicesList = () => {
                     <h3 className="allplan-card-subtitle">
                       Duration: {plan["Plan Validity"]}
                     </h3>
-                    <h3 className="allplan-card-subtitle">
+                    {/* <h3 className="allplan-card-subtitle">
                       Scripts: {plan.NumberofScript}
-                    </h3>
+                    </h3> */}
                     <div className="plan-details">
                       <p>
                         <strong className="card-text-Color">Charting Signals:</strong>{" "}
