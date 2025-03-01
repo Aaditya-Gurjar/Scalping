@@ -118,8 +118,8 @@ const AddClient = () => {
             if (!values.TStype) {
                 errors.TStype = "Please Select a Measurement Type.";
             }
-            if (!values.Quantity) {
-                errors.Quantity = "Please Enter the Lot Value.";
+            if (values.Quantity == 0 || values.Quantity === undefined || values.Quantity == "") {
+                errors.Quantity = "Please enter the Lot.";
             }
             if (!values.ExitTime) {
                 errors.ExitTime = "Please Select Exit Time.";
@@ -390,6 +390,8 @@ const AddClient = () => {
         formik.setFieldValue('TStype', "Point")
         formik.setFieldValue('Shifting_Point', 1)
         formik.setFieldValue('Shifting_Value', 1)
+        formik.setFieldValue("ExitType", "Normal");
+
     }, [])
 
     useEffect(() => {
@@ -713,8 +715,8 @@ const AddClient = () => {
             label: "Exit Type",
             type: "select1",
             options: [
-                { label: "Cost to Cost", value: "Cost to Cost" },
                 { label: "Normal", value: "Normal" },
+                { label: "Cost to Cost", value: "Cost to Cost" },
             ],
             showWhen: (value) =>
                 value.Measurment_Type != "Shifting/FourLeg" &&
