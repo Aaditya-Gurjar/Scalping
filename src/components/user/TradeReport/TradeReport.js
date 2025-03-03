@@ -271,6 +271,8 @@ const TradeReport = () => {
                 if (res.Status) {
                     setShowTable(true);
                     setGetCharting(res.Client);
+                    
+
                 } else {
                     setGetCharting([]);
                 }
