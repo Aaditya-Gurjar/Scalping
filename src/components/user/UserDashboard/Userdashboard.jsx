@@ -11,6 +11,8 @@ import { ExpriyEndDate } from "../../CommonAPI/Admin";
 import FullDataTable from "../../../ExtraComponent/CommanDataTable";
 import NoDataFound from "../../../ExtraComponent/NoDataFound";
 import Content from "../../../ExtraComponent/Content";
+import DatePicker from "react-datepicker";
+
 const Userdashboard = () => {
   const userName = localStorage.getItem("name");
   const StrategyType = sessionStorage.getItem("StrategyType");
@@ -23,10 +25,30 @@ const Userdashboard = () => {
   const [getGroup, setGroup] = useState(groupName || "copyScript");
   const [strategyType, setStrategyType] = useState([]);
   const [tableType, setTableType] = useState(StrategyType || "MultiCondition");
-  const [serviceStatus, setServiceStatus] = useState({
-    status: false,
-    msg: "",
+  const [serviceStatus, setServiceStatus] = useState({ status: false, msg: "", });
+
+  const [ToDate, setToDate] = useState(new Date());
+  const [FromDate, setFromDate] = useState(() => {
+    let tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow;
   });
+
+
+  // Date configuration
+  const currentDate = new Date();
+  const formattedDate = `${currentDate.getFullYear()}.${String(
+    currentDate.getMonth() + 1
+  ).padStart(2, "0")}.${String(currentDate.getDate()).padStart(2, "0")}`;
+  const tomorrow = new Date(currentDate);
+  tomorrow.setDate(currentDate.getDate() + 1);
+  const Defult_To_Date = `${tomorrow.getFullYear()}.${String(
+    tomorrow.getMonth() + 1
+  ).padStart(2, "0")}.${String(tomorrow.getDate()).padStart(2, "0")}`;
+
+
+
+
   const [getGroupName, setGroupName] = useState({ loading: true, data: [] });
   const [getPositionData, setPositionData] = useState({
     loading: true,
@@ -688,6 +710,7 @@ const Userdashboard = () => {
       Page_title="📊 User Dashboard"
       button_status={false}
       backbutton_status={false}>
+
       <div className="iq-card-body" style={{ padding: "3px" }}>
         <ul
           className="nav nav-tabs justify-content-center"
@@ -695,9 +718,8 @@ const Userdashboard = () => {
           role="tablist">
           <li className="nav-item" role="presentation">
             <a
-              className={`nav-link d-flex align-items-center gap-2 ${
-                activeTab1 === "CurrentPosition" ? "active" : ""
-              }`}
+              className={`nav-link d-flex align-items-center gap-2 ${activeTab1 === "CurrentPosition" ? "active" : ""
+                }`}
               id="home-tab-justify"
               data-bs-toggle="tab"
               href="#home-justify"
@@ -710,9 +732,8 @@ const Userdashboard = () => {
           </li>
           <li className="nav-item" role="presentation">
             <a
-              className={`nav-link d-flex align-items-center gap-2 ${
-                activeTab1 === "OpenPosition" ? "active" : ""
-              }`}
+              className={`nav-link d-flex align-items-center gap-2 ${activeTab1 === "OpenPosition" ? "active" : ""
+                }`}
               id="profile-tab-justify"
               data-bs-toggle="tab"
               href="#profile-justify"
@@ -729,17 +750,19 @@ const Userdashboard = () => {
           {activeTab1 === "CurrentPosition" && (
             <div className="d-flex">
               <div
-                className={`form-group ${
-                  activeTab == "currentScript" && subTab == "Scalping"
-                    ? "col-lg-6"
-                    : activeTab == "group" && subTab == "Scalping"
+                className={`form-group ${activeTab == "currentScript" && subTab == "Scalping"
+                  ? "col-lg-6"
+                  : activeTab == "group" && subTab == "Scalping"
                     ? "col-lg-4"
-                    : activeTab == "currentScript"
-                    ? "col-lg-6"
-                    : activeTab == "group"
-                    ? "col-lg-4"
-                    : "col-lg-4"
-                }`}>
+                    : activeTab1 === "CurrentPosition" && subTab === "ChartingPlatform"
+                      ? "col-lg-3"
+                      : activeTab == "currentScript"
+                        ? "col-lg-6"
+                        : activeTab == "group"
+                          ? "col-lg-4"
+                          : "col-lg-4"
+                  }`}>
+
                 <div className="px-3">
                   <label>Add Via</label>
                   <select
@@ -757,17 +780,16 @@ const Userdashboard = () => {
               </div>
               {activeTab == "group" && (
                 <div
-                  className={`form-group ${
-                    activeTab == "currentScript" && subTab == "Scalping"
-                      ? "col-lg-4"
-                      : activeTab == "group" && subTab == "Scalping"
+                  className={`form-group ${activeTab == "currentScript" && subTab == "Scalping"
+                    ? "col-lg-4"
+                    : activeTab == "group" && subTab == "Scalping"
                       ? "col-lg-4"
                       : activeTab == "currentScript"
-                      ? "col-lg-6"
-                      : activeTab == "group"
-                      ? "col-lg-4"
-                      : "col-lg-4"
-                  }`}>
+                        ? "col-lg-6"
+                        : activeTab == "group"
+                          ? "col-lg-4"
+                          : "col-lg-4"
+                    }`}>
                   <div className="px-3">
                     <label>Group Name</label>
                     <select
@@ -791,17 +813,19 @@ const Userdashboard = () => {
               )}
 
               <div
-                className={`form-group ${
-                  activeTab == "currentScript" && subTab == "Scalping"
+                className={`form-group ${activeTab1 === "CurrentPosition" && subTab === "ChartingPlatform"
+                  ? "col-lg-3"
+                  : activeTab == "currentScript" && subTab == "Scalping"
                     ? "col-lg-6"
                     : activeTab == "group" && subTab == "Scalping"
-                    ? "col-lg-4"
-                    : activeTab == "currentScript"
-                    ? "col-lg-6"
-                    : activeTab == "group"
-                    ? "col-lg-4"
-                    : "col-lg-4"
-                }`}>
+                      ? "col-lg-4"
+                      : activeTab == "currentScript"
+                        ? "col-lg-6"
+                        : activeTab == "group"
+                          ? "col-lg-4"
+                          : "col-lg-4"
+                  }`}
+              >
                 <div className="px-3">
                   <label>Strategy Type</label>
                   <select
@@ -811,7 +835,8 @@ const Userdashboard = () => {
                       setSubTab(e.target.value);
                       sessionStorage.setItem("StrategyType", e.target.value);
                     }}
-                    value={subTab}>
+                    value={subTab}
+                  >
                     {strategyType.map((type, index) => (
                       <option key={index} value={type}>
                         {type}
@@ -821,19 +846,49 @@ const Userdashboard = () => {
                 </div>
               </div>
 
+              {subTab === "ChartingPlatform" && (
+                <>
+                  <div className={`col-12 col-md-6 col-lg-3`}>
+                    <div className="form-group">
+                      <label className="form-label">From Date</label>
+                      <DatePicker
+                        className="form-control"
+                        selected={FromDate === "" ? formattedDate : FromDate}
+                        onChange={(date) => setFromDate(date)}
+                        dateFormat="yyyy.MM.dd"
+                      />
+                    </div>
+                  </div>
+
+                  <div className={`col-12 col-md-6 col-lg-3`}>
+                    <div className="form-group">
+                      <label className="form-label">To Date</label>
+                      <DatePicker
+                        className="form-control"
+                        selected={ToDate === "" ? Defult_To_Date : ToDate}
+                        onChange={(date) => setToDate(date)}
+
+                        dateFormat="yyyy.MM.dd"
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
+
+
+
               {subTab === "Scalping" && (
                 <div
-                  className={`form-group ${
-                    activeTab == "currentScript" && subTab == "Scalping"
-                      ? "col-lg-4"
-                      : activeTab == "group" && subTab == "Scalping"
+                  className={`form-group ${activeTab == "currentScript" && subTab == "Scalping"
+                    ? "col-lg-4"
+                    : activeTab == "group" && subTab == "Scalping"
                       ? "col-lg-4"
                       : activeTab == "currentScript"
-                      ? "col-lg-6"
-                      : activeTab == "group"
-                      ? "col-lg-4"
-                      : "col-lg-4"
-                  }`}></div>
+                        ? "col-lg-6"
+                        : activeTab == "group"
+                          ? "col-lg-4"
+                          : "col-lg-4"
+                    }`}></div>
               )}
             </div>
           )}
@@ -877,6 +932,9 @@ const Userdashboard = () => {
                       data={subTab}
                       selectedType={activeTab}
                       data2={serviceStatus}
+                      FromDate={FromDate === "" ? FromDate : formattedDate}
+                      ToDate={ToDate === "" ? ToDate : Defult_To_Date}
+
                     />
                   )}
                 </div>
