@@ -26,7 +26,7 @@ import { useFormik } from "formik";
 import NoDataFound from "../../../ExtraComponent/NoDataFound";
 import { text } from "../../../ExtraComponent/IconTexts";
 
-const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
+const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate }) => {
   const userName = localStorage.getItem("name");
   const adminPermission = localStorage.getItem("adminPermission");
   const navigate = useNavigate();
@@ -38,6 +38,18 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
   const [allScripts, setAllScripts] = useState({ data: [], len: 0 });
   const [editCharting, setEditCharting] = useState();
   const [getCharting, setGetCharting] = useState([]);
+  
+  console.log("getCharting", getCharting);
+
+  console.log("ToDate", ToDate);
+
+
+
+
+  const [chartingSubTab, setChartingSubTab] = useState("Cash");
+  console.log("chartingSubTab", chartingSubTab);
+
+
 
   const [getAllService, setAllservice] = useState({
     loading: true,
@@ -56,12 +68,14 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
 
   useEffect(() => {
     if (data == "ChartingPlatform") getChartingScript();
-  }, [data]);
+  }, [data , chartingSubTab]);
 
   const getChartingScript = async () => {
-    const req = { Username: userName, Planname: "Chart" };
+    const req = { Username: userName, Segment: chartingSubTab , From_date: FromDate, To_date: ToDate };
     await getUserChartingScripts(req)
       .then((response) => {
+        console.log("getUserChartingScripts", response);
+
         if (response.Status) {
           setGetCharting(response.Client);
         } else {
@@ -1128,7 +1142,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
       if (!values?.WorkingDay?.length > 0) {
         errors.WorkingDay = "Please select Working day";
       }
-      console.log("Errr", errors)
+      // console.log("Errr", errors)
 
       return errors;
     },
@@ -1338,7 +1352,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
       if (!values.TradeCount) {
         errors.TradeCount = "Please Enter Trade Count.";
       }
-      console.log("Errr", errors)
+      // console.log("Errr", errors)
 
 
       return errors;
@@ -2150,52 +2164,99 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
                         </div>
 
                       </div>
-                      <div className="iq-card-body " style={{ padding: '3px' }}>
+                      <div className="iq-card-body" style={{ padding: "3px" }}>
                         <div className="table-responsive">
-
                           {getAllService.loading ? (
                             <Loader />
                           ) : (
+                            <>
+                              {/* Tabs should always be visible when ChartingPlatform is selected */}
+                              {data === "ChartingPlatform" && (
+  <div className="d-flex justify-content-center my-3">
+    <ul
+      className="nav nav-pills shadow-lg rounded-pill p-2"
+      style={{
+        backgroundColor: "#f8f9fa",
+        display: "flex",
+        justifyContent: "center",
+        gap: "15px",
+        maxWidth: "600px", // Width Increase
+        width: "100%", // Full Responsive Width
+      }}
+    >
+      {["Cash", "Future", "Option"].map((tab) => (
+        <li className="nav-item flex-grow-1 text-center" key={tab}>
+          <button
+            className={`nav-link rounded-pill w-100 ${chartingSubTab === tab ? "active" : ""}`}
+            onClick={() => setChartingSubTab(tab)}
+            style={{
+              padding: "14px 30px",
+              fontSize: "18px",
+              fontWeight: "600",
+              transition: "all 0.3s ease-in-out",
+              backgroundColor: chartingSubTab === tab ? "#007bff" : "#fff",
+              color: chartingSubTab === tab ? "#fff" : "#333",
+              boxShadow: chartingSubTab === tab ? "0px 4px 12px rgba(0, 123, 255, 0.4)" : "none",
+              border: chartingSubTab === tab ? "2px solid #007bff" : "2px solid transparent",
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.backgroundColor = "#007bff";
+              e.target.style.color = "#fff";
+            }}
+            onMouseLeave={(e) => {
+              if (chartingSubTab !== tab) {
+                e.target.style.backgroundColor = "#fff";
+                e.target.style.color = "#333";
+              }
+            }}
+          >
+            {tab}
+          </button>
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
 
-                            (data === "Scalping" && getAllService.NewScalping?.length > 0) ||
-                              (data === "Option Strategy" && getAllService.OptionData?.length > 0) ||
-                              ((data === "Pattern" || data === "Pattern Script") && getAllService.PatternData?.length > 0) ||
-                              (data === "ChartingPlatform" && getCharting?.length > 0) ? (
-                              <FullDataTable
-                                columns={
-                                  data === "Scalping"
-                                    ? getColumns6(handleDelete, handleEdit, HandleContinueDiscontinue, handleMatchPosition)
-                                    : data === "Option Strategy"
-                                      ? getColumns4(handleDelete, handleEdit, HandleContinueDiscontinue)
-                                      : (data === "Pattern" || data === "Pattern Script")
-                                        ? getColumns5(handleDelete, handleEdit, HandleContinueDiscontinue)
-                                        : data === "ChartingPlatform"
-                                          ? getColumns8(HandleContinueDiscontinue)
-                                          : getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue)
-                                }
-                                data={
-                                  data === "Scalping"
-                                    ? getAllService.NewScalping
-                                    : data === "Option Strategy"
-                                      ? getAllService.OptionData
-                                      : (data === "Pattern" || data === "Pattern Script")
-                                        ? getAllService.PatternData
-                                        : data === "ChartingPlatform"
-                                          ? getCharting
-                                          : []
-                                }
-                                checkBox={false}
-                              />
-                            ) : (
-                              <NoDataFound />
-                            )
 
-
-                          )
-
-                          }
+                              {/* Show FullDataTable only if getCharting has data */}
+                              {(data === "Scalping" && getAllService.NewScalping?.length > 0) ||
+                                (data === "Option Strategy" && getAllService.OptionData?.length > 0) ||
+                                ((data === "Pattern" || data === "Pattern Script") && getAllService.PatternData?.length > 0) ||
+                                (data === "ChartingPlatform" && getCharting?.length > 0) ? (
+                                <FullDataTable
+                                  columns={
+                                    data === "Scalping"
+                                      ? getColumns6(handleDelete, handleEdit, HandleContinueDiscontinue, handleMatchPosition)
+                                      : data === "Option Strategy"
+                                        ? getColumns4(handleDelete, handleEdit, HandleContinueDiscontinue)
+                                        : (data === "Pattern" || data === "Pattern Script")
+                                          ? getColumns5(handleDelete, handleEdit, HandleContinueDiscontinue)
+                                          : data === "ChartingPlatform"
+                                            ? getColumns8(HandleContinueDiscontinue)
+                                            : getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue)
+                                  }
+                                  data={
+                                    data === "Scalping"
+                                      ? getAllService.NewScalping
+                                      : data === "Option Strategy"
+                                        ? getAllService.OptionData
+                                        : (data === "Pattern" || data === "Pattern Script")
+                                          ? getAllService.PatternData
+                                          : data === "ChartingPlatform"
+                                            ? getCharting
+                                            : []
+                                  }
+                                  checkBox={false}
+                                />
+                              ) : (
+                                (data !== "ChartingPlatform" || (data === "ChartingPlatform" && ["Cash", "Future", "Option"].includes(chartingSubTab))) && <NoDataFound />
+                              )}
+                            </>
+                          )}
                         </div>
                       </div>
+
                     </>
                   )}
                 </div>
