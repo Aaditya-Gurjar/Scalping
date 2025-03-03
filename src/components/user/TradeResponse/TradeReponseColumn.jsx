@@ -523,6 +523,7 @@ export const columns6 = [
     options: {
       filter: true,
       sort: true,
+      customBodyRender: (value) => value ? value : "-"
     },
   },
   {
@@ -531,6 +532,7 @@ export const columns6 = [
     options: {
       filter: true,
       sort: true,
+      customBodyRender: (value) => value ? value : "-"
     },
   },
   {

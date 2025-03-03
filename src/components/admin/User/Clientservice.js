@@ -293,8 +293,7 @@ const Clientservice = () => {
                 filter: true,
                 sort: true,
                 customBodyRender: (value, tableMeta) => (
-
-                    <span>{Array.isArray(value) ? value.join(' , ') : value ? "-" : value || '-'}</span>
+                    <span>{value?.length ? value.join(' , ') : '-'}</span>
                 ),
             }
         },

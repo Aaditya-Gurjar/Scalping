@@ -119,23 +119,29 @@ export const columns = () => [
     name: "WorkingDay",
     label: "Working Day",
     options: {
-      filter: true,
-      sort: true,
-      customBodyRender: (value) => {
-        if (!value || (Array.isArray(value) && value.length === 0)) {
-          return "-";
-        }
-        if (Array.isArray(value)) {
-          if (value.length && typeof value[0] === "object" && value[0].label) {
-            return value.map((day) => day.label).join(", ");
-          }
-          // Fallback: if it's an array of strings
-          return value.join(", ");
-        }
-        return value;
-      },
+        filter: true,
+        sort: true,
+        customBodyRender: (value) => {
+            if (!value || (Array.isArray(value) && value.length === 0)) {
+                return "-";
+            }
+            if (Array.isArray(value)) {
+                return (
+                    <span>
+                        {value.map((day, index) => (
+                            <>
+                                {index > 0 && index % 3 === 0 ? <br /> : ""}
+                                {typeof day === "object" && day.label ? day.label : day}
+                                {index % 3 !== 2 && index !== value.length - 1 ? ", " : ""}
+                            </>
+                        ))}
+                    </span>
+                );
+            }
+            return value;
+        },
     },
-  },
+}, 
   {
     name: "Booking Point2",
     label: "Booking Point2",
@@ -673,23 +679,29 @@ export const columns1 = () => [
     name: "WorkingDay",
     label: "Working Day",
     options: {
-      filter: true,
-      sort: true,
-      customBodyRender: (value) => {
-        if (!value || (Array.isArray(value) && value.length === 0)) {
-          return "-";
-        }
-        if (Array.isArray(value)) {
-          if (value.length && typeof value[0] === "object" && value[0].label) {
-            return value.map((day) => day.label).join(", ");
-          }
-          // Fallback: if it's an array of strings
-          return value.join(", ");
-        }
-        return value;
-      },
+        filter: true,
+        sort: true,
+        customBodyRender: (value) => {
+            if (!value || (Array.isArray(value) && value.length === 0)) {
+                return "-";
+            }
+            if (Array.isArray(value)) {
+                return (
+                    <span>
+                        {value.map((day, index) => (
+                            <>
+                                {index > 0 && index % 3 === 0 ? <br /> : ""}
+                                {typeof day === "object" && day.label ? day.label : day}
+                                {index % 3 !== 2 && index !== value.length - 1 ? ", " : ""}
+                            </>
+                        ))}
+                    </span>
+                );
+            }
+            return value;
+        },
     },
-  },
+},
   {
     name: "Exchange",
     label: "Exchange",

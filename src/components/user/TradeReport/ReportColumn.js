@@ -420,6 +420,7 @@ export const getColumns1 = () => [
         options: {
             filter: true,
             sort: true,
+            customBodyRender: (value) => value ? value : "-"
         }
     },
 
@@ -442,16 +443,22 @@ export const getColumns1 = () => [
                     return "-";
                 }
                 if (Array.isArray(value)) {
-                    if (value.length && typeof value[0] === "object" && value[0].label) {
-                        return value.map((day) => day.label).join(", ");
-                    }
-                    // Fallback: if it's an array of strings
-                    return value.join(", ");
+                    return (
+                        <span>
+                            {value.map((day, index) => (
+                                <>
+                                    {index > 0 && index % 3 === 0 ? <br /> : ""}
+                                    {typeof day === "object" && day.label ? day.label : day}
+                                    {index % 3 !== 2 && index !== value.length - 1 ? ", " : ""}
+                                </>
+                            ))}
+                        </span>
+                    );
                 }
                 return value;
             },
         },
-    },
+    }, 
 
 ]
 export const getColumns2 = () => [
@@ -875,21 +882,26 @@ export const getColumns9 = () => [
             filter: true,
             sort: true,
             customBodyRender: (value) => {
-
                 if (!value || (Array.isArray(value) && value.length === 0)) {
                     return "-";
                 }
                 if (Array.isArray(value)) {
-                    if (value.length && typeof value[0] === "object" && value[0].label) {
-                        return value.map((day) => day.label).join(", ");
-                    }
-                    // Fallback: if it's an array of strings
-                    return value.join(", ");
+                    return (
+                        <span>
+                            {value.map((day, index) => (
+                                <>
+                                    {index > 0 && index % 3 === 0 ? <br /> : ""}
+                                    {typeof day === "object" && day.label ? day.label : day}
+                                    {index % 3 !== 2 && index !== value.length - 1 ? ", " : ""}
+                                </>
+                            ))}
+                        </span>
+                    );
                 }
                 return value;
             },
         },
-    },
+    }, 
     {
         name: "TStype",
         label: "Measurement Type",
@@ -1081,27 +1093,7 @@ export const getColumns9 = () => [
             customBodyRender: (value) => value ? "true" : "false"
         }
     },
-    {
-        name: "WorkingDay",
-        label: "Working Day",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value) => {
-                if (!value || (Array.isArray(value) && value.length === 0)) {
-                    return "-";
-                }
-                if (Array.isArray(value)) {
-                    if (value.length && typeof value[0] === "object" && value[0].label) {
-                        return value.map((day) => day.label).join(", ");
-                    }
-                    // Fallback: if it's an array of strings
-                    return value.join(", ");
-                }
-                return value;
-            },
-        },
-    },
+   
     {
         name: "FinalTarget",
         label: "Final Target",
