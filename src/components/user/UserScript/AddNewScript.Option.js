@@ -179,7 +179,7 @@ const AddClient = () => {
       if (!values.TStype) {
         errors.TStype = "Please select a TStype.";
       }
-      if (!values.Quantity) {
+      if (values.Quantity == 0 || values.Quantity === undefined || values.Quantity == "") {
         errors.Quantity = "Please enter the Lot.";
       }
       if (!values.Trade_Execution || values.Trade_Execution == 0) {
@@ -713,6 +713,8 @@ const AddClient = () => {
     formik.setFieldValue("Shifting_Point", 100);
     formik.setFieldValue("Shifting_Value", 1);
     formik.setFieldValue("Trade_Count", 1);
+    formik.setFieldValue("ExitType", "Normal");
+
   }, []);
 
   useEffect(() => {
@@ -1071,8 +1073,8 @@ const AddClient = () => {
       label: "Exit Type",
       type: "select1",
       options: [
-        { label: "Cost to Cost", value: "Cost to Cost" },
         { label: "Normal", value: "Normal" },
+        { label: "Cost to Cost", value: "Cost to Cost" },
       ],
       showWhen: (value) =>
         value.Measurment_Type != "Shifting_FourLeg" &&
@@ -1681,105 +1683,105 @@ const AddClient = () => {
 
   return (
     <>
-    <Content
-      Page_title={"📌 Add Script option"}
-      button_status={false}
-      backbutton_status={false}
-    >
-      <AddForm
-        fields={fields.filter(
-          (field) => !field.showWhen || field.showWhen(formik.values)
-        )}
-       
-        btn_name="Add"
-        btn_name1="Cancel"
-        formik={formik}
-        btn_name1_route={"/user/dashboard"}
-        additional_field={
-          <div>
-            {formik.values.Strategy == "CoveredCall" ||
-              formik.values.Strategy == "CoveredPut" ||
-              formik.values.Strategy == "LongCollar" ||
-              formik.values.Strategy == "ShortCollar" ||
-              formik.values.Strategy == "LongFourLegStretegy" ||
-              formik.values.Strategy == "ShortFourLegStretegy" ? (
-              ""
-            ) : (
-              <button className="addbtn" onClick={() => handleCheckPnl()}>
-                Check PnL
-              </button>
-            )}
-          </div>
-        }
-      />
-
-      <Modal
-        show={openModel}
-        onHide={() => setOpenModel(false)}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
+      <Content
+        Page_title={"📌 Add Script - Option Strategy"}
+        button_status={false}
+        backbutton_status={false}
       >
-        <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            PnL Details
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {PnlData ? (
-            <div className="container">
-              <div className="row">
-                {[
-                  { label: "Maximum Profit", value: PnlData.MaximumProfit },
-                  { label: "Maximum Loss", value: PnlData.MaximumLoss },
-                  {
-                    label: "Spot Price Maximum Profit 1",
-                    value: PnlData.SpotPriceMaximumProfit1,
-                  },
-                  {
-                    label: "Spot Price Maximum Profit 2",
-                    value: PnlData.SpotPriceMaximumProfit2,
-                  },
-                  {
-                    label: "Spot Price Maximum Loss 1",
-                    value: PnlData.SpotPriceMaximumLoss1,
-                  },
-                  {
-                    label: "Spot Price Maximum Loss 2",
-                    value: PnlData.SpotPriceMaximumLoss2,
-                  },
-                  { label: "NoprofitLoss 1", value: PnlData.NoprofitLoss1 },
-                  { label: "NoprofitLoss 2", value: PnlData.NoprofitLoss2 },
-                ].map(({ label, value }, index) => (
-                  <div key={index} className="col-md-6 d-flex align-items-center py-2">
-                    <label
-                      className="fw-bold text-white mb-0 me-2"
-                      style={{ fontSize: "18px", minWidth: "150px" }}
-                    >
-                      {label}:
-                    </label>
-                    <span
-                      className="text-white mb-0"
-                      style={{ fontSize: "18px", fontWeight: "500" }}
-                    >
-                      {value !== null && !isNaN(value) ? parseFloat(value).toFixed(4) : "N/A"}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <p className="text-danger text-center">❌ No data available</p>
+        <AddForm
+          fields={fields.filter(
+            (field) => !field.showWhen || field.showWhen(formik.values)
           )}
-        </Modal.Body>
+
+          btn_name="Add"
+          btn_name1="Cancel"
+          formik={formik}
+          btn_name1_route={"/user/dashboard"}
+          additional_field={
+            <div>
+              {formik.values.Strategy == "CoveredCall" ||
+                formik.values.Strategy == "CoveredPut" ||
+                formik.values.Strategy == "LongCollar" ||
+                formik.values.Strategy == "ShortCollar" ||
+                formik.values.Strategy == "LongFourLegStretegy" ||
+                formik.values.Strategy == "ShortFourLegStretegy" ? (
+                ""
+              ) : (
+                <button className="addbtn" onClick={() => handleCheckPnl()}>
+                  Check PnL
+                </button>
+              )}
+            </div>
+          }
+        />
+
+        <Modal
+          show={openModel}
+          onHide={() => setOpenModel(false)}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">
+              PnL Details
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {PnlData ? (
+              <div className="container">
+                <div className="row">
+                  {[
+                    { label: "Maximum Profit", value: PnlData.MaximumProfit },
+                    { label: "Maximum Loss", value: PnlData.MaximumLoss },
+                    {
+                      label: "Spot Price Maximum Profit 1",
+                      value: PnlData.SpotPriceMaximumProfit1,
+                    },
+                    {
+                      label: "Spot Price Maximum Profit 2",
+                      value: PnlData.SpotPriceMaximumProfit2,
+                    },
+                    {
+                      label: "Spot Price Maximum Loss 1",
+                      value: PnlData.SpotPriceMaximumLoss1,
+                    },
+                    {
+                      label: "Spot Price Maximum Loss 2",
+                      value: PnlData.SpotPriceMaximumLoss2,
+                    },
+                    { label: "NoprofitLoss 1", value: PnlData.NoprofitLoss1 },
+                    { label: "NoprofitLoss 2", value: PnlData.NoprofitLoss2 },
+                  ].map(({ label, value }, index) => (
+                    <div key={index} className="col-md-6 d-flex align-items-center py-2">
+                      <label
+                        className="fw-bold text-white mb-0 me-2"
+                        style={{ fontSize: "18px", minWidth: "150px" }}
+                      >
+                        {label}:
+                      </label>
+                      <span
+                        className="text-white mb-0"
+                        style={{ fontSize: "18px", fontWeight: "500" }}
+                      >
+                        {value !== null && !isNaN(value) ? parseFloat(value).toFixed(4) : "N/A"}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <p className="text-danger text-center">❌ No data available</p>
+            )}
+          </Modal.Body>
 
 
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setOpenModel(false)}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setOpenModel(false)}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </Content>
     </>
   );

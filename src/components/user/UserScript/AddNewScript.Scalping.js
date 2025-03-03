@@ -1948,7 +1948,7 @@ const AddClient = () => {
   return (
 
     <Content
-      Page_title={"📌 Add Script scalping"}
+      Page_title={"📌 Add Script - Scalping"}
       button_status={false}
       backbutton_status={false}
     >

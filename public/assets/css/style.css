@@ -6519,3 +6519,71 @@ button:hover{
   color: #999;
   padding: 2rem;
 }
+
+/* Container for the entire modal */
+.modal-container {
+  padding: 24px;
+}
+
+/* Card styling with gradient background, rounded corners and shadow */
+.parameters-card {
+  background: linear-gradient(to right, #2d3748, #1a202c);
+  color: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Title styling */
+.parameters-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-align: center;
+  color: #63b3ed;
+  margin-bottom: 16px;
+}
+
+/* Grid layout for key/value pairs */
+.parameters-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+/* Individual parameter item styling */
+.parameters-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: #4a5568;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+/* Hover effect for each parameter item */
+.parameters-item:hover {
+  background-color: #2d3748;
+}
+
+/* Styling for parameter labels */
+.parameters-label {
+  color: #cbd5e0;
+  font-weight: 500;
+}
+
+/* Styling for parameter values */
+.parameters-value {
+  color: #e2e8f0;
+  font-weight: 600;
+}
+
+/* Fallback message styling */
+.no-parameters {
+  text-align: center;
+  color: #a0aec0;
+  font-size: 1rem;
+}
+
+

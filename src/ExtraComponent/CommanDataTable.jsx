@@ -462,7 +462,7 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
         show={isModalOpen}
         onHide={handleModalClose}
         className="custom-modal">
-        <Modal.Header closeButton>
+        <Modal.Header className="card-bg-color" closeButton>
           <Modal.Title>Select Columns to Display</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -475,7 +475,8 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
                   id="select-all"
                   checked={tempSelectedColumns.length === columns.length}
                   onChange={handleSelectAllChange}
-                /> Select All
+                />
+                Select All
               </div>
             </div>
 

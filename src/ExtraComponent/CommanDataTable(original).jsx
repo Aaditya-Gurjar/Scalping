@@ -68,7 +68,7 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
       sort: false,
       rowsPerPage: 5,
       rowsPerPageOptions: [5, 10, 25, 50, 100],
-      fixedHeader: true,  
+      fixedHeader: true,
       // tableBodyHeight: "320px",
       tableBodyMaxHeight: "320px",
       setCellProps: () => ({
@@ -178,7 +178,7 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
         show={isModalOpen}
         onHide={handleModalClose}
         className="custom-modal">
-        <Modal.Header closeButton>
+        <Modal.Header className="card-bg-color" closeButton>
           <Modal.Title>Select Columns to Display</Modal.Title>
         </Modal.Header>
         <Modal.Body>

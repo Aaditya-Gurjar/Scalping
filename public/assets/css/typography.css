@@ -1852,6 +1852,9 @@ Border Color
 .card-text-Color{
   color: var(--text-color) !important;
 }
+.card-bg-color{
+  background-color: var(--bg-color) !important;
+}
 
 .btn-text-color{
   color: var(--bg-color) !important;

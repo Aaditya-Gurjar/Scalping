@@ -2209,7 +2209,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2 }) => {
       {showEditModal && <div className="modal show" id="exampleModal" style={{ display: "block", marginTop: "5rem" }}>
         <div className="modal-dialog modal-xl modal-dialog-centered p-2">
           <div className="modal-content ">
-            <div className="modal-header ">
+            <div className="modal-header card-bg-color ">
               <h5 className="modal-title">Edit Script</h5>
               <button
                 type="button"

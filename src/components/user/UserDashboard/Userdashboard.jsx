@@ -685,16 +685,14 @@ const Userdashboard = () => {
 
   return (
     <Content
-      Page_title="📈 User Dashboard"
+      Page_title="📊 User Dashboard"
       button_status={false}
-      backbutton_status={false}
-    >
+      backbutton_status={false}>
       <div className="iq-card-body" style={{ padding: "3px" }}>
         <ul
           className="nav nav-tabs justify-content-center"
           id="myTab-2"
-          role="tablist"
-        >
+          role="tablist">
           <li className="nav-item" role="presentation">
             <a
               className={`nav-link d-flex align-items-center gap-2 ${
@@ -706,8 +704,7 @@ const Userdashboard = () => {
               role="tab"
               aria-controls="home"
               aria-selected={activeTab1 === "CurrentPosition"}
-              onClick={() => setActiveTab1("CurrentPosition")}
-            >
+              onClick={() => setActiveTab1("CurrentPosition")}>
               🏦 <span>Current Script</span>
             </a>
           </li>
@@ -722,8 +719,7 @@ const Userdashboard = () => {
               role="tab"
               aria-controls="profile"
               aria-selected={activeTab1 === "OpenPosition"}
-              onClick={() => setActiveTab1("OpenPosition")}
-            >
+              onClick={() => setActiveTab1("OpenPosition")}>
               📈 <span>Open Position</span>
             </a>
           </li>
@@ -743,8 +739,7 @@ const Userdashboard = () => {
                     : activeTab == "group"
                     ? "col-lg-4"
                     : "col-lg-4"
-                }`}
-              >
+                }`}>
                 <div className="px-3">
                   <label>Add Via</label>
                   <select
@@ -754,8 +749,7 @@ const Userdashboard = () => {
                       setActiveTab(e.target.value);
                       sessionStorage.setItem("addVia", e.target.value);
                     }}
-                    value={activeTab}
-                  >
+                    value={activeTab}>
                     <option value="currentScript">Current Script</option>
                     <option value="group">Group Script</option>
                   </select>
@@ -773,8 +767,7 @@ const Userdashboard = () => {
                       : activeTab == "group"
                       ? "col-lg-4"
                       : "col-lg-4"
-                  }`}
-                >
+                  }`}>
                   <div className="px-3">
                     <label>Group Name</label>
                     <select
@@ -784,8 +777,7 @@ const Userdashboard = () => {
                         setGroup(e.target.value);
                         sessionStorage.setItem("groupName", e.target.value);
                       }}
-                      value={getGroup}
-                    >
+                      value={getGroup}>
                       <option value="">Select Group Name</option>
                       <option value="copyScript">Copy Script</option>
 
@@ -809,8 +801,7 @@ const Userdashboard = () => {
                     : activeTab == "group"
                     ? "col-lg-4"
                     : "col-lg-4"
-                }`}
-              >
+                }`}>
                 <div className="px-3">
                   <label>Strategy Type</label>
                   <select
@@ -818,13 +809,9 @@ const Userdashboard = () => {
                     required=""
                     onChange={(e) => {
                       setSubTab(e.target.value);
-                      sessionStorage.setItem(
-                        "StrategyType",
-                        e.target.value
-                      );
+                      sessionStorage.setItem("StrategyType", e.target.value);
                     }}
-                    value={subTab}
-                  >
+                    value={subTab}>
                     {strategyType.map((type, index) => (
                       <option key={index} value={type}>
                         {type}
@@ -846,8 +833,7 @@ const Userdashboard = () => {
                       : activeTab == "group"
                       ? "col-lg-4"
                       : "col-lg-4"
-                  }`}
-                ></div>
+                  }`}></div>
               )}
             </div>
           )}
@@ -859,8 +845,7 @@ const Userdashboard = () => {
               <div
                 className="tab-pane fade show active"
                 id="home-justify"
-                role="tabpanel"
-              >
+                role="tabpanel">
                 <div className="mt-3">
                   {subTab && serviceStatus ? (
                     getGroup === "copyScript" ? (
@@ -880,22 +865,23 @@ const Userdashboard = () => {
                   ) : null}
                 </div>
               </div>
-            ) : activeTab === "currentScript" && (
-              <div
-                className="tab-pane fade show active"
-                id="home-justify"
-                role="tabpanel"
-              >
-                {subTab && serviceStatus && (
-                  <CurrentScript
-                    tableType={tableType}
-                    data={subTab}
-                    selectedType={activeTab}
-                    data2={serviceStatus}
-                  />
-                ) }
-              </div>
-            ) }
+            ) : (
+              activeTab === "currentScript" && (
+                <div
+                  className="tab-pane fade show active"
+                  id="home-justify"
+                  role="tabpanel">
+                  {subTab && serviceStatus && (
+                    <CurrentScript
+                      tableType={tableType}
+                      data={subTab}
+                      selectedType={activeTab}
+                      data2={serviceStatus}
+                    />
+                  )}
+                </div>
+              )
+            )}
           </>
         )}
 
@@ -903,7 +889,6 @@ const Userdashboard = () => {
           <>
             {getPositionData.NewScalping?.length > 0 && (
               <>
-              
                 <h4>Scalping</h4>
                 <FullDataTable
                   columns={columns4}

@@ -1497,14 +1497,14 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
             }
         }
     },
-    {
-        name: "Instrument Type",
-        label: "Instrument Type",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+    // {
+    //     name: "Instrument Type",
+    //     label: "Instrument Type",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
 
     {
         name: "Token",
@@ -1535,7 +1535,7 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
     },
     {
         name: "strategytype",
-        label: "Strategy Type",
+        label: "Measurement Type",
         options: {
             filter: true,
             sort: true,
@@ -1573,14 +1573,7 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
-    {
-        name: "Product Type",
-        label: "Exit Day",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
     {
         name: "Entry Time",
         label: "Entry Time",
@@ -1597,7 +1590,14 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
-
+    {
+        name: "Product Type",
+        label: "Exit Day",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
 
     {
         name: "SSDate",
@@ -1647,22 +1647,15 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
-    // {
-    //     name: "HigherRange",
-    //     label: "Higher Range",
-    //     options: {
-    //         filter: true,
-    //         sort: true,
-    //     }
-    // },
     {
-        name: "TaskStatus",
-        label: "TaskStatus",
+        name: "HigherRange",
+        label: "Higher Range",
         options: {
             filter: true,
             sort: true,
         }
     },
+    // 
     {
         name: "TaskTime",
         label: "Task Time",
@@ -1673,23 +1666,16 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
     },
     {
         name: "TradeCount",
-        label: "Trade Count",
+        label: "No. of Cycle",
         options: {
             filter: true,
             sort: true,
         }
     },
+
     {
-        name: "CEDeepHigher",
-        label: "CE Deep Higher",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "CEDeepLower",
-        label: "CE Deep Lower",
+        name: "CEDepthLower",
+        label: "CE Main Lower",
         options: {
             filter: true,
             sort: true,
@@ -1697,73 +1683,33 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
     },
     {
         name: "CEDepthHigher",
-        label: "CE Depth Higher",
+        label: "CE Main Higher",
         options: {
             filter: true,
             sort: true,
         }
     },
     {
-        name: "CEDepthLower",
-        label: "CE Depth Lower",
+        name: "CEDeepLower",
+        label: "CE Hedge Lower",
         options: {
             filter: true,
             sort: true,
         }
     },
+
     {
-        name: "ExitRuleO",
-        label: "Exit Rule O",
+        name: "CEDeepHigher",
+        label: "CE Hedge Higher",
         options: {
             filter: true,
             sort: true,
         }
     },
+
     {
-        name: "FixedSM",
-        label: "Fixed SM",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value) => value ? value : "-"
-        }
-    },
-    {
-        name: "GroupN",
-        label: "Group N",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value) => value ? value : "-"
-        }
-    },
-    {
-        name: "HigherRange",
-        label: "Higher Range",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "MainSymbol",
-        label: "Main Symbol",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "PEDeepHigher",
-        label: "PE Deep Higher",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "PEDeepLower",
-        label: "PE Deep Lower",
+        name: "PEDepthLower",
+        label: "PE Main Lower",
         options: {
             filter: true,
             sort: true,
@@ -1771,20 +1717,70 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
     },
     {
         name: "PEDepthHigher",
-        label: "PE Depth Higher",
+        label: "PE Main Higher",
         options: {
             filter: true,
             sort: true,
         }
     },
     {
-        name: "PEDepthLower",
-        label: "PE Depth Lower",
+        name: "PEDeepLower",
+        label: "PE Hedge Lower",
         options: {
             filter: true,
             sort: true,
         }
     },
+
+    {
+        name: "PEDeepHigher",
+        label: "PE Hedge Higher",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+
+
+
+    {
+        name: "ExitRuleO",
+        label: "Exit Type",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    // {
+    //     name: "FixedSM",
+    //     label: "Fixed SM",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //         customBodyRender: (value) => value ? value : "-"
+    //     }
+    // },
+    // {
+    //     name: "GroupN",
+    //     label: "Group N",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //         customBodyRender: (value) => value ? value : "-"
+    //     }
+    // },
+
+    // {
+    //     name: "MainSymbol",
+    //     label: "Main Symbol",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
+
+
+
     {
         name: "Profit",
         label: "Profit",
@@ -1793,14 +1789,24 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
+
     {
-        name: "Spread",
-        label: "Spread",
+        name: "Loss",
+        label: "Loss",
         options: {
             filter: true,
             sort: true,
         }
     },
+
+    // {
+    //     name: "Spread",
+    //     label: "Spread",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
     {
         name: "Username",
         label: "Username",
@@ -1929,7 +1935,7 @@ export const
 
         {
             name: "Pattern",
-            label: "Pattern",
+            label: "Pattern Name",
             options: {
                 filter: true,
                 sort: true,
@@ -1974,7 +1980,7 @@ export const
 
         {
             name: "TradePattern",
-            label: "Trade Pattern",
+            label: "Pattern Type",
             options: {
                 filter: true,
                 sort: true,
@@ -2018,25 +2024,10 @@ export const
         //     }
         // },
 
+
         {
-            name: "Instrument Name",
-            label: "Instrument Name",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
-        // {
-        //     name: "TType",
-        //     label: "Trade Type",
-        //     options: {
-        //         filter: true,
-        //         sort: true,
-        //     }
-        // },
-        {
-            name: "Quantity",
-            label: "Lot",
+            name: "TType",
+            label: "Trade Type",
             options: {
                 filter: true,
                 sort: true,
@@ -2044,16 +2035,8 @@ export const
         },
 
         {
-            name: "Target value",
-            label: "Target value",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
-        {
-            name: "SL value",
-            label: "Re-entry",
+            name: "Quantity",
+            label: "Lot",
             options: {
                 filter: true,
                 sort: true,
@@ -2067,15 +2050,25 @@ export const
                 sort: true,
             }
         },
-
         {
-            name: "ExitDay",
-            label: "Exit Day",
+            name: "Target value",
+            label: "Target",
             options: {
                 filter: true,
                 sort: true,
             }
         },
+        {
+            name: "SL value",
+            label: "Stoploss",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+
+
+
         {
             name: "EntryTime",
             label: "Entry Time",
@@ -2087,6 +2080,14 @@ export const
         {
             name: "ExitTime",
             label: "Exit Time",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "ExitDay",
+            label: "Exit Day",
             options: {
                 filter: true,
                 sort: true,
@@ -2125,22 +2126,22 @@ export const
                 sort: true,
             }
         },
-        {
-            name: "MainSymbol",
-            label: "Main Symbol",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
-        {
-            name: "TaskStatus",
-            label: "Task Status",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
+        // {
+        //     name: "MainSymbol",
+        //     label: "Main Symbol",
+        //     options: {
+        //         filter: true,
+        //         sort: true,
+        //     }
+        // },
+        // {
+        //     name: "TaskStatus",
+        //     label: "Task Status",
+        //     options: {
+        //         filter: true,
+        //         sort: true,
+        //     }
+        // },
         {
             name: "TaskTime",
             label: "Task Time",
@@ -2149,22 +2150,24 @@ export const
                 sort: true,
             }
         },
-        {
-            name: "Trend",
-            label: "Trend",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
-        {
-            name: "Username",
-            label: "Username",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
+        
+        // {
+        //     name: "Trend",
+        //     label: "Trend",
+        //     options: {
+        //         filter: true,
+        //         sort: true,
+        //     }
+        // },
+
+        // {
+        //     name: "Username",
+        //     label: "Username",
+        //     options: {
+        //         filter: true,
+        //         sort: true,
+        //     }
+        // },
 
     ];
 
@@ -2270,14 +2273,14 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
         },
     },
 
-    {
-        name: "ScalpType",
-        label: "Scalp Type",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+    // {
+    //     name: "ScalpType",
+    //     label: "Scalp Type",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
 
     {
         name: "Exchange",
@@ -2304,7 +2307,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
                 if (Array.isArray(value)) {
                     return (
                         <span>
-                            {value.map((day, index) => 
+                            {value.map((day, index) =>
                                 (index > 0 && index % 3 === 0 ? <><br />{day}</> : (index === 0 ? day : `, ${day}`))
                             )}
                         </span>
@@ -2313,7 +2316,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
                 return value;
             },
         },
-    },    
+    },
 
     {
         name: "Token",
@@ -2323,14 +2326,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
-    {
-        name: "Token1",
-        label: "Token 1",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
     {
         name: "TStype",
         label: "Measurement Type",
@@ -2405,14 +2401,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
-    {
-        name: "ExitDay",
-        label: "Exit Day",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
     {
         name: "EntryTime",
         label: "Entry Time",
@@ -2424,6 +2413,14 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
     {
         name: "ExitTime",
         label: "Exit Time",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "ExitDay",
+        label: "Exit Day",
         options: {
             filter: true,
             sort: true,
@@ -2453,9 +2450,19 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
+
+    {
+        name: "TargetExit",
+        label: "Continue after cycle exit",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => value ? "true" : "false"
+        }
+    },
     {
         name: "TradeCount",
-        label: "Trade Count",
+        label: "No. of Cycle",
         options: {
             filter: true,
             sort: true,
@@ -2518,61 +2525,28 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
-    {
-        name: "Target value",
-        label: "Target value",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value) => value ? value : "-"
-        }
-    },
+
+
     // {
-    //     name: "SL value",
-    //     label: "SL value",
+    //     name: "Expirytype",
+    //     label: "Expiry Type",
     //     options: {
     //         filter: true,
     //         sort: true,
     //         customBodyRender: (value) => value ? value : "-"
-
     //     }
     // },
     {
-        name: "ExitDay",
-        label: "Product Type",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "TradeExecution",
-        label: "Trade Execution",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "IName",
-        label: "IName",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Expirytype",
-        label: "Expiry Type",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value) => value ? value : "-"
-        }
-    },
-    {
         name: "FinalTarget",
         label: "Final Target",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "RepeatationCount",
+        label: "Repeatation Count",
         options: {
             filter: true,
             sort: true,
@@ -2586,14 +2560,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
-    {
-        name: "Incrementvalue",
-        label: "Increment Value",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
     {
         name: "Instrument Type",
         label: "Instrument Type",
@@ -2602,22 +2569,15 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
-    {
-        name: "Loss",
-        label: "Loss",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "MainSymbol",
-        label: "Main Symbol",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
+    // {
+    //     name: "MainSymbol",
+    //     label: "Main Symbol",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
     {
         name: "MatchPosition",
         label: "Match Position",
@@ -2651,14 +2611,26 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
+
     {
-        name: "RepeatationCount",
-        label: "Repeatation Count",
+        name: "Loss",
+        label: "Loss",
         options: {
             filter: true,
             sort: true,
         }
     },
+
+    {
+        name: "RolloverTF",
+        label: "Rollover",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => value ? "true" : "false"
+        }
+    },
+
     {
         name: "RolloverDay",
         label: "Rollover Day",
@@ -2668,15 +2640,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             customBodyRender: (value) => value ? value : "-"
         }
     },
-    {
-        name: "RolloverTF",
-        label: "Rollover TF",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value) => value ? "true" : "false"
-        }
-    },
+
     {
         name: "RolloverTime",
         label: "Rollover Time",
@@ -2686,23 +2650,8 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             customBodyRender: (value) => value ? value : "-"
         }
     },
-    {
-        name: "TargetExit",
-        label: "Target Exit",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value) => value ? "true" : "false"
-        }
-    },
-    {
-        name: "TaskStatus",
-        label: "Task Status",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
+
     {
         name: "TaskTime",
         label: "Task Time",
@@ -2711,15 +2660,8 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
-    {
-        name: "Username",
-        label: "Username",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    
+
+
 
 
 

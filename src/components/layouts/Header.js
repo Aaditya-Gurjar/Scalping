@@ -362,30 +362,30 @@ const Header = () => {
     setLastPatternLoading(true);
     try {
       const response = await LastPattern(); // API call
-        Swal.fire({
-          background: "#1a1e23 ",
-          backdrop: "#121010ba",
-          confirmButtonColor: "#1ccc8a",
-          title: "Last Pattern On !",
-          text: response.message,
-          icon: "success",
-          timer: 1500,
-          timerProgressBar: true,
-        });
-      } catch (error) {
-        Swal.fire({
-          background: "#1a1e23 ",
-          backdrop: "#121010ba",
-          confirmButtonColor: "#1ccc8a",
-          title: "Error !",
-          text: error.response?.data?.message || "Something went wrong. Please try again.",
-          icon: "error",
-          timer: 1500,
-          timerProgressBar: true,
-        });
-      }finally {
-        setLastPatternLoading(false); // Loader stop
-      }
+      Swal.fire({
+        background: "#1a1e23 ",
+        backdrop: "#121010ba",
+        confirmButtonColor: "#1ccc8a",
+        title: "Last Pattern On !",
+        text: response.message,
+        icon: "success",
+        timer: 1500,
+        timerProgressBar: true,
+      });
+    } catch (error) {
+      Swal.fire({
+        background: "#1a1e23 ",
+        backdrop: "#121010ba",
+        confirmButtonColor: "#1ccc8a",
+        title: "Error !",
+        text: error.response?.data?.message || "Something went wrong. Please try again.",
+        icon: "error",
+        timer: 1500,
+        timerProgressBar: true,
+      });
+    } finally {
+      setLastPatternLoading(false); // Loader stop
+    }
   };
 
   const GetBalence = async () => {
@@ -767,7 +767,8 @@ const Header = () => {
                     style={{
                       width: "120px",
                       backgroundColor: getTradingStatus ? "#7367f0" : "#2a2e32",
-                      color: getTradingStatus ? "white" : "#6c7293",
+                      // color: getTradingStatus ? "white" : "#6c7293",
+                      color: "white",
                       fontWeight: "500",
                       padding: "6px 12px",
                       fontSize: "13px",
@@ -870,16 +871,16 @@ const Header = () => {
                         alt="user"
                       />
                       <div className="caption">
-                        <h6 className="mb-0 line-height">{Username}</h6>
-                        <span className="font-size-12">online</span>
+                        <h6 className="mb-0 line-height card-text-Color">{Username}</h6>
+                        <span className="font-size-12 card-text-Color">online</span>
                       </div>
                     </a>
                     <div className="iq-sub-dropdown iq-user-dropdown">
                       <div className="iq-card shadow-none m-0">
                         <div className="iq-card-body p-0 ">
-                          <div className="bg-primary p-3">
-                            <h5 className="mb-0  line-height">{Username}</h5>
-                            <span className=" font-size-12">online</span>
+                          <div className="bg-primary p-3 card-bg-color">
+                            <h5 className="mb-0  line-height btn-text-color">{Username}</h5>
+                            <span className=" font-size-12 btn-text-color">online</span>
                           </div>
                           <Link
                             to="/user/profile"
@@ -1135,13 +1136,13 @@ const Header = () => {
                   >
                     {lastPatternloading ? (
                       <>
-                      <span className="spinner-border spinner-border-sm me-2" role="status"></span>
-                      Processing...
+                        <span className="spinner-border spinner-border-sm me-2" role="status"></span>
+                        Processing...
                       </>
-                      ) : (
-                        <>
-                    🔍 <strong>Last Pattern</strong>
-                    </>
+                    ) : (
+                      <>
+                        🔍 <strong>Last Pattern</strong>
+                      </>
                     )}
                   </button>
                 </div>
