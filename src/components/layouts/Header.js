@@ -209,8 +209,7 @@ const Header = () => {
 
   const clearSession = () => {
     var decoded = jwtDecode(token);
-    // console.log("decoded", new Date(decoded?.exp * 1000), new Date());
-
+    console.log("Session Expired", decoded);
     if (decoded.exp * 1000 < new Date().getTime()) {
       localStorage.clear();
       window.location.reload();

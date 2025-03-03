@@ -27,8 +27,6 @@ const Login = () => {
                     else if (response.Role === 'Admin') {
                         getAdminPermisson()
                     }
-
-
                     localStorage.setItem("Role", response.Role)
                     localStorage.setItem("name", Username)
                     localStorage.setItem("token", response.access_token)
