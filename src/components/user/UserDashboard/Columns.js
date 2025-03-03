@@ -1807,14 +1807,14 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
     //         sort: true,
     //     }
     // },
-    {
-        name: "Username",
-        label: "Username",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+    // {
+    //     name: "Username",
+    //     label: "Username",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
     {
         name: "WorkingDay",
         label: "Working Day",
@@ -2150,7 +2150,7 @@ export const
                 sort: true,
             }
         },
-        
+
         // {
         //     name: "Trend",
         //     label: "Trend",

@@ -33,7 +33,7 @@ export const columns = () => [
     options: {
       filter: true,
       sort: true,
-    }
+    },
   },
   {
     name: "Lot",
@@ -41,7 +41,7 @@ export const columns = () => [
     options: {
       filter: true,
       sort: true,
-    }
+    },
   },
   {
     name: "Booking Point",
@@ -60,8 +60,6 @@ export const columns = () => [
     },
   },
 
-
-
   {
     name: "ScalpType",
     label: "ScalpType",
@@ -70,10 +68,6 @@ export const columns = () => [
       sort: true,
     },
   },
-
-
-
-
 
   {
     name: "TradeExecution",
@@ -119,29 +113,29 @@ export const columns = () => [
     name: "WorkingDay",
     label: "Working Day",
     options: {
-        filter: true,
-        sort: true,
-        customBodyRender: (value) => {
-            if (!value || (Array.isArray(value) && value.length === 0)) {
-                return "-";
-            }
-            if (Array.isArray(value)) {
-                return (
-                    <span>
-                        {value.map((day, index) => (
-                            <>
-                                {index > 0 && index % 3 === 0 ? <br /> : ""}
-                                {typeof day === "object" && day.label ? day.label : day}
-                                {index % 3 !== 2 && index !== value.length - 1 ? ", " : ""}
-                            </>
-                        ))}
-                    </span>
-                );
-            }
-            return value;
-        },
+      filter: true,
+      sort: true,
+      customBodyRender: (value) => {
+        if (!value || (Array.isArray(value) && value.length === 0)) {
+          return "-";
+        }
+        if (Array.isArray(value)) {
+          return (
+            <span>
+              {value.map((day, index) => (
+                <>
+                  {index > 0 && index % 3 === 0 ? <br /> : ""}
+                  {typeof day === "object" && day.label ? day.label : day}
+                  {index % 3 !== 2 && index !== value.length - 1 ? ", " : ""}
+                </>
+              ))}
+            </span>
+          );
+        }
+        return value;
+      },
     },
-}, 
+  },
   {
     name: "Booking Point2",
     label: "Booking Point2",
@@ -196,7 +190,7 @@ export const columns = () => [
     options: {
       filter: true,
       sort: true,
-      customBodyRender: (value) => value ? value : "-"
+      customBodyRender: (value) => (value ? value : "-"),
     },
   },
   {
@@ -229,7 +223,7 @@ export const columns = () => [
     options: {
       filter: true,
       sort: true,
-      customBodyRender: (value) => value ? value : "-"
+      customBodyRender: (value) => (value ? value : "-"),
     },
   },
   {
@@ -278,7 +272,7 @@ export const columns = () => [
     options: {
       filter: true,
       sort: true,
-      customBodyRender: (value) => value ? "true" : "false"
+      customBodyRender: (value) => (value ? "true" : "false"),
     },
   },
   {
@@ -343,7 +337,7 @@ export const columns = () => [
     options: {
       filter: true,
       sort: true,
-      customBodyRender: (value) => value ? value : "-"
+      customBodyRender: (value) => (value ? value : "-"),
     },
   },
   {
@@ -352,7 +346,7 @@ export const columns = () => [
     options: {
       filter: true,
       sort: true,
-      customBodyRender: (value) => value ? "true" : "false"
+      customBodyRender: (value) => (value ? "true" : "false"),
     },
   },
   {
@@ -361,7 +355,7 @@ export const columns = () => [
     options: {
       filter: true,
       sort: true,
-      customBodyRender: (value) => value ? value : "-"
+      customBodyRender: (value) => (value ? value : "-"),
     },
   },
   {
@@ -394,7 +388,7 @@ export const columns = () => [
     options: {
       filter: true,
       sort: true,
-      customBodyRender: (value) => value ? "true" : "false"
+      customBodyRender: (value) => (value ? "true" : "false"),
     },
   },
   {
@@ -435,8 +429,8 @@ export const columns = () => [
     options: {
       filter: true,
       sort: true,
-      customBodyRender: (value) => value ? "true" : "false"
-    }
+      customBodyRender: (value) => (value ? "true" : "false"),
+    },
   },
   {
     name: "Username",
@@ -446,8 +440,6 @@ export const columns = () => [
       sort: true,
     },
   },
-
-
 ];
 
 export const columns1 = () => [
@@ -559,7 +551,7 @@ export const columns1 = () => [
     options: {
       filter: true,
       sort: true,
-      customBodyRender: (value) => value ? value : "-"
+      customBodyRender: (value) => (value ? value : "-"),
     },
   },
   {
@@ -679,29 +671,29 @@ export const columns1 = () => [
     name: "WorkingDay",
     label: "Working Day",
     options: {
-        filter: true,
-        sort: true,
-        customBodyRender: (value) => {
-            if (!value || (Array.isArray(value) && value.length === 0)) {
-                return "-";
-            }
-            if (Array.isArray(value)) {
-                return (
-                    <span>
-                        {value.map((day, index) => (
-                            <>
-                                {index > 0 && index % 3 === 0 ? <br /> : ""}
-                                {typeof day === "object" && day.label ? day.label : day}
-                                {index % 3 !== 2 && index !== value.length - 1 ? ", " : ""}
-                            </>
-                        ))}
-                    </span>
-                );
-            }
-            return value;
-        },
+      filter: true,
+      sort: true,
+      customBodyRender: (value) => {
+        if (!value || (Array.isArray(value) && value.length === 0)) {
+          return "-";
+        }
+        if (Array.isArray(value)) {
+          return (
+            <span>
+              {value.map((day, index) => (
+                <>
+                  {index > 0 && index % 3 === 0 ? <br /> : ""}
+                  {typeof day === "object" && day.label ? day.label : day}
+                  {index % 3 !== 2 && index !== value.length - 1 ? ", " : ""}
+                </>
+              ))}
+            </span>
+          );
+        }
+        return value;
+      },
     },
-},
+  },
   {
     name: "Exchange",
     label: "Exchange",
@@ -732,7 +724,7 @@ export const columns1 = () => [
     options: {
       filter: true,
       sort: true,
-      customBodyRender: (value) => value ? value : "-"
+      customBodyRender: (value) => (value ? value : "-"),
     },
   },
   {
@@ -741,7 +733,7 @@ export const columns1 = () => [
     options: {
       filter: true,
       sort: true,
-      customBodyRender: (value) => value ? value : "-"
+      customBodyRender: (value) => (value ? value : "-"),
     },
   },
   {
@@ -750,7 +742,7 @@ export const columns1 = () => [
     options: {
       filter: true,
       sort: true,
-      customBodyRender: (value) => value ? value : "-"
+      customBodyRender: (value) => (value ? value : "-"),
     },
   },
   {
@@ -839,8 +831,8 @@ export const columns1 = () => [
     options: {
       filter: true,
       sort: true,
-      customBodyRender: (value) => value ? "true" : "false"
-    }
+      customBodyRender: (value) => (value ? "true" : "false"),
+    },
   },
   {
     name: "Username",
@@ -1000,7 +992,7 @@ export const columns2 = () => [
     options: {
       filter: true,
       sort: true,
-      customBodyRender: (value) => value ? value : "-"
+      customBodyRender: (value) => (value ? value : "-"),
     },
   },
   {
@@ -1035,7 +1027,7 @@ export const columns2 = () => [
       sort: true,
     },
   },
-  
+
   {
     name: "TaskStatus",
     label: "Task Status",
@@ -1074,8 +1066,8 @@ export const columns2 = () => [
     options: {
       filter: true,
       sort: true,
-      customBodyRender: (value) => value ? "true" : "false"
-    }
+      customBodyRender: (value) => (value ? "true" : "false"),
+    },
   },
   {
     name: "Trend",
@@ -1083,7 +1075,7 @@ export const columns2 = () => [
     options: {
       filter: true,
       sort: true,
-    }
+    },
   },
   {
     name: "Username",
@@ -1154,14 +1146,14 @@ export const columns3 = (selectStrategyType) => [
       selectStrategyType == "Option Strategy"
         ? "LotSize"
         : selectStrategyType == "Scalping"
-          ? "Quantity"
-          : "Quantity",
+        ? "Quantity"
+        : "Quantity",
     label:
       selectStrategyType == "Option Strategy"
         ? "LotSize"
         : selectStrategyType == "Scalping"
-          ? "Quantity"
-          : "Quantity",
+        ? "Quantity"
+        : "Quantity",
     options: {
       filter: true,
       sort: true,
@@ -1441,39 +1433,146 @@ export const columns8 = () => [
   },
 ];
 
+// export const getColumns10 = () => [
+//   {
+//     name: "S.No",
+//     label: "S.No",
+//     options: {
+//       filter: true,
+//       sort: true,
+//       customBodyRender: (value, tableMeta, updateValue) => {
+//         const rowIndex = tableMeta.rowIndex;
+//         return rowIndex + 1;
+//       },
+//     },
+//   },
+
+//   {
+//     name: "Token",
+//     label: "Token",
+//     options: {
+//       filter: true,
+//       sort: true,
+//     },
+//   },
+//   {
+//     name: "TSymbol",
+//     label: "TSymbol",
+//     options: {
+//       filter: true,
+//       sort: true,
+//     },
+//   },
+//   {
+//     name: "Lotsize",
+//     label: "Lotsize",
+//     options: {
+//       filter: true,
+//       sort: true,
+//     },
+//   },
+//   {
+//     name: "Exchange",
+//     label: "Exchange",
+//     options: {
+//       filter: true,
+//       sort: true,
+//     },
+//   },
+//   {
+//     name: "Planname",
+//     label: "Plan Name",
+//     options: {
+//       filter: true,
+//       sort: true,
+//     },
+//   },
+//   {
+//     name: "TType",
+//     label: "Trade Type",
+//     options: {
+//       filter: true,
+//       sort: true,
+//     },
+//   },
+//   {
+//     name: "Target",
+//     label: "Target",
+//     options: {
+//       filter: true,
+//       sort: true,
+//     },
+//   },
+//   {
+//     name: "Sl",
+//     label: "Re-entry",
+//     options: {
+//       filter: true,
+//       sort: true,
+//     },
+//   },
+//   {
+//     name: "Exittime",
+//     label: "Exittime",
+//     options: {
+//       filter: true,
+//       sort: true,
+//     },
+//   },
+//   {
+//     name: "Ordertype",
+//     label: "Ordertype",
+//     options: {
+//       filter: true,
+//       sort: true,
+//     },
+//   },
+//   {
+//     name: "AccType",
+//     label: "Account Type",
+//     options: {
+//       filter: true,
+//       sort: true,
+//     },
+//   },
+//   {
+//     name: "Price",
+//     label: "Price",
+//     options: {
+//       filter: true,
+//       sort: true,
+//     },
+//   },
+//   {
+//     name: "Optiontype",
+//     label: "Optiontype",
+//     options: {
+//       filter: true,
+//       sort: true,
+//     },
+//   },
+// ];
+
 export const getColumns10 = () => [
   {
-    name: "S.No",
-    label: "S.No",
-    options: {
-      filter: true,
-      sort: true,
-      customBodyRender: (value, tableMeta, updateValue) => {
-        const rowIndex = tableMeta.rowIndex;
-        return rowIndex + 1;
-      },
-    },
-  },
-
-  {
-    name: "Token",
-    label: "Token",
+    name: "DayExittime",
+    label: "Day Exit Time",
     options: {
       filter: true,
       sort: true,
     },
   },
   {
-    name: "TSymbol",
-    label: "TSymbol",
+    name: "EPrice",
+    label: "Entry Price",
     options: {
       filter: true,
       sort: true,
     },
   },
   {
-    name: "Lotsize",
-    label: "Lotsize",
+    name: "ETime",
+    label: "Entry Time",
     options: {
       filter: true,
       sort: true,
@@ -1488,16 +1587,74 @@ export const getColumns10 = () => [
     },
   },
   {
-    name: "Planname",
-    label: "Plan Name",
+    name: "ExitPrice",
+    label: "Exit Price",
     options: {
       filter: true,
       sort: true,
     },
   },
   {
-    name: "TType",
-    label: "Trade Type",
+    name: "ExitTime",
+    label: "Exit Time",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "ManuallyExit",
+    label: "Manually Exit",
+    options: {
+      filter: true,
+      sort: true,
+      // Display "Yes" or "No" instead of true/false
+      customBodyRender: (value) => (value ? "Yes" : "No"),
+    },
+  },
+  {
+    name: "PnL",
+    label: "PnL",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Quantity",
+    label: "Quantity",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "SL",
+    label: "Stop Loss",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Segment",
+    label: "Segment",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Stretegy",
+    label: "Strategy",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Symbol",
+    label: "Symbol",
     options: {
       filter: true,
       sort: true,
@@ -1512,48 +1669,32 @@ export const getColumns10 = () => [
     },
   },
   {
-    name: "Sl",
-    label: "Re-entry",
+    name: "Token",
+    label: "Token",
     options: {
       filter: true,
       sort: true,
     },
   },
   {
-    name: "Exittime",
-    label: "Exittime",
+    name: "Trade",
+    label: "Trade",
     options: {
       filter: true,
       sort: true,
     },
   },
   {
-    name: "Ordertype",
-    label: "Ordertype",
+    name: "TradeType",
+    label: "Trade Type",
     options: {
       filter: true,
       sort: true,
     },
   },
   {
-    name: "AccType",
-    label: "Account Type",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
-    name: "Price",
-    label: "Price",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
-    name: "Optiontype",
-    label: "Optiontype",
+    name: "Username",
+    label: "Username",
     options: {
       filter: true,
       sort: true,

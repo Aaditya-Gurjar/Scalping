@@ -311,21 +311,21 @@ const AddPlanPage = () => {
             } else if (values.NumberofScript == 0 && formik.values.PlanType === "Scalping") {
                 errors.NumberofScript = "Number of scripts cannot be zero.";
             }
-            
+
             if (!values.payment) {
                 errors.payment = "Payment is required.";
             } else if (values.payment == 0) {
                 errors.payment = "Payment cannot be zero.";
             }
-            
+
             if (!values.planname) {
                 errors.planname = "Please provide a plan name.";
             } else if (!/^[A-Za-z\s]+$/.test(values.planname.trim())) {
                 errors.planname = "Plan name should only contain alphabets (No numbers or special characters).";
             }
-            
 
-            
+
+
             if (!values.Duration) errors.Duration = "Please select a plan duration.";
             if (formik.values.PlanType == "Charting" && selectedCharting.length === 0)
                 errors.Charting = "Please select at least one Segment.";
@@ -422,6 +422,18 @@ const AddPlanPage = () => {
             type: "text",
             col_size: 6,
         },
+        // {
+        //     name: "LiveTradeAccount",
+        //     label: "Live Trade Account",
+        //     type: "text",
+        //     col_size: 6,
+        // },
+        // {
+        //     name: "PaperTradeAccount",
+        //     label: "Paper Trade Account",
+        //     type: "text",
+        //     col_size: 6,
+        // },
         {
             name: "Duration",
             label: "Duration",

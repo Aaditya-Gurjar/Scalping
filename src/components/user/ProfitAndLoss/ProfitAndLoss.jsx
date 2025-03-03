@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { getNetPnLData, getStrategyType } from "../../CommonAPI/User";
+import {
+  getNetPnLData,
+  getStrategyType,
+  getUserChartingScripts,
+} from "../../CommonAPI/User";
 import Loader from "../../../ExtraComponent/Loader";
 import GridExample from "../../../ExtraComponent/CommanDataTable";
 import DatePicker from "react-datepicker";
@@ -27,6 +31,7 @@ const Tradehistory = () => {
   console.log("selectStrategyType", selectStrategyType);
 
   const [tableType, setTableType] = useState("MultiCondition");
+  const [activeTab, setActiveTab] = useState("Cash");
   console.log("table type", tableType);
 
   const [strategyNames, setStrategyNames] = useState([]);
@@ -40,7 +45,10 @@ const Tradehistory = () => {
     data1: [],
     data2: [],
   });
+  const [getFilteredPnlData, setFilteredPnlData] = useState([]);
   const Username = localStorage.getItem("name");
+
+  console.log("getPnLData", getPnLData);
 
   // set Defult Date
   const currentDate = new Date();
@@ -121,6 +129,13 @@ const Tradehistory = () => {
   };
 
   useEffect(() => {
+    const filteredData = getPnLData?.data1?.filter(
+      (item) => item.Segment === activeTab
+    );
+    setFilteredPnlData(filteredData);
+  }, [activeTab]);
+
+  useEffect(() => {
     if (location?.state?.type && location?.state?.type != "MultiCondition") {
       console.log("sss");
       setStrategyType(StrategyType || location?.state?.type);
@@ -144,16 +159,14 @@ const Tradehistory = () => {
     <Content
       Page_title="💰 Net P&L"
       button_status={false}
-      backbutton_status={true}
-    >
+      backbutton_status={true}>
       <div className="iq-card-body">
         <div className="was-validated ">
           <div className="row">
             <div
               className={`form-group ${
                 selectStrategyType === "Scalping" ? "col-lg-4" : "col-lg-4"
-              }`}
-            >
+              }`}>
               <label>Select Strategy Type</label>
               <select
                 className="form-select"
@@ -162,8 +175,7 @@ const Tradehistory = () => {
                   setStrategyType(e.target.value);
                   sessionStorage.setItem("StrategyType", e.target.value);
                 }}
-                value={selectStrategyType}
-              >
+                value={selectStrategyType}>
                 {strategyNames.map((item, index) => (
                   <option key={index} value={item}>
                     {item}
@@ -175,8 +187,7 @@ const Tradehistory = () => {
             <div
               className={`form-group ${
                 selectStrategyType === "Scalping" ? "col-lg-4" : "col-lg-4"
-              }`}
-            >
+              }`}>
               <label>Select form Date</label>
               <DatePicker
                 className="form-select"
@@ -187,8 +198,7 @@ const Tradehistory = () => {
             <div
               className={`form-group ${
                 selectStrategyType === "Scalping" ? "col-lg-4" : "col-lg-4"
-              }`}
-            >
+              }`}>
               <label>Select To Date</label>
               <DatePicker
                 className="form-select"
@@ -205,23 +215,78 @@ const Tradehistory = () => {
 
         {showTable && (
           <>
-          <p
-                className="bold mt-4"
+            {selectStrategyType === "ChartingPlatform" && (
+              <div className="container">
+                {/* Tab Navigation */}
+                <div className="d-flex justify-content-center">
+                  <ul
+                    className="nav nav-pills shadow rounded-pill p-1"
+                    style={{ backgroundColor: "#f1f3f5" }}>
+                    <li className="nav-item">
+                      <button
+                        className={`nav-link ${
+                          activeTab === "Cash" ? "active" : ""
+                        } rounded-pill`}
+                        onClick={() => setActiveTab("Cash")}
+                        style={{
+                          padding: "10px 20px",
+                          margin: "5px",
+                          border: "none",
+                          outline: "none",
+                        }}>
+                        Cash
+                      </button>
+                    </li>
+                    <li className="nav-item">
+                      <button
+                        className={`nav-link ${
+                          activeTab === "Future" ? "active" : ""
+                        } rounded-pill`}
+                        onClick={() => setActiveTab("Future")}
+                        style={{
+                          padding: "10px 20px",
+                          margin: "5px",
+                          border: "none",
+                          outline: "none",
+                        }}>
+                        Future
+                      </button>
+                    </li>
+                    <li className="nav-item">
+                      <button
+                        className={`nav-link ${
+                          activeTab === "Option" ? "active" : ""
+                        } rounded-pill`}
+                        onClick={() => setActiveTab("Option")}
+                        style={{
+                          padding: "10px 20px",
+                          margin: "5px",
+                          border: "none",
+                          outline: "none",
+                        }}>
+                        Option
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            )}
+            Total Profit and Loss
+            <p
+              className="bold mt-4"
+              style={{
+                fontWeight: "bold",
+                fontSize: "20px",
+                color: "black",
+              }}>
+              Total Profit and Loss :{" "}
+              <span
                 style={{
-                  fontWeight: "bold",
-                  fontSize: "20px",
-                  color: "black",
-                }}
-              >
-                Total Profit and Loss :{" "}
-                <span
-                  style={{
-                    color: getPnLData.data2 < 0 ? "red" : "green",
-                  }}
-                >
-                  {getPnLData.data2.toFixed(2)}
-                </span>
-              </p>
+                  color: getPnLData.data2 < 0 ? "red" : "green",
+                }}>
+                {getPnLData.data2.toFixed(2)}
+              </span>
+            </p>
             <div className="mt-3">
               <GridExample
                 columns={
@@ -233,17 +298,18 @@ const Tradehistory = () => {
                     ? columns6()
                     : columns5()
                 }
-                data={getPnLData.data1}
+                data={
+                  selectStrategyType === "ChartingPlatform"
+                    ? getFilteredPnlData
+                    : getPnLData.data1
+                }
                 checkBox={false}
               />
             </div>
-
             <div>
               {/* <p className='bold mt-4' style={{ fontWeight: 'bold', fontSize: '20px', color: 'black' }}>
                                             Total Profit and Loss : <span style={{ color: getPnLData.data2 < 0 ? 'red' : 'green' }}>{parseFloat(getPnLData.data2).toFixed(4)}</span>
                                         </p> */}
-
-              
             </div>
             {/* <div className="mt-3">
               <GridExample
