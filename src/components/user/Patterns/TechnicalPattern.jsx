@@ -195,6 +195,8 @@ const LastPattern = () => {
     }
   };
 
+
+  console.log("value={selectedTimeFrame}>", selectedTimeFrame)
   const GetSingleChartPattern = async () => {
     const data = {
       Pattern: candlestickPattern,
