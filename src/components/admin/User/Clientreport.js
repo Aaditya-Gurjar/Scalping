@@ -44,7 +44,7 @@ const Clientreport = () => {
     
     return (
         <Content
-            Page_title={" 📉 Thread Report"}
+            Page_title={" 📉 Client Thread Response"}
             button_status={false}
             backbutton_status={true}
         >

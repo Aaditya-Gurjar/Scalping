@@ -203,6 +203,8 @@ const LastPattern = () => {
     };
     await GetSingleChart(data)
       .then((response) => {
+        console.log("GetSingleChartPattern",response);
+        
         if (response.status) {
           setSingleChartImg({ loading: false, data: response.data });
         } else {
@@ -360,7 +362,7 @@ const LastPattern = () => {
             </div>
           </div>
 
-          <div className="container-fluid">
+         {selectedPatternType !="Charting Patterns" && <div className="container-fluid">
             <div className="row justify-content-center">
               {getSingleChartImg?.data?.length === 0 ? null : (
                 <div className="col-12">
@@ -397,7 +399,7 @@ const LastPattern = () => {
                 </div>
               )}
             </div>
-          </div>
+          </div>}
 
           <div className="col-xl-12 mt-3">
             {selectedPatternType === "Candlestick Patterns"

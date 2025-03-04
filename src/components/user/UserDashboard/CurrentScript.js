@@ -39,15 +39,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
   const [editCharting, setEditCharting] = useState();
   const [getCharting, setGetCharting] = useState([]);
   
-  console.log("getCharting", getCharting);
-
-  console.log("ToDate", ToDate);
-
-
-
 
   const [chartingSubTab, setChartingSubTab] = useState("Cash");
-  console.log("chartingSubTab", chartingSubTab);
 
 
 
@@ -258,7 +251,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       try {
         console.log("inside");
         const response = await MatchPosition(req);
-        console.log("response is ", response);
         if (response.status) {
           Swal.fire({
             title: response.Status ? "Success" : "Error !",
@@ -437,7 +429,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
           } else {
             await Discontinue(req)
               .then((response) => {
-                console.log("response", response);
                 if (response.Status) {
                   Swal.fire({
                     // title: "Success",
@@ -860,7 +851,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
         errors.TradeCount = "Please Enter Trade Count.";
       }
 
-      console.log("errors", errors)
       return errors;
     },
     onSubmit: async (values) => {
@@ -2004,7 +1994,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       const WorkingDay = EditDataScalping?.WorkingDay?.map((day) => {
         return { label: day, value: day };
       });
-      console.log("EditDataScalping.TargetExit", EditDataScalping.TargetExit);
 
       formik.setFieldValue("EntryPrice", EditDataScalping.EntryPrice);
       formik.setFieldValue("EntryRange", EditDataScalping.EntryRange);
@@ -2082,7 +2071,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       const WorkingDay = EditDataScalping?.WorkingDay?.map(day => {
         return { label: day, value: day }
       })
-      console.log("EditDataScalping.TargetExit", EditDataScalping.TargetExit)
 
       formik.setFieldValue('EntryPrice', EditDataScalping.EntryPrice)
       formik.setFieldValue('EntryRange', EditDataScalping.EntryRange)

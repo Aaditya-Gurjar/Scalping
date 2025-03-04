@@ -218,6 +218,8 @@ import AddForm from "../../../ExtraComponent/FormData";
 import { useFormik } from "formik";
 import Select from 'react-select';
 import { useNavigate } from 'react-router-dom';
+import Content from '../../../ExtraComponent/Content';
+
 
 // Custom multi-select component
 const CustomMultiSelect = ({ label, options, selected, onChange, disabled }) => {
@@ -400,7 +402,7 @@ const AddPlanPage = () => {
             name: "PlanType",
             label: "Plan Type",
             type: "select",
-            options: [{ value: "Scalping", label: "Scalping" }, { value: "Charting", label: "Charting" }],
+            options: [{ value: "Scalping", label: "SOP" }, { value: "Charting", label: "Charting" }],
             col_size: 6,
         },
         {
@@ -438,9 +440,15 @@ const AddPlanPage = () => {
 
     return (
 
+        <Content
+            Page_title={" ➕ Add Plan"}
+            button_status={false}
+            backbutton_status={false}
+        >
+
+
         <AddForm
             fields={fields.filter((field) => !field.showWhen || field.showWhen(formik.values))}
-            page_title="Add Plan"
             btn_name="Add"
             btn_name1="Cancel"
             formik={formik}
@@ -492,6 +500,7 @@ const AddPlanPage = () => {
                 </>
             }
         />
+        </Content>
     );
 };
 

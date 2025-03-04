@@ -140,7 +140,6 @@ const Tradehistory = () => {
                 Data: selectStrategyType && selectStrategyType == "Scalping" ? "NewScalping" : selectStrategyType,
                 Username: selectGroup,
             });
-            console.log("response", response)
             setTradeHistory(
                 response.Status
                     ? {
@@ -470,9 +469,7 @@ const Tradehistory = () => {
                     {selectStrategyType === "Scalping" ? (
                         <div className="mb-4">
                             {/* <h5>Multi Conditional Strategies</h5> */}
-                            <h5>Scalping</h5>{
-                                console.log("th scal", tradeHistory)
-                            }
+                            <h5>Scalping</h5>
                             {tradeHistory.data?.length > 0 ? (
                                 <GridExample
                                     columns={getColumnsForStrategy()}

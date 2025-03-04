@@ -599,7 +599,6 @@ export const GetName = async (data) => {
 export const GetSingleChart = async (data) => {
     var token = localStorage.getItem('token')
     try {
-        console.log(data)
 
         const res = await axios.post(`${Config.base_url}PatternDetail`, data,
             {

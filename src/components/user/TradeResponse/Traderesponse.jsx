@@ -34,7 +34,6 @@ const TradeResponse = () => {
   const [selectStrategyType, setSelectStrategyType] = useState(
     StrategyType || "Scalping"
   );
-  // console.log("selectStrategyType", selectStrategyType);
 
   const [strategyType, setStrategyType] = useState([]);
 
@@ -158,7 +157,6 @@ const TradeResponse = () => {
     await get_User_Data(data)
       .then((response) => {
         if (response.Status) {
-          console.log("get_User_Data",response);
           
           const filterLiveTrade = response.Data?.filter((item) => {
             return item.TradeExecution == "Live Trade";
@@ -166,7 +164,6 @@ const TradeResponse = () => {
           const filterLiveTrade1 = selectStrategyType != "Scalping" ? [] : response?.NewScalping?.filter((item) => {
                 return item.TradeExecution == "Live Trade";
               });
-          console.log("filterLiveTrade1", filterLiveTrade1);
           setTradeHistory({
             loading: false,
             data: filterLiveTrade,
@@ -399,7 +396,6 @@ const TradeResponse = () => {
           </div>
 
           <div className="modal-body">
-            {console.log("getCharting || tradeHistory?.data ",getCharting?.length,tradeHistory?.data)}
             {tableType === "Scalping" && // Check if the tableType is Scalping
               (getCharting.length > 0 || tradeHistory?.data.length > 0 ? (
                 <div>

@@ -24,10 +24,8 @@ const Tradehistory = () => {
   const [selectStrategyType, setStrategyType] = useState(
     StrategyType || "Scalping"
   );
-  console.log("selectStrategyType", selectStrategyType);
 
   const [tableType, setTableType] = useState("MultiCondition");
-  console.log("table type", tableType);
 
   const [strategyNames, setStrategyNames] = useState([]);
   const [ToDate, setToDate] = useState("");

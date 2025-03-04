@@ -9,7 +9,6 @@ const ProfilePage = () => {
   const username = localStorage.getItem("name");
   const cachedProfile = localStorage.getItem("profileData");
   const [data, setData] = useState(cachedProfile ? JSON.parse(cachedProfile) : { loading: false, data: {} });
-  console.log("data mai kya aa rha hai", data);
 
 
 
@@ -19,7 +18,6 @@ const ProfilePage = () => {
       try {
         const requestData = { username };
         const response = await Get_Profile_Data(requestData);
-        console.log("response", response);
 
         if (response.Status) {
           localStorage.setItem("expire", "false");
@@ -39,8 +37,6 @@ const ProfilePage = () => {
 
   useEffect(() => {
     getProfileData();
-    console.log("getProfileData", getProfileData());
-
   }, []);
 
 
@@ -109,9 +105,9 @@ const ProfilePage = () => {
                       <Card className="info-card hover-transform" style={{ "--hover-color": item.color }}>
                         <Card.Body className="d-flex align-items-center">
                           <span className="icon-wrapper me-3" style={{ color: item.color }}>
-                            {item.icon}
+                            {item.icon} 
                           </span>
-                          <span>{item.text}</span>
+                          <span className="user-profile-span">{item.text}</span>
                         </Card.Body>
                       </Card>
                     </Col>

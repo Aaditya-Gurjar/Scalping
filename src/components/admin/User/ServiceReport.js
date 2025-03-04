@@ -35,7 +35,6 @@ const Userlog = () => {
         await Get_All_Service(data)
             .then((response) => {
                 if (response.Status) {
-                    console.log("response", response);
 
                     setServiceDetails({
                         loading: false,
@@ -563,7 +562,6 @@ const Userlog = () => {
 
         await get_User_Data(data)
             .then((response) => {
-                console.log("Response", response)
 
                 if (response.Status) {
                     setUserData({

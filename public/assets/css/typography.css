@@ -177,6 +177,12 @@ label {
   color: var(--text-color);
 }
 
+.user-profile-span{color: var(--text-color);}
+
+.text-white-important {
+  color: white !important;
+}
+
 .form-control {
   height: 45px;
   background: transparent;
@@ -1859,6 +1865,7 @@ Border Color
 .btn-text-color{
   color: var(--bg-color) !important;
 }
+
 
 .MuiPickersLayout-root .css-1st8yxe-MuiPickersLayout-root {
   background-color: black !important;
