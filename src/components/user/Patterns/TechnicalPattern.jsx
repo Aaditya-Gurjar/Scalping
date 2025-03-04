@@ -362,7 +362,8 @@ const LastPattern = () => {
 
           <div className="container-fluid">
             <div className="row justify-content-center">
-              {getSingleChartImg?.data?.length === 0 ? null : (
+              {selectedPatternType == "Candlestick Patterns" &&
+              getSingleChartImg?.data?.length === 0 ? null : (
                 <div className="col-12">
                   <div
                     className="card p-3"
