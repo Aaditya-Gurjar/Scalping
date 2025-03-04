@@ -6287,7 +6287,7 @@ ul.breadcrumb-links li a {
  }
 
 .MuiButtonBase-root.Mui-selected {
-  background: #1976d2 !important;
+  /* background: #1976d2 !important; */
 }
 
 /* button:hover{

@@ -76,7 +76,7 @@ Container with dark background */
 .allplan-card {
     background-color: var(--broker_card_bg) !important;
     border-radius: 15px;
-    width: 300px !important;
+    width: 32.5% !important;
     padding: 20px;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
     display: flex;

@@ -338,12 +338,12 @@ const ServicesList = () => {
 
           {/* Tabs Content */}
           <TabPanel value="1">
-            <div className="d-flex flex-wrap gap-3">
+            <div className="d-flex flex-wrap gap-2 justify-content-between">
               {plansData.loading ? (
                 <p className="allplan-loading">Loading...</p>
               ) : (
                 getUpdatedPlans?.map((plan, index) => (
-                  <div key={index} className="allplan-card ">
+                  <div key={index} className="allplan-card mb-3">
                     <div className="plan-header">
                       <h2 className="allplan-card-title">{plan.PlanName}</h2>
                       {isPlanPurchased(plan.PlanName) && (
@@ -451,12 +451,12 @@ const ServicesList = () => {
           </TabPanel>
 
           <TabPanel value="2">
-            <div className="d-flex flex-wrap gap-3">
+            <div className="d-flex flex-wrap gap-2 justify-content-between">
               {plansData.loading ? (
                 <p className="allplan-loading">Loading...</p>
               ) : (
                 getUpdatedPlansCharting?.map((plan, index) => (
-                  <div key={index} className="allplan-card">
+                  <div key={index} className="allplan-card mb-3">
                     <div className="plan-header">
                       <h2 className="allplan-card-title">{plan.PlanName}</h2>
                       {isPlanPurchased(plan.PlanName) && (
