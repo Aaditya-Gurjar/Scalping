@@ -768,8 +768,8 @@ ul.iq-menu a span {
   width: 20px;
   display: inline-block;
   float: left;
+  line-height: 25px;
 }
-
 .iq-sidebar-menu .iq-menu li li a i {
   font-size: 16px;
 }
@@ -6290,9 +6290,9 @@ ul.breadcrumb-links li a {
   background: #1976d2 !important;
 }
 
-button:hover{
+/* button:hover{
   scale: 1.1;
-}
+} */
 
 
 /* ______group css testing_________ */
@@ -6594,3 +6594,23 @@ body[data-theme="light"] h4.heading-color.mb-0 {
 /* .addbtn{
 height: auto;
 } */
+.MuiTab-textColorPrimary
+{
+  font-size: 15px !important;
+}
+a#home-tab-justify, a#profile-tab-justify
+{
+  font-size: 18px !important;
+}
+.iq-card {
+  background: #0d1116;
+  margin-bottom: 30px;
+  border: none;
+  /* border: 1px solid #0d1117; */
+  padding: 18px;
+  border-radius: 10px;
+}
+body[data-theme="light"] .iq-card {
+  background: #e7effd !important;
+  
+}
