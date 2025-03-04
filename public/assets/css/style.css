@@ -6587,3 +6587,43 @@ button:hover{
 }
 
 
+/* .addbtn{
+height: auto;
+} */
+ .button-container {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+ }
+
+.edit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  gap: 5px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.edit-btn:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.edit-btn:active {
+  background-color: #004494;
+  transform: scale(0.98);
+}
+
+.edit-btn svg {
+  font-size: 16px;
+}
