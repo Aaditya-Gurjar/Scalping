@@ -721,8 +721,6 @@ const ViewGroup = () => {
     fetchData();
   }, [activeTab, groupName]);
 
-  console.log("Stateeee", parameters);
-  console.log("selectedRowData", selectedRowData);
 
   return (
     <div className="container my-5">

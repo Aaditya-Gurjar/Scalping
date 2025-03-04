@@ -203,7 +203,6 @@ const LastPattern = () => {
     };
     await GetSingleChart(data)
       .then((response) => {
-        console.log("GetSingleChartPattern",response);
         
         if (response.status) {
           setSingleChartImg({ loading: false, data: response.data });

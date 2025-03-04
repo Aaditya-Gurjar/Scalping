@@ -295,7 +295,6 @@ const Tradehistory = () => {
         PatternName: "",
       };
 
-      console.log("section-", section, "-");
 
       if (section === "pnlAnalysis") {
         const pnlRes = await get_PnL_Data(params);
