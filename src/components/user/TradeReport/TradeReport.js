@@ -42,16 +42,23 @@ const TradeReport = () => {
     const [showTable, setShowTable] = useState(false);
     const [getAllTradeData, setAllTradeData] = useState({ loading: true, data1: [], data2: [] });
     const [chartingData, setChartingData] = useState([]);
+    const [openCloseChartingData, setOpenCloseChartingData] = useState({
+        CloseData: [],
+        OpenData: []
+    })
     // Default tableType is set based on Scalping; if not, it can be changed to "MultiCondition"
     const [tableType, setTableType] = useState('MultiCondition');
     const Username = localStorage.getItem('name');
     const adminPermission = localStorage.getItem('adminPermission');
+
+    console.log("getcgetCharting", getCharting)
 
     // State for default auto-select redirected from dashboard
     const [selectedRowData, setSelectedRowData] = useState("");
     const [checkedRows, setCheckedRows] = useState();
     const [preSelectTableType, setPreSelectTableType] = useState("");
     const [tradeHistory, setTradeHistory] = useState({ data: [], data1: [] });
+    const [activeTab, setActiveTab] = useState("Cash");
 
     // Set Default Date 
     const currentDate = new Date();
@@ -251,11 +258,10 @@ const TradeReport = () => {
         setShowTable(false);
     }, [selectStrategyType, FromDate, ToDate, selectedRowData]);
 
-    const handleViewchartingReport = async (rowData) => {
-        console.log("rowData", rowData);
+    const handleViewchartingReport = async () => {
         const req = {
             MainStrategy: "ChartingPlatform",
-            Strategy: rowData?.Segment,
+            Strategy: activeTab,
             Symbol: "",
             Username: Username,
             ETPattern: "",
@@ -270,7 +276,12 @@ const TradeReport = () => {
             .then((res) => {
                 if (res.Status) {
                     setShowTable(true);
-                    setGetCharting(res.Client);
+                    setOpenCloseChartingData({
+                        CloseData: res.CloseData,
+                        OpenData: res.OpenData
+                    });
+                    console.log("resss", openCloseChartingData)
+                    console.log("response is ", res)
                 } else {
                     setGetCharting([]);
                 }
@@ -279,6 +290,14 @@ const TradeReport = () => {
                 console.log("Error in getting the charting report", err);
             });
     };
+    useEffect(() => {
+        handleViewchartingReport()
+    }, [activeTab, setOpenCloseChartingData])
+
+    useEffect(() => {
+        console.log("Updated openCloseChartingData:", openCloseChartingData);
+    }, [openCloseChartingData]);
+
 
     const getColumns11 = [
         {
@@ -314,10 +333,10 @@ const TradeReport = () => {
                                 const rowIndex = tableMeta.rowIndex;
                                 const data = chartingData[rowIndex];
                                 handleSubmit(data);
-                                window.scrollTo({
-                                    top: document.body.scrollHeight,
-                                    behavior: "smooth",
-                                });
+                                // window.scrollTo({
+                                //     top: document.body.scrollHeight,
+                                //     behavior: "smooth",
+                                // });
                             }}
                             style={{
                                 border: "none",
@@ -417,18 +436,17 @@ const TradeReport = () => {
                 </div>
 
                 { /* Render table only if tableType is Scalping */}
-                {tableType === "Scalping" && (
+                {tableType === "Scalping" && selectStrategyType !== "ChartingPlatform" && (
                     <div className="modal-body">
-                        {(selectStrategyType === "ChartingPlatform" ? chartingData : tradeReport?.data)?.length > 0 ? (
+                        {(tradeReport?.data)?.length > 0 ? (
                             <GridExample
                                 columns={
                                     selectStrategyType === "Scalping" ? getColumns() :
                                         selectStrategyType === "Option Strategy" ? getColumns1() :
                                             (selectStrategyType === "Pattern" || selectStrategyType === "Pattern Script") ? getColumns2() :
-                                                selectStrategyType === "ChartingPlatform" ? getColumns11 :
-                                                    getColumns9()
+                                                getColumns9()
                                 }
-                                data={selectStrategyType === "ChartingPlatform" ? chartingData : tradeReport?.data}
+                                data={tradeReport?.data}
                                 onRowSelect={handleRowSelect}
                                 checkBox={selectStrategyType !== "ChartingPlatform"}
                                 isChecked={checkedRows}
@@ -436,6 +454,60 @@ const TradeReport = () => {
                         ) : (
                             <NoDataFound />
                         )}
+                    </div>
+                )}
+
+                {selectStrategyType === "ChartingPlatform" && (
+                    <div className="container">
+                        {/* Tab Navigation */}
+                        <div className="d-flex justify-content-center">
+                            <ul
+                                className="nav nav-pills shadow rounded-pill p-1"
+                                style={{ backgroundColor: "#f1f3f5" }}>
+                                <li className="nav-item">
+                                    <button
+                                        className={`nav-link ${activeTab === "Cash" ? "active" : ""
+                                            } rounded-pill`}
+                                        onClick={() => setActiveTab("Cash")}
+                                        style={{
+                                            padding: "10px 20px",
+                                            margin: "5px",
+                                            border: "none",
+                                            outline: "none",
+                                        }}>
+                                        Cash
+                                    </button>
+                                </li>
+                                <li className="nav-item">
+                                    <button
+                                        className={`nav-link ${activeTab === "Future" ? "active" : ""
+                                            } rounded-pill`}
+                                        onClick={() => setActiveTab("Future")}
+                                        style={{
+                                            padding: "10px 20px",
+                                            margin: "5px",
+                                            border: "none",
+                                            outline: "none",
+                                        }}>
+                                        Future
+                                    </button>
+                                </li>
+                                <li className="nav-item">
+                                    <button
+                                        className={`nav-link ${activeTab === "Option" ? "active" : ""
+                                            } rounded-pill`}
+                                        onClick={() => setActiveTab("Option")}
+                                        style={{
+                                            padding: "10px 20px",
+                                            margin: "5px",
+                                            border: "none",
+                                            outline: "none",
+                                        }}>
+                                        Option
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 )}
 
@@ -466,9 +538,9 @@ const TradeReport = () => {
                     <button className='addbtn mt-2' onClick={handleSubmit}>Submit</button>
                 }
 
-                {showTable && (getAllTradeData?.data2?.length > 0 || getAllTradeData?.data1?.length > 0) ? (
+                {showTable && (getAllTradeData?.data2?.length > 0 || getAllTradeData?.data1?.length > 0 || openCloseChartingData?.OpenData?.length > 0 || openCloseChartingData?.CloseData?.length > 0) ? (
                     <>
-                        {getAllTradeData?.data2?.length > 0 && (
+                        {(getAllTradeData?.data2?.length > 0 || openCloseChartingData.OpenData.length > 0) && (
                             <>
                                 <h4 className='mt-4 mb-2'>Open Trade</h4>
                                 <GridExample
@@ -483,14 +555,14 @@ const TradeReport = () => {
                                                         ? getColumns12()
                                                         : getColumns3()
                                     }
-                                    data={getAllTradeData.data2}
+                                    data={selectStrategyType === "ChartingPlatform" ? openCloseChartingData.OpenData : getAllTradeData.data2}
                                     onRowSelect={handleRowSelect}
                                     checkBox={false}
                                 />
                             </>
                         )}
 
-                        {getAllTradeData?.data1?.length > 0 && (
+                        {(getAllTradeData?.data1?.length > 0 || openCloseChartingData.CloseData.length > 0) && (
                             <div className='mt-3'>
                                 <h4 className='mt-3 mb-2'>Close Trade</h4>
                                 <GridExample
@@ -505,7 +577,7 @@ const TradeReport = () => {
                                                         ? getColumns10()
                                                         : getColumns6()
                                     }
-                                    data={getAllTradeData.data1}
+                                    data={selectStrategyType === "ChartingPlatform" ? openCloseChartingData.CloseData : getAllTradeData.data1}
                                     onRowSelect={handleRowSelect}
                                     checkBox={false}
                                 />

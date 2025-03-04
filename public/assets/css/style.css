@@ -6590,3 +6590,7 @@ body[data-theme="light"] h4.heading-color.mb-0 {
 .form-select.is-valid, .was-validated .form-select:valid {
   border-color: #eeeeee !important;
 }
+
+/* .addbtn{
+height: auto;
+} */

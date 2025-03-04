@@ -1807,14 +1807,14 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
     //         sort: true,
     //     }
     // },
-    {
-        name: "Username",
-        label: "Username",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+    // {
+    //     name: "Username",
+    //     label: "Username",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
     {
         name: "WorkingDay",
         label: "Working Day",
@@ -2150,7 +2150,7 @@ export const
                 sort: true,
             }
         },
-        
+
         // {
         //     name: "Trend",
         //     label: "Trend",
@@ -2742,10 +2742,12 @@ export const getColumns8 = (handleContinutyDiscontinuty) => [
     },
     {
         name: "Lotsize",
-        label: "Lotsize",
+        label: "Lot Size",
         options: {
             filter: true,
             sort: true,
+            customBodyRender: (value) => value ? value : "-"
+
         }
     },
     {
@@ -2810,6 +2812,7 @@ export const getColumns8 = (handleContinutyDiscontinuty) => [
         options: {
             filter: true,
             sort: true,
+            customBodyRender: (value) => value ? value : "-"
         }
     },
     {
@@ -2822,10 +2825,36 @@ export const getColumns8 = (handleContinutyDiscontinuty) => [
     },
     {
         name: "Optiontype",
-        label: "Optiontype",
+        label: "Option Type",
         options: {
             filter: true,
             sort: true,
+        }
+    },
+
+    {
+        name: "Date",
+        label: "Date",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Status",
+        label: "Status",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "ManuallyExit",
+        label: "ManuallyExit",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => value ? "true" : "false"
         }
     },
 
