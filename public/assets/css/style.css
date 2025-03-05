@@ -6614,3 +6614,6 @@ body[data-theme="light"] .iq-card {
   background: #e7effd !important;
   
 }
+span.alert-count {
+  color: #fff !important;
+}
