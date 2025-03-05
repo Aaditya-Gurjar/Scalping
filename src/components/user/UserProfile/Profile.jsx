@@ -175,11 +175,11 @@ const ProfilePage = () => {
     data.profile;
 
   return (
-    <Container style={{ paddingTop: "10%" }}>
+    <Container style={{ paddingTop: "5%" }}>
       <Row className="justify-content-center">
         <Col xs={12} sm={10} md={8} lg={6}>
           <Card>
-            <Card.Body className="p-4">
+            <Card.Body className="p-4 profile-card">
               {/* Profile Header */}
               <div className="text-center mb-4">
                 <div className="avatar-container">
