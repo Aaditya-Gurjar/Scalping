@@ -169,7 +169,7 @@ const AddClient = () => {
         !values.Optiontype &&
         (values.Instrument === "OPTSTK" ||
           values.Instrument === "OPTIDX" ||
-          (values.Instrument == "OPTFUT" && values.Exchange === "MCX"))
+          (values.Instrument == "OPTFUT" && values.Exchange === "MCX")) 
       ) {
 
         errors.Optiontype = "Please Select Option Type.";
@@ -710,6 +710,13 @@ const AddClient = () => {
     formik.setFieldValue("HoldExit", "Hold");
     formik.setFieldValue("TStype", "Point");
   }, []);
+
+  useEffect(() => {
+    if (formik.values.Exchange === "MCX") {
+      formik.setFieldValue("Instrument", "FUTCOM");
+    }
+  }, [formik.values.Exchange]);
+  
 
 
 

@@ -599,7 +599,6 @@ export const GetName = async (data) => {
 export const GetSingleChart = async (data) => {
     var token = localStorage.getItem('token')
     try {
-        console.log(data)
 
         const res = await axios.post(`${Config.base_url}PatternDetail`, data,
             {
@@ -881,6 +880,24 @@ export const ClientGroupAllot = async (data) => {
     var token = localStorage.getItem('token')
     try {
         const res = await axios.post(`${Config.base_url}ClientGroupAllot`, data,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+}
+
+export const EditPlan = async (data) => {
+    var token = localStorage.getItem('token')
+    try {
+        const res = await axios.post(`${Config.base_url}EditPlan`, data,
             {
                 headers: {
                     'Content-Type': 'application/json',

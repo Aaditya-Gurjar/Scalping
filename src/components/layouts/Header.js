@@ -209,7 +209,6 @@ const Header = () => {
 
   const clearSession = () => {
     var decoded = jwtDecode(token);
-    console.log("Session Expired", decoded);
     if (decoded.exp * 1000 < new Date().getTime()) {
       localStorage.clear();
       window.location.reload();
@@ -877,9 +876,9 @@ const Header = () => {
                     <div className="iq-sub-dropdown iq-user-dropdown">
                       <div className="iq-card shadow-none m-0">
                         <div className="iq-card-body p-0 ">
-                          <div className="bg-primary p-3 card-bg-color">
-                            <h5 className="mb-0  line-height btn-text-color">{Username}</h5>
-                            <span className=" font-size-12 btn-text-color">online</span>
+                          <div className="bg-primary p-3">
+                            <h5 className="text-white-important">{Username}</h5>
+                            <span className="text-white-important">online</span>
                           </div>
                           <Link
                             to="/user/profile"

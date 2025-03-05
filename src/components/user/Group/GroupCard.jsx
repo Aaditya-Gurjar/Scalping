@@ -18,7 +18,6 @@ import Swal from "sweetalert2";
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
 const GroupCard = ({ strategy }) => {
-  console.log("strategy", strategy);
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const username = localStorage.getItem("name");

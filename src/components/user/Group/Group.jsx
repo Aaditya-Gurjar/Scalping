@@ -70,7 +70,6 @@ const GroupStrategyList = () => {
   useEffect(() => {
     const fetchGroups = async () => {
       const response = await GetGroupNames();
-      console.log("response is ", response);
       const updatedGroups = response.Data.map((group, index) => ({
         name: group.GroupName, // Set name as GroupName from API response
         // type: "My Strategy",
@@ -84,7 +83,6 @@ const GroupStrategyList = () => {
     };
     fetchGroups();
   }, []);
-  console.log("Group data is ", group);
 
   return (
     <Content

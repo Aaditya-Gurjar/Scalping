@@ -3,6 +3,8 @@ import {
   GetAdminDashboard,
   AdmindashboardGraph,
   AdmindashboardData,
+  GetAdminDashboardClient,
+  GetAdminDashboardTrade,
 } from "../../CommonAPI/Admin";
 import Loader from "../../../ExtraComponent/Loader";
 import { createRoot } from "react-dom/client";
@@ -24,6 +26,52 @@ const Dashboards = () => {
     loading: true,
     data: [],
   });
+
+  const [Data3, setData3] = useState({
+    loading: true,
+    data3: [],
+  });
+  // console.log("Data3", Data3);
+
+  const [Data4, setData4] = useState({
+    loading: true,
+    data4: [],
+  });
+
+
+  const getCurrentDate = () => {
+    const today = new Date();
+    return today.toISOString().split("T")[0]; // Format: YYYY-MM-DD
+  };
+
+  const getOneMonthAgoDate = () => {
+    const date = new Date();
+    date.setMonth(date.getMonth() - 1);
+    return date.toISOString().split("T")[0]; // Format: YYYY-MM-DD
+  };
+
+
+  const [fromDate, setFromDate] = useState(getOneMonthAgoDate());
+  const [toDate, setToDate] = useState(getCurrentDate());
+
+  
+  const getCurrentDate1 = () => {
+    const today = new Date();
+    return today.toISOString().split("T")[0]; // Format: YYYY-MM-DD
+  };
+
+  const getOneMonthAgoDate1 = () => {
+    const date = new Date();
+    date.setMonth(date.getMonth() - 1);
+    return date.toISOString().split("T")[0]; // Format: YYYY-MM-DD
+  };
+
+  const [fromDate1, setFromDate1] = useState(getOneMonthAgoDate1());
+  const [toDate1, setToDate1] = useState(getCurrentDate1());
+
+
+
+
 
   const options = {
     data: Data1 && Data1.data,
@@ -60,7 +108,7 @@ const Dashboards = () => {
         } else {
           setData({
             loading: false,
-            data: [],
+            data3: [],
           });
         }
       })
@@ -69,9 +117,90 @@ const Dashboards = () => {
       });
   };
 
+  const GetAdminDashboardClientDetails = async () => {
+    const req = {
+      From_date: fromDate, 
+      To_date: toDate
+    };
+  
+    await GetAdminDashboardClient(req) // Ensure the API function accepts a body
+      .then((response) => {
+  
+        if (response.Status) {
+          setData3({
+            loading: false,
+            data3: response.Data,
+          });
+        } else {
+          setData3({
+            loading: false,
+            data3: [],
+          });
+        }
+      })
+      .catch((err) => {
+        console.log("Error in fetching the Dashboard Details", err);
+      });
+  };
+
+  const GetAdminDashboardTradeDetails = async () => {
+    const req = {
+      From_date: fromDate1,
+      To_date: toDate1
+    };
+  
+    await GetAdminDashboardTrade(req) // Ensure the API function accepts a body
+      .then((response) => {
+  
+        if (response.Status) {
+          setData4({
+            loading: false,
+            data4: response.Data,
+          });
+        } else {
+          setData4({
+            loading: false,
+            data4: [],
+          });
+        }
+      })
+      .catch((err) => {
+        console.log("Error in fetching the Dashboard Details", err);
+      });
+  };
+  
+
+
+
+
+
+
+
   useEffect(() => {
     GetAdminDashboardData();
   }, []);
+  useEffect(() => {
+    if (fromDate && toDate) {
+      const delayDebounceFn = setTimeout(() => {
+        GetAdminDashboardClientDetails();
+      }, 500); // 500ms delay
+  
+      return () => clearTimeout(delayDebounceFn); // Cleanup function to prevent multiple calls
+    }
+  }, [fromDate, toDate]);
+
+  useEffect(() => {
+    if (fromDate1 && toDate1) {
+      const delayDebounceFn = setTimeout(() => {
+        GetAdminDashboardTradeDetails();
+      }, 500); // 500ms delay
+  
+      return () => clearTimeout(delayDebounceFn); // Cleanup function to prevent multiple calls
+    }
+  }, [fromDate1, toDate1]);
+
+
+
 
   const GetDashboardGraphData = async () => {
     await AdmindashboardGraph()
@@ -130,7 +259,30 @@ const Dashboards = () => {
         {dashData.loading ? (
           <Loader />
         ) : (
-          <div className="container-fluid" style={{ marginTop: "2rem" }}>
+          <div className="container-fluid" >
+            <div className="row">
+              <div className="col-md-6 mb-3">
+                <h2>From Date</h2>
+                <input
+                  type="date"
+                  className="form-control"
+                  onChange={(e) => setFromDate(e.target.value)}
+                  value={fromDate}
+                />
+              </div>
+
+              <div className="col-md-6 mb-3">
+                <h2>To Date</h2>
+                <input
+                  type="date"
+                  className="form-control"
+                  onChange={(e) => setToDate(e.target.value)}
+                  value={toDate}
+                />
+              </div>
+            </div>
+
+
             <div className="row">
               <div className="col-sm-12">
                 <div className="row ">
@@ -207,7 +359,7 @@ const Dashboards = () => {
                                 </td>
                                 <td>
                                   <span className="">
-                                    {dashData?.data[0]?.Total_Live_Account}
+                                    {Data3?.data3[0]?.Total_Live_Account}
                                   </span>
                                 </td>
                               </tr>
@@ -222,7 +374,7 @@ const Dashboards = () => {
                                 </td>
                                 <td>
                                   <span className="">
-                                    {dashData?.data[0]?.Active_Live_Account}
+                                    {Data3?.data3[0]?.Active_Live_Account}
                                   </span>
                                 </td>
                               </tr>
@@ -237,7 +389,7 @@ const Dashboards = () => {
                                 </td>
                                 <td>
                                   <span className="">
-                                    {dashData?.data[0]?.Expired_Live_Account}
+                                    {Data3?.data3[0]?.Expired_Live_Account}
                                   </span>
                                 </td>
                               </tr>
@@ -320,7 +472,7 @@ const Dashboards = () => {
                                 </td>
                                 <td>
                                   <span className="">
-                                    {dashData?.data[0]?.Total_Free_Demo_Account}
+                                    {Data3?.data3[0]?.Total_Free_Demo_Account}
                                   </span>
                                 </td>
                               </tr>
@@ -336,7 +488,7 @@ const Dashboards = () => {
                                 <td>
                                   <span className="">
                                     {
-                                      dashData?.data[0]
+                                      Data3?.data3[0]
                                         ?.Active_Free_Demo_Account
                                     }
                                   </span>
@@ -354,7 +506,7 @@ const Dashboards = () => {
                                 <td>
                                   <span className="">
                                     {
-                                      dashData?.data[0]
+                                      Data3?.data3[0]
                                         ?.Expired_Free_Demo_Account
                                     }
                                   </span>
@@ -442,7 +594,7 @@ const Dashboards = () => {
                                 <td>
                                   <span className="">
                                     {
-                                      dashData?.data[0]
+                                      Data3?.data3[0]
                                         ?.Total_Two_Days_Live_Account
                                     }
                                   </span>
@@ -460,7 +612,7 @@ const Dashboards = () => {
                                 <td>
                                   <span className="">
                                     {
-                                      dashData?.data[0]
+                                      Data3?.data3[0]
                                         ?.Active_Two_Days_Live_Account
                                     }
                                   </span>
@@ -478,7 +630,7 @@ const Dashboards = () => {
                                 <td>
                                   <span className="">
                                     {
-                                      dashData?.data[0]
+                                      Data3?.data3[0]
                                         ?.Expired_Two_Days_Live_Account
                                     }
                                   </span>
@@ -490,7 +642,28 @@ const Dashboards = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="col-lg-4">
+                  <div className="row">
+                    <div className="col-md-6 mb-3">
+                      <h2>From Date</h2>
+                      <input
+                        type="date"
+                        className="form-control"
+                        onChange={(e) => setFromDate1(e.target.value)}
+                        value={fromDate1}
+                      />
+                    </div>
+
+                    <div className="col-md-6 mb-3">
+                      <h2>To Date</h2>
+                      <input
+                        type="date"
+                        className="form-control"
+                        onChange={(e) => setToDate1(e.target.value)}
+                        value={toDate1}
+                      />
+                    </div>
+                  </div> 
+                   <div className="col-lg-4">
                     <div className="iq-card ">
                       <div className="progress">
                         <div
@@ -545,8 +718,8 @@ const Dashboards = () => {
                       <div className="iq-card-header d-flex justify-content-between">
                         <div className="iq-header-title">
                           <h3 className="card-title">
-                            Total Service Count of 1
-                         </h3> 
+                            Total Trade
+                          </h3>
                         </div>
                       </div>
                       <div className="iq-card-body p-2">
@@ -560,11 +733,11 @@ const Dashboards = () => {
                                   </div>
                                 </td>
                                 <td>
-                                  <h6 className="mb-0 ">Total: </h6>
+                                  <h6 className="mb-0 ">Scalping : </h6>
                                 </td>
                                 <td>
                                   <span className="">
-                                    {dashData?.data[0]?.Total_Service_Count_1}
+                                  {Data4?.data4[0]?.ScalpingTotalTrade}
                                   </span>
                                 </td>
                               </tr>
@@ -575,11 +748,11 @@ const Dashboards = () => {
                                   </div>
                                 </td>
                                 <td>
-                                  <h6 className="mb-0 ">Active: </h6>
+                                  <h6 className="mb-0 ">Option : </h6>
                                 </td>
                                 <td>
                                   <span className="">
-                                    {dashData?.data[0]?.Active_Service_Count_1}
+                                  {Data4?.data4[0]?.OptionTotalTrade}
                                   </span>
                                 </td>
                               </tr>
@@ -590,11 +763,26 @@ const Dashboards = () => {
                                   </div>
                                 </td>
                                 <td>
-                                  <h6 className="mb-0 ">Expired: </h6>
+                                  <h6 className="mb-0 ">Pattern : </h6>
                                 </td>
                                 <td>
                                   <span className="">
-                                    {dashData?.data[0]?.Expired_Service_Count_1}
+                                  {Data4?.data4[0]?.PatternTotalTrade}
+                                  </span>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <div className="iq-profile-avatar status-primary mt-4">
+                                    {" "}
+                                  </div>
+                                </td>
+                                <td>
+                                  <h6 className="mb-0 ">Charting : </h6>
+                                </td>
+                                <td>
+                                  <span className="">
+                                  {Data4?.data4[0]?.ChartingTotalTrade}
                                   </span>
                                 </td>
                               </tr>
@@ -660,8 +848,8 @@ const Dashboards = () => {
                       <div className="iq-card-header d-flex justify-content-between">
                         <div className="iq-header-title">
                           <h3 className="card-title">
-                            Total Service Count of 2
-                         </h3> 
+                            Paper Trade
+                          </h3>
                         </div>
                       </div>
                       <div className="iq-card-body p-2">
@@ -675,11 +863,11 @@ const Dashboards = () => {
                                   </div>
                                 </td>
                                 <td>
-                                  <h6 className="mb-0 ">Total:</h6>
+                                  <h6 className="mb-0 ">Scalping :</h6>
                                 </td>
                                 <td>
                                   <span className="">
-                                    {dashData?.data[0]?.Total_Service_Count_2}
+                                  {Data4?.data4[0]?.ScalpingPaperTrade}
                                   </span>
                                 </td>
                               </tr>
@@ -690,11 +878,11 @@ const Dashboards = () => {
                                   </div>
                                 </td>
                                 <td>
-                                  <h6 className="mb-0 ">Active</h6>
+                                  <h6 className="mb-0 ">Option :</h6>
                                 </td>
                                 <td>
                                   <span className="">
-                                    {dashData?.data[0]?.Active_Service_Count_2}
+                                  {Data4?.data4[0]?.OptionPaperTrade}
                                   </span>
                                 </td>
                               </tr>
@@ -705,11 +893,26 @@ const Dashboards = () => {
                                   </div>
                                 </td>
                                 <td>
-                                  <h6 className="mb-0 ">Expired</h6>
+                                  <h6 className="mb-0 ">Pattern :</h6>
                                 </td>
                                 <td>
                                   <span className="">
-                                    {dashData?.data[0]?.Expired_Service_Count_2}
+                                  {Data4?.data4[0]?.PatternPaperTrade}
+                                  </span>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <div className="iq-profile-avatar status-primary mt-4">
+                                    {" "}
+                                  </div>
+                                </td>
+                                <td>
+                                  <h6 className="mb-0 ">Charting :</h6>
+                                </td>
+                                <td>
+                                  <span className="">
+                                  {Data4?.data4[0]?.ChartingPaperTrade}
                                   </span>
                                 </td>
                               </tr>
@@ -718,7 +921,7 @@ const Dashboards = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> 
 
                   <div className="col-lg-4">
                     <div className="iq-card ">
@@ -775,8 +978,8 @@ const Dashboards = () => {
                       <div className="iq-card-header d-flex justify-content-between">
                         <div className="iq-header-title">
                           <h3 className="card-title">
-                            Total Service Count of 5
-                         </h3> 
+                            Live Trade
+                          </h3>
                         </div>
                       </div>
                       <div className="iq-card-body p-2">
@@ -790,11 +993,11 @@ const Dashboards = () => {
                                   </div>
                                 </td>
                                 <td>
-                                  <h6 className="mb-0 ">Total</h6>
+                                  <h6 className="mb-0 ">Scalping :</h6>
                                 </td>
                                 <td>
                                   <span className="">
-                                    {dashData?.data[0]?.Total_Service_Count_5}
+                                  {Data4?.data4[0]?.ScalpingLiveTrade}
                                   </span>
                                 </td>
                               </tr>
@@ -805,11 +1008,11 @@ const Dashboards = () => {
                                   </div>
                                 </td>
                                 <td>
-                                  <h6 className="mb-0 ">Active</h6>
+                                  <h6 className="mb-0 ">Option :</h6>
                                 </td>
                                 <td>
                                   <span className="">
-                                    {dashData?.data[0]?.Active_Service_Count_5}
+                                  {Data4?.data4[0]?.OptionLiveTrade}
                                   </span>
                                 </td>
                               </tr>
@@ -820,11 +1023,26 @@ const Dashboards = () => {
                                   </div>
                                 </td>
                                 <td>
-                                  <h6 className="mb-0 ">Expired</h6>
+                                  <h6 className="mb-0 ">Pattern :</h6>
                                 </td>
                                 <td>
                                   <span className="">
-                                    {dashData?.data[0]?.Expired_Service_Count_5}
+                                    {Data4?.data4[0]?.PatternLiveTrade}
+                                  </span>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <div className="iq-profile-avatar status-primary mt-4">
+                                    {" "}
+                                  </div>
+                                </td>
+                                <td>
+                                  <h6 className="mb-0 ">Charting :</h6>
+                                </td>
+                                <td>
+                                  <span className="">
+                                    {Data4?.data4[0]?.ChartingLiveTrade}
                                   </span>
                                 </td>
                               </tr>
@@ -851,14 +1069,14 @@ const Dashboards = () => {
                         <div className="text-center mt-3">
                           <h3 className="mb-0 ">
                             Admin
-                         </h3> 
+                          </h3>
                         </div>
                         <hr />
                         <ul className="doctoe-sedual d-flex align-items-center justify-content-between p-0">
                           <h3 className="mb-0 ">
                             Total Revenue{" "}
                             <span style={{ marginLeft: "10px" }}>-</span>
-                         </h3> 
+                          </h3>
 
                           <h3 className="counter">{Data2.data1}</h3>
                         </ul>
@@ -867,7 +1085,7 @@ const Dashboards = () => {
                           <h3 className="mb-0 ">
                             Total Clients{" "}
                             <span style={{ marginLeft: "28px" }}>-</span>
-                         </h3> 
+                          </h3>
 
                           <h3 className="counter">{Data2.data}</h3>
                         </ul>
@@ -875,7 +1093,7 @@ const Dashboards = () => {
                     </div>
                   </div>
                 </div>
-             
+
                 <AdminDashboardChart />
               </div>
             </div>

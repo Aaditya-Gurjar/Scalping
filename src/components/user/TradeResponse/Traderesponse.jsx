@@ -34,7 +34,6 @@ const TradeResponse = () => {
   const [selectStrategyType, setSelectStrategyType] = useState(
     StrategyType || "Scalping"
   );
-  // console.log("selectStrategyType", selectStrategyType);
 
   const [strategyType, setStrategyType] = useState([]);
 

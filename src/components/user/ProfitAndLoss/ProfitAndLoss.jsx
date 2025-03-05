@@ -28,7 +28,6 @@ const Tradehistory = () => {
   const [selectStrategyType, setStrategyType] = useState(
     StrategyType || "Scalping"
   );
-  console.log("selectStrategyType", selectStrategyType);
 
   const [tableType, setTableType] = useState("MultiCondition");
   const [activeTab, setActiveTab] = useState("Cash");

@@ -63,6 +63,48 @@ export const GetAdminDashboard = async (data) => {
 
 }
 
+export const GetAdminDashboardClient = async (data) => {
+    const token = localStorage.getItem('token')
+    try {
+        const res = await axios.post(`${Config.base_url}admindashboardclient`,data ,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+
+}
+
+export const GetAdminDashboardTrade = async (data) => {
+    const token = localStorage.getItem('token')
+    try {
+        const res = await axios.post(`${Config.base_url}admindashboardtrade`,data ,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+
+}
+
+
+
 export const Add_Group = async (data) => {
     const token = localStorage.getItem('token')
     try {
@@ -1127,7 +1169,6 @@ export const SubAdminPermission = async (data) => {
 }
 
 export const AdminPermission = async (data) => {
-    console.log("username", data)
     try {
         const res = await axios.get(`${Config.base_url}Permissiondata/${data.username}`)
         return res?.data

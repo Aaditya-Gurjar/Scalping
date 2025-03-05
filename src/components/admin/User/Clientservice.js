@@ -400,7 +400,6 @@ const Clientservice = () => {
         },
     ];
 
-    console.log("selectedIndex", selectedIndex);
 
 
     useEffect(() => {
