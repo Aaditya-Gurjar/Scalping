@@ -1419,8 +1419,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
     },
   ];
 
-  
-
   const fields2 = [
     {
       name: "TStype",
@@ -1986,7 +1984,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
 
     }
   }, [showEditModal, data, EditDataPattern])
-
 
   const updatedFields = fields.filter((item) => {
     return item.hiding == false
