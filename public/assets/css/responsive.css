@@ -309,6 +309,13 @@ body.sidebar-main .iq-sidebar:hover+div.content-page {
 		width: 0px;
 
 	} */
+	.iq-sidebar-menu .iq-menu li a i {
+		font-size: 20px;
+		margin-right: 0px;
+	
+		
+		line-height: 8px;
+	}
 	body.sidebar-main-menu.sidebar-main .content-page {
 		margin-left: 60px;
 		margin-right: 60px;
