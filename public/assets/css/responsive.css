@@ -157,9 +157,7 @@ body.sidebar-main-menu.sidebar-main .iq-sidebar-menu .iq-menu li a .iq-arrow-rig
 	display: block;
 }
 
-body.sidebar-main .iq-sidebar:hover+div.content-page {
-	margin-left: 100px;
-}
+
 
 
 
@@ -266,13 +264,7 @@ body.sidebar-main .iq-sidebar:hover+div.content-page {
 
 	}
 
-	body.sidebar-main-menu .iq-sidebar:hover+div.content-page {
-		margin-left: 80px;
-	}
-
-	body.sidebar-main-menu .iq-sidebar:hover+div.content-page .iq-top-navbar {
-		width: calc(100% - 80px);
-	}
+	
 
 	body.sidebar-main-menu .iq-sidebar:hover+div.content-page .iq-top-navbar.fixed-header {
 		width: 100%;
