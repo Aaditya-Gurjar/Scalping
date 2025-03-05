@@ -46,9 +46,6 @@ const Userdashboard = () => {
     tomorrow.getMonth() + 1
   ).padStart(2, "0")}.${String(tomorrow.getDate()).padStart(2, "0")}`;
 
-
-
-
   const [getGroupName, setGroupName] = useState({ loading: true, data: [] });
   const [getPositionData, setPositionData] = useState({
     loading: true,

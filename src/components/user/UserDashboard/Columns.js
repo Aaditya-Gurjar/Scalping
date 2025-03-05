@@ -2668,7 +2668,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
 
 ];
 
-export const getColumns8 = (handleContinutyDiscontinuty) => [
+export const getColumns8 = () => [
     {
         name: "S.No",
         label: "S.No",
@@ -2681,49 +2681,7 @@ export const getColumns8 = (handleContinutyDiscontinuty) => [
             }
         },
     },
-
-    // {
-    //     name: "Trading",
-    //     label: "Trading",
-    //     options: {
-    //         filter: true,
-    //         sort: true,
-    //         customBodyRender: (value, tableMeta, updateValue) => {
-    //             const isChecked = Boolean(value);
-
-    //             return (
-    //                 <Checkbox
-    //                     checked={isChecked}
-    //                     onClick={() => handleContinutyDiscontinuty(tableMeta, 2)}
-    //                 />
-
-    //             );
-    //         }
-    //     }
-    // },
-    {
-        name: "Trading",
-        label: "Trading",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value, tableMeta, updateValue) => {
-                const label = value ? "Continue" : "Discontinue";
-                const labelStyle = value ? { backgroundColor: 'green', color: 'white' } : { backgroundColor: 'red', color: 'white' };
-
-                return (
-
-                    label === "Continue" ? (
-                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-success">{label}</button>) : (
-                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-danger">{label}</button>
-                    )
-
-
-
-                );
-            }
-        }
-    },
+   
     {
         name: "Token",
         label: "Token",
