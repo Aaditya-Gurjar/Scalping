@@ -768,8 +768,8 @@ ul.iq-menu a span {
   width: 20px;
   display: inline-block;
   float: left;
+  line-height: 25px;
 }
-
 .iq-sidebar-menu .iq-menu li li a i {
   font-size: 16px;
 }
@@ -5696,7 +5696,7 @@ body,
 }
 
 h4 {
-  color: rgb(120, 75, 161) !important;
+  /* color: rgb(120, 75, 161) !important; */
   font-size: 22px;
 }
 
@@ -6183,20 +6183,13 @@ ul.breadcrumb-links li a {
 
 .addbtn {
   color: var(--bg-color) !important;
-  /* Dark text for better readability */
   background-color: var(--text-color) !important;
-  /* Light grey background */
-  border-radius: 12px;
-  /* Smooth rounded edges */
+  border-radius: 5px;
   font-size: 16px;
   padding: 0px 10px;
-  /* More balanced padding */
-  height: 50px;
-  /* Slightly adjusted height */
+  height: 40px;
   border: 1px solid #ccc;
-  /* Subtle border */
   transition: all 0.3s ease-in-out;
-  /* Smooth hover effect */
   margin: 0;
 }
 
@@ -6294,12 +6287,12 @@ ul.breadcrumb-links li a {
  }
 
 .MuiButtonBase-root.Mui-selected {
-  background: #1976d2 !important;
+  /* background: #1976d2 !important; */
 }
 
-button:hover{
+/* button:hover{
   scale: 1.1;
-}
+} */
 
 
 /* ______group css testing_________ */
@@ -6586,7 +6579,41 @@ button:hover{
   font-size: 1rem;
 }
 
+h4.heading-color.mb-0 {
+   color: #fff !important; 
+  font-size: 20px;
+  line-height: 40px;
+}
+body[data-theme="light"] h4.heading-color.mb-0 {
+  color: #2a2a2a !important;
+}
+.form-select.is-valid, .was-validated .form-select:valid {
+  border-color: #eeeeee !important;
+}
 
 /* .addbtn{
 height: auto;
 } */
+.MuiTab-textColorPrimary
+{
+  font-size: 15px !important;
+}
+a#home-tab-justify, a#profile-tab-justify
+{
+  font-size: 18px !important;
+}
+.iq-card {
+  background: #0d1116;
+  margin-bottom: 30px;
+  border: none;
+  /* border: 1px solid #0d1117; */
+  padding: 18px;
+  border-radius: 10px;
+}
+body[data-theme="light"] .iq-card {
+  background: #e7effd !important;
+  
+}
+span.alert-count {
+  color: #fff !important;
+}
