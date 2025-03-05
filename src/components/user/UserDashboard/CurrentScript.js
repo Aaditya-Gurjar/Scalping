@@ -38,7 +38,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
   const [allScripts, setAllScripts] = useState({ data: [], len: 0 });
   const [editCharting, setEditCharting] = useState();
   const [getCharting, setGetCharting] = useState([]);
-  
+
 
   const [chartingSubTab, setChartingSubTab] = useState("Cash");
 
@@ -61,10 +61,10 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
 
   useEffect(() => {
     if (data == "ChartingPlatform") getChartingScript();
-  }, [data , chartingSubTab]);
+  }, [data, chartingSubTab]);
 
   const getChartingScript = async () => {
-    const req = { Username: userName, Segment: chartingSubTab , From_date: FromDate, To_date: ToDate };
+    const req = { Username: userName, Segment: chartingSubTab, From_date: FromDate, To_date: ToDate };
     await getUserChartingScripts(req)
       .then((response) => {
         console.log("getUserChartingScripts", response);
@@ -222,18 +222,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
     console.log("data is ", getAllService.NewScalping[index]);
 
     const req = {
-      // Username: userName,
-      // MainStrategy: "NewScalping",
-      // Strategy: getAllService.NewScalping[index].Targetselection,
-      // Symbol: getAllService.NewScalping[index].Symbol,
-      // ETPattern: "",
-      // Timeframe: "",
-      // TType: "",
-      // Group: getAllService.NewScalping[index].GroupN,
-      // TradePattern: "",
-      // TSymbol: "",
-      // PatternName: ""
-
+       
       MainStrategy: "NewScalping",
       Strategy: getAllService.NewScalping[index].Targetselection,
       Symbol: getAllService.NewScalping[index].Symbol,
@@ -431,11 +420,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
               .then((response) => {
                 if (response.Status) {
                   Swal.fire({
-                    // title: "Success",
-                    // text: response.message,
-                    // icon: "success",
-                    // timer: 2000,
-                    // timerProgressBar: true
+                    
                     background: "#1a1e23 ",
                     backdrop: "#121010ba",
                     title: "Success",
@@ -538,13 +523,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
             await Continue(req)
               .then((response) => {
                 if (response.Status) {
-                  // Swal.fire({
-                  //     title: "Success",
-                  //     text: response.message,
-                  //     icon: "success",
-                  //     timer: 1500,
-                  //     timerProgressBar: true
-                  // })
+                 
                   Swal.fire({
                     background: "#1a1e23 ",
                     backdrop: "#121010ba",
@@ -850,10 +829,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       if (!values.TradeCount) {
         errors.TradeCount = "Please Enter Trade Count.";
       }
-      if (!values.RolloverTF) {
-        errors.RolloverDay = "Please Select RollOver"
-      }
-
       if (!values.RolloverTF && values.ScalpType == "Multi_Conditional" &&
         values.PositionType == "Multiple") {
         errors.RolloverTF = "Please Select RollOver";
@@ -878,67 +853,13 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
         errors.RolloverTime = "Please Enter RollOver Exit Time";
       }
 
+      console.log(`error`, errors);
       return errors;
     },
     onSubmit: async (values) => {
-      // const req = {
-      //   MainStrategy: "NewScalping", // str
-      //   Strategy: EditDataScalping.Targetselection, // str
-      //   // Strategy:  , // str
-      //   Symbol: EditDataScalping.Symbol, // str
-      //   Username: userName, // str
-      //   ETPattern: "", // str (Trade type)
-      //   Timeframe: "", // str
-      //   Targetvalue:
-      //     parseFloat(EditDataScalping["Booking Point"]) ||
-      //     parseFloat(values.Targetvalue), // float
-      //   Slvalue: parseFloat(values.Slvalue), // float
-      //   TStype:
-      //     EditDataScalping.ScalpType != "Fixed Price"
-      //       ? values.TStype
-      //       : EditDataScalping.TStype, // str
-      //   LowerRange: 0.0,
-      //   HigherRange: 0.0,
-      //   HoldExit: EditDataScalping.HoldExit || "HoldExit", // str
-      //   EntryPrice: parseFloat(EditDataScalping.EntryPrice) || 0.0, // float
-      //   EntryRange: parseFloat(EditDataScalping.EntryRange) || 0.0, // float
-      //   EntryTime: EditDataScalping.EntryTime, // str
-      //   ExitTime: EditDataScalping?.ExitTime, // str
-      //   ExitDay: EditDataScalping.ExitDay || "", // str
-      //   TradeExecution: EditDataScalping.TradeExecution || "", // str
-      //   Group: EditDataScalping.GroupN || "", // str
-
-      //   // Depth values for CE and PE options
-      //   CEDepthLower: 0.0, // float
-      //   CEDepthHigher: 0.0, // float
-      //   PEDepthLower: 0.0, // float
-      //   PEDepthHigher: 0.0, // float
-      //   CEDeepLower: 0.0, // float
-      //   CEDeepHigher: 0.0, // float
-      //   PEDeepLower: 0.0, // float
-      //   PEDeepHigher: 0.0, // float
-      //   DepthofStrike: 0.0, // float
-
-      //   TradeCount: EditDataScalping.TradeCount || 0, // int
-
-      //   // Additional trade parameters
-      //   tgp2: EditDataScalping["Booking Point 2"] || 0.0,
-      //   tgp3: EditDataScalping["Booking Point 3"] || 0.0,
-      //   RolloverTF: EditDataScalping.RolloverTF || false, // bool
-      //   RolloverDay: "", // str
-      //   RolloverTime: "", // str
-      //   TargetExit: values.TargetExit, // bool
-      //   RepeatationCount: EditDataScalping.RepeatationCount || 0, // int
-      //   Profit: EditDataScalping.Profit || 0.0, // float
-      //   Loss: EditDataScalping.Loss || 0.0, // float
-      //   WorkingDay:
-      //     formik?.values?.WorkingDay?.map((day) => day?.value || day) || [], // list (array)
-      // };
-
-
       const req = {
 
-        MainStrategy: "NewScalping", // str
+        MainStrategy: "NewScalping", 
         Strategy: values.Strategy || EditDataScalping.Targetselection, // str
         // Strategy:  , // str
         Symbol: values.Symbol || EditDataScalping.Symbol, // str
@@ -959,7 +880,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
         TradeExecution: values.TradeExecution || EditDataScalping.TradeExecution || "", // str
         Group: values.Group || EditDataScalping.GroupN || "", // str
 
-        // Depth values for CE and PE options
         CEDepthLower: 0.0, // float
         CEDepthHigher: 0.0, // float
         PEDepthLower: 0.0, // float
@@ -1034,7 +954,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       if (values.EntryTime >= values.ExitTime) {
         return SweentAlertFun("Exit Time should be greater than Entry Time");
       }
-      // console.log("req", req)
 
       await UpdateUserScript(req).then((response) => {
         if (response.Status) {
@@ -1062,7 +981,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
     },
   });
 
-  console.log("EditDataScalping", EditDataScalping)
 
   const formik1 = useFormik({
     initialValues: {
@@ -1161,45 +1079,11 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       if (!values?.WorkingDay?.length > 0) {
         errors.WorkingDay = "Please select Working day";
       }
-      // console.log("Errr", errors)
 
       return errors;
     },
     onSubmit: async (values) => {
       const req = {
-        // MainStrategy: data,
-        // Strategy: EditDataOption.STG,
-        // Symbol: EditDataOption.MainSymbol,
-        // Username: userName,
-        // ETPattern: EditDataOption.Targettype,
-        // Timeframe: "",
-        // Targetvalue: values.Targetvalue,
-        // Slvalue: Number(values.Slvalue),
-        // TStype: values.TStype,
-        // Quantity: Number(values.Quantity),
-        // LowerRange: EditDataOption.LowerRange,
-        // HigherRange: EditDataOption.HigherRange,
-        // HoldExit: "",
-        // EntryPrice: 0.0,
-        // EntryRange: 0.0,
-        // EntryTime: values.EntryTime,
-        // ExitTime: values.ExitTime,
-        // ExitDay: EditDataOption['Product Type'],
-        // TradeExecution: EditDataOption.TradeExecution,
-        // Group: EditDataOption.GroupN,
-        // CEDepthLower: EditDataOption.CEDepthLower,
-        // CEDepthHigher: EditDataOption.CEDepthHigher,
-        // PEDepthLower: EditDataOption.PEDepthLower,
-        // PEDepthHigher: EditDataOption.PEDepthHigher,
-        // CEDeepLower: EditDataOption.CEDeepLower,
-        // CEDeepHigher: EditDataOption.PEDeepHigher,
-        // PEDeepLower: EditDataOption.PEDeepLower,
-        // PEDeepHigher: EditDataOption.PEDeepHigher,
-        // DepthofStrike: EditDataOption.DepthofStrike,
-        // TradeCount: values.TradeCount,
-        // WorkingDay: values.WorkingDay?.map(day => day?.value || day) || [] // list (array)
-
-        // ------------------------------------------------------
 
         MainStrategy: data,
         Strategy: EditDataOption.STG,
@@ -1207,7 +1091,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
         Username: userName,
         ETPattern: EditDataOption.Targettype,
         Timeframe: "",
-        // Quantity: Number(values.Quantity),
         Targetvalue: values.Targetvalue,
         Slvalue: Number(values.Slvalue),
         TStype: values.TStype,
@@ -1468,18 +1351,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       hiding: false,
       disable: false,
     },
-    // {
-    //   name: "Quantity",
-    //   label:
-    //     showEditModal && EditDataScalping.Exchange == "NFO"
-    //       ? "Lot"
-    //       : "Quantity",
-    //   type: "text5",
-    //   label_size: 12,
-    //   col_size: 6,
-    //   hiding: false,
-    //   disable: false,
-    // },
+    
     {
       name: "Targetvalue",
       label: "Target",
@@ -1547,6 +1419,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
     },
   ];
 
+  
+
   const fields2 = [
     {
       name: "TStype",
@@ -1561,15 +1435,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       hiding: false,
       disable: false,
     },
-    // {
-    //   name: "Quantity",
-    //   label: "Lot Size",
-    //   type: "text5",
-    //   label_size: 12,
-    //   col_size: 6,
-    //   hiding: false,
-    //   disable: false,
-    // },
+
     {
       name: "Targetvalue",
       label: "Target",
@@ -1619,21 +1485,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
   ];
 
   const EntryRuleArr = [
-    // {
-    //   name: "TType",
-    //   label: "Transaction Type",
-    //   type: "select1",
-    //   options: [
-    //     { label: "BUY", value: "BUY" },
-    //     { label: "SELL", value: "SELL" },
-    //   ],
-    //   label_size: 12,
-    //   headingtype: 2,
-    //   hiding: false,
-    //   col_size: 4,
-    //   disable: false,
-    // },
-
     {
       name: "EntryPrice",
       label: "First Trade Lower Range",
@@ -1657,34 +1508,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
   ];
 
   const RiskManagementArr = [
-    // {
-    //   name: "LowerRange",
-    //   label: "Lower Range",
-    //   type: "text3",
-    //   label_size: 12,
-    //   col_size: 4,
-    //   showWhen: () =>
-    //     showEditModal && EditDataScalping.PositionType === "Multiple",
-    //   // showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
-    //   headingtype: 4,
-    //   disable: false,
-    //   hiding: false,
-    // },
-
-    // {
-    //   name: "HigherRange",
-    //   label: "Higher Range",
-    //   type: "text3",
-    //   label_size: 12,
-    //   col_size: 4,
-    //   headingtype: 4,
-    //   // showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
-    //   showWhen: () =>
-    //     showEditModal && EditDataScalping.PositionType === "Multiple",
-    //   disable: false,
-    //   hiding: false,
-    // },
-
     {
       name: "HoldExit",
       label: "Hold/Exit",
@@ -1693,7 +1516,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
         { label: "Hold", value: "Hold" },
         { label: "Exit", value: "Exit" },
       ],
-      // showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
       showWhen: () =>
         showEditModal && EditDataScalping.PositionType === "Multiple",
       label_size: 12,
@@ -1718,7 +1540,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       col_size: 4,
       headingtype: 4,
       disable: false,
-      // iconText: text.Increment_Type,
       hiding: false,
     },
 
@@ -1731,7 +1552,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       showWhen: () =>
         showEditModal &&
         EditDataScalping.PositionType === "Multiple" &&
-        formik.values.TargetExit == "true",
+        (formik.values.TargetExit == "true" || formik.values.TargetExit === true),
       col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
       iconText: text.Trade_Count,
       disable: false,
@@ -1750,24 +1571,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       disable: false,
       hiding: false,
     },
-
-    // {
-    //   name: "HoldExit",
-    //   label: "Hold/Exit",
-    //   type: "select",
-    //   options: [
-    //     { label: "Hold", value: "Hold" },
-    //     { label: "Exit", value: "Exit" },
-    //   ],
-    //   showWhen: () =>
-    //     showEditModal && EditDataScalping.PositionType === "Multiple",
-    //   label_size: 12,
-    //   col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
-    //   headingtype: 4,
-    //   disable: false,
-    //   hiding: false,
-    // },
-
     {
       name: "WorkingDay",
       label: "Working Day",
@@ -2121,8 +1924,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
 
   }, [showEditModal, data, EditDataScalping, EditDataPattern]);
 
-
-
   useEffect(() => {
     if (data == "Scalping") {
       const WorkingDay = EditDataScalping?.WorkingDay?.map(day => {
@@ -2187,8 +1988,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
   }, [showEditModal, data, EditDataPattern])
 
 
-
-
   const updatedFields = fields.filter((item) => {
     return item.hiding == false
   })
@@ -2223,51 +2022,51 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
                             <>
                               {/* Tabs should always be visible when ChartingPlatform is selected */}
                               {data === "ChartingPlatform" && (
-  <div className="d-flex justify-content-center my-3">
-    <ul
-      className="nav nav-pills shadow-lg rounded-pill p-2"
-      style={{
-        backgroundColor: "#f8f9fa",
-        display: "flex",
-        justifyContent: "center",
-        gap: "15px",
-        maxWidth: "600px", // Width Increase
-        width: "100%", // Full Responsive Width
-      }}
-    >
-      {["Cash", "Future", "Option"].map((tab) => (
-        <li className="nav-item flex-grow-1 text-center" key={tab}>
-          <button
-            className={`nav-link rounded-pill w-100 ${chartingSubTab === tab ? "active" : ""}`}
-            onClick={() => setChartingSubTab(tab)}
-            style={{
-              padding: "14px 30px",
-              fontSize: "18px",
-              fontWeight: "600",
-              transition: "all 0.3s ease-in-out",
-              backgroundColor: chartingSubTab === tab ? "#007bff" : "#fff",
-              color: chartingSubTab === tab ? "#fff" : "#333",
-              boxShadow: chartingSubTab === tab ? "0px 4px 12px rgba(0, 123, 255, 0.4)" : "none",
-              border: chartingSubTab === tab ? "2px solid #007bff" : "2px solid transparent",
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.backgroundColor = "#007bff";
-              e.target.style.color = "#fff";
-            }}
-            onMouseLeave={(e) => {
-              if (chartingSubTab !== tab) {
-                e.target.style.backgroundColor = "#fff";
-                e.target.style.color = "#333";
-              }
-            }}
-          >
-            {tab}
-          </button>
-        </li>
-      ))}
-    </ul>
-  </div>
-)}
+                                <div className="d-flex justify-content-center my-3">
+                                  <ul
+                                    className="nav nav-pills shadow-lg rounded-pill p-2"
+                                    style={{
+                                      backgroundColor: "#f8f9fa",
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      gap: "15px",
+                                      maxWidth: "600px", // Width Increase
+                                      width: "100%", // Full Responsive Width
+                                    }}
+                                  >
+                                    {["Cash", "Future", "Option"].map((tab) => (
+                                      <li className="nav-item flex-grow-1 text-center" key={tab}>
+                                        <button
+                                          className={`nav-link rounded-pill w-100 ${chartingSubTab === tab ? "active" : ""}`}
+                                          onClick={() => setChartingSubTab(tab)}
+                                          style={{
+                                            padding: "14px 30px",
+                                            fontSize: "18px",
+                                            fontWeight: "600",
+                                            transition: "all 0.3s ease-in-out",
+                                            backgroundColor: chartingSubTab === tab ? "#007bff" : "#fff",
+                                            color: chartingSubTab === tab ? "#fff" : "#333",
+                                            boxShadow: chartingSubTab === tab ? "0px 4px 12px rgba(0, 123, 255, 0.4)" : "none",
+                                            border: chartingSubTab === tab ? "2px solid #007bff" : "2px solid transparent",
+                                          }}
+                                          onMouseEnter={(e) => {
+                                            e.target.style.backgroundColor = "#007bff";
+                                            e.target.style.color = "#fff";
+                                          }}
+                                          onMouseLeave={(e) => {
+                                            if (chartingSubTab !== tab) {
+                                              e.target.style.backgroundColor = "#fff";
+                                              e.target.style.color = "#333";
+                                            }
+                                          }}
+                                        >
+                                          {tab}
+                                        </button>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              )}
 
 
                               {/* Show FullDataTable only if getCharting has data */}
