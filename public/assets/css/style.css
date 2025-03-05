@@ -6607,7 +6607,7 @@ a#home-tab-justify, a#profile-tab-justify
   margin-bottom: 30px;
   border: none;
   /* border: 1px solid #0d1117; */
-  padding: 18px;
+  /* padding: 18px; */
   border-radius: 10px;
 }
 body[data-theme="light"] .iq-card {
