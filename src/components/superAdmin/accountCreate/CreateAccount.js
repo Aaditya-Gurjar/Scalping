@@ -86,7 +86,7 @@ const Adduser = () => {
 
             ChartPerMonth: 0,
             ChartPerTrade:0,
-            BrokerPermission: [], // Initial empty array for BrokerPermission
+            BrokerPermission: [],  
         },
         validate: (values) => {
             let errors = {};
@@ -151,10 +151,9 @@ const Adduser = () => {
                 Companyname: values.Companyname,
                 Url: values.Url,
                 permission: values.Permission,
-
                 ChartPerMonth: values.ChartPerMonth,
                 ChartPerTrade: values.ChartPerTrade,
-                BrokerPermission: values.BrokerPermission, // Added to request object
+                BrokerPermission: values.BrokerPermission,  
             };
 
 

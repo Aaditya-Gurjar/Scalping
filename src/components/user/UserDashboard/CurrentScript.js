@@ -38,12 +38,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
   const [allScripts, setAllScripts] = useState({ data: [], len: 0 });
   const [editCharting, setEditCharting] = useState();
   const [getCharting, setGetCharting] = useState([]);
-
-
   const [chartingSubTab, setChartingSubTab] = useState("Cash");
-
-
-
   const [getAllService, setAllservice] = useState({
     loading: true,
     ScalpingData: [],
