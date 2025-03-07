@@ -25,10 +25,6 @@ const Userdashboard = () => {
   const [getGroup, setGroup] = useState(groupName || "copyScript");
   const [strategyType, setStrategyType] = useState([]);
   const [tableType, setTableType] = useState(StrategyType || "MultiCondition");
-  const [serviceStatus, setServiceStatus] = useState({
-    status: false,
-    msg: "",
-  });
 
   const [ToDate, setToDate] = useState(new Date());
   const [FromDate, setFromDate] = useState(() => {
@@ -36,8 +32,6 @@ const Userdashboard = () => {
     tomorrow.setDate(tomorrow.getDate() + 1);
     return tomorrow;
   });
-
-  console.log("serviceStatus", serviceStatus);
 
   // Date configuration
   const currentDate = new Date();
@@ -61,7 +55,6 @@ const Userdashboard = () => {
   });
 
   useEffect(() => {
-    GetExpriyEndDate();
     fetchStrategyType();
     GetOpenPosition();
   }, []);
@@ -100,20 +93,6 @@ const Userdashboard = () => {
       })
       .catch((err) => {
         console.log("Error in finding the group name", err);
-      });
-  };
-
-  const GetExpriyEndDate = async () => {
-    const data = { Username: userName };
-    await ExpriyEndDate(data)
-      .then((response) => {
-        setServiceStatus({
-          status: response.Status,
-          msg: response.message,
-        });
-      })
-      .catch((err) => {
-        console.log("Error in finding the Service end date", err);
       });
   };
 
@@ -904,19 +883,14 @@ const Userdashboard = () => {
                 id="home-justify"
                 role="tabpanel">
                 <div className="mt-3">
-                  {subTab && serviceStatus ? (
+                  {subTab ? (
                     getGroup === "copyScript" ? (
-                      <Coptyscript
-                        data={subTab}
-                        selectedType={activeTab}
-                        data2={serviceStatus}
-                      />
+                      <Coptyscript data={subTab} selectedType={activeTab} />
                     ) : (
                       <GroupScript
                         data={subTab}
                         selectedType={activeTab}
                         GroupName={getGroup}
-                        data2={serviceStatus}
                       />
                     )
                   ) : null}
@@ -928,12 +902,11 @@ const Userdashboard = () => {
                   className="tab-pane fade show active"
                   id="home-justify"
                   role="tabpanel">
-                  {subTab && serviceStatus && (
+                  {subTab && (
                     <CurrentScript
                       tableType={tableType}
                       data={subTab}
                       selectedType={activeTab}
-                      data2={serviceStatus}
                       FromDate={FromDate === "" ? FromDate : formattedDate}
                       ToDate={ToDate === "" ? ToDate : Defult_To_Date}
                     />

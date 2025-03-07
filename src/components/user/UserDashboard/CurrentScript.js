@@ -26,7 +26,7 @@ import { useFormik } from "formik";
 import NoDataFound from "../../../ExtraComponent/NoDataFound";
 import { text } from "../../../ExtraComponent/IconTexts";
 
-const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate }) => {
+const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
   const userName = localStorage.getItem("name");
   const adminPermission = localStorage.getItem("adminPermission");
   const navigate = useNavigate();
@@ -576,88 +576,78 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
   };
 
   const AddScript = (data) => {
-    if (data2.status == false) {
-      Swal.fire({
-        title: "Error",
-        text: data2.msg,
-        icon: "error",
-        timer: 1500,
-        timerProgressBar: true,
-      });
-    } else {
-      if (data === "Option Strategy") {
-        if (allScripts?.data?.[allScripts.len]?.CombineOption?.length >= 1) {
-          navigate("/user/newscript/option", {
-            state: {
-              data: {
-                selectStrategyType: "Option Strategy",
-                scriptType: allScripts,
-              },
+    if (data === "Option Strategy") {
+      if (allScripts?.data?.[allScripts.len]?.CombineOption?.length >= 1) {
+        navigate("/user/newscript/option", {
+          state: {
+            data: {
+              selectStrategyType: "Option Strategy",
+              scriptType: allScripts,
             },
-          });
-        } else {
-          Swal.fire({
-            title: "Warning",
-            text: "You don't have any valid plan to use this strategy",
-            icon: "warning",
-            timer: 2000,
-            timerProgressBar: true,
-          });
-        }
-      } else if (data === "Pattern" || data === "Pattern Script") {
-        if (allScripts?.data?.[allScripts.len]?.CombinePattern?.length >= 1) {
-          navigate("/user/newscript/pattern", {
-            state: {
-              data: { selectStrategyType: "Pattern", scriptType: allScripts },
-            },
-          });
-        } else {
-          Swal.fire({
-            title: "Warning",
-            text: "You don't have any valid plan to use this strategy",
-            icon: "warning",
-            timer: 2000,
-            timerProgressBar: true,
-          });
-        }
-      } else if (data === "ChartingPlatform") {
-
-        console.log("SSSS")
-        if (allScripts?.data?.[allScripts.len]?.CombineChartingSignal?.length >= 1) {
-          navigate("/user/newscript/charting", {
-            state: {
-              data: {
-                selectStrategyType: "ChartingPlatform",
-                scriptType: allScripts,
-              },
-            },
-          });
-        } else {
-          Swal.fire({
-            title: "Warning",
-            text: "You don't have any valid plan to use this strategy",
-            icon: "warning",
-            timer: 2000,
-            timerProgressBar: true,
-          });
-        }
+          },
+        });
       } else {
-        console.log("S")
-        if (allScripts?.data?.[allScripts.len]?.CombineScalping?.length >= 1) {
-          navigate("/user/newscript/scalping", {
-            state: {
-              data: { selectStrategyType: "Scalping", scriptType: allScripts },
+        Swal.fire({
+          title: "Warning",
+          text: "You don't have any valid plan to use this strategy",
+          icon: "warning",
+          timer: 2000,
+          timerProgressBar: true,
+        });
+      }
+    } else if (data === "Pattern" || data === "Pattern Script") {
+      if (allScripts?.data?.[allScripts.len]?.CombinePattern?.length >= 1) {
+        navigate("/user/newscript/pattern", {
+          state: {
+            data: { selectStrategyType: "Pattern", scriptType: allScripts },
+          },
+        });
+      } else {
+        Swal.fire({
+          title: "Warning",
+          text: "You don't have any valid plan to use this strategy",
+          icon: "warning",
+          timer: 2000,
+          timerProgressBar: true,
+        });
+      }
+    } else if (data === "ChartingPlatform") {
+
+      console.log("SSSS")
+      if (allScripts?.data?.[allScripts.len]?.CombineChartingSignal?.length >= 1) {
+        navigate("/user/newscript/charting", {
+          state: {
+            data: {
+              selectStrategyType: "ChartingPlatform",
+              scriptType: allScripts,
             },
-          });
-        } else {
-          Swal.fire({
-            title: "Warning",
-            text: "You don't have any valid plan to use this strategy",
-            icon: "warning",
-            timer: 2000,
-            timerProgressBar: true,
-          });
-        }
+          },
+        });
+      } else {
+        Swal.fire({
+          title: "Warning",
+          text: "You don't have any valid plan to use this strategy",
+          icon: "warning",
+          timer: 2000,
+          timerProgressBar: true,
+        });
+      }
+    } else {
+      console.log("S")
+      if (allScripts?.data?.[allScripts.len]?.CombineScalping?.length >= 1) {
+        navigate("/user/newscript/scalping", {
+          state: {
+            data: { selectStrategyType: "Scalping", scriptType: allScripts },
+          },
+        });
+      } else {
+        Swal.fire({
+          title: "Warning",
+          text: "You don't have any valid plan to use this strategy",
+          icon: "warning",
+          timer: 2000,
+          timerProgressBar: true,
+        });
       }
     }
   };
