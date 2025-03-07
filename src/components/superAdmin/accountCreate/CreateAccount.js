@@ -49,9 +49,9 @@ const Adduser = () => {
 
                 } else {
                     Swal.fire({
-                        background: "#1a1e23 ",
-                        backdrop: "#121010ba",
-                        confirmButtonColor: "#1ccc8a",
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                         title: "Error!",
                         text: response.message,
                         icon: "error",
@@ -76,17 +76,13 @@ const Adduser = () => {
             ConfirmPassword: "",
             SignEmail: "",
             AmmountDetails: 0,
-            SOPLiveTrade:0,
-            SOPPaperTrade:0,
-            SOPScriptwise:0,
             Companyname: "",
             Url: "",
 
             Permission: [],
 
-            ChartPerMonth: 0,
-            ChartPerTrade:0,
-            BrokerPermission: [],  
+            Chartingamount: 0,
+            BrokerPermission: [], // Initial empty array for BrokerPermission
         },
         validate: (values) => {
             let errors = {};
@@ -114,26 +110,14 @@ const Adduser = () => {
             if (!values.AmmountDetails) {
                 errors.AmmountDetails = "Please Enter Amount";
             }
-            if (!values.SOPLiveTrade) {
-                errors.SOPLiveTrade = "Please Enter Live Trade Amount";
-            }
-            if (!values.SOPPaperTrade) {
-                errors.SOPPaperTrade = "Please Enter Paper Trade Amount";
-            }
-            if (!values.SOPScriptwise) {
-                errors.SOPScriptwise = "Please Enter Paper Trade Amount";
-            }
             if (!values.Companyname) {
                 errors.Companyname = "Please Enter Company Name";
             }
             if (!values.Url) {
                 errors.Url = "Please Enter URL"
             }
-            if (!values.ChartPerMonth) {
-                errors.ChartPerMonth = "Please Enter Charting Amount";
-            }
-            if (!values.ChartPerTrade) {
-                errors.ChartPerTrade = "Please Enter Charting Amount";
+            if (!values.Chartingamount) {
+                errors.Chartingamount = "Please Enter Charting Amount";
             }
             return errors;
         },
@@ -145,25 +129,22 @@ const Adduser = () => {
                 ConfirmPassword: values.ConfirmPassword,
                 SignEmail: values.SignEmail,
                 AmmountDetails: values.AmmountDetails,
-                SOPLiveTrade: values.SOPLiveTrade,
-                SOPPaperTrade: values.SOPPaperTrade,
-                SOPScriptwise: values.SOPScriptwise,
                 Companyname: values.Companyname,
                 Url: values.Url,
                 permission: values.Permission,
-                ChartPerMonth: values.ChartPerMonth,
-                ChartPerTrade: values.ChartPerTrade,
-                BrokerPermission: values.BrokerPermission,  
-            };
 
+                Chartingamount: values.Chartingamount,
+                BrokerPermission: values.BrokerPermission, // Added to request object
+            };
+            
 
             await createAdmin(req)
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
-                            background: "#1a1e23 ",
-                            backdrop: "#121010ba",
-                            confirmButtonColor: "#1ccc8a",
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                             title: "Admin Created!",
                             text: response.message,
                             icon: "success",
@@ -176,9 +157,9 @@ const Adduser = () => {
                     }
                     else {
                         Swal.fire({
-                            background: "#1a1e23 ",
-                            backdrop: "#121010ba",
-                            confirmButtonColor: "#1ccc8a",
+ background: "#1a1e23 ",
+  backdrop: "#121010ba",
+confirmButtonColor: "#1ccc8a",
                             title: "Error!",
                             text: response.message,
                             icon: "error",
@@ -253,33 +234,6 @@ const Adduser = () => {
             disable: false,
         },
         {
-            name: "SOPLiveTrade",
-            label: "Per Live Trade Amount",
-            type: "text3",
-            label_size: 12,
-            hiding: false,
-            col_size: 6,
-            disable: false,
-        },
-        {
-            name: "SOPPaperTrade",
-            label: "Per Paper Trade Amount",
-            type: "text3",
-            label_size: 12,
-            hiding: false,
-            col_size: 6,
-            disable: false,
-        },
-        {
-            name: "SOPScriptwise",
-            label: "Per Script Trade Amount",
-            type: "text3",
-            label_size: 12,
-            hiding: false,
-            col_size: 6,
-            disable: false,
-        },
-        {
             name: "Companyname",
             label: "Company Name",
             type: "text",
@@ -308,7 +262,7 @@ const Adduser = () => {
             options: permissionArray
         },
         {
-            name: "ChartPerMonth",
+            name: "Chartingamount",
             label: "Charting Amount",
             type: "text3",
             label_size: 12,
@@ -316,18 +270,6 @@ const Adduser = () => {
             col_size: 6,
             disable: false,
         },
-        {
-            name: "ChartPerTrade",
-            label: "Per Live Trade Charting Amount",
-            type: "text3",
-            label_size: 12,
-            hiding: false,
-            col_size: 6,
-            disable: false,
-        },
-
-
-
         {
             name: "BrokerPermission",
             label: "Broker Permission",
@@ -337,27 +279,23 @@ const Adduser = () => {
             disable: false,
             options: optionsArray
         },
-
-
     ]
-
-
     return (
         <>
-            <Content
+        <Content
                 Page_title={"Create Admin"}
                 button_status={false}
                 backbutton_status={true}
-
+              
 
             >
-                <AddForm
-                    fields={fields}
-                    btn_name="Add"
-                    btn_name1="Cancel"
-                    formik={formik}
-                    btn_name1_route={"/admin/clientservice"}
-                />
+            <AddForm
+                fields={fields}                
+                btn_name="Add"
+                btn_name1="Cancel"
+                formik={formik}
+                btn_name1_route={"/admin/clientservice"}
+            />
             </Content>
         </>
     );
