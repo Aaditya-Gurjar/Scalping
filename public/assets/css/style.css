@@ -5794,14 +5794,17 @@ button.btn.btn-primary,
 }
 
 .profile-card {
-  background: #1e1e1e;
+  /* background: #1e1e1e; */
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
   text-align: center;
-  width: 400px;
+  /* width: 400px; */
 }
-
+.profile-card span
+{
+  color: #fff;
+}
 .profile-header {
   padding: 20px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -6656,4 +6659,29 @@ span.alert-count {
       min-height: 61px !important;
       padding-right: 2px;
   }
+}
+div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line][class$=right] {
+  top: -8.5px !important;
+  left: 27px  !important;
+}
+div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line][class$=left] {
+  top: -11px !important; 
+  left: -30px !important;
+  
+}
+div:where(.swal2-icon).swal2-success .swal2-success-ring {
+  top: 0.225em !important;
+  left: -14px !important;
+
+}
+div:where(.swal2-icon).swal2-success [class^=swal2-success-line][class$=tip] {
+  top: 3.4em !important;
+  left: 6px !important;
+ 
+}
+div:where(.swal2-icon).swal2-success [class^=swal2-success-line][class$=long] {
+  top: 2.9em !important;
+  right: 1em !important;
+  width: 2.9375em;
+  
 }
