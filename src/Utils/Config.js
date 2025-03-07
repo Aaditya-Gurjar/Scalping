@@ -3,9 +3,9 @@
 // export const base_url = `http://193.239.237.147:8000/`;
 // export const base_url = `http://193.239.237.149:8000/`;
 // export const base_url = `http://217.145.69.50:8000/`;
-export const base_url = `http://217.145.69.58:8000/`;
+// export const base_url = `http://217.145.69.58:8000/`;
 // export const base_url = `http://217.145.69.67:8000/`;
-// export const base_url = `https://soptools.tradestreet.in/backend/`;
+export const base_url = `https://soptools.tradestreet.in/backend/`;
 // export const base_url = `https://app.thebuildstudy.com/backend/`;
 // export const base_url = `https://tools.tradestreet.in/backend/`;
 // export const base_url = `https://tools.nextbrand.tech/backend/`;
