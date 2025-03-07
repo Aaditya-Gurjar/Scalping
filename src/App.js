@@ -66,7 +66,6 @@ const App = () => {
 
   return (
     <>
- 
       <Routes>
         <Route path="/admin/*" element={(Role === "Admin") ? <AdminRoute /> : <Login />} />
         <Route path="/user/*" element={(Role === "User") ? <UserRoute /> : <Login />} />
@@ -74,9 +73,7 @@ const App = () => {
         <Route path="/subadmin/*" element={(Role === "Subadmin") ? <SubAdminRoutes /> : <Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-
       </Routes> 
-
     </>
   );
 }

@@ -29,34 +29,7 @@ import EditSubadmin from '../components/admin/SubAdmin/EditSubadmin';
 import ApiCreateInfo from '../components/admin/apicreateInfo/ApiCreateInfo';
 import SidebarRight from '../components/layouts/SidebarRight';
 import ChartComponent from '../components/admin/AdvanceChart/ChartComponent';
-
-// const Dashboards = lazy(() => import('../components/admin/Dashboard/Dashboards'));
-// const Sidebar = lazy(() => import('../components/layouts/Sidebar'));
-// const Header = lazy(() => import('../components/layouts/Header'));
-// const Adduser = lazy(() => import('../components/admin/User/Adduser'));
-// const Clientservice = lazy(() => import('../components/admin/User/Clientservice'));
-// const Tradehistory = lazy(() => import('../components/admin/TradeHistory/Tradehistory'));
-// const Allscript = lazy(() => import('../components/admin/AdminScript/AllScript'));
-// const Clientactivity = lazy(() => import('../components/admin/User/Clientactivity'));
-// const Clientreport = lazy(() => import('../components/admin/User/Clientreport'));
-// const Smtp = lazy(() => import('../components/admin/Smtp/Smtp'));
-// const UserLogs = lazy(() => import('../components/admin/User/UserLogs'));
-// const StrategyGroup = lazy(() => import('../components/admin/Groups/StrategyGroup'));
-// const ServiceReport = lazy(() => import('../components/admin/User/ServiceReport'));
-// const AddscriptScalping = lazy(() => import('../components/admin/AdminScript/Addscript.Scalping'));
-// const AddScriptOption = lazy(() => import('../components/admin/AdminScript/AddScript.Option'));
-// const PatternScript = lazy(() => import('../components/admin/AdminScript/AddScript.Pattern'));
-// const System = lazy(() => import('../components/admin/System/System'));
-// const AllPlan = lazy(() => import('../components/admin/Plan/AllPlan'));
-// const AddPlan = lazy(() => import('../components/admin/Plan/AddPlan'));
-// const TransectionRequest = lazy(() => import('../components/admin/Requests/TransectionRequests'));
-// const AddSubadmin = lazy(() => import('../components/admin/SubAdmin/AddSubadmin'));
-// const AllSubadmin = lazy(() => import('../components/admin/SubAdmin/AllSubadmin'));
-// const EditSubadmin = lazy(() => import('../components/admin/SubAdmin/EditSubadmin'));
-// const ApiCreateInfo = lazy(() => import('../components/admin/apicreateInfo/ApiCreateInfo'));
-// const SidebarRight = lazy(() => import('../components/layouts/SidebarRight'));
-
-
+ 
 const AdminRoute = () => {
 
 
@@ -67,8 +40,6 @@ const AdminRoute = () => {
         <Sidebar position="left" />
         <div id="content-page" className="content-page">
           <Header />
-
-
           <Routes>
             <Route path="/dashboard" element={<Dashboards />} />
             <Route path="/adduser" element={<Adduser />} />
