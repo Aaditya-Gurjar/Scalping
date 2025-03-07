@@ -212,7 +212,6 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
   };
 
   const handleMatchPosition = async (rowData, type) => {
-    console.log("matchPosition", rowData.rowIndex);
     const index = rowData.rowIndex;
     console.log("data is ", getAllService.NewScalping[index]);
 
