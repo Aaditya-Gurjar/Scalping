@@ -84,17 +84,20 @@ const AddPlanPage = () => {
     const formik = useFormik({
         initialValues: {
             NumberofScript: "",
-            payment: 0,
+            SOPPrice: 0,
             planname: "",
             Duration: "One_Month",
             PlanType: "Scalping",
+            SOPLiveTrade: "",
+            SOPPaperTrade: "",
+            ChartPerMonth: "",
             Charting: []
         },
         validate: (values) => {
             const errors = {};
             // if (!values.NumberofScript && formik.values.PlanType == "Scalping")
             //     errors.NumberofScript = "Please enter the number of scripts.";
-            // if (!values.payment) errors.payment = "Payment is required.";
+            // if (!values.SOPPrice) errors.SOPPrice = "SOPPrice is required.";
             // if (!values.planname) errors.planname = "Please provide a plan name.";
 
             if (!values.NumberofScript && formik.values.PlanType === "Scalping") {
@@ -103,11 +106,12 @@ const AddPlanPage = () => {
                 errors.NumberofScript = "Number of scripts cannot be zero.";
             }
 
-            if (!values.payment) {
-                errors.payment = "Payment is required.";
-            } else if (values.payment == 0) {
-                errors.payment = "Payment cannot be zero.";
+            if (!values.SOPPrice) {
+                errors.SOPPrice = "Payment is required.";
+            } else if (values.SOPPrice == 0) {
+                errors.SOPPrice = "Payment cannot be zero.";
             }
+
 
             if (!values.planname) {
                 errors.planname = "Please provide a plan name.";
@@ -128,14 +132,38 @@ const AddPlanPage = () => {
                 showError("Error!", "Please select at least one strategy Either Scalping , Option , Pattern.");
                 return;
             }
+            console.log("values", values)
             const req = {
-                ...values,
+                // ...values,
+                // Scalping: selecteScalping.map((strategy) => strategy.value),
+                // Option: selecteOptions.map((strategy) => strategy.value),
+                // PatternS: selectePattern.map((strategy) => strategy.value),
+                // Charting: selectedCharting.map((chart) => chart.value),
+                // NumberofScript: formik.values.PlanType == "Scalping" ? values.NumberofScript : 0,
+                // ...(formik.values.PlanType === "Scalping"
+                //     ? { SOPPrice: values.SOPPrice }
+                //     : { ChartPerMonth: values.SOPPrice }),
+                // ChartPerTrade: values.SOPLiveTrade,
+
+
                 Scalping: selecteScalping.map((strategy) => strategy.value),
                 Option: selecteOptions.map((strategy) => strategy.value),
                 PatternS: selectePattern.map((strategy) => strategy.value),
-                Charting: selectedCharting.map((chart) => chart.value),
                 NumberofScript: formik.values.PlanType == "Scalping" ? values.NumberofScript : 0,
+                planname: values.planname,
+                Duration: values.Duration,
+                Charting: selectedCharting.map((chart) => chart.value),
+                ...(formik.values.PlanType === "Scalping"
+                    ? { SOPPrice: values.SOPPrice, SOPLiveTrade: values.SOPLiveTrade }
+                    : { ChartPerMonth: values.SOPPrice, SOPPrice: 0, ChartPerTrade: values.SOPLiveTrade }
+                ),
+
+                SOPPaperTrade: values.SOPPaperTrade || 0.0,
+
+
             };
+            console.log("req", req);
+
             try {
                 const response = await AddPlan(req);
                 if (response.Status) {
@@ -202,7 +230,7 @@ const AddPlanPage = () => {
             col_size: 6,
         },
         {
-            name: "payment",
+            name: "SOPPrice",
             label: "Payment",
             type: "text3",
             col_size: 6,
@@ -214,17 +242,19 @@ const AddPlanPage = () => {
             col_size: 6,
         },
         {
-            name: "LiveTradeAccount",
-            label: "Live Trade Account",
+            name: "SOPLiveTrade",
+            label: "Live Trade Amount",
             type: "text",
             col_size: 6,
         },
         {
-            name: "PaperTradeAccount",
-            label: "Paper Trade Account",
+            name: "SOPPaperTrade",
+            label: "Paper Trade Amount",
             type: "text",
+            showWhen: () => formik.values.PlanType === "Scalping", // Removed unnecessary {}
             col_size: 6,
         },
+
         {
             name: "Duration",
             label: "Duration",
@@ -248,59 +278,59 @@ const AddPlanPage = () => {
         >
 
 
-        <AddForm
-            fields={fields.filter((field) => !field.showWhen || field.showWhen(formik.values))}
-            btn_name="Add"
-            btn_name1="Cancel"
-            formik={formik}
-            btn_name1_route={"/admin/allplan"}
-            additional_field={
-                <>
-                    {formik.values.PlanType == "Charting" && (
-                        <>
+            <AddForm
+                fields={fields.filter((field) => !field.showWhen || field.showWhen(formik.values))}
+                btn_name="Add"
+                btn_name1="Cancel"
+                formik={formik}
+                btn_name1_route={"/admin/allplan"}
+                additional_field={
+                    <>
+                        {formik.values.PlanType == "Charting" && (
+                            <>
+                                <CustomMultiSelect
+                                    label={<span className='card-text-Color' >Segment</span>}
+                                    options={[
+                                        { value: "Cash", label: "Cash" },
+                                        { value: "Future", label: "Future" },
+                                        { value: "Option", label: "Option" }
+                                    ]}
+                                    selected={selectedCharting}
+                                    onChange={handleChartingChange}
+                                />
+                                <div><h6 className="text-danger">{formik.errors.Charting}</h6></div>
+                            </>
+                        )}
+
+                        {formik.values.PlanType == "Scalping" && (
                             <CustomMultiSelect
-                                label={<span className='card-text-Color' >Segment</span>}
-                                options={[
-                                    { value: "Cash", label: "Cash" },
-                                    { value: "Future", label: "Future" },
-                                    { value: "Option", label: "Option" }
-                                ]}
-                                selected={selectedCharting}
-                                onChange={handleChartingChange}
+                                label={<span className='card-text-Color' >Scalping</span>}
+                                options={scalpingStratgy.map(strategy => ({ value: strategy, label: strategy }))}
+                                selected={selecteScalping}
+                                onChange={(selected) => handleSelectChange("scalping", selected)}
                             />
-                            <div><h6 className="text-danger">{formik.errors.Charting}</h6></div>
-                        </>
-                    )}
+                        )}
 
-                    {formik.values.PlanType == "Scalping" && (
-                        <CustomMultiSelect
-                            label={<span className='card-text-Color' >Scalping</span>}
-                            options={scalpingStratgy.map(strategy => ({ value: strategy, label: strategy }))}
-                            selected={selecteScalping}
-                            onChange={(selected) => handleSelectChange("scalping", selected)}
-                        />
-                    )}
+                        {formik.values.PlanType == "Scalping" && (
+                            <CustomMultiSelect
+                                label={<span className='card-text-Color' >Option</span>}
+                                options={OptionStratgy.map(strategy => ({ value: strategy, label: strategy }))}
+                                selected={selecteOptions}
+                                onChange={(selected) => handleSelectChange("option", selected)}
+                            />
+                        )}
 
-                    {formik.values.PlanType == "Scalping" && (
-                        <CustomMultiSelect
-                            label={<span className='card-text-Color' >Option</span>}
-                            options={OptionStratgy.map(strategy => ({ value: strategy, label: strategy }))}
-                            selected={selecteOptions}
-                            onChange={(selected) => handleSelectChange("option", selected)}
-                        />
-                    )}
-
-                    {formik.values.PlanType == "Scalping" && (
-                        <CustomMultiSelect
-                            label={<span className='card-text-Color'>Pattern</span>}
-                            options={PatternStratgy.map(strategy => ({ value: strategy, label: strategy }))}
-                            selected={selectePattern}
-                            onChange={(selected) => handleSelectChange("pattern", selected)}
-                        />
-                    )}
-                </>
-            }
-        />
+                        {formik.values.PlanType == "Scalping" && (
+                            <CustomMultiSelect
+                                label={<span className='card-text-Color'>Pattern</span>}
+                                options={PatternStratgy.map(strategy => ({ value: strategy, label: strategy }))}
+                                selected={selectePattern}
+                                onChange={(selected) => handleSelectChange("pattern", selected)}
+                            />
+                        )}
+                    </>
+                }
+            />
         </Content>
     );
 };

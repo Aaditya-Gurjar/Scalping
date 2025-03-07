@@ -45,7 +45,7 @@
 //       if (response.Status) {
 //         const filterPlan = response.Admin.filter(
 //           (plan) =>
-//             plan.PlanName !== "Three Days Live" &&
+//             plan.Planname !== "Three Days Live" &&
 //             plan.PlanName !== "Two Days Demo" &&
 //             plan.PlanName !== "One Week Demo"
 //         );
@@ -99,7 +99,7 @@
 //                           </h2>
 //                           <h4 className="allplan-card-subtitle">
 //                             <FaRupeeSign className="m-1" />
-//                             <strong>{plan.payment}</strong>
+//                             <strong>{plan.SOPPrice}</strong>
 //                           </h4>
 //                           <h4 className="allplan-card-subtitle">
 //                             Duration: {plan["Plan Validity"]}
@@ -238,7 +238,7 @@ import Modal from "react-bootstrap/Modal";    // <-- Modal import
 import Button from "react-bootstrap/Button";   // <-- Button import
 import "./AllPlan.css"; // Import your custom CSS
 import Content from "../../../ExtraComponent/Content";
-import { GetAllStratgy } from "../../CommonAPI/Admin";
+import { EditPlanname, GetAllStratgy } from "../../CommonAPI/Admin";
 import Swal from 'sweetalert2';
 
 
@@ -260,6 +260,22 @@ const AdminServicesList = () => {
   const [editPlanData, setEditPlanData] = useState(null);
   const [planData, setPlanData] = useState({})
   const [activeTab, setActiveTab] = useState("Scalping");
+  const [editablePlans, setEditablePlans] = useState(['ABCd', 'XYZ', 'Testing'])
+
+  const EditablePlanName = async () => {
+    try {
+      const res = await EditPlanname();
+      console.log("Editale Plan name ", res.EditPlans)
+      setEditablePlans(res.EditPlans);
+
+    } catch (error) {
+      console.error("error", error)
+    }
+  }
+
+  useEffect(() => {
+    EditablePlanName()
+  }, [])
 
   const toggleOptions = (index) => {
     setExpandedOptions((prev) =>
@@ -303,15 +319,15 @@ const AdminServicesList = () => {
       if (response.Status) {
         const filterPlan = response.Admin.filter(
           (plan) =>
-            plan.PlanName !== "Three Days Live" &&
-            plan.PlanName !== "Two Days Demo" &&
-            plan.PlanName !== "One Week Demo"
+            plan.Planname !== "Three Days Live" &&
+            plan.Planname !== "Two Days Demo" &&
+            plan.Planname !== "One Week Demo"
         );
         const filterPlanCharting = response.Charting.filter(
           (plan) =>
-            plan.PlanName !== "Three Days Live" &&
-            plan.PlanName !== "Two Days Demo" &&
-            plan.PlanName !== "One Week Demo"
+            plan.Planname !== "Three Days Live" &&
+            plan.Planname !== "Two Days Demo" &&
+            plan.Planname !== "One Week Demo"
         );
         setPlansData({
           loading: false,
@@ -325,7 +341,7 @@ const AdminServicesList = () => {
     }
   };
 
-
+  console.log("editablePlans", editablePlans)
   const handleModalChange = (e) => {
     const { name, value } = e.target;
     setEditPlanData({
@@ -347,20 +363,35 @@ const AdminServicesList = () => {
   const handleModalSave = async () => {
     try {
       console.log("Updated Plan Data:", editPlanData);
+      // const updatedPlanRequest = {
+      //   Scalping: activeTab === "Scalping" ? editPlanData.Scalping : [],
+      //   Option: activeTab === "Scalping" ? editPlanData["Option Strategy"] : [],
+      //   PatternS: activeTab === "Scalping" ? editPlanData.Pattern : [],
+      //   planname: editPlanData.Planname,
+      //   Charting: editPlanData.ChartingSignal,
+      //   SOPPrice: 0.0,
+      //   SOPPrice: editPlanData.SOPPrice,
+      //   NumberofScript: editPlanData.NumberofScript,
+      //   SOPPaperTrade: 0.0,
+      //   SOPLiveTrade: 0.0,
+      //   ChartPerTrade: 0.0,
+      //   ChartPerMonth: 0.0
+      // }
+
       const updatedPlanRequest = {
         Scalping: activeTab === "Scalping" ? editPlanData.Scalping : [],
         Option: activeTab === "Scalping" ? editPlanData["Option Strategy"] : [],
         PatternS: activeTab === "Scalping" ? editPlanData.Pattern : [],
-        planname: editPlanData.PlanName,
+        planname: editPlanData.Planname,
         Charting: editPlanData.ChartingSignal,
-        SOPPrice: 0.0,
-        payment: editPlanData.payment,
-        NumberofScript: editPlanData.NumberofScript,
-        SOPPaperTrade: 0.0,
-        SOPLiveTrade: 0.0,
-        ChartPerTrade: 0.0,
-        ChartPerMonth: 0.0
-      }
+        SOPPrice: editPlanData.SOPPrice || 0.0,
+        NumberofScript: editPlanData.NumberofScript || 0,
+        SOPPaperTrade: editPlanData.SOPPaperTrade || 0.0,
+        SOPLiveTrade: editPlanData.SOPLiveTrade || 0.0,
+        ChartPerTrade: editPlanData.ChartPerTrade || 0.0,
+        ChartPerMonth: editPlanData.ChartPerMonth || 0.0
+      };
+
       const res = await EditPlan(updatedPlanRequest)
       console.log("apiresponse is", res)
       if (res.Status) {
@@ -424,10 +455,10 @@ const AdminServicesList = () => {
                     <div key={index} className="allplan-card">
                       <div className="plan-data">
                         <div className="text-center">
-                          <h2 className="allplan-card-title">{plan.PlanName}</h2>
+                          <h2 className="allplan-card-title">{plan.Planname}</h2>
                           <h4 className="allplan-card-subtitle">
                             <FaRupeeSign className="m-1" />
-                            <strong>{plan.payment}</strong>
+                            <strong>{plan.SOPPrice}</strong>
                           </h4>
                           <h4 className="allplan-card-subtitle">
                             Duration: {plan["Plan Validity"]}
@@ -506,12 +537,23 @@ const AdminServicesList = () => {
                             </p>
                           </div>}
                           {/* Edit Button */}
-                          <button
+
+                          {
+                            editablePlans?.includes(plan.Planname) ? <button
+                              className="edit-btn"
+                              onClick={() => handleEdit(plan)}
+                            >
+                              <FaEdit /> Edit
+                            </button>
+                              :
+                              ""
+                          }
+                          {/* <button
                             className="edit-btn"
                             onClick={() => handleEdit(plan)}
                           >
                             <FaEdit /> Edit
-                          </button>
+                          </button> */}
                         </div>
                       </div>
                     </div>
@@ -528,10 +570,10 @@ const AdminServicesList = () => {
                     <div key={index} className="allplan-card">
                       <div className="plan-data">
                         <div className="text-center">
-                          <h2 className="allplan-card-title">{plan.PlanName}</h2>
+                          <h2 className="allplan-card-title">{plan.Planname}</h2>
                           <h4 className="allplan-card-subtitle">
                             <FaRupeeSign className="m-1" />
-                            <strong>{plan.payment}</strong>
+                            <strong>{plan.SOPPrice}</strong>
                           </h4>
                           <h4 className="allplan-card-subtitle">
                             Duration: {plan["Plan Validity"]}
@@ -575,29 +617,29 @@ const AdminServicesList = () => {
             <form>
               <div className="row">
                 <div className="col-md-6 mb-3">
-                  <label htmlFor="planname" className="form-label">
+                  <label htmlFor="Planname" className="form-label">
                     Plan Name
                   </label>
                   <input
                     type="text"
                     className="form-control"
-                    id="planname"
-                    name="PlanName"
-                    value={editPlanData.PlanName || ""}
+                    id="Planname"
+                    name="Planname"
+                    value={editPlanData.Planname || ""}
                     onChange={handleModalChange}
                     disabled
                   />
                 </div>
                 <div className="col-md-6 mb-3">
-                  <label htmlFor="payment" className="form-label">
+                  <label htmlFor="SOPPrice" className="form-label">
                     Price
                   </label>
                   <input
                     type="number"
                     className="form-control"
-                    id="payment"
-                    name="payment"
-                    value={editPlanData.payment || ""}
+                    id="SOPPrice"
+                    name="SOPPrice"
+                    value={editPlanData.SOPPrice || ""}
                     onChange={handleModalChange}
                   />
                 </div>
@@ -617,6 +659,38 @@ const AdminServicesList = () => {
                     />
                   </div>}
 
+                {activeTab === "Scalping" &&
+                  <div className="col-md-6 mb-3">
+                    <label htmlFor="SOPLiveTrade" className="form-label">
+                      Live Trade Amount
+                    </label>
+                    <input
+                      type="number"
+                      className="form-control"
+                      id="SOPLiveTrade"
+                      name="SOPLiveTrade"
+                      value={editPlanData.SOPLiveTrade || ""}
+                      onChange={handleModalChange}
+                    />
+                  </div>}
+
+
+
+                {activeTab === "Scalping" &&
+                  <div className="col-md-6 mb-3">
+                    <label htmlFor="SOPPaperTrade" className="form-label">
+                      Paper Trade Amount
+                    </label>
+                    <input
+                      type="number"
+                      className="form-control"
+                      id="SOPPaperTrade"
+                      name="SOPPaperTrade"
+                      value={editPlanData.SOPPaperTrade || ""}
+                      onChange={handleModalChange}
+                    />
+                  </div>}
+                {/* {console.log("editPlanData", editPlanData)} */}
                 {activeTab === "Scalping" &&
                   <div className="col-md-6 mb-3">
                     <label htmlFor="scalping" className="form-label">
@@ -644,8 +718,24 @@ const AdminServicesList = () => {
                     />
                   </div>}
 
+
+
                 {activeTab === "Charting" && (
                   <div className="row">
+
+                    <div className="col-md-6 mb-3">
+                      <label htmlFor="ChartPerTrade" className="form-label">
+                        Live Trade Amount
+                      </label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        id="ChartPerTrade"
+                        name="ChartPerTrade"
+                        value={editPlanData.ChartPerTrade || ""}
+                        onChange={handleModalChange}
+                      />
+                    </div>
 
                     {/* Segment Multi-Select */}
                     <div className="col-md-6 mb-3">

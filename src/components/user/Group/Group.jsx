@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import GroupCard from "./GroupCard";
 import Content from "../../../ExtraComponent/Content";
 import { GetGroupNames } from "../../CommonAPI/Admin";
+import NoDataFound from "../../../ExtraComponent/NoDataFound";
 
 // Register Chart.js components
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
@@ -90,10 +91,13 @@ const GroupStrategyList = () => {
       button_status={false}
       backbutton_status={false}>
       <div className="group-container">
-        {group &&
-          group?.map((group, index) => (
+        {group && group.length > 0 ? (
+          group.map((group, index) => (
             <GroupCard key={index} strategy={group} />
-          ))}
+          ))
+        ) : (
+          <NoDataFound />
+        )}
       </div>
     </Content>
   );

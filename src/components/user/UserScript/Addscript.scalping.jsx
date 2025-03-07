@@ -113,11 +113,11 @@ const AddClient = () => {
       Trade_Execution: "Paper Trade",
       quantityselection: "Addition",
       Targetselection: "Fixed Target",
-      RepeatationCount: 1,
+      RepeatationCount: 2,
       Profit: 0,
       Loss: 0,
       RollOver: "",
-      NumberOfDays: 0,
+      RolloverDay: 0,
       RollOverExitTime: "00:00:00",
       TargetExit: location?.state?.data?.TargetExit || false,
       WorkingDay: [],
@@ -292,11 +292,18 @@ const AddClient = () => {
         errors.position_type = "Please Select Position Type";
       }
       if (
-        !values.RepeatationCount &&
-        values.Strategy == "Multi_Conditional" &&
-        values.position_type == "Multiple"
+        values.Strategy === "Multi_Conditional" &&
+        values.FixedSM === "Multiple"
       ) {
-        errors.RepeatationCount = "Please Enter No. of Repeatation";
+        if (
+          values.RepeatationCount === "" ||
+          values.RepeatationCount === undefined
+        ) {
+          errors.RepeatationCount =
+            "Please enter a value for Repeatation Count";
+        } else if (values.RepeatationCount < 2) {
+          errors.RepeatationCount = "Repeatation count must be at least 2";
+        }
       }
       if (
         values.Loss === undefined ||
@@ -329,14 +336,14 @@ const AddClient = () => {
         errors.RollOver = "Please Enter Rollover";
       }
       if (
-        (values.ExitDay == "Delivery" && values.NumberOfDays == "") ||
-        values.NumberOfDays == undefined ||
-        (values.NumberOfDays == null &&
+        (values.ExitDay == "Delivery" && values.RolloverDay == "") ||
+        values.RolloverDay == undefined ||
+        (values.RolloverDay == null &&
           values.Strategy == "Multi_Conditional" &&
           values.position_type == "Multiple" &&
           values.RollOver == "")
       ) {
-        errors.NumberOfDays = "Please Enter No. of Days";
+        errors.RolloverDay = "Please Enter No. of Days";
       }
 
       if (
@@ -371,14 +378,14 @@ const AddClient = () => {
           formik.values.Strategy == "Multi_Conditional" &&
           formik.values.Targetselection == "Entry Wise SL")
       ) {
-        errors.FinalTarget = "Please Enter Final Target";
+        errors.FinalTarget = "Please Enter Final Target Price";
       }
 
       if (values.WorkingDay.length === 0) {
         errors.WorkingDay = "Please Select Working Day";
       }
 
-      // console.log("err", errors);
+      console.log("err", errors);
       // ScrollToViewFirstError(errors);
       return errors;
     },
@@ -499,7 +506,7 @@ const AddClient = () => {
           values.position_type == "Multiple" &&
           values.Strategy == "Multi_Conditional"
             ? values.RepeatationCount
-            : 1,
+            : 2,
 
         Loss:
           values.position_type == "Multiple" &&
@@ -517,12 +524,7 @@ const AddClient = () => {
           values.Strategy == "Multi_Conditional"
             ? values.RollOver
             : false,
-        RolloverDay:
-          values.position_type == "Multiple" &&
-          values.Strategy == "Multi_Conditional" &&
-          values.RollOver == true
-            ? values.NumberOfDays
-            : 0,
+        RolloverDay: values.RolloverDay || 0,
         RollOverExitTime:
           values.position_type == "Multiple" &&
           values.Strategy == "Multi_Conditional" &&
@@ -784,12 +786,13 @@ const AddClient = () => {
       "RollOver",
       location?.state?.data?.RolloverTF == true ? "true" : false
     );
-    formik.setFieldValue("NumberOfDays", location?.state?.data?.RolloverDay);
+    formik.setFieldValue("RolloverDay", location?.state?.data?.RolloverDay);
     formik.setFieldValue(
       "RollOverExitTime",
       location?.state?.data?.RolloverTime
     );
     formik.setFieldValue("OrderType", location?.state?.data?.OrderType);
+    formik.setFieldValue("RolloverDay", location?.state?.data?.RolloverDay);
 
     setinitialvalue(true);
   }, [location.state.data]);
@@ -1086,7 +1089,7 @@ const AddClient = () => {
 
     {
       name: "FinalTarget",
-      label: "Final Target",
+      label: "Final Target Price ",
       type: "text3",
       label_size: 12,
       showWhen: (values) =>
@@ -1296,7 +1299,8 @@ const AddClient = () => {
       ],
       showWhen: (values) =>
         values.position_type == "Multiple" &&
-        values.Strategy == "Multi_Conditional",
+        values.Strategy == "Multi_Conditional" &&
+        values.Targetselection !== "Entry Wise SL",
       label_size: 12,
       // col_size: formik.values.position_type == "Single" ? 3 : 3,
       col_size: formik.values.TargetExit == "true" ? 4 : 6,
@@ -1481,7 +1485,7 @@ const AddClient = () => {
     },
 
     {
-      name: "NumberOfDays",
+      name: "RolloverDay",
       label: "No. of Days",
       type: "select",
       label_size: 12,
@@ -1494,12 +1498,17 @@ const AddClient = () => {
         { label: "5", value: "5" },
       ],
       showWhen: (values) => {
-        const rollOverBoolean = values.RollOver === "true";
+        const rollOverBoolean =
+          (values.RollOver == "true" &&
+            values.Exchange == "NFO" &&
+            (values.Instrument == "FUTIDX" || values.Instrument == "FUTSTK")) ||
+          (values.Exchange == "MCX" && values.Instrument == "FUTCOM");
+
         return (
           rollOverBoolean &&
           values.Strategy == "Multi_Conditional" &&
           values.ExitDay == "Delivery" &&
-          values.FixedSM == "Multiple"
+          values.position_type == "Multiple"
         );
       },
       col_size: 4,
@@ -1596,19 +1605,7 @@ const AddClient = () => {
       ),
       disable: false,
     },
-    {
-      name: "Heading",
-      label: "Risk_Management",
-      type: "heading",
-      hiding: false,
-      label_size: 12,
-      headingtype: 4,
-      col_size: 12,
-      data: RiskManagementArr.filter(
-        (item) => !item.showWhen || item.showWhen(formik.values)
-      ),
-      disable: false,
-    },
+
     {
       name: "Heading",
       label: "Exit_Rule",
@@ -1618,6 +1615,19 @@ const AddClient = () => {
       col_size: 12,
       headingtype: 3,
       data: ExitRuleArr.filter(
+        (item) => !item.showWhen || item.showWhen(formik.values)
+      ),
+      disable: false,
+    },
+    {
+      name: "Heading",
+      label: "Risk_Management",
+      type: "heading",
+      hiding: false,
+      label_size: 12,
+      headingtype: 4,
+      col_size: 12,
+      data: RiskManagementArr.filter(
         (item) => !item.showWhen || item.showWhen(formik.values)
       ),
       disable: false,
@@ -1649,7 +1659,7 @@ const AddClient = () => {
       disable: false,
     },
   ];
-
+  console.log("location.state.data", location.state.data);
   useEffect(() => {
     if (initialvalue) {
       if (formik.values.Symbol !== location.state.data.MainSymbol) {

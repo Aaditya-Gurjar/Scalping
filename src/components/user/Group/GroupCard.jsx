@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap"; // Import Bootstrap Modal
 import "./GroupStyles.css";
 import Viewcard from "./ViewGroup";
-import { ClientGroupAllot } from "../../CommonAPI/User";
+import { ClientGroupAllot, GetAllUserGroup } from "../../CommonAPI/User";
 import Swal from "sweetalert2";
 
 // Register Chart.js components
@@ -21,6 +21,20 @@ const GroupCard = ({ strategy }) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const username = localStorage.getItem("name");
+  const [allotedGroups, setAllotedGroups] = useState([]);
+
+  useEffect(() => {
+    const fetchUserGroups = async () => {
+      try {
+        const res = await GetAllUserGroup({ User: username });
+        setAllotedGroups(res.Data);
+      } catch (error) {
+        console.log("Error", error);
+      }
+    };
+
+    fetchUserGroups();
+  }, [strategy?.name]);
 
   const chartData = {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
@@ -42,17 +56,27 @@ const GroupCard = ({ strategy }) => {
 
   const handleSubscribe = async () => {
     try {
+      if (allotedGroups?.includes(strategy?.name)) {
+        return Swal.fire({
+          title: "Already Subscribed!",
+          icon: "info",
+          draggable: true,
+          timer: 2000,
+        });
+      }
       const reqData = {
         User: username,
-        GroupName: [strategy.name],
+        GroupName: [...allotedGroups, strategy.name],
         SubAdmin: "",
       };
       const res = await ClientGroupAllot(reqData);
       console.log("respnse is ", res);
+      setAllotedGroups((prev) => [...prev, strategy.name]);
       if (res.Status) {
         Swal.fire({
           title: "Subscribed Successfully!",
           icon: "success",
+          timer: 2000,
           draggable: true,
         });
       }
@@ -61,6 +85,7 @@ const GroupCard = ({ strategy }) => {
         title: "Error !",
         icon: "false",
         draggable: true,
+        timer: 2000,
       });
       console.log("error in subscribe", error);
     }
@@ -103,8 +128,14 @@ const GroupCard = ({ strategy }) => {
         <button className="group-btn-backtest" onClick={handleViewClick}>
           View
         </button>
-        <button className="group-btn-deploy" onClick={handleSubscribe}>
-          Subscribe
+        <button
+          className={`btn ${
+            allotedGroups?.includes(strategy?.name)
+              ? "btn-danger"
+              : "btn-success"
+          } fw-bold py-2 px-4 rounded`}     
+          onClick={handleSubscribe}>
+          {allotedGroups?.includes(strategy?.name) ? "Subscribed" : "Subscribe"}
         </button>
       </div>
 

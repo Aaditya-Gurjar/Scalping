@@ -311,13 +311,13 @@ const Adduser = () => {
             type: "select1",
             options: formik.values.Select_License === '1'
                 ? GetAllPlans.DemoPlanName.map((item) => ({
-                    label: item.PlanName,
-                    value: item.PlanName,
+                    label: item.Planname,
+                    value: item.Planname,
                 }))
                 : formik.values.Select_License === '2'
                     ? GetAllPlans.LivePlanName.map((item) => ({
-                        label: item.PlanName,
-                        value: item.PlanName,
+                        label: item.Planname,
+                        value: item.Planname,
                     }))
                     : [],
             label_size: 12,

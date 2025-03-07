@@ -9,14 +9,12 @@ const MyPurchasedPlans = () => {
   const [buyedPlans, setBuyedPlans] = useState({ loading: true, data: [] });
   console.log("fetchBoughtPlans", buyedPlans.data);
 
-
   useEffect(() => {
     const fetchBoughtPlans = async () => {
       try {
         const req = { userName: username };
         const response = await Get_All_Buyed_Plans(req);
         if (response.Status) {
-
           setBuyedPlans({
             loading: false,
             data: response.Allotplan,
@@ -46,7 +44,7 @@ const MyPurchasedPlans = () => {
   }, [username]);
 
   return (
-    <div className="myplan-container">
+    <div className="myplan-container card-bg-color">
       <h1 className="myplan-title">Already Purchased Plans</h1>
       {buyedPlans.loading ? (
         <p className="myplan-loading">Loading...</p>
@@ -56,7 +54,7 @@ const MyPurchasedPlans = () => {
             const hasChartingSignal = plan?.ChartingSignal?.length > 0;
 
             return (
-              <div key={index} className="myplan-plancard">
+              <div key={index} className="myplan-plancard card-bg-color">
                 <h2 className="myplan-card-title">
                   {plan.Planname}
                   <BadgeCheck size={24} color="#4caf50" />
@@ -81,7 +79,8 @@ const MyPurchasedPlans = () => {
                       {plan?.["Option Strategy"]?.join(", ")}
                     </p>
                     <p className="myplan-card-detail">
-                      <strong>Pattern Strategy:</strong> {plan?.Pattern?.join(", ")}
+                      <strong>Pattern Strategy:</strong>{" "}
+                      {plan?.Pattern?.join(", ")}
                     </p>
                   </>
                 )}
@@ -97,8 +96,6 @@ const MyPurchasedPlans = () => {
         <p className="myplan-loading">No Plans Purchased Yet</p>
       )}
     </div>
-
-
   );
 };
 
