@@ -235,6 +235,7 @@ const ProfilePage = () => {
                         {Planname.slice(0, 2).join(", ")}
                         {Planname.length > 2 && (
                           <span
+                            className="user-profile-span"
                             onClick={() => alert(Planname.join(", "))}
                             style={{ color: "blue", cursor: "pointer" }}>
                             ...
@@ -253,11 +254,11 @@ const ProfilePage = () => {
                       style={{ "--hover-color": item.color }}>
                       <Card.Body className="d-flex align-items-center">
                         <span
-                          className="icon-wrapper me-3"
+                          className="icon-wrapper me-3 "
                           style={{ color: item.color }}>
                           {item.icon}
                         </span>
-                        <span>{item.text}</span>
+                        <span className="user-profile-span">{item.text}</span>
                       </Card.Body>
                     </Card>
                   </Col>

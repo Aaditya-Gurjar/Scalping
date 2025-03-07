@@ -66,7 +66,7 @@ export const GetAdminDashboard = async (data) => {
 export const GetAdminDashboardClient = async (data) => {
     const token = localStorage.getItem('token')
     try {
-        const res = await axios.post(`${Config.base_url}admindashboardclient`,data ,
+        const res = await axios.post(`${Config.base_url}admindashboardclient`, data,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ export const GetAdminDashboardClient = async (data) => {
 export const GetAdminDashboardTrade = async (data) => {
     const token = localStorage.getItem('token')
     try {
-        const res = await axios.post(`${Config.base_url}admindashboardtrade`,data ,
+        const res = await axios.post(`${Config.base_url}admindashboardtrade`, data,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -1178,3 +1178,16 @@ export const AdminPermission = async (data) => {
     }
 }
 
+
+
+// EditPlanname
+
+export const EditPlanname = async (data) => {
+    try {
+        const res = await axios.get(`${Config.base_url}EditPlanname`)
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+}

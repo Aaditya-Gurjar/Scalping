@@ -51,7 +51,6 @@ const TradeReport = () => {
     const Username = localStorage.getItem('name');
     const adminPermission = localStorage.getItem('adminPermission');
 
-    console.log("getcgetCharting", getCharting)
 
     // State for default auto-select redirected from dashboard
     const [selectedRowData, setSelectedRowData] = useState("");
@@ -59,6 +58,7 @@ const TradeReport = () => {
     const [preSelectTableType, setPreSelectTableType] = useState("");
     const [tradeHistory, setTradeHistory] = useState({ data: [], data1: [] });
     const [activeTab, setActiveTab] = useState("Cash");
+
 
     // Set Default Date 
     const currentDate = new Date();
@@ -75,6 +75,8 @@ const TradeReport = () => {
     const month1 = String(DefultToDate.getMonth() + 1).padStart(2, '0');
     const day1 = String(DefultToDate.getDate()).padStart(2, '0');
     const Defult_To_Date = `${year1}.${month1}.${day1}`;
+
+
 
     // Date Formatter function
     const convertDateFormat = (date) => {
@@ -143,9 +145,23 @@ const TradeReport = () => {
 
     }, [tradeReport, location?.state?.RowIndex]);
 
+
+
+
+
+
     const handleRowSelect = (rowData) => {
         setSelectedRowData(rowData);
     };
+
+    useEffect(() => {
+        if (location?.state?.RowIndex !== undefined && location?.state?.RowIndex !== null) {
+            handleSubmit(selectedRowData);
+            console.log("selectedRowData", selectedRowData);
+        }
+    }, [selectedRowData]);
+
+    console.log("selectedRowData", selectedRowData)
 
 
     useEffect(() => {
@@ -184,11 +200,11 @@ const TradeReport = () => {
     const handleSubmit = async (rowData) => {
         const data = {
             MainStrategy:
-                selectStrategyType === "Scalping" && selectedRowData.ScalpType === "Multi_Conditional"
+                selectStrategyType === "Scalping" && selectedRowData?.ScalpType === "Multi_Conditional"
                     ? "NewScalping"
                     : selectStrategyType,
             Strategy:
-                selectStrategyType === "Scalping" && selectedRowData.ScalpType !== "Multi_Conditional"
+                selectStrategyType === "Scalping" && selectedRowData?.ScalpType !== "Multi_Conditional"
                     ? selectedRowData?.ScalpType
                     : selectStrategyType === "Option Strategy"
                         ? selectedRowData?.STG
@@ -210,7 +226,7 @@ const TradeReport = () => {
             Username: Username,
             ETPattern:
                 selectStrategyType === "Scalping"
-                    ? selectedRowData.TType
+                    ? selectedRowData?.TType
                     : selectStrategyType === "Option Strategy"
                         ? selectedRowData?.Targettype
                         : selectStrategyType === "Pattern"

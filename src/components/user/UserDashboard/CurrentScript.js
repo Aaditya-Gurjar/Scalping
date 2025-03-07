@@ -26,7 +26,7 @@ import { useFormik } from "formik";
 import NoDataFound from "../../../ExtraComponent/NoDataFound";
 import { text } from "../../../ExtraComponent/IconTexts";
 
-const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate }) => {
+const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
   const userName = localStorage.getItem("name");
   const adminPermission = localStorage.getItem("adminPermission");
   const navigate = useNavigate();
@@ -550,87 +550,78 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
   };
 
   const AddScript = (data) => {
-    if (data2.status == false) {
-      Swal.fire({
-        title: "Error",
-        text: data2.msg,
-        icon: "error",
-        timer: 1500,
-        timerProgressBar: true,
-      });
-    } else {
-      if (data === "Option Strategy") {
-        if (allScripts?.data?.[allScripts.len]?.CombineOption?.length >= 1) {
-          navigate("/user/newscript/option", {
-            state: {
-              data: {
-                selectStrategyType: "Option Strategy",
-                scriptType: allScripts,
-              },
+    if (data === "Option Strategy") {
+      if (allScripts?.data?.[allScripts.len]?.CombineOption?.length >= 1) {
+        navigate("/user/newscript/option", {
+          state: {
+            data: {
+              selectStrategyType: "Option Strategy",
+              scriptType: allScripts,
             },
-          });
-        } else {
-          Swal.fire({
-            title: "Warning",
-            text: "You don't have any valid plan to use this strategy",
-            icon: "warning",
-            timer: 2000,
-            timerProgressBar: true,
-          });
-        }
-      } else if (data === "Pattern" || data === "Pattern Script") {
-        if (allScripts?.data?.[allScripts.len]?.CombinePattern?.length >= 1) {
-          navigate("/user/newscript/pattern", {
-            state: {
-              data: { selectStrategyType: "Pattern", scriptType: allScripts },
-            },
-          });
-        } else {
-          Swal.fire({
-            title: "Warning",
-            text: "You don't have any valid plan to use this strategy",
-            icon: "warning",
-            timer: 2000,
-            timerProgressBar: true,
-          });
-        }
-      } else if (data === "ChartingPlatform") {
-        if (
-          allScripts?.data?.[allScripts.len]?.CombineChartingSignal?.length >= 1
-        ) {
-          navigate("/user/newscript/charting", {
-            state: {
-              data: {
-                selectStrategyType: "ChartingPlatform",
-                scriptType: allScripts,
-              },
-            },
-          });
-        } else {
-          Swal.fire({
-            title: "Warning",
-            text: "You don't have any valid plan to use this strategy",
-            icon: "warning",
-            timer: 2000,
-            timerProgressBar: true,
-          });
-        }
+          },
+        });
       } else {
-        if (allScripts?.data?.[allScripts.len]?.CombineScalping?.length >= 1) {
-          navigate("/user/newscript/scalping", {
-            state: {
-              data: { selectStrategyType: "Scalping", scriptType: allScripts },
+        Swal.fire({
+          title: "Warning",
+          text: "You don't have any valid plan to use this strategy",
+          icon: "warning",
+          timer: 2000,
+          timerProgressBar: true,
+        });
+      }
+    } else if (data === "Pattern" || data === "Pattern Script") {
+      if (allScripts?.data?.[allScripts.len]?.CombinePattern?.length >= 1) {
+        navigate("/user/newscript/pattern", {
+          state: {
+            data: { selectStrategyType: "Pattern", scriptType: allScripts },
+          },
+        });
+      } else {
+        Swal.fire({
+          title: "Warning",
+          text: "You don't have any valid plan to use this strategy",
+          icon: "warning",
+          timer: 2000,
+          timerProgressBar: true,
+        });
+      }
+    } else if (data === "ChartingPlatform") {
+
+      console.log("SSSS")
+      if (allScripts?.data?.[allScripts.len]?.CombineChartingSignal?.length >= 1) {
+        navigate("/user/newscript/charting", {
+          state: {
+            data: {
+              selectStrategyType: "ChartingPlatform",
+              scriptType: allScripts,
             },
-          });
-        } else {
-          Swal.fire({
-            title: "Warning",
-            text: "You don't have any valid plan to use this strategy",
-            icon: "warning",
-            timer: 2000,
-            timerProgressBar: true,
-          });
-        }
+          },
+        });
+      } else {
+        Swal.fire({
+          title: "Warning",
+          text: "You don't have any valid plan to use this strategy",
+          icon: "warning",
+          timer: 2000,
+          timerProgressBar: true,
+        });
+      }
+    } else {
+      console.log("S")
+      if (allScripts?.data?.[allScripts.len]?.CombineScalping?.length >= 1) {
+        navigate("/user/newscript/scalping", {
+          state: {
+            data: { selectStrategyType: "Scalping", scriptType: allScripts },
+          },
+        });
+      } else {
+        Swal.fire({
+          title: "Warning",
+          text: "You don't have any valid plan to use this strategy",
+          icon: "warning",
+          timer: 2000,
+          timerProgressBar: true,
+        });
       }
     }
   };
@@ -1008,6 +999,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       PEDeepHigher: 0.0,
       DepthofStrike: 0,
       TradeCount: 0,
+      Profit: 0,
+      Loss: 0,
       WorkingDay: [],
     },
     validate: (values) => {
@@ -1075,6 +1068,15 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
         errors.WorkingDay = "Please select Working day";
       }
 
+      if (values.Loss == undefined || values.Loss == "" || values.Loss == null) {
+        errors.Loss = "Please Enter Maximum Loss";
+      }
+
+      if (values.Profit == undefined || values.Profit == "" || values.Profit == null) {
+        errors.Profit = "Please Enter Maximum Loss";
+      }
+      // console.log("Errr", errors)
+
       return errors;
     },
     onSubmit: async (values) => {
@@ -1121,8 +1123,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
         RolloverTime: "", // str
         TargetExit: false, // bool
         RepeatationCount: 0, // int
-        Profit: 0.0, // float
-        Loss: 0.0, // float
+        Profit: Number(values.Profit || EditDataOption.Profit), // float
+        Loss: Number(values.Loss || EditDataOption.Loss), // float
 
 
       };
@@ -1188,6 +1190,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       PEDeepHigher: 0.0,
       DepthofStrike: 0,
       TradeCount: "",
+
     },
     validate: (values) => {
       let errors = {};
@@ -1330,46 +1333,46 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       });
     },
   });
-
-  const fields1 = [
+  const OptionRiskManagementArr = [
     {
-      name: "TStype",
-      label: "Measurement Type",
-      type: "select",
-      options: [
-        { label: "Percentage", value: "Percentage" },
-        { label: "Point", value: "Point" },
-      ],
-
+      name: "TradeCount",
+      label: "No. of Cycle",
+      type: "text3",
       label_size: 12,
-      col_size: 6,
-      hiding: false,
-      disable: false,
-    },
-    
-    {
-      name: "Targetvalue",
-      label: "Target",
-      type: "text5",
-      label_size: 12,
-      col_size: 4,
+      headingtype: 4,
+      showWhen: () =>
+        showEditModal &&
+        EditDataScalping.PositionType === "Multiple" &&
+        formik.values.TargetExit == "true",
+      col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
+      iconText: text.Trade_Count,
       disable: false,
       hiding: false,
     },
-
     {
-      name: "Slvalue",
-      label: "Stoploss",
-      type: "text5",
+      name: "Loss",
+      label: "Max Loss ",
+      type: "text3",
       label_size: 12,
       col_size: 4,
+      headingtype: 4,
       disable: false,
       hiding: false,
     },
 
+    {
+      name: "Profit",
+      label: " Max Profit ",
+      type: "text3",
+      label_size: 12,
+      col_size: 4,
+      headingtype: 4,
+      disable: false,
+      hiding: false,
+    },
     {
       name: "WorkingDay",
-      label: "Working Day ",
+      label: "Working Day",
       type: "multiselect",
       options: [
         { label: "Monday", value: "Monday" },
@@ -1381,25 +1384,65 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       ],
       label_size: 12,
       col_size: 4,
+      headingtype: 4,
+      showWhen: () => showEditModal,
       disable: false,
       hiding: false,
+    },
+  ];
+
+  const OptionExitRuleArr = [
+    {
+      name: "TStype",
+      label: "Measurement Type",
+      type: "select",
+      options: [
+        { label: "Percentage", value: "Percentage" },
+        { label: "Point", value: "Point" },
+      ],
+      // showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
+      showWhen: () =>
+        showEditModal && EditDataScalping.PositionType !== "Multiple",
+      label_size: 12,
+      headingtype: 4,
+      col_size: 4,
+      hiding: false,
+      disable: false,
     },
 
     {
-      name: "TradeCount",
-      label: "Trade Count",
-      type: "text5",
+      name: "Targetvalue",
+      label:
+        EditDataScalping.PositionType === "Single"
+          ? "Target 1"
+          : "Fixed Target",
+      type: "text3",
       label_size: 12,
-      col_size: 4,
+      col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
+      headingtype: 3,
       disable: false,
       hiding: false,
     },
+    {
+      name: "Slvalue",
+      label: "Stoploss",
+      type: "text3",
+      label_size: 12,
+      col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
+      headingtype: 3,
+      disable: false,
+      hiding: false,
+    },
+  ];
+
+  const OptionTimeDurationArr = [
     {
       name: "EntryTime",
       label: "Entry Time",
       type: "timepiker",
       label_size: 12,
       col_size: 4,
+      headingtype: 5,
       disable: false,
       hiding: false,
     },
@@ -1409,12 +1452,71 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       type: "timepiker",
       label_size: 12,
       col_size: 4,
+      headingtype: 5,
+      disable: false,
+      hiding: false,
+    },
+
+  ];
+
+  const OptionFields = [
+
+    {
+      name: "Heading",
+      label: "Risk_Management",
+      type: "heading",
+      hiding: false,
+      label_size: 12,
+      headingtype: 4,
+      col_size: 12,
+      data: OptionRiskManagementArr.filter(
+        (item) => !item.showWhen || item.showWhen(formik.values)
+      ),
+      disable: false,
+    },
+    {
+      name: "Heading",
+      label: "Exit_Rule",
+      type: "heading",
+      hiding: false,
+      label_size: 12,
+      col_size: 12,
+      headingtype: 3,
+      data: OptionExitRuleArr.filter(
+        (item) => !item.showWhen || item.showWhen(formik.values)
+      ),
+      disable: false,
+    },
+    {
+      name: "Heading",
+      label: "Time_Duration",
+      type: "heading",
+      hiding: false,
+      label_size: 12,
+      col_size: 12,
+      headingtype: 5,
+      data: OptionTimeDurationArr.filter(
+        (item) => !item.showWhen || item.showWhen(formik.values)
+      ),
+      disable: false,
+    },
+
+  ];
+
+  const PatternRiskManagementArr = [
+
+
+    {
+      name: "TradeCount",
+      label: "Trade Count",
+      type: "text3",
+      label_size: 12,
+      col_size: 4,
       disable: false,
       hiding: false,
     },
   ];
-
-  const fields2 = [
+  const PatternExitRuleArr = [
     {
       name: "TStype",
       label: "Measurement Type",
@@ -1447,16 +1549,10 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       disable: false,
       hiding: false,
     },
-    {
-      name: "TradeCount",
-      label: "Trade Count",
-      type: "text5",
-      label_size: 12,
-      col_size: 4,
-      disable: false,
-      hiding: false,
-    },
 
+  ];
+
+  const PatternTimeDurationArr = [
     {
       name: "EntryTime",
       label: "Entry Time",
@@ -1475,7 +1571,54 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       disable: false,
       hiding: false,
     },
+
   ];
+
+
+  const PatternFields = [
+
+    {
+      name: "Heading",
+      label: "Risk_Management",
+      type: "heading",
+      hiding: false,
+      label_size: 12,
+      headingtype: 4,
+      col_size: 12,
+      data: PatternRiskManagementArr.filter(
+        (item) => !item.showWhen || item.showWhen(formik.values)
+      ),
+      disable: false,
+    },
+    {
+      name: "Heading",
+      label: "Exit_Rule",
+      type: "heading",
+      hiding: false,
+      label_size: 12,
+      col_size: 12,
+      headingtype: 3,
+      data: PatternExitRuleArr.filter(
+        (item) => !item.showWhen || item.showWhen(formik.values)
+      ),
+      disable: false,
+    },
+    {
+      name: "Heading",
+      label: "Time_Duration",
+      type: "heading",
+      hiding: false,
+      label_size: 12,
+      col_size: 12,
+      headingtype: 5,
+      data: PatternTimeDurationArr.filter(
+        (item) => !item.showWhen || item.showWhen(formik.values)
+      ),
+      disable: false,
+    },
+
+  ];
+
 
   const EntryRuleArr = [
     {
@@ -1904,6 +2047,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       formik1.setFieldValue("EntryTime", EditDataOption["Entry Time"]);
       formik1.setFieldValue("ExitTime", EditDataOption["Exit Time"]);
       formik1.setFieldValue("TradeCount", EditDataOption.TradeCount);
+      formik1.setFieldValue("Profit", EditDataOption.Profit);
+      formik1.setFieldValue("Loss", EditDataOption.Loss);
       formik1.setFieldValue("WorkingDay", WorkingDay);
     } else if (data == "Pattern") {
       formik2.setFieldValue("TStype", EditDataPattern.TStype);
@@ -2140,7 +2285,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
 
                   <div className='p-4'>
                     <Formikform
-                      fields={fields1}
+                      fields={OptionFields}
                       btn_name="Update"
                       formik={formik1}
                     />
@@ -2149,7 +2294,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
                   :
                   <div className='p-4'>
                     <Formikform
-                      fields={fields2.filter(
+                      fields={PatternFields.filter(
                         (field) => !field.showWhen || field.showWhen(formik2.values)
                       )}
 

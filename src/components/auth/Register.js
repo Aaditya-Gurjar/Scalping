@@ -88,7 +88,7 @@ const Register = () => {
             <section className="sign-in-page">
                 <div className="container ">
                     <p className="sign-in-logo  text-center">
-                        <img className="" alt="logo" id="imglogo" style={{ width: '200px', height: '50px', objectFit: 'cover' }} />
+                        <img className="" alt="logo" id="imglogo" style={{ width: 'auto', height: 'auto', objectFit: 'cover' }} />
                     </p>
                     <div className="row no-gutters">
 

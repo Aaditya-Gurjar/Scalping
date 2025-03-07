@@ -129,7 +129,7 @@ const AddClient = () => {
       Trade_Execution: "Paper Trade",
       quantityselection: "Addition",
       Targetselection: "Fixed Target",
-      RepeatationCount: 1,
+      RepeatationCount: 2,
       Profit: 0,
       Loss: 0,
       RollOver: false,
@@ -169,7 +169,7 @@ const AddClient = () => {
         !values.Optiontype &&
         (values.Instrument === "OPTSTK" ||
           values.Instrument === "OPTIDX" ||
-          (values.Instrument == "OPTFUT" && values.Exchange === "MCX")) 
+          (values.Instrument == "OPTFUT" && values.Exchange === "MCX"))
       ) {
 
         errors.Optiontype = "Please Select Option Type.";
@@ -326,14 +326,13 @@ const AddClient = () => {
       if (values.Strategy == "Multi_Conditional" && !values.FixedSM) {
         errors.FixedSM = "Please Select Position Type";
       }
-      if (
-        !values.RepeatationCount &&
-        values.Strategy == "Multi_Conditional" &&
-        values.FixedSM == "Multiple"
-      ) {
-        errors.RepeatationCount = "Please Enter No. of Repeatation";
+      if (values.Strategy === "Multi_Conditional" && values.FixedSM === "Multiple") {
+        if (values.RepeatationCount === "" || values.RepeatationCount === undefined) {
+          errors.RepeatationCount = "Please enter a value for Repeatation Count";
+        } else if (values.RepeatationCount < 2) {
+          errors.RepeatationCount = "Repeatation count must be at least 2";
+        }
       }
-
       if (
         (values.Loss === undefined ||
           values.Loss === null ||
@@ -390,7 +389,7 @@ const AddClient = () => {
           formik.values.Strategy == "Multi_Conditional" &&
           formik.values.Targetselection == "Entry Wise SL")
       ) {
-        errors.FinalTarget = "Please Enter Final Target";
+        errors.FinalTarget = "Please Enter Final Target Price";
       }
 
       // ScrollToViewFirstError(errors);
@@ -716,7 +715,7 @@ const AddClient = () => {
       formik.setFieldValue("Instrument", "FUTCOM");
     }
   }, [formik.values.Exchange]);
-  
+
 
 
 
@@ -1045,7 +1044,7 @@ const AddClient = () => {
 
     {
       name: "FinalTarget",
-      label: "Final Target",
+      label: "Final Target Price",
       type: "text3",
       label_size: 12,
       showWhen: (values) =>
@@ -1234,7 +1233,7 @@ const AddClient = () => {
         { label: "False", value: false },
       ],
       showWhen: (values) =>
-        values.FixedSM == "Multiple" && values.Strategy == "Multi_Conditional",
+        values.FixedSM == "Multiple" && values.Strategy == "Multi_Conditional" && values.Targetselection !== "Entry Wise SL",
       label_size: 12,
       // col_size: formik.values.FixedSM == "Single" ? 3 : 3,
       col_size: formik.values.TargetExit == "true" ? 4 : 6,
@@ -1538,19 +1537,7 @@ const AddClient = () => {
       ),
       disable: false,
     },
-    {
-      name: "Heading",
-      label: "Risk_Management",
-      type: "heading",
-      hiding: false,
-      label_size: 12,
-      headingtype: 4,
-      col_size: 12,
-      data: RiskManagementArr.filter(
-        (item) => !item.showWhen || item.showWhen(formik.values)
-      ),
-      disable: false,
-    },
+
     {
       name: "Heading",
       label: "Exit_Rule",
@@ -1560,6 +1547,20 @@ const AddClient = () => {
       col_size: 12,
       headingtype: 3,
       data: ExitRuleArr.filter(
+        (item) => !item.showWhen || item.showWhen(formik.values)
+      ),
+      disable: false,
+    },
+
+    {
+      name: "Heading",
+      label: "Risk_Management",
+      type: "heading",
+      hiding: false,
+      label_size: 12,
+      headingtype: 4,
+      col_size: 12,
+      data: RiskManagementArr.filter(
         (item) => !item.showWhen || item.showWhen(formik.values)
       ),
       disable: false,

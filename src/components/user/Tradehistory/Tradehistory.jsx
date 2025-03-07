@@ -1571,6 +1571,7 @@ const Tradehistory = () => {
   const [getChartingSegments, setChartingSegments] = useState([]);
   const [activeTab, setActiveTab] = useState("Cash");
   const [getChartingData, setChartingData] = useState([]);
+  const [preSelectTableType, setPreSelectTableType] = useState("");
   const [loadedSections, setLoadedSections] = useState({
     overview: false,
     pnlAnalysis: false,
@@ -1584,6 +1585,7 @@ const Tradehistory = () => {
     data: [],
     Overall: [],
   });
+  const [totalPnLOverview, setTotalPnLOverview] = useState([]);
   const [getPnLData, setPnlData] = useState({ data: [] });
   const [getEquityCurveDetails, setEquityCurveDetails] = useState({ data: [] });
   const [getDropDownData, setDropDownData] = useState({ data: [] });
@@ -1605,6 +1607,29 @@ const Tradehistory = () => {
   const Defult_To_Date = `${tomorrow.getFullYear()}.${String(
     tomorrow.getMonth() + 1
   ).padStart(2, "0")}.${String(tomorrow.getDate()).padStart(2, "0")}`;
+
+  console.log("location?.state?.RowIndex", location?.state?.type);
+
+  useEffect(() => {
+    if (location?.state?.goto && location?.state?.goto === "dashboard") {
+      if (location?.state?.type === "MultiCondition") {
+        setSelectedRowData(tradeHistory.data1?.[location?.state?.RowIndex]);
+      } else {
+        setSelectedRowData(tradeHistory.data?.[location?.state?.RowIndex]);
+      }
+
+      setStrategyType(
+        location?.state?.type === "MultiCondition"
+          ? "Scalping"
+          : location?.state?.type
+      );
+    }
+    setCheckedRows(location?.state?.RowIndex);
+  }, [tradeHistory, location?.state?.RowIndex]);
+
+  console.log("selectedRowData", selectedRowData);
+
+  console.log("getAllTradeData", getAllTradeData);
 
   useEffect(() => {
     const fetchStrategyTypes = async () => {
@@ -1656,6 +1681,7 @@ const Tradehistory = () => {
   };
 
   const handleSubmit = async () => {
+    console.log("handlesubmit selectedRowData", selectedRowData);
     if (selectStrategyType === "ChartingPlatform") return;
     if (!selectedRowData) {
       Swal.fire({
@@ -1743,7 +1769,6 @@ const Tradehistory = () => {
       });
     }
   };
- 
 
   const getChartingSegmentData = async () => {
     try {
@@ -1763,6 +1788,7 @@ const Tradehistory = () => {
       const res = await get_Trade_History(req);
       console.log("reees", res);
       setChartingData(res?.data || []);
+      setAllTradeData({ Overall: res?.Overall || [] });
     } catch (error) {
       console.log("Error in getChartingSegmentData", error);
     }
@@ -2006,6 +2032,7 @@ const Tradehistory = () => {
                   data={tradeHistory.data1}
                   onRowSelect={handleRowSelect}
                   checkBox={true}
+                  isChecked={checkedRows}
                 />
               ) : (
                 <NoDataFound />
@@ -2085,6 +2112,7 @@ const Tradehistory = () => {
                   checkBox={
                     selectStrategyType === "ChartingPlatform" ? false : true
                   }
+                  isChecked={checkedRows}
                 />
               ) : (
                 <NoDataFound />

@@ -266,7 +266,7 @@ const AddClient = () => {
       }
       
       if (values.FinalTarget == undefined || values.FinalTarget == "" && (formik.values.position_type == "Multiple" && (formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise Target"))) {
-        errors.FinalTarget = "Please Enter Final Target";
+        errors.FinalTarget = "Please Enter Final Target Price";
       }
     
 
@@ -747,7 +747,7 @@ const AddClient = () => {
 
     {
       name: "FinalTarget",
-      label: "Final Target",
+      label: "Final Target Price",
       type: "text3",
       label_size: 12,
       showWhen: () => (formik.values.position_type == "Multiple" && formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise SL"),

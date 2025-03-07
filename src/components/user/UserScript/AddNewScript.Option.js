@@ -1707,7 +1707,7 @@ const AddClient = () => {
                 formik.values.Strategy == "ShortFourLegStretegy" ? (
                 ""
               ) : (
-                <button className="addbtn" onClick={() => handleCheckPnl()}>
+                  <button className="addbtn" type="button"  onClick={() => handleCheckPnl()}>
                   Check PnL
                 </button>
               )}
