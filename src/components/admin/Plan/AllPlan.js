@@ -208,7 +208,6 @@ const AdminServicesList = () => {
                           </div>
                         </div>
                       </div>
-
                     </div>
                   ))}
                 </div>
@@ -217,8 +216,6 @@ const AdminServicesList = () => {
           </Tabs>
         </div>
       </div>
-
-
     </Content>
   );
 };
