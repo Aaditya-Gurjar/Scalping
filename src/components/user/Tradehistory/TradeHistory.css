@@ -175,7 +175,7 @@ Container & Card Styling
 /* Additional spacing for form labels */
 .form-label {
     font-weight: 600;
-    margin-bottom: 0.5rem;
+    /* margin-bottom: 0.5rem; */
 }
 
 /* Modern Dropdown & DatePicker Styling */
@@ -258,5 +258,5 @@ Container & Card Styling
 /* Additional Form Label Spacing */
 .form-label {
     font-weight: 600;
-    margin-bottom: 0.5rem;
+    /* margin-bottom: 0.5rem; */
 }

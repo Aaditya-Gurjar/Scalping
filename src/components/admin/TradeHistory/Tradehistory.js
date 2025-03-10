@@ -395,7 +395,7 @@ const Tradehistory = () => {
 
     return (
         <Content
-            Page_title={" 📊 Trade History Analysis"}
+            Page_title={" 📊 Trade History"}
             button_status={false}
             backbutton_status={true}
         >
@@ -450,7 +450,7 @@ const Tradehistory = () => {
                                     className="form-control"
                                     selected={FromDate || formattedDate}
                                     onChange={setFromDate}
-                                    dateFormat="yyyy.MM.dd"
+                                    dateFormat="dd/MM/yyyy"
                                 />
                             </div>
                         </div>
@@ -461,7 +461,7 @@ const Tradehistory = () => {
                                     className="form-control"
                                     selected={ToDate || Defult_To_Date}
                                     onChange={setToDate}
-                                    dateFormat="yyyy.MM.dd"
+                                    dateFormat="dd/MM/yyyy"
                                 />
                             </div>
                         </div>

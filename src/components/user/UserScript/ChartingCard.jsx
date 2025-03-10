@@ -475,7 +475,7 @@ const ChartingCard = ({
                       <label
                         className="form-label card-text-Color"
                         style={labelStyle}>
-                        Max Profit
+                        Max Profit (in price)
                       </label>
                       <Field
                         name="maxProfit"

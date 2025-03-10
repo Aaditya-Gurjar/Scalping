@@ -116,7 +116,7 @@ const DropdownComponent = ({ tableMeta, handleDelete, type, handleMatchPosition,
                             >
                                 Delete
                             </li>
-                            {type === "MultiCondition" && (
+                            {/* {type === "MultiCondition" && (
                                 <li
                                     onClick={handleMatchPosition}
                                     style={{ padding: "8px 16px", cursor: "pointer", color: "#fff" }}
@@ -125,7 +125,7 @@ const DropdownComponent = ({ tableMeta, handleDelete, type, handleMatchPosition,
                                 >
                                     Match Position
                                 </li>
-                            )}
+                            )} */}
                             <li
                                 onClick={() =>
                                     navigate("/user/tradehistory", {
@@ -2231,7 +2231,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
 
     {
         name: "Targetselection",
-        label: "Target Selection",
+        label: "Target Type",
         options: {
             filter: true,
             sort: true,

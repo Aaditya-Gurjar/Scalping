@@ -139,6 +139,20 @@ const TradeResponse = () => {
     return `${year}.${month}.${day}`;
   };
 
+  const columnsToRender = () => {
+    switch (selectStrategyType) {
+      case "Scalping":
+        return columns6;
+      case "Option Strategy":
+        return columns1;
+      case "Pattern":
+        return columns2;
+      case "ChartingPlatform":
+        return columns8;
+      default:
+        return columns6;
+    }
+  };
   const GetTradeStrategyType = async () => {
     try {
       const res = await getStrategyType();
@@ -165,11 +179,14 @@ const TradeResponse = () => {
             return item.TradeExecution == "Live Trade";
           });
           const filterLiveTrade1 =
-            selectStrategyType != "Scalping"
-              ? []
-              : response?.NewScalping?.filter((item) => {
-                  return item.TradeExecution == "Live Trade";
-                });
+            selectStrategyType !== "Scalping"
+              ? response?.Data?.filter(
+                  (item) => item.TradeExecution === "Live Trade"
+                )
+              : response?.NewScalping?.filter(
+                  (item) => item.TradeExecution === "Live Trade"
+                );
+
           console.log("filterLiveTrade1", filterLiveTrade1);
           setTradeHistory({
             loading: false,
@@ -501,8 +518,12 @@ const TradeResponse = () => {
                     )}
                   </div>
                   <GridExample
-                    columns={selectStrategyType === "ChartingPlatform" ? columns3 : columns6}
-                    data={selectStrategyType === "ChartingPlatform" ? getChartingSegmentData : tradeHistory?.data1}
+                    columns={columnsToRender()}
+                    data={
+                      selectStrategyType === "ChartingPlatform"
+                        ? getChartingSegmentData
+                        : tradeHistory?.data1
+                    }
                     onRowSelect={handleRowSelect}
                     checkBox={true}
                     isChecked={location?.state?.RowIndex}

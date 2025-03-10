@@ -446,7 +446,7 @@ const AdminServicesList = () => {
             fill
           >
 
-            <Tab eventKey="Scalping" title="Scalping" onClick={() => setActiveTab("Scalping")}>
+            <Tab eventKey="Scalping" title="SOP" onClick={() => setActiveTab("Scalping")}>
               {plansData.loading ? (
                 <p>Loading...</p>
               ) : (

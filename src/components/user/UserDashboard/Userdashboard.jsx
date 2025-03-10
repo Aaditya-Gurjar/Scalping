@@ -100,6 +100,8 @@ const Userdashboard = () => {
     const data = { userName: userName };
     await OpenPosition(data)
       .then((response) => {
+        console.log("Responseis", response);
+
         if (response.Status) {
           setPositionData({
             loading: false,
@@ -107,7 +109,7 @@ const Userdashboard = () => {
             Option: response.Option,
             Pattern: response.Pattern,
             NewScalping: response?.NewScalping,
-            ChartingData: response?.ChartingData,
+            ChartingData: response?.ChartingData || [],
           });
         } else {
           setPositionData({
@@ -115,6 +117,7 @@ const Userdashboard = () => {
             Scalping: [],
             Option: [],
             Pattern: [],
+            ChartingData: [],
           });
         }
       })
@@ -122,6 +125,13 @@ const Userdashboard = () => {
         console.log("Error in finding the open postion data", err);
       });
   };
+
+  console.log("Active Tab:", activeTab1);
+  console.log("Scalping:", getPositionData.Scalping);
+  console.log("NewScalping:", getPositionData.NewScalping);
+  console.log("Option:", getPositionData.Option);
+  console.log("Pattern:", getPositionData.Pattern);
+  console.log("ChartingData:", getPositionData.ChartingData);
 
   const columns1 = [
     {
@@ -267,7 +277,7 @@ const Userdashboard = () => {
     },
     {
       name: "LotSize",
-      label: "Quantity",
+      label: "Lot",
       options: {
         filter: true,
         sort: true,
@@ -297,14 +307,7 @@ const Userdashboard = () => {
         sort: true,
       },
     },
-    {
-      name: "Token",
-      label: "Token",
-      options: {
-        filter: true,
-        sort: true,
-      },
-    },
+
     {
       name: "Hashing",
       label: "Hashing",
@@ -315,7 +318,7 @@ const Userdashboard = () => {
     },
     {
       name: "TradeType",
-      label: "Trade Type",
+      label: "Transaction Type",
       options: {
         filter: true,
         sort: true,
@@ -332,14 +335,6 @@ const Userdashboard = () => {
     {
       name: "SL",
       label: "Stop Loss",
-      options: {
-        filter: true,
-        sort: true,
-      },
-    },
-    {
-      name: "GroupN",
-      label: "Unique Name",
       options: {
         filter: true,
         sort: true,
@@ -362,7 +357,7 @@ const Userdashboard = () => {
     },
     {
       name: "TradePattern",
-      label: "TradePattern",
+      label: "Pattern Type",
       options: {
         filter: true,
         sort: true,
@@ -370,7 +365,7 @@ const Userdashboard = () => {
     },
     {
       name: "SPattern",
-      label: "Pattern Type",
+      label: "Pattern Name",
       options: {
         filter: true,
         sort: true,
@@ -410,7 +405,7 @@ const Userdashboard = () => {
     },
     {
       name: "TradeType",
-      label: "Trade Type",
+      label: "Transaction Type",
       options: {
         filter: true,
         sort: true,
@@ -418,7 +413,7 @@ const Userdashboard = () => {
     },
     {
       name: "Quantity",
-      label: "Quantity",
+      label: "Lot",
       options: {
         filter: true,
         sort: true,
@@ -473,7 +468,7 @@ const Userdashboard = () => {
     },
     {
       name: "ScalpType",
-      label: "ScalpType",
+      label: "Target Type",
       options: {
         filter: true,
         sort: true,
@@ -507,7 +502,7 @@ const Userdashboard = () => {
 
     {
       name: "TradeType",
-      label: "Trade Type",
+      label: "Transaction Type",
       options: {
         filter: true,
         sort: true,
@@ -515,7 +510,7 @@ const Userdashboard = () => {
     },
     {
       name: "Quantity",
-      label: "Quantity",
+      label: "Lot",
       options: {
         filter: true,
         sort: true,
@@ -539,7 +534,7 @@ const Userdashboard = () => {
     },
     {
       name: "SL",
-      label: "Stop Loss",
+      label: "Re-entry",
       options: {
         filter: true,
         sort: true,
@@ -966,6 +961,7 @@ const Userdashboard = () => {
         )}
 
         {/* Agar dono section me kahin bhi data nahi hai to hi NoDataFound dikhao */}
+
         {activeTab1 === "OpenPosition" &&
           getPositionData.Scalping?.length === 0 &&
           getPositionData.NewScalping?.length === 0 &&

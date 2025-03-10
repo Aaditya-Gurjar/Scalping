@@ -88,10 +88,10 @@ const AddPlanPage = () => {
             planname: "",
             Duration: "One_Month",
             PlanType: "Scalping",
-            SOPLiveTrade: "",
-            SOPPaperTrade: "",
+            SOPLiveTrade: 0,
+            SOPPaperTrade: 0,
+            Charting: [],
             ChartPerMonth: "",
-            Charting: []
         },
         validate: (values) => {
             const errors = {};
@@ -119,17 +119,22 @@ const AddPlanPage = () => {
                 errors.planname = "Plan name should only contain alphabets (No numbers or special characters).";
             }
 
+            if (values.PlanType === "Charting" && (!values.Charting || values.Charting.length === 0)) {
+                errors.Charting = "Please select at least one Segment.";
+            }
 
 
             if (!values.Duration) errors.Duration = "Please select a plan duration.";
-            if (formik.values.PlanType == "Charting" && selectedCharting.length === 0)
-                errors.Charting = "Please select at least one Segment.";
+
+
+
 
             return errors;
+
         },
         onSubmit: async (values) => {
             if (formik.values.PlanType == "Scalping" && selecteScalping.length === 0 && selecteOptions.length === 0 && selectePattern.length === 0) {
-                showError("Error!", "Please select at least one strategy Either Scalping , Option , Pattern.");
+                showError("Error!", "Please select at least one strategy either Scalping, Option or Pattern.");
                 return;
             }
             console.log("values", values)
@@ -154,8 +159,8 @@ const AddPlanPage = () => {
                 Duration: values.Duration,
                 Charting: selectedCharting.map((chart) => chart.value),
                 ...(formik.values.PlanType === "Scalping"
-                    ? { SOPPrice: values.SOPPrice, SOPLiveTrade: values.SOPLiveTrade }
-                    : { ChartPerMonth: values.SOPPrice, SOPPrice: 0, ChartPerTrade: values.SOPLiveTrade }
+                    ? { SOPPrice: values.SOPPrice, SOPLiveTrade: (values.SOPLiveTrade || 0) }
+                    : { ChartPerMonth: values.SOPPrice, SOPPrice: 0, ChartPerTrade: (values.SOPLiveTrade || 0) }
                 ),
 
                 SOPPaperTrade: values.SOPPaperTrade || 0.0,
@@ -191,9 +196,7 @@ const AddPlanPage = () => {
 
     const handleChartingChange = (selected) => {
         setSelectedCharting(selected);
-        setSelecteOptions([]);
-        setSelecteScalping([]);
-        setSelectePattern([]);
+        formik.setFieldValue("Charting", selected);
     };
 
     useEffect(() => {
@@ -242,6 +245,18 @@ const AddPlanPage = () => {
             col_size: 6,
         },
         {
+            name: "Duration",
+            label: "Duration",
+            type: "select",
+            options: [
+                { value: "One_Month", label: "One Month" },
+                { value: "Quarterly", label: "Quarterly" },
+                { value: "Half_Yearly", label: "Half Yearly" },
+                { value: "Yearly", label: "Yearly" },
+            ],
+            col_size: 6,
+        },
+        {
             name: "SOPLiveTrade",
             label: "Live Trade Amount",
             type: "text",
@@ -255,18 +270,8 @@ const AddPlanPage = () => {
             col_size: 6,
         },
 
-        {
-            name: "Duration",
-            label: "Duration",
-            type: "select",
-            options: [
-                { value: "One_Month", label: "One Month" },
-                { value: "Quarterly", label: "Quarterly" },
-                { value: "Half_Yearly", label: "Half Yearly" },
-                { value: "Yearly", label: "Yearly" },
-            ],
-            col_size: 6,
-        },
+
+
     ];
 
     return (
@@ -279,6 +284,7 @@ const AddPlanPage = () => {
 
 
             <AddForm
+                className="admin-add-btn"
                 fields={fields.filter((field) => !field.showWhen || field.showWhen(formik.values))}
                 btn_name="Add"
                 btn_name1="Cancel"
@@ -287,9 +293,9 @@ const AddPlanPage = () => {
                 additional_field={
                     <>
                         {formik.values.PlanType == "Charting" && (
-                            <>
+                            <div className="col-lg-5 w" style={{ width: "39vw" }}>
                                 <CustomMultiSelect
-                                    label={<span className='card-text-Color' >Segment</span>}
+                                    label={<span className='card-text-Color'>Segment</span>}
                                     options={[
                                         { value: "Cash", label: "Cash" },
                                         { value: "Future", label: "Future" },
@@ -298,10 +304,14 @@ const AddPlanPage = () => {
                                     selected={selectedCharting}
                                     onChange={handleChartingChange}
                                 />
-                                <div><h6 className="text-danger">{formik.errors.Charting}</h6></div>
-                            </>
+                                {/* Error message positioned directly below the select */}
+                                {formik.errors.Charting && (
+                                    <div className="text-danger mt-1 small">
+                                        {formik.errors.Charting}
+                                    </div>
+                                )}
+                            </div>
                         )}
-
                         {formik.values.PlanType == "Scalping" && (
                             <CustomMultiSelect
                                 label={<span className='card-text-Color' >Scalping</span>}

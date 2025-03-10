@@ -5657,6 +5657,7 @@ ul.nav.nav-tabs.justify-content-center,
 .nav-fill .nav-item {
   width: 250px !important;
   /* margin: 0px auto; */
+    color: var(--text-color) !important;
   flex: none !important;
 }
 
@@ -6626,4 +6627,16 @@ height: auto;
 
 .edit-btn svg {
   font-size: 16px;
+}
+
+.css-1d1zd7w {
+  display: flex;
+  justify-content: center;
+}
+.css-13cymwt-control{
+  padding: 3px;
+}
+
+.css-13cymwt-control{
+  width: 39vw;
 }

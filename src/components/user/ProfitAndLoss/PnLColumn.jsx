@@ -420,7 +420,7 @@ export const columns1 = () => [
   },
   {
     name: "ScalpType",
-    label: "ScalpType",
+    label: "Target Type",
     options: {
       filter: true,
       sort: true,

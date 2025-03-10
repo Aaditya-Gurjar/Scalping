@@ -166,6 +166,7 @@ const Adduser = () => {
             if (!values.bname && formik.values.Select_License == '2') {
                 errors.bname = "Please Select Broker"
             }
+            console.log("eror", errors)
             return errors;
         },
         onSubmit: async (values) => {
