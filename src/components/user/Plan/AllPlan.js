@@ -62,13 +62,13 @@ const ServicesList = () => {
         const filterPlan = response?.Admin?.filter(
           (plan) =>
             !["Three Days Live", "Two Days Demo", "One Week Demo"].includes(
-              plan.Planname
+              plan.PlanName
             )
         );
         const filterPlanCharting = response?.Charting?.filter(
           (plan) =>
             !["Three Days Live", "Two Days Demo", "One Week Demo"].includes(
-              plan.Planname
+              plan.PlanName
             )
         );
         setPlansData({
@@ -95,7 +95,7 @@ const ServicesList = () => {
   };
 
   const isPlanPurchased = (planName) => {
-    return purchasedPlans.some((plan) => plan.Planname === planName);
+    return purchasedPlans.some((plan) => plan.PlanName === planName);
   };
 
   const HandleBuyPlan = async (index, type, isCharting) => {
@@ -108,11 +108,11 @@ const ServicesList = () => {
       const req1 = {
         Username: username,
         transactiontype: "Purchase",
-        money: planDetails.SOPPrice,
+        money: planDetails.payment,
       };
       const result = await Swal.fire({
         title: "Are you sure?",
-        text: `Do you want to buy the plan: ${planDetails.Planname} for ₹${planDetails.SOPPrice}?`,
+        text: `Do you want to buy the plan: ${planDetails.PlanName} for ₹${planDetails.payment}?`,
         icon: "warning",
         showCancelButton: true,
         confirmButtonText: "Yes, Buy it!",
@@ -140,10 +140,10 @@ const ServicesList = () => {
               PatternS: planDetails.Pattern,
               NumberofScript: planDetails.NumberofScript,
               Duration: planDetails["Plan Validity"],
-              Planname: planDetails.SOPPrice,
-              SOPPrice: planDetails.SOPPrice,
+              PlanName: planDetails.payment,
+              payment: planDetails.payment,
               Extendtype: "ExtendServiceEndDate",
-              money: planDetails.SOPPrice,
+              money: planDetails.payment,
               Charting: planDetails.ChartingSignal,
             };
             const buyPlanResponse = await BuyPlan(req);
@@ -173,8 +173,8 @@ const ServicesList = () => {
               PatternS: planDetails.Pattern,
               NumberofScript: planDetails.NumberofScript,
               Duration: planDetails["Plan Validity"],
-              Planname: planDetails.Planname,
-              SOPPrice: planDetails.SOPPrice,
+              PlanName: planDetails.PlanName,
+              payment: planDetails.payment,
               Extendtype: "ExtendServiceCount",
               Charting: planDetails.ChartingSignal,
             };
@@ -208,8 +208,8 @@ const ServicesList = () => {
             PatternS: planDetails.Pattern,
             NumberofScript: planDetails.NumberofScript,
             Duration: planDetails["Plan Validity"],
-            Planname: planDetails.Planname,
-            SOPPrice: planDetails.SOPPrice,
+            PlanName: planDetails.PlanName,
+            payment: planDetails.payment,
             Extendtype: "",
             Charting: planDetails.ChartingSignal,
           };
@@ -267,15 +267,15 @@ const ServicesList = () => {
 
   const getUpdatedPlans = plansData.data?.filter(
     (plan) =>
-      plan.Planname !== "Three Days Live" &&
-      plan.Planname !== "Two Days Demo" &&
-      plan.Planname !== "One Week Demo"
+      plan.PlanName !== "Three Days Live" &&
+      plan.PlanName !== "Two Days Demo" &&
+      plan.PlanName !== "One Week Demo"
   );
   const getUpdatedPlansCharting = plansData.data1?.filter(
     (plan) =>
-      plan.Planname !== "Three Days Live" &&
-      plan.Planname !== "Two Days Demo" &&
-      plan.Planname !== "One Week Demo"
+      plan.PlanName !== "Three Days Live" &&
+      plan.PlanName !== "Two Days Demo" &&
+      plan.PlanName !== "One Week Demo"
   );
 
   const [value, setValue] = useState("1");
@@ -348,14 +348,14 @@ const ServicesList = () => {
                 getUpdatedPlans?.map((plan, index) => (
                   <div key={index} className="allplan-card mb-3">
                     <div className="plan-header">
-                      <h2 className="allplan-card-title">{plan.Planname}</h2>
-                      {isPlanPurchased(plan.Planname) && (
+                      <h2 className="allplan-card-title">{plan.PlanName}</h2>
+                      {isPlanPurchased(plan.PlanName) && (
                         <BadgeCheck className="purchased-badge" />
                       )}
                     </div>
                     <h3 className="allplan-card-subtitle">
                       <strong className="card-text-Color">Price:</strong>
-                      <FaRupeeSign /> {plan.SOPPrice}
+                      <FaRupeeSign /> {plan.payment}
                     </h3>
                     <h3 className="allplan-card-subtitle">
                       Duration: {plan["Plan Validity"]}
@@ -432,7 +432,7 @@ const ServicesList = () => {
 
 
                     </div>
-                    {isPlanPurchased(plan.Planname) ? (
+                    {isPlanPurchased(plan.PlanName) ? (
                       <button
                         className="allplan-button buy-again"
                         onClick={() => HandleBuyPlan(index, 0, false)}
@@ -461,13 +461,13 @@ const ServicesList = () => {
                 getUpdatedPlansCharting?.map((plan, index) => (
                   <div key={index} className="allplan-card mb-3">
                     <div className="plan-header">
-                      <h2 className="allplan-card-title">{plan.Planname}</h2>
-                      {isPlanPurchased(plan.Planname) && (
+                      <h2 className="allplan-card-title">{plan.PlanName}</h2>
+                      {isPlanPurchased(plan.PlanName) && (
                         <BadgeCheck className="purchased-badge" />
                       )}
                     </div>
                     <h3 className="allplan-card-subtitle">
-                      <FaRupeeSign /> {plan.SOPPrice}
+                      <FaRupeeSign /> {plan.payment}
                     </h3>
                     <h3 className="allplan-card-subtitle">
                       Duration: {plan["Plan Validity"]}
@@ -481,7 +481,7 @@ const ServicesList = () => {
                         {plan.ChartingSignal?.join(", ")}
                       </p>
                     </div>
-                    {isPlanPurchased(plan.Planname) ? (
+                    {isPlanPurchased(plan.PlanName) ? (
                       <button
                         className="allplan-button buy-again"
                         onClick={() => HandleBuyPlan(index, 0, true)}
