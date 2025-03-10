@@ -95,7 +95,7 @@ const ServicesList = () => {
   };
 
   const isPlanPurchased = (planName) => {
-    return purchasedPlans.some((plan) => plan.PlanName === planName);
+    return purchasedPlans.some((plan) => plan.Planname === planName);
   };
 
   const HandleBuyPlan = async (index, type, isCharting) => {
@@ -140,10 +140,9 @@ const ServicesList = () => {
               PatternS: planDetails.Pattern,
               NumberofScript: planDetails.NumberofScript,
               Duration: planDetails["Plan Validity"],
-              PlanName: planDetails.payment,
+              Planname: planDetails.PlanName,
               payment: planDetails.payment,
               Extendtype: "ExtendServiceEndDate",
-              money: planDetails.payment,
               Charting: planDetails.ChartingSignal,
             };
             const buyPlanResponse = await BuyPlan(req);
@@ -173,13 +172,11 @@ const ServicesList = () => {
               PatternS: planDetails.Pattern,
               NumberofScript: planDetails.NumberofScript,
               Duration: planDetails["Plan Validity"],
-              PlanName: planDetails.PlanName,
+              Planname: planDetails.PlanName,
               payment: planDetails.payment,
               Extendtype: "ExtendServiceCount",
               Charting: planDetails.ChartingSignal,
             };
-            console.log("planReq, ", req)
-
             const buyPlanResponse = await BuyPlan(req);
             if (buyPlanResponse.Status) {
               fetchPurchasedPlans();
@@ -208,7 +205,7 @@ const ServicesList = () => {
             PatternS: planDetails.Pattern,
             NumberofScript: planDetails.NumberofScript,
             Duration: planDetails["Plan Validity"],
-            PlanName: planDetails.PlanName,
+            Planname: planDetails.PlanName,
             payment: planDetails.payment,
             Extendtype: "",
             Charting: planDetails.ChartingSignal,
@@ -341,12 +338,12 @@ const ServicesList = () => {
 
           {/* Tabs Content */}
           <TabPanel value="1">
-            <div className="d-flex flex-wrap gap-2 justify-content-between">
+            <div className="d-flex flex-wrap gap-3">
               {plansData.loading ? (
                 <p className="allplan-loading">Loading...</p>
               ) : (
                 getUpdatedPlans?.map((plan, index) => (
-                  <div key={index} className="allplan-card mb-3">
+                  <div key={index} className="allplan-card ">
                     <div className="plan-header">
                       <h2 className="allplan-card-title">{plan.PlanName}</h2>
                       {isPlanPurchased(plan.PlanName) && (
@@ -454,12 +451,12 @@ const ServicesList = () => {
           </TabPanel>
 
           <TabPanel value="2">
-            <div className="d-flex flex-wrap gap-2 justify-content-between">
+            <div className="d-flex flex-wrap gap-3">
               {plansData.loading ? (
                 <p className="allplan-loading">Loading...</p>
               ) : (
                 getUpdatedPlansCharting?.map((plan, index) => (
-                  <div key={index} className="allplan-card mb-3">
+                  <div key={index} className="allplan-card">
                     <div className="plan-header">
                       <h2 className="allplan-card-title">{plan.PlanName}</h2>
                       {isPlanPurchased(plan.PlanName) && (
