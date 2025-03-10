@@ -115,9 +115,9 @@ const Update_Broker_Key = ({ closeModal, isVisible, Role }) => {
             const response = await UpdateBrokerData(req);
             if (response.Status) {
                 Swal.fire({
- background: "#1a1e23 ",
- backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                    background: "#1a1e23 ",
+                    backdrop: "#121010ba",
+                    confirmButtonColor: "#1ccc8a",
                     title: 'Success!',
                     text: 'Broker key updated successfully.',
                     icon: 'success',
@@ -128,9 +128,9 @@ confirmButtonColor: "#1ccc8a",
                 });
             } else {
                 Swal.fire({
- background: "#1a1e23 ",
- backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                    background: "#1a1e23 ",
+                    backdrop: "#121010ba",
+                    confirmButtonColor: "#1ccc8a",
                     title: 'Error!',
                     text: 'Failed to update broker key.',
                     icon: 'error',
@@ -200,9 +200,9 @@ confirmButtonColor: "#1ccc8a",
                     setUpDateData({ data: response.Data });
 
                     Swal.fire({
- background: "#1a1e23 ",
- backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Updated successfully!",
                         text: "Broker Credential Updated successfully!",
                         icon: "success",
@@ -216,9 +216,9 @@ confirmButtonColor: "#1ccc8a",
                 else {
 
                     Swal.fire({
- background: "#1a1e23 ",
- backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Error",
                         text: response.message,
                         icon: "error",
@@ -447,8 +447,8 @@ confirmButtonColor: "#1ccc8a",
                 <div className="modal show setApi" id="exampleModal" style={{ display: "block" }}>
                     <div className="modal-dialog">
                         <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title" id="exampleModalLabel">
+                            <div className="modal-header card-bg-color">
+                                <h5 className="modal-title card-text-Color" id="exampleModalLabel">
                                     Update Broker Key : - {userDetails.data && userDetails.data.BrokerName}
                                 </h5>
 

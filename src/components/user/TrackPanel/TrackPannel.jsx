@@ -80,15 +80,15 @@ const Pannel = () => {
         },
       },
     },
-    {
-      name: "Username",
-      label: "Username",
+    // {
+    //   name: "Username",
+    //   label: "Username",
 
-      options: {
-        filter: true,
-        sort: true,
-      },
-    },
+    //   options: {
+    //     filter: true,
+    //     sort: true,
+    //   },
+    // },
     {
       name: "Activity",
       label: "Activity",
@@ -154,8 +154,7 @@ const Pannel = () => {
       <Content
         Page_title={"🖥️ Panel Track"}
         button_status={false}
-        backbutton_status={false}
-      >
+        backbutton_status={false}>
         <div className="iq-card-body">
           <div>
             <div className="row">
@@ -184,8 +183,7 @@ const Pannel = () => {
                     setActivity(e.target.value);
                     sessionStorage.setItem("Activity", e.target.value);
                   }}
-                  value={getActivity}
-                >
+                  value={getActivity}>
                   <option value="">All Activity</option>
                   <option value={"Login"}>Login</option>
                   <option value={"Broker Update"}>Broker Update</option>
@@ -216,8 +214,7 @@ const Pannel = () => {
           <div
             className="modal custom-modal d-flex"
             id="add_vendor"
-            role="dialog"
-          >
+            role="dialog">
             <div className="modal-dialog modal-dialog-centered modal-md custom-width-modal">
               <div className="modal-content">
                 <div className="modal-header border-0 pb-0">
@@ -229,8 +226,7 @@ const Pannel = () => {
                     className="btn-close"
                     data-bs-dismiss="modal"
                     aria-label="Close"
-                    onClick={() => setShowModal(!showModal)}
-                  ></button>
+                    onClick={() => setShowModal(!showModal)}></button>
                 </div>
                 <form action="#">
                   <div className="modal-body">
@@ -270,8 +266,7 @@ const Pannel = () => {
                       className="form-select my-2"
                       required=""
                       onChange={(e) => setActivity(e.target.value)}
-                      value={getActivity}
-                    >
+                      value={getActivity}>
                       <option value="">All Activity</option>
                       {getSortName.map((item, index) => {
                         return <option value={item}>{item}</option>;
@@ -299,8 +294,7 @@ const Pannel = () => {
           <div
             className="modal custom-modal d-flex"
             id="add_vendor"
-            role="dialog"
-          >
+            role="dialog">
             <div className="modal-dialog modal-dialog-centered modal-md custom-width-modal">
               <div className="modal-content">
                 <div className="modal-header border-0 pb-0">
@@ -312,8 +306,7 @@ const Pannel = () => {
                     className="btn-close"
                     data-bs-dismiss="modal"
                     aria-label="Close"
-                    onClick={() => setShowModal(!showModal)}
-                  ></button>
+                    onClick={() => setShowModal(!showModal)}></button>
                 </div>
                 <form action="#">
                   <div className="modal-body">

@@ -1074,8 +1074,8 @@ const Header = () => {
           ></div>
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content shadow-lg border-0 rounded-4">
-              <div className="modal-header bg-primary">
-                <h5 className="modal-title" id="exampleModalLabel">
+              <div className="modal-header card-bg-color">
+                <h5 className="modal-title card-text-Color" id="exampleModalLabel">
                   🔑 Auto Login
                 </h5>
                 <button

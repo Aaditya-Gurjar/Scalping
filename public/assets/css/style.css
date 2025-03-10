@@ -5657,6 +5657,7 @@ ul.nav.nav-tabs.justify-content-center,
 .nav-fill .nav-item {
   width: 250px !important;
   /* margin: 0px auto; */
+    color: var(--text-color) !important;
   flex: none !important;
 }
 
@@ -6683,5 +6684,20 @@ div:where(.swal2-icon).swal2-success [class^=swal2-success-line][class$=long] {
   top: 2.9em !important;
   right: 1em !important;
   width: 2.9375em;
+}
   
+.edit-btn svg {
+  font-size: 16px;
+}
+
+.css-1d1zd7w {
+  display: flex;
+  justify-content: center;
+}
+.css-13cymwt-control{
+  padding: 3px;
+}
+
+.css-13cymwt-control{
+  width: 39vw;
 }

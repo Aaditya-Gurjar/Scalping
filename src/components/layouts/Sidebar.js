@@ -249,7 +249,7 @@ const Sidebar = ({ position }) => {
     {
       path: "/superadmin/client-thread-report",
       icon: <Pyramid />, // Client Trade Report icon
-      label: "Client Trade Report",
+      label: "Client Thread Report",
       permission: [],
     },
   ];

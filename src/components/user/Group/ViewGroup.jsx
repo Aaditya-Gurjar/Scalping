@@ -527,6 +527,7 @@
 // };
 
 // export default ViewGroup;
+
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { GetAllGroupService } from "../../CommonAPI/Admin";
@@ -687,11 +688,14 @@ const ViewGroup = () => {
   };
 
   const handleViewOption = async (rowData) => {
+    console.log("rowData for option is", rowData);
     const filteredData = data.filter((_, index) => index === rowData);
     const newParameters = filteredData[0];
+    console.log("newPraramtet", newParameters);
     setParameters(newParameters);
     const reqData = { StrategyName: newParameters?.STG };
     const res = await Option_Detail(reqData);
+    console.log("resfrmOpt", res);
     setSelectedOptionData(res.data?.[0]);
     setOptionModalActiveTab("Description");
     setShowOptionModal(true);
@@ -720,7 +724,6 @@ const ViewGroup = () => {
     };
     fetchData();
   }, [activeTab, groupName]);
-
 
   return (
     <div className="container my-5">
@@ -1034,11 +1037,12 @@ const ViewGroup = () => {
                     {selectedOptionData?.["Breakeven Point"]}
                   </p>
                   <p>
-                    <strong>Max Profit When?:</strong>{" "}
-                    {selectedOptionData?.["Max Profit When?"]}
+                    <strong>Max Profit When :</strong>{" "}
+                    {selectedOptionData?.["Max Profit When?"]?.Downward}
+                    {selectedOptionData?.["Max Profit When?"]?.Upward}
                   </p>
                   <p>
-                    <strong>Max Loss When?:</strong>{" "}
+                    <strong>Max Loss When:</strong>{" "}
                     {selectedOptionData?.["Max Loss When?"]}
                   </p>
                 </div>

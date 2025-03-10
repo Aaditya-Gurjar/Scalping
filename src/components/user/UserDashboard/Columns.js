@@ -2231,7 +2231,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
 
     {
         name: "Targetselection",
-        label: "Target Selection",
+        label: "Target Type",
         options: {
             filter: true,
             sort: true,

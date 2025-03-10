@@ -1296,7 +1296,7 @@ export const columns3 = (selectStrategyType) => [
     {
         // name: "TradeType",
         name: "TType",
-        label: "Trade Type",
+        label: "Transaction Type",
         options: {
             filter: true,
             sort: true,
@@ -1304,7 +1304,7 @@ export const columns3 = (selectStrategyType) => [
     },
     {
         name: selectStrategyType == "Option Strategy" ? "LotSize" : selectStrategyType == "Scalping" ? "Quantity" : "Quantity",
-        label: selectStrategyType == "Option Strategy" ? "LotSize" : selectStrategyType == "Scalping" ? "Quantity" : "Quantity",
+        label: selectStrategyType == "Option Strategy" ? "Lot" : selectStrategyType == "Scalping" ? "Quantity" : "Quantity",
         options: {
             filter: true,
             sort: true,

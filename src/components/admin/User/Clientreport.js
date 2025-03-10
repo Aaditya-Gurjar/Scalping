@@ -41,10 +41,10 @@ const Clientreport = () => {
     useEffect(() => {
         setSelectUserName(Username || 'AllUser')
     }, [])
-    
+
     return (
         <Content
-            Page_title={" 📉 Client Thread Response"}
+            Page_title={" 📉 Client Thread Report"}
             button_status={false}
             backbutton_status={true}
         >

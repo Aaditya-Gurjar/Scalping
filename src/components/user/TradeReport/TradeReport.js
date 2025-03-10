@@ -51,7 +51,7 @@ const TradeReport = () => {
     const Username = localStorage.getItem('name');
     const adminPermission = localStorage.getItem('adminPermission');
 
-
+    console.log("showTable", showTable)
     // State for default auto-select redirected from dashboard
     const [selectedRowData, setSelectedRowData] = useState("");
     const [checkedRows, setCheckedRows] = useState();
@@ -290,7 +290,8 @@ const TradeReport = () => {
         await getChartingReport(req)
             .then((res) => {
                 if (res.Status) {
-                    setShowTable(true);
+                    if (selectStrategyType === "ChartingPlatform")
+                        setShowTable(true);
                     setOpenCloseChartingData({
                         CloseData: res.CloseData,
                         OpenData: res.OpenData
@@ -306,7 +307,9 @@ const TradeReport = () => {
             });
     };
     useEffect(() => {
-        handleViewchartingReport()
+        if (selectStrategyType === "ChartingPlatform") {
+            handleViewchartingReport();
+        }
     }, [activeTab, setOpenCloseChartingData])
 
     useEffect(() => {
@@ -467,6 +470,7 @@ const TradeReport = () => {
                                 isChecked={checkedRows}
                             />
                         ) : (
+
                             <NoDataFound />
                         )}
                     </div>
@@ -549,8 +553,17 @@ const TradeReport = () => {
                     </div>
                 )}
 
-                {selectStrategyType === "ChartingPlatform" ? "" :
+                {/* {selectStrategyType === "ChartingPlatform" ? "" :
                     <button className='addbtn mt-2' onClick={handleSubmit}>Submit</button>
+                } */}
+
+                {selectStrategyType !== "ChartingPlatform" &&
+                    (
+                        (selectStrategyType === "Scalping" && ((tradeReport?.data?.length > 0) || (tradeReport?.data1?.length > 0))) ||
+                        ((selectStrategyType === "Option Strategy" || selectStrategyType === "Pattern" || selectStrategyType === "Pattern Script") && (tradeReport?.data?.length > 0))
+                    ) && (
+                        <button className='addbtn mt-2' onClick={handleSubmit}>Submit</button>
+                    )
                 }
 
                 {showTable && (getAllTradeData?.data2?.length > 0 || getAllTradeData?.data1?.length > 0 || openCloseChartingData?.OpenData?.length > 0 || openCloseChartingData?.CloseData?.length > 0) ? (

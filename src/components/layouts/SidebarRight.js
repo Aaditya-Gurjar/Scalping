@@ -53,7 +53,7 @@ const Sidebar = ({ position }) => {
   const sidebarItems = {
 
 
-    Admin: [ 
+    Admin: [
 
 
       {
@@ -75,7 +75,7 @@ const Sidebar = ({ position }) => {
       {
         path: "/admin/clientreport",
         icon: <i className="la la-briefcase"></i>,
-        label: "Client Trade Report",
+        label: "Client Thread Report",
       },
       {
         path: "/admin/smtp",

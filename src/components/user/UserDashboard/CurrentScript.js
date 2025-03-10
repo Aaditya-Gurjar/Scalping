@@ -1350,7 +1350,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
     },
     {
       name: "Loss",
-      label: "Max Loss ",
+      label: "Max Loss (in price)",
       type: "text3",
       label_size: 12,
       col_size: 4,
@@ -1361,7 +1361,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
     {
       name: "Profit",
-      label: " Max Profit ",
+      label: " Max Profit (in price)",
       type: "text3",
       label_size: 12,
       col_size: 4,
@@ -1728,7 +1728,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
     {
       name: "Profit",
-      label: "Max Profit ",
+      label: "Max Profit (in price) ",
       type: "text3",
       label_size: 12,
       col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
@@ -1740,7 +1740,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
     },
     {
       name: "Loss",
-      label: "Max Loss ",
+      label: "Max Loss (in price)",
       type: "text3",
       label_size: 12,
       col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,

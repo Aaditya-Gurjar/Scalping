@@ -85,7 +85,8 @@ const AdminServicesList = () => {
             className="mb-3 custom-tabs"
             fill
           >
-            <Tab eventKey="Scalping" title="Scalping">
+
+            <Tab eventKey="Scalping" title="SOP" onClick={() => setActiveTab("Scalping")}>
               {plansData.loading ? (
                 <p>Loading...</p>
               ) : (

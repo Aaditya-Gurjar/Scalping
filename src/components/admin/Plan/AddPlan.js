@@ -297,7 +297,10 @@ const AddPlanPage = () => {
             planname: "",
             Duration: "One_Month",
             PlanType: "Scalping",
-            Charting: []
+            SOPLiveTrade: 0,
+            SOPPaperTrade: 0,
+            Charting: [],
+            ChartPerMonth: "",
         },
         validate: (values) => {
             const errors = {};
@@ -324,17 +327,22 @@ const AddPlanPage = () => {
                 errors.planname = "Plan name should only contain alphabets (No numbers or special characters).";
             }
 
+            if (values.PlanType === "Charting" && (!values.Charting || values.Charting.length === 0)) {
+                errors.Charting = "Please select at least one Segment.";
+            }
 
 
             if (!values.Duration) errors.Duration = "Please select a plan duration.";
-            if (formik.values.PlanType == "Charting" && selectedCharting.length === 0)
-                errors.Charting = "Please select at least one Segment.";
+
+
+
 
             return errors;
+
         },
         onSubmit: async (values) => {
             if (formik.values.PlanType == "Scalping" && selecteScalping.length === 0 && selecteOptions.length === 0 && selectePattern.length === 0) {
-                showError("Error!", "Please select at least one strategy Either Scalping , Option , Pattern.");
+                showError("Error!", "Please select at least one strategy either Scalping, Option or Pattern.");
                 return;
             }
             const req = {
@@ -343,7 +351,14 @@ const AddPlanPage = () => {
                 Option: selecteOptions.map((strategy) => strategy.value),
                 PatternS: selectePattern.map((strategy) => strategy.value),
                 Charting: selectedCharting.map((chart) => chart.value),
-                NumberofScript: formik.values.PlanType == "Scalping" ? values.NumberofScript : 0,
+                ...(formik.values.PlanType === "Scalping"
+                    ? { SOPPrice: values.SOPPrice, SOPLiveTrade: (values.SOPLiveTrade || 0) }
+                    : { ChartPerMonth: values.SOPPrice, SOPPrice: 0, ChartPerTrade: (values.SOPLiveTrade || 0) }
+                ),
+
+                SOPPaperTrade: values.SOPPaperTrade || 0.0,
+
+
             };
             try {
                 const response = await AddPlan(req);
@@ -372,9 +387,7 @@ const AddPlanPage = () => {
 
     const handleChartingChange = (selected) => {
         setSelectedCharting(selected);
-        setSelecteOptions([]);
-        setSelecteScalping([]);
-        setSelectePattern([]);
+        formik.setFieldValue("Charting", selected);
     };
 
     useEffect(() => {
@@ -422,18 +435,6 @@ const AddPlanPage = () => {
             type: "text",
             col_size: 6,
         },
-        // {
-        //     name: "LiveTradeAccount",
-        //     label: "Live Trade Account",
-        //     type: "text",
-        //     col_size: 6,
-        // },
-        // {
-        //     name: "PaperTradeAccount",
-        //     label: "Paper Trade Account",
-        //     type: "text",
-        //     col_size: 6,
-        // },
         {
             name: "Duration",
             label: "Duration",
@@ -446,21 +447,63 @@ const AddPlanPage = () => {
             ],
             col_size: 6,
         },
+        {
+            name: "SOPLiveTrade",
+            label: "Live Trade Amount",
+            type: "text",
+            col_size: 6,
+        },
+        {
+            name: "SOPPaperTrade",
+            label: "Paper Trade Amount",
+            type: "text",
+            showWhen: () => formik.values.PlanType === "Scalping", // Removed unnecessary {}
+            col_size: 6,
+        },
+
+
+
     ];
 
     return (
 
-        <AddForm
-            fields={fields.filter((field) => !field.showWhen || field.showWhen(formik.values))}
-            page_title="Add Plan"
-            btn_name="Add"
-            btn_name1="Cancel"
-            formik={formik}
-            btn_name1_route={"/admin/allplan"}
-            additional_field={
-                <>
-                    {formik.values.PlanType == "Charting" && (
-                        <>
+        <Content
+            Page_title={" ➕ Add Plan"}
+            button_status={false}
+            backbutton_status={false}
+        >
+
+
+            <AddForm
+                className="admin-add-btn"
+                fields={fields.filter((field) => !field.showWhen || field.showWhen(formik.values))}
+                btn_name="Add"
+                btn_name1="Cancel"
+                formik={formik}
+                btn_name1_route={"/admin/allplan"}
+                additional_field={
+                    <>
+                        {formik.values.PlanType == "Charting" && (
+                            <div className="col-lg-5 w" style={{ width: "39vw" }}>
+                                <CustomMultiSelect
+                                    label={<span className='card-text-Color'>Segment</span>}
+                                    options={[
+                                        { value: "Cash", label: "Cash" },
+                                        { value: "Future", label: "Future" },
+                                        { value: "Option", label: "Option" }
+                                    ]}
+                                    selected={selectedCharting}
+                                    onChange={handleChartingChange}
+                                />
+                                {/* Error message positioned directly below the select */}
+                                {formik.errors.Charting && (
+                                    <div className="text-danger mt-1 small">
+                                        {formik.errors.Charting}
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                        {formik.values.PlanType == "Scalping" && (
                             <CustomMultiSelect
                                 label={<span >Segment</span>}
                                 options={[

@@ -42,7 +42,7 @@ const AddSubadmin = () => {
             } else if (!Name_regex(values.Username)) {
                 errors.Username = "Please Enter Valid Username";
             }
-
+   
             const nameRegex = /^[a-zA-Z ]+$/;
             if (!values.Name) {
                 errors.Name = "Please Enter Name";
@@ -101,7 +101,7 @@ const AddSubadmin = () => {
                             background: "#1a1e23 ",
                             backdrop: "#121010ba",
                             confirmButtonColor: "#1ccc8a",
-                            title: "User Created!",
+                            title: "Subadmin Created!",
                             text: response.message,
                             icon: "success",
                             timer: 1500,

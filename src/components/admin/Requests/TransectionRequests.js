@@ -229,69 +229,69 @@ const Clientservice = () => {
 
     return (
         <>
-        <Content
+            <Content
                 Page_title={" 📉 Transaction Request"}
                 button_status={false}
                 backbutton_status={true}
-                
+
 
             >
-           
-                        <div className='iq-card-body'>
-                            <div className="container mt-4">
-                                
-                                <Tabs
-                                    defaultActiveKey="PendingRequest"
-                                    id="fill-tab-example"
-                                    className="mb-3 custom-tabs"
-                                    fill
-                                >
-                                    <Tab eventKey="PendingRequest" title="Pending">
-                                        <div className="">
-                                            <h5 className="mb-4">
-                                                {getAllRequest.pending && getAllRequest.pending.length > 0 ? (
-                                                    <FullDataTable
-                                                        columns={columns}
-                                                        data={getAllRequest.pending}
-                                                        checkBox={false}
-                                                    />
-                                                ) : (
-                                                    <NoDataFound />
-                                                )}
 
-                                            </h5>
-                                        </div>
-                                    </Tab>
-                                    <Tab eventKey="RejectRequest" title="Rejected">
-                                        <div className="">
-                                            {getAllRequest.rejected && getAllRequest.rejected.length > 0 ? (
-                                                <FullDataTable
-                                                    columns={columns}
-                                                    data={getAllRequest.rejected}
-                                                    checkBox={false}
-                                                />) : (
-                                                <NoDataFound />
-                                            )
-                                            }
-                                        </div>
-                                    </Tab>
-                                    <Tab eventKey="AproveRequest" title="Approved">
-                                        <div className="">
-                                            {
-                                                getAllRequest.Complete && getAllRequest.Complete.length > 0 ? (<FullDataTable
-                                                    columns={columns}
-                                                    data={getAllRequest.Complete}
-                                                    checkBox={false}
-                                                />)
-                                                    : (<NoDataFound />)
-                                            }
+                <div className='iq-card-body'>
+                    <div className="container mt-4">
 
-                                        </div>
-                                    </Tab>
-                                </Tabs>
-                            </div>
-                        </div>
-                   
+                        <Tabs
+                            defaultActiveKey="PendingRequest"
+                            id="fill-tab-example"
+                            className="mb-3 custom-tabs"
+                            fill
+                        >
+                            <Tab eventKey="PendingRequest" title="Pending" style={{ color: "white" }}>
+                                <div className="">
+                                    <h5 className="mb-4">
+                                        {getAllRequest.pending && getAllRequest.pending.length > 0 ? (
+                                            <FullDataTable
+                                                columns={columns}
+                                                data={getAllRequest.pending}
+                                                checkBox={false}
+                                            />
+                                        ) : (
+                                            <NoDataFound />
+                                        )}
+
+                                    </h5>
+                                </div>
+                            </Tab>
+                            <Tab eventKey="RejectRequest" title="Rejected" style={{ color: "white" }}>
+                                <div className="">
+                                    {getAllRequest.rejected && getAllRequest.rejected.length > 0 ? (
+                                        <FullDataTable
+                                            columns={columns}
+                                            data={getAllRequest.rejected}
+                                            checkBox={false}
+                                        />) : (
+                                        <NoDataFound />
+                                    )
+                                    }
+                                </div>
+                            </Tab>
+                            <Tab eventKey="AproveRequest" title="Approved" style={{ color: "white" }}>
+                                <div className="">
+                                    {
+                                        getAllRequest.Complete && getAllRequest.Complete.length > 0 ? (<FullDataTable
+                                            columns={columns}
+                                            data={getAllRequest.Complete}
+                                            checkBox={false}
+                                        />)
+                                            : (<NoDataFound />)
+                                    }
+
+                                </div>
+                            </Tab>
+                        </Tabs>
+                    </div>
+                </div>
+
             </Content>
         </>
     );

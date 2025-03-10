@@ -163,7 +163,7 @@ const Clientservice = () => {
                 Broker: values.Broker,
 
             }
- 
+
             try {
                 const response = await EditClientPanle(req);
                 if (response.Status) {
@@ -379,25 +379,25 @@ const Clientservice = () => {
                 customBodyRender: (value) => value || '-'
             }
         },
-        {
-            name: 'AutoLogin',
-            label: 'Auto Login',
-            options: {
-                filter: true,
-                sort: true,
-                customBodyRender: (value) => value || '-'
-            }
-        },
-        
-        {
-            name: 'Key',
-            label: 'Key',
-            options: {
-                filter: true,
-                sort: true,
-                customBodyRender: (value) => value || '-'
-            }
-        },
+        // {
+        //     name: 'AutoLogin',
+        //     label: 'Auto Login',
+        //     options: {
+        //         filter: true,
+        //         sort: true,
+        //         customBodyRender: (value) => value || '-'
+        //     }
+        // },
+
+        // {
+        //     name: 'Key',
+        //     label: 'Key',
+        //     options: {
+        //         filter: true,
+        //         sort: true,
+        //         customBodyRender: (value) => value || '-'
+        //     }
+        // },
     ];
 
 

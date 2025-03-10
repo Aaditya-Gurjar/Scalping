@@ -25,16 +25,8 @@ export const columns = (handleDelete) => [
         }
     },
     {
-        name: "ScalpType",
-        label: "Scalp Type",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Exchange",
-        label: "Exchange",
+        name: "Targetselection",
+        label: "Target Selection",
         options: {
             filter: true,
             sort: true,
@@ -49,6 +41,15 @@ export const columns = (handleDelete) => [
         }
     },
     {
+        name: "Exchange",
+        label: "Exchange",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+
+    {
         name: "Token",
         label: "Token",
         options: {
@@ -58,7 +59,7 @@ export const columns = (handleDelete) => [
     },
     {
         name: "TType",
-        label: "Trade Type",
+        label: "Transaction Type",
         options: {
             filter: true,
             sort: true,
@@ -82,7 +83,6 @@ export const columns = (handleDelete) => [
     },
     {
         name: "Re-entry Point",
-        // label: "Re-entry",
         label: "Re-entry",
         options: {
             filter: true,
@@ -107,34 +107,10 @@ export const columns = (handleDelete) => [
         }
     },
 
-    {
-        name: "LowerRange",
-        label: "Lower Range",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "HigherRange",
-        label: "Higher Range",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "HoldExit",
-        label: "Hold/Exit",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value) => value ? value : "-"
-        }
-    },
+
     {
         name: "EntryPrice",
-        label: "Lower Price",
+        label: "First Trade Lower Range",
         options: {
             filter: true,
             sort: true,
@@ -142,20 +118,13 @@ export const columns = (handleDelete) => [
     },
     {
         name: "EntryRange",
-        label: "Higher Price",
+        label: "First Trade Higher Range",
         options: {
             filter: true,
             sort: true,
         }
     },
-    {
-        name: "ExitDay",
-        label: "Exit Day",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
     {
         name: "EntryTime",
         label: "Entry Time",
@@ -167,6 +136,14 @@ export const columns = (handleDelete) => [
     {
         name: "ExitTime",
         label: "Exit  Time",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "ExitDay",
+        label: "Exit Day",
         options: {
             filter: true,
             sort: true,
@@ -190,15 +167,7 @@ export const columns = (handleDelete) => [
             sort: true,
         }
     },
-    {
-        name: "Trading",
-        label: "Trading",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value) => (value ? "Active" : "Inactive")
-        }
-    },
+
     {
         name: "TradeExecution",
         label: "Trade Execution",
@@ -224,99 +193,16 @@ export const columns = (handleDelete) => [
             sort: true,
         }
     },
-    {
-        name: "Instrument Symbol",
-        label: "Instrument Symbol",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "ExitRule",
-        label: "Exit Rule",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value) => (value ? value : "NA")
 
-        }
-    },
-    {
-        name: "Profit",
-        label: "Profits",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Loss",
-        label: "Loss",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
     {
         name: "FixedSM",
-        label: "Fixed SM",
+        label: "Position Type",
         options: {
             filter: true,
             sort: true,
         }
     },
-    {
-        name: "MTrade",
-        label: "MTrade",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Expirytype",
-        label: "Expiry Type",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value) => (value ? value : "NA")
-        }
-    },
-    {
-        name: "TaskStatus",
-        label: "Task Status",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Strategy",
-        label: "Strategy",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Strike Price",
-        label: "Strike Price",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value) => (value ? value : "NA")
-        }
-    },
-    {
-        name: "option Type",
-        label: "Option Type",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value) => (value ? value : "NA")
-        }
-    },
+
     {
         name: "MainSymbol",
         label: "Main Symbol",
@@ -350,17 +236,10 @@ export const columns = (handleDelete) => [
             sort: true,
         }
     },
-    {
-        name: "Targetselection",
-        label: "Target Selection",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
     {
         name: "Booking Point2",
-        label: "Booking Point 2",
+        label: "Target 2",
         options: {
             filter: true,
             sort: true,
@@ -368,7 +247,7 @@ export const columns = (handleDelete) => [
     },
     {
         name: "Booking Point3",
-        label: "Booking Point3",
+        label: "Target 3",
         options: {
             filter: true,
             sort: true,
@@ -376,7 +255,7 @@ export const columns = (handleDelete) => [
     },
     {
         name: "Quantity2",
-        label: "Quantity2",
+        label: "Lot 2",
         options: {
             filter: true,
             sort: true,
@@ -384,7 +263,7 @@ export const columns = (handleDelete) => [
     },
     {
         name: "Quantity3",
-        label: "Quantity3",
+        label: "Lot 3",
         options: {
             filter: true,
             sort: true,
@@ -435,6 +314,30 @@ export const columns2 = (handleDelete) => [
             sort: true,
         }
     },
+    {
+        name: "Symbol",
+        label: "Symbol",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "TType",
+        label: "Transaction Type",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "TimeFrame",
+        label: "Time Frame",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
 
     {
         name: "Exchange",
@@ -452,14 +355,7 @@ export const columns2 = (handleDelete) => [
             sort: true,
         }
     },
-    {
-        name: "Symbol",
-        label: "Symbol",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
     {
         name: "Expiry Date",
         label: "Expiry Date",
@@ -469,30 +365,24 @@ export const columns2 = (handleDelete) => [
         }
     },
 
-    {
-        name: "TType",
-        label: "Trade Type",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
     {
         name: "Quantity",
-        label: "Quantity",
+        label: "Lot",
         options: {
             filter: true,
             sort: true,
         }
     },
     {
-        name: "TimeFrame",
-        label: "Time Frame",
+        name: "TStype",
+        label: "Measurement Type",
         options: {
             filter: true,
             sort: true,
         }
     },
+
     {
         name: "Target value",
         label: "Target",
@@ -503,19 +393,7 @@ export const columns2 = (handleDelete) => [
     },
     {
         name: "SL value",
-        // label: "Re-entry",
-        label: "Re-entry",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-
-
-
-    {
-        name: "TStype",
-        label: "Measurement Type",
+        label: "Stoploss",
         options: {
             filter: true,
             sort: true,
@@ -530,14 +408,6 @@ export const columns2 = (handleDelete) => [
         }
     },
 
-    {
-        name: "ExitDay",
-        label: "Exit Day",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
     {
         name: "EntryTime",
         label: "Entry Time",
@@ -555,39 +425,14 @@ export const columns2 = (handleDelete) => [
         }
     },
     {
-        name: "Trading",
-        label: "Trading",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value) => (value ? "Active" : "Inactive")
-        }
-    },
-    {
-        name: "Instrument Name",
-        label: "Instrument Name",
+        name: "ExitDay",
+        label: "Exit Day",
         options: {
             filter: true,
             sort: true,
         }
     },
-    {
-        name: "Username",
-        label: "Username",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Expirytype",
-        label: "Expiry Type",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value) => (value ? value : "NA")
-        }
-    },
+
     {
         name: "Instrument Type",
         label: "Instrument Type",
@@ -596,57 +441,7 @@ export const columns2 = (handleDelete) => [
             sort: true,
         }
     },
-    {
-        name: "Trend",
-        label: "Trend",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value) => (value ? value : "NA")
-        }
-    },
-    {
-        name: "Strategy",
-        label: "Strategy",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "TaskStatus",
-        label: "Task Status",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Strike Price",
-        label: "Strike Price",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value) => (value ? value : "NA")
-        }
-    },
-    {
-        name: "option Type",
-        label: "Option Type",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value) => (value ? value : "NA")
-        }
-    },
-    {
-        name: "Lot",
-        label: "Lot size",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
     {
         name: "MainSymbol",
         label: "Main Symbol",
@@ -673,6 +468,7 @@ export const columns1 = (handleDelete) => [
             }
         },
     },
+
     {
         name: "Action",
         label: "Action",
@@ -684,27 +480,40 @@ export const columns1 = (handleDelete) => [
             }
         }
     },
+
     {
         name: "STG",
-        label: "Option Type",
+        label: "Strategy",
         options: {
             filter: true,
             sort: true,
         }
     },
+
     {
-        name: "Exchange",
-        label: "Exchange",
+        name: "Symbol",
+        label: "Symbol",
         options: {
             filter: true,
             sort: true,
         }
     },
+
+
 
 
     {
         name: "Targettype",
         label: "Risk Handle",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+
+    {
+        name: "Exchange",
+        label: "Exchange",
         options: {
             filter: true,
             sort: true,
@@ -730,14 +539,6 @@ export const columns1 = (handleDelete) => [
     {
         name: "Token",
         label: "Token",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Symbol",
-        label: "Symbol",
         options: {
             filter: true,
             sort: true,
@@ -771,7 +572,7 @@ export const columns1 = (handleDelete) => [
     {
         name: "SL value",
         // label: "Re-entry",
-        label: "Re-entry",
+        label: "Stoploss",
         options: {
             filter: true,
             sort: true,
@@ -793,14 +594,7 @@ export const columns1 = (handleDelete) => [
             sort: true,
         }
     },
-    {
-        name: "Product Type",
-        label: "Exit Day",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
     {
         name: "Entry Time",
         label: "Entry Time",
@@ -818,8 +612,24 @@ export const columns1 = (handleDelete) => [
         }
     },
     {
+        name: "Product Type",
+        label: "Exit Day",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
         name: "StrikeType",
         label: "Strike Type",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "DepthofStrike",
+        label: "Depth Of Strike",
         options: {
             filter: true,
             sort: true,
@@ -833,23 +643,7 @@ export const columns1 = (handleDelete) => [
             sort: true,
         }
     },
-    {
-        name: "Trading",
-        label: "Trading",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value) => (value ? "Active" : "Inactive")
-        }
-    },
-    {
-        name: "Username",
-        label: "Username",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
     {
         name: "MainSymbol",
         label: "Main Symbol",
@@ -874,22 +668,8 @@ export const columns1 = (handleDelete) => [
             sort: true,
         }
     },
-    {
-        name: "IName",
-        label: "IName",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "DepthofStrike",
-        label: "Depth Of Strike",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
+
     {
         name: "Spread",
         label: "Spread",
@@ -906,26 +686,11 @@ export const columns1 = (handleDelete) => [
             sort: true,
         }
     },
-    {
-        name: "TaskStatus",
-        label: "Task Status",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Strategy",
-        label: "Strategy",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
 
     {
         name: "CEDepthLower",
-        label: "CEDepthLower",
+        label: "CE Main Lower",
         options: {
             filter: true,
             sort: true,
@@ -933,32 +698,15 @@ export const columns1 = (handleDelete) => [
     },
     {
         name: "CEDepthHigher",
-        label: "CEDepthHigher",
+        label: "CE Main Higher",
         options: {
             filter: true,
             sort: true,
         }
     },
-    {
-        name: "PEDepthLower",
-        label: "PEDepthLower",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "PEDepthHigher",
-        label: "PEDepthHigher",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-
     {
         name: "CEDeepLower",
-        label: "CEDeepLower",
+        label: "CE Hedge Lower",
         options: {
             filter: true,
             sort: true,
@@ -966,15 +714,33 @@ export const columns1 = (handleDelete) => [
     },
     {
         name: "CEDeepHigher",
-        label: "CEDeepHigher",
+        label: "CE Hedge Higher",
         options: {
             filter: true,
             sort: true,
         }
     },
     {
+        name: "PEDepthLower",
+        label: "PE Main Lower",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "PEDepthHigher",
+        label: "PE Main Higher",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+
+
+    {
         name: "PEDeepLower",
-        label: "PEDeepLower",
+        label: "PE Hedge Lower",
         options: {
             filter: true,
             sort: true,
@@ -982,41 +748,16 @@ export const columns1 = (handleDelete) => [
     },
     {
         name: "PEDeepHigher",
-        label: "PEDeepHigher",
+        label: "PE Hedge Higher",
         options: {
             filter: true,
             sort: true,
         }
     },
-    {
-        name: "FixedSM",
-        label: "FixedSM",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value) => (value ? value : "NA")
-        }
-    },
-    {
-        name: "GroupN",
-        label: "GroupN",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value) => (value ? value : "NA")
-        }
-    },
-    {
-        name: "Lot",
-        label: "Lot size",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
     {
         name: "ExitRuleO",
-        label: "ExitRuleO",
+        label: "Exit Type",
         options: {
             filter: true,
             sort: true,
