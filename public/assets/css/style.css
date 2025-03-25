@@ -7109,3 +7109,18 @@ margin-bottom: 0 !important;
  .toggle-button .btn .btn-primary{
   margin-left: -50px;
  }
+
+ .custom-modal {
+    height: 70vh;
+ }
+
+ .custom-update-modal .modal-content {
+      margin-top: 10vh;
+    
+ }
+
+ /* Optional: Adjust the modal width if needed */
+ .custom-update-modal {
+   max-width: 700px;
+   /* Optional: Adjust width if necessary */
+ }

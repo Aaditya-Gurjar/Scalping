@@ -536,14 +536,14 @@ const Strategygroup = () => {
                         let formattedText = value
                             .map((item, index) => ((index + 1) % 3 === 0 ? item + "\n" : item)) // Har 3rd element ke baad new line
                             .join(", "); // Comma separated format
-        
+
                         return <pre style={{ whiteSpace: "pre-wrap" }}>{formattedText}</pre>;
                     }
                     return value;
                 }
             }
         }
-        
+
     ];
 
     const handleAddFound = (index) => {
@@ -597,55 +597,194 @@ const Strategygroup = () => {
             })
     }
 
+    console.log("singleAdminData", singleAdminData)
     useEffect(() => {
         formik.setValues({
             Companyname: singleAdminData?.Companyname,
             Username: singleAdminData?.username,
             mobile_no: singleAdminData?.SignMobileNo,
             SignEmail: singleAdminData?.SignEmail,
-            Url: "",
+            Url: singleAdminData?.Url,
+            SOPPaperTrade: singleAdminData?.SOPPaperTrade,
+            SOPLiveTrade: singleAdminData?.SOPLiveTrade,
+            SOPScriptwise: singleAdminData?.SOPScriptwise,
+            ChartPerTrade: singleAdminData?.ChartPerTrade,
+            ChartPerMonth: singleAdminData?.ChartPerMonth,
         })
     }, [singleAdminData])
 
 
+    // const formik = useFormik({
+    //     initialValues: {
+    //         Companyname: '',
+    //         Username: '',
+    //         mobile_no: '',
+    //         SignEmail: '',
+    //         Url: '',
+    //     },
+    //     validate: (values) => {
+    //         let errors = {};
+
+    //         if (!values.mobile_no) {
+    //             errors.mobile_no = "Please enter mobile number";
+    //         }
+    //         if (!values.SignEmail) {
+    //             errors.SignEmail = "Please enter email";
+    //         }
+    //         else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.SignEmail)) {
+    //             errors.SignEmail = "Invalid email address";
+    //         }
+
+    //         return errors;
+    //     },
+    //     onSubmit: async (values) => {
+
+    //         const req = {
+    //             Companyname: singleAdminData?.Companyname,
+    //             Username: singleAdminData?.username,
+    //             mobile_no: values.mobile_no,
+    //             SignEmail: values.SignEmail,
+    //             Url: "",
+    //         }
+
+    //         await updateAdmin(req)
+    //             .then((response) => {
+    //                 if (response.Status) {
+    //                     Swal.fire({
+    //                         background: "#1a1e23 ",
+    //                         backdrop: "#121010ba",
+    //                         confirmButtonColor: "#1ccc8a",
+    //                         title: "Admin Updated!",
+    //                         text: response.message,
+    //                         icon: "success",
+    //                         timer: 2000,
+    //                         timerProgressBar: true,
+    //                     });
+    //                     adminDetailsData();
+    //                     setShowUpdate(false);
+    //                     formik.resetForm();
+    //                 }
+    //                 else {
+    //                     Swal.fire({
+    //                         background: "#1a1e23 ",
+    //                         backdrop: "#121010ba",
+    //                         confirmButtonColor: "#1ccc8a",
+    //                         title: "Error!",
+    //                         text: response.message,
+    //                         icon: "error",
+    //                         timer: 2000,
+    //                         timerProgressBar: true,
+    //                     });
+    //                 }
+    //             })
+    //             .catch((err) => {
+
+    //                 console.log("Error in fatching the Dashboard Details", err)
+    //             })
+    //     },
+    // });
+
+    // const fields = [
+    //     {
+    //         name: "mobile_no",
+    //         label: "Mobile Number",
+    //         type: "text3",
+    //         label_size: 12,
+    //         hiding: false,
+    //         col_size: 12,
+    //         disable: false,
+    //     },
+    //     {
+    //         name: "SignEmail",
+    //         label: "Email",
+    //         type: "text",
+    //         label_size: 12,
+    //         hiding: false,
+    //         col_size: 12,
+    //         disable: false,
+    //     },
+    // ]
+
     const formik = useFormik({
         initialValues: {
-            Companyname: '',
-            Username: '',
-            mobile_no: '',
-            SignEmail: '',
-            Url: '',
+            Companyname: "",
+            Username: "",
+            mobile_no: "",
+            SignEmail: "",
+            Url: "",
+            SOPPaperTrade: 0.0,
+            SOPLiveTrade: 0.0,
+            SOPScriptwise: 0.0,
+            ChartPerTrade: 0.0,
+            ChartPerMonth: 0.0,
         },
         validate: (values) => {
             let errors = {};
 
             if (!values.mobile_no) {
                 errors.mobile_no = "Please enter mobile number";
+            } else if (!/^\d{10}$/.test(values.mobile_no)) {
+                errors.mobile_no = "Mobile number must be 10 digits";
             }
+
             if (!values.SignEmail) {
                 errors.SignEmail = "Please enter email";
-            }
-            else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.SignEmail)) {
+            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.SignEmail)) {
                 errors.SignEmail = "Invalid email address";
+            }
+
+            if (!values.Companyname) {
+                errors.Companyname = "Please enter company name";
+            }
+
+            if (!values.Username) {
+                errors.Username = "Please enter username";
+            }
+
+            if (!values.Url) {
+                errors.Url = "Please enter a URL";
+            } else if (!values.Url.startsWith("http://") && !values.Url
+                .startsWith("https://")) {
+                errors.Url = "Invalid URL format";
+            }
+
+            if (values.SOPPaperTrade < 0) {
+                errors.SOPPaperTrade = "Value cannot be negative";
+            }
+            if (values.SOPLiveTrade < 0) {
+                errors.SOPLiveTrade = "Value cannot be negative";
+            }
+            if (values.SOPScriptwise < 0) {
+                errors.SOPScriptwise = "Value cannot be negative";
+            }
+            if (values.ChartPerTrade < 0) {
+                errors.ChartPerTrade = "Value cannot be negative";
+            }
+            if (values.ChartPerMonth < 0) {
+                errors.ChartPerMonth = "Value cannot be negative";
             }
 
             return errors;
         },
         onSubmit: async (values) => {
-
             const req = {
                 Companyname: singleAdminData?.Companyname,
                 Username: singleAdminData?.username,
                 mobile_no: values.mobile_no,
                 SignEmail: values.SignEmail,
-                Url: "",
-            }
+                Url: values.Url,
+                SOPPaperTrade: values.SOPPaperTrade,
+                SOPLiveTrade: values.SOPLiveTrade,
+                SOPScriptwise: values.SOPScriptwise,
+                ChartPerTrade: values.ChartPerTrade,
+                ChartPerMonth: values.ChartPerMonth,
+            };
 
             await updateAdmin(req)
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
-                            background: "#1a1e23 ",
+                            background: "#1a1e23",
                             backdrop: "#121010ba",
                             confirmButtonColor: "#1ccc8a",
                             title: "Admin Updated!",
@@ -657,10 +796,9 @@ const Strategygroup = () => {
                         adminDetailsData();
                         setShowUpdate(false);
                         formik.resetForm();
-                    }
-                    else {
+                    } else {
                         Swal.fire({
-                            background: "#1a1e23 ",
+                            background: "#1a1e23",
                             backdrop: "#121010ba",
                             confirmButtonColor: "#1ccc8a",
                             title: "Error!",
@@ -672,20 +810,20 @@ const Strategygroup = () => {
                     }
                 })
                 .catch((err) => {
-
-                    console.log("Error in fatching the Dashboard Details", err)
-                })
+                    console.log("Error in fetching the Dashboard Details", err);
+                });
         },
     });
+
 
     const fields = [
         {
             name: "mobile_no",
             label: "Mobile Number",
-            type: "text3",
+            type: "text",
             label_size: 12,
             hiding: false,
-            col_size: 12,
+            col_size: 6,
             disable: false,
         },
         {
@@ -694,10 +832,88 @@ const Strategygroup = () => {
             type: "text",
             label_size: 12,
             hiding: false,
-            col_size: 12,
+            col_size: 6,
             disable: false,
         },
-    ]
+        {
+            name: "Url",
+            label: "URL",
+            type: "text",
+            label_size: 12,
+            hiding: false,
+            col_size: 6,
+            disable: true,
+        },
+        {
+            name: "Companyname",
+            label: "Company Name",
+            type: "text",
+            label_size: 12,
+            hiding: false,
+            col_size: 6,
+            disable: false,
+        },
+        {
+            name: "Username",
+            label: "Username",
+            type: "text",
+            label_size: 12,
+            hiding: false,
+            col_size: 6,
+            disable: true,
+        },
+        {
+            name: "SOPPaperTrade",
+            label: "SOP Paper Trade",
+            type: "number",
+            label_size: 12,
+            hiding: false,
+            col_size: 6,
+            disable: false,
+            defaultValue: 0.0,
+        },
+        {
+            name: "SOPLiveTrade",
+            label: "SOP Live Trade",
+            type: "number",
+            label_size: 12,
+            hiding: false,
+            col_size: 6,
+            disable: false,
+            defaultValue: 0.0,
+        },
+        {
+            name: "SOPScriptwise",
+            label: "SOP Scriptwise",
+            type: "number",
+            label_size: 12,
+            hiding: false,
+            col_size: 6,
+            disable: false,
+            defaultValue: 0.0,
+        },
+        {
+            name: "ChartPerTrade",
+            label: "Chart Per Trade",
+            type: "number",
+            label_size: 12,
+            hiding: false,
+            col_size: 6,
+            disable: false,
+            defaultValue: 0.0,
+        },
+        {
+            name: "ChartPerMonth",
+            label: "Chart Per Month",
+            type: "number",
+            label_size: 12,
+            hiding: false,
+            col_size: 6,
+            disable: false,
+            defaultValue: 0.0,
+        },
+    ];
+
 
     const formik1 = useFormik({
         initialValues: {
@@ -838,30 +1054,30 @@ const Strategygroup = () => {
 
     return (
         <Content
-                Page_title={"Admin Details"}
-                button_status={false}
-                backbutton_status={true}
-               
+            Page_title={"Admin Details"}
+            button_status={false}
+            backbutton_status={true}
 
-            >
-       
 
-                        <div className="iq-card-body">
-                            <div className="table-responsive customtable">
-                                {
-                                    getAdminDetails.length > 0 ?
-                                        (<GridExample
-                                            columns={columns}
-                                            data={getAdminDetails}
-                                            checkBox={false}
-                                        />)
-                                        :
-                                        (<NoDataFound />)
-                                }
+        >
 
-                            </div>
-                        </div>
-                   
+
+            <div className="iq-card-body">
+                <div className="table-responsive customtable">
+                    {
+                        getAdminDetails.length > 0 ?
+                            (<GridExample
+                                columns={columns}
+                                data={getAdminDetails}
+                                checkBox={false}
+                            />)
+                            :
+                            (<NoDataFound />)
+                    }
+
+                </div>
+            </div>
+
 
             {
                 showModal && <div className="modal show" id="exampleModal" style={{ display: "block" }}>
@@ -901,34 +1117,33 @@ const Strategygroup = () => {
             }
 
             {
-                showUpdate && <div className="modal show" id="exampleModal" style={{ display: "block" }}>
-                    <div className="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"></div>
-                    <div className="modal-dialog modal-dialog-centered">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title" id="exampleModalLabel">
-                                    Update Admin : {singleAdminData?.Companyname}
-                                </h5>
+                showUpdate && (
+                    <div className="modal show" id="exampleModal" style={{ display: "block" }}>
+                        <div className="modal fade" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"></div>
 
-                                <button
-                                    type="button"
-                                    className="btn-close"
-                                    data-bs-dismiss="modal"
-                                    aria-label="Close"
-                                    onClick={() => { setShowUpdate(false); formik.resetForm() }}
-                                />
-                            </div>
-                            <div>
-                                <AddForm
-                                    fields={fields}
-                                    btn_name="Update"
-                                    formik={formik}
-                                />
+                        <div className="modal-dialog modal-dialog-centered modal-lg custom-update-modal">
+                            <div className="modal-content">
+                                <div className="modal-header card-bg-color">
+                                    <h5 className="modal-title  card-text-Color">
+                                        Update Admin : {singleAdminData?.Companyname}
+                                    </h5>
+                                    <button
+                                        type="button"
+                                        className="btn-close"
+                                        data-bs-dismiss="modal"
+                                        aria-label="Close"
+                                        onClick={() => { setShowUpdate(false); formik.resetForm(); }}
+                                    />
+                                </div>
+                                <div className="modal-body">
+                                    <AddForm fields={fields} btn_name="Update" formik={formik} />
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                )
             }
+
 
             {
                 showPermission1 && <div className="modal show" id="exampleModal" style={{ display: "block" }}>
@@ -1139,7 +1354,7 @@ const Strategygroup = () => {
 
 
 
-        
+
         </Content>
     );
 };
