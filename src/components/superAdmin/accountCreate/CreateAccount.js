@@ -569,7 +569,7 @@ const Adduser = () => {
     const fields = [
         {
             name: "SignuserName",
-            label: "Usernameee",
+            label: "Username",
             type: "text",
             label_size: 12,
             hiding: false,
