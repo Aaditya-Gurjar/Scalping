@@ -45,7 +45,7 @@ export const columns = () => [
   },
   {
     name: "TStype",
-    label: "Meausrement Type",
+    label: "Measurement Type",
     options: {
       filter: true,
       sort: true,

@@ -18,8 +18,7 @@ const Discription = () => {
     <Content
       Page_title={"📄 Description"}
       button_status={false}
-      backbutton_status={true}
-    >
+      backbutton_status={true}>
       <Box sx={{ width: "100%", typography: "body1" }}>
         <TabContext value={value}>
           {/* 🛠️ Styled Tabs */}
@@ -31,8 +30,7 @@ const Discription = () => {
               borderRadius: "8px 8px 0 0",
               padding: "10px",
               width: "100%",
-            }}
-          >
+            }}>
             <TabList
               onChange={handleChange}
               aria-label="lab API tabs example"
@@ -47,10 +45,8 @@ const Discription = () => {
                 "& .Mui-selected": {
                   color: "#1976d2", // Highlight active tab
                   borderBottom: "3px solid #1976d2", // Underline effect
-
                 },
-              }}
-            >
+              }}>
               <Tab label=" 📊 Scalping" value="1" />
               <Tab label=" ⚡ Option" value="2" />
               <Tab label="📈 Candlestick" value="3" />

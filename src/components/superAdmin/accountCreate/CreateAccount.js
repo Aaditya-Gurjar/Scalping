@@ -154,9 +154,10 @@ const Adduser = () => {
 
                 ChartPerMonth: values.ChartPerMonth,
                 ChartPerTrade: values.ChartPerTrade,
-                BrokerPermission: values.BrokerPermission, // Added to request object
+                BrokerPermission: values.BrokerPermission,  
             };
 
+           
 
             await createAdmin(req)
                 .then((response) => {

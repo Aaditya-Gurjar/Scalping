@@ -12,7 +12,7 @@ import Profile from '../components/user/UserProfile/Profile';
 import AddScriptOption from '../components/user/UserScript/AddScript.Option'
 import LastPattern from '../components/user/Patterns/LastPattern';
 import Editprofile from '../components/user/UserProfile/Editprofile';
-import Discription from '../components/user/Discription/Discription';
+import Discription from '../components/user/Discription/Discription2 copy';
 import Tradehistory from '../components/user/Tradehistory/Tradehistory';
 import Traderesponse from '../components/user/TradeResponse/Traderesponse';
 import ProfitAndLoss from '../components/user/ProfitAndLoss/ProfitAndLoss';

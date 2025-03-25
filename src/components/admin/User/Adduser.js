@@ -22,6 +22,8 @@ const Adduser = () => {
         return nameRegex.test(name);
     };
 
+
+    console.log("GetAllPlans", GetAllPlans)
     useEffect(() => {
         getBrokerName()
         GetAllGroupDetails()
@@ -170,6 +172,8 @@ const Adduser = () => {
             return errors;
         },
         onSubmit: async (values) => {
+
+            console.log("inside submit")
             const req = {
                 username: values.username,
                 email: values.email,
@@ -182,7 +186,12 @@ const Adduser = () => {
                 group: selectedOptions && selectedOptions.map((item) => item.value),
             }
 
-            const FilterPlanAmount = GetAllPlans.data.filter((item) => item.PlanName === values.planname);
+            console.log("Rew", req)
+            console.log("GetAllPlans", GetAllPlans.data)
+            console.log("values.planname", values.planname)
+
+            const FilterPlanAmount = GetAllPlans.data.filter((item) => (item.PlanName || item.Planname) === values.planname);
+            console.log("FilterPlanAmount", FilterPlanAmount)
             if (FilterPlanAmount[0].payment > values.ClientAmmount && FilterPlanAmount[0].payment !== '') {
                 Swal.fire({
                     background: "#1a1e23 ",
@@ -194,7 +203,8 @@ const Adduser = () => {
                     timer: 3000,
                     timerProgressBar: true
                 });
-                return
+
+                console.log("Before api call")
 
             }
             await CreateAccount(req)
@@ -312,13 +322,13 @@ const Adduser = () => {
             type: "select1",
             options: formik.values.Select_License === '1'
                 ? GetAllPlans.DemoPlanName.map((item) => ({
-                    label: item.Planname,
-                    value: item.Planname,
+                    label: (item.PlanName || item.Planname),
+                    value: (item.PlanName || item.Planname),
                 }))
                 : formik.values.Select_License === '2'
                     ? GetAllPlans.LivePlanName.map((item) => ({
-                        label: item.Planname,
-                        value: item.Planname,
+                        label: (item.PlanName || item.Planname),
+                        value: (item.PlanName || item.Planname),
                     }))
                     : [],
             label_size: 12,

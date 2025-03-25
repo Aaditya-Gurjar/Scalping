@@ -6,6 +6,8 @@ import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createPortal } from "react-dom";
 
+import { IconButton, Typography } from "@mui/material";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
 
 // DropdownComponent as a separate component
@@ -92,7 +94,7 @@ const DropdownComponent = ({ tableMeta, handleDelete, type, handleMatchPosition,
                             border: "1px solid #555",
                             borderRadius: "4px",
                             boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
-                            zIndex: 1000,
+                            zIndex: 1,
                             maxHeight: "200px",
                             overflowY: "auto",
                             minWidth: "150px",
@@ -101,15 +103,23 @@ const DropdownComponent = ({ tableMeta, handleDelete, type, handleMatchPosition,
                         <ul style={{ listStyle: "none", margin: 0, padding: "8px 0" }}>
                             {/* New Edit Option */}
                             <li
-                                onClick={handleEdit}
+                                onClick={() => {
+                                    handleEdit();
+                                    setIsDropdownOpen(false);
+                                }}
                                 style={{ padding: "8px 16px", cursor: "pointer", color: "#fff" }}
                                 onMouseEnter={(e) => (e.target.style.backgroundColor = "#444")}
-                                onMouseLeave={(e) => (e.target.style.backgroundColor = "#333")}
+                                onMouseLeave={(e) => {
+                                    e.target.style.backgroundColor = "#333";
+                                }}
                             >
                                 Edit
                             </li>
                             <li
-                                onClick={handleDelete}
+                                onClick={() => {
+                                    handleDelete();
+                                    setIsDropdownOpen(false);
+                                }}
                                 style={{ padding: "8px 16px", cursor: "pointer", backgroundColor: "#333", color: "#fff" }}
                                 onMouseEnter={(e) => (e.target.style.backgroundColor = "#444")}
                                 onMouseLeave={(e) => (e.target.style.backgroundColor = "#333")}
@@ -181,6 +191,7 @@ const DropdownComponent = ({ tableMeta, handleDelete, type, handleMatchPosition,
         </>
     );
 };
+
 
 
 export const getColumns = (handleAddScript1) => [
@@ -2668,7 +2679,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
 
 ];
 
-export const getColumns8 = (handleContinutyDiscontinuty) => [
+export const getColumns8 = (handleContinutyDiscontinuty, chartingSubTab) => [
     {
         name: "S.No",
         label: "S.No",
@@ -2701,29 +2712,29 @@ export const getColumns8 = (handleContinutyDiscontinuty) => [
     //         }
     //     }
     // },
-    {
-        name: "Trading",
-        label: "Trading",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value, tableMeta, updateValue) => {
-                const label = value ? "Continue" : "Discontinue";
-                const labelStyle = value ? { backgroundColor: 'green', color: 'white' } : { backgroundColor: 'red', color: 'white' };
+    // {
+    //     name: "Trading",
+    //     label: "Trading",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //         customBodyRender: (value, tableMeta, updateValue) => {
+    //             const label = value ? "Continue" : "Discontinue";
+    //             const labelStyle = value ? { backgroundColor: 'green', color: 'white' } : { backgroundColor: 'red', color: 'white' };
 
-                return (
+    //             return (
 
-                    label === "Continue" ? (
-                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-success">{label}</button>) : (
-                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-danger">{label}</button>
-                    )
+    //                 label === "Continue" ? (
+    //                     <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-success">{label}</button>) : (
+    //                     <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-danger">{label}</button>
+    //                 )
 
 
 
-                );
-            }
-        }
-    },
+    //             );
+    //         }
+    //     }
+    // },
     {
         name: "Token",
         label: "Token",
@@ -2734,22 +2745,13 @@ export const getColumns8 = (handleContinutyDiscontinuty) => [
     },
     {
         name: "TSymbol",
-        label: "TSymbol",
+        label: "Symbol",
         options: {
             filter: true,
             sort: true,
         }
     },
-    {
-        name: "Lotsize",
-        label: "Lot Size",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value) => value ? value : "-"
 
-        }
-    },
     {
         name: "Exchange",
         label: "Exchange",
@@ -2768,7 +2770,7 @@ export const getColumns8 = (handleContinutyDiscontinuty) => [
     },
     {
         name: "TType",
-        label: "Trade Type",
+        label: "Transaction Type",
         options: {
             filter: true,
             sort: true,
@@ -2784,7 +2786,7 @@ export const getColumns8 = (handleContinutyDiscontinuty) => [
     },
     {
         name: "Sl",
-        label: "Re-entry",
+        label: "Stoploss",
         options: {
             filter: true,
             sort: true,
@@ -2792,7 +2794,7 @@ export const getColumns8 = (handleContinutyDiscontinuty) => [
     },
     {
         name: "Exittime",
-        label: "Exittime",
+        label: "Exit Time",
         options: {
             filter: true,
             sort: true,
@@ -2800,7 +2802,7 @@ export const getColumns8 = (handleContinutyDiscontinuty) => [
     },
     {
         name: "Ordertype",
-        label: "Ordertype",
+        label: "Order Type",
         options: {
             filter: true,
             sort: true,
@@ -2815,22 +2817,26 @@ export const getColumns8 = (handleContinutyDiscontinuty) => [
             customBodyRender: (value) => value ? value : "-"
         }
     },
-    {
-        name: "Price",
-        label: "Price",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Optiontype",
-        label: "Option Type",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
+    // {
+    //     name: "Optiontype",
+    //     label: "Option Type",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
+
+    ...(chartingSubTab === "Option"
+        ? [{
+            name: "Optiontype",
+            label: "Option Type",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        }]
+        : []),
 
     {
         name: "Date",
@@ -2850,12 +2856,21 @@ export const getColumns8 = (handleContinutyDiscontinuty) => [
     },
     {
         name: "ManuallyExit",
-        label: "ManuallyExit",
+        label: "Manually Exit",
         options: {
             filter: true,
             sort: true,
-            customBodyRender: (value) => value ? "true" : "false"
+            customBodyRender: (value, tableMeta) => (
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+
+                    {console.log("tableMeta", tableMeta)}
+                    <IconButton onClick={() => handleContinutyDiscontinuty(tableMeta)}>
+                        <ExitToAppIcon color="error" />
+                    </IconButton>
+                    <Typography variant="caption" color="textSecondary">Exit</Typography>
+                </div>
+            )
         }
-    },
+    }
 
 ];

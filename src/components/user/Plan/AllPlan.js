@@ -29,7 +29,7 @@ const ServicesList = () => {
   });
   const [purchasedPlans, setPurchasedPlans] = useState([]);
   const expire = localStorage.getItem("expire");
-
+  const [planExpired, setPlanExpired] = useState([]);
 
   const [expandedOptions, setExpandedOptions] = useState([]);
   const [expandedPatternItems, setExpandedPatternItems] = useState([]);
@@ -93,6 +93,23 @@ const ServicesList = () => {
       console.error("Error fetching purchased plans:", error);
     }
   };
+  // const isPlanExpired = async () => {
+  //   try {
+  //     const response = await ExpirePlanDetails(username);
+  //     console.log("response is ", response)
+  //     if (response.Status) {
+  //       setPlanExpired(response.ExpirePlan || false);
+  //     }
+  //   }
+  //   catch (error) {
+  //     console.error("Error fetching purchased plans:", error);
+  //   }
+  // }
+  // useEffect(() => {
+  //   isPlanExpired();
+  // }, [])
+
+
 
   const isPlanPurchased = (planName) => {
     return purchasedPlans.some((plan) => plan.Planname === planName);
@@ -108,11 +125,11 @@ const ServicesList = () => {
       const req1 = {
         Username: username,
         transactiontype: "Purchase",
-        money: planDetails.SOPPrice,
+        money: planDetails.SOPPrice || planDetails.payment,
       };
       const result = await Swal.fire({
         title: "Are you sure?",
-        text: `Do you want to buy the plan: ${planDetails.Planname} for ₹${planDetails.SOPPrice}?`,
+        text: `Do you want to buy the plan: ${planDetails.Planname || planDetails.PlanName} for ₹${planDetails.SOPPrice}?`,
         icon: "warning",
         showCancelButton: true,
         confirmButtonText: "Yes, Buy it!",
@@ -140,7 +157,7 @@ const ServicesList = () => {
               PatternS: planDetails.Pattern,
               NumberofScript: planDetails.NumberofScript,
               Duration: planDetails["Plan Validity"],
-              Planname: planDetails.SOPPrice,
+              Planname: planDetails.Planname || planDetails.PlanName,
               SOPPrice: planDetails.SOPPrice,
               Extendtype: "ExtendServiceEndDate",
               money: planDetails.SOPPrice,
@@ -166,6 +183,8 @@ const ServicesList = () => {
               });
             }
           } else {
+
+
             const req = {
               Username: username,
               Scalping: planDetails.Scalping,
@@ -173,12 +192,11 @@ const ServicesList = () => {
               PatternS: planDetails.Pattern,
               NumberofScript: planDetails.NumberofScript,
               Duration: planDetails["Plan Validity"],
-              Planname: planDetails.Planname,
+              Planname: planDetails.Planname || planDetails.PlanName,
               SOPPrice: planDetails.SOPPrice,
               Extendtype: "ExtendServiceCount",
               Charting: planDetails.ChartingSignal,
             };
-            console.log("planReq, ", req)
 
             const buyPlanResponse = await BuyPlan(req);
             if (buyPlanResponse.Status) {
@@ -208,7 +226,7 @@ const ServicesList = () => {
             PatternS: planDetails.Pattern,
             NumberofScript: planDetails.NumberofScript,
             Duration: planDetails["Plan Validity"],
-            Planname: planDetails.Planname,
+            Planname: planDetails.Planname || planDetails.PlanName,
             SOPPrice: planDetails.SOPPrice,
             Extendtype: "",
             Charting: planDetails.ChartingSignal,
@@ -355,7 +373,7 @@ const ServicesList = () => {
                     </div>
                     <h3 className="allplan-card-subtitle">
                       <strong className="card-text-Color">Price:</strong>
-                      <FaRupeeSign /> {plan.SOPPrice}
+                      <FaRupeeSign /> {(plan.SOPPrice || plan.payment)}
                     </h3>
                     <h3 className="allplan-card-subtitle">
                       Duration: {plan["Plan Validity"]}

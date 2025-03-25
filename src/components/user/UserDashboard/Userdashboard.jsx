@@ -12,6 +12,7 @@ import FullDataTable from "../../../ExtraComponent/CommanDataTable";
 import NoDataFound from "../../../ExtraComponent/NoDataFound";
 import Content from "../../../ExtraComponent/Content";
 import DatePicker from "react-datepicker";
+import { closeWebSocket, connectWebSocket } from "./LivePrice";
 
 const Userdashboard = () => {
   const userName = localStorage.getItem("name");
@@ -26,12 +27,14 @@ const Userdashboard = () => {
   const [strategyType, setStrategyType] = useState([]);
   const [tableType, setTableType] = useState(StrategyType || "MultiCondition");
 
-  const [ToDate, setToDate] = useState(new Date());
-  const [FromDate, setFromDate] = useState(() => {
+  const [ToDate, setToDate] = useState(() => {
     let tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
     return tomorrow;
   });
+  const [FromDate, setFromDate] = useState(new Date());
+  const [showLivePrice, setShowLivePrice] = useState(false);
+  const [priceData, setPriceData] = useState([]);
 
   // Date configuration
   const currentDate = new Date();
@@ -43,6 +46,23 @@ const Userdashboard = () => {
   const Defult_To_Date = `${tomorrow.getFullYear()}.${String(
     tomorrow.getMonth() + 1
   ).padStart(2, "0")}.${String(tomorrow.getDate()).padStart(2, "0")}`;
+
+  // ------------------Live Price Code goes here------------------
+  useEffect(() => {
+    // const instrument = "NFO|54957#MCX|239484";
+    // const instrument = "NFO|54957";
+    // const instrument = "NFO|13032025";
+    // const instrument = "NFO|45473"; //--working
+    // const instrument = "NFO|11405"; //--working
+    // connectWebSocket(instrument, (data) => {
+    //   console.log("Updated Price Data:", data);
+    //   setPriceData(data);
+    // });
+    // return () => closeWebSocket();
+  }, []);
+
+  // console.log("Live price data ", priceData);
+  // __________________________________________
 
   const [getGroupName, setGroupName] = useState({ loading: true, data: [] });
   const [getPositionData, setPositionData] = useState({
@@ -100,8 +120,6 @@ const Userdashboard = () => {
     const data = { userName: userName };
     await OpenPosition(data)
       .then((response) => {
-        console.log("Responseis", response);
-
         if (response.Status) {
           setPositionData({
             loading: false,
@@ -125,13 +143,6 @@ const Userdashboard = () => {
         console.log("Error in finding the open postion data", err);
       });
   };
-
-  console.log("Active Tab:", activeTab1);
-  console.log("Scalping:", getPositionData.Scalping);
-  console.log("NewScalping:", getPositionData.NewScalping);
-  console.log("Option:", getPositionData.Option);
-  console.log("Pattern:", getPositionData.Pattern);
-  console.log("ChartingData:", getPositionData.ChartingData);
 
   const columns1 = [
     {
@@ -805,7 +816,7 @@ const Userdashboard = () => {
                     ? "col-lg-4"
                     : "col-lg-4"
                 }`}>
-                <div className="px-3">
+                <div className="me-2">
                   <label>Strategy Type</label>
                   <select
                     className="form-select"
@@ -831,21 +842,21 @@ const Userdashboard = () => {
                       <label className="form-label">From Date</label>
                       <DatePicker
                         className="form-control"
-                        selected={FromDate === "" ? formattedDate : FromDate}
+                        selected={FromDate || formattedDate}
                         onChange={(date) => setFromDate(date)}
-                        dateFormat="yyyy.MM.dd"
+                        dateFormat="dd/MM/yyyy"
                       />
                     </div>
                   </div>
 
-                  <div className={`col-12 col-md-6 col-lg-3`}>
+                  <div className={`col-12 col-md-6 col-lg-3 ms-2`}>
                     <div className="form-group">
                       <label className="form-label">To Date</label>
                       <DatePicker
                         className="form-control"
-                        selected={ToDate === "" ? Defult_To_Date : ToDate}
+                        selected={ToDate || Defult_To_Date}
                         onChange={(date) => setToDate(date)}
-                        dateFormat="yyyy.MM.dd"
+                        dateFormat="dd/MM/yyyy"
                       />
                     </div>
                   </div>

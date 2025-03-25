@@ -983,6 +983,8 @@ const Tradehistory = () => {
           Overall: tradeRes.Overall || [],
         });
         setShowReportSections(true);
+        setLoadedSections({ overview: true });
+        setOpenSections({ overview: true });
       } else {
         Swal.fire({
           icon: "error",
@@ -1020,7 +1022,10 @@ const Tradehistory = () => {
       };
       const res = await get_Trade_History(req);
       setChartingData(res?.data || []);
-      setAllTradeData({ Overall: res?.Overall || [] });
+      setAllTradeData({
+        data: res?.data || [],
+        Overall: res?.Overall || [],
+      });
     } catch (error) {
       console.error("Error in getChartingSegmentData", error);
     }
@@ -1201,6 +1206,25 @@ const Tradehistory = () => {
         return columns();
     }
   };
+
+  const hasSubmittedRef = useRef(false);
+
+  useEffect(() => {
+    const autoSubmitIfNeeded = async () => {
+      if (
+        !hasSubmittedRef.current &&
+        location?.state?.goto === "dashboard" &&
+        selectedRowData
+      ) {
+        hasSubmittedRef.current = true;
+        await handleSubmit();
+      }
+    };
+
+    autoSubmitIfNeeded();
+  }, [selectedRowData, location?.state?.goto]);
+
+  console.log("getAllTradeData.data", getAllTradeData.data);
 
   return (
     <Content

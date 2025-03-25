@@ -214,9 +214,9 @@ const Tradehistory = () => {
 
         {showTable && (
           <>
-            {selectStrategyType === "ChartingPlatform" && (
+            {/* {selectStrategyType === "ChartingPlatform" && (
               <div className="container">
-                {/* Tab Navigation */}
+                
                 <div className="d-flex justify-content-center">
                   <ul
                     className="nav nav-pills shadow rounded-pill p-1"
@@ -269,8 +269,8 @@ const Tradehistory = () => {
                   </ul>
                 </div>
               </div>
-            )}
-            Total Profit and Loss
+            )} */}
+
             <p
               className="bold mt-4"
               style={{
@@ -297,11 +297,7 @@ const Tradehistory = () => {
                     ? columns6()
                     : columns5()
                 }
-                data={
-                  selectStrategyType === "ChartingPlatform"
-                    ? getFilteredPnlData
-                    : getPnLData.data1
-                }
+                data={getPnLData.data}
                 checkBox={false}
               />
             </div>

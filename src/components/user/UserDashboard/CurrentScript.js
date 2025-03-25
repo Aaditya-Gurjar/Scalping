@@ -39,9 +39,10 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
   const [editCharting, setEditCharting] = useState();
   const [getCharting, setGetCharting] = useState([]);
 
+  console.log("EditDataScalping", EditDataScalping)
+
 
   const [chartingSubTab, setChartingSubTab] = useState("Cash");
-
 
 
   const [getAllService, setAllservice] = useState({
@@ -63,11 +64,12 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
     if (data == "ChartingPlatform") getChartingScript();
   }, [data, chartingSubTab]);
 
+
+
   const getChartingScript = async () => {
     const req = { Username: userName, Segment: chartingSubTab, From_date: FromDate, To_date: ToDate };
     await getUserChartingScripts(req)
       .then((response) => {
-        console.log("getUserChartingScripts", response);
 
         if (response.Status) {
           setGetCharting(response.Client);
@@ -112,7 +114,6 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
   };
 
   const handleDelete = async (rowData, type) => {
-    console.log("data", data);
     const index = rowData.rowIndex;
     const req =
       data == "Scalping" && type == 1
@@ -217,9 +218,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
   };
 
   const handleMatchPosition = async (rowData, type) => {
-    console.log("matchPosition", rowData.rowIndex);
     const index = rowData.rowIndex;
-    console.log("data is ", getAllService.NewScalping[index]);
 
     const req = {
       // Username: userName,
@@ -246,10 +245,8 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       TradePattern: "",
       PatternName: "",
     };
-    console.log("outside");
     if (req) {
       try {
-        console.log("inside");
         const response = await MatchPosition(req);
         if (response.status) {
           Swal.fire({
@@ -287,10 +284,6 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       setEditDataScalping(getAllService.ScalpingData[index]);
     } else if (data == "Scalping" && type == 2) {
       setEditDataScalping(getAllService.NewScalping[index]);
-      console.log(
-        "EditDataScalping.PositionType",
-        EditDataScalping.PositionType
-      );
     } else if (data == "Option Strategy") {
       setEditDataOption(getAllService.OptionData[index]);
     } else if (data == "Pattern" || data == "Pattern Script") {
@@ -300,9 +293,23 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
     }
   };
   const HandleContinueDiscontinue = async (rowData, type) => {
-    console.log("rowData", rowData.rowIndex);
 
+    console.log("Handle con. disc index", rowData);
     const index = rowData.rowIndex;
+    const isOpen = rowData.tableData[index][5];
+
+    // if (isOpen !== undefined || isOpen !== null || isOpen !== "" || isOpen !== "Open") {
+    //   Swal.fire({
+    //     title: "Status is Not Open",
+    //     text: "Unable to Exit",
+    //     icon: "warning",
+    //     timer: 2000,
+    //     timerProgressBar: true,
+    //   });
+    //   return;
+    // }
+
+    console.log("IsOpen", isOpen);
     let trading;
 
     if (data == "Scalping" && type == 1) {
@@ -320,6 +327,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       return;
     }
 
+
     // console.log("getAllService.PatternData[index].Trading", getAllService.PatternData[index].Trading)
     if (trading) {
       Swal.fire({
@@ -332,7 +340,6 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
         confirmButtonText: "Yes",
       }).then(async (result) => {
         if (result.isConfirmed) {
-          console.log("####", data, type);
           const req =
             data == "Scalping" && type == 1
               ? {
@@ -404,6 +411,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
           if (data == "ChartingPlatform") {
             await DeleteSingleChartingScript(req).then((response) => {
+              console.log("inside")
               if (response.Status) {
                 Swal.fire({
                   background: "#1a1e23 ",
@@ -414,6 +422,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
                   timer: 2000,
                   timerProgressBar: true,
                 }).then(() => {
+                  console.log("ChartingPlatformDelete Response", response);
                   setRefresh(!refresh);
                 });
               } else {
@@ -463,6 +472,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
         }
       });
     } else if (data == "ChartingPlatform") {
+      console.log("ChartingPlatform");
       return;
     } else {
       {
@@ -613,7 +623,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       }
     } else if (data === "ChartingPlatform") {
 
-      console.log("SSSS")
+
       if (allScripts?.data?.[allScripts.len]?.CombineChartingSignal?.length >= 1) {
         navigate("/user/newscript/charting", {
           state: {
@@ -633,7 +643,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
         });
       }
     } else {
-      console.log("S")
+
       if (allScripts?.data?.[allScripts.len]?.CombineScalping?.length >= 1) {
         navigate("/user/newscript/scalping", {
           state: {
@@ -710,6 +720,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       EntryRange: 0.0, // float
       EntryTime: "",
       ExitTime: "",
+      FinalTarget: 0.0,
 
       ExitDay: "", // str
       TradeExecution: "", // str
@@ -841,7 +852,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       if (!values.TradeCount) {
         errors.TradeCount = "Please Enter Trade Count.";
       }
-      if (!values.RolloverTF) {
+      if (!values.RolloverTF && EditDataPattern.RolloverTF === true) {
         errors.RolloverDay = "Please Select RollOver"
       }
 
@@ -869,6 +880,120 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
         errors.RolloverTime = "Please Enter RollOver Exit Time";
       }
 
+      if (
+        !values.PEDeepLower &&
+        (values.Strategy == "ShortFourLegStretegy" ||
+          values.Strategy == "LongFourLegStretegy") &&
+        values.PEDeepLower == 0
+      ) {
+        errors.PEDeepLower =
+          values.PEDeepLower == 0
+            ? "PE Hedge Lower can not be Zero"
+            : "Please Enter PE Hedge Lower.";
+      }
+
+      if (
+        !values.PEDepthHigher &&
+        (values.Strategy == "ShortFourLegStretegy" ||
+          values.Strategy == "LongFourLegStretegy") &&
+        values.PEDepthHigher == 0
+      ) {
+        errors.PEDepthHigher =
+          values.PEDepthHigher == 0
+            ? "PE Main Higher can not be Zero"
+            : "Please Enter PE Main Higher.";
+      }
+
+      if (
+        !values.PEDeepHigher &&
+        values.PEDeepHigher == 0 &&
+        (values.Strategy == "ShortFourLegStretegy" ||
+          values.Strategy == "LongFourLegStretegy")
+      ) {
+        errors.PEDeepHigher =
+          values.PEDeepHigher == 0
+            ? "PE Hedge Higher can not be Zero"
+            : "Please Enter PE Hedge Higher.";
+      }
+      if (
+        !values.CEDepthLower &&
+        values.CEDepthLower == 0 &&
+        (values.Strategy == "ShortFourLegStretegy" ||
+          values.Strategy == "LongFourLegStretegy")
+      ) {
+        errors.CEDepthLower =
+          values.CEDepthLower == 0
+            ? "CE Main Lower can not be Zero"
+            : "Please Enter CE Main Lower";
+      }
+      if (
+        !values.CEDepthHigher &&
+        values.CEDepthHigher == 0 &&
+        (values.Strategy == "ShortFourLegStretegy" ||
+          values.Strategy == "LongFourLegStretegy")
+      ) {
+        errors.CEDepthHigher =
+          values.CEDepthHigher == 0
+            ? "CE Main Higher can not be Zero"
+            : "Please Enter CE Main Higher";
+      }
+      if (
+        !values.PEDepthLower &&
+        values.PEDepthLower == 0 &&
+        (values.Strategy == "ShortFourLegStretegy" ||
+          values.Strategy == "LongFourLegStretegy")
+      ) {
+        errors.PEDepthLower =
+          values.PEDepthLower == 0
+            ? "PE Main Lower can not be Zero"
+            : "Please Enter PE Main Lower";
+      }
+      if (
+        !values.CEDeepLower &&
+        values.CEDeepLower == 0 &&
+        (values.Strategy == "ShortFourLegStretegy" ||
+          values.Strategy == "LongFourLegStretegy")
+      ) {
+        errors.CEDeepLower =
+          values.CEDeepLower == 0
+            ? "CE Hedge Lower can not be Zero"
+            : "Please Enter CE Hedge Lower";
+      }
+      if (
+        !values.CEDeepHigher &&
+        values.CEDeepHigher == 0 &&
+        (values.Strategy == "ShortFourLegStretegy" ||
+          values.Strategy == "LongFourLegStretegy")
+      ) {
+        errors.CEDeepHigher =
+          values.CEDeepHigher == 0
+            ? "CE Hedge Higher can not be Zero"
+            : "Please Enter CE Hedge Higher";
+      }
+      if (
+        !values.PEDeepHigher &&
+        values.PEDeepHigher == 0 &&
+        (values.Strategy == "ShortFourLegStretegy" ||
+          values.Strategy == "LongFourLegStretegy")
+      ) {
+        errors.PEDeepHigher =
+          values.PEDeepHigher == 0
+            ? "PE Hedge Higher can not be Zero"
+            : "Please Enter PE Hedge Higher";
+      }
+
+      if (EditDataScalping.Targetselection == "Entry Wise SL" &&
+        values.FinalTarget == undefined ||
+        (values.FinalTarget == "" &&
+          formik.values.FixedSM == "Multiple" &&
+          formik.values.Strategy == "Multi_Conditional" &&
+          formik.values.Targetselection == "Entry Wise SL")
+      ) {
+        errors.FinalTarget = "Please Enter Final Target Price";
+      }
+
+      console.log("errors", errors)
+
       return errors;
     },
     onSubmit: async (values) => {
@@ -876,8 +1001,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       const req = {
 
         MainStrategy: "NewScalping", // str
-        Strategy: values.Strategy || EditDataScalping.Targetselection, // str
-        // Strategy:  , // str
+        Strategy: values.Strategy || EditDataScalping.Targetselection,
         Symbol: values.Symbol || EditDataScalping.Symbol, // str
         Username: userName, // str
         ETPattern: values.ETPattern || EditDataScalping.TType, // str (Trade type)
@@ -895,7 +1019,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
         ExitDay: values.ExitDay || EditDataScalping.ExitDay || "", // str
         TradeExecution: values.TradeExecution || EditDataScalping.TradeExecution || "", // str
         Group: values.Group || EditDataScalping.GroupN || "", // str
-
+        FinalTarget: values.FinalTarget || parseFloat(EditDataScalping.FinalTarget),
         // Depth values for CE and PE options
         CEDepthLower: 0.0, // float
         CEDepthHigher: 0.0, // float
@@ -1001,6 +1125,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
 
   const formik1 = useFormik({
+    enableReinitialize: true,
     initialValues: {
       MainStrategy: "",
       Strategy: "",
@@ -1100,14 +1225,14 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
         errors.WorkingDay = "Please select Working day";
       }
 
-      if (values.Loss == undefined || values.Loss == "" || values.Loss == null) {
+      if (values.Loss !== 0 && (values.Loss == undefined || values.Loss == "" || values.Loss == null)) {
         errors.Loss = "Please Enter Maximum Loss";
       }
 
-      if (values.Profit == undefined || values.Profit == "" || values.Profit == null) {
-        errors.Profit = "Please Enter Maximum Loss";
+      if (values.Profit !== 0 && (values.Profit == undefined || values.Profit == "" || values.Profit == null)) {
+        errors.Profit = "Please Enter Maximum Prifit";
       }
-      // console.log("Errr", errors)
+      console.log("Errr", errors)
 
       return errors;
     },
@@ -1133,14 +1258,14 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
         ExitDay: EditDataOption["Product Type"],
         TradeExecution: EditDataOption.TradeExecution,
         Group: EditDataOption.GroupN,
-        CEDepthLower: EditDataOption.CEDepthLower,
-        CEDepthHigher: EditDataOption.CEDepthHigher,
-        PEDepthLower: EditDataOption.PEDepthLower,
-        PEDepthHigher: EditDataOption.PEDepthHigher,
-        CEDeepLower: EditDataOption.CEDeepLower,
-        CEDeepHigher: EditDataOption.PEDeepHigher,
-        PEDeepLower: EditDataOption.PEDeepLower,
-        PEDeepHigher: EditDataOption.PEDeepHigher,
+        CEDepthLower: values.CEDepthLower || EditDataOption.CEDepthLower,
+        CEDepthHigher: values.CEDepthHigher || EditDataOption.CEDepthHigher,
+        PEDepthLower: values.PEDepthLower || EditDataOption.PEDepthLower,
+        PEDepthHigher: values.PEDepthHigher || EditDataOption.PEDepthHigher,
+        CEDeepLower: values.CEDeepLower || EditDataOption.CEDeepLower,
+        CEDeepHigher: values.CEDeepHigher || EditDataOption.PEDeepHigher,
+        PEDeepLower: values.PEDeepLower || EditDataOption.PEDeepLower,
+        PEDeepHigher: values.PEDeepHigher || EditDataOption.PEDeepHigher,
         DepthofStrike: EditDataOption.DepthofStrike,
         TradeCount: values.TradeCount || EditDataOption.TradeCount,
         WorkingDay: values.WorkingDay?.map((day) => day?.value || day) || [], // list (array)
@@ -1421,7 +1546,112 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       disable: false,
       hiding: false,
     },
+
+
   ];
+
+
+  const OptionEntryRuleArr = [
+    {
+      name: "CEDepthLower",
+      label: "CE Main Lower",
+      type: "text3",
+      hiding: false,
+      label_size: 12,
+      col_size: 3,
+      showWhen: () =>
+        showEditModal && (EditDataOption.STG == "ShortFourLegStretegy" || EditDataOption.STG == "LongFourLegStretegy"),
+      headingtype: 2,
+      disable: false,
+    },
+
+    {
+      name: "CEDepthHigher",
+      label: "CE Main Higher",
+      type: "text3",
+      hiding: false,
+      showWhen: () =>
+        showEditModal && (EditDataOption.STG == "ShortFourLegStretegy" || EditDataOption.STG == "LongFourLegStretegy"),
+      label_size: 12,
+      col_size: 3,
+      headingtype: 2,
+      disable: false,
+    },
+
+    {
+      name: "CEDeepLower",
+      label: "CE Hedge Lower",
+      type: "text3",
+      hiding: false,
+      showWhen: () =>
+        showEditModal && (EditDataOption.STG == "ShortFourLegStretegy" || EditDataOption.STG == "LongFourLegStretegy"),
+      label_size: 12,
+      col_size: 3,
+      headingtype: 2,
+      disable: false,
+    },
+    {
+      name: "CEDeepHigher",
+      label: "CE Hedge Higher",
+      type: "text3",
+      hiding: false,
+      showWhen: () =>
+        showEditModal && (EditDataOption.STG == "ShortFourLegStretegy" || EditDataOption.STG == "LongFourLegStretegy"),
+      label_size: 12,
+      col_size: 3,
+      headingtype: 2,
+      disable: false,
+    },
+    {
+      name: "PEDepthLower",
+      label: "PE Main Lower",
+      type: "text3",
+      hiding: false,
+      showWhen: () =>
+        showEditModal && (EditDataOption.STG == "ShortFourLegStretegy" || EditDataOption.STG == "LongFourLegStretegy"),
+      label_size: 12,
+      col_size: 3,
+      headingtype: 2,
+      disable: false,
+    },
+    {
+      name: "PEDepthHigher",
+      label: "PE Main Higher",
+      type: "text3",
+      hiding: false,
+      showWhen: () =>
+        showEditModal && (EditDataOption.STG == "ShortFourLegStretegy" || EditDataOption.STG == "LongFourLegStretegy"),
+      label_size: 12,
+      col_size: 3,
+      headingtype: 2,
+      disable: false,
+    },
+    {
+      name: "PEDeepLower",
+      label: "PE Hedge Lower",
+      type: "text3",
+      hiding: false,
+      showWhen: () =>
+        showEditModal && (EditDataOption.STG == "ShortFourLegStretegy" || EditDataOption.STG == "LongFourLegStretegy"),
+      label_size: 12,
+      col_size: 3,
+      headingtype: 2,
+      disable: false,
+    },
+    {
+      name: "PEDeepHigher",
+      label: "PE Hedge Higher",
+      type: "number",
+      hiding: false,
+      showWhen: () =>
+        showEditModal && (EditDataOption.STG === "ShortFourLegStretegy" || EditDataOption.STG === "LongFourLegStretegy"),
+      label_size: 12,
+      col_size: 3,
+      headingtype: 2,
+      disable: false,
+    },
+  ];
+
 
   const OptionExitRuleArr = [
     {
@@ -1447,7 +1677,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       label:
         EditDataScalping.PositionType === "Single"
           ? "Target 1"
-          : "Fixed Target",
+          : "Target",
       type: "text3",
       label_size: 12,
       col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
@@ -1506,6 +1736,37 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       ),
       disable: false,
     },
+
+    {
+      name: "Heading",
+      label: "Entry_Rule",
+      type: "heading",
+      hiding: false,
+      label_size: 12,
+      headingtype: 2,
+      col_size: 12,
+      showWhen: () => showEditModal && (EditDataOption.STG == "ShortFourLegStretegy" || EditDataOption.STG == "LongFourLegStretegy"),
+      data: OptionEntryRuleArr.filter(
+        (item) => !item.showWhen || item.showWhen(formik.values)
+      ),
+      disable: false,
+    },
+
+    // {
+    //   name: "Heading",
+    //   label: "Entry_Rule",
+    //   type: "heading",
+    //   hiding: false,
+    //   label_size: 12,
+    //   headingtype: 4,
+    //   col_size: 12,
+    //   data: OptionEntryRuleArr.filter(
+    //     (item) => !item.showWhen || item.showWhen(formik.values)
+
+    //   ),
+    //   disable: false,
+    // },
+
     {
       name: "Heading",
       label: "Exit_Rule",
@@ -1535,8 +1796,8 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
   ];
 
-  const PatternRiskManagementArr = [
 
+  const PatternRiskManagementArr = [
 
     {
       name: "TradeCount",
@@ -1549,19 +1810,19 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
     },
   ];
   const PatternExitRuleArr = [
-    {
-      name: "TStype",
-      label: "Measurement Type",
-      type: "select",
-      options: [
-        { label: "Percentage", value: "Percentage" },
-        { label: "Point", value: "Point" },
-      ],
-      label_size: 12,
-      col_size: 6,
-      hiding: false,
-      disable: false,
-    },
+    // {
+    //   name: "TStype",
+    //   label: "Measurement Type",
+    //   type: "select",
+    //   options: [
+    //     { label: "Percentage", value: "Percentage" },
+    //     { label: "Point", value: "Point" },
+    //   ],
+    //   label_size: 12,
+    //   col_size: 6,
+    //   hiding: false,
+    //   disable: false,
+    // },
 
     {
       name: "Targetvalue",
@@ -1571,6 +1832,8 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       col_size: 6,
       disable: false,
       hiding: false,
+      headingtype: 3,
+      type: "text3",
     },
     {
       name: "Slvalue",
@@ -1580,6 +1843,8 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       col_size: 6,
       disable: false,
       hiding: false,
+      headingtype: 3,
+      type: "text3",
     },
 
   ];
@@ -1926,7 +2191,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       showWhen: (values) => {
         const rollOverBoolean = formik.values.RolloverTF === "true" || formik.values.RolloverTF === true;
 
-        console.log("rollOverBoolean", rollOverBoolean)
+
         return (
           rollOverBoolean &&
           (EditDataScalping.ExitDay == "Delivery" &&
@@ -1961,11 +2226,24 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
     },
 
     {
+      name: "FinalTarget",
+      label: "Final Target Price",
+      type: "text3",
+      label_size: 12,
+      showWhen: (values) =>
+        EditDataScalping.Targetselection === "Entry Wise SL",
+      col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
+      headingtype: 3,
+      disable: false,
+      hiding: false,
+    },
+
+    {
       name: "Targetvalue",
       label:
-        EditDataScalping.PositionType === "Single"
-          ? "Target 1"
-          : "Fixed Target",
+        EditDataScalping.Targetselection === "Fixed Target"
+          ? "Fixed Target"
+          : "Booking Point",
       type: "text3",
       label_size: 12,
       col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
@@ -2083,6 +2361,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       });
 
       formik.setFieldValue("EntryPrice", EditDataScalping.EntryPrice);
+      formik.setFieldValue("FinalTarget", EditDataScalping.FinalTarget);
       formik.setFieldValue("EntryRange", EditDataScalping.EntryRange);
       formik.setFieldValue(
         "Targetvalue",
@@ -2135,6 +2414,18 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       const WorkingDay = EditDataOption?.WorkingDay?.map((day) => {
         return { label: day, value: day };
       });
+
+      // Initialize CE/PE fields
+      formik1.setFieldValue("CEDepthLower", EditDataOption.CEDepthLower);
+      formik1.setFieldValue("CEDepthHigher", EditDataOption.CEDepthHigher);
+      formik1.setFieldValue("PEDepthLower", EditDataOption.PEDepthLower);
+      formik1.setFieldValue("PEDepthHigher", EditDataOption.PEDepthHigher);
+      formik1.setFieldValue("CEDeepLower", EditDataOption.CEDeepLower);
+      formik1.setFieldValue("CEDeepHigher", EditDataOption.CEDeepHigher);
+      formik1.setFieldValue("PEDeepLower", EditDataOption.PEDeepLower);
+      formik1.setFieldValue("PEDeepHigher", EditDataOption.PEDeepHigher);
+
+
       formik1.setFieldValue("TStype", EditDataOption.strategytype);
       formik1.setFieldValue("Targetvalue", EditDataOption["Target value"]);
       formik1.setFieldValue("Slvalue", EditDataOption["SL value"]);
@@ -2142,8 +2433,8 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       formik1.setFieldValue("EntryTime", EditDataOption["Entry Time"]);
       formik1.setFieldValue("ExitTime", EditDataOption["Exit Time"]);
       formik1.setFieldValue("TradeCount", EditDataOption.TradeCount);
-      formik1.setFieldValue("Profit", EditDataOption.Profit);
-      formik1.setFieldValue("Loss", EditDataOption.Loss);
+      formik1.setFieldValue("Profit", EditDataOption.Profit || 0);
+      formik1.setFieldValue("Loss", EditDataOption.Loss || 0);
       formik1.setFieldValue("WorkingDay", WorkingDay);
     } else if (data == "Pattern") {
       formik2.setFieldValue("TStype", EditDataPattern.TStype);
@@ -2157,71 +2448,67 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
   }, [showEditModal, data, EditDataScalping, EditDataPattern]);
 
-
-
   useEffect(() => {
-    if (data == "Scalping") {
-      const WorkingDay = EditDataScalping?.WorkingDay?.map(day => {
-        return { label: day, value: day }
-      })
+    if (data === "Scalping") {
+      const WorkingDay = EditDataScalping?.WorkingDay?.map((day) => {
+        return { label: day, value: day };
+      });
+      formik.setFieldValue("EntryPrice", EditDataScalping.EntryPrice);
+      formik.setFieldValue("EntryRange", EditDataScalping.EntryRange);
+      formik.setFieldValue("Targetvalue", parseFloat(EditDataScalping["Booking Point"]));
+      formik.setFieldValue("tgp2", parseFloat(EditDataScalping["Booking Point2"]));
+      formik.setFieldValue("tgp3", parseFloat(EditDataScalping["Booking Point3"]));
+      formik.setFieldValue("Slvalue", parseFloat(EditDataScalping["Re-entry Point"]));
+      formik.setFieldValue("HoldExit", EditDataScalping.HoldExit);
+      formik.setFieldValue("EntryTime", EditDataScalping.EntryTime);
+      formik.setFieldValue("ExitTime", EditDataScalping.ExitTime);
+      formik.setFieldValue("TradeCount", EditDataScalping.TradeCount);
+      formik.setFieldValue("TType", EditDataScalping.TType);
+      formik.setFieldValue("TStype", EditDataScalping.TStype);
+      formik.setFieldValue("EntryPrice", parseFloat(EditDataScalping.EntryPrice));
+      formik.setFieldValue("EntryRange", parseFloat(EditDataScalping.EntryRange));
+      formik.setFieldValue("HoldExit", EditDataScalping.HoldExit);
+      formik.setFieldValue("Symbol", EditDataScalping.Symbol);
+      formik.setFieldValue("ExitDay", EditDataScalping.ExitDay);
+      formik.setFieldValue("RepeatationCount", EditDataScalping.RepeatationCount);
+      formik.setFieldValue("RolloverTF", EditDataScalping.RolloverTF);
+      formik.setFieldValue("Profit", EditDataScalping.Profit);
+      formik.setFieldValue("Loss", EditDataScalping.Loss);
+      formik.setFieldValue("TargetExit", EditDataScalping.TargetExit);
+      formik.setFieldValue("WorkingDay", WorkingDay);
+    } else if (data === "Option Strategy") {
+      const WorkingDay = EditDataOption?.WorkingDay?.map((day) => {
+        return { label: day, value: day };
+      });
+      formik1.setFieldValue("TStype", EditDataOption.strategytype);
+      formik1.setFieldValue("Targetvalue", EditDataOption["Target value"]);
+      formik1.setFieldValue("Slvalue", EditDataOption["SL value"]);
+      // formik1.setFieldValue("Quantity", EditDataOption["Lot Size"])
+      formik1.setFieldValue("EntryTime", EditDataOption["Entry Time"]);
+      formik1.setFieldValue("ExitTime", EditDataOption["Exit Time"]);
+      formik1.setFieldValue("TradeCount", EditDataOption.TradeCount);
+      formik1.setFieldValue("WorkingDay", WorkingDay);
+      formik1.setFieldValue("Profit", EditDataOption.Profit || 0);
+      formik1.setFieldValue("Loss", EditDataOption.Loss || 0);
 
-      console.log("RolloverTF", EditDataScalping.RolloverTF);
-      console.log("RolloverDay", EditDataScalping.RolloverDay);
-      console.log("RolloverTime", EditDataScalping.RolloverTime);
+      formik1.setFieldValue("CEDepthLower", EditDataOption.CEDepthLower || 0.0);
+      formik1.setFieldValue("CEDepthHigher", EditDataOption.CEDepthHigher || 0.0);
+      formik1.setFieldValue("PEDepthLower", EditDataOption.PEDepthLower || 0.0);
+      formik1.setFieldValue("PEDepthHigher", EditDataOption.PEDepthHigher || 0.0);
+      formik1.setFieldValue("CEDeepLower", EditDataOption.CEDeepLower || 0.0);
+      formik1.setFieldValue("CEDeepHigher", EditDataOption.CEDeepHigher || 0.0);
+      formik1.setFieldValue("PEDeepLower", EditDataOption.PEDeepLower || 0.0);
+      formik1.setFieldValue("PEDeepHigher", EditDataOption.PEDeepHigher || 0.0);
 
-      formik.setFieldValue('EntryPrice', EditDataScalping.EntryPrice)
-      formik.setFieldValue('EntryRange', EditDataScalping.EntryRange)
-      formik.setFieldValue('Targetvalue', parseFloat(EditDataScalping['Booking Point']))
-      formik.setFieldValue('tgp2', parseFloat(EditDataScalping['Booking Point2']))
-      formik.setFieldValue('tgp3', parseFloat(EditDataScalping['Booking Point3']))
-      formik.setFieldValue('Slvalue', parseFloat(EditDataScalping['Re-entry Point']))
-      formik.setFieldValue('HoldExit', EditDataScalping.HoldExit)
-      formik.setFieldValue('EntryTime', EditDataScalping.EntryTime)
-      formik.setFieldValue('ExitTime', EditDataScalping.ExitTime)
-      formik.setFieldValue('TradeCount', EditDataScalping.TradeCount)
-      formik.setFieldValue("TType", EditDataScalping.TType)
-      formik.setFieldValue("TStype", EditDataScalping.TStype)
-      // formik.setFieldValue("Quantity", EditDataScalping.Quantity)
-      formik.setFieldValue("EntryPrice", parseFloat(EditDataScalping.EntryPrice))
-      formik.setFieldValue("EntryRange", parseFloat(EditDataScalping.EntryRange))
-      formik.setFieldValue("HoldExit", EditDataScalping.HoldExit)
-      formik.setFieldValue("Symbol", EditDataScalping.Symbol)
-      formik.setFieldValue("ExitDay", EditDataScalping.ExitDay)
-      formik.setFieldValue("RepeatationCount", EditDataScalping.RepeatationCount)
-      formik.setFieldValue("RolloverTF", EditDataScalping.RolloverTF)
-      formik.setFieldValue("Profit", EditDataScalping.Profit)
-      formik.setFieldValue("Loss", EditDataScalping.Loss)
-      formik.setFieldValue("TargetExit", EditDataScalping.TargetExit)
-      formik.setFieldValue('WorkingDay', WorkingDay);
-
-
+    } else if (data === "Pattern") {
+      formik2.setFieldValue("TStype", EditDataPattern.TStype);
+      formik2.setFieldValue("Targetvalue", EditDataPattern["Target value"]);
+      formik2.setFieldValue("Slvalue", EditDataPattern["SL value"]);
+      formik2.setFieldValue("EntryTime", EditDataPattern.EntryTime);
+      formik2.setFieldValue("ExitTime", EditDataPattern.ExitTime);
+      formik2.setFieldValue("TradeCount", EditDataPattern.TradeCount);
     }
-    else if (data == "Option Strategy") {
-
-      const WorkingDay = EditDataOption?.WorkingDay?.map(day => {
-        return { label: day, value: day }
-      })
-      formik1.setFieldValue('TStype', EditDataOption.strategytype)
-      formik1.setFieldValue('Targetvalue', EditDataOption['Target value'])
-      formik1.setFieldValue('Slvalue', EditDataOption['SL value'])
-      // formik1.setFieldValue('Quantity', EditDataOption['Lot Size'])
-      formik1.setFieldValue('EntryTime', EditDataOption['Entry Time'])
-      formik1.setFieldValue('ExitTime', EditDataOption['Exit Time'])
-      formik1.setFieldValue('TradeCount', EditDataOption.TradeCount)
-      formik1.setFieldValue('WorkingDay', WorkingDay)
-    }
-    else if (data == "Pattern") {
-
-      formik2.setFieldValue('TStype', EditDataPattern.TStype)
-      formik2.setFieldValue('Targetvalue', EditDataPattern['Target value'])
-      formik2.setFieldValue('Slvalue', EditDataPattern['SL value'])
-      formik2.setFieldValue('EntryTime', EditDataPattern.EntryTime)
-      formik2.setFieldValue('ExitTime', EditDataPattern.ExitTime)
-      formik2.setFieldValue('TradeCount', EditDataPattern.TradeCount)
-
-    }
-  }, [showEditModal, data, EditDataPattern])
-
+  }, [showEditModal, data, EditDataPattern]);
 
 
 
@@ -2229,6 +2516,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
     return item.hiding == false
   })
 
+  // console.log("tab ", tab)
   return (
     <div className="container-fluid">
       <div className="row">
@@ -2266,9 +2554,8 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
                                       backgroundColor: "#f8f9fa",
                                       display: "flex",
                                       justifyContent: "center",
-                                      gap: "15px",
-                                      maxWidth: "600px", // Width Increase
-                                      width: "100%", // Full Responsive Width
+                                      gap: "10px",
+
                                     }}
                                   >
                                     {["Cash", "Future", "Option"].map((tab) => (
@@ -2320,7 +2607,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
                                         : (data === "Pattern" || data === "Pattern Script")
                                           ? getColumns5(handleDelete, handleEdit, HandleContinueDiscontinue)
                                           : data === "ChartingPlatform"
-                                            ? getColumns8(HandleContinueDiscontinue)
+                                            ? getColumns8(HandleContinueDiscontinue, chartingSubTab)
                                             : getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue)
                                   }
                                   data={
@@ -2385,10 +2672,14 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
                   <div className='p-4'>
                     <Formikform
-                      fields={OptionFields}
+                      fields={OptionFields.filter(
+                        (field) => !field.showWhen || field.showWhen(formik1.values)
+                      )}
                       btn_name="Update"
                       formik={formik1}
                     />
+                    {console.log("Edit Datascalpitg", EditDataScalping)}
+
                   </div>
                 </>
                   :

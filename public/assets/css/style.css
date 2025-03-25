@@ -6640,3 +6640,472 @@ height: auto;
 .css-13cymwt-control{
   width: 39vw;
 }
+
+.form-label{
+margin-bottom: 0 !important;
+}
+
+ 
+
+
+
+ /* _______________Description______________ */
+/* styles.css */
+ .desc-page-wrapper {
+   width: 100%;
+   padding: 20px;
+   background-color: #f4f4f4;
+ }
+
+ .desc-container {
+   width: 100%;
+   background: white;
+   padding: 20px;
+   border-radius: 10px;
+   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+ }
+
+ .desc-nav-tabs {
+   display: flex;
+   justify-content: center;
+   border-bottom: none;
+ }
+
+ .desc-nav-tabs .nav-link {
+   font-size: 16px;
+   font-weight: bold;
+   color: #555;
+   transition: all 0.3s ease;
+   border-radius: 8px;
+   padding: 10px 20px;
+ }
+
+ .desc-nav-tabs .nav-link.active {
+   background-color: #007bff;
+   color: white !important;
+   border-radius: 8px;
+ }
+
+ .desc-tab-content {
+   background: #ffffff;
+   padding: 20px;
+   border-radius: 10px;
+   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+   margin-top: 15px;
+   text-align: left;
+ }
+
+ .desc-btn-group {
+   display: flex;
+   justify-content: center;
+   margin-top: 15px;
+ }
+
+ .desc-btn-group .btn {
+   margin: 5px;
+   border-radius: 8px;
+ }
+
+ .desc-btn-group .btn.active {
+   background-color: #007bff;
+   color: white;
+   border-color: #007bff;
+ }
+
+ .desc-btn-group .btn-outline-primary:hover,
+ .desc-btn-group .btn-outline-secondary:hover,
+ .desc-btn-group .btn-outline-success:hover {
+   background-color: #0056b3;
+   color: white;
+ }
+
+ .desc-heading {
+   font-weight: bold;
+   color: #333;
+   text-align: center;
+   margin-bottom: 15px;
+ }
+
+
+
+ /* Modern full-width wrapper */
+ .desc-page-wrapper {
+   width: 100%;
+   padding: 20px;
+   background-color: #f4f4f4;
+ }
+
+ /* Full-width container with card style */
+ .desc-container {
+   width: 100%;
+   background: #fff;
+   padding: 20px;
+   border-radius: 10px;
+   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+ }
+
+ /* Centered navigation tabs */
+ .desc-nav-tabs {
+   display: flex;
+   justify-content: center;
+   border-bottom: none;
+ }
+
+ .desc-nav-tabs .nav-link {
+   font-size: 16px;
+   font-weight: bold;
+   color: #555;
+   transition: all 0.3s ease;
+   border-radius: 8px;
+   padding: 10px 20px;
+ }
+
+ .desc-nav-tabs .nav-link.active {
+   background-color: #007bff;
+   color: #fff !important;
+   border-radius: 8px;
+ }
+
+ /* Tab content area styling */
+ .desc-tab-content {
+   background: #fff;
+   padding: 20px;
+   border-radius: 10px;
+   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+   margin-top: 15px;
+ }
+
+ /* Button group styling - centered buttons */
+ .desc-btn-group {
+   display: flex;
+   justify-content: center;
+   margin-top: 15px;
+ }
+
+ .desc-btn-group .btn {
+   font-size: 14px;
+   padding: 6px 16px;
+   margin: 4px;
+   border-radius: 8px;
+ }
+
+ /* Custom styling for outlined primary buttons */
+ .btn-outline-primary {
+   border: 1px solid #007bff;
+   color: #007bff;
+   transition: background-color 0.2s ease;
+ }
+
+ .btn-outline-primary.active,
+ .btn-outline-primary:hover {
+   background-color: #007bff;
+   color: #fff;
+ }
+
+ /* Modern card styling for description details */
+ .desc-card {
+   background-color: #fff;
+   border: 1px solid #e0e0e0;
+   border-radius: 8px;
+   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+   padding: 16px;
+   font-size: 14px;
+   line-height: 1.5;
+   color: #555;
+ }
+
+ /* Description text styling */
+ .desc-text {
+   margin: 0.5rem 0;
+   color: #666;
+   font-size: 18px !important;
+ }
+
+ /* Heading styling */
+ .desc-heading {
+   font-size: 18px;
+   font-weight: 600;
+   color: #333;
+   margin-bottom: 16px;
+   text-align: center;
+ }
+
+
+ /* Modern card styling for description details with smaller font */
+ .desc-card {
+   font-size: 12px;
+   /* Smaller font size for modern look */
+   color: #333;
+   font-family: 'Roboto', sans-serif;
+   /* Use a modern font; ensure you load it if necessary */
+   background-color: #fff;
+   border: 1px solid #ddd;
+   border-radius: 8px;
+   padding: 16px;
+   line-height: 1.4;
+   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+ }
+
+ /* Styling for description text paragraphs */
+ .desc-text {
+   margin: 0.4rem 0;
+   color: #555;
+ }
+
+
+
+ /* Existing styles retained... */
+
+ /* Option Details - Two column layout */
+ .option-details {
+   display: flex;
+   gap: 20px;
+   flex-wrap: wrap;
+   align-items: flex-start;
+   margin-top: 15px;
+   padding: 15px;
+   background-color: #fafafa;
+   border: 1px solid #eee;
+   border-radius: 8px;
+ }
+
+ .option-image-container {
+   flex: 1;
+   min-width: 200px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+ }
+
+ .option-image {
+   max-width: 100%;
+   border-radius: 8px;
+   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+ }
+
+ .option-info {
+   flex: 2;
+   min-width: 250px;
+   font-size: 13px;
+   color: #444;
+   line-height: 1.4;
+ }
+
+ .option-info p {
+   margin: 6px 0;
+ }
+
+ .nested-info {
+   margin-left: 15px;
+   margin-bottom: 6px;
+ }
+
+ /* Example: Adjust heading and overall description card font sizes */
+ .desc-heading {
+   font-size: 18px;
+   font-weight: 600;
+   color: #333;
+   margin-bottom: 16px;
+   text-align: center;
+ }
+
+ .desc-details {
+   font-size: 14px;
+ }
+
+ .option-info p{
+  font-size: 16px;
+ }
+
+
+ .desc-page-wrapper {
+   width: 100%;
+   padding: 20px;
+   background-color: #f4f4f4;
+ }
+
+ .desc-container {
+   width: 100%;
+   background: #fff;
+   padding: 20px;
+   border-radius: 10px;
+   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+ }
+
+ .desc-nav-tabs {
+   display: flex;
+   justify-content: center;
+   border-bottom: none;
+ }
+
+ .desc-nav-tabs .nav-link {
+   font-size: 16px;
+   font-weight: bold;
+   color: #555;
+   transition: all 0.3s ease;
+   border-radius: 8px;
+   padding: 10px 20px;
+ }
+
+ .desc-nav-tabs .nav-link.active {
+   background-color: #007bff;
+   color: #fff !important;
+   border-radius: 8px;
+ }
+
+ .desc-tab-content {
+   background: #fff;
+   padding: 20px;
+   border-radius: 10px;
+   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+   margin-top: 15px;
+ }
+
+ .desc-btn-group {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   margin-top: 15px;
+ }
+
+ /* Dropdown container for Pattern tab */
+ .dropdown-container {
+   width: auto;
+ }
+
+ /* Use Bootstrap's form-select styling, or add custom adjustments */
+ .form-select {
+   font-size: 14px;
+   padding: 6px 10px;
+   border-radius: 5px;
+ }
+
+ /* Additional styling for headings and details */
+ .desc-heading {
+   font-size: 18px;
+   font-weight: 600;
+   color: #333;
+   margin-bottom: 16px;
+   text-align: center;
+ }
+
+ .desc-details {
+   font-size: 14px;
+ }
+
+
+ .pattern-container-unique {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 15px;
+ }
+
+ /* Image Section */
+ .image-container-unique {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: 100%;
+ }
+
+ .pattern-image-unique {
+   width: 230px;
+   height: 230px;
+   object-fit: contain;
+   border-radius: 10px;
+   border: 3px solid #007bff;
+   box-shadow: 0px 5px 15px rgba(0, 123, 255, 0.2);
+   transition: transform 0.3s ease-in-out;
+ }
+
+   
+
+ /* Text Section */
+ .text-content-unique {
+   text-align: left;
+   padding: 10px;
+   width: 100%;
+   max-width: 600px;
+ }
+
+ .pattern-title-unique {
+   font-size: 24px;
+   font-weight: bold;
+   color: #333;
+   text-transform: uppercase;
+   border-bottom: 2px solid #007bff;
+   display: inline-block;
+   padding-bottom: 5px;
+ }
+
+ .pattern-type-unique,
+ .trading-type-unique {
+   font-size: 16px;
+   color: #555;
+   margin: 8px 0;
+ }
+
+ .pattern-description-unique {
+   font-size: 14px;
+   line-height: 1.6;
+   color: #444;
+   background: #fff;
+   padding: 10px;
+   border-left: 5px solid #007bff;
+   border-radius: 5px;
+   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+ }
+
+ /* Responsive Design */
+ @media (min-width: 768px) {
+   .pattern-container-unique {
+     flex-direction: row;
+     justify-content: center;
+   }
+
+   .image-container-unique {
+     width: 25%;
+   }
+
+   .text-content-unique {
+     width: 60%;
+   }
+ }
+
+ .css-13cymwt-control{
+  width : auto !important;
+ }
+
+
+ .toggle-container {
+   margin-bottom: 10px;
+   display: flex;
+   justify-content: flex-end;
+ }
+
+ .toggle-button {
+   display: flex;
+   align-items: center;
+   background-color: black;
+   border: none;
+   color: white;
+   padding: 4px 6px;
+   border-radius: 4px;
+   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+   transition: background-color 0.3s ease, transform 0.2s ease;
+   font-size: 0.8rem;
+   cursor: pointer;
+ }
+
+ .toggle-button:hover {
+   background-color: #34495e;
+ }
+
+ .toggle-button:active {
+   transform: scale(0.95);
+ }
+
+ .toggle-button .btn .btn-primary{
+  margin-left: -50px;
+ }

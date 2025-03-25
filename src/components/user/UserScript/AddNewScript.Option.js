@@ -209,10 +209,12 @@ const AddClient = () => {
         errors.Expirytype = "Please select an expiry type.";
       }
 
-      if (!values.Lower_Range && values.Striketype === "Premium_Range") {
+      if (!values.Lower_Range && values.Striketype === "Premium_Range" &&
+        values.Measurment_Type != "Shifting_FourLeg") {
         errors.Lower_Range = "Please enter the lower range.";
       }
-      if (!values.Higher_Range && values.Striketype === "Premium_Range") {
+      if (!values.Higher_Range && values.Striketype === "Premium_Range" &&
+        values.Measurment_Type != "Shifting_FourLeg") {
         errors.Higher_Range = "Please enter the higher range.";
       }
       if (!values.Striketype) {
@@ -440,9 +442,13 @@ const AddClient = () => {
         errors.WorkingDay = "Please select Working day";
       }
       // ScrollToViewFirstError(errors)
+      console.log("errors", errors);
 
       return errors;
     },
+
+
+
     onSubmit: async (values) => {
       const req = {
         MainStrategy: location.state.data.selectStrategyType,
@@ -454,7 +460,11 @@ const AddClient = () => {
             : values.Strategy == "ShortShifting" ||
               values.Strategy == "LongShifting"
               ? "Future"
-              : "",
+              : (
+                formik.values.Strategy == "LongFourLegStretegy" ||
+                formik.values.Strategy == "ShortFourLegStretegy"
+              ) ? "Premium Addition" : "",
+
         Timeframe: "",
         Exchange: "NFO",
         Symbol: values.Symbol,
@@ -492,13 +502,15 @@ const AddClient = () => {
         expirydata1: getExpiry && getExpiry.data[0],
         Expirytype: values.Expirytype,
         Striketype:
-          formik.values.Strategy != "ShortStraddle" &&
-            formik.values.Strategy != "LongStraddle" &&
-            formik.values.Measurment_Type != "Shifting_FourLeg" &&
-            formik.values.Strategy != "ShortStraddle" &&
-            formik.values.Strategy != "LongStraddle"
+          formik.values.Strategy !== "ShortStraddle" &&
+            formik.values.Strategy !== "LongStraddle" &&
+            formik.values.Measurment_Type !== "Shifting_FourLeg"
             ? values.Striketype
-            : "",
+            : (formik.values.Strategy === "LongFourLegStretegy" ||
+              formik.values.Strategy === "ShortFourLegStretegy")
+              ? "Premium_Range"
+              : "",
+
         DepthofStrike:
           formik.values.Striketype != "Premium_Range" &&
             formik.values.Measurment_Type != "Shifting_FourLeg" &&
@@ -562,7 +574,10 @@ const AddClient = () => {
       }
 
       if (
-        values.Striketype == "Premium_Range" &&
+        values.Striketype === "Premium_Range" &&
+        values.Measurment_Type != "Shifting_FourLeg" &&
+        formik.values.Strategy !== "LongFourLegStretegy" &&
+        formik.values.Strategy !== "ShortFourLegStretegy" &&
         Number(values.Lower_Range) >= Number(values.Higher_Range)
       ) {
         return SweentAlertFun(
@@ -694,6 +709,8 @@ const AddClient = () => {
       ].CombineOption?.[0]
     );
 
+
+
     // formik.setFieldValue('Exchange', "NSE");
     formik.setFieldValue("Symbol", symbolOptions[0]?.value || "");
     formik.setFieldValue("ETPattern", "Future");
@@ -714,6 +731,7 @@ const AddClient = () => {
     formik.setFieldValue("Shifting_Value", 1);
     formik.setFieldValue("Trade_Count", 1);
     formik.setFieldValue("ExitType", "Normal");
+
 
   }, []);
 
@@ -1476,11 +1494,15 @@ const AddClient = () => {
 
   useEffect(() => {
     if (
-      formik.values.Strategy == "LongStraddle" ||
-      formik.values.Strategy == "ShortStraddle"
+      formik.values.Strategy == "LongFourLegStretegy" ||
+      formik.values.Strategy == "ShortFourLegStretegy"
     ) {
-      formik.setFieldValue("Striketype", "Depth_of_Strike");
+      console.log("inside Conditions")
+      formik.setFieldValue("Striketype", "Premium_Range");
+      formik.setFieldValue("ETPattern", "Premium Addition");
+
     }
+
     if (formik.values.Striketype != "Premium_Range") {
       formik.setFieldValue("Higher_Range", 1);
       formik.setFieldValue("Lower_Range", 1);
@@ -1521,6 +1543,8 @@ const AddClient = () => {
     }
     if (formik.values.Measurment_Type == "Shifting_FourLeg") {
       formik.setFieldValue("ETPattern", "Premium Addition");
+      formik.setFieldValue("Higher_Range", 0);
+      formik.setFieldValue("Lower_Range", 0);
     }
 
     if (
@@ -1542,6 +1566,8 @@ const AddClient = () => {
     formik.values.Striketype,
     formik.values.Measurment_Type,
   ]);
+
+
 
   const handleCheckPnl = async () => {
     const weekend = new Date().getDay();
@@ -1707,7 +1733,7 @@ const AddClient = () => {
                 formik.values.Strategy == "ShortFourLegStretegy" ? (
                 ""
               ) : (
-                  <button className="addbtn" type="button"  onClick={() => handleCheckPnl()}>
+                <button className="addbtn" type="button" onClick={() => handleCheckPnl()}>
                   Check PnL
                 </button>
               )}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { get_User_Data, getStrategyType } from '../../CommonAPI/Admin';
 import {
     get_Trade_Report,
@@ -146,20 +146,23 @@ const TradeReport = () => {
     }, [tradeReport, location?.state?.RowIndex]);
 
 
-
-
-
-
     const handleRowSelect = (rowData) => {
         setSelectedRowData(rowData);
     };
 
+    const hasSubmittedRef = useRef(false);
+
     useEffect(() => {
-        if (location?.state?.RowIndex !== undefined && location?.state?.RowIndex !== null) {
-            handleSubmit(selectedRowData);
-            console.log("selectedRowData", selectedRowData);
-        }
+        const submitData = async () => {
+            if (!hasSubmittedRef.current && location?.state?.RowIndex !== undefined && location?.state?.RowIndex !== null && selectedRowData) {
+                hasSubmittedRef.current = true;
+                await handleSubmit(selectedRowData);
+            }
+        };
+
+        submitData();
     }, [selectedRowData]);
+
 
     console.log("selectedRowData", selectedRowData)
 
