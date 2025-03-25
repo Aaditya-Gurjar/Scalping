@@ -45,8 +45,6 @@ const GroupScript = ({ data, selectedType, GroupName, data2 }) => {
                 console.log("Error in finding the User Scripts", err)
             })
     }
-
-
     const handleAddScript1 = (data1, type) => {
 
         const selectedRowIndex = data1?.rowIndex;
@@ -86,8 +84,6 @@ const GroupScript = ({ data, selectedType, GroupName, data2 }) => {
             navigate('/user/addscript/scalping', { state: { data: data, scriptType: allScripts } });
         }
     }
-
-
     const handleAddScript2 = (data1) => {
         if (data2.status == false) {
             Swal.fire({
@@ -148,8 +144,6 @@ const GroupScript = ({ data, selectedType, GroupName, data2 }) => {
 
         }
     }
-
-
     const handleAddScript3 = (data1) => {
         if (data2.status == false) {
             Swal.fire({
@@ -187,8 +181,6 @@ const GroupScript = ({ data, selectedType, GroupName, data2 }) => {
             navigate('/user/addscript/pattern', { state: { data: data, scriptType: allScripts } });
         }
     }
-
-
     const GetAllUserScriptDetails = async () => {
         const data = { Strategy: stgType, Group: GroupName }
         await GetAllGroupService(data)

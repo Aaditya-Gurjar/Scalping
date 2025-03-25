@@ -116,8 +116,7 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
   };
 
   const handleAddScript2 = (data1) => {
-    // if (data2.status == false) {
-    if (!data1) {
+    if (data2.status == false) { 
       Swal.fire({
         background: "#1a1e23 ",
         backdrop: "#121010ba",
