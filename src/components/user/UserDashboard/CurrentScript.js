@@ -86,6 +86,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
     const data = { Username: userName };
     await GetUserScripts(data)
       .then((response) => {
+        console.log("response is", response)
         if (response.Status) {
           setAllScripts({
             data: response.data,
@@ -585,6 +586,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
     }
   };
 
+
   const AddScript = (data) => {
     if (data === "Option Strategy") {
       if (allScripts?.data?.[allScripts.len]?.CombineOption?.length >= 1) {
@@ -1043,8 +1045,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
         RepeatationCount: values.RepeatationCount || EditDataScalping.RepeatationCount || 0, // int
         Profit: values.Profit || EditDataScalping.Profit || 0.0, // float
         Loss: values.Loss || EditDataScalping.Loss || 0.0, // float
-        WorkingDay: values.WorkingDay?.map(day => day?.value || day) || formik?.values?.WorkingDay?.map(day => day?.value || day) || [] // list (array)
-
+        WorkingDay: values.WorkingDay?.map(day => day?.value || day) || formik?.values?.WorkingDay?.map(day => day?.value || day) || [],
 
       }
       if (
@@ -1458,7 +1459,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
         RepeatationCount: values.RepeatationCount || 0, // int
         Profit: values.Profit || EditDataScalping.Profit || 0.0, // float
         Loss: values.Loss || 0.0, // float
-        WorkingDay: [] // list (array)
+        WorkingDay: [],
 
       };
 
@@ -1549,6 +1550,8 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
 
   ];
+
+  console.log("EditDataOption", EditDataOption)
 
 
   const OptionEntryRuleArr = [
@@ -1664,7 +1667,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       ],
       // showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
       showWhen: () =>
-        showEditModal && EditDataScalping.PositionType !== "Multiple",
+        showEditModal && !(EditDataOption.STG === "ShortShifting" || EditDataOption.STG === "LongShifting"),
       label_size: 12,
       headingtype: 4,
       col_size: 4,
@@ -1675,9 +1678,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
     {
       name: "Targetvalue",
       label:
-        EditDataScalping.PositionType === "Single"
-          ? "Target 1"
-          : "Target",
+        (EditDataOption.STG === "ShortShifting" || EditDataOption.STG === "LongShifting") ? "Shifting Point" : "Target",
       type: "text3",
       label_size: 12,
       col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
@@ -1691,6 +1692,8 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       type: "text3",
       label_size: 12,
       col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
+      showWhen: () =>
+        showEditModal && !(EditDataOption.STG === "ShortShifting" || EditDataOption.STG === "LongShifting"),
       headingtype: 3,
       disable: false,
       hiding: false,
@@ -2509,6 +2512,8 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       formik2.setFieldValue("TradeCount", EditDataPattern.TradeCount);
     }
   }, [showEditModal, data, EditDataPattern]);
+
+  console.log("EditDataOption", EditDataOption)
 
 
 

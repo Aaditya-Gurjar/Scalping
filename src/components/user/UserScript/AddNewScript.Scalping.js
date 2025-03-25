@@ -567,6 +567,7 @@ const AddClient = () => {
               formik.values.Targetselection == "Entry Wise SL"
               ? parseFloat(values.FinalTarget)
               : 0.0,
+          Planname: location?.state?.data?.scriptType?.data[0].Planname
         };
 
 

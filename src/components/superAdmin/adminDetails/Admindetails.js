@@ -597,7 +597,7 @@ const Strategygroup = () => {
             })
     }
 
-    console.log("singleAdminData", singleAdminData)
+     
     useEffect(() => {
         formik.setValues({
             Companyname: singleAdminData?.Companyname,

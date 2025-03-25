@@ -58,13 +58,15 @@ const AddClient = () => {
       -1
     );
 
-    console.log("dataWithoutLastItem", dataWithoutLastItem);
     const foundItem = dataWithoutLastItem.find((item) => {
       return item["Option Strategy"].includes(stg);
     });
 
     return foundItem.EndDate;
   };
+
+
+
 
   const ScrollToViewFirstError = (newErrors) => {
     if (Object.keys(newErrors).length !== 0) {
@@ -442,7 +444,7 @@ const AddClient = () => {
         errors.WorkingDay = "Please select Working day";
       }
       // ScrollToViewFirstError(errors)
-      console.log("errors", errors);
+      // console.log("errors", errors);
 
       return errors;
     },
@@ -561,6 +563,7 @@ const AddClient = () => {
         WorkingDay: values?.WorkingDay
           ? values?.WorkingDay?.map((item) => item?.value || item)
           : [],
+        Planname: location?.state?.data?.scriptType?.data[0].Planname
       };
 
       if (
@@ -709,6 +712,8 @@ const AddClient = () => {
       ].CombineOption?.[0]
     );
 
+
+    console.log("location?.state?.data?.scriptType?.data?.[length]?.Planname", location?.state?.data?.scriptType?.data[0].Planname);
 
 
     // formik.setFieldValue('Exchange', "NSE");
