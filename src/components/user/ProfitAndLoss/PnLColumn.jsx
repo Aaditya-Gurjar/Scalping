@@ -708,16 +708,16 @@ export const columns7 = () => [
       sort: true,
     },
   },
+  // {
+  //   name: "AccType",
+  //   label: "Account Type",
+  //   options: {
+  //     filter: true,
+  //     sort: true,
+  //   },
+  // },
   {
-    name: "AccType",
-    label: "Account Type",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
-    name: "Segmenttype",
+    name: "Segment",
     label: "Segment Type",
     options: {
       filter: true,

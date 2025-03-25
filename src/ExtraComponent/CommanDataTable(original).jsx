@@ -2,6 +2,7 @@ import React, { useState, useCallback, useMemo, useEffect } from "react";
 import MUIDataTable from "mui-datatables";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import { right } from "@popperjs/core";
 
 const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
   const [selectedRowData, setSelectedRowData] = useState(null);
@@ -13,11 +14,14 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
   const [checkedRows, setCheckedRows] = useState(
     isChecked !== undefined ? [isChecked] : []
   );
+const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
     setSelectedColumns(columns.slice(0, 7));
     setTempSelectedColumns(columns.slice(0, 7));
   }, [columns]);
+
+  console.log("selectedColumns", selectedColumns)
 
   // Memoized modal handlers
   const handleModalOpen = useCallback(() => setIsModalOpen(true), []);
@@ -36,6 +40,23 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
     },
     [columns, tempSelectedColumns]
   );
+
+  const handleSelectAll = () => {
+    console.log("isExpanded", isExpanded)
+    if(isExpanded){
+      setIsModalOpen(false)
+      setSelectedColumns(columns)
+    }
+    else{
+      setIsModalOpen(false)
+      setSelectedColumns(tempSelectedColumns);
+    }
+   
+  }
+
+  useEffect(() => {
+    handleSelectAll();
+  }, [isExpanded]); 
 
   const handleSubmit = useCallback(() => {
     setSelectedColumns(tempSelectedColumns);
@@ -99,18 +120,42 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
       selectedColumns.concat({
         name: "Action",
         label: (
-          <button
-            onClick={handleModalOpen}
-            style={{
-              backgroundColor: "#000",
-              color: "#fff",
-              border: "none",
-              borderRadius: "4px",
-              padding: "5px 10px",
-              cursor: "pointer",
-            }}>
-            {">>"}
-          </button>
+          <>
+            <button
+            
+              onClick={(e) => {
+                e.stopPropagation();
+                handleModalOpen();
+              }}
+              style={{
+                backgroundColor: "#000",
+                color: "#fff",
+                border: "none",
+                borderRadius: "4px",
+                padding: "5px 10px",
+                marginRight: "10px",
+                cursor: "pointer",
+              }}>
+              {">"}
+            </button>
+
+            <button
+              
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsExpanded((prev) => !prev); // Safely toggle isExpanded
+              }}
+              style={{
+                backgroundColor: "#000",
+                color: "#fff",
+                border: "none",
+                borderRadius: "4px",
+                padding: "5px 10px",
+                cursor: "pointer",
+              }}>
+              {isExpanded === false ?  ">>" : "<<"}
+            </button>
+          </>
         ),
         options: {
           filter: false,

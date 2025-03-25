@@ -92,7 +92,7 @@ const DropdownComponent = ({ tableMeta, handleDelete, type, handleMatchPosition,
                             border: "1px solid #555",
                             borderRadius: "4px",
                             boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
-                            zIndex: 1000,
+                            zIndex: 1,
                             maxHeight: "200px",
                             overflowY: "auto",
                             minWidth: "150px",
@@ -101,15 +101,23 @@ const DropdownComponent = ({ tableMeta, handleDelete, type, handleMatchPosition,
                         <ul style={{ listStyle: "none", margin: 0, padding: "8px 0" }}>
                             {/* New Edit Option */}
                             <li
-                                onClick={handleEdit}
+                                onClick={() => {
+                                    handleEdit();
+                                    setIsDropdownOpen(false); 
+                                  }}
                                 style={{ padding: "8px 16px", cursor: "pointer", color: "#fff" }}
                                 onMouseEnter={(e) => (e.target.style.backgroundColor = "#444")}
-                                onMouseLeave={(e) => (e.target.style.backgroundColor = "#333")}
+                                onMouseLeave={(e) => {
+                                    e.target.style.backgroundColor = "#333";
+                                }}
                             >
                                 Edit
                             </li>
                             <li
-                                onClick={handleDelete}
+                                onClick={() => {
+                                    handleDelete();
+                                    setIsDropdownOpen(false); 
+                                  }}
                                 style={{ padding: "8px 16px", cursor: "pointer", backgroundColor: "#333", color: "#fff" }}
                                 onMouseEnter={(e) => (e.target.style.backgroundColor = "#444")}
                                 onMouseLeave={(e) => (e.target.style.backgroundColor = "#333")}

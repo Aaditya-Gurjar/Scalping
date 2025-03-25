@@ -6,6 +6,7 @@ import {
   Get_All_Buyed_Plans,
   BuyPlan,
   AddBalance,
+  ExpirePlanDetails,
 } from "../../CommonAPI/User";
 import Swal from "sweetalert2";
 // import Tab from "react-bootstrap/Tab";
@@ -28,6 +29,7 @@ const ServicesList = () => {
     data1: [],
   });
   const [purchasedPlans, setPurchasedPlans] = useState([]);
+  const [planExpired, setPlanExpired] = useState([]);
   const expire = localStorage.getItem("expire");
 
 
@@ -93,6 +95,26 @@ const ServicesList = () => {
       console.error("Error fetching purchased plans:", error);
     }
   };
+
+
+  const isPlanExpired = async () => {
+    try {
+      const response = await ExpirePlanDetails(username);
+      console.log("response is ", response)
+      if (response.Status) {
+        setPlanExpired(response.Admin.Planname);
+      }
+    }
+    catch (error) {
+      console.error("Error fetching purchased plans:", error);
+    }
+  }
+  useEffect(() => {
+    isPlanExpired();
+  }, [])
+
+  console.log("planname", planExpired)
+
 
   const isPlanPurchased = (planName) => {
     return purchasedPlans.some((plan) => plan.Planname === planName);
@@ -261,6 +283,8 @@ const ServicesList = () => {
       });
     }
   };
+
+
 
   const getUpdatedPlans = plansData.data?.filter(
     (plan) =>
@@ -434,7 +458,7 @@ const ServicesList = () => {
                         className="allplan-button buy-again"
                         onClick={() => HandleBuyPlan(index, 0, false)}
                       >
-                        🔄 Buy Again
+                        {planExpired.includes(plan.PlanName) ?"Buy Now" : "🔄 Buy Again"}
                       </button>
                     ) : (
                       <button

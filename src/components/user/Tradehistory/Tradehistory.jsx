@@ -1,3 +1,5 @@
+
+
 // import React, { useState, useEffect, useRef } from "react";
 // import {
 //   get_User_Data,
@@ -10,27 +12,17 @@
 //   getStrategyType,
 // } from "../../CommonAPI/Admin";
 // import GridExample from "../../../ExtraComponent/CommanDataTable";
-// import {
-//   get_Trade_Data,
-//   ChartingPlatformsegment,
-//   getChargingPlatformDataApi,
-// } from "../../CommonAPI/User";
 // import DatePicker from "react-datepicker";
-// import { AgChartsReact } from "ag-charts-react";
-// import "ag-charts-enterprise";
 // import ApexCharts from "react-apexcharts";
 // import "react-datepicker/dist/react-datepicker.css";
 // import Swal from "sweetalert2";
 // import {
-//   columns8,
-//   columns7,
-//   columns6,
-//   columns5,
-//   columns4,
-//   columns3,
-//   columns2,
-//   columns1,
 //   columns,
+//   columns1,
+//   columns2,
+//   columns3,
+//   columns5,
+//   columns6,
 //   getColumns10,
 // } from "./TradeHistoryColumn";
 // import NoDataFound from "../../../ExtraComponent/NoDataFound";
@@ -44,6 +36,18 @@
 //   const StrategyType = sessionStorage.getItem("StrategyType");
 //   const location = useLocation();
 //   const sectionRefs = useRef({});
+//   const Username = localStorage.getItem("name");
+//   const currentDate = new Date();
+//   const formattedDate = `${currentDate.getFullYear()}.${String(
+//     currentDate.getMonth() + 1
+//   ).padStart(2, "0")}.${String(currentDate.getDate()).padStart(2, "0")}`;
+//   const tomorrow = new Date(currentDate);
+//   tomorrow.setDate(currentDate.getDate() + 1);
+//   const Default_To_Date = `${tomorrow.getFullYear()}.${String(
+//     tomorrow.getMonth() + 1
+//   ).padStart(2, "0")}.${String(tomorrow.getDate()).padStart(2, "0")}`;
+
+//   // States
 //   const [selectStrategyType, setStrategyType] = useState(
 //     StrategyType || "Scalping"
 //   );
@@ -54,12 +58,8 @@
 //   const [ToDate, setToDate] = useState("");
 //   const [FromDate, setFromDate] = useState("");
 //   const [showReportSections, setShowReportSections] = useState(false);
-//   const [getCharting, setGetCharting] = useState([]);
-//   const [selectSegmentType, setSegmentType] = useState("");
-//   const [getChartingSegments, setChartingSegments] = useState([]);
 //   const [activeTab, setActiveTab] = useState("Cash");
 //   const [getChartingData, setChartingData] = useState([]);
-//   const [preSelectTableType, setPreSelectTableType] = useState("");
 //   const [loadedSections, setLoadedSections] = useState({
 //     overview: false,
 //     pnlAnalysis: false,
@@ -73,7 +73,6 @@
 //     data: [],
 //     Overall: [],
 //   });
-//   const [totalPnLOverview, setTotalPnLOverview] = useState([]);
 //   const [getPnLData, setPnlData] = useState({ data: [] });
 //   const [getEquityCurveDetails, setEquityCurveDetails] = useState({ data: [] });
 //   const [getDropDownData, setDropDownData] = useState({ data: [] });
@@ -85,27 +84,16 @@
 //     data: [],
 //     data1: [],
 //   });
-//   const Username = localStorage.getItem("name");
-//   const currentDate = new Date();
-//   const formattedDate = `${currentDate.getFullYear()}.${String(
-//     currentDate.getMonth() + 1
-//   ).padStart(2, "0")}.${String(currentDate.getDate()).padStart(2, "0")}`;
-//   const tomorrow = new Date(currentDate);
-//   tomorrow.setDate(currentDate.getDate() + 1);
-//   const Defult_To_Date = `${tomorrow.getFullYear()}.${String(
-//     tomorrow.getMonth() + 1
-//   ).padStart(2, "0")}.${String(tomorrow.getDate()).padStart(2, "0")}`;
+//   const [openSections, setOpenSections] = useState({});
 
-//   console.log("location?.state?.RowIndex", location?.state?.type);
-
+//   // Set row selection based on location state
 //   useEffect(() => {
-//     if (location?.state?.goto && location?.state?.goto === "dashboard") {
+//     if (location?.state?.goto === "dashboard") {
 //       if (location?.state?.type === "MultiCondition") {
 //         setSelectedRowData(tradeHistory.data1?.[location?.state?.RowIndex]);
 //       } else {
 //         setSelectedRowData(tradeHistory.data?.[location?.state?.RowIndex]);
 //       }
-
 //       setStrategyType(
 //         location?.state?.type === "MultiCondition"
 //           ? "Scalping"
@@ -113,11 +101,12 @@
 //       );
 //     }
 //     setCheckedRows(location?.state?.RowIndex);
-//   }, [tradeHistory, location?.state?.RowIndex]);
-
-//   console.log("selectedRowData", selectedRowData);
-
-//   console.log("getAllTradeData", getAllTradeData);
+//   }, [
+//     tradeHistory,
+//     location?.state?.RowIndex,
+//     location?.state?.goto,
+//     location?.state?.type,
+//   ]);
 
 //   useEffect(() => {
 //     const fetchStrategyTypes = async () => {
@@ -135,7 +124,6 @@
 //             Data: selectStrategyType,
 //             Username,
 //           });
-//           console.log("fetchTradeHistory", response);
 //           setTradeHistory(
 //             response.Status
 //               ? {
@@ -151,7 +139,7 @@
 //       fetchTradeHistory();
 //     }
 //     fetchStrategyTypes();
-//   }, [selectStrategyType]);
+//   }, [selectStrategyType, Username]);
 
 //   const convertDateFormat = (date) => {
 //     if (!date) return "";
@@ -169,13 +157,13 @@
 //   };
 
 //   const handleSubmit = async () => {
-//     console.log("handlesubmit selectedRowData", selectedRowData);
 //     if (selectStrategyType === "ChartingPlatform") return;
 //     if (!selectedRowData) {
 //       Swal.fire({
 //         icon: "warning",
 //         title: "Please select a row first!",
 //         confirmButtonColor: "#1ccc8a",
+//         timer: 2000,
 //       });
 //       return;
 //     }
@@ -198,9 +186,7 @@
 //             : selectStrategyType,
 //         Strategy:
 //           selectStrategyType === "Scalping"
-//             ? selectedRowData.ScalpType !== "Multi_Conditional"
-//               ? selectedRowData.Targetselection
-//               : selectedRowData.Targetselection
+//             ? selectedRowData.Targetselection
 //             : selectStrategyType === "Option Strategy"
 //             ? selectedRowData.STG
 //             : selectStrategyType === "Pattern"
@@ -227,7 +213,7 @@
 //           : "",
 //         Username,
 //         From_date: convertDateFormat(FromDate || formattedDate),
-//         To_date: convertDateFormat(ToDate || Defult_To_Date),
+//         To_date: convertDateFormat(ToDate || Default_To_Date),
 //         Timeframe:
 //           selectStrategyType === "Pattern" ? selectedRowData.TimeFrame : "",
 //         TradePattern: "",
@@ -246,6 +232,7 @@
 //           title: tradeRes.message,
 //           text: tradeRes.message,
 //           confirmButtonColor: "#1ccc8a",
+//           timer: 2000,
 //         });
 //       }
 //     } catch (error) {
@@ -254,6 +241,7 @@
 //         title: "Failed to load initial data",
 //         text: error.message,
 //         confirmButtonColor: "#1ccc8a",
+//         timer: 2000,
 //       });
 //     }
 //   };
@@ -264,21 +252,20 @@
 //         MainStrategy: "ChartingPlatform",
 //         Strategy: activeTab,
 //         Symbol: "",
-//         Username: Username,
+//         Username,
 //         ETPattern: "",
 //         Timeframe: "",
 //         From_date: convertDateFormat(FromDate || formattedDate),
-//         To_date: convertDateFormat(ToDate || Defult_To_Date),
+//         To_date: convertDateFormat(ToDate || Default_To_Date),
 //         Group: "",
 //         TradePattern: "",
 //         PatternName: "",
 //       };
 //       const res = await get_Trade_History(req);
-//       console.log("reees", res);
 //       setChartingData(res?.data || []);
 //       setAllTradeData({ Overall: res?.Overall || [] });
 //     } catch (error) {
-//       console.log("Error in getChartingSegmentData", error);
+//       console.error("Error in getChartingSegmentData", error);
 //     }
 //   };
 
@@ -297,11 +284,11 @@
 //           MainStrategy: "ChartingPlatform",
 //           Strategy: activeTab,
 //           Symbol: "",
-//           Username: Username,
+//           Username,
 //           ETPattern: "",
 //           Timeframe: "",
 //           From_date: convertDateFormat(FromDate || formattedDate),
-//           To_date: convertDateFormat(ToDate || Defult_To_Date),
+//           To_date: convertDateFormat(ToDate || Default_To_Date),
 //           Group: "",
 //           TradePattern: "",
 //           PatternName: "",
@@ -316,9 +303,7 @@
 //               : selectStrategyType,
 //           Strategy:
 //             selectStrategyType === "Scalping"
-//               ? selectedRowData?.ScalpType !== "Multi_Conditional"
-//                 ? selectedRowData?.Targetselection
-//                 : selectedRowData?.Targetselection
+//               ? selectedRowData?.Targetselection
 //               : selectStrategyType === "Option Strategy"
 //               ? selectedRowData?.STG
 //               : selectStrategyType === "Pattern"
@@ -346,7 +331,7 @@
 //             : "",
 //           Username,
 //           From_date: convertDateFormat(FromDate || formattedDate),
-//           To_date: convertDateFormat(ToDate || Defult_To_Date),
+//           To_date: convertDateFormat(ToDate || Default_To_Date),
 //           Timeframe:
 //             selectStrategyType === "Pattern" ? selectedRowData?.TimeFrame : "",
 //           TradePattern: "",
@@ -356,7 +341,7 @@
 //       if (section === "pnlAnalysis") {
 //         const pnlRes = await get_PnL_Data(params);
 //         setPnlData({ data: pnlRes.Barchart || [] });
-//       } else if (section?.includes("equity")) {
+//       } else if (section.includes("equity")) {
 //         const equityRes = await get_EQuityCurveData(params);
 //         setEquityCurveDetails({ data: equityRes.Equitycurve || [] });
 //       } else if (section === "drawdown") {
@@ -376,11 +361,10 @@
 //         icon: "error",
 //         title: `Failed to load ${section} data`,
 //         text: error.message,
+//         timer: 2000,
 //       });
 //     }
 //   };
-
-//   const [openSections, setOpenSections] = useState({});
 
 //   useEffect(() => {
 //     setOpenSections({});
@@ -432,7 +416,6 @@
 //   };
 
 //   useEffect(() => {
-//     console.log("getChartingData", getChartingData);
 //     if (selectStrategyType === "ChartingPlatform") {
 //       setLoadedSections({
 //         overview: false,
@@ -464,7 +447,7 @@
 
 //   return (
 //     <Content
-//       Page_title={"📊 Trade History Analysis"}
+//       Page_title={"📊 Trade History "}
 //       button_status={false}
 //       backbutton_status={true}>
 //       <div className="iq-card-body">
@@ -495,7 +478,7 @@
 //                   className="form-control"
 //                   selected={FromDate || formattedDate}
 //                   onChange={setFromDate}
-//                   dateFormat="yyyy.MM.dd"
+//                   dateFormat="dd/MM/yyyy"
 //                 />
 //               </div>
 //             </div>
@@ -504,9 +487,9 @@
 //                 <label className="form-label">To Date</label>
 //                 <DatePicker
 //                   className="form-control"
-//                   selected={ToDate || Defult_To_Date}
+//                   selected={ToDate || Default_To_Date}
 //                   onChange={setToDate}
-//                   dateFormat="yyyy.MM.dd"
+//                   dateFormat="dd/MM/yyyy"
 //                 />
 //               </div>
 //             </div>
@@ -757,6 +740,10 @@
 
 // export default Tradehistory;
 
+
+
+
+
 import React, { useState, useEffect, useRef } from "react";
 import {
   get_User_Data,
@@ -983,6 +970,8 @@ const Tradehistory = () => {
           Overall: tradeRes.Overall || [],
         });
         setShowReportSections(true);
+        setLoadedSections({ overview: true });
+        setOpenSections({ overview: true });
       } else {
         Swal.fire({
           icon: "error",
@@ -1020,7 +1009,10 @@ const Tradehistory = () => {
       };
       const res = await get_Trade_History(req);
       setChartingData(res?.data || []);
-      setAllTradeData({ Overall: res?.Overall || [] });
+      setAllTradeData({
+        data: res?.data || [],
+        Overall: res?.Overall || [],
+      });
     } catch (error) {
       console.error("Error in getChartingSegmentData", error);
     }
@@ -1201,6 +1193,25 @@ const Tradehistory = () => {
         return columns();
     }
   };
+
+  const hasSubmittedRef = useRef(false);
+
+  useEffect(() => {
+    const autoSubmitIfNeeded = async () => {
+      if (
+        !hasSubmittedRef.current &&
+        location?.state?.goto === "dashboard" &&
+        selectedRowData
+      ) {
+        hasSubmittedRef.current = true;
+        await handleSubmit();
+      }
+    };
+
+    autoSubmitIfNeeded();
+  }, [selectedRowData, location?.state?.goto]);
+
+  console.log("getAllTradeData.data", getAllTradeData.data);
 
   return (
     <Content

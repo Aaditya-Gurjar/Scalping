@@ -1,249 +1,8 @@
-// import React, { useState, useCallback, useMemo, useEffect } from "react";
-// import MUIDataTable from "mui-datatables";
-// import Modal from "react-bootstrap/Modal";
-// import Button from "react-bootstrap/Button";
-
-// const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
-//   const [selectedRowData, setSelectedRowData] = useState(null);
-//   const [isModalOpen, setIsModalOpen] = useState(false);
-//   const [selectedColumns, setSelectedColumns] = useState(columns.slice(0, 7));
-//   const [tempSelectedColumns, setTempSelectedColumns] = useState(
-//     columns.slice(0, 7)
-//   );
-//   const [checkedRows, setCheckedRows] = useState(
-//     isChecked !== undefined ? [isChecked] : []
-//   );
-
-//   let Theme = localStorage.getItem("theme");
-
-//   useEffect(() => {
-//     setSelectedColumns(columns.slice(0, 7));
-//     setTempSelectedColumns(columns.slice(0, 7));
-//   }, [columns]);
-
-//   useEffect(() => {
-//     if (isChecked !== undefined) {
-//       setCheckedRows([isChecked]);
-//     }
-//   }, [isChecked]);
-
-//   const handleModalOpen = useCallback(() => setIsModalOpen(true), []);
-//   const handleModalClose = useCallback(() => setIsModalOpen(false), []);
-
-//   const handleColumnChange = useCallback(
-//     (columnName) => {
-//       const columnToAdd = columns.find((col) => col.name === columnName);
-//       if (tempSelectedColumns.some((col) => col.name === columnName)) {
-//         setTempSelectedColumns((prev) =>
-//           prev.filter((col) => col.name !== columnName)
-//         );
-//       } else if (columnToAdd) {
-//         setTempSelectedColumns((prev) => [...prev, columnToAdd]);
-//       }
-//     },
-//     [columns, tempSelectedColumns]
-//   );
-
-//   const handleSubmit = useCallback(() => {
-//     setSelectedColumns(tempSelectedColumns);
-//     handleModalClose();
-//   }, [tempSelectedColumns, handleModalClose]);
-
-//   const options = useMemo(
-//     () => ({
-//       responsive: "standard",
-//       selectableRows: checkBox ? "single" : "none",
-//       onRowSelectionChange: (currentRowsSelected, allRowsSelected) => {
-//         if (allRowsSelected.length > 0) {
-//           const selectedIndex = allRowsSelected[0].index;
-//           const rowData = data[selectedIndex];
-//           setSelectedRowData(rowData);
-//           if (onRowSelect) onRowSelect(rowData);
-//           setCheckedRows(allRowsSelected.map((row) => row.index));
-//         } else {
-//           setSelectedRowData(null);
-//           if (onRowSelect) onRowSelect(null);
-//           setCheckedRows([]);
-//         }
-//       },
-//       rowsSelected: checkedRows,
-//       download: false,
-//       print: false,
-//       viewColumns: false,
-//       search: false,
-//       filter: false,
-//       sort: false,
-//       rowsPerPageOptions: [5, 10, 25, 50, 100],
-//       setCellProps: () => ({ style: { textAlign: "center" } }),
-//       setRowProps: (row, dataIndex) => ({
-//         style: {
-//           backgroundColor:
-//             Theme == "light"
-//               ? dataIndex % 2 === 0
-//                 ? "#f9f9f9"
-//                 : "#ffffff"
-//               : dataIndex % 2 === 0
-//               ? "#333"
-//               : "#000",
-//           transition: "background-color 0.3s ease",
-//           cursor: "pointer",
-//           borderRadius: "8px",
-//         },
-//         onMouseEnter: (e) => {
-//           e.currentTarget.style.backgroundColor =
-//             Theme == "light" ? "#f0f0f0" : "#666";
-//         },
-//         onMouseLeave: (e) => {
-//           e.currentTarget.style.backgroundColor =
-//             Theme == "light"
-//               ? dataIndex % 2 === 0
-//                 ? "#f9f9f9"
-//                 : "#ffffff"
-//               : dataIndex % 2 === 0
-//               ? "#333"
-//               : "#000";
-//         },
-//       }),
-//     }),
-//     [data, selectedRowData, onRowSelect, checkBox, checkedRows]
-//   );
-
-//   const visibleColumns = useMemo(
-//     () =>
-//       selectedColumns.concat({
-//         name: "Action",
-//         label: (
-//           <button
-//             onClick={handleModalOpen}
-//             style={{
-//               backgroundColor: Theme == "light" ? "#007bff" : "#333",
-//               color: "#fff",
-//               border: "none",
-//               borderRadius: "4px",
-//               padding: "5px 10px",
-//               cursor: "pointer",
-//             }}>
-//             {">>"}
-//           </button>
-//         ),
-//         options: {
-//           filter: false,
-//           sort: false,
-//           setCellProps: () => ({
-//             style: { textAlign: "center", minWidth: "120px" },
-//           }),
-//         },
-//       }),
-//     [selectedColumns, handleModalOpen]
-//   );
-
-//   const customizedColumns = useMemo(
-//     () =>
-//       visibleColumns.map((column) => ({
-//         ...column,
-//         options: {
-//           ...column.options,
-//           sort: false,
-//           setCellProps: () => ({
-//             style: { width: column.width || "auto", minWidth: "100px" },
-//           }),
-//         },
-//       })),
-//     [visibleColumns]
-//   );
-
-//   const handleSelectAllChange = useCallback(() => {
-//     if (tempSelectedColumns.length === columns.length) {
-//       setTempSelectedColumns(columns.slice(0, 6));
-//     } else {
-//       setTempSelectedColumns(columns);
-//     }
-//   }, [columns, tempSelectedColumns]);
-
-//   return (
-//     <>
-//       <style>
-//         {`
-//           .table-container {
-//             display: flex;
-//             flex-wrap: wrap;
-//             gap: 20px;
-//           }
-
-//           .custom-table {
-//             border-radius: 8px;
-//             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-//             overflow: hidden;
-//           }
-
-//           @media (max-width: 768px) {
-//             .table-container {
-//               flex-direction: column;
-//             }
-
-//             .custom-table {
-//               display: block;
-//               width: 100%;
-//               overflow-x: auto;
-//               border-radius: 8px;
-//             }
-//           }
-//         `}
-//       </style>
-
-//       <div className="table-container">
-//         <MUIDataTable
-//           title={""}
-//           data={data}
-//           columns={customizedColumns}
-//           options={options}
-//           className="custom-table"
-//         />
-//       </div>
-
-//       <Modal show={isModalOpen} onHide={handleModalClose}>
-//         <Modal.Header closeButton>
-//           <Modal.Title>Select Columns to Display</Modal.Title>
-//         </Modal.Header>
-//         <Modal.Body>
-//           <div className="row">
-//             <div className="col-12 mb-2">
-//               <div className="form-check">
-//                 <input
-//                   type="checkbox"
-//                   className="form-check-input"
-//                   id="select-all"
-//                   checked={tempSelectedColumns.length === columns.length}
-//                   onChange={handleSelectAllChange}
-//                 />
-//                 <label className="form-check-label" htmlFor="select-all">
-//                   Select All
-//                 </label>
-//               </div>
-//             </div>
-//           </div>
-//         </Modal.Body>
-//         <Modal.Footer>
-//           <Button style={{ backgroundColor: "red", color: "white" }} onClick={handleModalClose}>
-//             Cancel
-//           </Button>
-//           <Button style={{ backgroundColor: "green", color: "white" }} onClick={handleSubmit}>
-//             Submit
-//           </Button>
-//         </Modal.Footer>
-//       </Modal>
-//     </>
-//   );
-// };
-
-// export default FullDataTable;
-
-// ___________Updated table ____________
-
 import React, { useState, useCallback, useMemo, useEffect } from "react";
 import MUIDataTable from "mui-datatables";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import { right } from "@popperjs/core";
 
 const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
   const [selectedRowData, setSelectedRowData] = useState(null);
@@ -255,14 +14,14 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
   const [checkedRows, setCheckedRows] = useState(
     isChecked !== undefined ? [isChecked] : []
   );
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  let Theme = localStorage.getItem("theme");
+const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
-    setSelectedColumns(columns.slice(0, 7)); // Reset selected columns to default
-    setTempSelectedColumns(columns.slice(0, 7)); // Reset temp selected columns
+    setSelectedColumns(columns.slice(0, 7));
+    setTempSelectedColumns(columns.slice(0, 7));
   }, [columns]);
+
+  console.log("selectedColumns", selectedColumns)
 
   // Memoized modal handlers
   const handleModalOpen = useCallback(() => setIsModalOpen(true), []);
@@ -281,6 +40,23 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
     },
     [columns, tempSelectedColumns]
   );
+
+  const handleSelectAll = () => {
+    console.log("isExpanded", isExpanded)
+    if(isExpanded){
+      setIsModalOpen(false)
+      setSelectedColumns(columns)
+    }
+    else{
+      setIsModalOpen(false)
+      setSelectedColumns(tempSelectedColumns);
+    }
+   
+  }
+
+  useEffect(() => {
+    handleSelectAll();
+  }, [isExpanded]); 
 
   const handleSubmit = useCallback(() => {
     setSelectedColumns(tempSelectedColumns);
@@ -311,9 +87,8 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
       search: false,
       filter: false,
       sort: false,
-      rowsPerPage: rowsPerPage,
+      rowsPerPage: 5,
       rowsPerPageOptions: [5, 10, 25, 50, 100],
-      onChangeRowsPerPage: (row) => setRowsPerPage(row),
       fixedHeader: true,
       // tableBodyHeight: "320px",
       tableBodyMaxHeight: "320px",
@@ -323,32 +98,16 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
       setRowProps: (row, dataIndex) => {
         return {
           style: {
-            // backgroundColor: dataIndex % 2 === 0 ? "#f9f9f9" : "#ffffff",
-            backgroundColor:
-              Theme == "light"
-                ? dataIndex % 2 === 0
-                  ? "#f9f9f9"
-                  : "#ffffff"
-                : dataIndex % 2 === 0
-                ? "#333"
-                : "#000",
-
+            backgroundColor: dataIndex % 2 === 0 ? "#f9f9f9" : "#ffffff", // Even rows: light gray, Odd rows: white
             transition: "background-color 0.3s ease",
             cursor: "pointer",
           },
           onMouseEnter: (e) => {
-            e.currentTarget.style.backgroundColor =
-              Theme == "light" ? "#f0f0f0" : "#666";
+            e.currentTarget.style.backgroundColor = "#d1e7ff"; // Light blue hover
           },
           onMouseLeave: (e) => {
             e.currentTarget.style.backgroundColor =
-              Theme == "light"
-                ? dataIndex % 2 === 0
-                  ? "#f9f9f9"
-                  : "#ffffff"
-                : dataIndex % 2 === 0
-                ? "#333"
-                : "#000";
+              dataIndex % 2 === 0 ? "#f9f9f9" : "#ffffff"; // Reset to zebra striping
           },
         };
       },
@@ -361,18 +120,42 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
       selectedColumns.concat({
         name: "Action",
         label: (
-          <button
-            onClick={handleModalOpen}
-            style={{
-              backgroundColor: Theme == "light" ? "#007bff" : "#333",
-              color: Theme == "light" ? "#fff" : "#fff",
-              border: "none",
-              borderRadius: "4px",
-              padding: "5px 10px",
-              cursor: "pointer",
-            }}>
-            {">>"}
-          </button>
+          <>
+            <button
+            
+              onClick={(e) => {
+                e.stopPropagation();
+                handleModalOpen();
+              }}
+              style={{
+                backgroundColor: "#000",
+                color: "#fff",
+                border: "none",
+                borderRadius: "4px",
+                padding: "5px 10px",
+                marginRight: "10px",
+                cursor: "pointer",
+              }}>
+              {">"}
+            </button>
+
+            <button
+              
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsExpanded((prev) => !prev); // Safely toggle isExpanded
+              }}
+              style={{
+                backgroundColor: "#000",
+                color: "#fff",
+                border: "none",
+                borderRadius: "4px",
+                padding: "5px 10px",
+                cursor: "pointer",
+              }}>
+              {isExpanded === false ?  ">>" : "<<"}
+            </button>
+          </>
         ),
         options: {
           filter: false,
@@ -384,27 +167,6 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
       }),
     [selectedColumns, handleModalOpen]
   );
-
-  // const customizedColumns = useMemo(
-  //   () =>
-  //     visibleColumns.map((column) => ({
-  //       ...column,
-  //       options: {
-  //         ...column.options,
-  //         sort: false,
-  //         setCellProps: () => ({
-  //           style: { width: column.width || "auto", minWidth: "100px" },
-  //         }),
-  //         setHeaderProps: () => ({
-  //           style: {
-  //             pointerEvents: column.name === "Action" ? "auto" : "none",
-  //             cursor: column.name === "Action" ? "pointer" : "default",
-  //           },
-  //         }),
-  //       },
-  //     })),
-  //   [visibleColumns]
-  // );
 
   const customizedColumns = useMemo(
     () =>
@@ -418,7 +180,6 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
           }),
           setHeaderProps: () => ({
             style: {
-              fontWeight: "bold", // Makes the header text bold
               pointerEvents: column.name === "Action" ? "auto" : "none",
               cursor: column.name === "Action" ? "pointer" : "default",
             },
@@ -436,21 +197,21 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
     }
   }, [columns, tempSelectedColumns]);
   useEffect(() => {
+    // Update the checked rows when `isChecked` prop changes
     if (isChecked !== undefined) {
       setCheckedRows([isChecked]);
     }
   }, [isChecked]);
   return (
-    <>
+    <div className="modal-body">
       <div
-      // className="table-container"
-      // style={{
-      //   boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-      //   border: "1px solid #ddd",
-      //   borderRadius: "8px",
-      //   overflow: "hidden",
-      // }}
-      >
+        className="table-container"
+        style={{
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+          border: "1px solid #ddd",
+          borderRadius: "8px",
+          overflow: "hidden",
+        }}>
         <MUIDataTable
           title={""}
           data={data}
@@ -527,7 +288,7 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
         <Modal.Footer>
           <Button
             style={{
-              backgroundColor: "red",
+              backgroundColor: "black",
               color: "white",
               border: "none",
             }}
@@ -545,7 +306,7 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
+    </div>
   );
 };
 

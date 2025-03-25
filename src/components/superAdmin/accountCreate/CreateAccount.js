@@ -49,9 +49,9 @@ const Adduser = () => {
 
                 } else {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Error!",
                         text: response.message,
                         icon: "error",
@@ -136,15 +136,15 @@ confirmButtonColor: "#1ccc8a",
                 Chartingamount: values.Chartingamount,
                 BrokerPermission: values.BrokerPermission, // Added to request object
             };
-            
+
 
             await createAdmin(req)
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Admin Created!",
                             text: response.message,
                             icon: "success",
@@ -157,9 +157,9 @@ confirmButtonColor: "#1ccc8a",
                     }
                     else {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Error!",
                             text: response.message,
                             icon: "error",
@@ -282,20 +282,20 @@ confirmButtonColor: "#1ccc8a",
     ]
     return (
         <>
-        <Content
+            <Content
                 Page_title={"Create Admin"}
                 button_status={false}
                 backbutton_status={true}
-              
+
 
             >
-            <AddForm
-                fields={fields}                
-                btn_name="Add"
-                btn_name1="Cancel"
-                formik={formik}
-                btn_name1_route={"/admin/clientservice"}
-            />
+                <AddForm
+                    fields={fields}
+                    btn_name="Add"
+                    btn_name1="Cancel"
+                    formik={formik}
+                    btn_name1_route={"/admin/clientservice"}
+                />
             </Content>
         </>
     );
