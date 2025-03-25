@@ -558,4 +558,3 @@ export const deleteSubAdminData = async (data) => {
     }
 }
 
-console.log("Ip Test")
