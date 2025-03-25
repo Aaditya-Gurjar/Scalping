@@ -18,6 +18,7 @@
 }
 
 .group-card {
+  width: 400px;
   background: var(--bg-color);
   color: var(--text-color);
   padding: 15px;
@@ -143,7 +144,7 @@
   }
 
   .group-card {
-    width: 100%;
+    width: 400px;
   }
 
   .group-buttons {

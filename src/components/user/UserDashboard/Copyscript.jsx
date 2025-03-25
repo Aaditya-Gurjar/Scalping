@@ -116,7 +116,8 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
   };
 
   const handleAddScript2 = (data1) => {
-    if (data2.status == false) {
+    // if (data2.status == false) {
+    if (!data1) {
       Swal.fire({
         background: "#1a1e23 ",
         backdrop: "#121010ba",
@@ -313,78 +314,78 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
       <div className="row">
         <div className="col-sm-12">
           {/* <div className="iq-card"> */}
-            {/* <div className="iq-card-body " style={{ padding: "3px" }}> */}
-             
-                <div
-                  className="tab-pane fade show active"
-                  id="home-justify"
-                  role="tabpanel"
-                  aria-labelledby="home-tab-justify">
-                  {data && (
-                    <>
-                      <div className="iq-card-body " style={{ padding: "3px" }}>
-                        <div className="table-responsive">
-                          <div>
-                            <div className="iq-header-title mt-4"></div>
+          {/* <div className="iq-card-body " style={{ padding: "3px" }}> */}
 
-                            {getAllService.loading ? (
-                              <Loader />
-                            ) : (
-                              data !== "Scalping" && (
-                                <div>
-                                  <h4 className="card-title">{data}</h4>
-                                  <FullDataTable
-                                    columns={
-                                      // data === "Scalping"
-                                      //   ? getColumns(handleAddScript1)
-                                      data === "Option Strategy"
-                                        ? getColumns1(handleAddScript2)
-                                        : data === "Pattern"
-                                        ? getColumns2(handleAddScript3)
-                                        : getColumns(handleAddScript1)
-                                    }
-                                    data={
-                                      // data === "Scalping"
-                                      //   ? getAllService.ScalpingData
-                                      data === "Option Strategy"
-                                        ? getAllService.OptionData
-                                        : data === "Pattern"
-                                        ? getAllService.PatternData
-                                        : []
-                                    }
-                                    checkBox={false}
-                                  />
-                                </div>
-                              )
-                            )}
+          <div
+            className="tab-pane fade show active"
+            id="home-justify"
+            role="tabpanel"
+            aria-labelledby="home-tab-justify">
+            {data && (
+              <>
+                <div className="iq-card-body " style={{ padding: "3px" }}>
+                  <div className="table-responsive">
+                    <div>
+                      <div className="iq-header-title mt-4"></div>
+
+                      {getAllService.loading ? (
+                        <Loader />
+                      ) : (
+                        data !== "Scalping" && (
+                          <div>
+                            <h4 className="card-title">{data}</h4>
+                            <FullDataTable
+                              columns={
+                                // data === "Scalping"
+                                //   ? getColumns(handleAddScript1)
+                                data === "Option Strategy"
+                                  ? getColumns1(handleAddScript2)
+                                  : data === "Pattern"
+                                  ? getColumns2(handleAddScript3)
+                                  : getColumns(handleAddScript1)
+                              }
+                              data={
+                                // data === "Scalping"
+                                //   ? getAllService.ScalpingData
+                                data === "Option Strategy"
+                                  ? getAllService.OptionData
+                                  : data === "Pattern"
+                                  ? getAllService.PatternData
+                                  : []
+                              }
+                              checkBox={false}
+                            />
                           </div>
-                          {data === "Scalping" &&
-                            adminPermission?.includes("Charting Platform") && (
-                              <div>
-                                <div className="iq-header-title mt-4">
-                                  <h4 className="card-title">
-                                    {/* Multi Conditional */}
-                                    Scalping
-                                  </h4>
-                                </div>
-                                {getAllService.loading ? (
-                                  <Loader />
-                                ) : (
-                                  <FullDataTable
-                                    columns={getColumns7(handleAddScript1)}
-                                    data={getAllService.NewScalping}
-                                    checkBox={false}
-                                  />
-                                )}
-                              </div>
-                            )}
+                        )
+                      )}
+                    </div>
+                    {data === "Scalping" &&
+                      adminPermission?.includes("Charting Platform") && (
+                        <div>
+                          <div className="iq-header-title mt-4">
+                            <h4 className="card-title">
+                              {/* Multi Conditional */}
+                              Scalping
+                            </h4>
+                          </div>
+                          {getAllService.loading ? (
+                            <Loader />
+                          ) : (
+                            <FullDataTable
+                              columns={getColumns7(handleAddScript1)}
+                              data={getAllService.NewScalping}
+                              checkBox={false}
+                            />
+                          )}
                         </div>
-                      </div>
-                    </>
-                  )}
+                      )}
+                  </div>
                 </div>
-          
-            {/* </div> */}
+              </>
+            )}
+          </div>
+
+          {/* </div> */}
           {/* </div> */}
         </div>
       </div>
