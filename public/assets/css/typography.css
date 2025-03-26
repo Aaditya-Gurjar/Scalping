@@ -1852,11 +1852,9 @@ Border Color
 }
 
 
-
 .card-body {
   color: #a09e9e;
 }
-
 
 .card-text-Color{
   color: var(--text-color) !important;
