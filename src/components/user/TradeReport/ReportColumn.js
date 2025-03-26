@@ -1256,278 +1256,448 @@ export const getColumns6 = () => [
 
 ]
 // Option
-export const getColumns4 = () => [
-    {
-        name: "S.No",
-        label: "S.No",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value, tableMeta, updateValue) => {
+// export const getColumns4 = (STG) => [
+//     {
+//         name: "S.No",
+//         label: "S.No",
+//         options: {
+//             filter: true,
+//             sort: true,
+//             customBodyRender: (value, tableMeta, updateValue) => {
 
-                const rowIndex = tableMeta.rowIndex;
+//                 const rowIndex = tableMeta.rowIndex;
 
-                return rowIndex + 1;
+//                 return rowIndex + 1;
 
+//             }
+//         },
+//     },
+//     {
+//         name: "STG",
+//         label: "Strategy",
+//         options: {
+//             filter: true,
+//             sort: true,
+//         }
+//     },
+//     {
+//         name: "Symbol",
+//         label: "Symbol",
+//         options: {
+//             filter: true,
+//             sort: true,
+//         }
+//     },
+//     {
+//         name: "ETime",
+//         label: "Entry Time",
+//         options: {
+//             filter: true,
+//             sort: true,
+//         }
+//     },
+
+//     {
+//         name: "EPrice",
+//         label: "Entry Price",
+//         options: {
+//             filter: true,
+//             sort: true,
+//         }
+//     },
+
+//     {
+//         name: "TradeType",
+//         label: "Transaction Type",
+//         options: {
+//             filter: true,
+//             sort: true,
+//         }
+//     },
+
+//     {
+//         name: "LotSize",
+//         label: "Lot",
+//         options: {
+//             filter: true,
+//             sort: true,
+//         }
+//     },
+//     {
+//         name: "Option Type",
+//         label: "Option Type",
+//         options: {
+//             filter: true,
+//             sort: true,
+//         }
+//     },
+//     {
+//         name: "Target",
+//         label: "Target",
+//         options: {
+//             filter: true,
+//             sort: true,
+//         }
+//     },
+//     {
+//         name: "SL",
+//         label: "Stoploss",
+//         options: {
+//             filter: true,
+//             sort: true,
+//         }
+//     },
+
+//     {
+//         name: "Targettype",
+//         label: "Risk Handle",
+//         options: {
+//             filter: true,
+//             sort: true,
+//         }
+//     },
+
+//     {
+//         name: "Spot Price",
+//         label: "Spot Price",
+//         options: {
+//             filter: true,
+//             sort: true,
+//         }
+//     },
+//     {
+//         name: "Hashing",
+//         label: "Hashing",
+//         options: {
+//             filter: true,
+//             sort: true,
+//         }
+//     },
+
+
+// ]
+
+export const getColumns4 = (STG) => {
+
+
+    const columns = [
+        {
+            name: "S.No",
+            label: "S.No",
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value, tableMeta, updateValue) => {
+                    return tableMeta.rowIndex + 1;
+                }
+            },
+        },
+        {
+            name: "STG",
+            label: "Strategy",
+            options: {
+                filter: true,
+                sort: true,
             }
         },
-    },
-    {
-        name: "STG",
-        label: "Strategy",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Symbol",
-        label: "Symbol",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "ETime",
-        label: "Entry Time",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-
-    {
-        name: "EPrice",
-        label: "Entry Price",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-
-    {
-        name: "TradeType",
-        label: "Transaction Type",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-
-    {
-        name: "LotSize",
-        label: "Lot",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Option Type",
-        label: "Option Type",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Target",
-        label: "Target",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "SL",
-        label: "Stoploss",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-
-    {
-        name: "Targettype",
-        label: "Risk Handle",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-
-    {
-        name: "Spot Price",
-        label: "Spot Price",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Hashing",
-        label: "Hashing",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-
-
-]
-export const getColumns7 = () => [
-    {
-        name: "S.No",
-        label: "S.No",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value, tableMeta, updateValue) => {
-
-                const rowIndex = tableMeta.rowIndex;
-
-                return rowIndex + 1;
-
+        {
+            name: "Symbol",
+            label: "Symbol",
+            options: {
+                filter: true,
+                sort: true,
             }
         },
-    },
-    {
-        name: "STG",
-        label: "Strategy",
-        options: {
-            filter: true,
-            sort: true,
+        {
+            name: "ETime",
+            label: "Entry Time",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "EPrice",
+            label: "Entry Price",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "TradeType",
+            label: "Transaction Type",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "LotSize",
+            label: "Lot",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "Option Type",
+            label: "Option Type",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "Target",
+            label: "Target",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "SL",
+            label: "Stoploss",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "Targettype",
+            label: "Risk Handle",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "Hashing",
+            label: "Hashing",
+            options: {
+                filter: true,
+                sort: true,
+            }
         }
-    },
+    ];
 
-    {
-        name: "Symbol",
-        label: "Symbol",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "ETime",
-        label: "Entry Time",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "EPrice",
-        label: "Entry Price",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "ExitTime",
-        label: "Exit Time",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+    if (STG !== "LongShifting" && STG !== "ShortShifting") {
+        columns.splice(11, 0, {
+            name: "Spot Price",
+            label: "Spot Price",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        });
+    }
 
-    {
-        name: "ExitPrice",
-        label: "Exit Price",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "TradeType",
-        label: "Transaction Type",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+    if (STG === "LongShifting" || STG == "ShortShifting") {
+        columns.push({
+            name: "EnFPrice",
+            label: "Future Entry Price",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        });
 
-    {
-        name: "LotSize",
-        label: "Lot",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Option Type",
-        label: "Option Type",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Target",
-        label: "Target",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "SL",
-        label: "Stoploss",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Trade",
-        label: "Trade",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+        // columns.push({
+        //     name: "ExFPrice",
+        //     label: "Future Exit Price",
+        //     options: {
+        //         filter: true,
+        //         sort: true,
+        //     }
+        // });
+    }
 
-
-    {
-        name: "Targettype",
-        label: "Risk Handle",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Token",
-        label: "Token",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Spot Price",
-        label: "Spot Price",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Hashing",
-        label: "Hashing",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+    return columns;
+};
 
 
-]
+
+export const getColumns7 = (STG) => {
+    const columns = [
+        {
+            name: "S.No",
+            label: "S.No",
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value, tableMeta, updateValue) => {
+
+                    const rowIndex = tableMeta.rowIndex;
+
+                    return rowIndex + 1;
+
+                }
+            },
+        },
+        {
+            name: "STG",
+            label: "Strategy",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+
+        {
+            name: "Symbol",
+            label: "Symbol",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "ETime",
+            label: "Entry Time",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "EPrice",
+            label: "Entry Price",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "ExitTime",
+            label: "Exit Time",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+
+        {
+            name: "ExitPrice",
+            label: "Exit Price",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "TradeType",
+            label: "Transaction Type",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+
+        {
+            name: "LotSize",
+            label: "Lot",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "Option Type",
+            label: "Option Type",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "Target",
+            label: "Target",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "SL",
+            label: "Stoploss",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "Trade",
+            label: "Trade",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+
+
+        {
+            name: "Targettype",
+            label: "Risk Handle",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "Token",
+            label: "Token",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+
+        {
+            name: "Hashing",
+            label: "Hashing",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+    ]
+    if (STG !== "LongShifting" && STG !== "ShortShifting") {
+        columns.splice(11, 0, {
+            name: "Spot Price",
+            label: "Spot Price",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        });
+    }
+
+    if (STG === "LongShifting" || STG == "ShortShifting") {
+        columns.push({
+            name: "EnFPrice",
+            label: "Future Entry Price",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        });
+
+        columns.push({
+            name: "ExFPrice",
+            label: "Future Exit Price",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        });
+    }
+
+
+
+    return columns
+
+}
 //Pattern
 export const getColumns5 = () => [
     {

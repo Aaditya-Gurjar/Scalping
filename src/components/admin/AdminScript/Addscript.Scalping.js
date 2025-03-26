@@ -498,6 +498,8 @@ const AddClient = () => {
     } else if (formik.values.Exchange === 'MCX') {
       formik.setFieldValue('ExitTime', '23:25:00');
       formik.setFieldValue('EntryTime', '09:00:00');
+      formik.setFieldValue('Instrument', 'FUTCOM')      
+
     }
   }, [formik.values.Exchange]);
 

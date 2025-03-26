@@ -26,6 +26,7 @@ const Userdashboard = () => {
   const [getGroup, setGroup] = useState(groupName || "copyScript");
   const [strategyType, setStrategyType] = useState([]);
   const [tableType, setTableType] = useState(StrategyType || "MultiCondition");
+  const [data2, setData2] = useState({ status: true, msg: "Initial state" });
 
   const [ToDate, setToDate] = useState(() => {
     let tomorrow = new Date();
@@ -104,15 +105,21 @@ const Userdashboard = () => {
             loading: false,
             data: response?.Data?.map((item) => item?.value || item),
           });
+          setData2({ status: true, msg: "Groups fetched successfully" });
         } else {
           setGroupName({
             loading: false,
             data: [],
           });
+          setData2({
+            status: false,
+            msg: response.Message || "No groups found",
+          });
         }
       })
       .catch((err) => {
         console.log("Error in finding the group name", err);
+        setData2({ status: false, msg: "Error fetching groups" });
       });
   };
 
@@ -891,12 +898,17 @@ const Userdashboard = () => {
                 <div className="mt-3">
                   {subTab ? (
                     getGroup === "copyScript" ? (
-                      <Coptyscript data={subTab} selectedType={activeTab} />
+                      <Coptyscript
+                        data={subTab}
+                        selectedType={activeTab}
+                        data2={data2}
+                      />
                     ) : (
                       <GroupScript
                         data={subTab}
                         selectedType={activeTab}
                         GroupName={getGroup}
+                        data2={data2}
                       />
                     )
                   ) : null}
