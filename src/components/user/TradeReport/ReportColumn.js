@@ -1379,7 +1379,6 @@ export const getColumns6 = () => [
 
 export const getColumns4 = (STG) => {
 
-
     const columns = [
         {
             name: "S.No",
@@ -1543,7 +1542,6 @@ export const getColumns7 = (STG) => {
                 sort: true,
             }
         },
-
         {
             name: "Symbol",
             label: "Symbol",
@@ -1576,7 +1574,6 @@ export const getColumns7 = (STG) => {
                 sort: true,
             }
         },
-
         {
             name: "ExitPrice",
             label: "Exit Price",
@@ -1593,7 +1590,6 @@ export const getColumns7 = (STG) => {
                 sort: true,
             }
         },
-
         {
             name: "LotSize",
             label: "Lot",
