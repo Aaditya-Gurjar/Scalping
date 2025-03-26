@@ -568,7 +568,7 @@ const TradeReport = () => {
                         <button className='addbtn mt-2' onClick={handleSubmit}>Submit</button>
                     )
                 }
-
+            {console.log("getAllTradeData.data2", getAllTradeData.data2)}
                 {showTable && (getAllTradeData?.data2?.length > 0 || getAllTradeData?.data1?.length > 0 || openCloseChartingData?.OpenData?.length > 0 || openCloseChartingData?.CloseData?.length > 0) ? (
                     <>
                         {(getAllTradeData?.data2?.length > 0 || openCloseChartingData.OpenData.length > 0) && (
@@ -579,7 +579,7 @@ const TradeReport = () => {
                                         selectStrategyType === "Scalping"
                                             ? getColumns3()
                                             : selectStrategyType === "Option Strategy"
-                                                ? getColumns4()
+                                                ? getColumns4(getAllTradeData?.data2?.[0]?.STG)
                                                 : (selectStrategyType === "Pattern" || selectStrategyType === "Pattern Script")
                                                     ? getColumns5()
                                                     : selectStrategyType === "ChartingPlatform"
@@ -601,7 +601,7 @@ const TradeReport = () => {
                                         selectStrategyType === "Scalping"
                                             ? getColumns6()
                                             : selectStrategyType === "Option Strategy"
-                                                ? getColumns7()
+                                                ? getColumns7(getAllTradeData?.data1?.[0]?.STG)
                                                 : (selectStrategyType === "Pattern" || selectStrategyType === "Pattern Script")
                                                     ? getColumns8()
                                                     : selectStrategyType === "ChartingPlatform"
