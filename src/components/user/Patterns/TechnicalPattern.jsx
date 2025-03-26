@@ -27,7 +27,7 @@ const LastPattern = () => {
   const [scriptType, setScriptType] = useState("");
   const [candlestickPattern, setCandlestickPattern] =
     useState("Bearish_Engulfing");
-  const [selectedTimeFrame, setSelectedTimeFrame] = useState("");
+  const [selectedTimeFrame, setSelectedTimeFrame] = useState("1M");
   const [chartPattern, setChartPattern] = useState("");
   const [patternNames, setPatternNames] = useState([]);
   const [allSymbols, setAllSymbols] = useState([]);
@@ -58,6 +58,8 @@ const LastPattern = () => {
   });
   const [chartingPattern, setChartingPattern] = useState("");
 
+  console.log("chartPattern", chartPattern)
+
   useEffect(() => {
     fetchAllSymbols();
     fetchAvailableScripts();
@@ -75,12 +77,13 @@ const LastPattern = () => {
   useEffect(() => {
     fetchChartingData();
   }, [
+    chartPattern,
     selectedPatternType,
     scriptType,
     selectedTimeFrame,
-    chartPattern,
     chartingPattern,
     candlestickPattern,
+    
   ]);
 
   useEffect(() => {
@@ -156,6 +159,8 @@ const LastPattern = () => {
     }
   };
 
+  console.log("dataaa",   selectedTimeFrame ,chartPattern ,chartingPattern)
+
   const fetchChartingData = async () => {
     try {
       if (scriptType && selectedTimeFrame && chartPattern && chartingPattern) {
@@ -219,12 +224,12 @@ const LastPattern = () => {
     if (selectedPatternType === "Charting Patterns") {
       setChartingPattern("");
       setScriptType("");
-      setSelectedTimeFrame("");
+      setSelectedTimeFrame("1M");
       setChartPattern("");
       setSelectedRowData("");
     } else if (selectedPatternType === "Candlestick Patterns") {
       setCandlestickPattern("Bearish_Engulfing");
-      setSelectedTimeFrame("");
+      setSelectedTimeFrame("1M");
       setChartPattern("");
       setSelectedRowData("");
     }
