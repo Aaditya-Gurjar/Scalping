@@ -301,10 +301,12 @@ const Update_Broker_Key = ({ closeModal, isVisible, Role }) => {
                             formik.values.BrokerName.toUpperCase() === "INDIRA" ? "Username" :
                                 formik.values.BrokerName.toUpperCase() === "KOTAK" ? "User ID (Received in Email) " :
                                     formik.values.BrokerName.toUpperCase() === "MARKETHUB" ? "User ID" :
+                                    formik.values.BrokerName.toUpperCase() === "MARKETHUBMM" ? "User ID" :
                                         "Username",
             showWhen: (values) =>
                 values.BrokerName.toUpperCase() === "ALICEBLUE" ||
                 values.BrokerName.toUpperCase() === "MARKETHUB" ||
+                values.BrokerName.toUpperCase() === "MARKETHUBMM" ||
                 values.BrokerName.toUpperCase() === "5PAISA" ||
                 values.BrokerName.toUpperCase() === "ZEBULL" ||
                 values.BrokerName.toUpperCase() === "MANDOT" ||
@@ -359,12 +361,14 @@ const Update_Broker_Key = ({ closeModal, isVisible, Role }) => {
                                     formik.values.BrokerName.toUpperCase() === "INDIRA" ? "User Password" :
                                         formik.values.BrokerName.toUpperCase() === "KOTAK" ? "Demat Password" :
                                             formik.values.BrokerName.toUpperCase() === "MARKETHUB" ? "Password" :
+                                              formik.values.BrokerName.toUpperCase() === "MARKETHUBMM" ? "Password" :
                                                 "Mobile No.",
             showWhen: (values) =>
                 values.BrokerName.toUpperCase() === "UPSTOX" ||
                 values.BrokerName.toUpperCase() === "5PAISA" ||
                 values.BrokerName.toUpperCase() === "MASTERTRUST" ||
                 values.BrokerName.toUpperCase() === "MARKETHUB" ||
+                values.BrokerName.toUpperCase() === "MARKETHUBMM" ||
                 values.BrokerName.toUpperCase() === "FYERS" ||
                 values.BrokerName.toUpperCase() === "ZEBULL" ||
                 values.BrokerName.toUpperCase() === "KOTAK" ||
@@ -418,6 +422,7 @@ const Update_Broker_Key = ({ closeModal, isVisible, Role }) => {
                 values.BrokerName.toUpperCase() === "5PAISA" ||
                 values.BrokerName.toUpperCase() === "MASTERTRUST" ||
                 values.BrokerName.toUpperCase() === "MARKETHUB" ||
+                values.BrokerName.toUpperCase() === "MARKETHUBMM" ||
                 values.BrokerName.toUpperCase() === "ZEBULL" ||
                 values.BrokerName.toUpperCase() === "KOTAK" ||
                 values.BrokerName.toUpperCase() === "MANDOT" ||
