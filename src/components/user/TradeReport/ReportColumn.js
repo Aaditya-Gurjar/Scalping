@@ -1503,14 +1503,14 @@ export const getColumns4 = (STG) => {
             }
         });
 
-        columns.push({
-            name: "ExFPrice",
-            label: "Future Exit Price",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        });
+        // columns.push({
+        //     name: "ExFPrice",
+        //     label: "Future Exit Price",
+        //     options: {
+        //         filter: true,
+        //         sort: true,
+        //     }
+        // });
     }
 
     return columns;
