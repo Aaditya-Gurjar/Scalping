@@ -132,7 +132,6 @@ const Adduser = () => {
                 Companyname: values.Companyname,
                 Url: values.Url,
                 permission: values.Permission,
-
                 Chartingamount: values.Chartingamount,
                 BrokerPermission: values.BrokerPermission, // Added to request object
             };
