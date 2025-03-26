@@ -568,7 +568,7 @@ const TradeReport = () => {
                         <button className='addbtn mt-2' onClick={handleSubmit}>Submit</button>
                     )
                 }
-            {console.log("getAllTradeData.data2", getAllTradeData.data2)}
+                {console.log("getAllTradeData.data2", getAllTradeData.data2)}
                 {showTable && (getAllTradeData?.data2?.length > 0 || getAllTradeData?.data1?.length > 0 || openCloseChartingData?.OpenData?.length > 0 || openCloseChartingData?.CloseData?.length > 0) ? (
                     <>
                         {(getAllTradeData?.data2?.length > 0 || openCloseChartingData.OpenData.length > 0) && (

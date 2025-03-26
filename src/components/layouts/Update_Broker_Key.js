@@ -301,8 +301,8 @@ const Update_Broker_Key = ({ closeModal, isVisible, Role }) => {
                             formik.values.BrokerName.toUpperCase() === "INDIRA" ? "Username" :
                                 formik.values.BrokerName.toUpperCase() === "KOTAK" ? "User ID (Received in Email) " :
                                     formik.values.BrokerName.toUpperCase() === "MARKETHUB" ? "User ID" :
-                                    formik.values.BrokerName.toUpperCase() === "MARKETHUBMM" ? "Client ID" :
-                                        "Username",
+                                        formik.values.BrokerName.toUpperCase() === "MARKETHUBMM" ? "Client ID" :
+                                            "Username",
             showWhen: (values) =>
                 values.BrokerName.toUpperCase() === "ALICEBLUE" ||
                 values.BrokerName.toUpperCase() === "MARKETHUB" ||
@@ -361,8 +361,8 @@ const Update_Broker_Key = ({ closeModal, isVisible, Role }) => {
                                     formik.values.BrokerName.toUpperCase() === "INDIRA" ? "User Password" :
                                         formik.values.BrokerName.toUpperCase() === "KOTAK" ? "Demat Password" :
                                             formik.values.BrokerName.toUpperCase() === "MARKETHUB" ? "Password" :
-                                              formik.values.BrokerName.toUpperCase() === "MARKETHUBMM" ? "Password" :
-                                                "Mobile No.",
+                                                formik.values.BrokerName.toUpperCase() === "MARKETHUBMM" ? "Password" :
+                                                    "Mobile No.",
             showWhen: (values) =>
                 values.BrokerName.toUpperCase() === "UPSTOX" ||
                 values.BrokerName.toUpperCase() === "5PAISA" ||
@@ -416,8 +416,8 @@ const Update_Broker_Key = ({ closeModal, isVisible, Role }) => {
                                         formik.values.BrokerName.toUpperCase() === "INDIRA" ? "Mobile No." :
                                             formik.values.BrokerName.toUpperCase() === "KOTAK" ? "Consumer Secret Key" :
                                                 formik.values.BrokerName.toUpperCase() === "MARKETHUB" ? "Verification Code" :
-                                                    formik.values.BrokerName.toUpperCase() === "MARKETHUBMM" ? "Verification Code":
-                                                    "Mobile No.",
+                                                    formik.values.BrokerName.toUpperCase() === "MARKETHUBMM" ? "Verification Code" :
+                                                        "Mobile No.",
             showWhen: (values) => values.BrokerName.toUpperCase() === "ICICI" ||
                 values.BrokerName.toUpperCase() === "UPSTOX" ||
                 values.BrokerName.toUpperCase() === "5PAISA" ||

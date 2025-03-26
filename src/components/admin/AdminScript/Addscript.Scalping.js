@@ -489,7 +489,7 @@ const AddClient = () => {
     // formik.setFieldValue("HoldExit", "Hold")
     formik.setFieldValue("TStype", "Point")
   }, [])
-  
+
 
   
   useEffect(() => {
