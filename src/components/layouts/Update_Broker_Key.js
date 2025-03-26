@@ -454,7 +454,7 @@ const Update_Broker_Key = ({ closeModal, isVisible, Role }) => {
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header card-bg-color">
-                                <h5 className="modal-title card-text-Color" id="exampleModalLabel">
+                                <h5 className="modal-title  card-text-Color" id="exampleModalLabel">
                                     Update Broker Key : - {userDetails.data && userDetails.data.BrokerName}
                                 </h5>
 
