@@ -1,4 +1,3 @@
- 
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { GetAllGroupService } from "../../CommonAPI/Admin";
@@ -533,7 +532,7 @@ const ViewGroup = () => {
                             label: "Risk Handle",
                             value: parameters?.Targettype,
                           },
-                          { label: "Symbol", value: parameters?.Symbol },
+                          { label: "Sy,bol", value: parameters?.Symbol },
                           {
                             label: "Expiry Type",
                             value: parameters?.Expirytype,
@@ -543,7 +542,7 @@ const ViewGroup = () => {
                             value: parameters?.strategytype,
                           },
                           {
-                            label: "target",
+                            label: "Target",
                             value: parameters?.["Target value"],
                           },
                           {
@@ -554,21 +553,21 @@ const ViewGroup = () => {
                             label: "Trade execution",
                             value: parameters?.TradeExecution,
                           },
-                          { label: "lot", value: parameters?.["Lot Size"] },
+                          { label: "Lot", value: parameters?.["Lot Size"] },
                           {
-                            label: "exit day",
+                            label: "Exit Day",
                             value: parameters?.["Product Type"],
                           },
                           {
-                            label: "entry time",
+                            label: "Entry Time",
                             value: parameters?.["Entry Time"],
                           },
                           {
-                            label: "exit time",
+                            label: "Exit Time",
                             value: parameters?.["Exit Time"],
                           },
                           {
-                            label: "strike type",
+                            label: "Strike Type",
                             value: parameters?.StrikeType,
                           },
                         ].map((item, index) => (
@@ -704,7 +703,7 @@ const ViewGroup = () => {
                             value: parameters?.TStype,
                           },
                           {
-                            label: "target",
+                            label: "Target",
                             value: parameters?.["Target value"],
                           },
                           {
@@ -712,14 +711,14 @@ const ViewGroup = () => {
                             value: parameters?.["SL value"],
                           },
                           {
-                            label: "trade execution",
+                            label: "Trade Execution",
                             value: parameters?.TradeExecution,
                           },
-                          { label: "exit day", value: parameters?.ExitDay },
-                          { label: "entry time", value: parameters?.EntryTime },
-                          { label: "exit time", value: parameters?.ExitTime },
+                          { label: "Exit Day", value: parameters?.ExitDay },
+                          { label: "Entry Time", value: parameters?.EntryTime },
+                          { label: "Exit Time", value: parameters?.ExitTime },
                           {
-                            label: "strike type",
+                            label: "Strike Type",
                             value: parameters?.["Strike Price"],
                           },
                         ].map((item, index) => (
