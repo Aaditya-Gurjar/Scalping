@@ -2522,7 +2522,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
     },
     {
         name: "Quantity2",
-        label: "Lot2",
+        label: "Lot 2",
         options: {
             filter: true,
             sort: true,
@@ -2530,7 +2530,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
     },
     {
         name: "Quantity3",
-        label: "Lot3",
+        label: "Lot 3",
         options: {
             filter: true,
             sort: true,
