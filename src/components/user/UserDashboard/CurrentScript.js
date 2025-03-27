@@ -1174,7 +1174,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       if (!values.Targetvalue) {
         errors.Targetvalue = "Please Enter Target Value.";
       }
-      if (!values.Slvalue) {
+      if (!values.Slvalue && !(EditDataOption.STG === "ShortShifting" || EditDataOption.STG === "LongShifting") ) {
         errors.Slvalue = "Please Enter Stoploss.";
       }
 
