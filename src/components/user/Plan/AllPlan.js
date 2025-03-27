@@ -6,6 +6,7 @@ import {
   Get_All_Buyed_Plans,
   BuyPlan,
   AddBalance,
+  ExpirePlanDetails,
 } from "../../CommonAPI/User";
 import Swal from "sweetalert2";
 // import Tab from "react-bootstrap/Tab";
@@ -93,21 +94,21 @@ const ServicesList = () => {
       console.error("Error fetching purchased plans:", error);
     }
   };
-  // const isPlanExpired = async () => {
-  //   try {
-  //     const response = await ExpirePlanDetails(username);
-  //     console.log("response is ", response)
-  //     if (response.Status) {
-  //       setPlanExpired(response.ExpirePlan || false);
-  //     }
-  //   }
-  //   catch (error) {
-  //     console.error("Error fetching purchased plans:", error);
-  //   }
-  // }
-  // useEffect(() => {
-  //   isPlanExpired();
-  // }, [])
+  const isPlanExpired = async () => {
+    try {
+      const response = await ExpirePlanDetails(username);
+      console.log("response is ", response)
+      if (response.Status) {
+        setPlanExpired(response.ExpirePlan || false);
+      }
+    }
+    catch (error) {
+      console.error("Error fetching purchased plans:", error);
+    }
+  }
+  useEffect(() => {
+    isPlanExpired();
+  }, [])
 
 
 
@@ -450,9 +451,9 @@ const ServicesList = () => {
                         )}
                       </p>
 
-
+      {console.log("isPlanPurchased.includes(planExpired)", planExpired)}
                     </div>
-                    {isPlanPurchased(plan.Planname) ? (
+                    {(isPlanPurchased(plan.Planname) && !planExpired.includes(plan.Planname)) ? (
                       <button
                         className="allplan-button buy-again"
                         onClick={() => HandleBuyPlan(index, 0, false)}
