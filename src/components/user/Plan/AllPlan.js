@@ -285,12 +285,17 @@ const ServicesList = () => {
 
   const getUpdatedPlans = plansData.data?.filter(
     (plan) =>
+      (plan?.SOPPrice !== 0 && plan?.payment !== 0) &&
       plan.Planname !== "Three Days Live" &&
       plan.Planname !== "Two Days Demo" &&
       plan.Planname !== "One Week Demo"
   );
+
+  console.log("getUpdatedPlans", getUpdatedPlans)
   const getUpdatedPlansCharting = plansData.data1?.filter(
     (plan) =>
+     
+      (plan?.SOPPrice !== 0 && plan?.payment !== 0) &&
       plan.Planname !== "Three Days Live" &&
       plan.Planname !== "Two Days Demo" &&
       plan.Planname !== "One Week Demo"
