@@ -567,7 +567,6 @@ const AddClient = () => {
               formik.values.Targetselection == "Entry Wise SL"
               ? parseFloat(values.FinalTarget)
               : 0.0,
-          Planname: location?.state?.data?.scriptType?.data[0].Planname
         };
 
 
@@ -1915,11 +1914,13 @@ const AddClient = () => {
       currentDate.getMinutes() +
       ":" +
       currentDate.getSeconds();
-
-    if (
+    
+      let  MarketTime = formik.values.Exchange === "MCX" ?  "23:25:00" :"15:30:00" 
+    
+      if (
       weekend == 6 ||
       weekend == 0 ||
-      currentTime >= "15:30:00" ||
+      currentTime >= MarketTime ||
       currentTime <= "09:15:00"
     ) {
       SweentAlertFun(
