@@ -530,16 +530,16 @@ const ViewGroup = () => {
                         {[
                           { label: "Option type", value: parameters?.STG },
                           {
-                            label: "risk handle",
+                            label: "Risk Handle",
                             value: parameters?.Targettype,
                           },
-                          { label: "symbol", value: parameters?.Symbol },
+                          { label: "Symbol", value: parameters?.Symbol },
                           {
-                            label: "expiry type",
+                            label: "Expiry Type",
                             value: parameters?.Expirytype,
                           },
                           {
-                            label: "measurement type",
+                            label: "Measurement Type",
                             value: parameters?.strategytype,
                           },
                           {
