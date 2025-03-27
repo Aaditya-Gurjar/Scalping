@@ -2846,6 +2846,9 @@ export const getColumns8 = (handleContinutyDiscontinuty, chartingSubTab) => [
             sort: true,
         }
     },
+
+
+    //both status and Manully exit must be one after another 
     {
         name: "Status",
         label: "Status",
@@ -2854,23 +2857,24 @@ export const getColumns8 = (handleContinutyDiscontinuty, chartingSubTab) => [
             sort: true,
         }
     },
+
     {
         name: "ManuallyExit",
         label: "Manually Exit",
         options: {
             filter: true,
             sort: true,
-            customBodyRender: (value, tableMeta) => (
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-
-                    {console.log("tableMeta", tableMeta)}
-                    <IconButton onClick={() => handleContinutyDiscontinuty(tableMeta)}>
-                        <ExitToAppIcon color="error" />
-                    </IconButton>
-                    <Typography variant="caption" color="textSecondary">Exit</Typography>
-                </div>
-            )
+            customBodyRender: (value, tableMeta) => 
+                tableMeta.rowData[tableMeta.columnIndex - 1] === "Open" ? (
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                        <IconButton onClick={() => handleContinutyDiscontinuty(tableMeta)}>
+                            <ExitToAppIcon color="error" />
+                        </IconButton>
+                        <Typography variant="caption" color="textSecondary">Exit</Typography>
+                    </div>
+                ) : null
         }
     }
+    
 
 ];
