@@ -1097,7 +1097,7 @@ export const getColumns3 = () => [
 
     {
         name: "Quantity",
-        label: "Lot",
+        label: "Quantity",
         options: {
             filter: true,
             sort: true,
@@ -1213,7 +1213,7 @@ export const getColumns6 = () => [
 
     {
         name: "Quantity",
-        label: "Lot",
+        label: "Quantity",
         options: {
             filter: true,
             sort: true,
@@ -1379,7 +1379,6 @@ export const getColumns6 = () => [
 
 export const getColumns4 = (STG) => {
 
-    
     const columns = [
         {
             name: "S.No",
@@ -1434,7 +1433,7 @@ export const getColumns4 = (STG) => {
         },
         {
             name: "LotSize",
-            label: "Lot",
+            label: "Quantity",
             options: {
                 filter: true,
                 sort: true,
@@ -1483,7 +1482,7 @@ export const getColumns4 = (STG) => {
     ];
 
     if (STG !== "LongShifting" && STG !== "ShortShifting") {
-        columns.splice(11, 0, {
+        columns.splice(12, 0, {
             name: "Spot Price",
             label: "Spot Price",
             options: {
@@ -1519,7 +1518,7 @@ export const getColumns4 = (STG) => {
 
 
 export const getColumns7 = (STG) => {
-  const  columns = [
+    const columns = [
         {
             name: "S.No",
             label: "S.No",
@@ -1527,11 +1526,11 @@ export const getColumns7 = (STG) => {
                 filter: true,
                 sort: true,
                 customBodyRender: (value, tableMeta, updateValue) => {
-    
+
                     const rowIndex = tableMeta.rowIndex;
-    
+
                     return rowIndex + 1;
-    
+
                 }
             },
         },
@@ -1543,7 +1542,6 @@ export const getColumns7 = (STG) => {
                 sort: true,
             }
         },
-    
         {
             name: "Symbol",
             label: "Symbol",
@@ -1576,7 +1574,6 @@ export const getColumns7 = (STG) => {
                 sort: true,
             }
         },
-    
         {
             name: "ExitPrice",
             label: "Exit Price",
@@ -1593,10 +1590,9 @@ export const getColumns7 = (STG) => {
                 sort: true,
             }
         },
-    
         {
             name: "LotSize",
-            label: "Lot",
+            label: "Quantity",
             options: {
                 filter: true,
                 sort: true,
@@ -1634,8 +1630,8 @@ export const getColumns7 = (STG) => {
                 sort: true,
             }
         },
-    
-    
+
+
         {
             name: "Targettype",
             label: "Risk Handle",
@@ -1652,7 +1648,7 @@ export const getColumns7 = (STG) => {
                 sort: true,
             }
         },
-        
+
         {
             name: "Hashing",
             label: "Hashing",
@@ -1663,7 +1659,7 @@ export const getColumns7 = (STG) => {
         },
     ]
     if (STG !== "LongShifting" && STG !== "ShortShifting") {
-        columns.splice(11, 0, {
+        columns.splice(12, 0, {
             name: "Spot Price",
             label: "Spot Price",
             options: {
@@ -1768,7 +1764,7 @@ export const getColumns5 = () => [
 
     {
         name: "Quantity",
-        label: "Lot",
+        label: "Quantity",
         options: {
             filter: true,
             sort: true,
@@ -1903,7 +1899,7 @@ export const getColumns8 = () => [
 
     {
         name: "Quantity",
-        label: "Lot",
+        label: "Quantity",
         options: {
             filter: true,
             sort: true,
