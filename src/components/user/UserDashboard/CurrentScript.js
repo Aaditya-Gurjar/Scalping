@@ -43,7 +43,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
 
   const [chartingSubTab, setChartingSubTab] = useState("Cash");
-
+console.log("getCharting---", getCharting)
 
   const [getAllService, setAllservice] = useState({
     loading: true,
@@ -70,7 +70,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
     const req = { Username: userName, Segment: chartingSubTab, From_date: FromDate, To_date: ToDate };
     await getUserChartingScripts(req)
       .then((response) => {
-
+        console.log("response.Client", response.Client)
         if (response.Status) {
           setGetCharting(response.Client);
         } else {
@@ -1174,7 +1174,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       if (!values.Targetvalue) {
         errors.Targetvalue = "Please Enter Target Value.";
       }
-      if (!values.Slvalue) {
+      if (!values.Slvalue && !(EditDataOption.STG === "ShortShifting" || EditDataOption.STG === "LongShifting") ) {
         errors.Slvalue = "Please Enter Stoploss.";
       }
 
@@ -2667,7 +2667,6 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
                     fields={(EditDataScalping.PositionType !== "Multiple" ? updatedFields : fields).filter(
                       (field) => !field.showWhen || field.showWhen(formik.values)
                     )}
-
                     btn_name="Update"
                     formik={formik}
                   />
@@ -2683,8 +2682,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
                       btn_name="Update"
                       formik={formik1}
                     />
-                    {console.log("Edit Datascalpitg", EditDataScalping)}
-
+                    
                   </div>
                 </>
                   :
@@ -2693,7 +2691,6 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
                       fields={PatternFields.filter(
                         (field) => !field.showWhen || field.showWhen(formik2.values)
                       )}
-
                       btn_name="Update"
                       formik={formik2}
                     />
