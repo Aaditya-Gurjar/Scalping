@@ -1045,7 +1045,6 @@ export const getColumns3 = () => [
             filter: true,
             sort: true,
             customBodyRender: (value, tableMeta, updateValue) => {
-
                 const rowIndex = tableMeta.rowIndex;
 
                 return rowIndex + 1;
@@ -1136,125 +1135,139 @@ export const getColumns3 = () => [
         }
     },
 ]
-export const getColumns6 = () => [
-    {
-        name: "S.No",
-        label: "S.No",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value, tableMeta, updateValue) => {
-
-                const rowIndex = tableMeta.rowIndex;
-
-                return rowIndex + 1;
-
+export const getColumns6 = (Targetselection) => {
+    const columns = [
+        {
+            name: "S.No",
+            label: "S.No",
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value, tableMeta, updateValue) => {
+                    const rowIndex = tableMeta.rowIndex;
+                    return rowIndex + 1;
+    
+                }
+            },
+        },
+        {
+            name: "ScalpType",
+            label: "Target Type",
+            options: {
+                filter: true,
+                sort: true,
             }
         },
-    },
-    {
-        name: "ScalpType",
-        label: "Target Type",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+    
+        {
+            name: "Symbol",
+            label: "Symbol",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "ETime",
+            label: "Entry Time",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "EPrice",
+            label: "Entry Price",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "ExitTime",
+            label: "Exit Time",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+    
+        {
+            name: "ExitPrice",
+            label: "Exit Price",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "TradeType",
+            label: "Transaction Type",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+    
+        {
+            name: "Quantity",
+            label: "Quantity",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "Target",
+            label: "Target",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        
+        {
+            name: "Trade",
+            label: "Trade",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "GroupN",
+            label: "Unique Name",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+    ]
 
-    {
-        name: "Symbol",
-        label: "Symbol",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "ETime",
-        label: "Entry Time",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "EPrice",
-        label: "Entry Price",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "ExitTime",
-        label: "Exit Time",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+    if (Targetselection === "Single") {
+        columns.push({
+            name: "SL",
+            label: "Stoploss",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        });
+    } else {
+        columns.push({
+            name: "SL",
+            label: "Re-entry",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        });
+    }
+    return columns;
+    
+}    
+   
 
-    {
-        name: "ExitPrice",
-        label: "Exit Price",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "TradeType",
-        label: "Transaction Type",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-
-    {
-        name: "Quantity",
-        label: "Quantity",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Target",
-        label: "Target",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "SL",
-        label: "Re-entry",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Trade",
-        label: "Trade",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-
-
-    {
-        name: "GroupN",
-        label: "Unique Name",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-
-]
 // Option
 // export const getColumns4 = (STG) => [
 //     {
