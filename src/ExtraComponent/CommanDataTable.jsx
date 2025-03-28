@@ -302,6 +302,9 @@
 // };
 
 // export default FullDataTable;
+
+
+
 import React, { useState, useCallback, useMemo, useEffect } from "react";
 import MUIDataTable from "mui-datatables";
 import Modal from "react-bootstrap/Modal";
@@ -309,9 +312,11 @@ import Button from "react-bootstrap/Button";
 import { right } from "@popperjs/core";
 
 const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
+
+  console.log(data,"tableColumns--", columns)
+  const [selectedColumns, setSelectedColumns] = useState(columns && columns?.slice(0, 7));
   const [selectedRowData, setSelectedRowData] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedColumns, setSelectedColumns] = useState(columns.slice(0, 7));
   const [tempSelectedColumns, setTempSelectedColumns] = useState(
     columns.slice(0, 7)
   );
@@ -319,6 +324,7 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
     isChecked !== undefined ? [isChecked] : []
   );
   const [isExpanded, setIsExpanded] = useState(false);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   useEffect(() => {
     setSelectedColumns(columns.slice(0, 7));
@@ -326,6 +332,7 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
   }, [columns]);
 
   console.log("selectedColumns", selectedColumns);
+  console.log("checkedRows", checkedRows);
 
   // Memoized modal handlers
   const handleModalOpen = useCallback(() => setIsModalOpen(true), []);
@@ -356,10 +363,17 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
     }
   };
 
-  useEffect(() => {
-    handleSelectAll();
-  }, [isExpanded]);
-
+  const toggleExpand = () => {
+    setIsExpanded((prev) => {
+      if (!prev) {
+        setSelectedColumns(columns);  
+      } else {
+        setSelectedColumns(tempSelectedColumns); 
+      }
+      return !prev;
+    });
+  };
+  
   const handleSubmit = useCallback(() => {
     setSelectedColumns(tempSelectedColumns);
     handleModalClose();
@@ -389,8 +403,11 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
       search: false,
       filter: false,
       sort: false,
-      rowsPerPage: 5,
+      rowsPerPage: rowsPerPage,  
       rowsPerPageOptions: [5, 10, 25, 50, 100],
+      onChangeRowsPerPage: (newRowsPerPage) => {
+      setRowsPerPage(newRowsPerPage);  
+    },
       fixedHeader: true,
       // tableBodyHeight: "320px",
       tableBodyMaxHeight: "320px",
@@ -419,7 +436,7 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
 
   const visibleColumns = useMemo(
     () =>
-      selectedColumns.concat({
+      selectedColumns?.concat({
         name: "Action",
         label: (
           <>
@@ -441,10 +458,7 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
             </button>
 
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsExpanded((prev) => !prev); // Safely toggle isExpanded
-              }}
+              onClick={toggleExpand}
               style={{
                 backgroundColor: "#000",
                 color: "#fff",
