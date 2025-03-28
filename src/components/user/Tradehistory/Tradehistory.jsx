@@ -792,7 +792,7 @@ import Content from "../../../ExtraComponent/Content";
 const Tradehistory = () => {
   const StrategyType = sessionStorage.getItem("StrategyType");
   const location = useLocation();
-  const sectionRefs = useRef({});
+  const sectionRefs = useRef({}); // Refs for each section to scroll to
   const Username = localStorage.getItem("name");
   const currentDate = new Date();
   const formattedDate = `${currentDate.getFullYear()}.${String(
@@ -841,7 +841,7 @@ const Tradehistory = () => {
     data: [],
     data1: [],
   });
-  const [openSections, setOpenSections] = useState({});
+  const [openSection, setOpenSection] = useState(null); // Single open section state
 
   // Set row selection based on location state
   useEffect(() => {
@@ -909,7 +909,7 @@ const Tradehistory = () => {
 
   const handleRowSelect = (rowData) => {
     setSelectedRowData(rowData);
-    setOpenSections({});
+    setOpenSection(null); // Reset open section when selecting a new row
     setShowReportSections(false);
   };
 
@@ -983,8 +983,15 @@ const Tradehistory = () => {
           Overall: tradeRes.Overall || [],
         });
         setShowReportSections(true);
-        setLoadedSections({ overview: true });
-        setOpenSections({ overview: true });
+        setLoadedSections((prev) => ({ ...prev, overview: true }));
+        setOpenSection("overview"); // Open overview by default after submission
+        // Scroll to the overview section
+        setTimeout(() => {
+          sectionRefs.current["overview"]?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }, 100);
       } else {
         Swal.fire({
           icon: "error",
@@ -1129,19 +1136,29 @@ const Tradehistory = () => {
   };
 
   useEffect(() => {
-    setOpenSections({});
+    setOpenSection(null); // Reset open section when activeTab changes
   }, [activeTab]);
 
   const ReportSection = ({ title, section, children }) => {
-    const isOpen = openSections[section] || false;
+    const isOpen = openSection === section;
+    const sectionRef = (el) => (sectionRefs.current[section] = el); // Assign ref to this section
+
     const toggleSection = async () => {
       if (!isOpen) {
-        setOpenSections((prev) => ({ ...prev, [section]: true }));
+        setOpenSection(section); // Open this section, closing others
         await loadSectionData(section);
+        // Scroll to the opened section after a slight delay to ensure rendering
+        setTimeout(() => {
+          sectionRefs.current[section]?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }, 100);
       } else {
-        setOpenSections((prev) => ({ ...prev, [section]: false }));
+        setOpenSection(null); // Close this section
       }
     };
+
     const renderButtonContent = () => {
       if (!isOpen) return "🔼 Show Data";
       return loadedSections[section] ? (
@@ -1151,13 +1168,15 @@ const Tradehistory = () => {
           <span
             className="spinner-border spinner-border-sm me-1"
             role="status"
-            aria-hidden="true"></span>
+            aria-hidden="true"
+          ></span>
           Loading Data...
         </>
       );
     };
+
     return (
-      <div className="card mb-3">
+      <div ref={sectionRef} className="card mb-3">
         <div className="card-header d-flex justify-content-between align-items-center">
           <h5 className="m-0">{title}</h5>
           <button className="btn btn-primary btn-sm" onClick={toggleSection}>
@@ -1230,7 +1249,8 @@ const Tradehistory = () => {
     <Content
       Page_title={"📊 Trade History "}
       button_status={false}
-      backbutton_status={true}>
+      backbutton_status={true}
+    >
       <div className="iq-card-body">
         <div className="card-body">
           <div className="row g-3 mb-4">
@@ -1243,7 +1263,8 @@ const Tradehistory = () => {
                   onChange={(e) => {
                     setStrategyType(e.target.value);
                     sessionStorage.setItem("StrategyType", e.target.value);
-                  }}>
+                  }}
+                >
                   {strategyNames.map((item) => (
                     <option key={item} value={item}>
                       {item}
@@ -1298,7 +1319,8 @@ const Tradehistory = () => {
                   <div className="d-flex justify-content-center">
                     <ul
                       className="nav nav-pills shadow rounded-pill p-1"
-                      style={{ backgroundColor: "#f1f3f5" }}>
+                      style={{ backgroundColor: "#f1f3f5" }}
+                    >
                       <li className="nav-item">
                         <button
                           className={`nav-link ${
@@ -1310,7 +1332,8 @@ const Tradehistory = () => {
                             margin: "5px",
                             border: "none",
                             outline: "none",
-                          }}>
+                          }}
+                        >
                           Cash
                         </button>
                       </li>
@@ -1325,7 +1348,8 @@ const Tradehistory = () => {
                             margin: "5px",
                             border: "none",
                             outline: "none",
-                          }}>
+                          }}
+                        >
                           Future
                         </button>
                       </li>
@@ -1340,7 +1364,8 @@ const Tradehistory = () => {
                             margin: "5px",
                             border: "none",
                             outline: "none",
-                          }}>
+                          }}
+                        >
                           Option
                         </button>
                       </li>
@@ -1376,7 +1401,8 @@ const Tradehistory = () => {
               <button
                 className="addbtn"
                 onClick={handleSubmit}
-                disabled={!selectedRowData}>
+                disabled={!selectedRowData}
+              >
                 📜 Generate History
               </button>
             </div>
@@ -1385,7 +1411,8 @@ const Tradehistory = () => {
             <div className="mt-5">
               <ReportSection
                 title="Total Profit/Loss Overview"
-                section="overview">
+                section="overview"
+              >
                 <div
                   className="pnl-overview"
                   style={{
@@ -1395,13 +1422,15 @@ const Tradehistory = () => {
                     textAlign: "center",
                     boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
                     marginBottom: "20px",
-                  }}>
+                  }}
+                >
                   <h4
                     style={{
                       margin: 0,
                       fontSize: "1.75rem",
                       fontWeight: "bold",
-                    }}>
+                    }}
+                  >
                     💰 Total PnL: ₹
                     <span
                       className="badge ms-2"
@@ -1415,7 +1444,8 @@ const Tradehistory = () => {
                         borderRadius: "5px",
                         fontSize: "1.25rem",
                         fontWeight: "bold",
-                      }}>
+                      }}
+                    >
                       {getAllTradeData.Overall[0]?.PnL?.toFixed(2) || "0.00"}
                     </span>
                   </h4>
@@ -1455,7 +1485,8 @@ const Tradehistory = () => {
                     <div className="card h-100">
                       <div
                         className="card-header text-white"
-                        style={{ backgroundColor: "#006400" }}>
+                        style={{ backgroundColor: "#006400" }}
+                      >
                         💹 Top Profitable Trades
                       </div>
                       <div className="card-body">
@@ -1475,7 +1506,8 @@ const Tradehistory = () => {
                     <div className="card h-100">
                       <div
                         className="card-header text-white"
-                        style={{ backgroundColor: "#8B0000" }}>
+                        style={{ backgroundColor: "#8B0000" }}
+                      >
                         📉 Top Loss-Making Trades
                       </div>
                       <div className="card-body">
