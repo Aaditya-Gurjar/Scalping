@@ -90,8 +90,31 @@ const TradeReport = () => {
         return `${year}.${month}.${day}`;
     };
     // console.log("StrategyType === selectStrategyType", StrategyType === selectStrategyType)
+    // const GetTradeReport = async () => {
+    //     const data = { Data: selectStrategyType, Username: Username };
+    //     await get_User_Data(data)
+    //         .then((response) => {
+    //             if (response.Status) {
+    //                 setTradeReport({
+    //                     data: response?.Data,
+    //                     data1: response?.NewScalping,
+    //                 });
+    //             } else {
+    //                 setTradeReport({ data: [], data1: [] });
+    //             }
+    //         })
+    //         .catch((err) => {
+    //             console.log("Error in finding the user data", err);
+    //         });
+    // };
+
     const GetTradeReport = async () => {
-        const data = { Data: selectStrategyType, Username: Username };
+        const data = {
+            Data: selectStrategyType,
+            Username: Username,
+            From_date: convertDateFormat(FromDate === '' ? formattedDate : FromDate),
+            To_date: convertDateFormat(ToDate === '' ? Defult_To_Date : ToDate),
+        };
         await get_User_Data(data)
             .then((response) => {
                 if (response.Status) {
@@ -121,6 +144,7 @@ const TradeReport = () => {
         }
     };
 
+    console.log("tradeReport?.data1", tradeReport?.data1)
     useEffect(() => {
         setStrategyType(StrategyType || "Scalping");
     }, []);
@@ -129,7 +153,7 @@ const TradeReport = () => {
         if (selectStrategyType !== "ChartingPlatform") {
             GetTradeReport();
         }
-    }, [selectStrategyType]);
+    }, [selectStrategyType, FromDate, ToDate]);
 
     useEffect(() => {
         if (location?.state?.goto && location?.state?.goto === "dashboard") {
@@ -164,6 +188,7 @@ const TradeReport = () => {
     }, [selectedRowData]);
 
 
+    console.log("tradeReport?.data1?", tradeReport?.data1)
     console.log("selectedRowData", selectedRowData)
 
 
@@ -533,6 +558,8 @@ const TradeReport = () => {
                     </div>
                 )}
 
+                
+
                 { /* Render MultiCondition table only if tableType is MultiCondition */}
                 {tableType === "MultiCondition" && selectStrategyType === "Scalping" && (
                     <div>
@@ -543,7 +570,7 @@ const TradeReport = () => {
                         {tradeReport?.data1 && tradeReport?.data1?.length > 0 ? (
                             <div className="modal-body">
                                 <GridExample
-                                    columns={getColumns9()}
+                                    columns={getColumns9() || []}
                                     data={tradeReport?.data1}
                                     onRowSelect={handleRowSelect}
                                     checkBox={true}
@@ -568,7 +595,6 @@ const TradeReport = () => {
                         <button className='addbtn mt-2' onClick={handleSubmit}>Submit</button>
                     )
                 }
-            {console.log("getAllTradeData.data2", getAllTradeData.data2)}
                 {showTable && (getAllTradeData?.data2?.length > 0 || getAllTradeData?.data1?.length > 0 || openCloseChartingData?.OpenData?.length > 0 || openCloseChartingData?.CloseData?.length > 0) ? (
                     <>
                         {(getAllTradeData?.data2?.length > 0 || openCloseChartingData.OpenData.length > 0) && (
@@ -599,7 +625,7 @@ const TradeReport = () => {
                                 <GridExample
                                     columns={
                                         selectStrategyType === "Scalping"
-                                            ? getColumns6()
+                                            ? getColumns6(selectedRowData?.Targetselection)
                                             : selectStrategyType === "Option Strategy"
                                                 ? getColumns7(getAllTradeData?.data1?.[0]?.STG)
                                                 : (selectStrategyType === "Pattern" || selectStrategyType === "Pattern Script")
