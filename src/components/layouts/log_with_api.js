@@ -137,6 +137,57 @@ const loginWithApi = async (UserDetails) => {
                 });
         }
 
+        if (UserDetails.BrokerName.toUpperCase() === "MARKETHUBMM") {
+
+
+            let config = {
+                method: 'get',
+                maxBodyLength: Infinity,
+                url: Config.base_url + 'MarkethubMM/' + UserDetails.Username,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+
+            axios.request(config)
+                .then((response) => {
+                    if (response.data.Status == true) {
+                        Swal.fire({
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
+                            title: 'Success!',
+                            text: response.data.message,
+                            icon: 'success',
+                            confirmButtonText: 'OK',
+                            timer: 3000
+                        }).then(() => {
+                            setTimeout(() => {
+                                window.location.reload();
+                            });
+                        });
+
+                    }
+                    else {
+                        Swal.fire({
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
+                            title: 'Error!',
+                            text: response.data.message,
+                            icon: 'error',
+                            confirmButtonText: 'OK',
+                            timer: 3000
+                        })
+                    }
+                })
+                .catch((error) => {
+                    console.log("Error", error);
+                });
+        }
+
+
         if (UserDetails.BrokerName.toUpperCase() === "ICICI") {
 
 
@@ -521,8 +572,5 @@ const loginWithApi = async (UserDetails) => {
     }
 };
 export default loginWithApi;
-
-
-
 
 
