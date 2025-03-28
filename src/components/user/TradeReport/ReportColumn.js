@@ -1037,8 +1037,8 @@ export const getColumns9 = () => [
 ]
 
 
-export const getColumns3 = () => [
-    {
+export const getColumns3 = (Targetselection) => {
+    const columns = [{
         name: "S.No",
         label: "S.No",
         options: {
@@ -1134,7 +1134,29 @@ export const getColumns3 = () => [
             sort: true,
         }
     },
-]
+    ]
+
+    if (Targetselection === "Single") {
+        columns.splice(6, 0, {
+            name: "SL",
+            label: "Stoploss",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        });
+    } else {
+        columns.splice(6, 0, {
+            name: "SL",
+            label: "Re-entry",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        });
+    }
+    return columns;
+}
 export const getColumns6 = (Targetselection) => {
     const columns = [
         {
@@ -1146,7 +1168,7 @@ export const getColumns6 = (Targetselection) => {
                 customBodyRender: (value, tableMeta, updateValue) => {
                     const rowIndex = tableMeta.rowIndex;
                     return rowIndex + 1;
-    
+
                 }
             },
         },
@@ -1158,7 +1180,7 @@ export const getColumns6 = (Targetselection) => {
                 sort: true,
             }
         },
-    
+
         {
             name: "Symbol",
             label: "Symbol",
@@ -1191,7 +1213,7 @@ export const getColumns6 = (Targetselection) => {
                 sort: true,
             }
         },
-    
+
         {
             name: "ExitPrice",
             label: "Exit Price",
@@ -1208,7 +1230,7 @@ export const getColumns6 = (Targetselection) => {
                 sort: true,
             }
         },
-    
+
         {
             name: "Quantity",
             label: "Quantity",
@@ -1225,7 +1247,7 @@ export const getColumns6 = (Targetselection) => {
                 sort: true,
             }
         },
-        
+
         {
             name: "Trade",
             label: "Trade",
@@ -1243,9 +1265,8 @@ export const getColumns6 = (Targetselection) => {
             }
         },
     ]
-
     if (Targetselection === "Single") {
-        columns.push({
+        columns.splice(6, 0, {
             name: "SL",
             label: "Stoploss",
             options: {
@@ -1254,7 +1275,7 @@ export const getColumns6 = (Targetselection) => {
             }
         });
     } else {
-        columns.push({
+        columns.splice(6, 0, {
             name: "SL",
             label: "Re-entry",
             options: {
@@ -1263,10 +1284,11 @@ export const getColumns6 = (Targetselection) => {
             }
         });
     }
+
     return columns;
-    
-}    
-   
+
+}
+
 
 // Option
 // export const getColumns4 = (STG) => [
