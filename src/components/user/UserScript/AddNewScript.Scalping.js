@@ -9,7 +9,7 @@ import {
   GET_EXPIRY_DATE,
   GetExchange,
 } from "../../CommonAPI/Admin";
-import { AddScript, CheckPnLScalping } from "../../CommonAPI/User";
+import { AddScript, CheckPnLScalping, CPrice } from "../../CommonAPI/User";
 import { text } from "../../../ExtraComponent/IconTexts";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -25,10 +25,12 @@ const AddClient = () => {
   const [getExpiryDate, setExpiryDate] = useState({ loading: true, data: [] });
   const [openModel, setOpenModel] = useState(false);
   const [openModel1, setOpenModel1] = useState(false);
+  const [priceValue, setPriceValue] = useState("");
   const [marginValue, setMarginValue] = useState("");
   const [error, setError] = useState("");
   const [showPnl, setShowPnl] = useState(false);
   const theme = localStorage.getItem("theme");
+  const [getCPrice, setCPrice] = useState(null);
 
   const [PnlData, setPnlData] = useState({
     InstrumentName: "",
@@ -51,6 +53,7 @@ const AddClient = () => {
       timerProgressBar: true,
     });
   };
+
 
   const dataWithoutLastItem = location?.state?.data?.scriptType?.data?.slice(0, -1);
 
@@ -1904,8 +1907,6 @@ const AddClient = () => {
 
   const checkModalCondition = async () => {
 
-
-
     const weekend = new Date().getDay();
     const currentDate = new Date();
     const currentTime =
@@ -1914,27 +1915,44 @@ const AddClient = () => {
       currentDate.getMinutes() +
       ":" +
       currentDate.getSeconds();
-    
-      let  MarketTime = formik.values.Exchange === "MCX" ?  "23:25:00" :"15:30:00" 
-    
-      if (
-      weekend == 6 ||
-      weekend == 0 ||
-      currentTime >= MarketTime ||
-      currentTime <= "09:15:00"
-    ) {
-      SweentAlertFun(
-        "⚠️ Market is closed. Please try again during trading hours. ⏳"
-      );
-      return;
+
+    let MarketTime = formik.values.Exchange === "MCX" ? "23:25:00" : "15:30:00"
+
+    //   if (
+    //   weekend == 6 ||
+    //   weekend == 0 ||
+    //   currentTime >= MarketTime ||
+    //   currentTime <= "09:15:00"
+    // ) {
+    //   SweentAlertFun(
+    //     "⚠️ Market is closed. Please try again during trading hours. ⏳"
+    //   );
+    //   return;
+    // }
+
+    const req = {
+      Exchange: formik.values.Exchange,
+      Symbol: formik.values.Symbol,
+      Instrument: formik.values.Instrument,
+      Strike: formik.values.Strike === "" ? "0" : formik.values.Strike,
+      expirydata1:
+        formik.values.expirydata1 === "Monthly"
+          ? getExpiryDate?.data?.[0]
+          : formik.values.expirydata1 === "Next_Month"
+            ? getExpiryDate?.data?.[1]
+            : formik.values.expirydata1,
+    };
+
+
+    const response = await CPrice(req);
+    console.log("response ", response);
+    const errors = await formik.validateForm();
+    if (Object.keys(errors).length > 0) {
+      return SweentAlertFun(Object.values(errors)[0])
     }
 
-    const errors = await formik.validateForm();
-
-
-    if (Object.keys(errors).length > 0) {
-
-      return SweentAlertFun(Object.values(errors)[0])
+    if (response.Status) {
+      setCPrice(response.CPrice)
     }
 
     if (
@@ -2012,6 +2030,34 @@ const AddClient = () => {
             <div className="row">
               <div className="col-lg-12 col-sm-12">
                 <div className="input-block mb-3">
+
+                  {getCPrice && 
+
+                  <>
+                   <label
+                    className="form-label"
+                    style={{ fontWeight: "bold", color: "#fff" }}
+                  >
+                    Enter Price
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={priceValue}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (/^\d*\.?\d*$/.test(value)) { 
+                        setPriceValue(value);
+                        setError("");  
+                      } else {
+                        setError("Only numbers are allowed");
+                      }
+                    }}
+                  />
+                  </>
+          }
+
+
                   <label
                     className="form-label"
                     style={{ fontWeight: "bold", color: "#fff" }}
