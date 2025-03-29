@@ -1877,3 +1877,10 @@ Border Color
 .MuiInputBase-root{
   border: 0.5px solid white;
 }
+
+.form-label{
+  color: var(--text-color) !important;
+  }
+  .modal-header{
+    background-color: var(--bg-color) !important;;
+  }

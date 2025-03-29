@@ -2084,13 +2084,13 @@ const AddClient = () => {
             ].map(({ label, value }, index) => (
               <div key={index} className="d-flex align-items-center py-1">
                 <label
-                  className="fw-bold text-white mb-0 me-2"
+                  className="fw-bold mb-0 me-2 card-text-Color"
                   style={{ fontSize: "20px", minWidth: "150px" }}
                 >
                   {label}:
                 </label>
                 <span
-                  className="text-white mb-0"
+                  className="card-text-Color mb-0"
                   style={{ fontSize: "20px", fontWeight: "500" }}
                 >
                   {value || "N/A"}

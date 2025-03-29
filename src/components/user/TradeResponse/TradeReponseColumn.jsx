@@ -1189,14 +1189,7 @@ export const columns3 = [
       sort: true,
     },
   },
-  {
-    name: "DateTime",
-    label: "Date Time",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
+   
   {
     name: "ExitTime",
     label: "Exit Time",

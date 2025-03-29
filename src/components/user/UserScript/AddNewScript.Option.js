@@ -1749,7 +1749,7 @@ const AddClient = () => {
           centered
         >
           <Modal.Header closeButton>
-            <Modal.Title id="contained-modal-title-vcenter">
+            <Modal.Title id="contained-modal-title-vcenter ">
               PnL Details
             </Modal.Title>
           </Modal.Header>
@@ -1781,7 +1781,7 @@ const AddClient = () => {
                   ].map(({ label, value }, index) => (
                     <div key={index} className="col-md-6 d-flex align-items-center py-2">
                       <label
-                        className="fw-bold text-white mb-0 me-2"
+                        className="fw-bold text-white mb-0 me-2 card-text-Color"
                         style={{ fontSize: "18px", minWidth: "150px" }}
                       >
                         {label}:
