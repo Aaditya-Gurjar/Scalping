@@ -152,7 +152,6 @@ const Tradehistory = () => {
     await getChargingPlatformDataApi(Username)
       .then((res) => {
         if (res.Status) {
-          console.log("resssss", res);
           setChartingSegments(res.Client);
           setSegmentType(res?.Client?.[0]?.Segment);
         } else {
@@ -640,7 +639,6 @@ const Tradehistory = () => {
                       </select>
                     </div>
                   )} */}
-                  {console.log("getChartingSegments", getChartingSegments)}
                   {selectStrategyType == "ChartingPlatform" && (
                     <div
                       className={`form-group  ${
