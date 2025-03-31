@@ -757,7 +757,6 @@
 
 // export default Tradehistory;
 
-
 import React, { useState, useEffect, useRef } from "react";
 import {
   get_User_Data,
