@@ -57,16 +57,13 @@ const AddClient = () => {
       0,
       -1
     );
-
+ 
     const foundItem = dataWithoutLastItem.find((item) => {
       return item["Option Strategy"].includes(stg);
     });
 
     return foundItem.EndDate;
   };
-
-
-
 
   const ScrollToViewFirstError = (newErrors) => {
     if (Object.keys(newErrors).length !== 0) {
@@ -444,7 +441,7 @@ const AddClient = () => {
         errors.WorkingDay = "Please select Working day";
       }
       // ScrollToViewFirstError(errors)
-      // console.log("errors", errors);
+      console.log("errors", errors);
 
       return errors;
     },
@@ -563,7 +560,6 @@ const AddClient = () => {
         WorkingDay: values?.WorkingDay
           ? values?.WorkingDay?.map((item) => item?.value || item)
           : [],
-        Planname: location?.state?.data?.scriptType?.data[0].Planname
       };
 
       if (
@@ -712,8 +708,6 @@ const AddClient = () => {
       ].CombineOption?.[0]
     );
 
-
-    console.log("location?.state?.data?.scriptType?.data?.[length]?.Planname", location?.state?.data?.scriptType?.data[0].Planname);
 
 
     // formik.setFieldValue('Exchange', "NSE");
@@ -1502,7 +1496,7 @@ const AddClient = () => {
       formik.values.Strategy == "LongFourLegStretegy" ||
       formik.values.Strategy == "ShortFourLegStretegy"
     ) {
-      console.log("inside Conditions")
+      
       formik.setFieldValue("Striketype", "Premium_Range");
       formik.setFieldValue("ETPattern", "Premium Addition");
 
@@ -1754,7 +1748,7 @@ const AddClient = () => {
           centered
         >
           <Modal.Header closeButton>
-            <Modal.Title id="contained-modal-title-vcenter">
+            <Modal.Title id="contained-modal-title-vcenter ">
               PnL Details
             </Modal.Title>
           </Modal.Header>
@@ -1786,7 +1780,7 @@ const AddClient = () => {
                   ].map(({ label, value }, index) => (
                     <div key={index} className="col-md-6 d-flex align-items-center py-2">
                       <label
-                        className="fw-bold text-white mb-0 me-2"
+                        className="fw-bold text-white mb-0 me-2 card-text-Color"
                         style={{ fontSize: "18px", minWidth: "150px" }}
                       >
                         {label}:
