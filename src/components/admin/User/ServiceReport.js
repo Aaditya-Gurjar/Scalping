@@ -25,7 +25,6 @@ const Userlog = () => {
     })
 
 
-    console.log("getUserData", getUserData)
 
     const [selectStrategyType, setStrategyType] = useState(StrategyType || '')
 
@@ -524,7 +523,6 @@ const Userlog = () => {
 
         await get_User_Data(data)
             .then((response) => {
-                console.log('response fron get user is ', response)
                 if (response.Status) {
                     if (selectStrategyType === "Scalping") {
                         setUserData({
