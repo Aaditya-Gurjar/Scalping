@@ -58,7 +58,6 @@ const LastPattern = () => {
   });
   const [chartingPattern, setChartingPattern] = useState("");
 
-  console.log("chartPattern", chartPattern)
 
   useEffect(() => {
     fetchAllSymbols();
@@ -159,7 +158,6 @@ const LastPattern = () => {
     }
   };
 
-  console.log("dataaa",   selectedTimeFrame ,chartPattern ,chartingPattern)
 
   const fetchChartingData = async () => {
     try {
