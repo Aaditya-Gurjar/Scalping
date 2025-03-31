@@ -309,7 +309,6 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
 const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
-  console.log(data, "tableColumns--", columns);
   const [selectedColumns, setSelectedColumns] = useState(columns?.slice(0, 7) || []);
   const [selectedRowData, setSelectedRowData] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -323,8 +322,6 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
     setTempSelectedColumns(columns.slice(0, 7));
   }, [columns]);
 
-  console.log("selectedColumns", selectedColumns);
-  console.log("checkedRows", checkedRows);
 
   // Modal handlers
   const handleModalOpen = useCallback(() => setIsModalOpen(true), []);

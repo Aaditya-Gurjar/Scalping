@@ -339,9 +339,7 @@ const AddChartingScript = () => {
 
   const allowedSegments = location?.state?.data?.scriptType?.data[location?.state?.data?.scriptType?.data.length - 1]?.CombineChartingSignal
 
-
-  console.log("allowedSegments" , allowedSegments)
-
+ 
   const defaultChartingData = (userName) =>
     allowedSegments.map((segment) => ({
       Username: userName,
@@ -437,7 +435,7 @@ const AddChartingScript = () => {
       ASStatus: data.AdminStatus,
     };
 
-    console.log("request", req);
+    
 
     try {
       const response = await addChartingScript(req);

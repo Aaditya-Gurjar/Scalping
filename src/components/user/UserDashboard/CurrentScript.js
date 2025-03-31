@@ -27,6 +27,8 @@ import NoDataFound from "../../../ExtraComponent/NoDataFound";
 import { text } from "../../../ExtraComponent/IconTexts";
 
 const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
+
+  console.log("FromDate, ToDate", FromDate, ToDate)
   const userName = localStorage.getItem("name");
   const adminPermission = localStorage.getItem("adminPermission");
   const navigate = useNavigate();
@@ -39,11 +41,10 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
   const [editCharting, setEditCharting] = useState();
   const [getCharting, setGetCharting] = useState([]);
 
-  console.log("EditDataScalping", EditDataScalping)
+  
 
 
   const [chartingSubTab, setChartingSubTab] = useState("Cash");
-console.log("getCharting---", getCharting)
 
   const [getAllService, setAllservice] = useState({
     loading: true,
@@ -70,7 +71,7 @@ console.log("getCharting---", getCharting)
     const req = { Username: userName, Segment: chartingSubTab, From_date: FromDate, To_date: ToDate };
     await getUserChartingScripts(req)
       .then((response) => {
-        console.log("response.Client", response.Client)
+     
         if (response.Status) {
           setGetCharting(response.Client);
         } else {
@@ -82,11 +83,15 @@ console.log("getCharting---", getCharting)
       });
   };
 
+  useEffect(() => {
+    getChartingScript();
+  }, [FromDate, ToDate])
+
   const GetUserAllScripts = async () => {
     const data = { Username: userName };
     await GetUserScripts(data)
       .then((response) => {
-        console.log("response is", response)
+        
         if (response.Status) {
           setAllScripts({
             data: response.data,
@@ -294,8 +299,7 @@ console.log("getCharting---", getCharting)
     }
   };
   const HandleContinueDiscontinue = async (rowData, type) => {
-
-    console.log("Handle con. disc index", rowData);
+ 
     const index = rowData.rowIndex;
     const isOpen = rowData.tableData[index][5];
 
@@ -309,8 +313,7 @@ console.log("getCharting---", getCharting)
     //   });
     //   return;
     // }
-
-    console.log("IsOpen", isOpen);
+ 
     let trading;
 
     if (data == "Scalping" && type == 1) {
@@ -412,7 +415,7 @@ console.log("getCharting---", getCharting)
 
           if (data == "ChartingPlatform") {
             await DeleteSingleChartingScript(req).then((response) => {
-              console.log("inside")
+              
               if (response.Status) {
                 Swal.fire({
                   background: "#1a1e23 ",
@@ -423,7 +426,7 @@ console.log("getCharting---", getCharting)
                   timer: 2000,
                   timerProgressBar: true,
                 }).then(() => {
-                  console.log("ChartingPlatformDelete Response", response);
+                  
                   setRefresh(!refresh);
                 });
               } else {
@@ -473,7 +476,7 @@ console.log("getCharting---", getCharting)
         }
       });
     } else if (data == "ChartingPlatform") {
-      console.log("ChartingPlatform");
+      
       return;
     } else {
       {
@@ -1550,8 +1553,7 @@ console.log("getCharting---", getCharting)
 
 
   ];
-
-  console.log("EditDataOption", EditDataOption)
+ 
 
 
   const OptionEntryRuleArr = [
@@ -2512,9 +2514,7 @@ console.log("getCharting---", getCharting)
       formik2.setFieldValue("TradeCount", EditDataPattern.TradeCount);
     }
   }, [showEditModal, data, EditDataPattern]);
-
-  console.log("EditDataOption", EditDataOption)
-
+ 
 
 
   const updatedFields = fields.filter((item) => {

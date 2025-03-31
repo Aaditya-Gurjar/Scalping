@@ -156,7 +156,6 @@ const AddClient = () => {
       if (values.ExitTime=="") {
         errors.ExitTime = "Please Select Exit Time.";
       } else if (values.ExitTime > (values.Exchange === "MCX" ? mcxMaxTime : maxTime)) {
-        console.log("values.ExitTime", values.ExitTime)
         errors.ExitTime = `Exit Time Must be Before ${values.Exchange === "MCX" ? "23:29:59" : "15:29:59"}.`;
       }
 

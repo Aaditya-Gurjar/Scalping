@@ -144,7 +144,6 @@ const TradeReport = () => {
         }
     };
 
-    console.log("tradeReport?.data1", tradeReport?.data1)
     useEffect(() => {
         setStrategyType(StrategyType || "Scalping");
     }, []);
@@ -188,9 +187,7 @@ const TradeReport = () => {
     }, [selectedRowData]);
 
 
-    console.log("tradeReport?.data1?", tradeReport?.data1)
-    console.log("selectedRowData", selectedRowData)
-
+   
 
     useEffect(() => {
         if (!location?.state?.type) {
@@ -324,8 +321,6 @@ const TradeReport = () => {
                         CloseData: res.CloseData,
                         OpenData: res.OpenData
                     });
-                    console.log("resss", openCloseChartingData)
-                    console.log("response is ", res)
                 } else {
                     setGetCharting([]);
                 }
@@ -341,7 +336,6 @@ const TradeReport = () => {
     }, [activeTab, setOpenCloseChartingData])
 
     useEffect(() => {
-        console.log("Updated openCloseChartingData:", openCloseChartingData);
     }, [openCloseChartingData]);
 
 

@@ -57,8 +57,7 @@ const AddClient = () => {
       0,
       -1
     );
-
-    console.log("dataWithoutLastItem", dataWithoutLastItem);
+ 
     const foundItem = dataWithoutLastItem.find((item) => {
       return item["Option Strategy"].includes(stg);
     });
@@ -1497,7 +1496,7 @@ const AddClient = () => {
       formik.values.Strategy == "LongFourLegStretegy" ||
       formik.values.Strategy == "ShortFourLegStretegy"
     ) {
-      console.log("inside Conditions")
+      
       formik.setFieldValue("Striketype", "Premium_Range");
       formik.setFieldValue("ETPattern", "Premium Addition");
 

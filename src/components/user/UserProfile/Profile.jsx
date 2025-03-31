@@ -146,7 +146,7 @@ const ProfilePage = () => {
       try {
         const requestData = { username };
         const response = await Get_Profile_Data(requestData);
-        console.log("Profile response:", response);
+       
 
         if (response.Status) {
           localStorage.setItem("expire", "false");

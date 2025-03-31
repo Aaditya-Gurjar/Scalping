@@ -36,7 +36,7 @@ export const columns = () => [
     },
   },
   {
-    name: "Lot",
+    name: "Quantity",
     label: "Lot",
     options: {
       filter: true,
@@ -313,14 +313,7 @@ export const columns = () => [
     },
   },
 
-  {
-    name: "Quantity",
-    label: "Lot",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
+  
   {
     name: "Quantity2",
     label: "Lot 2",

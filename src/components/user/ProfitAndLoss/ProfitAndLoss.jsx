@@ -31,7 +31,6 @@ const Tradehistory = () => {
 
   const [tableType, setTableType] = useState("MultiCondition");
   const [activeTab, setActiveTab] = useState("Cash");
-  console.log("table type", tableType);
 
   const [strategyNames, setStrategyNames] = useState([]);
   const [ToDate, setToDate] = useState("");
@@ -47,7 +46,6 @@ const Tradehistory = () => {
   const [getFilteredPnlData, setFilteredPnlData] = useState([]);
   const Username = localStorage.getItem("name");
 
-  console.log("getPnLData", getPnLData);
 
   // set Defult Date
   const currentDate = new Date();
@@ -92,6 +90,7 @@ const Tradehistory = () => {
     await getNetPnLData(data)
       .then((response) => {
         if (response.Status) {
+          console.log("response.data", response.data)
           setPnlData({
             loading: false,
             data: response.data,
@@ -136,7 +135,6 @@ const Tradehistory = () => {
 
   useEffect(() => {
     if (location?.state?.type && location?.state?.type != "MultiCondition") {
-      console.log("sss");
       setStrategyType(StrategyType || location?.state?.type);
     } else if (location?.state?.type == "MultiCondition") {
       // setTableType("MultiCondition")
@@ -297,7 +295,7 @@ const Tradehistory = () => {
                     ? columns6()
                     : columns5()
                 }
-                data={getPnLData.data}
+                data={getPnLData.data1}
                 checkBox={false}
               />
             </div>

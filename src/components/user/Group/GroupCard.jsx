@@ -219,7 +219,6 @@ const GroupCard = ({ strategy }) => {
         SubAdmin: "",
       };
       const res = await ClientGroupAllot(reqData);
-      console.log("response is ", res);
       if (res.Status) {
         Swal.fire({
           title: "Subscribed Successfully!",

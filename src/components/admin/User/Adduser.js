@@ -23,7 +23,6 @@ const Adduser = () => {
     };
 
 
-    console.log("GetAllPlans", GetAllPlans)
     useEffect(() => {
         getBrokerName()
         GetAllGroupDetails()
@@ -173,7 +172,6 @@ const Adduser = () => {
         },
         onSubmit: async (values) => {
 
-            console.log("inside submit")
             const req = {
                 username: values.username,
                 email: values.email,
@@ -186,12 +184,8 @@ const Adduser = () => {
                 group: selectedOptions && selectedOptions.map((item) => item.value),
             }
 
-            console.log("Rew", req)
-            console.log("GetAllPlans", GetAllPlans.data)
-            console.log("values.planname", values.planname)
-
+          
             const FilterPlanAmount = GetAllPlans.data.filter((item) => (item.PlanName || item.Planname) === values.planname);
-            console.log("FilterPlanAmount", FilterPlanAmount)
             if (FilterPlanAmount[0].payment > values.ClientAmmount && FilterPlanAmount[0].payment !== '') {
                 Swal.fire({
                     background: "#1a1e23 ",
@@ -204,7 +198,6 @@ const Adduser = () => {
                     timerProgressBar: true
                 });
 
-                console.log("Before api call")
 
             }
             await CreateAccount(req)

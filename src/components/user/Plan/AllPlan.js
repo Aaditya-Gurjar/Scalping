@@ -610,9 +610,9 @@ const ServicesList = () => {
             )
         );
         setPlansData({
-          loading: false,
-          data: filterPlan,
-          data1: filterPlanCharting,
+            loading: false,
+            data: filterPlan,
+            data1: filterPlanCharting,
         });
       }
     } catch (error) {
@@ -634,7 +634,6 @@ const ServicesList = () => {
   const isPlanExpired = async () => {
     try {
       const response = await ExpirePlanDetails(username);
-      console.log("response is ", response)
       if (response.Status) {
         setPlanExpired(response.ExpirePlan || false);
       }
@@ -659,7 +658,6 @@ const ServicesList = () => {
         ? plansData?.data1[index]
         : plansData?.data[index];
 
-      console.log("planDetails", planDetails);
       const req1 = {
         Username: username,
         transactiontype: "Purchase",
@@ -988,7 +986,6 @@ const ServicesList = () => {
                         )}
                       </p>
 
-      {console.log("isPlanPurchased.includes(planExpired)", planExpired)}
                     </div>
                     {(isPlanPurchased(plan.Planname) && !planExpired.includes(plan.Planname)) ? (
                       <button

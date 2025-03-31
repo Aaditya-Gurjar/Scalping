@@ -158,14 +158,11 @@ const ViewGroup = () => {
   };
 
   const handleViewOption = async (rowData) => {
-    console.log("rowData for option is", rowData);
     const filteredData = data.filter((_, index) => index === rowData);
     const newParameters = filteredData[0];
-    console.log("newPraramtet", newParameters);
     setParameters(newParameters);
     const reqData = { StrategyName: newParameters?.STG };
     const res = await Option_Detail(reqData);
-    console.log("resfrmOpt", res);
     setSelectedOptionData(res.data?.[0]);
     setOptionModalActiveTab("Description");
     setShowOptionModal(true);
@@ -532,7 +529,7 @@ const ViewGroup = () => {
                             label: "Risk Handle",
                             value: parameters?.Targettype,
                           },
-                          { label: "Sy,bol", value: parameters?.Symbol },
+                          { label: "Symbol", value: parameters?.Symbol },
                           {
                             label: "Expiry Type",
                             value: parameters?.Expirytype,

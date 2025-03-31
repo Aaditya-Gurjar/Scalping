@@ -28,6 +28,7 @@ const Userdashboard = () => {
   const [tableType, setTableType] = useState(StrategyType || "MultiCondition");
   const [data2, setData2] = useState({ status: true, msg: "Initial state" });
 
+ 
   const [ToDate, setToDate] = useState(() => {
     let tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
@@ -38,15 +39,35 @@ const Userdashboard = () => {
   const [priceData, setPriceData] = useState([]);
 
   // Date configuration
+  // const currentDate = new Date();
+  // const formattedDate = `${currentDate.getFullYear()}.${String(
+  //   currentDate.getMonth() + 1
+  // ).padStart(2, "0")}.${String(currentDate.getDate()).padStart(2, "0")}`;
+  // const tomorrow = new Date(currentDate);
+  // tomorrow.setDate(currentDate.getDate() + 1);
+  // const Defult_To_Date = `${tomorrow.getFullYear()}.${String(
+  //   tomorrow.getMonth() + 1
+  // ).padStart(2, "0")}.${String(tomorrow.getDate()).padStart(2, "0")}`;
+
   const currentDate = new Date();
-  const formattedDate = `${currentDate.getFullYear()}.${String(
-    currentDate.getMonth() + 1
-  ).padStart(2, "0")}.${String(currentDate.getDate()).padStart(2, "0")}`;
-  const tomorrow = new Date(currentDate);
-  tomorrow.setDate(currentDate.getDate() + 1);
-  const Defult_To_Date = `${tomorrow.getFullYear()}.${String(
-    tomorrow.getMonth() + 1
-  ).padStart(2, "0")}.${String(tomorrow.getDate()).padStart(2, "0")}`;
+const formattedDate = `${String(currentDate.getDate()).padStart(2, "0")}.${String(
+  currentDate.getMonth() + 1
+).padStart(2, "0")}.${currentDate.getFullYear()}`;
+
+const tomorrow = new Date(currentDate);
+tomorrow.setDate(currentDate.getDate() + 1);
+
+const Defult_To_Date = `${String(tomorrow.getDate()).padStart(2, "0")}.${String(
+  tomorrow.getMonth() + 1
+).padStart(2, "0")}.${tomorrow.getFullYear()}`;
+
+  const formatDate = (date) => {
+    if (!date) return '';
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}.${month}.${year}`;
+  };
 
   // ------------------Live Price Code goes here------------------
   useEffect(() => {
@@ -83,6 +104,8 @@ const Userdashboard = () => {
   useEffect(() => {
     getUserAllGroup();
   }, [activeTab]);
+
+
 
   const fetchStrategyType = async () => {
     try {
@@ -122,6 +145,8 @@ const Userdashboard = () => {
         setData2({ status: false, msg: "Error fetching groups" });
       });
   };
+
+   
 
   const GetOpenPosition = async () => {
     const data = { userName: userName };
@@ -698,6 +723,8 @@ const Userdashboard = () => {
     }
   }, [subTab]);
 
+
+
   return (
     <Content
       Page_title="📊 User Dashboard"
@@ -902,6 +929,8 @@ const Userdashboard = () => {
                         data={subTab}
                         selectedType={activeTab}
                         data2={data2}
+                        FromDate ={formatDate(FromDate)}
+                        ToDate = { formatDate(FromDate)}
                       />
                     ) : (
                       <GroupScript
@@ -925,8 +954,8 @@ const Userdashboard = () => {
                       tableType={tableType}
                       data={subTab}
                       selectedType={activeTab}
-                      FromDate={FromDate === "" ? FromDate : formattedDate}
-                      ToDate={ToDate === "" ? ToDate : Defult_To_Date}
+                      FromDate={formatDate(FromDate)}
+                      ToDate={formatDate(ToDate)}
                     />
                   )}
                 </div>
@@ -985,12 +1014,14 @@ const Userdashboard = () => {
 
         {/* Agar dono section me kahin bhi data nahi hai to hi NoDataFound dikhao */}
 
-        {activeTab1 === "OpenPosition" &&
+        {
+          activeTab1 === "OpenPosition" &&
           getPositionData.Scalping?.length === 0 &&
           getPositionData.NewScalping?.length === 0 &&
           getPositionData.Option?.length === 0 &&
           getPositionData.Pattern?.length === 0 &&
-          getPositionData.ChartingData?.length === 0 && <NoDataFound />}
+          getPositionData.ChartingData?.length === 0 && <NoDataFound />
+        }
       </div>
     </Content>
   );

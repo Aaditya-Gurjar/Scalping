@@ -136,8 +136,6 @@ const TradeReport = () => {
         await get_Trade_Report(data)
 
             .then((response) => {
-                console.log("get_Trade_Report", response);
-
                 if (response.Status) {
                     setAllTradeData({
                         loading: false,

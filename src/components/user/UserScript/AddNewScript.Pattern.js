@@ -338,8 +338,7 @@ const AddClient = () => {
 
             })
     }
-    console.log("getAllExchange", getAllExchange)
-
+    
     const SymbolSelectionArr = [
         {
             name: "Exchange",

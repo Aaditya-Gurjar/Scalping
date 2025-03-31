@@ -55,6 +55,8 @@ const AddClient = () => {
   };
 
 
+ 
+
   const dataWithoutLastItem = location?.state?.data?.scriptType?.data?.slice(0, -1);
 
   const getEndData = (stg) => {
@@ -573,8 +575,7 @@ const AddClient = () => {
         };
 
 
-        console.log("assss")
-
+        
         if (
           (Number(values.EntryPrice) > 0 || Number(values.EntryRange) > 0) &&
           Number(values.EntryPrice) >= Number(values.EntryRange)
@@ -1944,8 +1945,7 @@ const AddClient = () => {
     };
 
 
-    const response = await CPrice(req);
-    console.log("response ", response);
+    const response = await CPrice(req); 
     const errors = await formik.validateForm();
     if (Object.keys(errors).length > 0) {
       return SweentAlertFun(Object.values(errors)[0])
@@ -1954,6 +1954,9 @@ const AddClient = () => {
     if (response.Status) {
       setCPrice(response.CPrice)
     }
+    else { 
+      setCPrice(0)
+    }
 
     if (
       formik.values.Exchange === "NSE" ||
@@ -1961,14 +1964,9 @@ const AddClient = () => {
         formik.values.TType === "BUY" &&
         (formik.values.Instrument === "OPTIDX" ||
           formik.values.Instrument === "OPTSTK"))
-    ) {
-      console.log("req");
-
-
+    ) { 
       handleCheckPnl();
-    } else {
-      console.log("req 222");
-
+    } else { 
       setOpenModel1(true);
     }
   };
@@ -2031,31 +2029,30 @@ const AddClient = () => {
               <div className="col-lg-12 col-sm-12">
                 <div className="input-block mb-3">
 
-                  {getCPrice && 
-
-                  <>
-                   <label
-                    className="form-label"
-                    style={{ fontWeight: "bold", color: "#fff" }}
-                  >
-                    Enter Price
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={priceValue}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      if (/^\d*\.?\d*$/.test(value)) { 
-                        setPriceValue(value);
-                        setError("");  
-                      } else {
-                        setError("Only numbers are allowed");
-                      }
-                    }}
-                  />
-                  </>
-          }
+                  { getCPrice == 0 &&
+                    <>
+                      <label
+                        className="form-label"
+                        style={{ fontWeight: "bold", color: "#fff" }}
+                      >
+                        Enter Price
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={priceValue}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (/^\d*\.?\d*$/.test(value)) {
+                            setPriceValue(value);
+                            setError("");
+                          } else {
+                            setError("Only numbers are allowed");
+                          }
+                        }}
+                      />
+                    </>
+                  }
 
 
                   <label
