@@ -1,3 +1,6 @@
+
+
+
 // import React, { useState, useEffect } from "react";
 // import { FaRupeeSign } from "react-icons/fa";
 // import { BadgeCheck } from "lucide-react";
@@ -6,6 +9,7 @@
 //   Get_All_Buyed_Plans,
 //   BuyPlan,
 //   AddBalance,
+//   ExpirePlanDetails,
 // } from "../../CommonAPI/User";
 // import Swal from "sweetalert2";
 // // import Tab from "react-bootstrap/Tab";
@@ -72,9 +76,9 @@
 //             )
 //         );
 //         setPlansData({
-//           loading: false,
-//           data: filterPlan,
-//           data1: filterPlanCharting,
+//             loading: false,
+//             data: filterPlan,
+//             data1: filterPlanCharting,
 //         });
 //       }
 //     } catch (error) {
@@ -93,21 +97,20 @@
 //       console.error("Error fetching purchased plans:", error);
 //     }
 //   };
-//   // const isPlanExpired = async () => {
-//   //   try {
-//   //     const response = await ExpirePlanDetails(username);
-//   //     console.log("response is ", response)
-//   //     if (response.Status) {
-//   //       setPlanExpired(response.ExpirePlan || false);
-//   //     }
-//   //   }
-//   //   catch (error) {
-//   //     console.error("Error fetching purchased plans:", error);
-//   //   }
-//   // }
-//   // useEffect(() => {
-//   //   isPlanExpired();
-//   // }, [])
+//   const isPlanExpired = async () => {
+//     try {
+//       const response = await ExpirePlanDetails(username);
+//       if (response.Status) {
+//         setPlanExpired(response.ExpirePlan || false);
+//       }
+//     }
+//     catch (error) {
+//       console.error("Error fetching purchased plans:", error);
+//     }
+//   }
+//   useEffect(() => {
+//     isPlanExpired();
+//   }, [])
 
 
 
@@ -121,7 +124,6 @@
 //         ? plansData?.data1[index]
 //         : plansData?.data[index];
 
-//       console.log("planDetails", planDetails);
 //       const req1 = {
 //         Username: username,
 //         transactiontype: "Purchase",
@@ -290,11 +292,8 @@
 //       plan.Planname !== "Two Days Demo" &&
 //       plan.Planname !== "One Week Demo"
 //   );
-
-//   console.log("getUpdatedPlans", getUpdatedPlans)
 //   const getUpdatedPlansCharting = plansData.data1?.filter(
 //     (plan) =>
-     
 //       (plan?.SOPPrice !== 0 && plan?.payment !== 0) &&
 //       plan.Planname !== "Three Days Live" &&
 //       plan.Planname !== "Two Days Demo" &&
@@ -453,9 +452,8 @@
 //                         )}
 //                       </p>
 
-
 //                     </div>
-//                     {isPlanPurchased(plan.Planname) ? (
+//                     {(isPlanPurchased(plan.Planname) && !planExpired.includes(plan.Planname)) ? (
 //                       <button
 //                         className="allplan-button buy-again"
 //                         onClick={() => HandleBuyPlan(index, 0, false)}
@@ -534,6 +532,10 @@
 
 
 
+// ___below code is perfect 
+
+
+
 
 import React, { useState, useEffect } from "react";
 import { FaRupeeSign } from "react-icons/fa";
@@ -566,8 +568,9 @@ const ServicesList = () => {
     data1: [],
   });
   const [purchasedPlans, setPurchasedPlans] = useState([]);
-  const expire = localStorage.getItem("expire");
   const [planExpired, setPlanExpired] = useState([]);
+  const expire = localStorage.getItem("expire");
+
 
   const [expandedOptions, setExpandedOptions] = useState([]);
   const [expandedPatternItems, setExpandedPatternItems] = useState([]);
@@ -600,19 +603,19 @@ const ServicesList = () => {
         const filterPlan = response?.Admin?.filter(
           (plan) =>
             !["Three Days Live", "Two Days Demo", "One Week Demo"].includes(
-              plan.Planname
+              plan.PlanName
             )
         );
         const filterPlanCharting = response?.Charting?.filter(
           (plan) =>
             !["Three Days Live", "Two Days Demo", "One Week Demo"].includes(
-              plan.Planname
+              plan.PlanName
             )
         );
         setPlansData({
-            loading: false,
-            data: filterPlan,
-            data1: filterPlanCharting,
+          loading: false,
+          data: filterPlan,
+          data1: filterPlanCharting,
         });
       }
     } catch (error) {
@@ -631,11 +634,14 @@ const ServicesList = () => {
       console.error("Error fetching purchased plans:", error);
     }
   };
+
+
   const isPlanExpired = async () => {
     try {
       const response = await ExpirePlanDetails(username);
+      console.log("response is ", response)
       if (response.Status) {
-        setPlanExpired(response.ExpirePlan || false);
+        setPlanExpired(response.Admin.Planname);
       }
     }
     catch (error) {
@@ -646,6 +652,7 @@ const ServicesList = () => {
     isPlanExpired();
   }, [])
 
+  console.log("planname", planExpired)
 
 
   const isPlanPurchased = (planName) => {
@@ -658,14 +665,15 @@ const ServicesList = () => {
         ? plansData?.data1[index]
         : plansData?.data[index];
 
+      console.log("planDetails", planDetails);
       const req1 = {
         Username: username,
         transactiontype: "Purchase",
-        money: planDetails.SOPPrice || planDetails.payment,
+        money: planDetails.payment,
       };
       const result = await Swal.fire({
         title: "Are you sure?",
-        text: `Do you want to buy the plan: ${planDetails.Planname || planDetails.PlanName} for ₹${planDetails.SOPPrice}?`,
+        text: `Do you want to buy the plan: ${planDetails.PlanName} for ₹${planDetails.payment}?`,
         icon: "warning",
         showCancelButton: true,
         confirmButtonText: "Yes, Buy it!",
@@ -693,10 +701,9 @@ const ServicesList = () => {
               PatternS: planDetails.Pattern,
               NumberofScript: planDetails.NumberofScript,
               Duration: planDetails["Plan Validity"],
-              Planname: planDetails.Planname || planDetails.PlanName,
-              SOPPrice: planDetails.SOPPrice,
+              Planname: planDetails.PlanName,
+              payment: planDetails.payment,
               Extendtype: "ExtendServiceEndDate",
-              money: planDetails.SOPPrice,
               Charting: planDetails.ChartingSignal,
             };
             const buyPlanResponse = await BuyPlan(req);
@@ -719,8 +726,6 @@ const ServicesList = () => {
               });
             }
           } else {
-
-
             const req = {
               Username: username,
               Scalping: planDetails.Scalping,
@@ -728,12 +733,11 @@ const ServicesList = () => {
               PatternS: planDetails.Pattern,
               NumberofScript: planDetails.NumberofScript,
               Duration: planDetails["Plan Validity"],
-              Planname: planDetails.Planname || planDetails.PlanName,
-              SOPPrice: planDetails.SOPPrice,
+              Planname: planDetails.PlanName,
+              payment: planDetails.payment,
               Extendtype: "ExtendServiceCount",
               Charting: planDetails.ChartingSignal,
             };
-
             const buyPlanResponse = await BuyPlan(req);
             if (buyPlanResponse.Status) {
               fetchPurchasedPlans();
@@ -762,8 +766,8 @@ const ServicesList = () => {
             PatternS: planDetails.Pattern,
             NumberofScript: planDetails.NumberofScript,
             Duration: planDetails["Plan Validity"],
-            Planname: planDetails.Planname || planDetails.PlanName,
-            SOPPrice: planDetails.SOPPrice,
+            Planname: planDetails.PlanName,
+            payment: planDetails.payment,
             Extendtype: "",
             Charting: planDetails.ChartingSignal,
           };
@@ -819,19 +823,19 @@ const ServicesList = () => {
     }
   };
 
+
+
   const getUpdatedPlans = plansData.data?.filter(
     (plan) =>
-      (plan?.SOPPrice !== 0 && plan?.payment !== 0) &&
-      plan.Planname !== "Three Days Live" &&
-      plan.Planname !== "Two Days Demo" &&
-      plan.Planname !== "One Week Demo"
+      plan.PlanName !== "Three Days Live" &&
+      plan.PlanName !== "Two Days Demo" &&
+      plan.PlanName !== "One Week Demo"
   );
   const getUpdatedPlansCharting = plansData.data1?.filter(
     (plan) =>
-      (plan?.SOPPrice !== 0 && plan?.payment !== 0) &&
-      plan.Planname !== "Three Days Live" &&
-      plan.Planname !== "Two Days Demo" &&
-      plan.Planname !== "One Week Demo"
+      plan.PlanName !== "Three Days Live" &&
+      plan.PlanName !== "Two Days Demo" &&
+      plan.PlanName !== "One Week Demo"
   );
 
   const [value, setValue] = useState("1");
@@ -904,14 +908,14 @@ const ServicesList = () => {
                 getUpdatedPlans?.map((plan, index) => (
                   <div key={index} className="allplan-card ">
                     <div className="plan-header">
-                      <h2 className="allplan-card-title">{plan.Planname}</h2>
-                      {isPlanPurchased(plan.Planname) && (
+                      <h2 className="allplan-card-title">{plan.PlanName}</h2>
+                      {isPlanPurchased(plan.PlanName) && (
                         <BadgeCheck className="purchased-badge" />
                       )}
                     </div>
                     <h3 className="allplan-card-subtitle">
                       <strong className="card-text-Color">Price:</strong>
-                      <FaRupeeSign /> {(plan.SOPPrice || plan.payment)}
+                      <FaRupeeSign /> {plan.payment}
                     </h3>
                     <h3 className="allplan-card-subtitle">
                       Duration: {plan["Plan Validity"]}
@@ -986,13 +990,14 @@ const ServicesList = () => {
                         )}
                       </p>
 
+
                     </div>
-                    {(isPlanPurchased(plan.Planname) && !planExpired.includes(plan.Planname)) ? (
+                    {isPlanPurchased(plan.PlanName) ? (
                       <button
                         className="allplan-button buy-again"
                         onClick={() => HandleBuyPlan(index, 0, false)}
                       >
-                        🔄 Buy Again
+                        {planExpired.includes(plan.PlanName) ?"Buy Now" : "🔄 Buy Again"}
                       </button>
                     ) : (
                       <button
@@ -1016,13 +1021,13 @@ const ServicesList = () => {
                 getUpdatedPlansCharting?.map((plan, index) => (
                   <div key={index} className="allplan-card">
                     <div className="plan-header">
-                      <h2 className="allplan-card-title">{plan.Planname}</h2>
-                      {isPlanPurchased(plan.Planname) && (
+                      <h2 className="allplan-card-title">{plan.PlanName}</h2>
+                      {isPlanPurchased(plan.PlanName) && (
                         <BadgeCheck className="purchased-badge" />
                       )}
                     </div>
                     <h3 className="allplan-card-subtitle">
-                      <FaRupeeSign /> {plan.SOPPrice}
+                      <FaRupeeSign /> {plan.payment}
                     </h3>
                     <h3 className="allplan-card-subtitle">
                       Duration: {plan["Plan Validity"]}
@@ -1036,7 +1041,7 @@ const ServicesList = () => {
                         {plan.ChartingSignal?.join(", ")}
                       </p>
                     </div>
-                    {isPlanPurchased(plan.Planname) ? (
+                    {isPlanPurchased(plan.PlanName) ? (
                       <button
                         className="allplan-button buy-again"
                         onClick={() => HandleBuyPlan(index, 0, true)}
