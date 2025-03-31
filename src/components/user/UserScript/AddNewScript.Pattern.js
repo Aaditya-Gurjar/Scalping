@@ -252,7 +252,6 @@ const AddClient = () => {
                 quantityselection: "",
                 quantityvalue: 0.0,
                 targetselection: "",
-                Planname: location?.state?.data?.scriptType?.data[0].Planname
             }
 
             if (values.EntryTime >= values.ExitTime) {
@@ -339,8 +338,7 @@ const AddClient = () => {
 
             })
     }
-    console.log("getAllExchange", getAllExchange)
-
+    
     const SymbolSelectionArr = [
         {
             name: "Exchange",
