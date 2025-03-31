@@ -1658,8 +1658,7 @@ const AddClient = () => {
       ),
       disable: false,
     },
-  ];
-  console.log("location.state.data", location.state.data);
+  ]; 
   useEffect(() => {
     if (initialvalue) {
       if (formik.values.Symbol !== location.state.data.MainSymbol) {
