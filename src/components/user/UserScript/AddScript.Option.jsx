@@ -30,8 +30,7 @@ const AddClient = () => {
       }
     }
   };
-
-  console.log("location", location.state);
+ 
 
   const SweentAlertFun = (text) => {
     Swal.fire({
@@ -558,8 +557,7 @@ const AddClient = () => {
           ? values?.WorkingDay?.map((item) => item?.value || item)
           : [],
       };
-
-      console.log("req", req);
+ 
 
       if (
         values.Striketype == "Depth_of_Strike" &&
