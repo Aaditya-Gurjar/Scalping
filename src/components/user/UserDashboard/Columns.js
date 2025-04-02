@@ -1458,6 +1458,23 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
             }
         }
     },
+
+    {
+        name: "Token",
+        label: "LivePrice",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value, tableMeta, updateValue) => {
+                return (
+                    
+                    <div><span className={`LivePrice_${value}`}>-</span></div>
+                   
+                );
+            }
+        },
+       
+    },
     {
         name: "STG",
         label: "Strategy",
@@ -1525,6 +1542,7 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
+  
 
     {
         name: "Exchange",
@@ -1937,6 +1955,22 @@ export const
             }
         },
         {
+            name: "Token",
+            label: "LivePrice",
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value, tableMeta, updateValue) => {
+                    return (
+                        
+                        <div><span className={`LivePrice_${value}`}>-</span></div>
+                       
+                    );
+                }
+            },
+           
+        },
+        {
             name: "TimeFrame",
             label: "Time Frame",
             options: {
@@ -2230,6 +2264,25 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
+    
+
+    {
+        name: "Token",
+        label: "LivePrice",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value, tableMeta, updateValue) => {
+                return (
+                    
+                    <div><span className={`LivePrice_${value}`}>-</span></div>
+                   
+                );
+            }
+        },
+       
+    },
+    
 
     {
         name: "TType",
@@ -2744,6 +2797,24 @@ export const getColumns8 = (handleContinutyDiscontinuty, chartingSubTab) => [
             sort: true,
         }
     },
+
+    {
+        name: "Token",
+        label: "LivePrice",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value, tableMeta, updateValue) => {
+                return (
+                    
+                    <div><span className={`LivePrice_${value}`}>-</span></div>
+                   
+                );
+            }
+        },
+       
+    },
+
     {
         name: "TSymbol",
         label: "Symbol",
