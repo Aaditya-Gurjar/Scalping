@@ -25,10 +25,12 @@ import Formikform from "../../../ExtraComponent/FormData2";
 import { useFormik } from "formik";
 import NoDataFound from "../../../ExtraComponent/NoDataFound";
 import { text } from "../../../ExtraComponent/IconTexts";
+import { connectWebSocket } from "./LivePrice";
+import $ from "jquery";
 
 const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
-  console.log("FromDate, ToDate", FromDate, ToDate)
+  
   const userName = localStorage.getItem("name");
   const adminPermission = localStorage.getItem("adminPermission");
   const navigate = useNavigate();
@@ -40,6 +42,8 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
   const [allScripts, setAllScripts] = useState({ data: [], len: 0 });
   const [editCharting, setEditCharting] = useState();
   const [getCharting, setGetCharting] = useState([]);
+  const [channelList, setChannelList ] = useState([]); 
+  const [priceData, setPriceData] = useState([]);
 
   
 
@@ -65,6 +69,39 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
     if (data == "ChartingPlatform") getChartingScript();
   }, [data, chartingSubTab]);
 
+
+
+  useEffect(() => {
+    let updatedList = "";
+  
+    if (data === "Scalping") {
+      updatedList = getAllService.NewScalping?.map(item => `${item.Exchange}|${item.Token}`).join("#");
+    } else if (data === "Option Strategy") {
+      updatedList = getAllService.OptionData?.map(item => `${item.Exchange}|${item.Token}`).join("#");
+    } else if (data === "Pattern" || data === "Pattern Script") {
+      updatedList = getAllService.PatternData?.map(item => `${item.Exchange}|${item.Token}`).join("#");
+    } else if (data === "ChartingPlatform") {
+      updatedList = getCharting?.map(item => `${item.Exchange}|${item.Token}`).join("#");
+    }
+  
+    setChannelList(updatedList); // ✅ Save the computed value in state
+  }, [data, getAllService, getCharting]);
+
+
+   useEffect(() => {
+     showLivePrice()    
+    }, [channelList]);
+  
+  
+    const showLivePrice = async() => {
+      console.log("Channel List", channelList)
+      connectWebSocket(channelList, (data) => {
+        if(data.lp && data.tk) {
+          $(".LivePrice_"+data.tk).html(data.lp); 
+        // console.log("Updated Price Data:", data);
+        }
+      });
+    }
 
 
   const getChartingScript = async () => {
@@ -674,6 +711,8 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       .then((response) => {
         if (response.Status) {
           // console.log("GetAllUserScriptDetails",response);
+          // const channelList = response.NewScalping.map(item => `${item.Exchange}|${item.Token}`).join("#");
+          console.log("CHannelList", channelList)
 
           setAllservice({
             loading: false,

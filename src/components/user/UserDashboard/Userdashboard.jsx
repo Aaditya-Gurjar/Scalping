@@ -36,7 +36,6 @@ const Userdashboard = () => {
   });
   const [FromDate, setFromDate] = useState(new Date());
   const [showLivePrice, setShowLivePrice] = useState(false);
-  const [priceData, setPriceData] = useState([]);
 
   // Date configuration
   // const currentDate = new Date();
@@ -66,25 +65,9 @@ const Defult_To_Date = `${String(tomorrow.getDate()).padStart(2, "0")}.${String(
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
-    return `${day}.${month}.${year}`;
+    return `${year}.${month}.${day}`;
   };
-
-  // ------------------Live Price Code goes here------------------
-  useEffect(() => {
-    // const instrument = "NFO|54957#MCX|239484";
-    // const instrument = "NFO|54957";
-    // const instrument = "NFO|13032025";
-    // const instrument = "NFO|45473"; //--working
-    // const instrument = "NFO|11405"; //--working
-    // connectWebSocket(instrument, (data) => {
-    //   console.log("Updated Price Data:", data);
-    //   setPriceData(data);
-    // });
-    // return () => closeWebSocket();
-  }, []);
-
-  // console.log("Live price data ", priceData);
-  // __________________________________________
+ 
 
   const [getGroupName, setGroupName] = useState({ loading: true, data: [] });
   const [getPositionData, setPositionData] = useState({
@@ -104,6 +87,8 @@ const Defult_To_Date = `${String(tomorrow.getDate()).padStart(2, "0")}.${String(
   useEffect(() => {
     getUserAllGroup();
   }, [activeTab]);
+
+  
 
 
 

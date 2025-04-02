@@ -9,11 +9,13 @@ import {
   GET_EXPIRY_DATE,
   GetExchange,
 } from "../../CommonAPI/Admin";
-import { AddScript, CheckPnLScalping, CPrice } from "../../CommonAPI/User";
+import { AddScript, CheckPnLScalping, CPrice, getToken } from "../../CommonAPI/User";
 import { text } from "../../../ExtraComponent/IconTexts";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Content from "../../../ExtraComponent/Content";
+import { connectWebSocket } from "../UserDashboard/LivePrice";
+import $ from 'jquery'
 
 const AddClient = () => {
   const userName = localStorage.getItem("name");
@@ -1700,14 +1702,69 @@ const AddClient = () => {
     }
   };
 
+
+   const showLivePrice = async(singleChannel) => {
+        console.log("Channel List", singleChannel)
+        connectWebSocket(singleChannel, (data) => {
+          if(data.lp && data.tk) {
+            $(".LivePrice").html(data.lp); 
+          console.log("Updated Price Data:", data);
+          }
+        });
+      }
+
+  const token = async () => {
+    try {
+      if(formik.values.Exchange && formik.values.Instrument && formik.values.Symbol && formik.values.expirydata1){
+        const res = await getToken({
+          Exchange: formik.values.Exchange,
+          Instrument: formik.values.Instrument,
+          Symbol: formik.values.Symbol,
+          OptionType: formik.values.Optiontype,
+          Strike: formik.values.Strike,
+          Expiry :  formik.values.expirydata1 == "Monthly"
+          ? getExpiryDate?.data?.[0]
+          : formik.values.expirydata1 == "Next_Month"
+            ? getExpiryDate?.data?.[1] : formik.values.expirydata1
+        });
+        console.log("res", res)
+        const singleChannel = `${formik.values.Exchange}|${res.Token[0]}` 
+        console.log("singleChannel", singleChannel)
+        showLivePrice(singleChannel)
+
+      }
+     
+       
+    } catch (error) {
+      console.error("Error fetching token:", error);
+      
+    }
+  }
+
   useEffect(() => {
     getExpiry();
+    token()
   }, [
     formik.values.Instrument,
     formik.values.Exchange,
     formik.values.Symbol,
     formik.values.Strike,
+    formik.values.expirydata1
   ]);
+
+
+  // const token = async () => {
+  //   if (formik.values.Instrument) {
+  //     const data = { 
+
+  // useEffect(() => {
+  //   token();
+  // }, [
+  //   formik.values.Instrument,
+  //   formik.values.Exchange,
+  //   formik.values.Symbol,
+  //   formik.values.Strike,
+  // ]);
 
   useEffect(() => {
     if (
@@ -1978,6 +2035,8 @@ const AddClient = () => {
       button_status={false}
       backbutton_status={false}
     >
+      
+      { formik.values.Exchange && formik.values.Instrument && formik.values.Symbol && formik.values.expirydata1  && <div className="AddScript_LivePrice card-text-Color"><div className="LivePriceContainer"><span> Live Price:  </span> <span className="LivePrice ms-2">{}</span></div></div>}
       <AddForm
         fields={fields.filter(
           (field) => !field.showWhen || field.showWhen(formik.values)

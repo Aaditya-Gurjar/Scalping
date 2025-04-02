@@ -199,8 +199,8 @@ const ClientThreadReport = () => {
             }
         },
         {
-            name: "Licanse",
-            label: "Licanse",
+            name: "License",
+            label: "License",
             options: {
                 filter: true,
                 sort: true,
@@ -211,8 +211,8 @@ const ClientThreadReport = () => {
         
 
         {
-            name: "LicanseStartDate",
-            label: "Licanse Start Date",
+            name: "LicenseStartDate",
+            label: "License Start Date",
             options: {
                 filter: true,
                 sort: true,

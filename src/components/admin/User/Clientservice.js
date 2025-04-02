@@ -353,8 +353,8 @@ const Clientservice = () => {
             }
         },
         {
-            name: 'Licanse',
-            label: 'Licanse',
+            name: 'License',
+            label: 'License',
             options: {
                 filter: true,
                 sort: true,
@@ -362,8 +362,8 @@ const Clientservice = () => {
             }
         },
         {
-            name: 'LicanseStartDate',
-            label: 'LicanseStartDate',
+            name: 'LicenseStartDate',
+            label: 'LicenseStartDate',
             options: {
                 filter: true,
                 sort: true,

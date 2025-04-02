@@ -80,7 +80,7 @@ export const ClientActivityPage = () => [
         }
     },
     {
-        name: "LicanseStartDate",
+        name: "LicenseStartDate",
         label: "LS Date",
         options: {
             filter: true,

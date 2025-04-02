@@ -2132,23 +2132,23 @@ export const getColumns12 = () => [
     },
 
 
-    {
-        name: "AccType",
-        label: "AccType",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+    // {
+    //     name: "AccType",
+    //     label: "AccType",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
 
-    {
-        name: "Segmenttype",
-        label: "Segmenttype",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+    // {
+    //     name: "Segmenttype",
+    //     label: "Segmenttype",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
 
     {
         name: "Token",

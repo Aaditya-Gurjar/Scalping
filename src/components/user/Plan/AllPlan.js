@@ -822,8 +822,8 @@ const ServicesList = () => {
       });
     }
   };
-
-
+  
+ 
 
   const getUpdatedPlans = plansData.data?.filter(
     (plan) =>

@@ -75,7 +75,7 @@ const Sidebar = ({ position }) => {
       {
         path: "/admin/clientreport",
         icon: <i className="la la-briefcase"></i>,
-        label: "Client Thread Report",
+        label: (<>Client Thread <br/> Report</>) ,
       },
       {
         path: "/admin/smtp",
@@ -97,12 +97,12 @@ const Sidebar = ({ position }) => {
       {
         path: "/superadmin/client-trade-response",
         icon: <i className="la la-reply"></i>,
-        label: "Client Trade Response",
+        label: (<>Client Trade <br/> Response</>),
       },
       {
         path: "/superadmin/update-client-details",
         icon: <i className="la la-user"></i>,
-        label: "Update Client Details",
+        label: (<>Update Client <br/> Details</>) ,
       },
       {
         path: "/superadmin/api-create-info",
@@ -198,6 +198,7 @@ const Sidebar = ({ position }) => {
                 className={activeItem === item.path ? "active" : ""}
               >
                 <Link to={item.path} onClick={() => setActiveItem(item.path)}>
+               
                   <OverlayTrigger
                     placement="left"
                     delay={{ show: 250, hide: 400 }}
@@ -207,8 +208,11 @@ const Sidebar = ({ position }) => {
                       </Tooltip>
                     }
                   >
-                    <div className="d-inline-block">{item.icon}</div>
+
+                    <div className="d-inline-block link-icon">{item.icon}</div>
                   </OverlayTrigger>
+
+                 <span className="ms-0">{item.label}</span> 
                 </Link>
               </li>
             ))}

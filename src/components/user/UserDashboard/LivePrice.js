@@ -58,9 +58,10 @@ async function ConnectSocket(onResponse, channelList, userId1, userSession1) {
     socket.onmessage = async function (msg) {
         var response = JSON.parse(msg.data)
 
-        console.log("onMessage", response)
+        // console.log("onMessage", response)
         if (response.lp) {
-            await onResponse(response.lp)
+            await onResponse(response)
+
         }
 
         if (response.s === 'OK') {

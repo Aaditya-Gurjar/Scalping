@@ -327,7 +327,7 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
     setTempSelectedColumns(columns.slice(0, 7));
   }, [columns]);
 
-  console.log("selectedColumns", selectedColumns);
+  
 
   // Memoized modal handlers
   const handleModalOpen = useCallback(() => setIsModalOpen(true), []);
@@ -348,7 +348,6 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked }) => {
   );
 
   const handleSelectAll = () => {
-    console.log("isExpanded", isExpanded);
     if (isExpanded) {
       setIsModalOpen(false);
       setSelectedColumns(columns);

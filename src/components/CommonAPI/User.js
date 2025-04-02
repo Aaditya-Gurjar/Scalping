@@ -953,13 +953,32 @@ export const ExpirePlanDetails = async (username) => {
 }
 
 
- 
+
 
 
 export const CPrice = async (data) => {
     var token = localStorage.getItem('token')
     try {
         const res = await axios.post(`${Config.base_url}CPrice`, data,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+}
+
+
+export const getToken = async (data) => {
+    var token = localStorage.getItem('token')
+    try {
+        const res = await axios.post(`${Config.base_url}Token`, data,
             {
                 headers: {
                     'Content-Type': 'application/json',
