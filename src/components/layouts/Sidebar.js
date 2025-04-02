@@ -208,14 +208,25 @@ const Sidebar = ({ position }) => {
     },
     {
       path: "/admin/allscript",
-      icon: <i className="fa fa-code" />, // Add Script icon
-      label: "Add Script",
+      icon: <i className="fa fa-code" />,  
       permission: [],
     },
     {
       path: "/admin/userlogs",
-      icon: <i className="fa fa-history" />, // User Panel Log icon
-      label: "User Panel Log",
+      icon: <i className="fa-regular fa-link" />,  
+      label: 
+      (
+        <>
+          User Panel  <br /> Log
+        </>
+      ),
+      permission: [],
+    },
+
+    {
+      path: "/admin/OptionChain",
+      icon: <i className="fa fa-code" />, // Add Script icon
+      label: "Option Chain",
       permission: [],
     },
 
@@ -249,7 +260,11 @@ const Sidebar = ({ position }) => {
     {
       path: "/superadmin/client-thread-report",
       icon: <Pyramid />, // Client Trade Report icon
-      label: "Client Thread Report",
+      label: (
+        <>
+          Client Thread <br /> Report
+        </>
+      ),
       permission: [],
     },
   ];
@@ -264,7 +279,7 @@ const Sidebar = ({ position }) => {
     {
       path: "technical/pattern",
       icon: <i className="fa fa-puzzle-piece" />, // Technical Patterns icon
-      label: "Technical Patterns",
+      label: "Tech Patterns",
       permission: [],
     },
     {
@@ -307,15 +322,15 @@ const Sidebar = ({ position }) => {
           className={activeItem === item.path ? "active" : ""}
           onClick={(e) => handleSidebarClick(e, item.path)}
         >
-          <Link to={expire?.includes(1) ? "/user/all/plan" : item.path} className="iq-waves-effect">
+          <Link  to={expire?.includes(1) ? "/user/all/plan" : item.path} className="iq-waves-effect sidebar-left">
             <OverlayTrigger
               placement="right"
               delay={{ show: 250, hide: 400 }}
               overlay={<Tooltip id={`tooltip-${item.label}`}>{item.label}</Tooltip>}
             >
-              <div className="d-inline-block">{item.icon}</div>
+              <div className="d-inline-block link-icon">{item.icon}</div>
             </OverlayTrigger>
-            <span style={{ marginLeft: "8px" }}>{item.label}</span>
+            <span >{item.label}</span>
           </Link>
         </li>
       ));
