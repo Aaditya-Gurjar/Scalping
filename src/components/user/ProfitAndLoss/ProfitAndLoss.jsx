@@ -90,7 +90,6 @@ const Tradehistory = () => {
     await getNetPnLData(data)
       .then((response) => {
         if (response.Status) {
-          console.log("response.data", response.data)
           setPnlData({
             loading: false,
             data: response.data,
