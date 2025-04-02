@@ -29,6 +29,7 @@ import EditSubadmin from '../components/admin/SubAdmin/EditSubadmin';
 import ApiCreateInfo from '../components/admin/apicreateInfo/ApiCreateInfo';
 import SidebarRight from '../components/layouts/SidebarRight';
 import ChartComponent from '../components/admin/AdvanceChart/ChartComponent';
+import OptionChain from '../components/admin/OptionChain/OptionChain';
 
 // const Dashboards = lazy(() => import('../components/admin/Dashboard/Dashboards'));
 // const Sidebar = lazy(() => import('../components/layouts/Sidebar'));
@@ -93,6 +94,7 @@ const AdminRoute = () => {
             <Route path="/editSubadmin" element={<EditSubadmin />} />
             <Route path="/api-create-info" element={<ApiCreateInfo />} />
             <Route path="/chart" element={<ChartComponent />} />
+            <Route path="/optionchain" element={<OptionChain />} />
           </Routes>
         </div>
         <SidebarRight position="right"/>
