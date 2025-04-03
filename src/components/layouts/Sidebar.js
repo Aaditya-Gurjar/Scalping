@@ -185,7 +185,7 @@ const Sidebar = ({ position }) => {
     {
       path: "/admin/strategygroup",
       icon: <i className="la la-sellsy" />, // Strategy Group icon
-      label: "Strategy Group",
+      label: (<>Strategy <br/>Group</>),    
       permission: [],
     },
     {
@@ -208,7 +208,8 @@ const Sidebar = ({ position }) => {
     },
     {
       path: "/admin/allscript",
-      icon: <i className="fa fa-code" />,  
+      icon: <i className="fa fa-code" />,
+      label: "All Script",
       permission: [],
     },
     {
@@ -226,7 +227,7 @@ const Sidebar = ({ position }) => {
     {
       path: "/admin/OptionChain",
       icon: <i className="fa fa-code" />, // Add Script icon
-      label: "Option Chain",
+      label: (<>Option <br/>Chain</>),
       permission: [],
     },
 

@@ -458,7 +458,7 @@ const AddClient = () => {
             ? values.ETPattern
             : values.Strategy == "ShortShifting" ||
               values.Strategy == "LongShifting"
-              ? "Future"
+              ? "Leg vice"
               : (
                 formik.values.Strategy == "LongFourLegStretegy" ||
                 formik.values.Strategy == "ShortFourLegStretegy"
@@ -1713,6 +1713,7 @@ const AddClient = () => {
         button_status={false}
         backbutton_status={false}
       >
+      { formik.values.Exchange && formik.values.Instrument && formik.values.Symbol && formik.values.expirydata1  && <div className="AddScript_LivePrice card-text-Color"><div className="LivePriceContainer"><span> Live Price:  </span> <span className="LivePrice ms-2">{}</span></div></div>}
         <AddForm
           fields={fields.filter(
             (field) => !field.showWhen || field.showWhen(formik.values)

@@ -29,6 +29,7 @@ const Adduser = () => {
         GetAllPlansData();
     }, [])
 
+    console.log("GetAllPlans", GetAllPlans)
     const getBrokerName = async () => {
         await Get_Broker_Name()
             .then((response) => {
@@ -89,11 +90,12 @@ const Adduser = () => {
                     ];
 
                     const DemoPlanName = response.Admin.filter((item) => item.PlanName === 'One Week Demo' || item.PlanName === 'Two Days Demo');
-
+                  
+            
                     setAllPlans({
                         DemoPlanName: DemoPlanName,
                         LivePlanName: LivePlanName,
-                        data: response.Admin
+                        data: [...response.Admin, ...response.Charting]
                     });
                 }
                 else {
@@ -171,7 +173,6 @@ const Adduser = () => {
             return errors;
         },
         onSubmit: async (values) => {
-
             const req = {
                 username: values.username,
                 email: values.email,
@@ -184,8 +185,14 @@ const Adduser = () => {
                 group: selectedOptions && selectedOptions.map((item) => item.value),
             }
 
-          
-            const FilterPlanAmount = GetAllPlans.data.filter((item) => (item.PlanName || item.Planname) === values.planname);
+            console.log("req", req)
+            console.log("values.planname", values.planname)
+
+            const FilterPlanAmount = GetAllPlans.data.filter((item) => (item.PlanName) === values.planname);
+
+            console.log("req", req)
+            console.log("FilterPlanAmount", FilterPlanAmount)
+
             if (FilterPlanAmount[0].payment > values.ClientAmmount && FilterPlanAmount[0].payment !== '') {
                 Swal.fire({
                     background: "#1a1e23 ",
@@ -200,6 +207,9 @@ const Adduser = () => {
 
 
             }
+
+            console.log("req at last ", req)
+
             await CreateAccount(req)
                 .then((response) => {
                     if (response.Status) {

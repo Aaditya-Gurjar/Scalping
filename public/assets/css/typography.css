@@ -1884,3 +1884,11 @@ Border Color
   .modal-header{
     background-color: var(--bg-color) !important;;
   }
+
+  .css-1dimb5e-singleValue{
+    color: var(--text-color) !important;
+  }
+
+  .css-t3ipsp-control{
+    background-color: var(--bg-color) !important;
+  }
