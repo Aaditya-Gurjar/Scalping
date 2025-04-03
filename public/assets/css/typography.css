@@ -1852,11 +1852,9 @@ Border Color
 }
 
 
-
 .card-body {
   color: #a09e9e;
 }
-
 
 .card-text-Color{
   color: var(--text-color) !important;
@@ -1879,3 +1877,18 @@ Border Color
 .MuiInputBase-root{
   border: 0.5px solid white;
 }
+
+.form-label{
+  color: var(--text-color) !important;
+  }
+  .modal-header{
+    background-color: var(--bg-color) !important;;
+  }
+
+  .css-1dimb5e-singleValue{
+    color: var(--text-color) !important;
+  }
+
+  .css-t3ipsp-control{
+    background-color: var(--bg-color) !important;
+  }
