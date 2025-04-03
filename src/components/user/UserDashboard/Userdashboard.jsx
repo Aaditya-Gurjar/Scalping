@@ -12,7 +12,6 @@ import FullDataTable from "../../../ExtraComponent/CommanDataTable";
 import NoDataFound from "../../../ExtraComponent/NoDataFound";
 import Content from "../../../ExtraComponent/Content";
 import DatePicker from "react-datepicker";
-import { closeWebSocket, connectWebSocket } from "./LivePrice";
 
 const Userdashboard = () => {
   const userName = localStorage.getItem("name");

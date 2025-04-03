@@ -370,7 +370,7 @@
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import { createAdmin, superToAdminGetNewPermission } from '../../CommonAPI/SuperAdmin';
-import AddForm from "../../../ExtraComponent/FormData";
+import AddForm from "../../../ExtraComponent/FormData2";
 import { useFormik } from "formik";
 import { useNavigate } from 'react-router-dom';
 import Content from '../../../ExtraComponent/Content';
@@ -670,7 +670,7 @@ const Adduser = () => {
         {
             name: "Permission",
             label: "Permission",
-            type: "select2", // Custom dropdown for brokers
+            type: "select2",  
             label_size: 12,
             col_size: 6,
             disable: false,
@@ -700,7 +700,7 @@ const Adduser = () => {
         {
             name: "BrokerPermission",
             label: "Broker Permission",
-            type: "select2", // Custom dropdown for brokers
+            type: "select2",  
             label_size: 12,
             col_size: 6,
             disable: false,

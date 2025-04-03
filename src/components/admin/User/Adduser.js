@@ -1,3 +1,6 @@
+
+
+
 // import React, { useEffect, useState } from 'react';
 // import Swal from 'sweetalert2'
 // import { CreateAccount, Get_Broker_Name, GetGroupNames } from '../../CommonAPI/Admin'
@@ -29,6 +32,7 @@
 //         GetAllPlansData();
 //     }, [])
 
+//     console.log("GetAllPlans", GetAllPlans)
 //     const getBrokerName = async () => {
 //         await Get_Broker_Name()
 //             .then((response) => {
@@ -84,16 +88,17 @@
 
 //                 if (response.Status) {
 //                     const LivePlanName = [
-//                         ...response.Admin.filter((item) => item.PlanName !== 'One Week Demo' && item.PlanName !== 'Two Days Demo'),
+//                         ...response.Admin.filter((item) => item.Planname !== 'One Week Demo' && item.Planname !== 'Two Days Demo'),
 //                         ...response.Charting // Charting array ko add kar diya
 //                     ];
 
-//                     const DemoPlanName = response.Admin.filter((item) => item.PlanName === 'One Week Demo' || item.PlanName === 'Two Days Demo');
-
+//                     const DemoPlanName = response.Admin.filter((item) => item.Planname === 'One Week Demo' || item.Planname === 'Two Days Demo');
+                  
+            
 //                     setAllPlans({
 //                         DemoPlanName: DemoPlanName,
 //                         LivePlanName: LivePlanName,
-//                         data: response.Admin
+//                         data: [...response.Admin, ...response.Charting]
 //                     });
 //                 }
 //                 else {
@@ -171,7 +176,6 @@
 //             return errors;
 //         },
 //         onSubmit: async (values) => {
-
 //             const req = {
 //                 username: values.username,
 //                 email: values.email,
@@ -184,8 +188,14 @@
 //                 group: selectedOptions && selectedOptions.map((item) => item.value),
 //             }
 
-          
-//             const FilterPlanAmount = GetAllPlans.data.filter((item) => (item.PlanName || item.Planname) === values.planname);
+//             console.log("req", req)
+//             console.log("values.planname", values.planname)
+
+//             const FilterPlanAmount = GetAllPlans.data.filter((item) => (item.PlanName) === values.planname);
+
+//             console.log("req", req)
+//             console.log("FilterPlanAmount", FilterPlanAmount)
+
 //             if (FilterPlanAmount[0].payment > values.ClientAmmount && FilterPlanAmount[0].payment !== '') {
 //                 Swal.fire({
 //                     background: "#1a1e23 ",
@@ -200,6 +210,9 @@
 
 
 //             }
+
+//             console.log("req at last ", req)
+
 //             await CreateAccount(req)
 //                 .then((response) => {
 //                     if (response.Status) {
@@ -440,7 +453,6 @@ const Adduser = () => {
         GetAllPlansData();
     }, [])
 
-    console.log("GetAllPlans", GetAllPlans)
     const getBrokerName = async () => {
         await Get_Broker_Name()
             .then((response) => {
@@ -496,17 +508,16 @@ const Adduser = () => {
 
                 if (response.Status) {
                     const LivePlanName = [
-                        ...response.Admin.filter((item) => item.PlanName !== 'One Week Demo' && item.PlanName !== 'Two Days Demo'),
+                        ...response.Admin.filter((item) => item.Planname !== 'One Week Demo' && item.Planname !== 'Two Days Demo'),
                         ...response.Charting // Charting array ko add kar diya
                     ];
 
-                    const DemoPlanName = response.Admin.filter((item) => item.PlanName === 'One Week Demo' || item.PlanName === 'Two Days Demo');
-                  
-            
+                    const DemoPlanName = response.Admin.filter((item) => item.Planname === 'One Week Demo' || item.Planname === 'Two Days Demo');
+
                     setAllPlans({
                         DemoPlanName: DemoPlanName,
                         LivePlanName: LivePlanName,
-                        data: [...response.Admin, ...response.Charting]
+                        data: response.Admin
                     });
                 }
                 else {
@@ -584,6 +595,7 @@ const Adduser = () => {
             return errors;
         },
         onSubmit: async (values) => {
+
             const req = {
                 username: values.username,
                 email: values.email,
@@ -596,14 +608,8 @@ const Adduser = () => {
                 group: selectedOptions && selectedOptions.map((item) => item.value),
             }
 
-            console.log("req", req)
-            console.log("values.planname", values.planname)
-
-            const FilterPlanAmount = GetAllPlans.data.filter((item) => (item.PlanName) === values.planname);
-
-            console.log("req", req)
-            console.log("FilterPlanAmount", FilterPlanAmount)
-
+          
+            const FilterPlanAmount = GetAllPlans.data.filter((item) => (item.PlanName || item.Planname) === values.planname);
             if (FilterPlanAmount[0].payment > values.ClientAmmount && FilterPlanAmount[0].payment !== '') {
                 Swal.fire({
                     background: "#1a1e23 ",
@@ -616,10 +622,7 @@ const Adduser = () => {
                     timerProgressBar: true
                 });
 
-
             }
-
-            console.log("req at last ", req)
 
             await CreateAccount(req)
                 .then((response) => {

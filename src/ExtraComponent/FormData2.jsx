@@ -2077,7 +2077,7 @@ const DynamicForm = ({
                                       <input
                                         type="checkbox"
                                         className="form-check-input"
-                                        id="defaultCheckbox"
+                                        id={field.name}
                                         {...formik.getFieldProps(field.name)}
                                         checked={
                                           formik.values[field.name]?.length ===
@@ -2104,7 +2104,7 @@ const DynamicForm = ({
                                       />
                                       <label
                                         className="form-check-label"
-                                        htmlFor="defaultCheckbox">
+                                        htmlFor={field.name}>
                                         Select All
                                       </label>
                                     </div>

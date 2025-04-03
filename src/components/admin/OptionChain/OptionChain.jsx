@@ -24,7 +24,7 @@ const OptionChainForm = () => {
     connectWebSocket(channelList, (data) => {
       if (data.lp && data.tk) {
         $(".LivePrice_" + data.tk).html(data.lp);
-        console.log("Updated Price Data:", data);
+        // console.log("Updated Price Data:", data);
       }
     });
   };

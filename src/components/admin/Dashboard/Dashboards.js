@@ -54,6 +54,7 @@ const Dashboards = () => {
   const [fromDate, setFromDate] = useState(getOneMonthAgoDate());
   const [toDate, setToDate] = useState(getCurrentDate());
 
+
   
   const getCurrentDate1 = () => {
     const today = new Date();
@@ -69,6 +70,14 @@ const Dashboards = () => {
   const [fromDate1, setFromDate1] = useState(getOneMonthAgoDate1());
   const [toDate1, setToDate1] = useState(getCurrentDate1());
 
+
+   const formatDate = (date) => {
+    if (!date) return '';
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${year}.${month}.${day}`;
+  };
 
 
 
@@ -119,8 +128,8 @@ const Dashboards = () => {
 
   const GetAdminDashboardClientDetails = async () => {
     const req = {
-      From_date: fromDate, 
-      To_date: toDate
+      From_date: formatDate(new Date(fromDate)), 
+      To_date: formatDate(new Date(toDate)),     
     };
   
     await GetAdminDashboardClient(req) // Ensure the API function accepts a body
@@ -145,8 +154,8 @@ const Dashboards = () => {
 
   const GetAdminDashboardTradeDetails = async () => {
     const req = {
-      From_date: fromDate1,
-      To_date: toDate1
+      From_date: formatDate(new Date(fromDate1)), // Apply formatDate
+      To_date: formatDate(new Date(toDate1)),    // Apply formatDate
     };
   
     await GetAdminDashboardTrade(req) // Ensure the API function accepts a body

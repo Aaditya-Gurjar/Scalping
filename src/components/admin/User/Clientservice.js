@@ -26,15 +26,12 @@ const Clientservice = () => {
     const [GetAllPlans, setAllPlans] = useState({ LivePlanName: [], DemoPlanName: [], data: [] });
     const [walletBalance, setWalletBalance] = useState('');
 
-    useEffect(() => {
-        fetchBrokerName();
-        fetchGroupDetails();
-        GetAllPlansData();
-    }, []);
-
+    
     useEffect(() => {
         fetchClientService();
     }, [searchInput]);
+
+    console.log("GetAllPlans", GetAllPlans)
 
 
 
@@ -116,11 +113,13 @@ const Clientservice = () => {
 
 
     const GetAllPlansData = async () => {
+        console.log("Inside GetAllPlansData")
         await Get_All_Plans()
             .then((response) => {
+                console.log("response of getAllPlanData", response)
                 if (response.Status) {
-                    const LivePlanName = response.Admin.filter((item) => item.PlanName !== 'One Week Demo' && item.PlanName !== 'Two Days Demo');
-                    const DemoPlanName = response.Admin.filter((item) => item.PlanName === 'One Week Demo' || item.PlanName === 'Two Days Demo');
+                    const LivePlanName = response.Admin.filter((item) => item.Planname !== 'One Week Demo' && item.Planname !== 'Two Days Demo');
+                    const DemoPlanName = response.Admin.filter((item) => item.Planname === 'One Week Demo' || item.Planname === 'Two Days Demo');
                     setAllPlans({ DemoPlanName: DemoPlanName, LivePlanName: LivePlanName, data: response.Admin });
                 }
                 else {
@@ -131,6 +130,18 @@ const Clientservice = () => {
                 console.log("Error in fetching the plans", err)
             })
     };
+
+
+    useEffect(() => {
+        console.log("Component mounted or refreshed");
+        fetchBrokerName();
+        fetchGroupDetails();
+        GetAllPlansData();
+    }, []);
+
+    useEffect(() => {
+        console.log("GetAllPlans state updated:", GetAllPlans);
+    }, [GetAllPlans]);
 
 
     const formik = useFormik({
