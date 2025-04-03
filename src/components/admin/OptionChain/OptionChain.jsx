@@ -153,7 +153,8 @@ const OptionChainForm = () => {
                 fontSize: "16px",
                 cursor: "pointer"
               }}
-              onClick={() => console.log(" Buy", tableMeta.rowData, formValues.exchange)}
+              onClick={() => console.log("Buy", "Call", tableMeta.rowData.Strike, tableMeta.rowData.CE)}
+              // onClick = { () => ExecuteTrade(tableMeta.rowData, formValues.exchange, "Buy", "Call") }
             >
               Buy
             </button>
@@ -167,7 +168,8 @@ const OptionChainForm = () => {
                 fontSize: "16px",
                 cursor: "pointer"
               }}
-              onClick={() => console.log("  Sell", tableMeta.rowData, formValues.exchange)}
+              onClick={() => console.log("Sell", "Call", tableMeta.rowData.Strike, tableMeta.rowData.CE)}
+
             >
               Sell
             </button>
@@ -213,7 +215,8 @@ const OptionChainForm = () => {
                 fontSize: "16px",
                 cursor: "pointer"
               }}
-              onClick={() => console.log("Classic Buy", tableMeta.rowData, formValues.exchange)}
+              onClick={() => console.log("Buy", "Put", tableMeta.rowData.Strike, tableMeta.rowData.PE)}
+
             >
               Buy
             </button>
@@ -227,7 +230,8 @@ const OptionChainForm = () => {
                 fontSize: "16px",
                 cursor: "pointer"
               }}
-              onClick={() => console.log("Modern Sell", tableMeta.rowData, formValues.exchange)}
+              onClick={() => console.log("Sell", "Put", tableMeta.rowData.Strike, tableMeta.rowData.PE)}
+
             >
               Sell
             </button>
