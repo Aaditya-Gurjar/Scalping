@@ -451,7 +451,23 @@ const ServicesList = () => {
                         )}
                       </p>
 
-      {console.log("isPlanPurchased.includes(planExpired)", planExpired)}
+                      <p className="allplan-card-subtitle">
+                      <strong className="card-text-Color">Paper Per Trade Price:</strong>
+                      <FaRupeeSign /> { plan.SOPPaperTrade }
+                    </p>
+
+                    <p className="allplan-card-subtitle">
+                      <strong className="card-text-Color">Live Per Trade Price:</strong>
+                      <FaRupeeSign /> { plan.SOPLiveTrade }
+                    </p>
+
+                      
+
+
+
+
+
+      {/* {console.log("isPlanPurchased.includes(planExpired)", planExpired)} */}
                     </div>
                     {(isPlanPurchased(plan.Planname) && !planExpired.includes(plan.Planname)) ? (
                       <button
@@ -501,7 +517,21 @@ const ServicesList = () => {
                         <strong className="card-text-Color">Charting Signals:</strong>{" "}
                         {plan.ChartingSignal?.join(", ")}
                       </p>
+                      <p className="allplan-card-subtitle">
+                      <strong className="card-text-Color">Live Per Trade:</strong>
+                      <FaRupeeSign /> {plan.ChartPerTrade}
+                    </p>
+
+                    <p className="allplan-card-subtitle">
+                      <strong className="card-text-Color">Fixed Per Month:</strong>
+                      <FaRupeeSign /> {plan.ChartPerMonth}
+                    </p>
                     </div>
+
+                   
+
+
+
                     {isPlanPurchased(plan.Planname) ? (
                       <button
                         className="allplan-button buy-again"
