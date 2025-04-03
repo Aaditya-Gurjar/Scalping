@@ -1,25 +1,23 @@
 import React, { useEffect, useState } from 'react'
-import { Get_Client_Report } from '../../CommonAPI/Admin'
+import { clientThreadeReport1, Get_Client_Report } from '../../CommonAPI/Admin'
 import FullDataTable from '../../../ExtraComponent/CommanDataTable';
 import { ClientReportColumn } from './UserAllColumn'
 import NoDataFound from '../../../ExtraComponent/NoDataFound';
 import Content from '../../../ExtraComponent/Content';
-
+ 
 
 const Clientreport = () => {
     const Username = sessionStorage.getItem("Username")
     const [selectUserName, setSelectUserName] = useState(Username || 'AllUser')
-    const [getTableData, setTableData] = useState({ loading: true, data: [] })
+    const [getTableData, setTableData] = useState({ loading: true, Scalping: [], Option : [], Pattern : [], ReadData: [] })
 
     const GetClientData = async () => {
         const data = { User: selectUserName }
-        await Get_Client_Report(data)
+        await clientThreadeReport1()
             .then((response) => {
+                console.log("response in client report", response)
                 if (response.Status) {
-                    setTableData({
-                        loading: false,
-                        data: response.Data
-                    })
+                    setTableData({ loading: false, Scalping: response.Scalping, Option : response.Option, Pattern : response.Pattern, ReadData: response.ReadData })
                     setSelectUserName(Username || 'AllUser')
                 }
                 else {
@@ -33,6 +31,8 @@ const Clientreport = () => {
                 console.log("Error in finding the client details", err)
             })
     }
+
+    console.log("getTableData", getTableData)
 
     useEffect(() => {
         GetClientData()
