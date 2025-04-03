@@ -597,7 +597,7 @@ const TradeReport = () => {
                                 <GridExample
                                     columns={
                                         selectStrategyType === "Scalping"
-                                            ? getColumns3()
+                                            ? getColumns3(selectedRowData?.Targetselection)
                                             : selectStrategyType === "Option Strategy"
                                                 ? getColumns4(getAllTradeData?.data2?.[0]?.STG)
                                                 : (selectStrategyType === "Pattern" || selectStrategyType === "Pattern Script")
