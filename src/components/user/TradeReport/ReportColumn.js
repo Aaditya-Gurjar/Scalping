@@ -1110,14 +1110,7 @@ export const getColumns3 = (Targetselection) => {
             sort: true,
         }
     },
-    {
-        name: "SL",
-        label: "Re-entry",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+   
     {
         name: "Trade",
         label: "Trade",
@@ -1137,7 +1130,7 @@ export const getColumns3 = (Targetselection) => {
     ]
 
     if (Targetselection === "Single") {
-        columns.splice(6, 0, {
+        columns.splice(8, 0, {
             name: "SL",
             label: "Stoploss",
             options: {
@@ -1146,7 +1139,7 @@ export const getColumns3 = (Targetselection) => {
             }
         });
     } else {
-        columns.splice(6, 0, {
+        columns.splice(8, 0, {
             name: "SL",
             label: "Re-entry",
             options: {
@@ -1266,7 +1259,7 @@ export const getColumns6 = (Targetselection) => {
         },
     ]
     if (Targetselection === "Single") {
-        columns.splice(6, 0, {
+        columns.splice(10, 0, {
             name: "SL",
             label: "Stoploss",
             options: {
@@ -1275,7 +1268,7 @@ export const getColumns6 = (Targetselection) => {
             }
         });
     } else {
-        columns.splice(6, 0, {
+        columns.splice(10, 0, {
             name: "SL",
             label: "Re-entry",
             options: {
