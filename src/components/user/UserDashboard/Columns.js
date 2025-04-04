@@ -2789,6 +2789,8 @@ export const getColumns8 = (handleContinutyDiscontinuty, chartingSubTab) => [
     //         }
     //     }
     // },
+
+
     {
         name: "Token",
         label: "Token",
@@ -2880,6 +2882,7 @@ export const getColumns8 = (handleContinutyDiscontinuty, chartingSubTab) => [
             sort: true,
         }
     },
+    
     {
         name: "AccType",
         label: "Account Type",
