@@ -1,0 +1,32 @@
+.dropdown-row {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .dropdown-column {
+    flex: 1;
+  }
+  
+  .styled-submit-button {
+    background-color: #007bff;
+    margin-top: 10px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .styled-submit-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+  }
+  
+  .styled-submit-button:active {
+    background-color: #003f7f;
+    transform: scale(0.98);
+  }
+  
+  
