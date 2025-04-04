@@ -51,11 +51,7 @@ const Sidebar = ({ position }) => {
   }, []);
 
   const sidebarItems = {
-
-
     Admin: [
-
-
       {
         path: "/admin/tradehistory",
         icon: <i className="la la-history"></i>,
@@ -75,7 +71,7 @@ const Sidebar = ({ position }) => {
       {
         path: "/admin/clientreport",
         icon: <i className="la la-briefcase"></i>,
-        label: (<>Client Thread <br/> Report</>) ,
+        label: (<>Client Thread <br/> Report</>),
       },
       {
         path: "/admin/smtp",
@@ -92,6 +88,12 @@ const Sidebar = ({ position }) => {
         icon: <i className="la la-rocket"></i>,
         label: "ApiCreateInfo",
       },
+
+      {
+        path: "/admin/Master-Account",
+        icon: <i className="la la-user-shield"></i>,  
+        label: "Master Account",
+      },
     ],
     Superadmin: [
       {
@@ -102,7 +104,7 @@ const Sidebar = ({ position }) => {
       {
         path: "/superadmin/update-client-details",
         icon: <i className="la la-user"></i>,
-        label: (<>Update Client <br/> Details</>) ,
+        label: (<>Update Client <br/> Details</>),
       },
       {
         path: "/superadmin/api-create-info",
@@ -114,6 +116,7 @@ const Sidebar = ({ position }) => {
         icon: <i className="la la-bell"></i>,
         label: "New-Update",
       },
+      
     ],
     Subadmin: [
       {
@@ -195,7 +198,7 @@ const Sidebar = ({ position }) => {
             {getSidebarMenu().map((item) => (
               <li
                 key={item.path}
-                className={activeItem === item.path ? "active" : ""}
+                className={`iq-menu-item-rightsidebar ${activeItem === item.path ? "active" : ""}`}
               >
                 <Link to={item.path} onClick={() => setActiveItem(item.path)}>
                
