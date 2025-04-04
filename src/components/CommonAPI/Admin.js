@@ -1212,3 +1212,37 @@ export const EditPlanname = async (data) => {
         return err
     }
 }
+
+
+export const GetAccountsApi = async (data) => {
+    try {
+        const res = await axios.get(`${Config.base_url}GETMasterAccount`)
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+}
+
+
+
+
+export const MasterAccountApi = async (data) => {
+    const token = localStorage.getItem('token')
+    try {
+        const res = await axios.post(`${Config.base_url}/MasterAccount`, data,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+
+}

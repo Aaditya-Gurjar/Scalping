@@ -14,20 +14,41 @@ const OptionChainForm = () => {
   const [expiry, setExpiry] = useState([]);
   const [strikeToken, setStrikeToken] = useState([]);
   const [formValues, setFormValues] = useState({
-    exchange: 'NFO', // Default to NFO
+    exchange: 'NFO', 
     instrument: '',
     symbol: '',
     expiryDate: ''
   });
 
+
   const showLivePrice = async (channelList) => {
     connectWebSocket(channelList, (data) => {
       if (data.lp && data.tk) {
-        $(".LivePrice_" + data.tk).html(data.lp);
-        console.log("Updated Price Data:", data);
+      let LivePrice = $(".LivePrice_" + data.tk).html(data.lp);
+        // console.log("Updated Price Data:", data);
       }
     });
   };
+
+
+
+
+  const showLivePriceForSpecific = (channel) => {
+    return new Promise((resolve, reject) => {
+      connectWebSocket(channel, (data) => {
+        try {
+          if (data.lp && data.tk) {
+            console.log("Live Price:", data.lp);
+            resolve(data.lp);
+          }
+        } catch (error) {
+          console.error("Error in showLivePriceForSpecific:", error);
+          reject(error);
+        }
+      });
+    });
+  };
+
 
   useEffect(() => {
     const initializeDefaults = async () => {
@@ -43,6 +64,7 @@ const OptionChainForm = () => {
     };
     initializeDefaults();
   }, []);
+
 
   const fetchSymbol = async (currentValues) => {
     try {
@@ -83,6 +105,7 @@ const OptionChainForm = () => {
     }
   };
 
+
   const fetchStrikeToken = async (currentValues) => {
     try {
       const requiredFields = ["exchange", "instrument", "symbol", "expiryDate"];
@@ -104,6 +127,7 @@ const OptionChainForm = () => {
       console.error("Error fetching strike token:", error);
     }
   };
+
 
   useEffect(() => {
     fetchStrikeToken(formValues);
@@ -133,6 +157,26 @@ const OptionChainForm = () => {
     { value: 'Strangle', label: 'Strangle' }
   ];
 
+  const excecuteTrade = async (tradeType, type, strike, token) => {
+  
+    try {
+      console.log("Trade Executed:", {
+        tradeType,
+        type,
+        strike,
+        token
+      });
+ 
+      const exchange = formValues.exchange;
+      
+      let LivcPrice = await showLivePriceForSpecific(`${exchange}|${token}`);
+      console.log("Value:", LivcPrice);
+      
+    } catch (error) {
+      console.error("Error fetching live price:", error);
+    }
+  }
+
   const OptionChainColumn = [
     {
       name: "Trade",
@@ -153,7 +197,7 @@ const OptionChainForm = () => {
                 fontSize: "16px",
                 cursor: "pointer"
               }}
-              onClick={() => console.log("Buy", "Call", tableMeta.rowData.Strike, tableMeta.rowData.CE)}
+              onClick={() => excecuteTrade("Buy", "Call", tableMeta.rowData.Strike, tableMeta.rowData.CE)}
               // onClick = { () => ExecuteTrade(tableMeta.rowData, formValues.exchange, "Buy", "Call") }
             >
               Buy
@@ -168,7 +212,7 @@ const OptionChainForm = () => {
                 fontSize: "16px",
                 cursor: "pointer"
               }}
-              onClick={() => console.log("Sell", "Call", tableMeta.rowData.Strike, tableMeta.rowData.CE)}
+              onClick={() => excecuteTrade("Sell", "Call", tableMeta.rowData.Strike, tableMeta.rowData.CE)}
 
             >
               Sell
@@ -215,7 +259,7 @@ const OptionChainForm = () => {
                 fontSize: "16px",
                 cursor: "pointer"
               }}
-              onClick={() => console.log("Buy", "Put", tableMeta.rowData.Strike, tableMeta.rowData.PE)}
+              onClick={() => excecuteTrade("Buy", "Put", tableMeta.rowData.Strike, tableMeta.rowData.PE)}
 
             >
               Buy
@@ -230,7 +274,7 @@ const OptionChainForm = () => {
                 fontSize: "16px",
                 cursor: "pointer"
               }}
-              onClick={() => console.log("Sell", "Put", tableMeta.rowData.Strike, tableMeta.rowData.PE)}
+              onClick={() => excecuteTrade("Sell", "Put", tableMeta.rowData.Strike, tableMeta.rowData.PE)}
 
             >
               Sell
