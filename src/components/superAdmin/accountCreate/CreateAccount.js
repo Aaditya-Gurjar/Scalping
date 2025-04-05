@@ -448,6 +448,9 @@ const Adduser = () => {
             SOPLiveTrade: 0,
             SOPPaperTrade: 0,
             SOPScriptwise: 0,
+            ChartPaperTrade: 0,
+            ChartLiveTrade: 0,
+
             Companyname: "",
             Url: "",
 
@@ -502,8 +505,12 @@ const Adduser = () => {
                 errors.ChartPerMonth = "Please Enter Charting Amount";
             }
             if (!values.ChartPerTrade) {
-                errors.ChartPerTrade = "Please Enter Charting Amount";
+                errors.ChartPerTrade = "Please Enter Chart Per Trade";
             }
+            if(!values.ChartLiveTrade) {
+                errors.ChartLiveTrade = "Please Enter Chart Live Trade";
+            }
+            
             return errors;
         },
         onSubmit: async (values) => {
@@ -523,6 +530,8 @@ const Adduser = () => {
                 ChartPerMonth: values.ChartPerMonth,
                 ChartPerTrade: values.ChartPerTrade,
                 BrokerPermission: values.BrokerPermission,
+                ChartPerTrade: values.ChartPerTrade, 
+                ChartLiveTrade: values.ChartLiveTrade,
             };
 
 
@@ -639,6 +648,27 @@ const Adduser = () => {
             col_size: 6,
             disable: false,
         },
+        {
+            name : "ChartPerTrade",
+            label : "Chart Per Trade",
+            type : "text3",
+            label_size : 12,
+            hiding : false,
+            col_size : 6,
+            disable : false,
+        },
+
+        {
+            name: "ChartLiveTrade",
+            label: "Chart Live Trade",
+            type: "text3",
+            label_size: 12,
+            hiding: false,
+            col_size: 6,
+            disable: false,
+        },
+
+
         {
             name: "SOPScriptwise",
             label: "Per Script Trade Amount",
