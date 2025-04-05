@@ -5761,8 +5761,8 @@ h4 {
 button.btn.btn-primary,
 .swal2-confirm,
 .all-plan-card button {
-  background: rgba(46, 213, 115, 0.2) !important;
-  color: #2ed573 !important;
+  background: var(--bg-color) !important;
+  color: var(--text-color) !important;
 }
 
 .navbar-nav li a,
@@ -7161,3 +7161,7 @@ margin-bottom: 0 !important;
   border-radius: 4px;
 }
  
+
+.tss-1cdcmys-MUIDataTable-responsiveBase{
+  max-height: auto !important;
+}
