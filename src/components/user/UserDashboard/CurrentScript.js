@@ -29,6 +29,7 @@ import { connectWebSocket } from "./LivePrice";
 import $ from "jquery";
 import ChartingCard from "./ChartingCard";
 import { FaTable, FaTh } from "react-icons/fa"; // Update the import to use a different icon for card view
+import { FixedOffsetZone } from "luxon";
 
 const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
@@ -47,10 +48,8 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
   const [channelList, setChannelList] = useState([]);
   const [priceData, setPriceData] = useState([]);
   const [view, setView] = useState("table");
-
-
-
-
+  const fixedRowPerPage = data === 'ChartingPlatform' ? 15 : 5;
+ 
   const [chartingSubTab, setChartingSubTab] = useState("Cash");
 
   const [getAllService, setAllservice] = useState({
@@ -2720,6 +2719,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
                                 </div>
 
                               }
+                              
                               {view === "table" ? (
                                 ((data === "Scalping" && getAllService.NewScalping?.length > 0) ||
                                   (data === "Option Strategy" && getAllService.OptionData?.length > 0) ||
@@ -2749,7 +2749,8 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
                                               : []
                                     }
                                     checkBox={false}
-                                    FixedRowPerPage={15}
+                                    FixedRowPerPage={fixedRowPerPage}
+
                                   />
                                 ) : (
                                   (data !== "ChartingPlatform" || (data === "ChartingPlatform" && ["Cash", "Future", "Option"].includes(chartingSubTab))) && (
