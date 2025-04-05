@@ -2641,131 +2641,131 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
 
 
-                             { data === "ChartingPlatform" &&
-                              <div className="d-flex justify-content-end my-3">
-                                <ul
-                                  className="nav nav-pills shadow-lg rounded-pill p-2"
-                                  style={{
-                                    backgroundColor: "#f8f9fa",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    gap: "10px",
-                                  }}
-                                >
-                                  <li className="nav-item flex-grow-1 text-center">
-                                    <button
-                                      className={`nav-link rounded-pill w-100 ${view === "table" ? "active" : ""}`}
-                                      onClick={() => setView("table")}
-                                      style={{
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                        gap: "3px",
-                                        padding: "7px",
-                                        fontSize: "10px",
-                                        fontWeight: "600",
-                                        transition: "all 0.3s ease-in-out",
-                                        backgroundColor: view === "table" ? "#007bff" : "#fff",
-                                        color: view === "table" ? "#fff" : "#333",
-                                        boxShadow: view === "table" ? "0px 4px 12px rgba(0, 123, 255, 0.4)" : "none",
-                                        border: view === "table" ? "2px solid #007bff" : "2px solid transparent",
-                                      }}
-                                      onMouseEnter={(e) => {
-                                        e.target.style.backgroundColor = "#007bff";
-                                        e.target.style.color = "#fff";
-                                      }}
-                                      onMouseLeave={(e) => {
-                                        if (view !== "table") {
-                                          e.target.style.backgroundColor = "#fff";
-                                          e.target.style.color = "#333";
-                                        }
-                                      }}
-                                    >
-                                      <FaTable /> Table View
-                                    </button>
-                                  </li>
-                                  <li className="nav-item flex-grow-1 text-center">
-                                    <button
-                                      className={`nav-link rounded-pill w-100 ${view === "card" ? "active" : ""}`}
-                                      onClick={() => setView("card")}
-                                      style={{
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                        gap: "3px",
-                                        padding: "7px",
-                                        fontSize: "10px",
-                                        fontWeight: "600",
-                                        transition: "all 0.3s ease-in-out",
-                                        backgroundColor: view === "card" ? "#007bff" : "#fff",
-                                        color: view === "card" ? "#fff" : "#333",
-                                        boxShadow: view === "card" ? "0px 4px 12px rgba(0, 123, 255, 0.4)" : "none",
-                                        border: view === "card" ? "2px solid #007bff" : "2px solid transparent",
-                                      }}
-                                      onMouseEnter={(e) => {
-                                        e.target.style.backgroundColor = "#007bff";
-                                        e.target.style.color = "#fff";
-                                      }}
-                                      onMouseLeave={(e) => {
-                                        if (view !== "card") {
-                                          e.target.style.backgroundColor = "#fff";
-                                          e.target.style.color = "#333";
-                                        }
-                                      }}
-                                    >
-                                      <FaTh /> Card View
-                                    </button>
-                                  </li>
-                                </ul>
-                              </div>
+                              {data === "ChartingPlatform" &&
+                                <div className="d-flex justify-content-end my-3">
+                                  <ul
+                                    className="nav nav-pills shadow-lg rounded-pill p-2"
+                                    style={{
+                                      backgroundColor: "#f8f9fa",
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      gap: "10px",
+                                    }}
+                                  >
+                                    <li className="nav-item flex-grow-1 text-center">
+                                      <button
+                                        className={`nav-link rounded-pill w-100 ${view === "table" ? "active" : ""}`}
+                                        onClick={() => setView("table")}
+                                        style={{
+                                          display: "flex",
+                                          justifyContent: "center",
+                                          alignItems: "center",
+                                          gap: "3px",
+                                          padding: "7px",
+                                          fontSize: "10px",
+                                          fontWeight: "600",
+                                          transition: "all 0.3s ease-in-out",
+                                          backgroundColor: view === "table" ? "#007bff" : "#fff",
+                                          color: view === "table" ? "#fff" : "#333",
+                                          boxShadow: view === "table" ? "0px 4px 12px rgba(0, 123, 255, 0.4)" : "none",
+                                          border: view === "table" ? "2px solid #007bff" : "2px solid transparent",
+                                        }}
+                                        onMouseEnter={(e) => {
+                                          e.target.style.backgroundColor = "#007bff";
+                                          e.target.style.color = "#fff";
+                                        }}
+                                        onMouseLeave={(e) => {
+                                          if (view !== "table") {
+                                            e.target.style.backgroundColor = "#fff";
+                                            e.target.style.color = "#333";
+                                          }
+                                        }}
+                                      >
+                                        <FaTable /> Table View
+                                      </button>
+                                    </li>
+                                    <li className="nav-item flex-grow-1 text-center">
+                                      <button
+                                        className={`nav-link rounded-pill w-100 ${view === "card" ? "active" : ""}`}
+                                        onClick={() => setView("card")}
+                                        style={{
+                                          display: "flex",
+                                          justifyContent: "center",
+                                          alignItems: "center",
+                                          gap: "3px",
+                                          padding: "7px",
+                                          fontSize: "10px",
+                                          fontWeight: "600",
+                                          transition: "all 0.3s ease-in-out",
+                                          backgroundColor: view === "card" ? "#007bff" : "#fff",
+                                          color: view === "card" ? "#fff" : "#333",
+                                          boxShadow: view === "card" ? "0px 4px 12px rgba(0, 123, 255, 0.4)" : "none",
+                                          border: view === "card" ? "2px solid #007bff" : "2px solid transparent",
+                                        }}
+                                        onMouseEnter={(e) => {
+                                          e.target.style.backgroundColor = "#007bff";
+                                          e.target.style.color = "#fff";
+                                        }}
+                                        onMouseLeave={(e) => {
+                                          if (view !== "card") {
+                                            e.target.style.backgroundColor = "#fff";
+                                            e.target.style.color = "#333";
+                                          }
+                                        }}
+                                      >
+                                        <FaTh /> Card View
+                                      </button>
+                                    </li>
+                                  </ul>
+                                </div>
 
-}
-{view === "table" ? (
-  ((data === "Scalping" && getAllService.NewScalping?.length > 0) ||
-    (data === "Option Strategy" && getAllService.OptionData?.length > 0) ||
-    ((data === "Pattern" || data === "Pattern Script") && getAllService.PatternData?.length > 0) ||
-    (data === "ChartingPlatform" && getCharting?.length > 0)) ? (
-    <FullDataTable
-      columns={
-        data === "Scalping"
-          ? getColumns6(handleDelete, handleEdit, HandleContinueDiscontinue, handleMatchPosition)
-          : data === "Option Strategy"
-          ? getColumns4(handleDelete, handleEdit, HandleContinueDiscontinue)
-          : (data === "Pattern" || data === "Pattern Script")
-          ? getColumns5(handleDelete, handleEdit, HandleContinueDiscontinue)
-          : data === "ChartingPlatform"
-          ? getColumns8(HandleContinueDiscontinue, chartingSubTab)
-          : getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue)
-      }
-      data={
-        data === "Scalping"
-          ? getAllService.NewScalping
-          : data === "Option Strategy"
-          ? getAllService.OptionData
-          : (data === "Pattern" || data === "Pattern Script")
-          ? getAllService.PatternData
-          : data === "ChartingPlatform"
-          ? getCharting
-          : []
-      }
-      checkBox={false}
-      FixedRowPerPage={15}
-    />
-  ) : (
-    (data !== "ChartingPlatform" || (data === "ChartingPlatform" && ["Cash", "Future", "Option"].includes(chartingSubTab))) && (
-      <NoDataFound />
-    )
-  )
-) : (
-  <ChartingCard
-    data={  getCharting    }
-  />
-)}
-
-
+                              }
+                              {view === "table" ? (
+                                ((data === "Scalping" && getAllService.NewScalping?.length > 0) ||
+                                  (data === "Option Strategy" && getAllService.OptionData?.length > 0) ||
+                                  ((data === "Pattern" || data === "Pattern Script") && getAllService.PatternData?.length > 0) ||
+                                  (data === "ChartingPlatform" && getCharting?.length > 0)) ? (
+                                  <FullDataTable
+                                    columns={
+                                      data === "Scalping"
+                                        ? getColumns6(handleDelete, handleEdit, HandleContinueDiscontinue, handleMatchPosition)
+                                        : data === "Option Strategy"
+                                          ? getColumns4(handleDelete, handleEdit, HandleContinueDiscontinue)
+                                          : (data === "Pattern" || data === "Pattern Script")
+                                            ? getColumns5(handleDelete, handleEdit, HandleContinueDiscontinue)
+                                            : data === "ChartingPlatform"
+                                              ? getColumns8(HandleContinueDiscontinue, chartingSubTab)
+                                              : getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue)
+                                    }
+                                    data={
+                                      data === "Scalping"
+                                        ? getAllService.NewScalping
+                                        : data === "Option Strategy"
+                                          ? getAllService.OptionData
+                                          : (data === "Pattern" || data === "Pattern Script")
+                                            ? getAllService.PatternData
+                                            : data === "ChartingPlatform"
+                                              ? getCharting
+                                              : []
+                                    }
+                                    checkBox={false}
+                                    FixedRowPerPage={15}
+                                  />
+                                ) : (
+                                  (data !== "ChartingPlatform" || (data === "ChartingPlatform" && ["Cash", "Future", "Option"].includes(chartingSubTab))) && (
+                                    <NoDataFound />
+                                  )
+                                )
+                              ) : (
+                                <ChartingCard
+                                  data={getCharting}
+                                />
+                              )}
 
 
-                              
+
+
+
                             </>
                           )}
                         </div>
