@@ -84,7 +84,7 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked, showIs
         setRowsPerPage(newRowsPerPage);
       },
       fixedHeader: true,
-      tableBodyMaxHeight: "320px",
+      tableBodyMaxHeight: "auto",
       setCellProps: () => ({
         style: { textAlign: "center" },
       }),

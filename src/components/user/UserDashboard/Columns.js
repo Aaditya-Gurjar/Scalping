@@ -1503,14 +1503,6 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
     },
 
     {
-        name: "Expirydate",
-        label: "Expiry Date",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
         name: "Action",
         label: "Action",
         options: {
@@ -1525,6 +1517,16 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
             }
         }
     },
+
+    {
+        name: "Expirydate",
+        label: "Expiry Date",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    
     // {
     //     name: "Instrument Type",
     //     label: "Instrument Type",
@@ -1988,16 +1990,6 @@ export const
             }
         },
 
-        {
-            name: "TType",
-            label: "Transaction Type",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
-
-
 
         {
             name: "Action",
@@ -2014,6 +2006,19 @@ export const
                 },
             },
         },
+
+        {
+            name: "TType",
+            label: "Transaction Type",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+
+
+
+      
         {
             name: "TradeExecution",
             label: "Trade Execution",
@@ -2303,16 +2308,6 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
         }
     },
     {
-        name: "Quantity",
-        label: "Lot",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-
-
-    {
         name: "Action",
         label: "Action",
         options: {
@@ -2337,6 +2332,17 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             },
         },
     },
+    {
+        name: "Quantity",
+        label: "Lot",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+
+
+   
 
     // {
     //     name: "ScalpType",

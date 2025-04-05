@@ -1499,8 +1499,8 @@ Buttons
 
 /*--------------*/
 .btn-primary {
-  color: #ffffff;
-  background: rgba(8, 155, 171, 1);
+  color: #ffffff !important;
+  background: rgba(8, 155, 171, 1) !important;
   background: -moz-linear-gradient(left, rgba(8, 155, 171, 1) 0%, rgba(13, 181, 200, 1) 100%);
   background: -webkit-gradient(left top, right top, color-stop(0%, rgba(8, 155, 171, 1)), color-stop(100%, rgba(13, 181, 200, 1)));
   background: -webkit-linear-gradient(left, rgba(8, 155, 171, 1) 0%, rgba(13, 181, 200, 1) 100%);

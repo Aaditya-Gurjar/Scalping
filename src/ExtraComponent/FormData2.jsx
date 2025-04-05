@@ -1140,8 +1140,10 @@ const DynamicForm = ({
                                       </div>
                                     ) : item.type === "multiselect" ? (
                                       <div
-                                        className={`col-lg-${item.col_size}`}>
-                                        <div className="input-block mb-3 flex-column">
+                                        className={`col-lg-${item.col_size}`}
+                                        id="multiSelectID">
+                                          
+                                        <div className="input-block mb-3 flex-column" id="multiSelectID2">
                                           <label
                                             className={`col-lg-${item.label_size} mb-1`}>
                                             {item.label}
@@ -1209,6 +1211,8 @@ const DynamicForm = ({
                                           /> */}
 
                                           <Select
+                                          inputId="multiSelection" 
+                                          id="multiSelection"
                                             options={[
                                               {
                                                 label:
@@ -2703,12 +2707,13 @@ const DynamicForm = ({
                       </>
                     ) : field.type === "multiselect" ? (
                       <div className={`col-lg-${field.col_size}`}>
-                        <div className="input-block mb-3 flex-column">
+                        <div className="input-block mb-3 flex-column" id="multiSelectIdTest">
                           <label className={`col-lg-${field.label_size} mb-1`}>
                             {field.label}
                             <span className="text-danger">*</span>
                           </label>
                           <Select
+                            id="multiSelection"
                             options={field.options}
                             isMulti
                             className="basic-multi-select"
