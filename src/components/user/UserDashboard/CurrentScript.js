@@ -25,10 +25,14 @@ import Formikform from "../../../ExtraComponent/FormData2";
 import { useFormik } from "formik";
 import NoDataFound from "../../../ExtraComponent/NoDataFound";
 import { text } from "../../../ExtraComponent/IconTexts";
+import { connectWebSocket } from "./LivePrice";
+import $ from "jquery";
+import ChartingCard from "./ChartingCard";
+import { FaTable, FaTh } from "react-icons/fa"; // Update the import to use a different icon for card view
 
 const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
-  console.log("FromDate, ToDate", FromDate, ToDate)
+
   const userName = localStorage.getItem("name");
   const adminPermission = localStorage.getItem("adminPermission");
   const navigate = useNavigate();
@@ -40,8 +44,11 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
   const [allScripts, setAllScripts] = useState({ data: [], len: 0 });
   const [editCharting, setEditCharting] = useState();
   const [getCharting, setGetCharting] = useState([]);
+  const [channelList, setChannelList] = useState([]);
+  const [priceData, setPriceData] = useState([]);
+  const [view, setView] = useState("table");
 
-  
+
 
 
   const [chartingSubTab, setChartingSubTab] = useState("Cash");
@@ -67,11 +74,44 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
 
 
+  useEffect(() => {
+    let updatedList = "";
+
+    if (data === "Scalping") {
+      updatedList = getAllService.NewScalping?.map(item => `${item.Exchange}|${item.Token}`).join("#");
+    } else if (data === "Option Strategy") {
+      updatedList = getAllService.OptionData?.map(item => `${item.Exchange}|${item.Token}`).join("#");
+    } else if (data === "Pattern" || data === "Pattern Script") {
+      updatedList = getAllService.PatternData?.map(item => `${item.Exchange}|${item.Token}`).join("#");
+    } else if (data === "ChartingPlatform") {
+      updatedList = getCharting?.map(item => `${item.Exchange}|${item.Token}`).join("#");
+    }
+
+    setChannelList(updatedList); // ✅ Save the computed value in state
+  }, [data, getAllService, getCharting]);
+
+
+  useEffect(() => {
+    showLivePrice()
+  }, [channelList]);
+
+
+  const showLivePrice = async () => {
+    console.log("Channel List", channelList)
+    connectWebSocket(channelList, (data) => {
+      if (data.lp && data.tk) {
+        $(".LivePrice_" + data.tk).html(data.lp);
+        // console.log("Updated Price Data:", data);
+      }
+    });
+  }
+
+
   const getChartingScript = async () => {
     const req = { Username: userName, Segment: chartingSubTab, From_date: FromDate, To_date: ToDate };
     await getUserChartingScripts(req)
       .then((response) => {
-     
+
         if (response.Status) {
           setGetCharting(response.Client);
         } else {
@@ -91,7 +131,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
     const data = { Username: userName };
     await GetUserScripts(data)
       .then((response) => {
-        
+
         if (response.Status) {
           setAllScripts({
             data: response.data,
@@ -299,7 +339,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
     }
   };
   const HandleContinueDiscontinue = async (rowData, type) => {
- 
+
     const index = rowData.rowIndex;
     const isOpen = rowData.tableData[index][5];
 
@@ -313,7 +353,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
     //   });
     //   return;
     // }
- 
+
     let trading;
 
     if (data == "Scalping" && type == 1) {
@@ -415,7 +455,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
           if (data == "ChartingPlatform") {
             await DeleteSingleChartingScript(req).then((response) => {
-              
+
               if (response.Status) {
                 Swal.fire({
                   background: "#1a1e23 ",
@@ -426,7 +466,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
                   timer: 2000,
                   timerProgressBar: true,
                 }).then(() => {
-                  
+
                   setRefresh(!refresh);
                 });
               } else {
@@ -476,7 +516,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
         }
       });
     } else if (data == "ChartingPlatform") {
-      
+
       return;
     } else {
       {
@@ -674,6 +714,8 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       .then((response) => {
         if (response.Status) {
           // console.log("GetAllUserScriptDetails",response);
+          // const channelList = response.NewScalping.map(item => `${item.Exchange}|${item.Token}`).join("#");
+          console.log("CHannelList", channelList)
 
           setAllservice({
             loading: false,
@@ -1177,7 +1219,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       if (!values.Targetvalue) {
         errors.Targetvalue = "Please Enter Target Value.";
       }
-      if (!values.Slvalue && !(EditDataOption.STG === "ShortShifting" || EditDataOption.STG === "LongShifting") ) {
+      if (!values.Slvalue && !(EditDataOption.STG === "ShortShifting" || EditDataOption.STG === "LongShifting")) {
         errors.Slvalue = "Please Enter Stoploss.";
       }
 
@@ -1553,7 +1595,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
 
   ];
- 
+
 
 
   const OptionEntryRuleArr = [
@@ -2514,7 +2556,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       formik2.setFieldValue("TradeCount", EditDataPattern.TradeCount);
     }
   }, [showEditModal, data, EditDataPattern]);
- 
+
 
 
   const updatedFields = fields.filter((item) => {
@@ -2598,44 +2640,136 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
                               )}
 
 
-                              {/* Show FullDataTable only if getCharting has data */}
-                              {(data === "Scalping" && getAllService.NewScalping?.length > 0) ||
-                                (data === "Option Strategy" && getAllService.OptionData?.length > 0) ||
-                                ((data === "Pattern" || data === "Pattern Script") && getAllService.PatternData?.length > 0) ||
-                                (data === "ChartingPlatform" && getCharting?.length > 0) ? (
-                                <FullDataTable
-                                  columns={
-                                    data === "Scalping"
-                                      ? getColumns6(handleDelete, handleEdit, HandleContinueDiscontinue, handleMatchPosition)
-                                      : data === "Option Strategy"
-                                        ? getColumns4(handleDelete, handleEdit, HandleContinueDiscontinue)
-                                        : (data === "Pattern" || data === "Pattern Script")
-                                          ? getColumns5(handleDelete, handleEdit, HandleContinueDiscontinue)
-                                          : data === "ChartingPlatform"
-                                            ? getColumns8(HandleContinueDiscontinue, chartingSubTab)
-                                            : getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue)
-                                  }
-                                  data={
-                                    data === "Scalping"
-                                      ? getAllService.NewScalping
-                                      : data === "Option Strategy"
-                                        ? getAllService.OptionData
-                                        : (data === "Pattern" || data === "Pattern Script")
-                                          ? getAllService.PatternData
-                                          : data === "ChartingPlatform"
-                                            ? getCharting
-                                            : []
-                                  }
-                                  checkBox={false}
-                                />
+
+                              {data === "ChartingPlatform" &&
+                                <div className="d-flex justify-content-end my-3">
+                                  <ul
+                                    className="nav nav-pills shadow-lg rounded-pill p-2"
+                                    style={{
+                                      backgroundColor: "#f8f9fa",
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      gap: "10px",
+                                    }}
+                                  >
+                                    <li className="nav-item flex-grow-1 text-center">
+                                      <button
+                                        className={`nav-link rounded-pill w-100 ${view === "table" ? "active" : ""}`}
+                                        onClick={() => setView("table")}
+                                        style={{
+                                          display: "flex",
+                                          justifyContent: "center",
+                                          alignItems: "center",
+                                          gap: "3px",
+                                          padding: "7px",
+                                          fontSize: "10px",
+                                          fontWeight: "600",
+                                          transition: "all 0.3s ease-in-out",
+                                          backgroundColor: view === "table" ? "#007bff" : "#fff",
+                                          color: view === "table" ? "#fff" : "#333",
+                                          boxShadow: view === "table" ? "0px 4px 12px rgba(0, 123, 255, 0.4)" : "none",
+                                          border: view === "table" ? "2px solid #007bff" : "2px solid transparent",
+                                        }}
+                                        onMouseEnter={(e) => {
+                                          e.target.style.backgroundColor = "#007bff";
+                                          e.target.style.color = "#fff";
+                                        }}
+                                        onMouseLeave={(e) => {
+                                          if (view !== "table") {
+                                            e.target.style.backgroundColor = "#fff";
+                                            e.target.style.color = "#333";
+                                          }
+                                        }}
+                                      >
+                                        <FaTable /> Table View
+                                      </button>
+                                    </li>
+                                    <li className="nav-item flex-grow-1 text-center">
+                                      <button
+                                        className={`nav-link rounded-pill w-100 ${view === "card" ? "active" : ""}`}
+                                        onClick={() => setView("card")}
+                                        style={{
+                                          display: "flex",
+                                          justifyContent: "center",
+                                          alignItems: "center",
+                                          gap: "3px",
+                                          padding: "7px",
+                                          fontSize: "10px",
+                                          fontWeight: "600",
+                                          transition: "all 0.3s ease-in-out",
+                                          backgroundColor: view === "card" ? "#007bff" : "#fff",
+                                          color: view === "card" ? "#fff" : "#333",
+                                          boxShadow: view === "card" ? "0px 4px 12px rgba(0, 123, 255, 0.4)" : "none",
+                                          border: view === "card" ? "2px solid #007bff" : "2px solid transparent",
+                                        }}
+                                        onMouseEnter={(e) => {
+                                          e.target.style.backgroundColor = "#007bff";
+                                          e.target.style.color = "#fff";
+                                        }}
+                                        onMouseLeave={(e) => {
+                                          if (view !== "card") {
+                                            e.target.style.backgroundColor = "#fff";
+                                            e.target.style.color = "#333";
+                                          }
+                                        }}
+                                      >
+                                        <FaTh /> Card View
+                                      </button>
+                                    </li>
+                                  </ul>
+                                </div>
+
+                              }
+                              {view === "table" ? (
+                                ((data === "Scalping" && getAllService.NewScalping?.length > 0) ||
+                                  (data === "Option Strategy" && getAllService.OptionData?.length > 0) ||
+                                  ((data === "Pattern" || data === "Pattern Script") && getAllService.PatternData?.length > 0) ||
+                                  (data === "ChartingPlatform" && getCharting?.length > 0)) ? (
+                                  <FullDataTable
+                                    columns={
+                                      data === "Scalping"
+                                        ? getColumns6(handleDelete, handleEdit, HandleContinueDiscontinue, handleMatchPosition)
+                                        : data === "Option Strategy"
+                                          ? getColumns4(handleDelete, handleEdit, HandleContinueDiscontinue)
+                                          : (data === "Pattern" || data === "Pattern Script")
+                                            ? getColumns5(handleDelete, handleEdit, HandleContinueDiscontinue)
+                                            : data === "ChartingPlatform"
+                                              ? getColumns8(HandleContinueDiscontinue, chartingSubTab)
+                                              : getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue)
+                                    }
+                                    data={
+                                      data === "Scalping"
+                                        ? getAllService.NewScalping
+                                        : data === "Option Strategy"
+                                          ? getAllService.OptionData
+                                          : (data === "Pattern" || data === "Pattern Script")
+                                            ? getAllService.PatternData
+                                            : data === "ChartingPlatform"
+                                              ? getCharting
+                                              : []
+                                    }
+                                    checkBox={false}
+                                    FixedRowPerPage={15}
+                                  />
+                                ) : (
+                                  (data !== "ChartingPlatform" || (data === "ChartingPlatform" && ["Cash", "Future", "Option"].includes(chartingSubTab))) && (
+                                    <NoDataFound />
+                                  )
+                                )
                               ) : (
-                                (data !== "ChartingPlatform" || (data === "ChartingPlatform" && ["Cash", "Future", "Option"].includes(chartingSubTab))) && <NoDataFound />
+                                <ChartingCard
+                                  data={getCharting}
+                                />
                               )}
+
+
+
+
+
                             </>
                           )}
                         </div>
                       </div>
-
                     </>
                   )}
                 </div>
@@ -2643,7 +2777,6 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
             </div>
           </div>
         </div>
-
       </div>
 
       {showEditModal && <div className="modal show" id="exampleModal" style={{ display: "block", marginTop: "5rem" }}>
@@ -2682,7 +2815,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
                       btn_name="Update"
                       formik={formik1}
                     />
-                    
+
                   </div>
                 </>
                   :
