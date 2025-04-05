@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import Select from 'react-select';
-import { GET_EXPIRY_DATE, Get_Symbol } from '../../CommonAPI/Admin';
+import { GET_EXPIRY_DATE, Get_Symbol, TradeExecutionAPI } from '../../CommonAPI/Admin';
 import './OptionChainForm.css';
 import Content from '../../../ExtraComponent/Content';
 import { GetStrikeToken } from '../../CommonAPI/User';
@@ -14,17 +14,19 @@ const OptionChainForm = () => {
   const [expiry, setExpiry] = useState([]);
   const [strikeToken, setStrikeToken] = useState([]);
   const [formValues, setFormValues] = useState({
-    exchange: 'NFO', 
+    exchange: 'NFO',
     instrument: '',
     symbol: '',
     expiryDate: ''
   });
+  const UserName = localStorage.getItem("name");
+  const Role = localStorage.getItem("Role");
 
 
   const showLivePrice = async (channelList) => {
     connectWebSocket(channelList, (data) => {
       if (data.lp && data.tk) {
-      let LivePrice = $(".LivePrice_" + data.tk).html(data.lp);
+        let LivePrice = $(".LivePrice_" + data.tk).html(data.lp);
         // console.log("Updated Price Data:", data);
       }
     });
@@ -158,7 +160,7 @@ const OptionChainForm = () => {
   ];
 
   const excecuteTrade = async (tradeType, type, strike, token) => {
-  
+
     try {
       console.log("Trade Executed:", {
         tradeType,
@@ -166,12 +168,37 @@ const OptionChainForm = () => {
         strike,
         token
       });
- 
+
       const exchange = formValues.exchange;
-      
-      let LivcPrice = await showLivePriceForSpecific(`${exchange}|${token}`);
-      console.log("Value:", LivcPrice);
-      
+      const expiry = formValues.expiryDate;
+      const symbol = formValues.symbol;
+
+      let LivePrice = await showLivePriceForSpecific(`${exchange}|${token}`);
+      console.log("Value:", LivePrice);
+
+      const req = {
+        Planname: "ASD",
+        Username: UserName,
+        User: Role,
+        Optiontype: type,
+        Exchange: exchange,
+        StrikePrice: strike,
+        Expirydate: expiry,
+        Symbol: symbol,
+        TType: tradeType.toUpperCase(),
+        Target: 0,
+        Sl: 0,
+        Exittime: "", // <------
+        Ordertype: "Market", // <------
+        ETime: "", //<------
+        Price: LivePrice,
+        Key: "EFUZjX", // <------
+        Demo: "Demo" // <------
+      }
+
+      const res = await TradeExecutionAPI(req);
+      console.log("Trade Execution Response:", res);
+
     } catch (error) {
       console.error("Error fetching live price:", error);
     }
@@ -198,7 +225,7 @@ const OptionChainForm = () => {
                 cursor: "pointer"
               }}
               onClick={() => excecuteTrade("Buy", "Call", tableMeta.rowData.Strike, tableMeta.rowData.CE)}
-              // onClick = { () => ExecuteTrade(tableMeta.rowData, formValues.exchange, "Buy", "Call") }
+            // onClick = { () => ExecuteTrade(tableMeta.rowData, formValues.exchange, "Buy", "Call") }
             >
               Buy
             </button>
