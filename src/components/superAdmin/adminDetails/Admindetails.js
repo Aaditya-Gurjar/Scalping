@@ -715,8 +715,10 @@ const Strategygroup = () => {
             SOPPaperTrade: 0.0,
             SOPLiveTrade: 0.0,
             SOPScriptwise: 0.0,
-            ChartPerTrade: 0.0,
+            ChartPaperTrade:0.0,
+            ChartLiveTrade:0.0,
             ChartPerMonth: 0.0,
+             
         },
         validate: (values) => {
             let errors = {};
@@ -760,6 +762,12 @@ const Strategygroup = () => {
             if (values.ChartPerTrade < 0) {
                 errors.ChartPerTrade = "Value cannot be negative";
             }
+            if(!values.ChartLiveTrade){
+                errors.ChartLiveTrade = "Please enter Chart Live Trade";
+            }
+            if(!values.ChartPaperTrade){
+                errors.ChartPaperTrade = "Please enter Chart Paper Trade";
+            }
             if (values.ChartPerMonth < 0) {
                 errors.ChartPerMonth = "Value cannot be negative";
             }
@@ -776,7 +784,8 @@ const Strategygroup = () => {
                 SOPPaperTrade: values.SOPPaperTrade,
                 SOPLiveTrade: values.SOPLiveTrade,
                 SOPScriptwise: values.SOPScriptwise,
-                ChartPerTrade: values.ChartPerTrade,
+                ChartPaperTrade: values.ChartPaperTrade,
+                ChartLiveTrade: values.ChartLiveTrade,
                 ChartPerMonth: values.ChartPerMonth,
             };
 
@@ -893,8 +902,8 @@ const Strategygroup = () => {
             defaultValue: 0.0,
         },
         {
-            name: "ChartPerTrade",
-            label: "Chart Per Trade",
+            name: "ChartLiveTrade",
+            label: "Chart Paper Trade",
             type: "number",
             label_size: 12,
             hiding: false,
@@ -902,6 +911,18 @@ const Strategygroup = () => {
             disable: false,
             defaultValue: 0.0,
         },
+
+        {
+            name: "ChartPaperTrade",
+            label: "Chart Paper Trade",
+            type: "number",
+            label_size: 12,
+            hiding: false,
+            col_size: 6,
+            disable: false,
+            defaultValue: 0.0,
+        },
+
         {
             name: "ChartPerMonth",
             label: "Chart Per Month",
@@ -1121,7 +1142,7 @@ const Strategygroup = () => {
                     <div className="modal show" id="exampleModal" style={{ display: "block" }}>
                         <div className="modal fade" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"></div>
 
-                        <div className="modal-dialog modal-dialog-centered modal-lg custom-update-modal">
+                        <div className="modal-dialog modal-dialog-centered modal-lg custom-update-modal" style={{ height: "605px", zIndex: "1000" }}>
                             <div className="modal-content">
                                 <div className="modal-header card-bg-color">
                                     <h5 className="modal-title  card-text-Color">

@@ -447,8 +447,7 @@ const Adduser = () => {
             AmmountDetails: 0,
             SOPLiveTrade: 0,
             SOPPaperTrade: 0,
-            SOPScriptwise: 0,
-            ChartPaperTrade: 0,
+            SOPScriptwise: 0, 
             ChartLiveTrade: 0,
 
             Companyname: "",
@@ -457,7 +456,7 @@ const Adduser = () => {
             Permission: [],
 
             ChartPerMonth: 0,
-            ChartPerTrade: 0,
+            ChartPaperTrade: 0,
             BrokerPermission: [],
         },
         validate: (values) => {
@@ -504,8 +503,8 @@ const Adduser = () => {
             if (!values.ChartPerMonth) {
                 errors.ChartPerMonth = "Please Enter Charting Amount";
             }
-            if (!values.ChartPerTrade) {
-                errors.ChartPerTrade = "Please Enter Chart Per Trade";
+            if (!values.ChartPaperTrade) {
+                errors.ChartPaperTrade = "Please Enter Chart Per Trade";
             }
             if(!values.ChartLiveTrade) {
                 errors.ChartLiveTrade = "Please Enter Chart Live Trade";
@@ -528,9 +527,9 @@ const Adduser = () => {
                 Url: values.Url,
                 permission: values.Permission,
                 ChartPerMonth: values.ChartPerMonth,
-                ChartPerTrade: values.ChartPerTrade,
+                
                 BrokerPermission: values.BrokerPermission,
-                ChartPerTrade: values.ChartPerTrade, 
+                ChartPaperTrade: values.ChartPaperTrade, 
                 ChartLiveTrade: values.ChartLiveTrade,
             };
 
@@ -649,8 +648,8 @@ const Adduser = () => {
             disable: false,
         },
         {
-            name : "ChartPerTrade",
-            label : "Chart Per Trade",
+            name : "ChartPaperTrade",
+            label : "Chart Paper Trade",
             type : "text3",
             label_size : 12,
             hiding : false,

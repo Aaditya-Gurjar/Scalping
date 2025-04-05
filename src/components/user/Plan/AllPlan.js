@@ -453,12 +453,12 @@ const ServicesList = () => {
 
                       <p className="allplan-card-subtitle">
                       <strong className="card-text-Color">Paper Per Trade Price:</strong>
-                      <FaRupeeSign /> { plan.SOPPaperTrade }
+                      <FaRupeeSign /> { plan?.SOPPaperTrade }
                     </p>
 
                     <p className="allplan-card-subtitle">
                       <strong className="card-text-Color">Live Per Trade Price:</strong>
-                      <FaRupeeSign /> { plan.SOPLiveTrade }
+                      <FaRupeeSign /> { plan?.SOPLiveTrade }
                     </p>
 
                       
