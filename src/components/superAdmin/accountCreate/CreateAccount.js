@@ -264,7 +264,7 @@ const Adduser = () => {
         },
         {
             name: "SOPLiveTrade",
-            label: "Per Live Trade Amount",
+            label: "Live Trade Amount(SOP)",
             type: "text3",
             label_size: 12,
             hiding: false,
@@ -273,7 +273,37 @@ const Adduser = () => {
         },
         {
             name: "SOPPaperTrade",
-            label: "Per Paper Trade Amount",
+            label: "Paper Trade Amount(SOP)",
+            type: "text3",
+            label_size: 12,
+            hiding: false,
+            col_size: 6,
+            disable: false,
+        },
+        {
+            name: "SOPScriptwise",
+            label: "Per Script Amount(SOP)",
+            type: "text3",
+            label_size: 12,
+            hiding: false,
+            col_size: 6,
+            disable: false,
+        },
+
+        {
+            name: "ChartPerMonth",
+            label: "Charting Amount",
+            type: "text3",
+            label_size: 12,
+            hiding: false,
+            col_size: 6,
+            disable: false,
+        },
+       
+
+        {
+            name: "ChartLiveTrade",
+            label: "Chart Live Trade Amount",
             type: "text3",
             label_size: 12,
             hiding: false,
@@ -282,34 +312,15 @@ const Adduser = () => {
         },
         {
             name : "ChartPaperTrade",
-            label : "Chart Paper Trade",
+            label : "Chart Paper Trade Amount",
             type : "text3",
             label_size : 12,
             hiding : false,
             col_size : 6,
             disable : false,
         },
-
-        {
-            name: "ChartLiveTrade",
-            label: "Chart Live Trade",
-            type: "text3",
-            label_size: 12,
-            hiding: false,
-            col_size: 6,
-            disable: false,
-        },
-
-
-        {
-            name: "SOPScriptwise",
-            label: "Per Script Trade Amount",
-            type: "text3",
-            label_size: 12,
-            hiding: false,
-            col_size: 6,
-            disable: false,
-        },
+ 
+       
         {
             name: "Companyname",
             label: "Company Name",
@@ -338,16 +349,7 @@ const Adduser = () => {
             disable: false,
             options: permissionArray
         },
-        {
-            name: "ChartPerMonth",
-            label: "Charting Amount",
-            type: "text3",
-            label_size: 12,
-            hiding: false,
-            col_size: 6,
-            disable: false,
-        },
-       
+        
 
 
 
