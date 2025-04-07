@@ -608,22 +608,27 @@ const Adduser = () => {
                 group: selectedOptions && selectedOptions.map((item) => item.value),
             }
 
-          
-            const FilterPlanAmount = GetAllPlans.data.filter((item) => (item.PlanName || item.Planname) === values.planname);
-            if (FilterPlanAmount[0].payment > values.ClientAmmount && FilterPlanAmount[0].payment !== '') {
+            console.log("req")
+          console.log("getallplans", GetAllPlans)
+
+            const FilterPlanAmount = GetAllPlans.data.filter((item) => 
+                (item.Planname || item.PlanName) === values.planname
+            );
+
+             
+
+            if (FilterPlanAmount.length > 0 && FilterPlanAmount[0].SOPPrice > values.ClientAmmount) {
                 Swal.fire({
                     background: "#1a1e23 ",
                     backdrop: "#121010ba",
                     confirmButtonColor: "#1ccc8a",
                     title: "Invalid Amount",
-                    text: `The plan amount is ${FilterPlanAmount[0].payment}, but you've entered ${values.ClientAmmount}. Please enter an amount greater than the plan amount.`,
+                    text: `The plan amount is ${FilterPlanAmount[0].SOPPrice}, but you've entered ${values.ClientAmmount}. Please enter an amount greater than or equal to the plan amount.`,
                     icon: "error",
                     timer: 3000,
                     timerProgressBar: true
                 });
-
-            }
-
+            }      
             await CreateAccount(req)
                 .then((response) => {
                     if (response.Status) {

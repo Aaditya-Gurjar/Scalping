@@ -174,6 +174,7 @@ const Clientservice = () => {
                 Broker: values.Broker,
 
             }
+            console.log("Request in formik", req)
 
             try {
                 const response = await EditClientPanle(req);

@@ -52,7 +52,13 @@ const Dashboards = () => {
 
 
   const [fromDate, setFromDate] = useState(getOneMonthAgoDate());
-  const [toDate, setToDate] = useState(getCurrentDate());
+  const getNextDate = () => {
+    const date = new Date();
+    date.setDate(date.getDate() + 1);
+    return date.toISOString().split("T")[0]; // Format: YYYY-MM-DD
+  };
+
+  const [toDate, setToDate] = useState(getNextDate());
 
 
   
@@ -68,7 +74,7 @@ const Dashboards = () => {
   };
 
   const [fromDate1, setFromDate1] = useState(getOneMonthAgoDate1());
-  const [toDate1, setToDate1] = useState(getCurrentDate1());
+  const [toDate1, setToDate1] = useState(getNextDate());
 
 
    const formatDate = (date) => {

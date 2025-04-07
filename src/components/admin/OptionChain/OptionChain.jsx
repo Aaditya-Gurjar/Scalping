@@ -4,10 +4,13 @@ import Select from 'react-select';
 import { GET_EXPIRY_DATE, Get_Symbol, TradeExecutionAPI } from '../../CommonAPI/Admin';
 import './OptionChainForm.css';
 import Content from '../../../ExtraComponent/Content';
-import { GetStrikeToken } from '../../CommonAPI/User';
+import { Get_All_Plans, GetStrikeToken } from '../../CommonAPI/User';
 import { connectWebSocket } from '../../user/UserDashboard/LivePrice';
 import $ from 'jquery';
 import Table from 'react-bootstrap/Table';
+import TimePicker from 'react-time-picker';
+import 'react-time-picker/dist/TimePicker.css';
+import 'react-clock/dist/Clock.css';
 
 const OptionChainForm = () => {
   const [symbol, setSymbol] = useState([]);
@@ -17,11 +20,14 @@ const OptionChainForm = () => {
     exchange: 'NFO',
     instrument: '',
     symbol: '',
-    expiryDate: ''
+    expiryDate: '',
+    planname: '',
   });
   const UserName = localStorage.getItem("name");
   const Role = localStorage.getItem("Role");
-
+  const [planNames, setPlanNames] = useState([]);
+  const [exitTime, setExitTime] = useState('14:55'); // State for Exit Time
+  const [keyInput, setKeyInput] = useState(''); // State for Key Input
 
   const showLivePrice = async (channelList) => {
     connectWebSocket(channelList, (data) => {
@@ -32,8 +38,27 @@ const OptionChainForm = () => {
     });
   };
 
+  const getAllPlans = async () => {
+    try {
+      const response = await Get_All_Plans();
+      console.log("All Plans:", response);
 
+      if (response?.Admin && response?.Charting) {
+        const combinedPlans = [
+          ...response.Admin.map(plan => ({ ...plan, type: 'Admin' })),
+          ...response.Charting.map(plan => ({ ...plan, type: 'Charting' }))
+        ];
+        setPlanNames(combinedPlans);
+        console.log("Combined Plans:", combinedPlans);
+      }
+    } catch (error) {
+      console.error("Error fetching plans:", error);
+    }
+  };
 
+  useEffect(() => {
+    getAllPlans();
+  },[])
 
   const showLivePriceForSpecific = (channel) => {
     return new Promise((resolve, reject) => {
@@ -51,7 +76,6 @@ const OptionChainForm = () => {
     });
   };
 
-
   useEffect(() => {
     const initializeDefaults = async () => {
       const firstInstrument = getInstrumentOptions('NFO')[0]?.value;
@@ -66,7 +90,6 @@ const OptionChainForm = () => {
     };
     initializeDefaults();
   }, []);
-
 
   const fetchSymbol = async (currentValues) => {
     try {
@@ -107,7 +130,6 @@ const OptionChainForm = () => {
     }
   };
 
-
   const fetchStrikeToken = async (currentValues) => {
     try {
       const requiredFields = ["exchange", "instrument", "symbol", "expiryDate"];
@@ -129,7 +151,6 @@ const OptionChainForm = () => {
       console.error("Error fetching strike token:", error);
     }
   };
-
 
   useEffect(() => {
     fetchStrikeToken(formValues);
@@ -160,49 +181,51 @@ const OptionChainForm = () => {
   ];
 
   const excecuteTrade = async (tradeType, type, strike, token) => {
-
     try {
       console.log("Trade Executed:", {
         tradeType,
         type,
         strike,
-        token
+        token,
+        key: keyInput, // Use keyInput state
+        expiryDate: formValues.expiryDate
       });
 
       const exchange = formValues.exchange;
-      const expiry = formValues.expiryDate;
       const symbol = formValues.symbol;
+      const planname = formValues.planname;
 
       let LivePrice = await showLivePriceForSpecific(`${exchange}|${token}`);
-      console.log("Value:", LivePrice);
+      console.log("Live Price:", LivePrice);
 
       const req = {
-        Planname: "ASD",
+        Planname: planname,
         Username: UserName,
         User: Role,
         Optiontype: type,
         Exchange: exchange,
         StrikePrice: strike,
-        Expirydate: expiry,
+        Expirydate: formValues.expiryDate,
         Symbol: symbol,
         TType: tradeType.toUpperCase(),
         Target: 0,
         Sl: 0,
-        Exittime: "", // <------
-        Ordertype: "Market", // <------
-        ETime: "", //<------
+        Exittime:"15:29:00", // Use formatted Exit Time
+        Ordertype: "Market",
+        ETime: "14:04:39",
         Price: LivePrice,
-        Key: "EFUZjX", // <------
-        Demo: "Demo" // <------
-      }
+        Key: keyInput, // Pass keyInput here
+        Demo: "Demo"
+      };
 
+      console.log("Request:", req);
       const res = await TradeExecutionAPI(req);
       console.log("Trade Execution Response:", res);
 
     } catch (error) {
       console.error("Error fetching live price:", error);
     }
-  }
+  };
 
   const OptionChainColumn = [
     {
@@ -225,7 +248,6 @@ const OptionChainForm = () => {
                 cursor: "pointer"
               }}
               onClick={() => excecuteTrade("Buy", "Call", tableMeta.rowData.Strike, tableMeta.rowData.CE)}
-            // onClick = { () => ExecuteTrade(tableMeta.rowData, formValues.exchange, "Buy", "Call") }
             >
               Buy
             </button>
@@ -240,7 +262,6 @@ const OptionChainForm = () => {
                 cursor: "pointer"
               }}
               onClick={() => excecuteTrade("Sell", "Call", tableMeta.rowData.Strike, tableMeta.rowData.CE)}
-
             >
               Sell
             </button>
@@ -287,7 +308,6 @@ const OptionChainForm = () => {
                 cursor: "pointer"
               }}
               onClick={() => excecuteTrade("Buy", "Put", tableMeta.rowData.Strike, tableMeta.rowData.PE)}
-
             >
               Buy
             </button>
@@ -302,7 +322,6 @@ const OptionChainForm = () => {
                 cursor: "pointer"
               }}
               onClick={() => excecuteTrade("Sell", "Put", tableMeta.rowData.Strike, tableMeta.rowData.PE)}
-
             >
               Sell
             </button>
@@ -327,6 +346,7 @@ const OptionChainForm = () => {
         {({ values, setFieldValue }) => (
           <Form className="ocf-form">
             <div className="ocf-container-row">
+              {/* Top row with 4 parameters */}
               <div className="ocf-group">
                 <label>Exchange</label>
                 <Select
@@ -418,20 +438,49 @@ const OptionChainForm = () => {
                   }}
                 />
               </div>
+            </div>
 
+            <div className="ocf-container-row">
+              {/* Bottom row with 3 parameters */}
               <div className="ocf-group">
-                <label>PlanName</label>
+                <label>Plan Name</label>
                 <Select
                   name="planname"
-                  options={strategyOptions}
-                  value={strategyOptions.find(option => option.value === values.planname)}
+                  options={planNames.map(plan => ({ value: plan.Planname, label: plan.Planname }))}
+                  value={planNames
+                    .map(plan => ({ value: plan.Planname, label: plan.Planname }))
+                    .find(option => option.value === values.planname)}
                   onChange={(selectedOption) => {
                     setFieldValue('planname', selectedOption.value);
+                    setFormValues(prev => ({ ...prev, planname: selectedOption.value }));
                   }}
                   placeholder="Select Strategy"
                   className="ocf-select card-bg-color card-text-color"
                 />
               </div>
+
+              <div className="ocf-group">
+                <label>Key</label>
+                <Field
+                  name="key"
+                  type="text"
+                  value={keyInput}
+                  onChange={(e) => setKeyInput(e.target.value)}
+                  placeholder="Enter Key"
+                  className="ocf-control"
+                />
+              </div>
+
+              {/* <div className="ocf-group">
+                <label>Exit Time</label>
+                <TimePicker
+                  onChange={setExitTime}
+                  value={exitTime}
+                  disableClock={true}
+                  clearIcon={null}
+                  className="ocf-control"
+                />
+              </div> */}
             </div>
           </Form>
         )}

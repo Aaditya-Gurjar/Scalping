@@ -93,7 +93,7 @@ const AddPlanPage = () => {
             Charting: [],
             ChartPerMonth: "",
             ChartPaperTrade: 0.0,
-            ChartLiveTrade : 0.0,
+            
         },
         validate: (values) => {
             const errors = {};
@@ -127,10 +127,8 @@ const AddPlanPage = () => {
 
 
             if (!values.Duration) errors.Duration = "Please select a plan duration.";
-            if(!values.ChartLiveTrade){
-                errors.ChartLiveTrade = "Please enter the Chart Live Trade Amount.";
-            }
-            if(!values.ChartPaperTrade){
+            
+            if(!values.ChartPaperTrade && formik.values.PlanType !== "Scalping"){
                 errors.ChartPaperTrade = "Please enter the Chart Paper Trade Amount.";
             }
   
@@ -170,7 +168,7 @@ const AddPlanPage = () => {
 
                 SOPPaperTrade: values.SOPPaperTrade || 0.0,
                 ChartPaperTrade: values.ChartPaperTrade || 0.0,
-                ChartLiveTrade: values.ChartLiveTrade || 0.0,
+                
 
             };
             console.log("req", req);
@@ -280,15 +278,11 @@ const AddPlanPage = () => {
             name: "ChartPaperTrade",
             label: "Chart Paper Trade",
             type: "text",
+            showWhen: () => formik.values.PlanType !== "Scalping", 
             col_size: 6,
         },
 
-        {
-            name: "ChartLiveTrade",
-            label: "Chart Live Trade",
-            type: "text",
-            col_size: 6,
-        }
+        
 
 
 

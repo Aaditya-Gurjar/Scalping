@@ -15,31 +15,44 @@
   display: flex;
   flex-direction: row;
   gap: 20px;
-  align-items: center;
-  justify-content: flex-start;
-  flex-wrap: nowrap;
+  align-items: flex-start; /* Align items to the top */
+  justify-content: space-between; /* Distribute items evenly */
+  flex-wrap: wrap; /* Allow wrapping for smaller screens */
 }
 
 .ocf-group {
   flex: 1;
-  min-width: 150px;
+  min-width: 200px; /* Ensure minimum width for each group */
+  max-width: 300px; /* Limit maximum width for better alignment */
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  width: 220px;
+  gap: 5px; /* Reduce gap between label and input */
+  align-items: flex-start; /* Align items to the start */
+}
+
+.ocf-group label {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px; /* Add spacing below the label */
 }
 
 .ocf-select {
   font-size: 14px;
+  border-radius: 6px; /* Rounded corners for modern look */
+  padding: 8px; /* Increase padding for better usability */
+  width: 100%; /* Ensure inputs take full width of the group */
+  box-sizing: border-box; /* Include padding and border in width */
 }
 
 .ocf-control {
-  width: 220px;
+  width: 100%; /* Ensure inputs take full width of the group */
   height: 38px;
   border: 1px solid #ced4da;
-  padding: 5px;
+  padding: 8px; /* Increase padding for better usability */
   background-color: #fff;
   color: #333;
+  border-radius: 6px; /* Rounded corners for modern look */
+  box-sizing: border-box; /* Include padding and border in width */
 }
 
 .ocf-submit {
@@ -99,4 +112,41 @@ text-align: center;
 
 .LivePirce_fontSize{
   font-size:  20px;
+}
+
+.react-datepicker-wrapper {
+  width: 100%; /* Ensure date picker matches other inputs */
+}
+
+.react-datepicker__input-container input {
+  width: 100%;
+  height: 38px;
+  border: 1px solid #ced4da;
+  padding: 8px; /* Match padding with other inputs */
+  background-color: #fff;
+  color: #333;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box; /* Include padding and border in width */
+}
+
+.react-time-picker {
+  width: 100%; /* Ensure it matches other inputs */
+}
+
+.react-time-picker__wrapper {
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  padding: 8px;
+  background-color: #fff;
+  color: #333;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.react-time-picker__inputGroup__input {
+  height: 38px;
+  border: none;
+  font-size: 14px;
+  text-align: center;
 }

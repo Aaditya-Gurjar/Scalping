@@ -216,7 +216,7 @@ const AdminServicesList = () => {
                           <h2 className="allplan-card-title">{plan.Planname}</h2>
                           <h4 className="allplan-card-subtitle">
                             <FaRupeeSign className="m-1" />
-                            <strong>{plan.SOPPrice}</strong>
+                            <strong>{plan.ChartPerMonth}</strong>
                           </h4>
                           <h4 className="allplan-card-subtitle">
                             Duration: {plan["Plan Validity"]}
@@ -353,15 +353,15 @@ const AdminServicesList = () => {
                               <strong>Segment:</strong>{" "}
                               {plan?.ChartingSignal?.join(", ")}
                             </p>
-                             <p className="allplan-card-subtitle">
-                                                  <strong className="card-text-Color">Live Per Trade:</strong>
+                             {/* <p className="allplan-card-subtitle">  
+                                                  {/* <strong className="card-text-Color">Live Per Trade:</strong>
                                                   <FaRupeeSign /> {plan.ChartPerTrade}
                                                 </p>
                             
                                                 <p className="allplan-card-subtitle">
                                                   <strong className="card-text-Color">Fixed Per Month:</strong>
                                                   <FaRupeeSign /> {plan.ChartPerMonth}
-                                                </p>
+                                                </p> */}
                                                 <p className="allplan-card-subtitle">
                                                   <strong className="card-text-Color">Paper Per Trade Price:</strong>
                                                   <FaRupeeSign /> { plan.ChartPaperTrade }

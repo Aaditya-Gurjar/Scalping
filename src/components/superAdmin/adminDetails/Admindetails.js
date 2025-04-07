@@ -883,7 +883,7 @@ const Strategygroup = () => {
         },
         {
             name: "SOPLiveTrade",
-            label: "SOP Live Trade",
+            label: "Live Trade Amount(SOP)",
             type: "number",
             label_size: 12,
             hiding: false,
@@ -893,7 +893,7 @@ const Strategygroup = () => {
         },
         {
             name: "SOPScriptwise",
-            label: "SOP Scriptwise",
+            label: "Per Script Amount(SOP)",
             type: "number",
             label_size: 12,
             hiding: false,
@@ -903,7 +903,7 @@ const Strategygroup = () => {
         },
         {
             name: "ChartLiveTrade",
-            label: "Chart Paper Trade",
+            label: "Chart Live Trade Amount",
             type: "number",
             label_size: 12,
             hiding: false,
@@ -914,7 +914,7 @@ const Strategygroup = () => {
 
         {
             name: "ChartPaperTrade",
-            label: "Chart Paper Trade",
+            label: "Chart Paper Trade Amount",
             type: "number",
             label_size: 12,
             hiding: false,
@@ -1142,11 +1142,11 @@ const Strategygroup = () => {
                     <div className="modal show" id="exampleModal" style={{ display: "block" }}>
                         <div className="modal fade" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"></div>
 
-                        <div className="modal-dialog modal-dialog-centered modal-lg custom-update-modal" style={{ height: "605px", zIndex: "1000" }}>
-                            <div className="modal-content">
-                                <div className="modal-header card-bg-color">
-                                    <h5 className="modal-title  card-text-Color">
-                                        Update Admin : {singleAdminData?.Companyname}
+                        <div className="modal-dialog modal-dialog-centered modal-lg" style={{ maxWidth: "800px", margin: "50px auto", zIndex: "1050" }}>
+                            <div className="modal-content" style={{ borderRadius: "10px", overflow: "hidden" }}>
+                                <div className="modal-header" style={{ backgroundColor: "#343a40", color: "#fff" }}>
+                                    <h5 className="modal-title">
+                                        Update Admin: {singleAdminData?.Companyname}
                                     </h5>
                                     <button
                                         type="button"
@@ -1154,9 +1154,10 @@ const Strategygroup = () => {
                                         data-bs-dismiss="modal"
                                         aria-label="Close"
                                         onClick={() => { setShowUpdate(false); formik.resetForm(); }}
+                                        style={{ background: "none", border: "none", color: "#fff", fontSize: "1.2rem" }}
                                     />
                                 </div>
-                                <div className="modal-body">
+                                <div className="modal-body" style={{ padding: "20px", maxHeight: "70vh", overflowY: "auto" }}>
                                     <AddForm fields={fields} btn_name="Update" formik={formik} />
                                 </div>
                             </div>

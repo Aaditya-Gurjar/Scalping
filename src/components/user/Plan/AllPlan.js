@@ -49,7 +49,7 @@ const ServicesList = () => {
     );
   };
 
-
+console.log("planExpired", planExpired);
 
   useEffect(() => {
     fetchPlans();
@@ -99,7 +99,7 @@ const ServicesList = () => {
       const response = await ExpirePlanDetails(username);
       console.log("response is ", response)
       if (response.Status) {
-        setPlanExpired(response.ExpirePlan || false);
+        setPlanExpired(response.ExpirePlan || []);
       }
     }
     catch (error) {
@@ -305,6 +305,8 @@ const ServicesList = () => {
     setValue(newValue);
   };
 
+  console.log("getUpdatedPlans", getUpdatedPlans);
+
   return (
     <Content
       Page_title={"📌 All Plans"}
@@ -469,7 +471,7 @@ const ServicesList = () => {
 
       {/* {console.log("isPlanPurchased.includes(planExpired)", planExpired)} */}
                     </div>
-                    {(isPlanPurchased(plan.Planname) && !planExpired.includes(plan.Planname)) ? (
+                    {(isPlanPurchased(plan?.Planname) && !planExpired?.includes(plan?.Planname)) ? (
                       <button
                         className="allplan-button buy-again"
                         onClick={() => HandleBuyPlan(index, 0, false)}
