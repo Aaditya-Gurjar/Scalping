@@ -2796,10 +2796,9 @@ export const getColumns8 = (handleContinutyDiscontinuty, chartingSubTab) => [
     //     }
     // },
 
-
     {
-        name: "Token",
-        label: "Token",
+        name: "TSymbol",
+        label: "Symbol",
         options: {
             filter: true,
             sort: true,
@@ -2822,10 +2821,9 @@ export const getColumns8 = (handleContinutyDiscontinuty, chartingSubTab) => [
         },
        
     },
-
     {
-        name: "TSymbol",
-        label: "Symbol",
+        name: "EntryPrice",
+        label: "Entry Price",
         options: {
             filter: true,
             sort: true,
@@ -2833,21 +2831,61 @@ export const getColumns8 = (handleContinutyDiscontinuty, chartingSubTab) => [
     },
 
     {
-        name: "Exchange",
-        label: "Exchange",
+        name: "EntryTime",
+        label: "Entry Time",
         options: {
             filter: true,
             sort: true,
         }
     },
+
+
+    // {
+    //     name: "ExitPrice",
+    //     label: "Exit Price",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
+
+
     {
-        name: "Planname",
-        label: "Plan Name",
+        name: "Exittime",
+        label: "Exit Time",
         options: {
             filter: true,
             sort: true,
         }
     },
+
+    {
+        name: "ManuallyExit",
+        label: "Manually Exit",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value, tableMeta) => 
+                tableMeta.rowData[tableMeta.columnIndex - 1] === "Open" ? (
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                        <IconButton onClick={() => handleContinutyDiscontinuty(tableMeta)}>
+                            <ExitToAppIcon color="error" />
+                        </IconButton>
+                        <Typography variant="caption" color="textSecondary">Exit</Typography>
+                    </div>
+                ) : null
+        }
+    },
+
+    {
+        name: "Status",
+        label: "Status",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+
     {
         name: "TType",
         label: "Transaction Type",
@@ -2874,23 +2912,6 @@ export const getColumns8 = (handleContinutyDiscontinuty, chartingSubTab) => [
     },
 
     {
-        name: "EntryTime",
-        label: "Entry Time",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    
-    {
-        name: "Exittime",
-        label: "Exit Time",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
         name: "Ordertype",
         label: "Order Type",
         options: {
@@ -2898,6 +2919,42 @@ export const getColumns8 = (handleContinutyDiscontinuty, chartingSubTab) => [
             sort: true,
         }
     },
+
+    {
+        name: "Token",
+        label: "Token",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+
+    
+
+  
+
+    {
+        name: "Exchange",
+        label: "Exchange",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Planname",
+        label: "Plan Name",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+  
+
+   
+    
+   
+  
     
     {
         name: "AccType",
@@ -2940,32 +2997,9 @@ export const getColumns8 = (handleContinutyDiscontinuty, chartingSubTab) => [
 
 
     //both status and Manully exit must be one after another 
-    {
-        name: "Status",
-        label: "Status",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+ 
 
-    {
-        name: "ManuallyExit",
-        label: "Manually Exit",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value, tableMeta) => 
-                tableMeta.rowData[tableMeta.columnIndex - 1] === "Open" ? (
-                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                        <IconButton onClick={() => handleContinutyDiscontinuty(tableMeta)}>
-                            <ExitToAppIcon color="error" />
-                        </IconButton>
-                        <Typography variant="caption" color="textSecondary">Exit</Typography>
-                    </div>
-                ) : null
-        }
-    }
+    
     
 
 ];
