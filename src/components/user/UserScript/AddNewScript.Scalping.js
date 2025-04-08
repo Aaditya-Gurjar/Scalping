@@ -476,8 +476,8 @@ const AddClient = () => {
           Quantity: values.Quantity,
           serendate: getEndData(values.Strategy),
           Planname: location?.state?.data?.scriptType?.data?.find(
-            (item) => item.EndDate === getEndData(formik?.values?.Strategy)
-          )?.[0]?.Planname,
+            (item) => item.EndDate == getEndData(formik?.values?.Strategy)
+          )?.Planname,
           Expirytype: "",
           FixedSM:
             formik.values.Strategy == "Multi_Conditional"
@@ -676,7 +676,7 @@ const AddClient = () => {
               );
             }
         }
-
+     
         await AddScript(req)
           .then((response) => {
             if (response.Status) {
@@ -729,6 +729,8 @@ const AddClient = () => {
     }
   }, [formik.values.Exchange]);
 
+ 
+ 
   // let expiry = formik.values.expirydata1 == "Monthly"
   // ? getExpiryDate?.data?.[0]
   // : formik.values.expirydata1 == "Next_Month"
