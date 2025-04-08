@@ -1245,7 +1245,7 @@ const Strategygroup = () => {
                         aria-labelledby="exampleModalLabel"
                         aria-hidden="true"
                     >
-                        <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-dialog modal-dialog-centered modal-lg">
                             <div className="modal-content">
                                 <div className="modal-header">
                                     <h5 className="modal-title" id="exampleModalLabel">
@@ -1259,13 +1259,13 @@ const Strategygroup = () => {
                                         onClick={() => setShowAllClientList(false)} // Close modal on button click
                                     />
                                 </div>
-                                <div className="modal-body">
-                                    <table className="table table-striped">
-                                        <thead>
+                                <div className="modal-body" style={{ maxHeight: "70vh", overflowY: "auto" }}>
+                                    <table className="table table-striped table-bordered">
+                                        <thead className="">
                                             <tr>
-                                                <th>Name</th>
-                                                <th>Email</th>
-                                                <th>Phone</th>
+                                                <th style={{ width: "33%" }}>Name</th>
+                                                <th style={{ width: "33%" }}>Email</th>
+                                                <th style={{ width: "33%" }}>Phone</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -1290,7 +1290,7 @@ const Strategygroup = () => {
                                 <div className="modal-footer">
                                     <button
                                         type="button"
-                                        className="btn btn-secondary"
+                                        className="btn btn-secondary card-bg-color btn-text-color"
                                         data-bs-dismiss="modal"
                                         onClick={() => setShowAllClientList(false)} // Close modal on button click
                                     >
