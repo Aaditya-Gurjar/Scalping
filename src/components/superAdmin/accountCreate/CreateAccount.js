@@ -78,7 +78,7 @@ const Adduser = () => {
             AmmountDetails: 0,
             // SOPLiveTrade:0,
             // SOPPaperTrade:0,
-            SOPScriptwise:0,
+            // SOPScriptwise:0,
             Companyname: "",
             Url: "",
 
@@ -120,9 +120,9 @@ const Adduser = () => {
             // if (!values.SOPPaperTrade) {
             //     errors.SOPPaperTrade = "Please Enter Paper Trade Amount";
             // }
-            if (!values.SOPScriptwise) {
-                errors.SOPScriptwise = "Please Enter Paper Trade Amount";
-            }
+            // if (!values.SOPScriptwise) {
+            //     errors.SOPScriptwise = "Please Enter Paper Trade Amount";
+            // }
             if (!values.Companyname) {
                 errors.Companyname = "Please Enter Company Name";
             }
@@ -147,7 +147,7 @@ const Adduser = () => {
                 AmmountDetails: values.AmmountDetails,
                 // SOPLiveTrade: values.SOPLiveTrade,
                 // SOPPaperTrade: values.SOPPaperTrade,
-                SOPScriptwise: values.SOPScriptwise,
+                // SOPScriptwise: values.SOPScriptwise,
                 Companyname: values.Companyname,
                 Url: values.Url,
                 permission: values.Permission,
@@ -272,15 +272,15 @@ const Adduser = () => {
         //     col_size: 6,
         //     disable: false,
         // },
-        {
-            name: "SOPScriptwise",
-            label: "Per Script Trade Amount",
-            type: "text3",
-            label_size: 12,
-            hiding: false,
-            col_size: 6,
-            disable: false,
-        },
+        // {
+        //     name: "SOPScriptwise",
+        //     label: "Per Script Trade Amount",
+        //     type: "text3",
+        //     label_size: 12,
+        //     hiding: false,
+        //     col_size: 6,
+        //     disable: false,
+        // },
         {
             name: "Companyname",
             label: "Company Name",
