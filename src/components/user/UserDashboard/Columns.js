@@ -2872,6 +2872,16 @@ export const getColumns8 = (handleContinutyDiscontinuty, chartingSubTab) => [
             sort: true,
         }
     },
+
+    {
+        name: "EntryTime",
+        label: "Entry Time",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    
     {
         name: "Exittime",
         label: "Exit Time",
