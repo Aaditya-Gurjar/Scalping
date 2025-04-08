@@ -1110,7 +1110,7 @@ export const getColumns3 = (Targetselection) => {
             sort: true,
         }
     },
-   
+
     {
         name: "Trade",
         label: "Trade",
@@ -2033,6 +2033,15 @@ export const getColumns10 = () => [
     },
 
     {
+        name: "EPrice",
+        label: "EPrice",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+
+    {
         name: "ETime",
         label: "ETime",
         options: {
@@ -2041,13 +2050,14 @@ export const getColumns10 = () => [
         }
     },
     {
-        name: "EPrice",
-        label: "EPrice",
+        name: "ExitPrice",
+        label: "ExitPrice",
         options: {
             filter: true,
             sort: true,
         }
     },
+
     {
         name: "ExitTime",
         label: "ExitTime",
@@ -2056,9 +2066,10 @@ export const getColumns10 = () => [
             sort: true,
         }
     },
+
     {
-        name: "ExitPrice",
-        label: "ExitPrice",
+        name: "ManuallyExit",
+        label: "Manually Exit",
         options: {
             filter: true,
             sort: true,
@@ -2142,15 +2153,6 @@ export const getColumns12 = () => [
     //         sort: true,
     //     }
     // },
-
-    {
-        name: "Token",
-        label: "Token",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
     {
         name: "Symbol",
         label: "Symbol",
@@ -2159,14 +2161,7 @@ export const getColumns12 = () => [
             sort: true,
         }
     },
-    {
-        name: "ETime",
-        label: "ETime",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
     {
         name: "EPrice",
         label: "EPrice",
@@ -2175,9 +2170,10 @@ export const getColumns12 = () => [
             sort: true,
         }
     },
+
     {
-        name: "ExitTime",
-        label: "ExitTime",
+        name: "ETime",
+        label: "ETime",
         options: {
             filter: true,
             sort: true,
@@ -2192,24 +2188,17 @@ export const getColumns12 = () => [
         }
     },
     {
+        name: "ExitTime",
+        label: "ExitTime",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+
+    {
         name: "TradeType",
         label: "Trade Type",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Quantity",
-        label: "Quantity",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Trade",
-        label: "Trade",
         options: {
             filter: true,
             sort: true,
@@ -2232,6 +2221,38 @@ export const getColumns12 = () => [
             sort: true,
         }
     },
+
+    {
+        name: "Token",
+        label: "Token",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+
+
+
+
+
+
+    {
+        name: "Quantity",
+        label: "Quantity",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Trade",
+        label: "Trade",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+
 
 
 
