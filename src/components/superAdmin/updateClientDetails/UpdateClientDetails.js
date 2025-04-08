@@ -13,18 +13,19 @@ const ClientThreadReport = () => {
     const PanelName = sessionStorage.getItem("PanelName")
 
     const [getAllClientdetails, setAllClientDetails] = useState([])
-    const [comapnyName, setCompanyName] = useState(PanelName || '')
     const [getAllComapny, setAllComapny] = useState([])
+
+    const [comapnyName, setCompanyName] = useState(PanelName || (getAllComapny.length > 0 ? getAllComapny[0] : ''))
     const [showModal, setShowModal] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(0);
 
     useEffect(() => {
         ComapnyDetails()
-    }, [])
+    }, [comapnyName])
 
     useEffect(() => {
         getClientThreadeReport()
-    }, [comapnyName])
+    }, [comapnyName,getAllComapny])
 
 
     const ComapnyDetails = async () => {

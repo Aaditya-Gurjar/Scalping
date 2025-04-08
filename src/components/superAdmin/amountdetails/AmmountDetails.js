@@ -9,8 +9,18 @@ const AmountDetails = () => {
     const CompanyName = sessionStorage.getItem("CompanyName")
 
     const [getAmountDetails, setAmountDetails] = useState([])
-    const [comapnyName, setCompanyName] = useState(CompanyName)
+    const [comapnyName, setCompanyName] = useState(CompanyName || '');
+
+   
+
     const [getAllComapny, setAllComapny] = useState([])
+
+    useEffect(() => {
+        if (getAllComapny.length > 0 && !CompanyName) {
+            setCompanyName(getAllComapny[0]);
+            sessionStorage.setItem('CompanyName', getAllComapny[0]);
+        }
+    }, [getAllComapny]);
 
     useEffect(() => {
         ComapnyDetails()

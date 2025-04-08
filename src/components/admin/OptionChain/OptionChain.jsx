@@ -83,16 +83,40 @@ const OptionChainForm = () => {
 
   useEffect(() => {
     const initializeDefaults = async () => {
-      const firstInstrument = getInstrumentOptions('NFO')[0]?.value;
+      const firstExchange = 'NFO'; // Default exchange
+      const firstInstrument = getInstrumentOptions(firstExchange)[0]?.value;
+  
       if (firstInstrument) {
-        setFormValues(prev => ({
-          ...prev,
-          instrument: firstInstrument
-        }));
-        const req = { exchange: 'NFO', instrument: firstInstrument };
-        await fetchSymbol(req);
+        const req = { exchange: firstExchange, instrument: firstInstrument };
+        const symbolResponse = await Get_Symbol(req);
+  
+        if (symbolResponse.Symbol.length > 0) {
+          const firstSymbol = symbolResponse.Symbol[0];
+          const expiryResponse = await GET_EXPIRY_DATE({
+            Exchange: firstExchange,
+            Instrument: firstInstrument,
+            Symbol: firstSymbol,
+            Strike: "",
+          });
+  
+          if (expiryResponse["Expiry Date"].length > 0) {
+            const firstExpiry = expiryResponse["Expiry Date"][0];
+  
+            setFormValues({
+              exchange: firstExchange,
+              instrument: firstInstrument,
+              symbol: firstSymbol,
+              expiryDate: firstExpiry,
+              planname: '',
+            });
+  
+            setSymbol(symbolResponse.Symbol);
+            setExpiry(expiryResponse["Expiry Date"]);
+          }
+        }
       }
     };
+  
     initializeDefaults();
   }, []);
 
