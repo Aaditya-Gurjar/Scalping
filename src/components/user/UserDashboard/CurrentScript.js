@@ -141,6 +141,7 @@ console.log("allScripts", allScripts)
     const data = { Username: userName };
     await GetUserScripts(data)
       .then((response) => {
+        console.log("response", response)
 
         if (response.Status) {
            
