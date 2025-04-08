@@ -1458,6 +1458,30 @@ export const columns8 = [
   },
 
   {
+    name: "TSymbol",
+    label: "TSymbol",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "EntryTime",
+    label: "Entry Time",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },{
+    name: "Exittime",
+    label: "Exit Time",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+
+  {
     name: "AccType",
     label: "Account Type",
     options: {
@@ -1466,14 +1490,7 @@ export const columns8 = [
     },
   },
 
-  {
-    name: "EntryTime",
-    label: "Entry Time",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
+ 
 
   {
     name: "Exchange",
@@ -1484,15 +1501,7 @@ export const columns8 = [
     },
   },
 
-  {
-    name: "Exittime",
-    label: "Exit Time",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-
+  
   {
     name: "Lotsize",
     label: "Lot Size",
@@ -1547,14 +1556,6 @@ export const columns8 = [
     },
   },
 
-  {
-    name: "TSymbol",
-    label: "TSymbol",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
 
   {
     name: "TType",
