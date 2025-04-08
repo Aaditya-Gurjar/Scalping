@@ -614,9 +614,7 @@ const Adduser = () => {
             const FilterPlanAmount = GetAllPlans.data.filter((item) => 
                 (item.Planname || item.PlanName) === values.planname
             );
-
-             
-
+ 
             if (FilterPlanAmount.length > 0 && FilterPlanAmount[0].SOPPrice > values.ClientAmmount) {
                 Swal.fire({
                     background: "#1a1e23 ",
@@ -628,7 +626,11 @@ const Adduser = () => {
                     timer: 3000,
                     timerProgressBar: true
                 });
-            }      
+            return;
+
+            }    
+            
+            
             await CreateAccount(req)
                 .then((response) => {
                     if (response.Status) {

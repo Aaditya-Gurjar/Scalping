@@ -11,6 +11,11 @@ import Table from 'react-bootstrap/Table';
 import TimePicker from 'react-time-picker';
 import 'react-time-picker/dist/TimePicker.css';
 import 'react-clock/dist/Clock.css';
+import axios from 'axios';
+import qs from 'qs';
+import Swal from 'sweetalert2'; 
+import { toast } from 'react-toastify';  
+import 'react-toastify/dist/ReactToastify.css';  
 
 const OptionChainForm = () => {
   const [symbol, setSymbol] = useState([]);
@@ -180,7 +185,34 @@ const OptionChainForm = () => {
     { value: 'Strangle', label: 'Strangle' }
   ];
 
+  const validateFields = () => {
+    const requiredFields = {
+      Exchange: formValues.exchange,
+      Instrument: formValues.instrument,
+      Symbol: formValues.symbol,
+      ExpiryDate: formValues.expiryDate,
+      PlanName: formValues.planname,
+      Key: keyInput,
+    };
+  
+    const emptyFields = Object.entries(requiredFields)
+      .filter(([_, value]) => !value)
+      .map(([key]) => key);
+  
+    if (emptyFields.length > 0) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please Fill All Fields',
+        text: `Please fill the following fields: ${emptyFields.join(', ')}`,
+      });
+      return false;
+    }
+    return true;
+  };
+
   const excecuteTrade = async (tradeType, type, strike, token) => {
+    if (!validateFields()) return; // Validate fields before proceeding
+  
     try {
       console.log("Trade Executed:", {
         tradeType,
@@ -190,14 +222,14 @@ const OptionChainForm = () => {
         key: keyInput, // Use keyInput state
         expiryDate: formValues.expiryDate
       });
-
+  
       const exchange = formValues.exchange;
       const symbol = formValues.symbol;
       const planname = formValues.planname;
-
+  
       let LivePrice = await showLivePriceForSpecific(`${exchange}|${token}`);
       console.log("Live Price:", LivePrice);
-
+  
       const req = {
         Planname: planname,
         Username: UserName,
@@ -217,13 +249,19 @@ const OptionChainForm = () => {
         Key: keyInput, // Pass keyInput here
         Demo: "Demo"
       };
-
-      console.log("Request:", req);
-      const res = await TradeExecutionAPI(req);
+  
+      let data = qs.stringify(req);
+  
+      const res = await TradeExecutionAPI(data);
       console.log("Trade Execution Response:", res);
 
+      // Show success toast with API response
+      toast.success(res.message)
     } catch (error) {
       console.error("Error fetching live price:", error);
+
+      // Show error toast
+      toast.error(`Trade Execution Failed`);
     }
   };
 
@@ -247,7 +285,7 @@ const OptionChainForm = () => {
                 fontSize: "16px",
                 cursor: "pointer"
               }}
-              onClick={() => excecuteTrade("Buy", "Call", tableMeta.rowData.Strike, tableMeta.rowData.CE)}
+              onClick={() => excecuteTrade("Buy", "CE", tableMeta.rowData.Strike, tableMeta.rowData.CE)}
             >
               Buy
             </button>
@@ -261,7 +299,7 @@ const OptionChainForm = () => {
                 fontSize: "16px",
                 cursor: "pointer"
               }}
-              onClick={() => excecuteTrade("Sell", "Call", tableMeta.rowData.Strike, tableMeta.rowData.CE)}
+              onClick={() => excecuteTrade("Sell", "CE", tableMeta.rowData.Strike, tableMeta.rowData.CE)}
             >
               Sell
             </button>
@@ -307,7 +345,7 @@ const OptionChainForm = () => {
                 fontSize: "16px",
                 cursor: "pointer"
               }}
-              onClick={() => excecuteTrade("Buy", "Put", tableMeta.rowData.Strike, tableMeta.rowData.PE)}
+              onClick={() => excecuteTrade("Buy", "PE", tableMeta.rowData.Strike, tableMeta.rowData.PE)}
             >
               Buy
             </button>
@@ -321,7 +359,7 @@ const OptionChainForm = () => {
                 fontSize: "16px",
                 cursor: "pointer"
               }}
-              onClick={() => excecuteTrade("Sell", "Put", tableMeta.rowData.Strike, tableMeta.rowData.PE)}
+              onClick={() => excecuteTrade("Sell", "PE", tableMeta.rowData.Strike, tableMeta.rowData.PE)}
             >
               Sell
             </button>

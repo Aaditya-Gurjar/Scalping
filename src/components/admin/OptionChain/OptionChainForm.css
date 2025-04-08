@@ -6,7 +6,7 @@
 .ocf-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 10px;
   align-items: center;
   justify-content: flex-start;
 }
@@ -14,9 +14,7 @@
 .ocf-container-row {
   display: flex;
   flex-direction: row;
-  gap: 20px;
-  align-items: flex-start; /* Align items to the top */
-  justify-content: space-between; /* Distribute items evenly */
+  align-items: center; /* Align items to the top */
   flex-wrap: wrap; /* Allow wrapping for smaller screens */
 }
 
@@ -26,8 +24,7 @@
   max-width: 300px; /* Limit maximum width for better alignment */
   display: flex;
   flex-direction: column;
-  gap: 5px; /* Reduce gap between label and input */
-  align-items: flex-start; /* Align items to the start */
+    align-items: flex-start; /* Align items to the start */
 }
 
 .ocf-group label {

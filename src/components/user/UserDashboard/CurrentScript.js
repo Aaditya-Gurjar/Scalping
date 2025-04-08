@@ -52,6 +52,11 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
  
   const [chartingSubTab, setChartingSubTab] = useState("Cash");
 
+  const stg = sessionStorage.getItem("StrategyType");
+
+  
+
+console.log("allScripts", allScripts)
   const [getAllService, setAllservice] = useState({
     loading: true,
     ScalpingData: [],
@@ -72,6 +77,12 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
   }, [data, chartingSubTab]);
 
 
+  useEffect(() => {
+    if(stg !== "ChartingPlatform"){
+      setView("table")
+    }
+  },[stg])
+
 
   useEffect(() => {
     let updatedList = "";
@@ -86,7 +97,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       updatedList = getCharting?.map(item => `${item.Exchange}|${item.Token}`).join("#");
     }
 
-    setChannelList(updatedList); // ✅ Save the computed value in state
+    setChannelList(updatedList);  
   }, [data, getAllService, getCharting]);
 
 
@@ -111,7 +122,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
     await getUserChartingScripts(req)
       .then((response) => {
 
-        if (response.Status) {
+        if (response?.Status) {
           setGetCharting(response.Client);
         } else {
           setGetCharting([]);
@@ -132,9 +143,11 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       .then((response) => {
 
         if (response.Status) {
+           
           setAllScripts({
             data: response.data,
             len: response.data?.length - 1,
+            Planname: response.data[response.data?.length - 1].Planname,
           });
         } else {
           setAllScripts({

@@ -57,9 +57,12 @@ const AddClient = () => {
   };
 
 
- 
+
 
   const dataWithoutLastItem = location?.state?.data?.scriptType?.data?.slice(0, -1);
+  console.log("location?.state?.data?", location?.state?.data?.scriptType?.data)
+
+
 
   const getEndData = (stg) => {
     const foundItem = dataWithoutLastItem.find((item) => {
@@ -118,6 +121,7 @@ const AddClient = () => {
       FixedSM: "Single",
       TType: "",
       serendate: "",
+      Planname: "",
       expirydata1: "",
       Expirytype: "",
       Striketype: "",
@@ -471,6 +475,9 @@ const AddClient = () => {
           Timeframe: "",
           Quantity: values.Quantity,
           serendate: getEndData(values.Strategy),
+          Planname: location?.state?.data?.scriptType?.data?.find(
+            (item) => item.EndDate === getEndData(formik?.values?.Strategy)
+          )?.[0]?.Planname,
           Expirytype: "",
           FixedSM:
             formik.values.Strategy == "Multi_Conditional"
@@ -577,7 +584,7 @@ const AddClient = () => {
         };
 
 
-        
+
         if (
           (Number(values.EntryPrice) > 0 || Number(values.EntryRange) > 0) &&
           Number(values.EntryPrice) >= Number(values.EntryRange)
@@ -722,7 +729,13 @@ const AddClient = () => {
     }
   }, [formik.values.Exchange]);
 
+  // let expiry = formik.values.expirydata1 == "Monthly"
+  // ? getExpiryDate?.data?.[0]
+  // : formik.values.expirydata1 == "Next_Month"
+  //   ? getExpiryDate?.data?.[1] : formik.values.expirydata1
 
+
+  // console.log("expiry", expiry)
 
 
   const SymbolSelectionArr = [
@@ -1625,6 +1638,8 @@ const AddClient = () => {
     }
   };
 
+
+
   useEffect(() => {
     getSymbol();
   }, [formik.values.Instrument, formik.values.Exchange]);
@@ -1703,41 +1718,41 @@ const AddClient = () => {
   };
 
 
-   const showLivePrice = async(singleChannel) => {
-        console.log("Channel List", singleChannel)
-        connectWebSocket(singleChannel, (data) => {
-          if(data.lp && data.tk) {
-            $(".LivePrice").html(data.lp); 
-          console.log("Updated Price Data:", data);
-          }
-        });
+  const showLivePrice = async (singleChannel) => {
+    console.log("Channel List", singleChannel)
+    connectWebSocket(singleChannel, (data) => {
+      if (data.lp && data.tk) {
+        $(".LivePrice").html(data.lp);
+        // console.log("Updated Price Data:", data);
       }
+    });
+  }
 
   const token = async () => {
     try {
-      if(formik.values.Exchange && formik.values.Instrument && formik.values.Symbol && formik.values.expirydata1){
+      if (formik.values.Exchange && formik.values.Instrument && formik.values.Symbol && formik.values.expirydata1) {
         const res = await getToken({
           Exchange: formik.values.Exchange,
           Instrument: formik.values.Instrument,
           Symbol: formik.values.Symbol,
           OptionType: formik.values.Optiontype,
           Strike: formik.values.Strike,
-          Expiry :  formik.values.expirydata1 == "Monthly"
-          ? getExpiryDate?.data?.[0]
-          : formik.values.expirydata1 == "Next_Month"
-            ? getExpiryDate?.data?.[1] : formik.values.expirydata1
+          Expiry: formik.values.expirydata1 == "Monthly"
+            ? getExpiryDate?.data?.[0]
+            : formik.values.expirydata1 == "Next_Month"
+              ? getExpiryDate?.data?.[1] : formik.values.expirydata1
         });
         console.log("res", res)
-        const singleChannel = `${formik.values.Exchange}|${res.Token[0]}` 
+        const singleChannel = `${formik.values.Exchange}|${res.Token[0]}`
         console.log("singleChannel", singleChannel)
         showLivePrice(singleChannel)
 
       }
-     
-       
+
+
     } catch (error) {
       console.error("Error fetching token:", error);
-      
+
     }
   }
 
@@ -2002,7 +2017,7 @@ const AddClient = () => {
     };
 
 
-    const response = await CPrice(req); 
+    const response = await CPrice(req);
     const errors = await formik.validateForm();
     if (Object.keys(errors).length > 0) {
       return SweentAlertFun(Object.values(errors)[0])
@@ -2011,7 +2026,7 @@ const AddClient = () => {
     if (response.Status) {
       setCPrice(response.CPrice)
     }
-    else { 
+    else {
       setCPrice(0)
     }
 
@@ -2021,9 +2036,9 @@ const AddClient = () => {
         formik.values.TType === "BUY" &&
         (formik.values.Instrument === "OPTIDX" ||
           formik.values.Instrument === "OPTSTK"))
-    ) { 
+    ) {
       handleCheckPnl();
-    } else { 
+    } else {
       setOpenModel1(true);
     }
   };
@@ -2035,8 +2050,8 @@ const AddClient = () => {
       button_status={false}
       backbutton_status={false}
     >
-      
-      { formik.values.Exchange && formik.values.Instrument && formik.values.Symbol && formik.values.expirydata1  && <div className="AddScript_LivePrice card-text-Color"><div className="LivePriceContainer"><span> Live Price:  </span> <span className="LivePrice ms-2">{}</span></div></div>}
+
+      {formik.values.Exchange && formik.values.Instrument && formik.values.Symbol && formik.values.expirydata1 && <div className="AddScript_LivePrice card-text-Color"><div className="LivePriceContainer"><span> Live Price:  </span> <span className="LivePrice ms-2">{ }</span></div></div>}
       <AddForm
         fields={fields.filter(
           (field) => !field.showWhen || field.showWhen(formik.values)
@@ -2088,7 +2103,7 @@ const AddClient = () => {
               <div className="col-lg-12 col-sm-12">
                 <div className="input-block mb-3">
 
-                  { getCPrice == 0 &&
+                  {getCPrice == 0 &&
                     <>
                       <label
                         className="form-label"

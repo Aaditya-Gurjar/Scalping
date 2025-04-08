@@ -30,7 +30,7 @@ const Adduser = () => {
 
 
 
-   
+
     useEffect(() => {
         getBrokerName()
         GetAllGroupDetails()
@@ -215,9 +215,9 @@ const Adduser = () => {
             const FilterPlanAmount = GetAllPlans.data.filter((item) => item.PlanName === values.planname);
             if (FilterPlanAmount[0].payment > values.ClientAmmount && FilterPlanAmount[0].payment !== '') {
                 Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                    background: "#1a1e23 ",
+                    backdrop: "#121010ba",
+                    confirmButtonColor: "#1ccc8a",
                     title: "Invalid Amount",
                     text: `The plan amount is ${FilterPlanAmount[0].payment}, but you've entered ${values.ClientAmmount}. Please enter an amount greater than the plan amount.`,
                     icon: "error",
@@ -231,9 +231,9 @@ confirmButtonColor: "#1ccc8a",
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "User Created!",
                             text: response.message,
                             icon: "success",
@@ -246,9 +246,9 @@ confirmButtonColor: "#1ccc8a",
                     }
                     else {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Error!",
                             text: response.message,
                             icon: "error",

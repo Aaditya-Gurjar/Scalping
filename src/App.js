@@ -7,7 +7,8 @@ import SuperAdminRoute from './Routes/SuperAdmin.Routes'
 import Register from './components/auth/Register'
 import SubAdminRoutes from './Routes/SubAdminRoutes'
 import Swal from "sweetalert2";
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   const navigate = useNavigate()
@@ -76,7 +77,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
 
       </Routes> 
-
+      <ToastContainer position="bottom-right" autoClose={3000} />
     </>
   );
 }
