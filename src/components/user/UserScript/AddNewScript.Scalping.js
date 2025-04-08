@@ -118,6 +118,7 @@ const AddClient = () => {
       FixedSM: "Single",
       TType: "",
       serendate: "",
+      Planname:"",
       expirydata1: "",
       Expirytype: "",
       Striketype: "",
@@ -471,6 +472,9 @@ const AddClient = () => {
           Timeframe: "",
           Quantity: values.Quantity,
           serendate: getEndData(values.Strategy),
+          Planname: location?.state?.data?.scriptType?.data?.find(
+            (item) => item.EndDate === getEndData(formik?.values?.Strategy)
+          )?.[0]?.Planname,
           Expirytype: "",
           FixedSM:
             formik.values.Strategy == "Multi_Conditional"
