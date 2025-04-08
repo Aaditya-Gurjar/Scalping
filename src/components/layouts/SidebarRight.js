@@ -89,11 +89,11 @@ const Sidebar = ({ position }) => {
         label: "ApiCreateInfo",
       },
 
-      {
-        path: "/admin/Master-Account",
-        icon: <i className="la la-user-shield"></i>,  
-        label: "Master Account",
-      },
+      // {
+      //   path: "/admin/Master-Account",
+      //   icon: <i className="la la-user-shield"></i>,  
+      //   label: "Master Account",
+      // },
     ],
     Superadmin: [
       {
