@@ -76,8 +76,8 @@ const Adduser = () => {
             ConfirmPassword: "",
             SignEmail: "",
             AmmountDetails: 0,
-            SOPLiveTrade:0,
-            SOPPaperTrade:0,
+            // SOPLiveTrade:0,
+            // SOPPaperTrade:0,
             SOPScriptwise:0,
             Companyname: "",
             Url: "",
@@ -85,7 +85,7 @@ const Adduser = () => {
             Permission: [],
 
             ChartPerMonth: 0,
-            ChartPerTrade:0,
+            // ChartPerTrade:0,
             BrokerPermission: [], // Initial empty array for BrokerPermission
         },
         validate: (values) => {
@@ -114,12 +114,12 @@ const Adduser = () => {
             if (!values.AmmountDetails) {
                 errors.AmmountDetails = "Please Enter Amount";
             }
-            if (!values.SOPLiveTrade) {
-                errors.SOPLiveTrade = "Please Enter Live Trade Amount";
-            }
-            if (!values.SOPPaperTrade) {
-                errors.SOPPaperTrade = "Please Enter Paper Trade Amount";
-            }
+            // if (!values.SOPLiveTrade) {
+            //     errors.SOPLiveTrade = "Please Enter Live Trade Amount";
+            // }
+            // if (!values.SOPPaperTrade) {
+            //     errors.SOPPaperTrade = "Please Enter Paper Trade Amount";
+            // }
             if (!values.SOPScriptwise) {
                 errors.SOPScriptwise = "Please Enter Paper Trade Amount";
             }
@@ -132,9 +132,9 @@ const Adduser = () => {
             if (!values.ChartPerMonth) {
                 errors.ChartPerMonth = "Please Enter Charting Amount";
             }
-            if (!values.ChartPerTrade) {
-                errors.ChartPerTrade = "Please Enter Charting Amount";
-            }
+            // if (!values.ChartPerTrade) {
+            //     errors.ChartPerTrade = "Please Enter Charting Amount";
+            // }
             return errors;
         },
         onSubmit: async (values) => {
@@ -145,15 +145,15 @@ const Adduser = () => {
                 ConfirmPassword: values.ConfirmPassword,
                 SignEmail: values.SignEmail,
                 AmmountDetails: values.AmmountDetails,
-                SOPLiveTrade: values.SOPLiveTrade,
-                SOPPaperTrade: values.SOPPaperTrade,
+                // SOPLiveTrade: values.SOPLiveTrade,
+                // SOPPaperTrade: values.SOPPaperTrade,
                 SOPScriptwise: values.SOPScriptwise,
                 Companyname: values.Companyname,
                 Url: values.Url,
                 permission: values.Permission,
 
                 ChartPerMonth: values.ChartPerMonth,
-                ChartPerTrade: values.ChartPerTrade,
+                // ChartPerTrade: values.ChartPerTrade,
                 BrokerPermission: values.BrokerPermission,  
             };
 
@@ -254,24 +254,24 @@ const Adduser = () => {
             col_size: 6,
             disable: false,
         },
-        {
-            name: "SOPLiveTrade",
-            label: "Per Live Trade Amount",
-            type: "text3",
-            label_size: 12,
-            hiding: false,
-            col_size: 6,
-            disable: false,
-        },
-        {
-            name: "SOPPaperTrade",
-            label: "Per Paper Trade Amount",
-            type: "text3",
-            label_size: 12,
-            hiding: false,
-            col_size: 6,
-            disable: false,
-        },
+        // {
+        //     name: "SOPLiveTrade",
+        //     label: "Per Live Trade Amount",
+        //     type: "text3",
+        //     label_size: 12,
+        //     hiding: false,
+        //     col_size: 6,
+        //     disable: false,
+        // },
+        // {
+        //     name: "SOPPaperTrade",
+        //     label: "Per Paper Trade Amount",
+        //     type: "text3",
+        //     label_size: 12,
+        //     hiding: false,
+        //     col_size: 6,
+        //     disable: false,
+        // },
         {
             name: "SOPScriptwise",
             label: "Per Script Trade Amount",
@@ -318,15 +318,15 @@ const Adduser = () => {
             col_size: 6,
             disable: false,
         },
-        {
-            name: "ChartPerTrade",
-            label: "Per Live Trade Charting Amount",
-            type: "text3",
-            label_size: 12,
-            hiding: false,
-            col_size: 6,
-            disable: false,
-        },
+        // {
+        //     name: "ChartPerTrade",
+        //     label: "Per Live Trade Charting Amount",
+        //     type: "text3",
+        //     label_size: 12,
+        //     hiding: false,
+        //     col_size: 6,
+        //     disable: false,
+        // },
 
 
 
