@@ -234,12 +234,12 @@ const permissions  = localStorage.getItem("adminPermission");
   
   
   if(isOptionChainIncluded){
-    adminSideBaar.push( {
+    adminSideBaar.push({
       path: "/admin/OptionChain",
-      icon: <i className="fa fa-code" />, // Add Script icon
+      icon: <i className="ri-stock-line" />, // Option Chain icon
       label: (<>Option <br/>Chain</>),
       permission: [],
-    },)
+    });
   }
 
   const superAdmin = [
