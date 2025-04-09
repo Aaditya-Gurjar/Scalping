@@ -42,7 +42,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
   const [EditDataScalping, setEditDataScalping] = useState({});
   const [EditDataOption, setEditDataOption] = useState({});
   const [EditDataPattern, setEditDataPattern] = useState({});
-  const [allScripts, setAllScripts] = useState({ data: [], len: 0, Planname : ""});
+  const [allScripts, setAllScripts] = useState({ data: [], len: 0 });
   const [editCharting, setEditCharting] = useState();
   const [getCharting, setGetCharting] = useState([]);
   const [channelList, setChannelList] = useState([]);
@@ -141,7 +141,8 @@ console.log("allScripts", allScripts)
     const data = { Username: userName };
     await GetUserScripts(data)
       .then((response) => {
-console.log("response-----", response)
+        console.log("response", response)
+
         if (response.Status) {
            
           setAllScripts({
@@ -352,6 +353,8 @@ console.log("response-----", response)
   };
   const HandleContinueDiscontinue = async (rowData, type) => {
 
+    console.log("ManuallyExit1")
+
     const index = rowData.rowIndex;
     const isOpen = rowData.tableData[index][5];
 
@@ -382,6 +385,9 @@ console.log("response-----", response)
       console.log("Error in finding the trading status");
       return;
     }
+    console.log("trading", trading)
+    console.log("ManuallyExit2")
+    console.log("data", data)
 
 
     // console.log("getAllService.PatternData[index].Trading", getAllService.PatternData[index].Trading)
@@ -464,71 +470,79 @@ console.log("response-----", response)
                         Symbol: getCharting[index]?.TSymbol,
                       }
                       : "";
+                      
 
-          if (data == "ChartingPlatform") {
-            await DeleteSingleChartingScript(req).then((response) => {
-
-              if (response.Status) {
-                Swal.fire({
-                  background: "#1a1e23 ",
-                  backdrop: "#121010ba",
-                  title: "Success",
-                  text: response.message,
-                  icon: "success",
-                  timer: 2000,
-                  timerProgressBar: true,
-                }).then(() => {
-
-                  setRefresh(!refresh);
-                });
-              } else {
-                Swal.fire({
-                  title: "Error !",
-                  text: response.message,
-                  icon: "error",
-                  timer: 2000,
-                  timerProgressBar: true,
-                });
-              }
-            });
-          } else {
-            await Discontinue(req)
-              .then((response) => {
-                if (response.Status) {
-                  Swal.fire({
-                    // title: "Success",
-                    // text: response.message,
-                    // icon: "success",
-                    // timer: 2000,
-                    // timerProgressBar: true
-                    background: "#1a1e23 ",
-                    backdrop: "#121010ba",
-                    title: "Success",
-                    text: response.message,
-                    icon: "success",
-                    timer: 2000,
-                    timerProgressBar: true,
-                  }).then(() => {
-                    setRefresh(!refresh);
-                  });
-                } else {
-                  Swal.fire({
-                    title: "Error !",
-                    text: response.message,
-                    icon: "error",
-                    timer: 2000,
-                    timerProgressBar: true,
-                  });
-                }
-              })
-              .catch((err) => {
-                console.log("Error in delete script", err);
-              });
-          }
         }
       });
     } else if (data == "ChartingPlatform") {
+    
+      const req =  {
+        Username: userName,
+        User: getCharting[index]?.AccType,
+        Symbol: getCharting[index]?.TSymbol,
+      }
+      
+      if (data == "ChartingPlatform") {
+        await DeleteSingleChartingScript(req).then((response) => {
+        console.log("manual exit test")
 
+          if (response.Status) {
+            Swal.fire({
+              background: "#1a1e23 ",
+              backdrop: "#121010ba",
+              title: "Success",
+              text: response.message,
+              icon: "success",
+              timer: 2000,
+              timerProgressBar: true,
+            }).then(() => {
+
+              setRefresh(!refresh);
+            });
+          } else {
+            Swal.fire({
+              title: "Error !",
+              text: response.message,
+              icon: "error",
+              timer: 2000,
+              timerProgressBar: true,
+            });
+          }
+        });
+      } else {
+        await Discontinue(req)
+          .then((response) => {
+            if (response.Status) {
+              Swal.fire({
+                // title: "Success",
+                // text: response.message,
+                // icon: "success",
+                // timer: 2000,
+                // timerProgressBar: true
+                background: "#1a1e23 ",
+                backdrop: "#121010ba",
+                title: "Success",
+                text: response.message,
+                icon: "success",
+                timer: 2000,
+                timerProgressBar: true,
+              }).then(() => {
+                setRefresh(!refresh);
+              });
+            } else {
+              Swal.fire({
+                title: "Error !",
+                text: response.message,
+                icon: "error",
+                timer: 2000,
+                timerProgressBar: true,
+              });
+            }
+          })
+          .catch((err) => {
+            console.log("Error in delete script", err);
+          });
+      }
       return;
     } else {
       {
@@ -640,8 +654,6 @@ console.log("response-----", response)
       }
     }
   };
-
-  console.log("allScripts?.data", allScripts);
 
 
   const AddScript = (data) => {
