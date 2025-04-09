@@ -56,7 +56,7 @@ const Header = () => {
           if (response.Status) {
             localStorage.setItem(
               "adminPermission",
-              JSON.stringify(response.Data[0])
+              JSON.stringify(response.Data)
             );
           } else {
             setPermissionData({

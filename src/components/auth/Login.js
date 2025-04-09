@@ -92,7 +92,8 @@ const Login = () => {
         await AdminPermission(req)
             .then((response) => {
                 if (response.Status) {
-                    localStorage.setItem("AdminPermission", JSON.stringify(response.Data))
+                    console.log("response.Data", response.Data)
+                    localStorage.setItem("AdminPermission", response.Data)
                 }
             })
             .catch((err) => {
