@@ -23,7 +23,7 @@ const Sidebar = ({ position }) => {
   const [permission, setPermission] = useState(
     JSON.parse(localStorage.getItem("SubAdminPermission")) || null
   );
-
+const permissions  = localStorage.getItem("adminPermission");
 
   const expire = localStorage.getItem("expire");
 
@@ -175,7 +175,7 @@ const Sidebar = ({ position }) => {
     },
   ];
 
-  const adminSideBaar = [
+  let adminSideBaar = [
     {
       path: "/admin/dashboard",
       icon: <i className="ri-home-8-line" />, // Dashboard icon
@@ -224,14 +224,20 @@ const Sidebar = ({ position }) => {
       permission: [],
     },
 
-    {
-      path: "/admin/OptionChain",
-      icon: <i className="fa fa-code" />, // Add Script icon
-      label: (<>Option <br/>Chain</>),
-      permission: [],
-    },
+   
 
   ];
+
+  const isOptionChainIncluded = permissions?.includes("Option Chain")
+   
+  if(isOptionChainIncluded){
+    adminSideBaar.push({
+      path: "/admin/OptionChain",
+      icon: <i className="ri-stock-line" />, // Option Chain icon
+      label: (<>Option <br/>Chain</>),
+      permission: [],
+    });
+  }
 
   const superAdmin = [
     {
