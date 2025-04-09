@@ -1252,22 +1252,27 @@ export const MasterAccountApi = async (data) => {
 export const TradeExecutionAPI = async (data) => {
     const token = localStorage.getItem('token')
     try {
-        const res = await axios.post(`${Config.base_url}/ChartingPlatform`, data,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-            }
-        )
 
-        return res?.data
+        let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: 'http://217.145.69.58:8000/ChartingPlatform',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            data: data
+        };
+
+        let response = await axios.request(config);
+        return response?.data
+
+
     }
     catch (err) {
         return err
     }
-
 }
+
 
 
 
