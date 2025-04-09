@@ -46,11 +46,11 @@ const OptionChainForm = () => {
   const getAllPlans = async () => {
     try {
       const response = await Get_All_Plans();
-      console.log("All Plans:", response);
+      // console.log("All Plans:", response);
 
       if (response?.Admin && response?.Charting) {
         const combinedPlans = [
-          ...response.Admin.map(plan => ({ ...plan, type: 'Admin' })),
+          // ...response.Admin.map(plan => ({ ...plan, type: 'Admin' })),
           ...response.Charting.map(plan => ({ ...plan, type: 'Charting' }))
         ];
         setPlanNames(combinedPlans);
@@ -90,7 +90,7 @@ const OptionChainForm = () => {
         const req = { exchange: firstExchange, instrument: firstInstrument };
         const symbolResponse = await Get_Symbol(req);
   
-        if (symbolResponse.Symbol.length > 0) {
+        if (symbolResponse?.Symbol?.length > 0) {
           const firstSymbol = symbolResponse.Symbol[0];
           const expiryResponse = await GET_EXPIRY_DATE({
             Exchange: firstExchange,
@@ -99,7 +99,7 @@ const OptionChainForm = () => {
             Strike: "",
           });
   
-          if (expiryResponse["Expiry Date"].length > 0) {
+          if (expiryResponse["Expiry Date"]?.length > 0) {
             const firstExpiry = expiryResponse["Expiry Date"][0];
   
             setFormValues({
@@ -129,7 +129,7 @@ const OptionChainForm = () => {
       const response = await Get_Symbol(req);
       setSymbol(response.Symbol);
 
-      if (response.Symbol.length > 0) {
+      if (response.Symbol?.length > 0) {
         const firstSymbol = response.Symbol[0];
         setFormValues(prev => ({ ...prev, symbol: firstSymbol }));
         FetchExpiry({ ...currentValues, symbol: firstSymbol });
@@ -150,7 +150,7 @@ const OptionChainForm = () => {
       const response = await GET_EXPIRY_DATE(req);
       setExpiry(response["Expiry Date"]);
 
-      if (response["Expiry Date"].length > 0) {
+      if (response["Expiry Date"]?.length > 0) {
         const firstExpiry = response["Expiry Date"][0];
         setFormValues(prev => ({ ...prev, expiryDate: firstExpiry }));
       }
@@ -223,7 +223,7 @@ const OptionChainForm = () => {
       .filter(([_, value]) => !value)
       .map(([key]) => key);
   
-    if (emptyFields.length > 0) {
+    if (emptyFields?.length > 0) {
       Swal.fire({
         icon: 'warning',
         title: 'Please Fill All Fields',
@@ -557,9 +557,9 @@ const OptionChainForm = () => {
           </tr>
         </thead>
         <tbody>
-          {strikeToken.length > 0 ? (
+          {strikeToken?.length > 0 ? (
             strikeToken.map((row, rowIndex) => {
-              const middleRowIndex = Math.floor(strikeToken.length / 2);
+              const middleRowIndex = Math.floor(strikeToken?.length / 2);
               const rowStyle = rowIndex === middleRowIndex
                 ? { backgroundColor: '#d3d3d3' } // Gray color for the middle row
                 : { backgroundColor: '#ffffff' }; // White color for all other rows
@@ -578,7 +578,7 @@ const OptionChainForm = () => {
             })
           ) : (
             <tr>
-              <td colSpan={OptionChainColumn.length} className="text-center">
+              <td colSpan={OptionChainColumn?.length} className="text-center">
                 No data available
               </td>
             </tr>

@@ -216,7 +216,7 @@ const AdminServicesList = () => {
                           <h2 className="allplan-card-title">{plan.Planname}</h2>
                           <h4 className="allplan-card-subtitle">
                             <FaRupeeSign className="m-1" />
-                            <strong>{plan.ChartPerMonth}</strong>
+                            <strong>{plan.SOPPrice}</strong>
                           </h4>
                           <h4 className="allplan-card-subtitle">
                             Duration: {plan["Plan Validity"]}
@@ -343,7 +343,8 @@ const AdminServicesList = () => {
                           <h2 className="allplan-card-title">{plan.Planname}</h2>
                           <h4 className="allplan-card-subtitle">
                             <FaRupeeSign className="m-1" />
-                            <strong>{plan.SOPPrice}</strong>
+                            <strong>{plan.ChartPerMonth
+                            }</strong>
                           </h4>
                           <h4 className="allplan-card-subtitle">
                             Duration: {plan["Plan Validity"]}
@@ -374,12 +375,16 @@ const AdminServicesList = () => {
                           </div>
 
                           {/* Edit Button */}
-                          <button
-                            className="edit-btn"
-                            onClick={() => handleEdit(plan)}
-                          >
-                            <FaEdit /> Edit
-                          </button>
+                          {
+                            editablePlans?.includes(plan.Planname) ? <button
+                              className="edit-btn"
+                              onClick={() => handleEdit(plan)}
+                            >
+                              <FaEdit /> Edit
+                            </button>
+                              :
+                              ""
+                          }
                         </div>
                       </div>
                     </div>

@@ -486,7 +486,7 @@ const Tradehistory = () => {
                             <div className="form-group">
                                 <label>Select Username</label>
                                 <select
-                                    className="form-select mt-2"
+                                    className="form-select"
                                     required=""
                                     onChange={(e) => {
                                         setSelectGroup(e.target.value);

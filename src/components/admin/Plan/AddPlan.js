@@ -81,6 +81,10 @@ const AddPlanPage = () => {
             timerProgressBar: true
         });
     };
+
+    // console.log("formik.values.PlanType", formik.values.PlanType)
+
+
     const formik = useFormik({
         initialValues: {
             NumberofScript: "",
@@ -172,7 +176,6 @@ const AddPlanPage = () => {
 
             };
             console.log("req", req);
-
             try {
                 const response = await AddPlan(req);
                 if (response.Status) {
