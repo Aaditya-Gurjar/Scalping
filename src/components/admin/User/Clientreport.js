@@ -66,21 +66,21 @@ const Clientreport = () => {
                     </div> */}
                 </div>
                 <div className="modal-body">
-                    {getTableData&& 
-                        getTableData.Scalping?.length === 0 &&
-                        getTableData.Option?.length === 0 &&
-                        getTableData.Pattern?.length === 0 &&
-                        getTableData.ReadData?.length === 0 &&
+                    {
+                        !getTableData.loading && 
+                        (getTableData.Scalping?.length ?? 0) === 0 &&
+                        (getTableData.Option?.length ?? 0) === 0 &&
+                        (getTableData.Pattern?.length ?? 0) === 0 &&
+                        (getTableData.ReadData?.length ?? 0) === 0 &&
                         <NoDataFound />
                     }
 
                     {
-                        getTableData.Scalping?.length > 0 &&
+                        (getTableData.Scalping?.length ?? 0) > 0 &&
                         (
                             <>
-                                <h4 >Scalping</h4>
+                                <h4>Scalping</h4>
                                 <FullDataTable
-                                
                                     columns={ClientReportColumn()}
                                     data={getTableData.Scalping}
                                     checkBox={false}
@@ -90,10 +90,10 @@ const Clientreport = () => {
                     }
 
                     {
-                        getTableData.Option?.length > 0 &&
+                        (getTableData.Option?.length ?? 0) > 0 &&
                         (
                             <>
-                                <h4 className='mt-5' >Option Strategy</h4>
+                                <h4 className='mt-5'>Option Strategy</h4>
                                 <FullDataTable
                                     columns={ClientReportColumn()}
                                     data={getTableData.Option}
@@ -104,10 +104,10 @@ const Clientreport = () => {
                     }
 
                     {
-                        getTableData.Pattern?.length > 0 &&
+                        (getTableData.Pattern?.length ?? 0) > 0 &&
                         (
                             <>
-                                <h4 className='mt-5' >Pattern Script</h4>
+                                <h4 className='mt-5'>Pattern Script</h4>
                                 <FullDataTable
                                     columns={ClientReportColumn()}
                                     data={getTableData.Pattern}
@@ -118,10 +118,10 @@ const Clientreport = () => {
                     }
 
                     {
-                        getTableData.ReadData?.length > 0 &&
+                        (getTableData.ReadData?.length ?? 0) > 0 &&
                         (
                             <>
-                                <h4 className='mt-5' >ReadData</h4>
+                                <h4 className='mt-5'>ReadData</h4>
                                 <FullDataTable
                                     columns={ClientReportColumn()}
                                     data={getTableData.ReadData}
