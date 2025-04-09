@@ -1230,7 +1230,7 @@ export const GetAccountsApi = async (data) => {
 export const MasterAccountApi = async (data) => {
     const token = localStorage.getItem('token')
     try {
-        const res = await axios.post(`${Config.base_url}/MasterAccount`, data,
+        const res = await axios.post(`${Config.base_url}MasterAccount`, data,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -1246,8 +1246,7 @@ export const MasterAccountApi = async (data) => {
     }
 
 }
-
-
+ 
 
 export const TradeExecutionAPI = async (data) => {
     const token = localStorage.getItem('token')
@@ -1256,7 +1255,7 @@ export const TradeExecutionAPI = async (data) => {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: `${Config.base_url}/ChartingPlatform`,
+            url: `${Config.base_url}ChartingPlatform`,
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
