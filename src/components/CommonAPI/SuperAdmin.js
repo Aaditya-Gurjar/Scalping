@@ -558,3 +558,24 @@ export const deleteSubAdminData = async (data) => {
     }
 }
 
+
+
+
+export const superAdminClientThreadeReport1 = async (companyName) => {
+    const token = localStorage.getItem('token')
+    try {
+        const res = await axios.get(`${Config.base_url}CAllThreadreport/${companyName}`, 
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+
+}

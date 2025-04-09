@@ -9,23 +9,12 @@ const ClientThreadReport = () => {
     const SelectPanelName = sessionStorage.getItem("SelectPanelName")
 
     const [getAllClientThreadeReport, setAllClientThreadeReport] = useState([])
+    const [comapnyName, setCompanyName] = useState(SelectPanelName || '')
     const [getAllComapny, setAllComapny] = useState([])
-
-    const [comapnyName, setCompanyName] = useState(() => {
-        const initialCompanyName = SelectPanelName || '';
-        return initialCompanyName || (getAllComapny.length > 0 ? getAllComapny[0] : '');
-    });
-
-    useEffect(() => {
-        if (!SelectPanelName && getAllComapny.length > 0) {
-            setCompanyName(getAllComapny[0]);
-            sessionStorage.setItem('SelectPanelName', getAllComapny[0]);
-        }
-    }, [getAllComapny]);
 
     useEffect(() => {
         ComapnyDetails()
-    }, [comapnyName])
+    }, [])
 
     useEffect(() => {
         getClientThreadeReport()
