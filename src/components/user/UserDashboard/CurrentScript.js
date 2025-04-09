@@ -470,73 +470,79 @@ console.log("allScripts", allScripts)
                         Symbol: getCharting[index]?.TSymbol,
                       }
                       : "";
-                      console.log("ManuallyExit3")
+                      
 
-          if (data == "ChartingPlatform") {
-            await DeleteSingleChartingScript(req).then((response) => {
-            console.log("manual exit test")
-
-              if (response.Status) {
-                Swal.fire({
-                  background: "#1a1e23 ",
-                  backdrop: "#121010ba",
-                  title: "Success",
-                  text: response.message,
-                  icon: "success",
-                  timer: 2000,
-                  timerProgressBar: true,
-                }).then(() => {
-
-                  setRefresh(!refresh);
-                });
-              } else {
-                Swal.fire({
-                  title: "Error !",
-                  text: response.message,
-                  icon: "error",
-                  timer: 2000,
-                  timerProgressBar: true,
-                });
-              }
-            });
-          } else {
-            await Discontinue(req)
-              .then((response) => {
-                if (response.Status) {
-                  Swal.fire({
-                    // title: "Success",
-                    // text: response.message,
-                    // icon: "success",
-                    // timer: 2000,
-                    // timerProgressBar: true
-                    background: "#1a1e23 ",
-                    backdrop: "#121010ba",
-                    title: "Success",
-                    text: response.message,
-                    icon: "success",
-                    timer: 2000,
-                    timerProgressBar: true,
-                  }).then(() => {
-                    setRefresh(!refresh);
-                  });
-                } else {
-                  Swal.fire({
-                    title: "Error !",
-                    text: response.message,
-                    icon: "error",
-                    timer: 2000,
-                    timerProgressBar: true,
-                  });
-                }
-              })
-              .catch((err) => {
-                console.log("Error in delete script", err);
-              });
-          }
         }
       });
     } else if (data == "ChartingPlatform") {
-    console.log("Entered in charting platform")
+    
+      const req =  {
+        Username: userName,
+        User: getCharting[index]?.AccType,
+        Symbol: getCharting[index]?.TSymbol,
+      }
+      
+      if (data == "ChartingPlatform") {
+        await DeleteSingleChartingScript(req).then((response) => {
+        console.log("manual exit test")
+
+          if (response.Status) {
+            Swal.fire({
+              background: "#1a1e23 ",
+              backdrop: "#121010ba",
+              title: "Success",
+              text: response.message,
+              icon: "success",
+              timer: 2000,
+              timerProgressBar: true,
+            }).then(() => {
+
+              setRefresh(!refresh);
+            });
+          } else {
+            Swal.fire({
+              title: "Error !",
+              text: response.message,
+              icon: "error",
+              timer: 2000,
+              timerProgressBar: true,
+            });
+          }
+        });
+      } else {
+        await Discontinue(req)
+          .then((response) => {
+            if (response.Status) {
+              Swal.fire({
+                // title: "Success",
+                // text: response.message,
+                // icon: "success",
+                // timer: 2000,
+                // timerProgressBar: true
+                background: "#1a1e23 ",
+                backdrop: "#121010ba",
+                title: "Success",
+                text: response.message,
+                icon: "success",
+                timer: 2000,
+                timerProgressBar: true,
+              }).then(() => {
+                setRefresh(!refresh);
+              });
+            } else {
+              Swal.fire({
+                title: "Error !",
+                text: response.message,
+                icon: "error",
+                timer: 2000,
+                timerProgressBar: true,
+              });
+            }
+          })
+          .catch((err) => {
+            console.log("Error in delete script", err);
+          });
+      }
       return;
     } else {
       {

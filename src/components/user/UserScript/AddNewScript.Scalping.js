@@ -56,14 +56,10 @@ const AddClient = () => {
     });
   };
 
-
-
-
+ 
   const dataWithoutLastItem = location?.state?.data?.scriptType?.data?.slice(0, -1);
   console.log("location?.state?.data?", location?.state?.data?.scriptType?.data)
-
-
-
+ 
   const getEndData = (stg) => {
     const foundItem = dataWithoutLastItem.find((item) => {
       return item.Scalping.includes(stg);
