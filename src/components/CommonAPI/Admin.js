@@ -1256,7 +1256,7 @@ export const TradeExecutionAPI = async (data) => {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: 'http://217.145.69.58:8000/ChartingPlatform',
+            url: `${Config.base_url}/ChartingPlatform`,
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
@@ -1272,3 +1272,4 @@ export const TradeExecutionAPI = async (data) => {
         return err
     }
 }
+
