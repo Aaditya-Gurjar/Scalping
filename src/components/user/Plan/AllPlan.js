@@ -299,13 +299,16 @@ console.log("planExpired", planExpired);
       plan.Planname !== "One Week Demo"
   );
 
+  console.log("Plnas", plansData)
+  console.log("getUpdatedPlansCharting", getUpdatedPlansCharting)
+
   const [value, setValue] = useState("1");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  console.log("getUpdatedPlans", getUpdatedPlans);
+  console.log("plansData.data1", plansData.data1);
 
   return (
     <Content

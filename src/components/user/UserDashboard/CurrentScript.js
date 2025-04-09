@@ -42,7 +42,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
   const [EditDataScalping, setEditDataScalping] = useState({});
   const [EditDataOption, setEditDataOption] = useState({});
   const [EditDataPattern, setEditDataPattern] = useState({});
-  const [allScripts, setAllScripts] = useState({ data: [], len: 0 });
+  const [allScripts, setAllScripts] = useState({ data: [], len: 0, Planname : ""});
   const [editCharting, setEditCharting] = useState();
   const [getCharting, setGetCharting] = useState([]);
   const [channelList, setChannelList] = useState([]);
@@ -141,7 +141,7 @@ console.log("allScripts", allScripts)
     const data = { Username: userName };
     await GetUserScripts(data)
       .then((response) => {
-
+console.log("response-----", response)
         if (response.Status) {
            
           setAllScripts({
@@ -640,6 +640,8 @@ console.log("allScripts", allScripts)
       }
     }
   };
+
+  console.log("allScripts?.data", allScripts);
 
 
   const AddScript = (data) => {
