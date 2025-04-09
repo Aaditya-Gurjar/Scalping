@@ -353,6 +353,8 @@ console.log("allScripts", allScripts)
   };
   const HandleContinueDiscontinue = async (rowData, type) => {
 
+    console.log("ManuallyExit1")
+
     const index = rowData.rowIndex;
     const isOpen = rowData.tableData[index][5];
 
@@ -383,6 +385,9 @@ console.log("allScripts", allScripts)
       console.log("Error in finding the trading status");
       return;
     }
+    console.log("trading", trading)
+    console.log("ManuallyExit2")
+    console.log("data", data)
 
 
     // console.log("getAllService.PatternData[index].Trading", getAllService.PatternData[index].Trading)
@@ -465,9 +470,11 @@ console.log("allScripts", allScripts)
                         Symbol: getCharting[index]?.TSymbol,
                       }
                       : "";
+                      console.log("ManuallyExit3")
 
           if (data == "ChartingPlatform") {
             await DeleteSingleChartingScript(req).then((response) => {
+            console.log("manual exit test")
 
               if (response.Status) {
                 Swal.fire({
@@ -529,7 +536,7 @@ console.log("allScripts", allScripts)
         }
       });
     } else if (data == "ChartingPlatform") {
-
+    console.log("Entered in charting platform")
       return;
     } else {
       {

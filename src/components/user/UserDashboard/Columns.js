@@ -2860,6 +2860,15 @@ export const getColumns8 = (handleContinutyDiscontinuty, chartingSubTab) => [
     },
 
     {
+        name: "Status",
+        label: "Status",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+
+    {
         name: "ManuallyExit",
         label: "Manually Exit",
         options: {
@@ -2877,14 +2886,7 @@ export const getColumns8 = (handleContinutyDiscontinuty, chartingSubTab) => [
         }
     },
 
-    {
-        name: "Status",
-        label: "Status",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+  
 
     {
         name: "TType",
