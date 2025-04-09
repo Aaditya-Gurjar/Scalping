@@ -541,6 +541,7 @@ const Adduser = () => {
             planname: "",
             bname: "",
             groupName: [],
+            permissions : []
         },
         validate: (values) => {
             let errors = {};
