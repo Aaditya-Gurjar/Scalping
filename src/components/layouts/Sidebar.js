@@ -313,6 +313,13 @@ const permissions  = localStorage.getItem("adminPermission");
       label: 'Group',
       permission: [] // No restriction
     },
+
+    {
+      path: "OptionChain",
+      icon: <i className="ri-stock-line" />, // Option Chain icon
+      label: (<>Option <br/>Chain</>),
+      permission: [],
+    }
   ];
 
 

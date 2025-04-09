@@ -4,7 +4,7 @@ import Select from 'react-select';
 import { GET_EXPIRY_DATE, Get_Symbol, TradeExecutionAPI } from '../../CommonAPI/Admin';
 import './OptionChainForm.css';
 import Content from '../../../ExtraComponent/Content';
-import { Get_All_Plans, GetStrikeToken } from '../../CommonAPI/User';
+import { Get_All_Buyed_Plans, Get_All_Plans, GetStrikeToken } from '../../CommonAPI/User';
 import { connectWebSocket } from '../../user/UserDashboard/LivePrice';
 import $ from 'jquery';
 import Table from 'react-bootstrap/Table';
@@ -45,22 +45,31 @@ const OptionChainForm = () => {
 
   const getAllPlans = async () => {
     try {
-      const response = await Get_All_Plans();
-      // console.log("All Plans:", response);
-
-      if (response?.Admin && response?.Charting) {
-        const combinedPlans = [
-          // ...response.Admin.map(plan => ({ ...plan, type: 'Admin' })),
-          ...response.Charting.map(plan => ({ ...plan, type: 'Charting' }))
+       
+      const res = await Get_All_Buyed_Plans({userName: UserName});
+       console.log("res", res?.Allotplan);
+      if (res.Status) {
+        const uniquePlanNames = [
+          ...new Set(
+            res?.Allotplan
+              .filter(item => item.ChartingSignal && item.ChartingSignal.length > 0)
+              .map(item => item.Planname)
+          ),
         ];
-        setPlanNames(combinedPlans);
-        console.log("Combined Plans:", combinedPlans);
+        console.log("uniquePlanNames", uniquePlanNames);
+        setPlanNames(uniquePlanNames);
       }
+      else {
+        setPlanNames([]);
+      }
+      
     } catch (error) {
       console.error("Error fetching plans:", error);
+      
     }
   };
 
+  console.log("Plan Names:", planNames);
   useEffect(() => {
     getAllPlans();
   },[])
@@ -257,7 +266,7 @@ const OptionChainForm = () => {
       const req = {
         Planname: planname,
         Username: UserName,
-        User: Role,
+        User: 'Client',
         Optiontype: type,
         Exchange: exchange,
         StrikePrice: strike,
@@ -508,9 +517,9 @@ const OptionChainForm = () => {
                 <label>Plan Name</label>
                 <Select
                   name="planname"
-                  options={planNames.map(plan => ({ value: plan.Planname, label: plan.Planname }))}
+                  options={planNames.map(plan => ({ value: plan, label: plan }))}
                   value={planNames
-                    .map(plan => ({ value: plan.Planname, label: plan.Planname }))
+                    .map(plan => ({ value: plan, label: plan }))
                     .find(option => option.value === values.planname)}
                   onChange={(selectedOption) => {
                     setFieldValue('planname', selectedOption.value);

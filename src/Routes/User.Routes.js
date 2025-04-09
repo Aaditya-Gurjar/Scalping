@@ -36,6 +36,7 @@ import Group from '../components/user/Group/Group';
 import ViewGroup from '../components/user/Group/ViewGroup';
 
 import { SidebarProvider } from "../components/layouts/SidebarContext";
+import OptionChain from '../components/user/OptioniChain/OptionChain';
 
 
 const UserRoute = () => {
@@ -65,6 +66,7 @@ const UserRoute = () => {
             <Route path="/pannel" element={<Pannel />} />
             <Route path="/tradereport" element={<TradeReport />} />
             <Route path="/Group" element={<Group />} />
+            <Route path="/OptionChain" element={<OptionChain />} />
             <Route path="/ViewGroup" element={<ViewGroup />} />
             <Route path="/newscript/scalping" element={<AddNewScalpingScript />} />
             <Route path="/newscript/option" element={<AddNewScalpingOption />} />
