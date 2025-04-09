@@ -50,7 +50,7 @@ const Clientreport = () => {
         >
             <div className="iq-card-body">
                 <div>
-                    <div className="row">
+                    {/* <div className="row">
                         <div className="form-group col-md-6">
                             <label htmlFor="validationDefault01" className='mb-1'>Select Username</label>
                             <select className="form-select" required=""
@@ -63,7 +63,7 @@ const Clientreport = () => {
                                 <option value={"ReadData"}>ReadData</option>
                             </select>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
                 <div className="modal-body">
                     {getTableData&& 

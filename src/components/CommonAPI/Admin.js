@@ -1268,3 +1268,16 @@ export const TradeExecutionAPI = async (data) => {
     }
 
 }
+
+
+
+
+export const  CAllThreadreport = async (data) => {
+    try {
+        const res = await axios.get(`${Config.base_url}CAllThreadreport`)
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+}

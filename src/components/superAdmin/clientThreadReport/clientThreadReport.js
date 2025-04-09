@@ -3,6 +3,7 @@ import { getCompanyName, clientThreadeReport } from '../../CommonAPI/SuperAdmin'
 import FullDataTable from '../../../ExtraComponent/CommanDataTable'
 import NoDataFound from '../../../ExtraComponent/NoDataFound'
 import Content from '../../../ExtraComponent/Content';
+import { CAllThreadreport } from '../../CommonAPI/Admin';
 
 const ClientThreadReport = () => {
 
@@ -40,8 +41,8 @@ const ClientThreadReport = () => {
         if (comapnyName == '') {
             return
         }
-        const req = { comapnyName: comapnyName }
-        await clientThreadeReport(req)
+        // const req = { comapnyName: comapnyName }
+        await CAllThreadreport()
             .then((response) => {
                 if (response.Status) {
                     setAllClientThreadeReport(response.Data)
