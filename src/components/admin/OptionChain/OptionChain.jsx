@@ -43,12 +43,14 @@ const OptionChainForm = () => {
     });
   };
 
+  console.log("planNames", planNames); 
+
   const getAllPlans = async () => {
     try {
       const response = await Get_All_Plans();
-      // console.log("All Plans:", response);
+      console.log("All Plans:", response);
 
-      if (response?.Admin && response?.Charting) {
+      if ( response?.Charting) {
         const combinedPlans = [
           // ...response.Admin.map(plan => ({ ...plan, type: 'Admin' })),
           ...response.Charting.map(plan => ({ ...plan, type: 'Charting' }))
@@ -508,10 +510,10 @@ const OptionChainForm = () => {
                 <label>Plan Name</label>
                 <Select
                   name="planname"
-                  options={planNames.map(plan => ({ value: plan.Planname, label: plan.Planname }))}
+                  options={planNames.map(plan => ({ value: plan.PlanName, label: plan.PlanName }))}
                   value={planNames
-                    .map(plan => ({ value: plan.Planname, label: plan.Planname }))
-                    .find(option => option.value === values.planname)}
+                    .map(plan => ({ value: plan.PlanName, label: plan.PlanName }))
+                    .find(option => option.value === values.PlanName)}
                   onChange={(selectedOption) => {
                     setFieldValue('planname', selectedOption.value);
                     setFormValues(prev => ({ ...prev, planname: selectedOption.value }));
