@@ -167,7 +167,7 @@ const AddPlanPage = () => {
                 Charting: selectedCharting.map((chart) => chart.value),
                 ...(formik.values.PlanType === "Scalping"
                     ? { SOPPrice: values.SOPPrice, SOPLiveTrade: (values.SOPLiveTrade || 0) }
-                    : { ChartPerMonth: values.SOPPrice, SOPPrice: 0, ChartPerTrade: (values.SOPLiveTrade || 0) }
+                    : { ChartPerMonth: values.SOPPrice, SOPPrice: 0, ChartLiveTrade: (values.SOPLiveTrade || 0) }
                 ),
 
                 SOPPaperTrade: values.SOPPaperTrade || 0.0,
@@ -279,7 +279,7 @@ const AddPlanPage = () => {
 
         {
             name: "ChartPaperTrade",
-            label: "Chart Paper Trade",
+            label: "Paper Trade Amount",
             type: "text",
             showWhen: () => formik.values.PlanType !== "Scalping", 
             col_size: 6,
