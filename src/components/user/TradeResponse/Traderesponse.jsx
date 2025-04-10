@@ -259,7 +259,8 @@ const TradeResponse = () => {
         PatternName: "",
       };
       const res = await get_Trade_Response(req);
-      setChartingSegmentData(res?.data || []);
+      
+      setChartingSegmentData(res?.Data || []);
     } catch (error) {
       console.log("Error in getChartingSegmentData", error);
     }
@@ -369,6 +370,7 @@ const TradeResponse = () => {
     selectedRowData,
     selectSegmentType,
   ]);
+
 
 
   return (

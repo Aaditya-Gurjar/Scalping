@@ -1441,8 +1441,33 @@ export const columns5 = [
   },
 ];
 
-// charting
 
+// {
+//   "User_Id": "799513",
+//   "Token": "79392",
+//   "Symbol": "NIFTY24APR25C22500",
+//   "Orderdetail": "[{\"complexty\": \"regular\", \"discqty\": \"0\", \"exch\": \"NFO\", \"pCode\": \"NRML\", \"prctyp\": \"MKT\", \"price\": \"0.0\", \"qty\": 75, \"ret\": \"DAY\", \"symbol_id\": \"79392\", \"trading_symbol\": \"NIFTY24APR25C22500\", \"transtype\": \"BUY\", \"trigPrice\": \"\", \"orderTag\": \"Scalping\"}]",
+//   "DateTime": "2025.04.09 16:31:19",
+//   "Username": "komal",
+//   "Response": "[{\"stat\":\"Ok\",\"NOrdNo\":\"25040900160494\"}]",
+//   "StrategyType": "Option",
+//   "TargetType": "",
+//   "Order": "Error",
+//   "Execution": "",
+//   "Reason": "RED:Margin Shortfall:INR 30,708.46 Available:INR 0.00 for C-799513 [ABFSFREEDOM]",
+//   "ETime": "2025.04.09 16:27:57",
+//   "EPrice": 405,
+//   "ExitPrice": 405,
+//   "TradeType": "BUY",
+//   "Quantity": 75,
+//   "Exchange": "NFO",
+//   "Trade": "Close",
+//   "Target": 605,
+//   "SL": 305,
+//   "PnL": 0
+// }
+
+// charting
 export const columns8 = [
   {
     name: "S.No",
@@ -1458,7 +1483,7 @@ export const columns8 = [
   },
 
   {
-    name: "TSymbol",
+    name: "Symbol",
     label: "TSymbol",
     options: {
       filter: true,
@@ -1466,7 +1491,7 @@ export const columns8 = [
     },
   },
   {
-    name: "EntryTime",
+    name: "ETime",
     label: "Entry Time",
     options: {
       filter: true,
@@ -1481,14 +1506,14 @@ export const columns8 = [
     },
   },
 
-  {
-    name: "AccType",
-    label: "Account Type",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
+  // {
+  //   name: "AccType",
+  //   label: "Account Type",
+  //   options: {
+  //     filter: true,
+  //     sort: true,
+  //   },
+  // },
 
  
 
@@ -1503,43 +1528,43 @@ export const columns8 = [
 
   
   {
-    name: "Lotsize",
-    label: "Lot Size",
+    name: "Quantity",
+    label: "Quantity",
     options: {
       filter: true,
       sort: true,
     },
   },
 
-  {
-    name: "Optiontype",
-    label: "Option Type ",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
+  // {
+  //   name: "Optiontype",
+  //   label: "Option Type ",
+  //   options: {
+  //     filter: true,
+  //     sort: true,
+  //   },
+  // },
+
+  // {
+  //   name: "Ordertype",
+  //   label: "Order Type",
+  //   options: {
+  //     filter: true,
+  //     sort: true,
+  //   },
+  // },
+
+  // {
+  //   name: "Planname",
+  //   label: "Plan Name",
+  //   options: {
+  //     filter: true,
+  //     sort: true,
+  //   },
+  // },
 
   {
-    name: "Ordertype",
-    label: "Order Type",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-
-  {
-    name: "Planname",
-    label: "Plan Name",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-
-  {
-    name: "Price",
+    name: "EPrice",
     label: "Price",
     options: {
       filter: true,
@@ -1548,7 +1573,7 @@ export const columns8 = [
   },
 
   {
-    name: "Sl",
+    name: "SL",
     label: "Sl",
     options: {
       filter: true,
@@ -1558,7 +1583,7 @@ export const columns8 = [
 
 
   {
-    name: "TType",
+    name: "TradeType",
     label: "TType",
     options: {
       filter: true,
@@ -1596,6 +1621,38 @@ export const columns8 = [
   {
     name: "Username",
     label: "Username",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Execution",
+    label: "Execution",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Reason",
+    label: "Reason",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Response",
+    label: "Response",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Orderdetail",
+    label: "Orderdetail",
     options: {
       filter: true,
       sort: true,
