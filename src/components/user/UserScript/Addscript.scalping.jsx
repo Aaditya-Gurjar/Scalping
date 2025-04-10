@@ -385,7 +385,7 @@ const AddClient = () => {
         errors.WorkingDay = "Please Select Working Day";
       }
 
-      console.log("err", errors);
+      console.log("Error", errors);
       // ScrollToViewFirstError(errors);
       return errors;
     },

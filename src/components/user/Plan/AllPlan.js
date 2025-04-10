@@ -639,7 +639,7 @@ const ServicesList = () => {
   const isPlanExpired = async () => {
     try {
       const response = await ExpirePlanDetails(username);
-      console.log("response is ", response)
+    
       if (response.Status) {
         setPlanExpired(response.Admin.Planname);
       }
@@ -652,7 +652,7 @@ const ServicesList = () => {
     isPlanExpired();
   }, [])
 
-  console.log("planname", planExpired)
+ 
 
 
   const isPlanPurchased = (planName) => {
@@ -665,7 +665,7 @@ const ServicesList = () => {
         ? plansData?.data1[index]
         : plansData?.data[index];
 
-      console.log("planDetails", planDetails);
+     
       const req1 = {
         Username: username,
         transactiontype: "Purchase",

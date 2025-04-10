@@ -90,7 +90,7 @@ const Tradehistory = () => {
     await getNetPnLData(data)
       .then((response) => {
         if (response.Status) {
-          console.log("response.data", response)
+
           setPnlData({
             loading: false,
             data: response.data,
@@ -185,7 +185,7 @@ const Tradehistory = () => {
               className={`form-group ${
                 selectStrategyType === "Scalping" ? "col-lg-4" : "col-lg-4"
               }`}>
-              <label>Select form Date</label>
+              <label>Select From Date</label>
               <DatePicker
                 className="form-select"
                 selected={FromDate == "" ? formattedDate : FromDate}

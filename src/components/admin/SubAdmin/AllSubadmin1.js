@@ -96,7 +96,7 @@ const AllSubadmin = () => {
         //         filter: true,
         //         sort: true,
         //         customBodyRender: (value, tableMeta) => (
-        //             console.log("value",value),
+   
                     
         //             <SquarePen
         //             onClick={() => EditSubadmindetail(value, tableMeta)}  />

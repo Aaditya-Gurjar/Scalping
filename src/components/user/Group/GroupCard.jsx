@@ -57,7 +57,7 @@
 //         SubAdmin: "",
 //       };
 //       const res = await ClientGroupAllot(reqData);
-//       console.log("respnse is ", res);
+//       
 //       setAllotedGroups((prev) => [...prev, strategy.name]);
 //       if (res.Status) {
 //         Swal.fire({
@@ -74,7 +74,7 @@
 //         draggable: true,
 //         timer: 2000,
 //       });
-//       console.log("error in subscribe", error);
+//      
 //     }
 //   };
 
@@ -84,7 +84,7 @@
 //         const res = await GetAllUserGroup({ User: username });
 //         setAllotedGroups(res.Data);
 //       } catch (error) {
-//         console.log("Error", error);
+
 //       }
 //     };
 

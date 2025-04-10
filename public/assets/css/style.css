@@ -21,6 +21,11 @@
 
 }
 
+.strong-balance {
+  font-weight: 600;
+  color:  var(--bg-color);
+}
+
 /* Definition Lists */
 dl dd {
   margin-bottom: 15px;

@@ -92,7 +92,7 @@ const Login = () => {
         await AdminPermission(req)
             .then((response) => {
                 if (response.Status) {
-                    console.log("response.Data", response.Data)
+         
                     localStorage.setItem("AdminPermission", response.Data)
                 }
             })

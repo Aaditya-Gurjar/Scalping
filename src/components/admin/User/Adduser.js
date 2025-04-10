@@ -29,7 +29,6 @@ const Adduser = () => {
         GetAllPlansData();
     }, [])
 
-    console.log("GetAllPlans", GetAllPlans)
     const getBrokerName = async () => {
         await Get_Broker_Name()
             .then((response) => {
@@ -169,7 +168,7 @@ const Adduser = () => {
             if (!values.bname && formik.values.Select_License == '2') {
                 errors.bname = "Please Select Broker"
             }
-            console.log("eror", errors)
+            console.log("Error", errors)
             return errors;
         },
         onSubmit: async (values) => {
@@ -185,13 +184,9 @@ const Adduser = () => {
                 group: selectedOptions && selectedOptions.map((item) => item.value),
             }
 
-            console.log("req", req)
-            console.log("values.planname", values.planname)
 
             const FilterPlanAmount = GetAllPlans.data.filter((item) => (item.PlanName) === values.planname);
 
-            console.log("req", req)
-            console.log("FilterPlanAmount", FilterPlanAmount)
 
             if (FilterPlanAmount[0].payment > values.ClientAmmount && FilterPlanAmount[0].payment !== '') {
                 Swal.fire({
@@ -208,7 +203,6 @@ const Adduser = () => {
 
             }
 
-            // console.log("req at last ", req)
 
             await CreateAccount(req)
                 .then((response) => {

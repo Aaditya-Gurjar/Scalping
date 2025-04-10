@@ -124,7 +124,7 @@ const Clientactivity = () => {
                             </select>
                         </div>
                         <div className="form-group col-lg-4 ">
-                            <label>Select form Date</label>
+                            <label>Select From Date</label>
                             <DatePicker className="form-select" selected={FromDate == "" ? formattedDate : FromDate} onChange={(date) => setFromDate(date)} />
 
                         </div>

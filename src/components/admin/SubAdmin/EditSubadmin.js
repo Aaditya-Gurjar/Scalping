@@ -43,7 +43,7 @@
 //     GetAllSubadminData();
 //   }, [rowData]);
 
-//   console.log("Permissions", permissions);
+
 
 //   const formik = useFormik({
 //     initialValues: {
@@ -82,7 +82,7 @@
 //       return errors;
 //     },
 //     onSubmit: async (values) => {
-//       console.log("Val;ues are ", values);
+
 
 //       const req = {
 //         Username: values.Username,
@@ -121,7 +121,7 @@
 //           }
 //         })
 //         .catch((err) => {
-//           console.log("Error in adding the Edit Subadmin", err);
+
 //         });
 //     },
 //   });

@@ -26,14 +26,14 @@
 
 // const ProfitAndLossGraph = ({ data }) => {
 
-//   // console.log("dataaaa", data)
+
 //   const [filteredData, setFilteredData] = useState([]);
 //   const [originalData, setOriginalData] = useState([]);
 //   const chartRef = useRef(null); // Ref for chart instance
 
 //   // useEffect(() => {
 //   //   if (data && data.length > 0) {
-//   //     // console.log("🔍 Full Data:", data);
+
 
 //   //     const firstTime = data[0]?.ETime;
 //   //     const currentDate = new Date();

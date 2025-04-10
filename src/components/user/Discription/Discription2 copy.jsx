@@ -486,8 +486,7 @@ const DescriptionPage = () => {
     }
   };
 
-  console.log("measurementType", measurementType)
-  console.log("Strategy type", strategyOptions[measurementType][0]?.value)
+  
 
   useEffect(() => {
     fetchPatternData();

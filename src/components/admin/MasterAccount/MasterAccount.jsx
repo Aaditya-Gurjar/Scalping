@@ -41,7 +41,7 @@ const MasterAccount = () => {
       MainUser: selectedMasterAccount?.value,
       ChildUser: selectedChildAccounts.map(account => account.value)
     };
-    console.log("Request Payload:", req);
+
     if (!selectedMasterAccount?.value || selectedChildAccounts.length === 0) {
         Swal.fire({
             icon: 'error',
@@ -58,7 +58,7 @@ const MasterAccount = () => {
 
     try {
       const res = await MasterAccountApi(req);
-      console.log("API Response:", res);
+  
     } catch (error) {
       console.error("Error submitting data:", error);
     }

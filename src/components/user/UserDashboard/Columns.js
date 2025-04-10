@@ -1129,7 +1129,7 @@ export const getColumns3 = (handleDelete, handleEdit, handleContinutyDiscontinut
     //         filter: true,
     //         sort: true,
     //         customBodyRender: (value, tableMeta, updateValue) => {
-    //             // console.log("page ma kya value aa rhe hai ", value);
+    //           
 
     //             const label = value ? "Continue" : "Discontinue";
     //             const labelStyle = value ? { color: 'green' } : { color: 'red' };
@@ -1419,7 +1419,7 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
     //         filter: true,
     //         sort: true,
     //         customBodyRender: (value, tableMeta, updateValue) => {
-    //             // console.log("page ma kya value aa rhe hai ", value);
+    //             
 
     //             const label = value ? "Continue" : "Discontinue";
     //             const labelStyle = value ? { color: 'green' } : { color: 'red' };

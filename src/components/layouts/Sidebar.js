@@ -24,7 +24,7 @@ const Sidebar = ({ position }) => {
     JSON.parse(localStorage.getItem("SubAdminPermission")) || null
   );
 const permissions  = localStorage.getItem("adminPermission");
- console.log("permissions", permissions)
+
 
   const expire = localStorage.getItem("expire");
 
@@ -230,7 +230,7 @@ const permissions  = localStorage.getItem("adminPermission");
   ];
 
   const isOptionChainIncluded = permissions?.includes("Option Chain")
-  console.log("isOptionChainIncluded", isOptionChainIncluded)
+  
   
   
   if(isOptionChainIncluded){

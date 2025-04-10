@@ -21,6 +21,7 @@ const AddClient = () => {
     loading: true,
     data: [],
   });
+
   const [serviceEndDate, setServiceEndDate] = useState("");
   const [showPnl, setShowPnl] = useState(false);
   const [symbolOptions, setSymbolOptions] = useState([]);
@@ -37,7 +38,6 @@ const AddClient = () => {
     NoprofitLoss1: "",
     NoprofitLoss2: "",
   });
-  // console.log("PnlData mai kya kya aa rha hai", PnlData);
 
   const SweentAlertFun = (text) => {
     Swal.fire({
@@ -57,7 +57,7 @@ const AddClient = () => {
       0,
       -1
     );
- 
+
     const foundItem = dataWithoutLastItem.find((item) => {
       return item["Option Strategy"].includes(stg);
     });
@@ -85,7 +85,7 @@ const AddClient = () => {
 
   const formik = useFormik({
     initialValues: {
-      MainStrategy: location.state.data.selectStrategyType,
+      MainStrategy: location?.state?.data?.selectStrategyType,
       Username: "",
       Strategy: "",
       ETPattern: "",
@@ -440,8 +440,7 @@ const AddClient = () => {
       if (!values.WorkingDay.length > 0) {
         errors.WorkingDay = "Please select Working day";
       }
-      // ScrollToViewFirstError(errors)
-      console.log("errors", errors);
+   
 
       return errors;
     },
@@ -477,7 +476,7 @@ const AddClient = () => {
             ? values.Shifting_Point
             : values.Targetvalue,
         Slvalue: values.Slvalue,
-        TStype: values.TStype,
+        TStype: formik.values.ETPattern == "Premium Addition" ? "Point" : formik.values.TStype,
         Quantity: values.Quantity,
         LowerRange:
           values.Striketype == "Premium_Range" &&
@@ -650,7 +649,7 @@ const AddClient = () => {
           }
         })
         .catch((err) => {
-          console.log("Error in added new Script", err);
+    
         });
     },
   });
@@ -1496,7 +1495,7 @@ const AddClient = () => {
       formik.values.Strategy == "LongFourLegStretegy" ||
       formik.values.Strategy == "ShortFourLegStretegy"
     ) {
-      
+
       formik.setFieldValue("Striketype", "Premium_Range");
       formik.setFieldValue("ETPattern", "Premium Addition");
 
@@ -1600,7 +1599,7 @@ const AddClient = () => {
       Optiontype: "",
       Targetvalue: formik.values.Targetvalue,
       Slvalue: formik.values.Slvalue,
-      TStype: formik.values.TStype,
+      TStype: formik.values.ETPattern == "Premium Addition" ? "Point" : formik.values.TStype,
       Quantity: formik.values.Quantity,
       LowerRange:
         formik.values.Striketype == "Premium_Range" &&
@@ -1706,6 +1705,19 @@ const AddClient = () => {
     setShowPnl(false);
   }, [formik.values]);
 
+
+  useEffect(() => {
+
+if(formik.values.ETPattern == "Premium Addition") {
+
+    formik.setFieldValue(
+      "TStype",
+      formik.values.ETPattern == "Premium Addition" ? "Point" : formik.values.TStype
+    );
+  }
+  }, [formik.values.ETPattern]);
+
+
   return (
     <>
       <Content
@@ -1713,7 +1725,7 @@ const AddClient = () => {
         button_status={false}
         backbutton_status={false}
       >
-      { formik.values.Exchange && formik.values.Instrument && formik.values.Symbol && formik.values.expirydata1  && <div className="AddScript_LivePrice card-text-Color"><div className="LivePriceContainer"><span> Live Price:  </span> <span className="LivePrice ms-2">{}</span></div></div>}
+        {formik.values.Exchange && formik.values.Instrument && formik.values.Symbol && formik.values.expirydata1 && <div className="AddScript_LivePrice card-text-Color"><div className="LivePriceContainer"><span> Live Price:  </span> <span className="LivePrice ms-2">{ }</span></div></div>}
         <AddForm
           fields={fields.filter(
             (field) => !field.showWhen || field.showWhen(formik.values)

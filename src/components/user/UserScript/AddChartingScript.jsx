@@ -23,7 +23,7 @@
 
 //   const handleAddCharting = async (index) => {
 
-//     console.log("chartingdartac",chartingData)
+//   
 //     const data = chartingData[index];
 
 //     const req = {
@@ -208,7 +208,7 @@
 //       ASStatus: data.AdminStatus,
 //     };
 
-//     console.log("request", req);
+//   
 
 //     await addChartingScript(req)
 //       .then((response) => {

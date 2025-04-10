@@ -1445,6 +1445,19 @@ export const columns8 = () => [
 
 export const getColumns10 = () => [
   {
+    name: "S.No",
+    label: "S.No",
+
+    options: {
+      filter: true,
+      sort: true,
+      customBodyRender: (value, tableMeta, updateValue) => {
+        const rowIndex = tableMeta.rowIndex;
+        return rowIndex + 1;
+      },
+    },
+  },
+  {
     name: "DayExittime",
     label: "Day Exit Time",
     options: {

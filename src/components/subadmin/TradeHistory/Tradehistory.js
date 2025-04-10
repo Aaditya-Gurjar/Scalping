@@ -454,7 +454,7 @@ confirmButtonColor: "#1ccc8a",
                                         </select>
                                     </div>
                                     <div className="form-group col-md-3 col-sm-6">
-                                        <label>Select form Date</label>
+                                        <label>Select From Date</label>
                                         <DatePicker className="form-select" selected={FromDate == '' ? formattedDate : FromDate} onChange={(date) => setFromDate(date)} />
 
                                     </div>

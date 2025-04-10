@@ -55,8 +55,6 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
   const stg = sessionStorage.getItem("StrategyType");
 
   
-
-console.log("allScripts", allScripts)
   const [getAllService, setAllservice] = useState({
     loading: true,
     ScalpingData: [],
@@ -107,11 +105,11 @@ console.log("allScripts", allScripts)
 
 
   const showLivePrice = async () => {
-    console.log("Channel List", channelList)
+
     connectWebSocket(channelList, (data) => {
       if (data.lp && data.tk) {
         $(".LivePrice_" + data.tk).html(data.lp);
-        // console.log("Updated Price Data:", data);
+       
       }
     });
   }
@@ -141,7 +139,7 @@ console.log("allScripts", allScripts)
     const data = { Username: userName };
     await GetUserScripts(data)
       .then((response) => {
-        console.log("response", response)
+     
 
         if (response.Status) {
            
@@ -353,8 +351,6 @@ console.log("allScripts", allScripts)
   };
   const HandleContinueDiscontinue = async (rowData, type) => {
 
-    console.log("ManuallyExit1")
-
     const index = rowData.rowIndex;
     const isOpen = rowData.tableData[index][5];
 
@@ -382,15 +378,10 @@ console.log("allScripts", allScripts)
     } else if (data == "ChartingPlatform") {
       trading = getCharting[index].Trading;
     } else {
-      console.log("Error in finding the trading status");
+     ;
       return;
     }
-    console.log("trading", trading)
-    console.log("ManuallyExit2")
-    console.log("data", data)
-
-
-    // console.log("getAllService.PatternData[index].Trading", getAllService.PatternData[index].Trading)
+   
     if (trading) {
       Swal.fire({
         title: "Do you want to Discontinue",
@@ -484,7 +475,7 @@ console.log("allScripts", allScripts)
       
       if (data == "ChartingPlatform") {
         await DeleteSingleChartingScript(req).then((response) => {
-        console.log("manual exit test")
+      
 
           if (response.Status) {
             Swal.fire({
@@ -739,9 +730,9 @@ console.log("allScripts", allScripts)
     await GetAllUserScript(data)
       .then((response) => {
         if (response.Status) {
-          // console.log("GetAllUserScriptDetails",response);
+          
           // const channelList = response.NewScalping.map(item => `${item.Exchange}|${item.Token}`).join("#");
-          console.log("CHannelList", channelList)
+         
 
           setAllservice({
             loading: false,
@@ -1065,7 +1056,7 @@ console.log("allScripts", allScripts)
         errors.FinalTarget = "Please Enter Final Target Price";
       }
 
-      console.log("errors", errors)
+     
 
       return errors;
     },
@@ -1167,7 +1158,6 @@ console.log("allScripts", allScripts)
       if (values.EntryTime >= values.ExitTime) {
         return SweentAlertFun("Exit Time should be greater than Entry Time");
       }
-      // console.log("req", req)
 
       await UpdateUserScript(req).then((response) => {
         if (response.Status) {
@@ -1304,7 +1294,7 @@ console.log("allScripts", allScripts)
       if (values.Profit !== 0 && (values.Profit == undefined || values.Profit == "" || values.Profit == null)) {
         errors.Profit = "Please Enter Maximum Prifit";
       }
-      console.log("Errr", errors)
+     
 
       return errors;
     },
@@ -1481,7 +1471,7 @@ console.log("allScripts", allScripts)
       if (!values.TradeCount) {
         errors.TradeCount = "Please Enter Trade Count.";
       }
-      // console.log("Errr", errors)
+      
 
 
       return errors;
@@ -2589,7 +2579,6 @@ console.log("allScripts", allScripts)
     return item.hiding == false
   })
 
-  // console.log("tab ", tab)
   return (
     <div className="container-fluid">
       <div className="row">

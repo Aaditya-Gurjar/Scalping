@@ -159,7 +159,7 @@ const Pannel = () => {
           <div>
             <div className="row">
               <div className="form-group col-lg-4">
-                <label>Select form Date</label>
+                <label>Select From Date</label>
                 <DatePicker
                   className="form-select"
                   selected={fromDate == "" ? formattedDate : fromDate}
@@ -245,7 +245,7 @@ const Pannel = () => {
               <div>
                 <div className="row">
                   <div className="form-group col-lg-3 ">
-                    <label>Select form Date</label>
+                    <label>Select From Date</label>
                     <DatePicker
                       className="form-select"
                       selected={fromDate == "" ? formattedDate : fromDate}

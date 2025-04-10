@@ -8,15 +8,13 @@
 //   const username = localStorage.getItem("name");
 //   const cachedProfile = localStorage.getItem("profileData");
 //   const [data, setData] = useState(cachedProfile ? JSON.parse(cachedProfile) : { loading: false, data: {} });
-//   console.log("data mai kya aa rha hai", data);
-
 //   // Fetch profile data with caching
 //   const getProfileData = async () => {
 //     if (!cachedProfile) {
 //       try {
 //         const requestData = { username };
 //         const response = await Get_Profile_Data(requestData);
-//         console.log("response", response);
+//      
 
 //         if (response.Status) {
 //           localStorage.setItem("expire", "false");
@@ -36,7 +34,7 @@
 
 //   useEffect(() => {
 //     getProfileData();
-//     console.log("getProfileData", getProfileData());
+//   
 
 //   }, []);
 

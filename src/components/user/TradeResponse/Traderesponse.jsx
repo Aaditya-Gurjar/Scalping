@@ -266,7 +266,7 @@ const TradeResponse = () => {
   };
   useEffect(() => {
     getSegmentDataForCharting();
-  }, [activeTab]);
+  }, [activeTab,FromDate,ToDate]);
 
   const handleSubmit = async () => {
     const data = {
@@ -413,7 +413,7 @@ const TradeResponse = () => {
                   ? "col-lg-3"
                   : "col-lg-4"
                 }`}>
-              <label>Select form Date</label>
+              <label>Select From Date</label>
               <DatePicker
                 className="form-select"
                 selected={FromDate === "" ? formattedDate : FromDate}

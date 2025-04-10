@@ -1243,7 +1243,7 @@ const Tradehistory = () => {
     autoSubmitIfNeeded();
   }, [selectedRowData, location?.state?.goto]);
 
-  console.log("getAllTradeData.data", getAllTradeData.data);
+ 
 
   return (
     <Content

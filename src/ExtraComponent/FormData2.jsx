@@ -370,7 +370,6 @@ const DynamicForm = ({
                       </div>
                     ) : field?.headingtype == 2 ? (
                       <div className="iq-card">
-                        {/* {console.log("field.label", field.label)} */}
                         {field.label === "Entry_Rule" && (
                           <>
                             <div className=" d-flex justify-content-between">
@@ -538,10 +537,7 @@ const DynamicForm = ({
                                             className={`col-lg-${item.label_size}`}
                                             htmlFor={item.name}>
                                             {item.label}
-                                            {/* {console.log(
-                                              "item.iconText",
-                                              item.iconText
-                                            )} */}
+                                          
                                             {item.iconText && (
                                               <span className="custom-tooltip-wrapper">
                                                 <span

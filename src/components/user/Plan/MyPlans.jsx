@@ -7,7 +7,7 @@ import "./MyPlan.css"; // Import external CSS
 const MyPurchasedPlans = () => {
   const username = localStorage.getItem("name");
   const [buyedPlans, setBuyedPlans] = useState({ loading: true, data: [] });
-  console.log("fetchBoughtPlans", buyedPlans.data);
+
 
   useEffect(() => {
     const fetchBoughtPlans = async () => {

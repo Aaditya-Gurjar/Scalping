@@ -318,7 +318,7 @@ const ClientThreadReport = () => {
                     errors.email = "Please Enter valid Email ID";
                 }
             }
-            console.log('errors', errors);
+            console.log('Errors', errors);
 
             return errors;
         },
@@ -351,7 +351,6 @@ const ClientThreadReport = () => {
                     }
                 })
                 .catch((err) => {
-                    console.log("Error in fainding the service", err)
                 })
         },
     });

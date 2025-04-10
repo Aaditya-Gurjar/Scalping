@@ -57,7 +57,7 @@ const Adduser = () => {
                 }
             })
             .catch((err) => {
-                console.log("Error in finding the broker", err)
+            
             })
     }
 
@@ -86,10 +86,10 @@ const Adduser = () => {
                     }
                 })
                 .catch((err) => {
-                    console.log("Error Group data fetch error", err);
+                  
                 });
         } catch {
-            console.log("Error Group data fetch error");
+            
         }
     };
 
@@ -120,11 +120,11 @@ const Adduser = () => {
     //                 }
     //             })
     //             .catch((err) => {
-    //                 console.log("Error in data fetch", err)
+    
     //             })
     //     }
     //     catch {
-    //         console.log("Error group data fetch")
+   
     //     }
     // }
 
@@ -141,7 +141,7 @@ const Adduser = () => {
                 }
             })
             .catch((err) => {
-                console.log("Error in fetching the plans", err)
+               
             })
     };
 
@@ -258,7 +258,7 @@ confirmButtonColor: "#1ccc8a",
                     }
                 })
                 .catch((err) => {
-                    console.log("Error in adding the new user", err)
+                   
                 })
         },
     });

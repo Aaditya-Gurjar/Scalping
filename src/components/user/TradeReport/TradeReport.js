@@ -51,7 +51,6 @@ const TradeReport = () => {
     const Username = localStorage.getItem('name');
     const adminPermission = localStorage.getItem('adminPermission');
 
-    console.log("showTable", showTable)
     // State for default auto-select redirected from dashboard
     const [selectedRowData, setSelectedRowData] = useState("");
     const [checkedRows, setCheckedRows] = useState();
@@ -89,7 +88,7 @@ const TradeReport = () => {
         const day = String(dateObj.getDate()).padStart(2, '0');
         return `${year}.${month}.${day}`;
     };
-    // console.log("StrategyType === selectStrategyType", StrategyType === selectStrategyType)
+   
     // const GetTradeReport = async () => {
     //     const data = { Data: selectStrategyType, Username: Username };
     //     await get_User_Data(data)
@@ -104,7 +103,7 @@ const TradeReport = () => {
     //             }
     //         })
     //         .catch((err) => {
-    //             console.log("Error in finding the user data", err);
+    //            
     //         });
     // };
 
@@ -333,7 +332,7 @@ const TradeReport = () => {
         if (selectStrategyType === "ChartingPlatform") {
             handleViewchartingReport();
         }
-    }, [activeTab, setOpenCloseChartingData])
+    }, [activeTab, FromDate,ToDate,setOpenCloseChartingData])
 
     useEffect(() => {
     }, [openCloseChartingData]);
@@ -452,7 +451,7 @@ const TradeReport = () => {
 
                         {/* Select From Date */}
                         <div className={`form-group ${selectStrategyType === "ChartingPlatform" ? "col-lg-4" : "col-lg-4"}`}>
-                            <label>Select form Date</label>
+                            <label>Select From Date</label>
                             <DatePicker
                                 className="form-select"
                                 selected={FromDate === '' ? formattedDate : FromDate}

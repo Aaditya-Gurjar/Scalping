@@ -43,7 +43,6 @@ import ChartComponent from "../../admin/AdvanceChart/ChartComponent";
 
 const Tradehistory = () => {
   const location = useLocation();
-  console.log("state location data", location);
 
   const [selectStrategyType, setStrategyType] = useState("Scalping");
 
@@ -52,7 +51,6 @@ const Tradehistory = () => {
     data: [],
     data1: [],
   });
-  // console.log("tradeHistorytradeHistory tradeHistorytradeHistory", tradeHistory.data);
 
   const [selectedRowData, setSelectedRowData] = useState("");
 
@@ -671,7 +669,7 @@ const Tradehistory = () => {
                         ? "col-lg-3"
                         : "col-lg-4"
                     }`}>
-                    <label>Select form Date</label>
+                    <label>Select From Date</label>
                     <DatePicker
                       className="form-select"
                       selected={FromDate == "" ? formattedDate : FromDate}

@@ -58,7 +58,6 @@ const AddClient = () => {
 
  
   const dataWithoutLastItem = location?.state?.data?.scriptType?.data?.slice(0, -1);
-  console.log("location?.state?.data?", location?.state?.data?.scriptType?.data)
  
   const getEndData = (stg) => {
     const foundItem = dataWithoutLastItem.find((item) => {
@@ -729,10 +728,6 @@ const AddClient = () => {
   // ? getExpiryDate?.data?.[0]
   // : formik.values.expirydata1 == "Next_Month"
   //   ? getExpiryDate?.data?.[1] : formik.values.expirydata1
-
-
-  // console.log("expiry", expiry)
-
 
   const SymbolSelectionArr = [
     {
@@ -1715,11 +1710,10 @@ const AddClient = () => {
 
 
   const showLivePrice = async (singleChannel) => {
-    console.log("Channel List", singleChannel)
     connectWebSocket(singleChannel, (data) => {
       if (data.lp && data.tk) {
         $(".LivePrice").html(data.lp);
-        // console.log("Updated Price Data:", data);
+      
       }
     });
   }
@@ -1738,9 +1732,7 @@ const AddClient = () => {
             : formik.values.expirydata1 == "Next_Month"
               ? getExpiryDate?.data?.[1] : formik.values.expirydata1
         });
-        console.log("res", res)
         const singleChannel = `${formik.values.Exchange}|${res.Token[0]}`
-        console.log("singleChannel", singleChannel)
         showLivePrice(singleChannel)
 
       }

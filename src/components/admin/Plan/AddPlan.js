@@ -34,7 +34,7 @@
 //                 }
 //             })
 //             .catch((err) => {
-//                 console.log("Error in getting the Scalping Stratgy", err)
+
 //             })
 //     }
 
@@ -98,7 +98,7 @@
 //                     }
 //                 })
 //                 .catch((err) => {
-//                     console.log("Error in adding the new user", err)
+
 //                 })
 //         },
 //     });

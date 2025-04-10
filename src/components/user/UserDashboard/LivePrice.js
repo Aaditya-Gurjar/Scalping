@@ -83,7 +83,7 @@ export const connectWebSocket = async (instrument, onPriceUpdate) => {
 
     const credentials = await getSessionIdFromAPI();
     if (!credentials) return;
-    // console.log("credentials", credentials)
+  
 
     const { userId, sessionId } = credentials;
 

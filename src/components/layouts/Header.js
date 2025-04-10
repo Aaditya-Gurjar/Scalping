@@ -391,7 +391,7 @@ const Header = () => {
     await GetUserBalence(req)
       .then((response) => {
         if (response.Status) {
-          // console.log("response.Balance",response.Balance);
+         
 
           setWalletBalance(response.Balance);
         } else {
@@ -806,7 +806,7 @@ const Header = () => {
                             style={{ height: "24px", marginRight: "10px" }}
                           />
 
-                          <strong >{walletBalance || "-"}</strong>
+                          <strong className="strong-balance">{walletBalance || "-"}</strong>
                         </span>
                       ) : (
                         <span>

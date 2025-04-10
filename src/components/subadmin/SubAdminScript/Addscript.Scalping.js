@@ -315,7 +315,7 @@ const AddClient = () => {
       ) {
         errors.WorkingDay = "Please select Working day";
       }
-      console.log("errors", errors)
+      console.log("Error", errors)
 
       // ScrollToViewFirstError(errors)
 
@@ -532,7 +532,7 @@ const AddClient = () => {
   }, [])
 
   // useEffect(() => {
-  //   console.log("testing")
+
   //   if (formik.values.Exchange === 'NSE') {
   //     formik.setFieldValue('ExitTime', '15:15:00');
   //   } else {
