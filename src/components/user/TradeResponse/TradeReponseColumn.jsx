@@ -1441,32 +1441,6 @@ export const columns5 = [
   },
 ];
 
-
-// {
-//   "User_Id": "799513",
-//   "Token": "79392",
-//   "Symbol": "NIFTY24APR25C22500",
-//   "Orderdetail": "[{\"complexty\": \"regular\", \"discqty\": \"0\", \"exch\": \"NFO\", \"pCode\": \"NRML\", \"prctyp\": \"MKT\", \"price\": \"0.0\", \"qty\": 75, \"ret\": \"DAY\", \"symbol_id\": \"79392\", \"trading_symbol\": \"NIFTY24APR25C22500\", \"transtype\": \"BUY\", \"trigPrice\": \"\", \"orderTag\": \"Scalping\"}]",
-//   "DateTime": "2025.04.09 16:31:19",
-//   "Username": "komal",
-//   "Response": "[{\"stat\":\"Ok\",\"NOrdNo\":\"25040900160494\"}]",
-//   "StrategyType": "Option",
-//   "TargetType": "",
-//   "Order": "Error",
-//   "Execution": "",
-//   "Reason": "RED:Margin Shortfall:INR 30,708.46 Available:INR 0.00 for C-799513 [ABFSFREEDOM]",
-//   "ETime": "2025.04.09 16:27:57",
-//   "EPrice": 405,
-//   "ExitPrice": 405,
-//   "TradeType": "BUY",
-//   "Quantity": 75,
-//   "Exchange": "NFO",
-//   "Trade": "Close",
-//   "Target": 605,
-//   "SL": 305,
-//   "PnL": 0
-// }
-
 // charting
 export const columns8 = [
   {
@@ -1475,16 +1449,20 @@ export const columns8 = [
     options: {
       filter: true,
       sort: true,
-      customBodyRender: (value, tableMeta, updateValue) => {
-        const rowIndex = tableMeta.rowIndex;
-        return rowIndex + 1;
-      },
+      customBodyRender: (value, tableMeta) => tableMeta.rowIndex + 1,
     },
   },
-
   {
     name: "Symbol",
-    label: "TSymbol",
+    label: "Symbol",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "TradeType",
+    label: "Trade Type",
     options: {
       filter: true,
       sort: true,
@@ -1497,36 +1475,24 @@ export const columns8 = [
       filter: true,
       sort: true,
     },
-  },{
-    name: "Exittime",
-    label: "Exit Time",
-    options: {
-      filter: true,
-      sort: true,
-    },
   },
-
-  // {
-  //   name: "AccType",
-  //   label: "Account Type",
-  //   options: {
-  //     filter: true,
-  //     sort: true,
-  //   },
-  // },
-
- 
-
   {
-    name: "Exchange",
-    label: "Exchange",
+    name: "EPrice",
+    label: "Entry Price",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "ExitPrice",
+    label: "Exit Price",
     options: {
       filter: true,
       sort: true,
     },
   },
 
-  
   {
     name: "Quantity",
     label: "Quantity",
@@ -1535,62 +1501,6 @@ export const columns8 = [
       sort: true,
     },
   },
-
-  // {
-  //   name: "Optiontype",
-  //   label: "Option Type ",
-  //   options: {
-  //     filter: true,
-  //     sort: true,
-  //   },
-  // },
-
-  // {
-  //   name: "Ordertype",
-  //   label: "Order Type",
-  //   options: {
-  //     filter: true,
-  //     sort: true,
-  //   },
-  // },
-
-  // {
-  //   name: "Planname",
-  //   label: "Plan Name",
-  //   options: {
-  //     filter: true,
-  //     sort: true,
-  //   },
-  // },
-
-  {
-    name: "EPrice",
-    label: "Price",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-
-  {
-    name: "SL",
-    label: "Sl",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-
-
-  {
-    name: "TradeType",
-    label: "TType",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-
   {
     name: "Target",
     label: "Target",
@@ -1599,10 +1509,9 @@ export const columns8 = [
       sort: true,
     },
   },
-
   {
-    name: "Token",
-    label: "Token",
+    name: "SL",
+    label: "Stop Loss",
     options: {
       filter: true,
       sort: true,
@@ -1610,22 +1519,31 @@ export const columns8 = [
   },
 
   {
-    name: "Trading",
-    label: "Trading",
+    name: "PnL",
+    label: "PnL",
     options: {
       filter: true,
       sort: true,
     },
   },
-
   {
-    name: "Username",
-    label: "Username",
+    name: "Exchange",
+    label: "Exchange",
     options: {
       filter: true,
       sort: true,
     },
   },
+ 
+  {
+    name: "Order",
+    label: "Order Status",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+ 
   {
     name: "Execution",
     label: "Execution",
@@ -1648,14 +1566,191 @@ export const columns8 = [
     options: {
       filter: true,
       sort: true,
+      customBodyRender: (value) => {
+        try {
+          const res = JSON.parse(value);
+          return res[0]?.stat || 'N/A';
+        } catch {
+          return value;
+        }
+      },
     },
   },
   {
     name: "Orderdetail",
-    label: "Orderdetail",
-    options: {
-      filter: true,
-      sort: true,
-    },
+    label: "Order Detail",
+    // options: {
+    //   filter: true,
+    //   sort: true,
+    //   customBodyRender: (value) => {
+    //     try {
+    //       const order = JSON.parse(value);
+    //       return order|| 'N/A';
+    //     } catch {
+    //       return value;
+    //     }
+    //   },
+    // },
   },
 ];
+
+
+// export const columns8 = [
+//   {
+//     name: "S.No",
+//     label: "S.No",
+//     options: {
+//       filter: true,
+//       sort: true,
+//       customBodyRender: (value, tableMeta, updateValue) => {
+//         const rowIndex = tableMeta.rowIndex;
+//         return rowIndex + 1;
+//       },
+//     },
+//   },
+
+//   {
+//     name: "TSymbol",
+//     label: "TSymbol",
+//     options: {
+//       filter: true,
+//       sort: true,
+//     },
+//   },
+//   {
+//     name: "EntryTime",
+//     label: "Entry Time",
+//     options: {
+//       filter: true,
+//       sort: true,
+//     },
+//   },{
+//     name: "Exittime",
+//     label: "Exit Time",
+//     options: {
+//       filter: true,
+//       sort: true,
+//     },
+//   },
+
+//   {
+//     name: "AccType",
+//     label: "Account Type",
+//     options: {
+//       filter: true,
+//       sort: true,
+//     },
+//   },
+
+ 
+
+//   {
+//     name: "Exchange",
+//     label: "Exchange",
+//     options: {
+//       filter: true,
+//       sort: true,
+//     },
+//   },
+
+  
+//   {
+//     name: "Lotsize",
+//     label: "Lot Size",
+//     options: {
+//       filter: true,
+//       sort: true,
+//     },
+//   },
+
+//   {
+//     name: "Optiontype",
+//     label: "Option Type ",
+//     options: {
+//       filter: true,
+//       sort: true,
+//     },
+//   },
+
+//   {
+//     name: "Ordertype",
+//     label: "Order Type",
+//     options: {
+//       filter: true,
+//       sort: true,
+//     },
+//   },
+
+//   {
+//     name: "Planname",
+//     label: "Plan Name",
+//     options: {
+//       filter: true,
+//       sort: true,
+//     },
+//   },
+
+//   {
+//     name: "Price",
+//     label: "Price",
+//     options: {
+//       filter: true,
+//       sort: true,
+//     },
+//   },
+
+//   {
+//     name: "Sl",
+//     label: "Sl",
+//     options: {
+//       filter: true,
+//       sort: true,
+//     },
+//   },
+
+
+//   {
+//     name: "TType",
+//     label: "TType",
+//     options: {
+//       filter: true,
+//       sort: true,
+//     },
+//   },
+
+//   {
+//     name: "Target",
+//     label: "Target",
+//     options: {
+//       filter: true,
+//       sort: true,
+//     },
+//   },
+
+//   {
+//     name: "Token",
+//     label: "Token",
+//     options: {
+//       filter: true,
+//       sort: true,
+//     },
+//   },
+
+//   {
+//     name: "Trading",
+//     label: "Trading",
+//     options: {
+//       filter: true,
+//       sort: true,
+//     },
+//   },
+
+//   {
+//     name: "Username",
+//     label: "Username",
+//     options: {
+//       filter: true,
+//       sort: true,
+//     },
+//   },
+// ];

@@ -509,7 +509,7 @@ const TradeResponse = () => {
                           : tradeHistory?.data1
                       }
                       onRowSelect={handleRowSelect}
-                      checkBox={true}
+                      checkBox={selectStrategyType === "ChartingPlatform" ? false : true}
                       isChecked={location?.state?.RowIndex}
                     />
                   </div>

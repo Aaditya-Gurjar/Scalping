@@ -15,7 +15,7 @@ const Addscript = () => {
     const StrategyType = sessionStorage.getItem('StrategyType')
 
     const [refresh, setRefresh] = useState(false)
-    const [selectGroup, setSelectGroup] = useState(GroupName || 'Dello')
+    const [selectGroup, setSelectGroup] = useState(GroupName)
     const [selectStrategyType, setStrategyType] = useState(StrategyType || 'Scalping')
     const [strategyNames, setStrategyNames] = useState([]);
 
