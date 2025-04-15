@@ -1519,13 +1519,13 @@ export const columns8 = [
   },
 
   {
-    name: "Ordertype",
-    label: "Order Type",
+    name: "StrategyTag",
+    label: "Strategy Tag",
     options: {
-      filter: true,
-      sort: true,
-    },
-  },
+        filter: true,
+        sort: true,
+    }
+},
 
   {
     name: "Planname",

@@ -1541,6 +1541,15 @@ export const getColumns10 = () => [
     },
   },
   {
+    name: "StrategyTag",
+    label: "Strategy Tag",
+    options: {
+        filter: true,
+        sort: true,
+    }
+},
+
+  {
     name: "Segment",
     label: "Segment",
     options: {
