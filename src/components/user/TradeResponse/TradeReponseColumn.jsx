@@ -1519,6 +1519,15 @@ export const columns8 = [
   },
 
   {
+    name: "StrategyTag",
+    label: "Strategy Tag",
+    options: {
+        filter: true,
+        sort: true,
+    }
+},
+
+  {
     name: "PnL",
     label: "PnL",
     options: {
