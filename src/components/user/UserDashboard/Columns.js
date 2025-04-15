@@ -2887,6 +2887,14 @@ export const getColumns8 = (handleContinutyDiscontinuty, chartingSubTab) => [
     },
 
     {
+        name: "StrategyTag",
+        label: "Strategy Tag",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
         name: "TType",
         label: "Transaction Type",
         options: {
