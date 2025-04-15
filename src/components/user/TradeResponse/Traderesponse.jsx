@@ -408,9 +408,8 @@ const TradeResponse = () => {
               </select>
             </div>
 
-            {/* Removed: Select Table Type (No longer displayed) */}
-
-            {/* Select Segment Type */}
+            
+            
 
 
             {/* Select From Date */}

@@ -516,32 +516,32 @@ const Tradehistory = () => {
                 </select>
               </div> */}
               <div className="d-flex justify-content-center report-btns">
-                                <ul
-                                    className="nav nav-pills shadow rounded-pill p-1"
-                                    style={{ backgroundColor: "#f1f3f5" }}
-                                >
-                                    {strategyNames.map((type, index) => (
-                                        <li className="nav-item" key={index}>
-                                            <button
-                                                className={`nav-link ${selectStrategyType === type ? "active" : ""} rounded-pill`}
-                                                onClick={() => {
-                                                    setStrategyType(type);
-                                                    sessionStorage.setItem("StrategyType", type);
-                                                }}
-                                                style={{
-                                                    padding: "10px 20px",
-                                                    margin: "5px",
-                                                    border: "none",
-                                                    outline: "none",
-                                                }}
-                                            >
-                                                {type}
-                                            </button>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-              
+                <ul
+                  className="nav nav-pills shadow rounded-pill p-1"
+                  style={{ backgroundColor: "#f1f3f5" }}
+                >
+                  {strategyNames.map((type, index) => (
+                    <li className="nav-item" key={index}>
+                      <button
+                        className={`nav-link ${selectStrategyType === type ? "active" : ""} rounded-pill`}
+                        onClick={() => {
+                          setStrategyType(type);
+                          sessionStorage.setItem("StrategyType", type);
+                        }}
+                        style={{
+                          padding: "10px 20px",
+                          margin: "5px",
+                          border: "none",
+                          outline: "none",
+                        }}
+                      >
+                        {type}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
             </div>
            <div className="history-page-dates">
            <div className="col-12 col-md-6 col-lg-2">
