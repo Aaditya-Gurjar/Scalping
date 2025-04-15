@@ -194,10 +194,7 @@ const Adduser = () => {
                 });
         },
     });
-
-
-
-
+ 
 
     const fields = [
         {
