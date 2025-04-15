@@ -84,7 +84,7 @@ const Adduser = () => {
 
             Permission: [],
 
-            ChartPerMonth: 0,
+            Chartingamount: 0,
             // ChartPerTrade:0,
             BrokerPermission: [], // Initial empty array for BrokerPermission
         },
@@ -129,8 +129,8 @@ const Adduser = () => {
             if (!values.Url) {
                 errors.Url = "Please Enter URL"
             }
-            if (!values.ChartPerMonth) {
-                errors.ChartPerMonth = "Please Enter Charting Amount";
+            if (!values.Chartingamount) {
+                errors.Chartingamount = "Please Enter Charting Amount";
             }
             // if (!values.ChartPerTrade) {
             //     errors.ChartPerTrade = "Please Enter Charting Amount";
@@ -152,7 +152,7 @@ const Adduser = () => {
                 Url: values.Url,
                 permission: values.Permission,
 
-                ChartPerMonth: values.ChartPerMonth,
+                Chartingamount: values.Chartingamount,
                 // ChartPerTrade: values.ChartPerTrade,
                 BrokerPermission: values.BrokerPermission,  
             };
@@ -310,7 +310,7 @@ const Adduser = () => {
             options: permissionArray
         },
         {
-            name: "ChartPerMonth",
+            name: "Chartingamount",
             label: "Charting Amount",
             type: "text3",
             label_size: 12,
