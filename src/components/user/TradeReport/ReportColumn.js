@@ -2117,6 +2117,15 @@ export const getColumns10 = () => [
         }
     },
 
+    {
+        name: "StrategyTag",
+        label: "Strategy Tag",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+
 ];
 
 
@@ -2231,7 +2240,14 @@ export const getColumns12 = () => [
         }
     },
 
-
+    {
+        name: "StrategyTag",
+        label: "Strategy Tag",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
 
 
 
