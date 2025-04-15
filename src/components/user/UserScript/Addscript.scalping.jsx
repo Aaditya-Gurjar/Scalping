@@ -381,7 +381,7 @@ const AddClient = () => {
         errors.FinalTarget = "Please Enter Final Target Price";
       }
 
-      if (values.WorkingDay.length === 0) {
+      if (values.WorkingDay?.length === 0) {
         errors.WorkingDay = "Please Select Working Day";
       }
 

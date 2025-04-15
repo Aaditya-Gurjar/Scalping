@@ -1892,3 +1892,17 @@ Border Color
   .css-t3ipsp-control{
     background-color: var(--bg-color) !important;
   }
+
+  
+.bot-btn{
+  color:   var(--bg-color) !important;
+  background-color: var(--text-color) !important;
+  padding: 4px 10px;  
+  margin-bottom: 15px;
+  transition: all .15s ease;
+}
+
+.bot-btn-active{
+  color: white !important;
+  background-color: rgb(0, 77, 90) !important
+}

@@ -13,6 +13,10 @@ const AddClient = () => {
   const navigate = useNavigate();
   const [getExpiry, setExpiry] = useState({ loading: true, data: [] });
 
+
+
+  console.log("location--=-=-=-=-", location?.state);
+
   const ScrollToViewFirstError = (newErrors) => {
     if (Object.keys(newErrors).length !== 0) {
       const errorField = Object.keys(newErrors)[0];
@@ -46,9 +50,12 @@ const AddClient = () => {
   };
 
   const getEndData = (stg) => {
+    if(!stg){
+      return
+    }
     const dataWithoutLastItem = location?.state?.scriptType?.data.slice(0, -1);
     const foundItem = dataWithoutLastItem.find((item) => {
-      return item["Option Strategy"].includes(stg);
+      return item["Option Strategy"]?.includes(stg);
     });
     return foundItem.EndDate;
   };

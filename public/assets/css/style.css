@@ -5660,9 +5660,9 @@ ul.nav.nav-tabs.justify-content-center,
 .nav-tabs.nav-fill,
 .nav.nav-pills {
   background: var(--bg-color);
-  margin: 10px 20px;
+  margin: 1px 2px;
   border-radius: 10px;
-  padding: 10px 0 5px 10px;
+  padding: 5px 0 2px 5px;
   border-bottom: 0;
   justify-content: center;
 }
@@ -7164,4 +7164,24 @@ margin-bottom: 0 !important;
 
 .tss-1cdcmys-MUIDataTable-responsiveBase{
   max-height: auto !important;
+}
+
+.report-btns{
+  position: absolute !important;
+  z-index: 2;
+}
+
+.report-page-dates{
+  position: absolute !important;
+  z-index: 1;
+  right: 30px;
+}
+
+.history-page-dates {
+  margin-top: -4px !important;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 5px;
+  right: 4% !important;
 }

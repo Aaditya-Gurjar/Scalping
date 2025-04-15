@@ -427,57 +427,68 @@ const TradeReport = () => {
             <div className="iq-card-body">
                 <div className="was-validated ">
                     <div className="row">
-                        {/* Select Strategy Type */}
-                        <div className={`form-group ${selectStrategyType === "ChartingPlatform" ? "col-lg-4" : "col-lg-4"}`}>
-                            <label>Select Strategy Type</label>
-                            <select
-                                className="form-select"
-                                required=""
-                                onChange={(e) => {
-                                    setStrategyType(e.target.value)
-                                    sessionStorage.setItem('StrategyType', e.target.value)
-                                }}
-                                value={selectStrategyType}
-                            >
-                                <option value="">Select Strategy Type</option>
-                                {strategyNames.map((type, index) => (
-                                    <option key={index} value={type}>
-                                        {type}
-                                    </option>
-                                ))}
-                            </select>
+                        {/* Capsule Buttons for Strategy Type */}
+                        <div className="form-group col-lg-12 mb-4">
+                            {/* <h5>Select Strategy Type</h5> */}
+                            <div className="d-flex justify-content-center report-btns">
+                                <ul
+                                    className="nav nav-pills shadow rounded-pill p-1"
+                                    style={{ backgroundColor: "#f1f3f5" }}
+                                >
+                                    {strategyNames.map((type, index) => (
+                                        <li className="nav-item" key={index}>
+                                            <button
+                                                className={`nav-link ${selectStrategyType === type ? "active" : ""} rounded-pill`}
+                                                onClick={() => {
+                                                    setStrategyType(type);
+                                                    sessionStorage.setItem("StrategyType", type);
+                                                }}
+                                                style={{
+                                                    padding: "10px 20px",
+                                                    margin: "5px",
+                                                    border: "none",
+                                                    outline: "none",
+                                                }}
+                                            >
+                                                {type}
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
                         </div>
 
-                        {/* Removed: Select Table Type */}
+                        {/* Date Pickers */}
+                        <div className="d-flex justify-content-end col-lg-12 report-page-dates">
+                            <div className="form-group me-2"></div>
+                            <div className="form-group me-3 col-lg-2">
+                                <label>Select From Date</label>
+                                <DatePicker
+                                    className="form-select"
+                                    selected={FromDate === '' ? formattedDate : FromDate}
+                                    onChange={(date) => setFromDate(date)}
+                                />
+                            </div>
 
-                        {/* Select From Date */}
-                        <div className={`form-group ${selectStrategyType === "ChartingPlatform" ? "col-lg-4" : "col-lg-4"}`}>
-                            <label>Select form Date</label>
-                            <DatePicker
-                                className="form-select"
-                                selected={FromDate === '' ? formattedDate : FromDate}
-                                onChange={(date) => setFromDate(date)}
-                            />
-                        </div>
-
-                        {/* Select To Date */}
-                        <div className={`form-group ${selectStrategyType === "ChartingPlatform" ? "col-lg-4" : "col-lg-4"}`}>
-                            <label>Select To Date</label>
-                            <DatePicker
-                                className="form-select"
-                                selected={ToDate === '' ? Defult_To_Date : ToDate}
-                                onChange={(date) => setToDate(date)}
-                            />
+                            {/* Select To Date */}
+                            <div className="form-group col-lg-2">
+                                <label>Select To Date</label>
+                                <DatePicker
+                                    className="form-select"
+                                    selected={ToDate === '' ? Defult_To_Date : ToDate}
+                                    onChange={(date) => setToDate(date)}
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div className="iq-header-title">
+                {/* <div className="iq-header-title">
                     {tableType === "Scalping" ? (<h4 className="card-title">{selectStrategyType}</h4>) : ""}
-                </div>
+                </div> */}
 
                 { /* Render table only if tableType is Scalping */}
                 {tableType === "Scalping" && selectStrategyType !== "ChartingPlatform" && (
-                    <div className="modal-body">
+                    <div className="modal-body" style={{ marginTop: "5rem" }}>
                         {(tradeReport?.data)?.length > 0 ? (
                             <GridExample
                                 columns={
@@ -499,9 +510,9 @@ const TradeReport = () => {
                 )}
 
                 {selectStrategyType === "ChartingPlatform" && (
-                    <div className="container">
+                    <div className="container" style={{ marginTop: "5rem" }}>
                         {/* Tab Navigation */}
-                        <div className="d-flex justify-content-center">
+                        <div className="d-flex justify-content-center "> 
                             <ul
                                 className="nav nav-pills shadow rounded-pill p-1"
                                 style={{ backgroundColor: "#f1f3f5" }}>
@@ -556,13 +567,13 @@ const TradeReport = () => {
 
                 { /* Render MultiCondition table only if tableType is MultiCondition */}
                 {tableType === "MultiCondition" && selectStrategyType === "Scalping" && (
-                    <div>
+                    <div style={{ marginTop: "5rem" }}>
                         <div className="iq-header-title mt-4">
                             {/* <h4 className="card-title">Multi Conditional</h4> */}
                             <h4 className="card-title">Scalping</h4>
                         </div>
                         {tradeReport?.data1 && tradeReport?.data1?.length > 0 ? (
-                            <div className="modal-body">
+                            <div className="modal-body"  >
                                 <GridExample
                                     columns={getColumns9() || []}
                                     data={tradeReport?.data1}

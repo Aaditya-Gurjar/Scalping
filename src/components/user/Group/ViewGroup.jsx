@@ -5,14 +5,23 @@ import { useLocation } from "react-router-dom";
 import GridExample from "../../../ExtraComponent/CommanDataTable";
 import NoDataFound from "../../../ExtraComponent/NoDataFound";
 import { Modal, Button } from "react-bootstrap";
-import { Eye } from "lucide-react";
+import { CopyPlus, Eye } from "lucide-react";
 import {
   GetSingleChart,
+  GetUserScripts,
   Option_Detail,
   ScalpingPositionDetails,
 } from "../../CommonAPI/User";
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
-const ViewGroup = () => {
+
+const ViewGroup = ({ group, isCopyScriptVisible, handleAddScript11, handleAddScript22, handleAddScript33, GroupName, data2 }) => {
+  const navigate = useNavigate();
+  const [selectGroup, setSelectGroup] = useState('');
+
+  const [allScripts, setAllScripts] = useState({ data: [], len: 0 })
+
   const [activeTab, setActiveTab] = useState("Scalping");
   const [data, setData] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -32,6 +41,163 @@ const ViewGroup = () => {
   const [parameters, setParameters] = useState([]);
   const location = useLocation();
   const groupName = location.state?.name || "";
+
+  const [getAllService, setAllservice] = useState({ loading: true, data: [], data1: [] });
+
+  const userName = localStorage.getItem('name')
+
+  localStorage.setItem("groupTab", activeTab);
+
+
+
+
+
+  const handleAddScript1 = (data1, type) => {
+
+    const selectedRowIndex = data1?.rowIndex;
+    const selectedRow = type == 1 ? getAllService?.data?.[selectedRowIndex] : getAllService?.data1?.[selectedRowIndex];
+
+    if (data2?.status == false) {
+      Swal.fire({
+        title: "Error",
+        text: data2.msg,
+        icon: "error",
+        timer: 1500,
+        timerProgressBar: true
+      });
+    }
+    else if (allScripts?.data?.[allScripts?.len]?.CombineScalping?.length == 0) {
+      Swal.fire({
+        title: "Warning",
+        text: "You don't have any valid plan to use this strategy",
+        icon: "warning",
+        timer: 1500,
+        timerProgressBar: true
+      });
+    }
+    else {
+      const isExist = allScripts?.data?.[allScripts?.len]?.CombineScalping?.find((item) => item === selectedRow?.ScalpType) ?? ""
+      if (!isExist) {
+        Swal.fire({
+          title: "Warning",
+          text: "This script is not available for you",
+          icon: "warning",
+          timer: 3000,
+          timerProgressBar: true
+        });
+        return;
+      }
+      const data = { selectGroup: selectGroup, selectStrategyType: "Scalping", type: "group", ...selectedRow };
+      navigate('/user/addscript/scalping', { state: { data: data, scriptType: allScripts } });
+    }
+  }
+  const handleAddScript2 = (data1) => {
+
+    console.log("Option data1", allScripts?.data)
+
+    if (data2.status == false) {
+      Swal.fire({
+        title: "Error",
+        text: data2.msg,
+        icon: "error",
+        timer: 1500,
+        timerProgressBar: true
+      });
+    }
+    else if (allScripts.data.length == 0) {
+      Swal.fire({
+        title: "Warning",
+        text: "You don't have any valid plan to use this strategy",
+        icon: "warning",
+        timer: 1500,
+        timerProgressBar: true
+      });
+    }
+    else {
+
+      const selectedRowIndex = data1?.rowIndex;
+      console.log("Option selectedRowIndex", selectedRowIndex)
+
+      console.log('OPtion getAllService?.data', getAllService?.data)
+
+
+
+      let selectedRow = getAllService?.data?.[selectedRowIndex];
+      let OptionStgArr = allScripts?.data[allScripts?.len]?.CombineOption
+
+
+      if (OptionStgArr?.includes('Straddle_Strangle') &&
+        ['ShortStrangle', 'LongStrangle', 'LongStraddle', 'ShortStraddle']?.includes(selectedRow?.STG) ||
+
+        OptionStgArr?.includes('Butterfly_Condor') &&
+        ['LongIronButterfly', 'ShortIronButterfly', 'LongIronCondor', 'ShortIronCondor']?.includes(selectedRow?.STG) ||
+
+        OptionStgArr?.includes('Spread') &&
+        ['BearCallSpread', 'BearPutSpread', 'BullCallSpread', 'BullPutSpread']?.includes(selectedRow?.STG) ||
+
+        OptionStgArr?.includes('Ladder_Coverd') &&
+        ['BullCallLadder', 'BullPutLadder', 'CoveredCall', 'CoveredPut']?.includes(selectedRow?.STG) ||
+
+        OptionStgArr?.includes('Collar_Ratio') &&
+        ['LongCollar', 'ShortCollar', 'RatioCallSpread', 'RatioPutSpread']?.includes(selectedRow?.STG) ||
+
+        OptionStgArr?.includes('Shifting_FourLeg') &&
+        ['LongFourLegStretegy', 'ShortShifting', 'LongShifting', 'ShortFourLegStretegy']?.includes(selectedRow?.STG)
+      ) {
+        const data = { selectGroup: selectGroup, selectStrategyType: 'Option Strategy', type: "copy", ...selectedRow };
+        navigate('/user/addscript/option', { state: { data: data, scriptType: allScripts } });
+      }
+      else {
+        Swal.fire({
+          title: "Warning",
+          text: "This script is not available for you",
+          icon: "warning",
+          timer: 3000,
+          timerProgressBar: true
+        });
+        return;
+      }
+
+    }
+  }
+  const handleAddScript3 = (data1) => {
+    if (data2.status == false) {
+      Swal.fire({
+        title: "Error",
+        text: data2.msg,
+        icon: "error",
+        timer: 1500,
+        timerProgressBar: true
+      });
+    }
+    else if (allScripts.data.length == 0) {
+      Swal.fire({
+        title: "Warning",
+        text: "You don't have any valid plan to use this strategy",
+        icon: "warning",
+        timer: 1500,
+        timerProgressBar: true
+      });
+    }
+    else {
+      const selectedRowIndex = data1?.rowIndex;
+      const selectedRow = getAllService?.data[selectedRowIndex];
+
+      const isExist = allScripts?.data[allScripts?.len]?.CombinePattern?.find((item) => item === selectedRow?.TradePattern) ?? ""
+      if (!isExist) {
+        Swal.fire({
+          title: "Warning",
+          text: "This script is not available for you",
+          icon: "warning",
+          timer: 3000,
+          timerProgressBar: true
+        });
+        return;
+      }
+      const data = { selectGroup: selectGroup, selectStrategyType: 'Pattern', type: "group", ...selectedRow };
+      navigate('/user/addscript/pattern', { state: { data: data, scriptType: allScripts } });
+    }
+  }
 
   // Columns for the three tabs in the main grid
   const getColumnsForScalping = [
@@ -142,6 +308,48 @@ const ViewGroup = () => {
     },
   ];
 
+  if (isCopyScriptVisible) {
+    getColumnsForScalping.splice(1, 0, {
+      name: "coptScript",
+      label: "Copy Script",
+      options: {
+        filter: true,
+        sort: true,
+        customBodyRender: (_, tableMeta) => {
+          return <CopyPlus onClick={() => handleAddScript1(tableMeta, 2)} />
+        }
+      }
+    },)
+
+    getColForOption.splice(1, 0, {
+      name: "coptScript",
+      label: "Copy Script",
+      options: {
+        filter: true,
+        sort: true,
+        customBodyRender: (_, tableMeta) => {
+          return <CopyPlus onClick={() => handleAddScript2(tableMeta, 2)} />
+        }
+      }
+    },)
+
+    getColForPattern.splice(1, 0, {
+      name: "coptScript",
+      label: "Copy Script",
+      options: {
+        filter: true,
+        sort: true,
+        customBodyRender: (_, tableMeta) => {
+          return <CopyPlus onClick={() => handleAddScript3(tableMeta, 2)} />
+        }
+      }
+    },)
+
+
+  }
+
+
+
   const handleView = async (rowData) => {
     if (typeof rowData === "number") {
       const filteredData = data.filter((_, index) => index === rowData);
@@ -183,14 +391,77 @@ const ViewGroup = () => {
     setShowPatternModal(true);
   };
 
+  const GetUserAllScripts = async () => {
+        const data = { Username: userName }
+        await GetUserScripts(data)
+            .then((response) => {
+                if (response.Status) {
+                    setAllScripts({
+                        data: response?.data,
+                        len: response?.data?.length - 1
+                    })
+                }
+                else {
+                    setAllScripts({
+                        data: [],
+                        len: 0
+                    })
+                }
+            })
+            .catch((err) => {
+                console.log("Error in finding the User Scripts", err)
+            })
+    }
+
+  const GetAllUserScriptDetails = async () => {
+    const stgType = localStorage.getItem("groupTab"); // moved inside to get fresh value
+    const data = { Strategy: stgType, Group: GroupName };
+    console.log("sneh data---", data)
+
+    const response = await GetAllGroupService(data);
+
+    if (!response?.Status) {
+      setAllservice({
+        loading: false,
+        data: response?.Data || [],
+        data1: [],
+      });
+      return;
+    }
+
+    if (stgType === 'Scalping') {
+      const filterMulticondtion = response?.Data?.filter((item) => item?.ScalpType === 'Multi_Conditional');
+      const filterOthers = response?.Data?.filter((item) => item?.ScalpType !== 'Multi_Conditional');
+
+      setAllservice({
+        loading: false,
+        data: filterOthers,
+        data1: filterMulticondtion,
+      });
+    } else {
+      console.log("response?.Data---", response?.Data)
+      setAllservice({
+        loading: false,
+        data: response?.Data || [],
+        data1: [],
+      });
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
-      const reqData = { Strategy: activeTab, Group: groupName };
+      const reqData = { Strategy: activeTab, Group: groupName || group };
       const response = await GetAllGroupService(reqData);
       setData(response.Data);
     };
     fetchData();
-  }, [activeTab, groupName]);
+    GetAllUserScriptDetails()
+  }, [activeTab, groupName, group]);
+
+  useEffect(() => {
+    GetUserAllScripts()
+
+  }, []);
 
   return (
     <div className="container my-5">
@@ -200,9 +471,8 @@ const ViewGroup = () => {
           style={{ backgroundColor: "#f1f3f5" }}>
           <li className="nav-item">
             <button
-              className={`nav-link ${
-                activeTab === "Scalping" ? "active" : ""
-              } rounded-pill`}
+              className={`nav-link ${activeTab === "Scalping" ? "active" : ""
+                } rounded-pill`}
               onClick={() => setActiveTab("Scalping")}
               style={{
                 padding: "10px 20px",
@@ -215,9 +485,8 @@ const ViewGroup = () => {
           </li>
           <li className="nav-item">
             <button
-              className={`nav-link ${
-                activeTab === "Option Strategy" ? "active" : ""
-              } rounded-pill`}
+              className={`nav-link ${activeTab === "Option Strategy" ? "active" : ""
+                } rounded-pill`}
               onClick={() => setActiveTab("Option Strategy")}
               style={{
                 padding: "10px 20px",
@@ -230,9 +499,8 @@ const ViewGroup = () => {
           </li>
           <li className="nav-item">
             <button
-              className={`nav-link ${
-                activeTab === "Pattern" ? "active" : ""
-              } rounded-pill`}
+              className={`nav-link ${activeTab === "Pattern" ? "active" : ""
+                } rounded-pill`}
               onClick={() => setActiveTab("Pattern")}
               style={{
                 padding: "10px 20px",
@@ -248,7 +516,7 @@ const ViewGroup = () => {
       <div className="mt-4">
         {activeTab === "Scalping" && (
           <div className="tab-content shadow-sm rounded  ">
-            {data && data.length > 0 ? (
+            {data && data?.length > 0 ? (
               <GridExample
                 columns={getColumnsForScalping}
                 data={data}
@@ -263,7 +531,7 @@ const ViewGroup = () => {
         )}
         {activeTab === "Option Strategy" && (
           <div className="tab-content shadow-sm rounded ">
-            {data && data.length > 0 ? (
+            {data && data?.length > 0 ? (
               <GridExample
                 columns={getColForOption}
                 data={data}
@@ -278,7 +546,7 @@ const ViewGroup = () => {
         )}
         {activeTab === "Pattern" && (
           <div className="tab-content shadow-sm rounded ">
-            {data && data.length > 0 ? (
+            {data && data?.length > 0 ? (
               <GridExample
                 columns={getColForPattern}
                 data={data}
@@ -308,9 +576,8 @@ const ViewGroup = () => {
               style={{ backgroundColor: "#f1f3f5" }}>
               <li className="nav-item">
                 <button
-                  className={`nav-link ${
-                    modalActiveTab === "Description" ? "active" : ""
-                  } rounded-pill`}
+                  className={`nav-link ${modalActiveTab === "Description" ? "active" : ""
+                    } rounded-pill`}
                   onClick={() => setModalActiveTab("Description")}
                   style={{
                     padding: "10px 20px",
@@ -323,9 +590,8 @@ const ViewGroup = () => {
               </li>
               <li className="nav-item">
                 <button
-                  className={`nav-link ${
-                    modalActiveTab === "Parameters" ? "active" : ""
-                  } rounded-pill`}
+                  className={`nav-link ${modalActiveTab === "Parameters" ? "active" : ""
+                    } rounded-pill`}
                   onClick={() => setModalActiveTab("Parameters")}
                   style={{
                     padding: "10px 20px",
@@ -344,7 +610,7 @@ const ViewGroup = () => {
                 <p className="modal-description">
                   {selectedRowData
                     ? selectedRowData[0]?.Description ||
-                      JSON.stringify(selectedRowData, null, 2)
+                    JSON.stringify(selectedRowData, null, 2)
                     : "No description available."}
                 </p>
               </div>
@@ -353,7 +619,7 @@ const ViewGroup = () => {
               <div className="modal-container">
                 {parameters ? (
                   <div className="parameters-card card-bg-color">
-                    <h2 className="parameters-title card-text-Color">
+                    <h2 className="parameters-title text-white">
                       Trade Parameters
                     </h2>
                     <div className="parameters-grid">
@@ -437,9 +703,8 @@ const ViewGroup = () => {
               style={{ backgroundColor: "#f1f3f5" }}>
               <li className="nav-item">
                 <button
-                  className={`nav-link ${
-                    optionModalActiveTab === "Description" ? "active" : ""
-                  } rounded-pill`}
+                  className={`nav-link ${optionModalActiveTab === "Description" ? "active" : ""
+                    } rounded-pill`}
                   onClick={() => setOptionModalActiveTab("Description")}
                   style={{
                     padding: "10px 20px",
@@ -452,9 +717,8 @@ const ViewGroup = () => {
               </li>
               <li className="nav-item">
                 <button
-                  className={`nav-link ${
-                    optionModalActiveTab === "Parameters" ? "active" : ""
-                  } rounded-pill`}
+                  className={`nav-link ${optionModalActiveTab === "Parameters" ? "active" : ""
+                    } rounded-pill`}
                   onClick={() => setOptionModalActiveTab("Parameters")}
                   style={{
                     padding: "10px 20px",
@@ -519,7 +783,7 @@ const ViewGroup = () => {
                 <div className="modal-container">
                   {parameters ? (
                     <div className="parameters-card card-bg-color">
-                      <h2 className="parameters-title card-text-Color">
+                      <h2 className="parameters-title text-white">
                         Trade Parameters
                       </h2>
                       <div className="parameters-grid">
@@ -618,9 +882,8 @@ const ViewGroup = () => {
               style={{ backgroundColor: "#f1f3f5" }}>
               <li className="nav-item">
                 <button
-                  className={`nav-link ${
-                    patternModalActiveTab === "Description" ? "active" : ""
-                  } rounded-pill`}
+                  className={`nav-link ${patternModalActiveTab === "Description" ? "active" : ""
+                    } rounded-pill`}
                   onClick={() => setPatternModalActiveTab("Description")}
                   style={{
                     padding: "10px 20px",
@@ -633,9 +896,8 @@ const ViewGroup = () => {
               </li>
               <li className="nav-item">
                 <button
-                  className={`nav-link ${
-                    patternModalActiveTab === "Parameters" ? "active" : ""
-                  } rounded-pill`}
+                  className={`nav-link ${patternModalActiveTab === "Parameters" ? "active" : ""
+                    } rounded-pill`}
                   onClick={() => setPatternModalActiveTab("Parameters")}
                   style={{
                     padding: "10px 20px",
@@ -681,7 +943,7 @@ const ViewGroup = () => {
                 <div className="modal-container">
                   {parameters ? (
                     <div className="parameters-card card-bg-color">
-                      <h2 className="parameters-title card-text-Color">
+                      <h2 className="parameters-title text-white">
                         Trade Parameters
                       </h2>
                       <div className="parameters-grid">
