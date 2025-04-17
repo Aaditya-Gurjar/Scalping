@@ -1102,7 +1102,7 @@ const Header = () => {
                       </>
                     ) : (
                       <>
-                        🔑 <strong>Auto Login</strong>
+                        🔑 <strong className="btn-text-color">Auto Login</strong>
                       </>
                     )}
                   </button>
@@ -1121,7 +1121,7 @@ const Header = () => {
                       </>
                     ) : (
                       <>
-                        🚀 <strong>Data Start</strong>
+                        🚀 <strong className="btn-text-color">Data Start</strong>
                       </>
                     )}
                   </button>
@@ -1139,7 +1139,7 @@ const Header = () => {
                       </>
                     ) : (
                       <>
-                        🔍 <strong>Last Pattern</strong>
+                        🔍 <strong className="btn-text-color">Last Pattern</strong>
                       </>
                     )}
                   </button>
