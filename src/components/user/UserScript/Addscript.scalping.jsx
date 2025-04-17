@@ -1308,6 +1308,7 @@ const AddClient = () => {
       disable: false,
       // iconText: text.Increment_Type,
       hiding: false,
+      
     },
 
     {

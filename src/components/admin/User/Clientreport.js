@@ -15,7 +15,6 @@ const Clientreport = () => {
         const data = { User: selectUserName }
         await clientThreadeReport1()
             .then((response) => {
-                console.log("response in client report", response)
                 if (response.Status) {
                     setTableData({ loading: false, Scalping: response.Scalping, Option: response.Option, Pattern: response.Pattern, ReadData: response.ReadData })
                     setSelectUserName(Username || 'AllUser')
@@ -32,7 +31,6 @@ const Clientreport = () => {
             })
     }
 
-    console.log("getTableData", getTableData)
 
     useEffect(() => {
         GetClientData()

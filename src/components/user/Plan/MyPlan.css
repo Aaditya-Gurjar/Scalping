@@ -8,8 +8,7 @@
 
 /* Title for the page */
 .myplan-title {
-    text-align: center;
-    margin-bottom: 2rem;
+    text-align: center; 
     font-size: 2rem;
 }
 
@@ -94,4 +93,53 @@
 
 .myplan-purchased-button svg {
     margin-left: 0.5rem;
+}
+
+.MuiTabs-root {
+    justify-content: center;
+}
+
+/* .Myplans-tab{
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+} */
+
+.myplan-container.card-bg-color .MuiBox-root{
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+.myplan-tab{
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+/* Style for the TabList */
+.MuiTab-root {
+    font-weight: bold; /* Bold text */
+    color: black; /* Black text */
+    background-color: transparent; /* Transparent background */
+    text-transform: none; /* Keep text case as is */
+    padding: 0.75rem 1.5rem; /* Add padding for better spacing */
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+}
+
+.MuiTab-root.Mui-selected {
+    border-bottom: 3px solid #4caf50; /* Green border for selected tab */
+    color: black; /* Ensure selected tab text remains black */
+}
+
+.MuiTabs-indicator {
+    display: none; /* Hide default indicator */
+}
+
+/* Add spacing between tabs */
+.MuiTab-root + .MuiTab-root {
+    margin-left: 1rem;
+}
+
+.myplan-container.card-bg-color .MuiButtonBase-root{
+    background-color: transparent !important;
 }

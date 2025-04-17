@@ -56,7 +56,6 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
   
 
-console.log("allScripts", allScripts)
   const [getAllService, setAllservice] = useState({
     loading: true,
     ScalpingData: [],
@@ -141,7 +140,6 @@ console.log("allScripts", allScripts)
     const data = { Username: userName };
     await GetUserScripts(data)
       .then((response) => {
-        console.log("response", response)
 
         if (response.Status) {
            
@@ -353,7 +351,6 @@ console.log("allScripts", allScripts)
   };
   const HandleContinueDiscontinue = async (rowData, type) => {
 
-    console.log("ManuallyExit1")
 
     const index = rowData.rowIndex;
     const isOpen = rowData.tableData[index][5];
@@ -385,12 +382,8 @@ console.log("allScripts", allScripts)
       console.log("Error in finding the trading status");
       return;
     }
-    console.log("trading", trading)
-    console.log("ManuallyExit2")
-    console.log("data", data)
+  
 
-
-    // console.log("getAllService.PatternData[index].Trading", getAllService.PatternData[index].Trading)
     if (trading) {
       Swal.fire({
         title: "Do you want to Discontinue",
@@ -478,13 +471,14 @@ console.log("allScripts", allScripts)
     
       const req =  {
         Username: userName,
-        User: getCharting[index]?.AccType,
+        // User: getCharting[index]?.AccType,
         Symbol: getCharting[index]?.TSymbol,
       }
+
       
       if (data == "ChartingPlatform") {
+        
         await DeleteSingleChartingScript(req).then((response) => {
-        console.log("manual exit test")
 
           if (response.Status) {
             Swal.fire({
@@ -741,7 +735,6 @@ console.log("allScripts", allScripts)
         if (response.Status) {
           // console.log("GetAllUserScriptDetails",response);
           // const channelList = response.NewScalping.map(item => `${item.Exchange}|${item.Token}`).join("#");
-          console.log("CHannelList", channelList)
 
           setAllservice({
             loading: false,
@@ -1419,6 +1412,9 @@ console.log("allScripts", allScripts)
       PEDeepHigher: 0.0,
       DepthofStrike: 0,
       TradeCount: "",
+      WorkingDay : [],
+      Profit: 0,
+      Loss: 0,
 
     },
     validate: (values) => {
@@ -1481,6 +1477,27 @@ console.log("allScripts", allScripts)
       if (!values.TradeCount) {
         errors.TradeCount = "Please Enter Trade Count.";
       }
+      if (
+        (values.Loss === undefined ||
+          values.Loss === null ||
+          values.Loss === "") &&
+        values.Strategy == "Multi_Conditional" &&
+        values.FixedSM == "Multiple"
+      ) {
+        errors.Loss = "Please Enter Maximum Loss";
+      }
+
+      if (
+        (values.Profit === undefined ||
+          values.Profit === null ||
+          values.Profit === "") &&
+        values.Strategy == "Multi_Conditional" &&
+        values.FixedSM == "Multiple"
+      ) {
+        errors.Profit = "Please Enter Maximum Loss";
+      }   if (!values.WorkingDay?.length > 0) {
+        errors.WorkingDay = "Please select Working day";
+      }
       // console.log("Errr", errors)
 
 
@@ -1531,6 +1548,7 @@ console.log("allScripts", allScripts)
         Profit: values.Profit || EditDataScalping.Profit || 0.0, // float
         Loss: values.Loss || 0.0, // float
         WorkingDay: [],
+
 
       };
 
@@ -1621,9 +1639,7 @@ console.log("allScripts", allScripts)
 
 
   ];
-
-
-
+ 
   const OptionEntryRuleArr = [
     {
       name: "CEDepthLower",
@@ -1876,6 +1892,41 @@ console.log("allScripts", allScripts)
       name: "TradeCount",
       label: "Trade Count",
       type: "text3",
+      label_size: 12,
+      col_size: 4,
+      disable: false,
+      hiding: false,
+    },
+    {
+      name: "Profit",
+      label: "Max Profit",
+      type: "text3",
+      label_size: 12,
+      col_size: 4,
+      disable: false,
+      hiding: false,
+    },
+    {
+      name: "Loss",
+      label: "Max Loss",
+      type: "text3",
+      label_size: 12,
+      col_size: 4,
+      disable: false,
+      hiding: false,
+    },
+    {
+      name: "WorkingDay",
+      label: "Working Day",
+      type: "multiselect",
+      options: [
+        { label: "Monday", value: "Monday" },
+        { label: "Tuesday", value: "Tuesday" },
+        { label: "Wednesday", value: "Wednesday" },
+        { label: "Thursday", value: "Thursday" },
+        { label: "Friday", value: "Friday" },
+        { label: "Saturday", value: "Saturday" },
+      ],
       label_size: 12,
       col_size: 4,
       disable: false,
@@ -2574,15 +2625,21 @@ console.log("allScripts", allScripts)
       formik1.setFieldValue("PEDeepHigher", EditDataOption.PEDeepHigher || 0.0);
 
     } else if (data === "Pattern") {
+      const WorkingDay = EditDataPattern?.WorkingDay?.map((day) => {
+        return { label: day, value: day };
+      });
       formik2.setFieldValue("TStype", EditDataPattern.TStype);
       formik2.setFieldValue("Targetvalue", EditDataPattern["Target value"]);
       formik2.setFieldValue("Slvalue", EditDataPattern["SL value"]);
       formik2.setFieldValue("EntryTime", EditDataPattern.EntryTime);
       formik2.setFieldValue("ExitTime", EditDataPattern.ExitTime);
       formik2.setFieldValue("TradeCount", EditDataPattern.TradeCount);
+      formik2.setFieldValue("WorkingDay", WorkingDay);
+      formik2.setFieldValue("Profit", EditDataPattern.Profit || 0);
+      formik2.setFieldValue("Loss", EditDataPattern.Loss || 0);
     }
   }, [showEditModal, data, EditDataPattern]);
-
+console.log("EditDataPattern", EditDataPattern)
 
 
   const updatedFields = fields.filter((item) => {
@@ -2761,7 +2818,7 @@ console.log("allScripts", allScripts)
                                           : (data === "Pattern" || data === "Pattern Script")
                                             ? getColumns5(handleDelete, handleEdit, HandleContinueDiscontinue)
                                             : data === "ChartingPlatform"
-                                              ? getColumns8(HandleContinueDiscontinue, chartingSubTab)
+                                              ? getColumns8(HandleContinueDiscontinue, chartingSubTab, getChartingScript)
                                               : getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue)
                                     }
                                     data={

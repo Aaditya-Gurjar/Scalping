@@ -785,33 +785,40 @@ const Userdashboard = () => {
                     ))}
                   </div>
                 </div>
-                <div className="d-flex justify-content-start align-items-center w-100" style={{ maxWidth: "1200px" }}>
-                  <h5 className="me-3" style={{ minWidth: "100px", textAlign: "left" }}>Groups:</h5>
-                  <div className="d-flex flex-wrap gap-3">
-                    {groupNames.map((group, index) => (
-                      <button
-                        key={index}
-                        className={`btn bot-btn ${getGroup === group ? "bot-btn-active" : "bot-btn"}`}
-                        onClick={() => {
-                          setGroup(group);
-                          setSubTab("");
-                          sessionStorage.setItem("groupName", group);
-                          sessionStorage.removeItem("StrategyType"); // Clear StrategyType from session
-                        }}
-                        style={{ whiteSpace: "nowrap" }}>
-                        <FaEye className="me-1" /> {group}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+                <div
+  className="d-flex justify-content-start align-items-center w-100"
+  style={{ maxWidth: "1200px" }}
+>
+  <h5 className="me-3" style={{ minWidth: "100px", textAlign: "left" }}>
+    Groups:
+  </h5>
+
+  <div className="d-flex flex-wrap gap-3">
+    {groupNames && groupNames.length > 0 ? (
+      groupNames.map((group, index) => (
+        <button
+          key={index}
+          className={`btn bot-btn ${getGroup === group ? "bot-btn-active" : "bot-btn"}`}
+          onClick={() => {
+            setGroup(group);
+            setSubTab("");
+            sessionStorage.setItem("groupName", group);
+            sessionStorage.removeItem("StrategyType"); // Clear StrategyType from session
+          }}
+          style={{ whiteSpace: "nowrap" }}
+        >
+          <FaEye className="me-1" /> {group}
+        </button>
+      ))
+    ) : (
+      <span className="text-muted">No group available</span>
+    )}
+  </div>
+</div>
+
               </div>
               {subTab === "ChartingPlatform" && (
-                <div className="d-flex justify-content-end align-items-center mt-3" style={{
-                  position: 'absolute',
-                  marginTop: '26px', // or '10px' if needed
-                  top: '28.5%',
-                  right: '26%'
-                }}
+                <div className="d-flex justify-content-end align-items-center dashboard-date"  
                 >
                   <div className="form-group me-3">
                     <label className="form-label">From Date</label>

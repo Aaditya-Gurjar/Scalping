@@ -141,6 +141,7 @@ const AddClient = () => {
       Loss: "0",
       ExitType: "",
       WorkingDay: [],
+      Planname: "",
     },
     validate: (values) => {
       let errors = {};
@@ -437,7 +438,7 @@ const AddClient = () => {
         errors.ExitType = "Please Select Exit Type";
       }
 
-      if (!values.WorkingDay.length > 0) {
+      if (!values.WorkingDay?.length > 0) {
         errors.WorkingDay = "Please select Working day";
       }
       // ScrollToViewFirstError(errors)
@@ -449,6 +450,7 @@ const AddClient = () => {
 
 
     onSubmit: async (values) => {
+       
       const req = {
         MainStrategy: location.state.data.selectStrategyType,
         Username: userName,
@@ -560,7 +562,13 @@ const AddClient = () => {
         WorkingDay: values?.WorkingDay
           ? values?.WorkingDay?.map((item) => item?.value || item)
           : [],
+          Planname: location?.state?.data?.scriptType?.data?.find(
+            (item) => item.EndDate == getEndData(formik.values.Measurment_Type)
+          )?.Planname,
       };
+
+       
+     
 
       if (
         values.Striketype == "Depth_of_Strike" &&
@@ -816,6 +824,7 @@ const AddClient = () => {
       col_size: 3,
       headingtype: 2,
       disable: false,
+      iconText: text.strikeType,
     },
     {
       name: "DepthofStrike",
@@ -845,6 +854,7 @@ const AddClient = () => {
       col_size: 3,
       headingtype: 2,
       disable: false,
+      iconText : text.depthOfStrike
     },
     {
       name: "DeepStrike",
@@ -875,6 +885,7 @@ const AddClient = () => {
       col_size: 3,
       headingtype: 2,
       disable: false,
+      iconText : text.lowerRange
     },
     {
       name: "Higher_Range",
@@ -888,6 +899,7 @@ const AddClient = () => {
       col_size: 3,
       headingtype: 2,
       disable: false,
+      iconText : text.higherRange
     },
 
     {
@@ -1033,6 +1045,7 @@ const AddClient = () => {
       col_size: 3,
       headingtype: 2,
       disable: false,
+      iconText : text.uniqueId
     },
   ];
 
@@ -1061,6 +1074,7 @@ const AddClient = () => {
       col_size: formik.values.Measurment_Type != "Shifting_FourLeg" ? 3 : 4,
       headingtype: 3,
       disable: false,
+      iconText : text.riskHandle
     },
     {
       name: "TStype",
@@ -1083,6 +1097,7 @@ const AddClient = () => {
       col_size: 3,
       headingtype: 3,
       disable: false,
+      iconText : text.measurementType
     },
 
     {
@@ -1163,13 +1178,14 @@ const AddClient = () => {
     },
     {
       name: "Trade_Count",
-      label: "No Of Cycle",
+      label: "No. Of Cycle",
       type: "text3",
       label_size: 12,
       col_size: 4,
       headingtype: 4,
       disable: false,
       hiding: false,
+      iconText: text.NoOfCycyle,
     },
 
     {

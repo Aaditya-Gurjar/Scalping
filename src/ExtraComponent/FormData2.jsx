@@ -621,7 +621,27 @@ const DynamicForm = ({
                                               <span className="text-danger">
                                                 *
                                               </span>
+                                              {item.iconText && (
+                                                  <span className="custom-tooltip-wrapper">
+                                                    <span
+                                                      className="info-icon-container"
+                                                      data-tooltip={
+                                                        item.iconText
+                                                      }>
+                                                      <Info
+                                                        style={{
+                                                          width: "15px",
+                                                          fill: "#ffffff",
+                                                        }}
+                                                        className="mx-1"
+                                                      />
+                                                    </span>
+                                                  </span>
+                                                )}
                                             </label>
+
+                                           
+
                                             <div>
                                               <select
                                                 className="default-select wide form-control"
@@ -1429,7 +1449,10 @@ const DynamicForm = ({
                                                   </span>
                                                 </span>
                                               )}
-                                            </label>
+                                              </label>
+
+                                             
+                                           
                                             <div>
                                               <select
                                                 className="default-select wide form-control"

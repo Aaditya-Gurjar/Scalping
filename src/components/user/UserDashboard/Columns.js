@@ -2739,7 +2739,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
 
 ];
 
-export const getColumns8 = (handleContinutyDiscontinuty, chartingSubTab) => [
+export const getColumns8 = (handleContinutyDiscontinuty, chartingSubTab, getChartingScript) => [
     {
         name: "S.No",
         label: "S.No",
@@ -2860,15 +2860,27 @@ export const getColumns8 = (handleContinutyDiscontinuty, chartingSubTab) => [
     },
 
     {
+        name: "Status",
+        label: "Status",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+
+    {
         name: "ManuallyExit",
         label: "Manually Exit",
         options: {
             filter: true,
             sort: true,
-            customBodyRender: (value, tableMeta) => 
+            customBodyRender: (value, tableMeta) =>
                 tableMeta.rowData[tableMeta.columnIndex - 1] === "Open" ? (
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                        <IconButton onClick={() => handleContinutyDiscontinuty(tableMeta)}>
+                        <IconButton onClick={() => {
+                            handleContinutyDiscontinuty(tableMeta);
+                            getChartingScript();
+                        }}>
                             <ExitToAppIcon color="error" />
                         </IconButton>
                         <Typography variant="caption" color="textSecondary">Exit</Typography>
@@ -2877,14 +2889,7 @@ export const getColumns8 = (handleContinutyDiscontinuty, chartingSubTab) => [
         }
     },
 
-    {
-        name: "Status",
-        label: "Status",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+   
 
     {
         name: "StrategyTag",

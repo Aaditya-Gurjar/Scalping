@@ -144,7 +144,7 @@ const AddPlanPage = () => {
                 showError("Error!", "Please select at least one strategy either Scalping, Option or Pattern.");
                 return;
             }
-            console.log("values", values)
+          
             const req = {
                 // ...values,
                 // Scalping: selecteScalping.map((strategy) => strategy.value),
@@ -175,7 +175,7 @@ const AddPlanPage = () => {
                 
 
             };
-            console.log("req", req);
+         
             try {
                 const response = await AddPlan(req);
                 if (response.Status) {

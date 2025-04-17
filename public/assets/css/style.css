@@ -7185,3 +7185,23 @@ margin-bottom: 0 !important;
   gap: 5px;
   right: 4% !important;
 }
+
+.response-btns{
+  position: absolute !important;
+  z-index: 2;
+  right: 24%;
+}
+
+.response-page-dates{
+  display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 5px;
+}
+.dashboard-date{
+  position: relative !important;
+    top: 31%;
+    right: 21%;
+    margin-bottom: -6rem;
+
+}

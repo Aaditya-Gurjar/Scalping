@@ -28,6 +28,7 @@ const ServicesList = () => {
     data: [],
     data1: [],
   });
+
   const [purchasedPlans, setPurchasedPlans] = useState([]);
   const expire = localStorage.getItem("expire");
   const [planExpired, setPlanExpired] = useState([]);
@@ -49,7 +50,6 @@ const ServicesList = () => {
     );
   };
 
-console.log("planExpired", planExpired);
 
   useEffect(() => {
     fetchPlans();
@@ -84,6 +84,7 @@ console.log("planExpired", planExpired);
     }
   };
 
+
   const fetchPurchasedPlans = async () => {
     try {
       const response = await Get_All_Buyed_Plans({ userName: username });
@@ -97,7 +98,6 @@ console.log("planExpired", planExpired);
   const isPlanExpired = async () => {
     try {
       const response = await ExpirePlanDetails(username);
-      console.log("response is ", response)
       if (response.Status) {
         setPlanExpired(response.ExpirePlan || []);
       }
@@ -110,8 +110,6 @@ console.log("planExpired", planExpired);
     isPlanExpired();
   }, [])
 
-
-
   const isPlanPurchased = (planName) => {
     return purchasedPlans.some((plan) => plan.Planname === planName);
   };
@@ -122,11 +120,11 @@ console.log("planExpired", planExpired);
         ? plansData?.data1[index]
         : plansData?.data[index];
 
-      console.log("planDetails", planDetails);
+       
       const req1 = {
         Username: username,
         transactiontype: "Purchase",
-        money: planDetails.SOPPrice || planDetails.payment,
+        money: planDetails.SOPPrice || planDetails.ChartPerMonth,
       };
       const result = await Swal.fire({
         title: "Are you sure?",
@@ -293,19 +291,19 @@ console.log("planExpired", planExpired);
   );
   const getUpdatedPlansCharting = plansData.data1?.filter(
     (plan) =>
-      (plan?.SOPPrice !== 0 && plan?.payment !== 0) &&
+      (plan?.ChartPerMonth !== 0) &&
       plan.Planname !== "Three Days Live" &&
       plan.Planname !== "Two Days Demo" &&
       plan.Planname !== "One Week Demo"
   );
 
-    
+
   const [value, setValue] = useState("1");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
- 
+
   return (
     <Content
       Page_title={"📌 All Plans"}
@@ -453,22 +451,22 @@ console.log("planExpired", planExpired);
                       </p>
 
                       <p className="allplan-card-subtitle">
-                      <strong className="card-text-Color">Paper Per Trade Price:</strong>
-                      <FaRupeeSign /> { plan?.SOPPaperTrade }
-                    </p>
+                        <strong className="card-text-Color">Paper Per Trade Price:</strong>
+                        <FaRupeeSign /> {plan?.SOPPaperTrade}
+                      </p>
 
-                    <p className="allplan-card-subtitle">
-                      <strong className="card-text-Color">Live Per Trade Price:</strong>
-                      <FaRupeeSign /> { plan?.SOPLiveTrade }
-                    </p>
-
-                      
+                      <p className="allplan-card-subtitle">
+                        <strong className="card-text-Color">Live Per Trade Price:</strong>
+                        <FaRupeeSign /> {plan?.SOPLiveTrade}
+                      </p>
 
 
 
 
 
-      {/* {console.log("isPlanPurchased.includes(planExpired)", planExpired)} */}
+
+
+                      {/* {console.log("isPlanPurchased.includes(planExpired)", planExpired)} */}
                     </div>
                     {(isPlanPurchased(plan?.Planname) && !planExpired?.includes(plan?.Planname)) ? (
                       <button
@@ -505,7 +503,7 @@ console.log("planExpired", planExpired);
                       )}
                     </div>
                     <h3 className="allplan-card-subtitle">
-                      <FaRupeeSign /> {plan.SOPPrice}
+                      <FaRupeeSign /> {plan.ChartPerMonth}
                     </h3>
                     <h3 className="allplan-card-subtitle">
                       Duration: {plan["Plan Validity"]}
@@ -518,18 +516,24 @@ console.log("planExpired", planExpired);
                         <strong className="card-text-Color">Charting Signals:</strong>{" "}
                         {plan.ChartingSignal?.join(", ")}
                       </p>
-                      <p className="allplan-card-subtitle">
-                      <strong className="card-text-Color">Live Per Trade:</strong>
-                      <FaRupeeSign /> {plan.ChartPerTrade}
-                    </p>
+                      {plan.ChartLiveTrade !== 0 &&
+                        <p className="allplan-card-subtitle">
+                          <strong className="card-text-Color">Price Per Live Trade:</strong>
+                          <FaRupeeSign /> {plan.ChartLiveTrade}
+                        </p>}
+                      {plan.ChartPaperTrade !== 0 &&
+                        <p className="allplan-card-subtitle">
+                          <strong className="card-text-Color">Price Per Paper Trade:</strong>
+                          <FaRupeeSign /> {plan.ChartPaperTrade}
+                        </p>}
 
-                    <p className="allplan-card-subtitle">
-                      <strong className="card-text-Color">Fixed Per Month:</strong>
-                      <FaRupeeSign /> {plan.ChartPerMonth}
-                    </p>
+                      <p className="allplan-card-subtitle">
+                        <strong className="card-text-Color">Fixed Per Month:</strong>
+                        <FaRupeeSign /> {plan.ChartPerMonth}
+                      </p>
                     </div>
 
-                   
+
 
 
 

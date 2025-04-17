@@ -452,11 +452,6 @@ const GroupScript = ({ data, selectedType, GroupName, data2, getGroup }) => {
         else {
 
             const selectedRowIndex = data1?.rowIndex;
-            console.log("Option selectedRowIndex", selectedRowIndex)
-
-            console.log('OPtion getAllService?.data', getAllService?.data)
-
-
 
             let selectedRow = getAllService?.data?.[selectedRowIndex];
             let OptionStgArr = allScripts?.data[allScripts?.len]?.CombineOption

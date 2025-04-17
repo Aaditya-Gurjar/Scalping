@@ -68,7 +68,7 @@
 //                     // { icon: <FaUserTie />, text: `Broker: ${data?.data?.BrokerName || "-"}`, color: "#00b4d8" },
 //                     // { icon: <FaClipboardList />, text: `Scripts: ${data?.data?.NumberofScript || "-"}`, color: "#00f5d4" },
 //                     // { icon: <FaUsers />, text: data?.data?.Group?.length ? data?.data?.Group.join(", ") : "No Group Available", color: "#9d4edd" },
-//                     // { icon: <FaRegStar />, text: data?.data?.Planname?.length ? data?.data?.Planname.join(", ") : "No Plan Available", color: "#ff9e00" },
+//                     // { icon: <FaRegStar />, text: data?.data?.ActivePlan?.length ? data?.data?.ActivePlan.join(", ") : "No Plan Available", color: "#ff9e00" },
 
 //                     { icon: <FaPhone />, text: data?.Mobile_No || "-", color: "#4e54c8" },
 //                     { icon: <FaEnvelope />, text: data?.EmailId || "-", color: "#8f94fb" },
@@ -78,13 +78,13 @@
 
 //                     {
 //                       icon: <FaRegStar />,
-//                       text: data?.Planname?.length
+//                       text: data?.ActivePlan?.length
 //                         ? (
 //                           <>
-//                             {data.Planname.slice(0, 2).join(", ")}
-//                             {data.Planname.length > 2 && (
+//                             {data.ActivePlan.slice(0, 2).join(", ")}
+//                             {data.ActivePlan.length > 2 && (
 //                               <span
-//                                 onClick={() => alert(data.Planname.join(", "))}
+//                                 onClick={() => alert(data.ActivePlan.join(", "))}
 //                                 style={{ color: "blue", cursor: "pointer" }}
 //                               >
 //                                 ...
@@ -146,7 +146,6 @@ const ProfilePage = () => {
       try {
         const requestData = { username };
         const response = await Get_Profile_Data(requestData);
-       
 
         if (response.Status) {
           localStorage.setItem("expire", "false");
@@ -171,7 +170,7 @@ const ProfilePage = () => {
   }, []); // ✅ Runs once on mount
 
   // ✅ Destructure profile data for cleaner code
-  const { Mobile_No, EmailId, BrokerName, NumberofScript, Group, Planname } =
+  const { Mobile_No, EmailId, BrokerName, NumberofScript, Group, ActivePlan } =
     data.profile;
 
   return (
@@ -230,13 +229,13 @@ const ProfilePage = () => {
                   },
                   {
                     icon: <FaRegStar />,
-                    text: Planname?.length ? (
+                    text: ActivePlan?.length ? (
                       <>
-                        {Planname.slice(0, 2).join(", ")}
-                        {Planname.length > 2 && (
+                        {ActivePlan.slice(0, 2).join(", ")}
+                        {ActivePlan.length > 2 && (
                           <span
                             className="user-profile-span"
-                            onClick={() => alert(Planname.join(", "))}
+                            onClick={() => alert(ActivePlan.join(", "))}
                             style={{ color: "blue", cursor: "pointer" }}>
                             ...
                           </span>

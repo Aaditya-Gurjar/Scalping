@@ -7,6 +7,8 @@ import { AddAdminScript, GET_EXPIRY_DATE } from '../../CommonAPI/Admin'
 import axios from "axios";
 import * as Config from "../../../Utils/Config";
 import Content from "../../../ExtraComponent/Content";
+import { text } from "../../../ExtraComponent/IconTexts";
+
 
 
 
@@ -494,6 +496,7 @@ const AddClient = () => {
             col_size: 4,
             headingtype: 2,
             disable: false,
+            iconText: text.strikeType
         },
         {
             name: "DepthofStrike",
@@ -688,6 +691,7 @@ const AddClient = () => {
             col_size: 3,
             headingtype: 4,
             disable: false,
+            iconText: text.measurementType
         },
         {
             name: "ETPattern",
@@ -709,6 +713,7 @@ const AddClient = () => {
             col_size: 3,
             headingtype: 3,
             disable: false,
+            iconText: text.riskHandle
         },
         {
             name: "ExitType",

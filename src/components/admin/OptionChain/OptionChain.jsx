@@ -54,7 +54,7 @@ const OptionChainForm = () => {
           ...response.Charting.map(plan => ({ ...plan, type: 'Charting' }))
         ];
         setPlanNames(combinedPlans);
-        console.log("Combined Plans:", combinedPlans);
+        
       }
     } catch (error) {
       console.error("Error fetching plans:", error);
@@ -70,7 +70,7 @@ const OptionChainForm = () => {
       connectWebSocket(channel, (data) => {
         try {
           if (data.lp && data.tk) {
-            console.log("Live Price:", data.lp);
+            // console.log("Live Price:", data.lp);
             resolve(data.lp);
           }
         } catch (error) {
@@ -238,22 +238,14 @@ const OptionChainForm = () => {
     if (!validateFields()) return; // Validate fields before proceeding
   
     try {
-      console.log("Trade Executed:", {
-        tradeType,
-        type,
-        strike,
-        token,
-        key: keyInput, // Use keyInput state
-        expiryDate: formValues.expiryDate
-      });
+    
   
       const exchange = formValues.exchange;
       const symbol = formValues.symbol;
       const planname = formValues.planname;
   
       let LivePrice = await showLivePriceForSpecific(`${exchange}|${token}`);
-      console.log("Live Price:", LivePrice);
-  
+       
       const req = {
         Planname: planname,
         Username: UserName,
@@ -277,8 +269,7 @@ const OptionChainForm = () => {
       let data = qs.stringify(req);
   
       const res = await TradeExecutionAPI(data);
-      console.log("Trade Execution Response:", res);
-
+       
       // Show success toast with API response
       toast.success(res.message)
     } catch (error) {

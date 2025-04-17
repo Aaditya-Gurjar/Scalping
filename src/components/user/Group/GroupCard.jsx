@@ -236,7 +236,6 @@ const GroupCard = ({ strategy }) => {
         draggable: true,
         timer: 2000,
       });
-      console.log("error in subscribe", error);
     }
   };
 

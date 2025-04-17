@@ -1,5 +1,3 @@
- 
-
 import React, { useState, useEffect, useRef } from "react";
 import {
   get_User_Data,
@@ -112,9 +110,10 @@ const Tradehistory = () => {
     const fetchStrategyTypes = async () => {
       try {
         const res = await getStrategyType();
-        setStrategyNames(res.Data || []);
+        setStrategyNames(res.Data || []); // Ensure strategyNames is always an array
       } catch (error) {
         console.error("Error fetching strategy types:", error);
+        setStrategyNames([]); // Fallback to an empty array on error
       }
     };
     if (selectStrategyType !== "ChartingPlatform") {
@@ -486,7 +485,6 @@ const Tradehistory = () => {
     autoSubmitIfNeeded();
   }, [selectedRowData, location?.state?.goto]);
 
-  console.log("getAllTradeData.data", getAllTradeData.data);
 
   return (
     <Content
@@ -498,23 +496,6 @@ const Tradehistory = () => {
         <div className="card-body">
           <div className="row g-3 mb-4">
             <div className="col-12 col-md-6 col-lg-4">
-              {/* <div className="form-group">
-                <label className="form-label">Strategy Type</label>
-                <select
-                  className="form-select"
-                  value={selectStrategyType}
-                  onChange={(e) => {
-                    setStrategyType(e.target.value);
-                    sessionStorage.setItem("StrategyType", e.target.value);
-                  }}
-                >
-                  {strategyNames.map((item) => (
-                    <option key={item} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-              </div> */}
               <div className="d-flex justify-content-center report-btns">
                 <ul
                   className="nav nav-pills shadow rounded-pill p-1"
@@ -523,7 +504,9 @@ const Tradehistory = () => {
                   {strategyNames.map((type, index) => (
                     <li className="nav-item" key={index}>
                       <button
-                        className={`nav-link ${selectStrategyType === type ? "active" : ""} rounded-pill`}
+                        className={`nav-link ${
+                          selectStrategyType === type ? "active" : ""
+                        } rounded-pill`}
                         onClick={() => {
                           setStrategyType(type);
                           sessionStorage.setItem("StrategyType", type);

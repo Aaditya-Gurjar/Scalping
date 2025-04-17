@@ -93,7 +93,6 @@ const ViewGroup = ({ group, isCopyScriptVisible, handleAddScript11, handleAddScr
   }
   const handleAddScript2 = (data1) => {
 
-    console.log("Option data1", allScripts?.data)
 
     if (data2.status == false) {
       Swal.fire({
@@ -116,11 +115,6 @@ const ViewGroup = ({ group, isCopyScriptVisible, handleAddScript11, handleAddScr
     else {
 
       const selectedRowIndex = data1?.rowIndex;
-      console.log("Option selectedRowIndex", selectedRowIndex)
-
-      console.log('OPtion getAllService?.data', getAllService?.data)
-
-
 
       let selectedRow = getAllService?.data?.[selectedRowIndex];
       let OptionStgArr = allScripts?.data[allScripts?.len]?.CombineOption
@@ -416,7 +410,6 @@ const ViewGroup = ({ group, isCopyScriptVisible, handleAddScript11, handleAddScr
   const GetAllUserScriptDetails = async () => {
     const stgType = localStorage.getItem("groupTab"); // moved inside to get fresh value
     const data = { Strategy: stgType, Group: GroupName };
-    console.log("sneh data---", data)
 
     const response = await GetAllGroupService(data);
 
@@ -439,7 +432,6 @@ const ViewGroup = ({ group, isCopyScriptVisible, handleAddScript11, handleAddScr
         data1: filterMulticondtion,
       });
     } else {
-      console.log("response?.Data---", response?.Data)
       setAllservice({
         loading: false,
         data: response?.Data || [],

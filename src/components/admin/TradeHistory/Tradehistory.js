@@ -168,7 +168,6 @@ const Tradehistory = () => {
                 PatternName: "",
             };
             const res = await get_Trade_History(req);
-            console.log("responseis in admin ", res)
             setChartingData(res?.data || []);
             setAllTradeData({
                 data: res.data || [],
@@ -296,7 +295,6 @@ const Tradehistory = () => {
             };
 
             const tradeRes = await get_Trade_History(basicData);
-            console.log("tradeRes", tradeRes)
             setAllTradeData({
                 data: tradeRes.data || [],
                 Overall: tradeRes.Overall || [],
@@ -469,9 +467,6 @@ const Tradehistory = () => {
                 return columns();
         }
     };
-
-    console.log("getAllTradeData", getAllTradeData)
-
 
     return (
         <Content

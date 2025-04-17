@@ -17,6 +17,7 @@ import Content from "../../../ExtraComponent/Content";
 import { connectWebSocket } from "../UserDashboard/LivePrice";
 import $ from 'jquery'
 
+
 const AddClient = () => {
   const userName = localStorage.getItem("name");
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ const AddClient = () => {
   const [showPnl, setShowPnl] = useState(false);
   const theme = localStorage.getItem("theme");
   const [getCPrice, setCPrice] = useState(null);
+  const [channel, setChannel] = useState(null);
 
   const [PnlData, setPnlData] = useState({
     InstrumentName: "",
@@ -382,7 +384,7 @@ const AddClient = () => {
         errors.RollOverExitTime = "Please Enter RollOver Exit Time";
       }
 
-      if (!values.WorkingDay.length > 0) {
+      if (!values.WorkingDay?.length > 0) {
         errors.WorkingDay = "Please select Working day";
       }
 
@@ -887,6 +889,7 @@ const AddClient = () => {
       col_size: 4,
       hiding: false,
       disable: false,
+      
     },
 
     {
@@ -938,6 +941,7 @@ const AddClient = () => {
       headingtype: 2,
       hiding: false,
       col_size: 6,
+      iconText: text.positionType,
       showWhen: (values) => values.Strategy == "Multi_Conditional",
       disable: false,
     },
@@ -972,8 +976,8 @@ const AddClient = () => {
         formik.values.Strategy == "Fixed Price" ||
           (formik.values.FixedSM == "Single" &&
             formik.values.Strategy == "Multi_Conditional")
-          ? text.Lower_Price
-          : text.First_Trade_Lower_Range,
+          ? text.firstTradeHigherRange
+          : text.firstTradeHigherRange,
       hiding: false,
     },
     {
@@ -988,8 +992,8 @@ const AddClient = () => {
         formik.values.Strategy == "Fixed Price" ||
           (formik.values.FixedSM == "Single" &&
             formik.values.Strategy == "Multi_Conditional")
-          ? text.Higher_Price
-          : text.First_Trade_Higher_Range,
+          ? text.firstTradeHigherRange
+          : text.firstTradeHigherRange,
       hiding: false,
     },
     {
@@ -1020,6 +1024,7 @@ const AddClient = () => {
         values.Strategy == "Multi_Conditional",
       label_size: 12,
       headingtype: 4,
+      icon: text.measurementType,
       col_size: formik.values.FixedSM == "Multiple" ? 3 : 6,
       hiding: false,
       disable: false,
@@ -1061,6 +1066,8 @@ const AddClient = () => {
       headingtype: 4,
       disable: false,
       hiding: false,
+      iconText : text.targetType,
+
     },
 
     {
@@ -1099,6 +1106,7 @@ const AddClient = () => {
       headingtype: 3,
       disable: false,
       hiding: false,
+      iconText: text.fixedTarget
     },
     {
       name: "tgp2",
@@ -1195,7 +1203,7 @@ const AddClient = () => {
         values.Strategy == "Multi Directional" ||
         values.Strategy == "One Directional",
       disable: false,
-      iconText: text.Lower_Range,
+      iconText: text.lowerRange,
       hiding: false,
     },
     {
@@ -1209,7 +1217,7 @@ const AddClient = () => {
         values.Strategy == "Multi Directional" ||
         values.Strategy == "One Directional",
       disable: false,
-      iconText: text.Higher_Range,
+      iconText: text.higherRange,
       hiding: false,
     },
     {
@@ -1224,6 +1232,7 @@ const AddClient = () => {
         values.Strategy == "Multi_Conditional" && values.FixedSM == "Multiple",
       disable: false,
       hiding: false,
+      iconText: text.repeatationCount,
     },
     {
       name: "HoldExit",
@@ -1244,6 +1253,7 @@ const AddClient = () => {
       headingtype: 4,
       disable: false,
       hiding: false,
+      iconText: text.holdOrExit,
     },
     {
       name: "TargetExit",
@@ -1260,7 +1270,7 @@ const AddClient = () => {
       col_size: formik.values.TargetExit == "true" ? 4 : 6,
       headingtype: 4,
       disable: false,
-      // iconText: text.Increment_Type,
+      iconText: text.continueAfterCycleExit,
       hiding: false,
     },
 
@@ -1279,7 +1289,7 @@ const AddClient = () => {
       // col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
       col_size: 4,
 
-      iconText: text.Trade_Count,
+      iconText: text.tradeCount,
       disable: false,
       hiding: false,
     },
@@ -1346,7 +1356,7 @@ const AddClient = () => {
       col_size: 4,
       headingtype: 4,
       disable: false,
-      iconText: text.Step_up,
+      iconText: text.stepUp,
       hiding: false,
     },
 
@@ -1364,7 +1374,7 @@ const AddClient = () => {
       col_size: 4,
       headingtype: 4,
       disable: false,
-      iconText: text.Increment_Type,
+      iconText: text.incrementType,
       hiding: false,
     },
 
@@ -1378,7 +1388,7 @@ const AddClient = () => {
       col_size: 4,
       headingtype: 4,
       disable: false,
-      iconText: text.Increment_Value,
+      iconText: text.incrementValue,
       hiding: false,
     },
   ];
@@ -1719,16 +1729,25 @@ const AddClient = () => {
     }
   };
 
-
+  let currentWebSocket = null;
   const showLivePrice = async (singleChannel) => {
-    console.log("Channel List", singleChannel)
-    connectWebSocket(singleChannel, (data) => {
-      if (data.lp && data.tk) {
+     
+    if (currentWebSocket && typeof currentWebSocket.close === "function") {
+      currentWebSocket.close(); // Or implement unsubscribe logic if supported
+    }
+
+    currentWebSocket = connectWebSocket(singleChannel, (data) => {
+      if (data.lp && data.tk && channel && channel?.includes(data.tk)) {
+        console.log("Channel List", singleChannel)
+        console.log("data", data)
         $(".LivePrice").html(data.lp);
         // console.log("Updated Price Data:", data);
       }
     });
   }
+
+  console.log("channel", channel)
+
 
   const token = async () => {
     try {
@@ -1743,10 +1762,9 @@ const AddClient = () => {
             ? getExpiryDate?.data?.[0]
             : formik.values.expirydata1 == "Next_Month"
               ? getExpiryDate?.data?.[1] : formik.values.expirydata1
-        });
-        console.log("res", res)
+        });        
         const singleChannel = `${formik.values.Exchange}|${res.Token[0]}`
-        console.log("singleChannel", singleChannel)
+        setChannel(singleChannel)        
         showLivePrice(singleChannel)
 
       }
@@ -1757,7 +1775,6 @@ const AddClient = () => {
 
     }
   }
-
   useEffect(() => {
     getExpiry();
     token()

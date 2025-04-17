@@ -92,7 +92,11 @@ const Sidebar = ({ position }) => {
       {
         path: "/admin/Master-Account",
         icon: <i className="la la-user-shield"></i>,  
-        label: "Master Account",
+        label: (
+          <>
+            Master<br />Account
+          </>
+        ),
       },
     ],
     Superadmin: [

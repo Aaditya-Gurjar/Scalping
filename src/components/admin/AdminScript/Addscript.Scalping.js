@@ -156,7 +156,6 @@ const AddClient = () => {
       if (values.ExitTime=="") {
         errors.ExitTime = "Please Select Exit Time.";
       } else if (values.ExitTime > (values.Exchange === "MCX" ? mcxMaxTime : maxTime)) {
-        console.log("values.ExitTime", values.ExitTime)
         errors.ExitTime = `Exit Time Must be Before ${values.Exchange === "MCX" ? "23:29:59" : "15:29:59"}.`;
       }
 
@@ -673,6 +672,7 @@ const AddClient = () => {
       disable: false,
       headingtype: 2,
       hiding: false,
+      iconText : text.firstTradeLowerRange
     },
 
     {
@@ -684,6 +684,7 @@ const AddClient = () => {
       col_size: 4,
       disable: false,
       hiding: false,
+      iconText : text.firstTradeHigherRange
     },
     {
       name: "Group",
@@ -714,6 +715,7 @@ const AddClient = () => {
       col_size: 6,
       hiding: false,
       disable: false,
+      iconText : text.measurementType,
     },
 
     {
@@ -840,6 +842,7 @@ const AddClient = () => {
         values.Strategy == "One Directional",
       disable: false,
       hiding: false,
+      iconText : text.lowerRange
     },
     {
       name: "HigherRange",
@@ -853,6 +856,7 @@ const AddClient = () => {
         values.Strategy == "One Directional",
       disable: false,
       hiding: false,
+      iconText : text.higherRange
     },
     // {
     //   name: "HoldExit",
@@ -879,6 +883,7 @@ const AddClient = () => {
       headingtype: 4,
       disable: false,
       hiding: false,
+      iconText : text.stepUp
     },
     {
       name: "quantityselection",
@@ -894,6 +899,7 @@ const AddClient = () => {
       headingtype: 4,
       disable: false,
       hiding: false,
+      iconText : text.incrementType
     },
     {
       name: "quantityvalue",
@@ -905,6 +911,8 @@ const AddClient = () => {
       headingtype: 4,
       disable: false,
       hiding: false,
+      iconText : text.incrementValue
+
     },
   ]
 

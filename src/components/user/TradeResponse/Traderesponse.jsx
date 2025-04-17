@@ -409,17 +409,17 @@ const TradeResponse = () => {
             </div> */}
 
             
-            <div className="d-flex justify-content-center report-btns">
+            <div className="d-flex justify-content-center response-btns">
                 <ul
                   className="nav nav-pills shadow rounded-pill p-1"
                   style={{ backgroundColor: "#f1f3f5" }}
                 >
-                  {strategyType.map((type, index) => (
+                  {(strategyType || []).map((type, index) => (
                     <li className="nav-item" key={index}>
                       <button
                         className={`nav-link ${selectStrategyType === type ? "active" : ""} rounded-pill`}
                         onClick={() => {
-                          setStrategyType(type);
+                          setSelectStrategyType(type);
                           sessionStorage.setItem("StrategyType", type);
                         }}
                         style={{
@@ -439,10 +439,11 @@ const TradeResponse = () => {
 
 
             {/* Select From Date */}
-            <div
+           <div className="response-page-dates">
+           <div
               className={`form-group ${selectStrategyType === "ChartingPlatform"
-                  ? "col-lg-3"
-                  : "col-lg-4"
+                  ? "col-lg-2"
+                  : "col-lg-2"
                 }`}>
               <label>Select form Date</label>
               <DatePicker
@@ -455,8 +456,8 @@ const TradeResponse = () => {
             {/* Select To Date */}
             <div
               className={`form-group ${selectStrategyType === "ChartingPlatform"
-                  ? "col-lg-3"
-                  : "col-lg-4"
+                  ? "col-lg-2"
+                  : "col-lg-2"
                 }`}>
               <label>Select To Date</label>
               <DatePicker
@@ -465,6 +466,7 @@ const TradeResponse = () => {
                 onChange={(date) => setToDate(date)}
               />
             </div>
+           </div>
           </div>
 
 

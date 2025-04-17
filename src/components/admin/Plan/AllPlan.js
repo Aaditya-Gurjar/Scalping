@@ -3,7 +3,7 @@ import Select from "react-select";
 
 import { FaRupeeSign, FaEdit, FaTrash } from "react-icons/fa";
 import { BadgeCheck } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { EditPlan, Get_All_Plans } from "../../CommonAPI/User";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
@@ -34,11 +34,11 @@ const AdminServicesList = () => {
   const [planData, setPlanData] = useState({})
   const [activeTab, setActiveTab] = useState("Scalping");
   const [editablePlans, setEditablePlans] = useState(['ABCd', 'XYZ', 'Testing'])
+  const navigate = useNavigate();
 
   const EditablePlanName = async () => {
     try {
       const res = await EditPlanname();
-      console.log("Editale Plan name ", res.EditPlans)
       setEditablePlans(res.EditPlans);
 
     } catch (error) {
@@ -70,10 +70,8 @@ const AdminServicesList = () => {
 
   // Function to handle edit button click
   const handleEdit = async (plan) => {
-    console.log("Edit group:", plan);
     try {
       const res = await GetAllStratgy();
-      console.log("response from handleedit is", planData)
       setPlanData(res)
     } catch (error) {
       console.error("Error in editPlan", error)
@@ -114,7 +112,6 @@ const AdminServicesList = () => {
     }
   };
 
-  console.log("editablePlans", editablePlans)
   const handleModalChange = (e) => {
     const { name, value } = e.target;
     setEditPlanData({
@@ -135,7 +132,6 @@ const AdminServicesList = () => {
 
   const handleModalSave = async () => {
     try {
-      console.log("Updated Plan Data:", editPlanData);
 
       const updatedPlanRequest = {
         Scalping: activeTab === "Scalping" ? editPlanData.Scalping : [],
@@ -154,7 +150,6 @@ const AdminServicesList = () => {
       };
 
       const res = await EditPlan(updatedPlanRequest);
-      console.log("apiresponse is", res);
       if (res.Status) {
         Swal.fire({
           title: "Plan Updated",
@@ -186,7 +181,6 @@ const AdminServicesList = () => {
   const handleModalCancel = () => {
     setShowEditModal(false);
   };
-  console.log("activeTab", activeTab)
   return (
     <Content
       Page_title={"📌 All Admin Plans"}
@@ -196,6 +190,17 @@ const AdminServicesList = () => {
       button_title={"Add Plan"}
     >
       <div className="iq-card-body">
+        <div className="d-flex align-items-center mb-3">
+          <h4 className="flex-grow-1"></h4>
+          <button
+            className="addbtn ml-auto"
+            color="addbtn"
+            onClick={() => navigate("/admin/addplan")}
+          >
+            ➕ Add Plan
+          </button>
+        </div>
+
         <div className="container mt-4">
           <Tabs
             defaultActiveKey="Scalping"
@@ -203,7 +208,6 @@ const AdminServicesList = () => {
             className="mb-3 custom-tabs"
             fill
           >
-
             <Tab eventKey="Scalping" title="SOP" onClick={() => setActiveTab("Scalping")}>
               {plansData.loading ? (
                 <p>Loading...</p>
@@ -484,7 +488,6 @@ const AdminServicesList = () => {
                       onChange={handleModalChange}
                     />
                   </div>}
-                {/* {console.log("editPlanData", editPlanData)} */}
                 {activeTab === "Scalping" &&
                   <div className="col-md-6 mb-3">
                     <label htmlFor="scalping" className="form-label">

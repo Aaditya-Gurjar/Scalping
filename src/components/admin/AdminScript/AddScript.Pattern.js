@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 import { useState, useEffect } from "react";
 import Swal from 'sweetalert2';
 import { AddAdminScript, GET_EXPIRY_DATE, Get_StrikePrice, Get_Symbol, Get_Pattern_Time_Frame, Get_Pattern_Charting, Get_Pattern_Name, GetExchange } from '../../CommonAPI/Admin'
+import { text } from "../../../ExtraComponent/IconTexts";
 
 const AddClient = () => {
 
@@ -492,6 +493,7 @@ const AddClient = () => {
             headingtype: 4,
             col_size: 4,
             disable: false,
+            icontext: text.MeasurementType,
         },
 
         {

@@ -19,7 +19,7 @@ const LastPattern = () => {
     data: [],
   });
   const [getCandleData, setCandleData] = useState({ loading: true, data: [] });
-  const [getPatternType, setPatternType] = useState("Doji");
+  const [getPatternType, setPatternType] = useState("All");
   const [selectPattern, setSelectPattern] = useState("Candlestick Patterns");
   const [getChartPattern, setChartPattern] = useState("");
   const [selectedRowData, setSelectedRowData] = useState("");
@@ -139,6 +139,7 @@ const LastPattern = () => {
                 {/* <option value="">
                             Please Select Specific Pattern
                           </option> */}
+                          <option value="All">All</option>
                 {getChartPattern &&
                   getChartPattern.data.map((item) => (
                     <option value={item}>{item}</option>

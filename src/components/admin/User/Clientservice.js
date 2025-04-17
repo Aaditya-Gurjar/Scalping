@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { GetClientService, GetGroupNames, EditClientPanle, Get_Broker_Name } from '../../CommonAPI/Admin';
 import FullDataTable from '../../../ExtraComponent/CommanDataTable';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { SquarePen } from 'lucide-react';
 import { useFormik } from 'formik';
 import DropdownMultiselect from 'react-multiselect-dropdown-bootstrap';
@@ -11,6 +11,7 @@ import { Get_All_Plans, GetUserBalence } from "../../CommonAPI/User";
 import Select from 'react-select';
 import NoDataFound from '../../../ExtraComponent/NoDataFound';
 import Content from '../../../ExtraComponent/Content';
+import { Button } from 'react-bootstrap';
 
 
 
@@ -25,14 +26,14 @@ const Clientservice = () => {
     const [searchInput, setSearchInput] = useState('')
     const [GetAllPlans, setAllPlans] = useState({ LivePlanName: [], DemoPlanName: [], data: [] });
     const [walletBalance, setWalletBalance] = useState('');
+    const navigate = useNavigate();
 
-    
+
     useEffect(() => {
         fetchClientService();
     }, [searchInput]);
 
-    console.log("GetAllPlans", GetAllPlans)
-
+ 
 
 
     const GetBalence = async (Username) => {
@@ -113,10 +114,8 @@ const Clientservice = () => {
 
 
     const GetAllPlansData = async () => {
-        console.log("Inside GetAllPlansData")
         await Get_All_Plans()
             .then((response) => {
-                console.log("response of getAllPlanData", response)
                 if (response.Status) {
                     const LivePlanName = response.Admin.filter((item) => item.Planname !== 'One Week Demo' && item.Planname !== 'Two Days Demo');
                     const DemoPlanName = response.Admin.filter((item) => item.Planname === 'One Week Demo' || item.Planname === 'Two Days Demo');
@@ -133,14 +132,12 @@ const Clientservice = () => {
 
 
     useEffect(() => {
-        console.log("Component mounted or refreshed");
         fetchBrokerName();
         fetchGroupDetails();
         GetAllPlansData();
     }, []);
 
     useEffect(() => {
-        console.log("GetAllPlans state updated:", GetAllPlans);
     }, [GetAllPlans]);
 
 
@@ -174,7 +171,6 @@ const Clientservice = () => {
                 Broker: values.Broker,
 
             }
-            console.log("Request in formik", req)
 
             try {
                 const response = await EditClientPanle(req);
@@ -436,7 +432,10 @@ const Clientservice = () => {
                 button_title={"Create Account"}
 
             >
-                <div className="iq-card-body">
+
+
+
+                <div className="iq-card-body d-flex justify-content-between">
                     <div className="mb-3 col-lg-3">
                         <input
                             type="text"
@@ -445,19 +444,34 @@ const Clientservice = () => {
                             onChange={(e) => setSearchInput(e.target.value)}
                             value={searchInput}
                         />
+
+
+
                     </div>
-                    {
-                        clientService.data && clientService.data.length > 0 ?
-                            (<FullDataTable
-                                columns={columns}
-                                data={clientService.data}
-                                checkBox={false}
-                            />)
-                            :
-                            (<NoDataFound />)
-                    }
+
+
+                    <button
+                        className='addbtn '
+                        color="addbtn"
+                        onClick={() => navigate("/admin/adduser")}
+                    >
+                        Create Account
+                    </button>
+
+
 
                 </div>
+
+                {
+                    clientService.data && clientService.data.length > 0 ?
+                        (<FullDataTable
+                            columns={columns}
+                            data={clientService.data}
+                            checkBox={false}
+                        />)
+                        :
+                        (<NoDataFound />)
+                }
                 {showModal && (
                     <>
                         {/* Darkened background overlay */}
