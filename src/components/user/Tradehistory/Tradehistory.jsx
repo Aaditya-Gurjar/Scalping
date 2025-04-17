@@ -29,6 +29,7 @@ import DrawdownChartComponent from "../../admin/AdvanceChart/DrawdownChartCompon
 import ProfitAndLossGraph from "../../admin/AdvanceChart/ProfitAndLossGraph";
 import ChartComponent from "../../admin/AdvanceChart/ChartComponent";
 import Content from "../../../ExtraComponent/Content";
+import { overallReportApi } from "../../CommonAPI/User";
 
 const Tradehistory = () => {
   const StrategyType = sessionStorage.getItem("StrategyType");
@@ -82,8 +83,8 @@ const Tradehistory = () => {
     data: [],
     data1: [],
   });
-  const [openSection, setOpenSection] = useState(null); // Single open section state
-
+  const [openSection, setOpenSection] = useState(null);  
+  const [AnalyticsOverview, setAnalyticsOverview] = useState([]); 
   // Set row selection based on location state
   useEffect(() => {
     if (location?.state?.goto === "dashboard") {
@@ -110,10 +111,10 @@ const Tradehistory = () => {
     const fetchStrategyTypes = async () => {
       try {
         const res = await getStrategyType();
-        setStrategyNames(res.Data || []); // Ensure strategyNames is always an array
+        setStrategyNames(res.Data || []); 
       } catch (error) {
         console.error("Error fetching strategy types:", error);
-        setStrategyNames([]); // Fallback to an empty array on error
+        setStrategyNames([]);  
       }
     };
     if (selectStrategyType !== "ChartingPlatform") {
@@ -140,6 +141,11 @@ const Tradehistory = () => {
     fetchStrategyTypes();
   }, [selectStrategyType, Username]);
 
+  useEffect(() => {
+    setCheckedRows([]); // Reset checked rows
+    setSelectedRowData(null); // Reset selected row data
+  }, [selectStrategyType]);
+
   const convertDateFormat = (date) => {
     if (!date) return "";
     const dateObj = new Date(date);
@@ -155,6 +161,7 @@ const Tradehistory = () => {
     setShowReportSections(false);
   };
 
+  console.log("selectedRowData", selectedRowData);
   const handleSubmit = async () => {
     if (selectStrategyType === "ChartingPlatform") return;
     if (!selectedRowData) {
@@ -191,62 +198,52 @@ const Tradehistory = () => {
             : selectStrategyType === "Pattern"
             ? selectedRowData.TradePattern
             : activeTab,
-        Symbol:
-          selectStrategyType === "Scalping" || selectStrategyType === "Pattern"
-            ? selectedRowData.Symbol
-            : selectStrategyType === "Option Strategy"
-            ? selectedRowData.IName
-            : selectStrategyType === "ChartingPlatform"
-            ? selectedRowData.TSymbol
-            : "",
-        ETPattern:
-          selectStrategyType === "Scalping"
-            ? selectedRowData.TType
-            : selectStrategyType === "Option Strategy"
-            ? selectedRowData.Targettype
-            : selectStrategyType === "Pattern"
-            ? selectedRowData.Pattern
-            : "",
-        Group: ["Scalping", "Option Strategy"].includes(selectStrategyType)
-          ? selectedRowData.GroupN
-          : "",
-        Username,
+        Symbol: selectedRowData.Symbol || "",
+        Username: selectedRowData.Username || "",
+        ETPattern:  selectStrategyType ==="Pattern" ? selectedRowData.Pattern :(selectedRowData.TType ||selectedRowData.Targettype),
+        Timeframe: selectedRowData.TimeFrame || "",
         From_date: convertDateFormat(FromDate || formattedDate),
         To_date: convertDateFormat(ToDate || Default_To_Date),
-        Timeframe:
-          selectStrategyType === "Pattern" ? selectedRowData.TimeFrame : "",
+        Group: selectedRowData.GroupN || "",
         TradePattern: "",
         PatternName: "",
       };
-      const tradeRes = await get_Trade_History(basicData);
-      if (tradeRes.Status) {
-        setAllTradeData({
-          data: tradeRes.data || [],
-          Overall: tradeRes.Overall || [],
+
+console.log("basicData", basicData);
+      // Fetch AnalyticsOverview data
+      const analyticsParams = {
+        MainStrategy: basicData.MainStrategy,
+        Strategy: basicData.Strategy,
+        Symbol: basicData.Symbol,
+        Username: basicData.Username,
+        ETPattern: basicData.ETPattern,
+        Timeframe: basicData.Timeframe,
+        From_date: basicData.From_date,
+        To_date: basicData.To_date,
+        Group: basicData.Group,
+        TradePattern: "",
+        PatternName: "",
+        InitialDeposite: 0,
+      };
+      const analyticsRes = await overallReportApi(analyticsParams);
+      setAnalyticsOverview({ data: analyticsRes.Data || [] });
+
+      // Open AnalyticsOverview section
+      setShowReportSections(true);
+      setLoadedSections((prev) => ({ ...prev, AnalyticsOverview: true }));
+      setOpenSection("AnalyticsOverview");
+
+      // Scroll to the AnalyticsOverview section
+      setTimeout(() => {
+        sectionRefs.current["AnalyticsOverview"]?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
         });
-        setShowReportSections(true);
-        setLoadedSections((prev) => ({ ...prev, overview: true }));
-        setOpenSection("overview"); // Open overview by default after submission
-        // Scroll to the overview section
-        setTimeout(() => {
-          sectionRefs.current["overview"]?.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
-        }, 100);
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: tradeRes.message,
-          text: tradeRes.message,
-          confirmButtonColor: "#1ccc8a",
-          timer: 2000,
-        });
-      }
+      }, 100);
     } catch (error) {
       Swal.fire({
         icon: "error",
-        title: "Failed to load initial data",
+        title: "Failed to load data",
         text: error.message,
         confirmButtonColor: "#1ccc8a",
         timer: 2000,
@@ -289,69 +286,38 @@ const Tradehistory = () => {
   const loadSectionData = async (section) => {
     if (loadedSections[section]) return;
     try {
-      let params;
-      if (selectStrategyType === "ChartingPlatform") {
-        params = {
-          MainStrategy: "ChartingPlatform",
-          Strategy: activeTab,
-          Symbol: "",
-          Username,
-          ETPattern: "",
-          Timeframe: "",
-          From_date: convertDateFormat(FromDate || formattedDate),
-          To_date: convertDateFormat(ToDate || Default_To_Date),
-          Group: "",
-          TradePattern: "",
-          PatternName: "",
-        };
-      } else {
-        params = {
-          MainStrategy:
-            selectStrategyType === "Scalping"
-              ? selectedRowData?.ScalpType === "Multi_Conditional"
-                ? "NewScalping"
-                : selectStrategyType
-              : selectStrategyType,
-          Strategy:
-            selectStrategyType === "Scalping"
-              ? selectedRowData?.Targetselection
-              : selectStrategyType === "Option Strategy"
-              ? selectedRowData?.STG
-              : selectStrategyType === "Pattern"
-              ? selectedRowData?.TradePattern
-              : "Cash",
-          Symbol:
-            selectStrategyType === "Scalping" ||
-            selectStrategyType === "Pattern"
-              ? selectedRowData?.Symbol
-              : selectStrategyType === "Option Strategy"
-              ? selectedRowData?.IName
-              : selectStrategyType === "ChartingPlatform"
-              ? selectedRowData?.TSymbol
-              : "",
-          ETPattern:
-            selectStrategyType === "Scalping"
-              ? selectedRowData?.TType
-              : selectStrategyType === "Option Strategy"
-              ? selectedRowData?.Targettype
-              : selectStrategyType === "Pattern"
-              ? selectedRowData?.Pattern
-              : "",
-          Group: ["Scalping", "Option Strategy"].includes(selectStrategyType)
-            ? selectedRowData?.GroupN
-            : "",
-          Username,
-          From_date: convertDateFormat(FromDate || formattedDate),
-          To_date: convertDateFormat(ToDate || Default_To_Date),
-          Timeframe:
-            selectStrategyType === "Pattern" ? selectedRowData?.TimeFrame : "",
-          TradePattern: "",
-          PatternName: "",
-        };
-      }
+      const params = {
+        MainStrategy:
+          selectStrategyType === "Scalping"
+            ? selectedRowData?.ScalpType === "Multi_Conditional"
+              ? "NewScalping"
+              : selectStrategyType
+            : selectStrategyType,
+        Strategy:
+          selectStrategyType === "Scalping"
+            ? selectedRowData?.Targetselection
+            : selectStrategyType === "Option Strategy"
+            ? selectedRowData?.STG
+            : selectStrategyType === "Pattern"
+            ? selectedRowData?.TradePattern
+            : "Cash",
+        Symbol: selectedRowData?.Symbol || "",
+        Username: selectedRowData?.Username || "",
+        ETPattern: selectedRowData?.Targettype || "",
+        Timeframe: selectedRowData?.TimeFrame || "",
+        From_date: convertDateFormat(FromDate || formattedDate),
+        To_date: convertDateFormat(ToDate || Default_To_Date),
+        Group: selectedRowData?.GroupN || "",
+        TradePattern: "",
+        PatternName: "",
+      };
+
       if (section === "pnlAnalysis") {
         const pnlRes = await get_PnL_Data(params);
         setPnlData({ data: pnlRes.Barchart || [] });
+      } else if (section.includes("AnalyticsOverview")) {
+        const analyticsRes = await overallReportApi(params);
+        setAnalyticsOverview({ data: analyticsRes.Data || [] });
       } else if (section.includes("equity")) {
         const equityRes = await get_EQuityCurveData(params);
         setEquityCurveDetails({ data: equityRes.Equitycurve || [] });
@@ -485,7 +451,7 @@ const Tradehistory = () => {
     autoSubmitIfNeeded();
   }, [selectedRowData, location?.state?.goto]);
 
-
+console.log("AnalyticsOverview", AnalyticsOverview);
   return (
     <Content
       Page_title={"📊 Trade History "}
@@ -664,10 +630,32 @@ const Tradehistory = () => {
           )}
           {showReportSections && (
             <div className="mt-5">
-              <ReportSection
-                title="Total Profit/Loss Overview"
-                section="overview"
-              >
+              {/* AnalyticsOverview Section */}
+              <ReportSection title="Analytics Overview" section="AnalyticsOverview">
+                {AnalyticsOverview.data?.length > 0 ? (
+                  <div className="analytics-overview">
+                    <div className="row">
+                      {Object.entries(AnalyticsOverview.data[0]).map(([key, value]) => (
+                        <div className="col-md-4 mb-3" key={key}>
+                          <div className="card modern-card-shadow">
+                            <div className="card-body text-center">
+                              <h6 className="text-muted">{key}</h6>
+                              <h5 className="text-primary">
+                                {value !== null ? value : "N/A"}
+                              </h5>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <NoDataFound />
+                )}
+              </ReportSection>
+
+              {/* Profit/Loss Overview Section */}
+              <ReportSection title="Total Profit/Loss Overview" section="overview">
                 <div
                   className="pnl-overview"
                   style={{
@@ -711,6 +699,7 @@ const Tradehistory = () => {
                   checkBox={false}
                 />
               </ReportSection>
+
               <ReportSection title="Profit/Loss Analysis" section="pnlAnalysis">
                 <ProfitAndLossGraph data={getPnLData.data} />
               </ReportSection>

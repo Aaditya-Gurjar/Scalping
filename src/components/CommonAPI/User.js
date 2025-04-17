@@ -1033,3 +1033,25 @@ export const GetStrikeToken = async (data) => {
         return err
     }
 }
+
+
+
+export const overallReportApi = async (data) => {
+    const token = localStorage.getItem('token')
+    try {
+        const res = await axios.post(`${Config.base_url}PnlData`, data,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+
+}

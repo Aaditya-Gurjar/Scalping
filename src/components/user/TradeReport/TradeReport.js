@@ -58,6 +58,7 @@ const TradeReport = () => {
     const [preSelectTableType, setPreSelectTableType] = useState("");
     const [tradeHistory, setTradeHistory] = useState({ data: [], data1: [] });
     const [activeTab, setActiveTab] = useState("Cash");
+    const tableRef = useRef(null); // Reference for the table container
 
 
     // Set Default Date 
@@ -276,6 +277,9 @@ const TradeReport = () => {
                         data2: response.OpenData ? response.OpenData : []
                     });
                     setShowTable(true);
+                    setTimeout(() => {
+                        tableRef.current?.scrollIntoView({ behavior: 'smooth' }); // Scroll to the table
+                    }, 0);
                 } else {
                     Swal.fire({
                         background: "#1a1e23 ",
@@ -600,6 +604,7 @@ const TradeReport = () => {
                         <button className='addbtn mt-2' onClick={handleSubmit}>Submit</button>
                     )
                 }
+                <div ref={tableRef}>
                 {showTable && (getAllTradeData?.data2?.length > 0 || getAllTradeData?.data1?.length > 0 || openCloseChartingData?.OpenData?.length > 0 || openCloseChartingData?.CloseData?.length > 0) ? (
                     <>
                         {(getAllTradeData?.data2?.length > 0 || openCloseChartingData.OpenData.length > 0) && (
@@ -650,8 +655,7 @@ const TradeReport = () => {
                     showTable &&
                     <NoDataFound />
                 )}
-
-
+                </div>
             </div>
 
 
