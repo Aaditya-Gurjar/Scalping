@@ -579,3 +579,24 @@ export const superAdminClientThreadeReport1 = async (companyName) => {
     }
 
 }
+
+
+export const superadminCoupon = async (data) => {
+
+
+
+    const token = localStorage.getItem('token');
+    try {
+        const res = await axios.post(`${Config.superAdmin_base_url}Adminoffer`, data,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+        return res?.data
+    } catch (error) {
+        return error
+    }
+}

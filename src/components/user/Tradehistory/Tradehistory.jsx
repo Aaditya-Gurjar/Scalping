@@ -209,7 +209,6 @@ const Tradehistory = () => {
         PatternName: "",
       };
 
-console.log("basicData", basicData);
       // Fetch AnalyticsOverview data
       const analyticsParams = {
         MainStrategy: basicData.MainStrategy,

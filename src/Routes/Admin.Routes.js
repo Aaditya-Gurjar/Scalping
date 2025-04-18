@@ -31,6 +31,8 @@ import SidebarRight from '../components/layouts/SidebarRight';
 import ChartComponent from '../components/admin/AdvanceChart/ChartComponent';
 import OptionChain from '../components/admin/OptionChain/OptionChain';
 import MasterAccount from '../components/admin/MasterAccount/MasterAccount';
+import CouponPage from '../components/admin/CouponPage/CouponPage';
+import AddCoupon from '../components/admin/CouponPage/AddCoupon';
 
 // const Dashboards = lazy(() => import('../components/admin/Dashboard/Dashboards'));
 // const Sidebar = lazy(() => import('../components/layouts/Sidebar'));
@@ -97,6 +99,8 @@ const AdminRoute = () => {
             <Route path="/chart" element={<ChartComponent />} />
             <Route path="/optionchain" element={<OptionChain />} />
             <Route path="/Master-Account" element={<MasterAccount />} />
+            <Route path="/Coupon" element={<CouponPage />} />
+            <Route path="/addCoupon" element={<AddCoupon />} />
           </Routes>
         </div>
         <SidebarRight position="right"/>

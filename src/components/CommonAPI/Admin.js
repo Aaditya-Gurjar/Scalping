@@ -1294,3 +1294,13 @@ export const TradeExecutionAPI = async (data) => {
 }
 
  
+
+export const getAdminCouponDetails = async (data) => {
+    try {
+        const res = await axios.get(`${Config.base_url}CouponCodeDetails`)
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+}

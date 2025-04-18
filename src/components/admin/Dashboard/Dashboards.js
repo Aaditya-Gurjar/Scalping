@@ -15,7 +15,7 @@ import Content from "../../../ExtraComponent/Content";
 
 const Dashboards = () => {
   const [dashData, setData] = useState({
-    loading: true,
+    loading: false,
     data: [],
   });
   const [Data2, setData2] = useState({
@@ -112,25 +112,25 @@ const Dashboards = () => {
     },
   };
 
-  const GetAdminDashboardData = async () => {
-    await GetAdminDashboard()
-      .then((response) => {
-        if (response.Status) {
-          setData({
-            loading: false,
-            data: response.Data,
-          });
-        } else {
-          setData({
-            loading: false,
-            data3: [],
-          });
-        }
-      })
-      .catch((err) => {
-        console.log("Error in fatching the Dashboard Details", err);
-      });
-  };
+  // const GetAdminDashboardData = async () => {
+  //   await GetAdminDashboard()
+  //     .then((response) => {
+  //       if (response.Status) {
+  //         setData({
+  //           loading: false,
+  //           data: response.Data,
+  //         });
+  //       } else {
+  //         setData({
+  //           loading: false,
+  //           data3: [],
+  //         });
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log("Error in fatching the Dashboard Details", err);
+  //     });
+  // };
 
   const GetAdminDashboardClientDetails = async () => {
     const req = {
@@ -191,9 +191,9 @@ const Dashboards = () => {
 
 
 
-  useEffect(() => {
-    GetAdminDashboardData();
-  }, []);
+  // useEffect(() => {
+  //   GetAdminDashboardData();
+  // }, []);
   useEffect(() => {
     if (fromDate && toDate) {
       const delayDebounceFn = setTimeout(() => {

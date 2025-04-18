@@ -202,7 +202,7 @@ const permissions  = localStorage.getItem("adminPermission");
     },
     {
       path: "/admin/allplan",
-      icon: <i className="fa fa-list-alt" />, // Plan icon
+       // Plan icon
       label: "Plan",
       permission: [],
     },
@@ -223,9 +223,17 @@ const permissions  = localStorage.getItem("adminPermission");
       ),
       permission: [],
     },
-
-   
-
+    {
+      path: "/admin/Coupon",
+      icon: <i className="fa fa-percent" />, 
+      label: 
+      (
+        <>
+          Add Coupon  
+        </>
+      ),
+      permission: [],
+    },
   ];
 
   const isOptionChainIncluded = permissions?.includes("Option Chain")

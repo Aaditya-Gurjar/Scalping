@@ -47,34 +47,34 @@ const AdminDashboardChart = () => {
 
 
 
-    const GetAdminDashboardData = async () => {
-        await GetAdminDashboard()
-            .then((response) => {
-                if (response.Status) {
-                    setData({
-                        loading: false,
-                        data: response.Data
-                    })
-                }
-                else {
-                    setData({
-                        loading: false,
-                        data: []
-                    })
+    // const GetAdminDashboardData = async () => {
+    //     await GetAdminDashboard()
+    //         .then((response) => {
+    //             if (response.Status) {
+    //                 setData({
+    //                     loading: false,
+    //                     data: response.Data
+    //                 })
+    //             }
+    //             else {
+    //                 setData({
+    //                     loading: false,
+    //                     data: []
+    //                 })
 
-                }
+    //             }
 
-            })
-            .catch((err) => {
-                console.log("Error in fatching the Dashboard Details", err)
+    //         })
+    //         .catch((err) => {
+    //             console.log("Error in fatching the Dashboard Details", err)
 
-            })
+    //         })
 
-    };
+    // };
 
-    useEffect(() => {
-        GetAdminDashboardData();
-    }, []);
+    // useEffect(() => {
+    //     GetAdminDashboardData();
+    // }, []);
 
     const GetDashboardGraphData = async () => {
         await AdmindashboardGraph()

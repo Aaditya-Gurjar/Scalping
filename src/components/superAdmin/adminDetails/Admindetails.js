@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
-import { adminDetails, addFund, closePanel, updateAdmin, pm2Reload, allClientListDetails, superToAdminPermission, superToAdminBrokerPermission, superToAdminGetNewPermission, seeAllSubAdminList, deleteSubAdminData } from '../../CommonAPI/SuperAdmin';
+import { adminDetails, addFund, closePanel, updateAdmin, pm2Reload, allClientListDetails, superToAdminPermission, superToAdminBrokerPermission, superToAdminGetNewPermission, seeAllSubAdminList, deleteSubAdminData, superadminCoupon } from '../../CommonAPI/SuperAdmin';
 import GridExample from '../../../ExtraComponent/CommanDataTable'
-import { SquarePen, RotateCcw, Eye, UserPlus, Earth, UserSearch, Trash2 } from 'lucide-react';
+import { SquarePen, RotateCcw, Eye, UserPlus, Earth, UserSearch, Trash2, BadgePercent } from 'lucide-react';
 import { useFormik } from "formik";
 import AddForm from "../../../ExtraComponent/FormData";
 import NoDataFound from '../../../ExtraComponent/NoDataFound';
@@ -66,8 +66,56 @@ const Strategygroup = () => {
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [selectedIndex, setSelectedIndex] = useState(0);
 
+    const [offerData, setOfferData] = useState({
+        Durtion: "",
+        Price: "",
+        OfferPrice: "",
+        Companyname: "",
+    });
+    const [showOfferModal, setShowOfferModal] = useState(false);
 
+    const durationOptions = [
+        { value: "One_Month", label: "One Month" },
+        { value: "Quarterly", label: "Quarterly" },
+        { value: "Half_Yearly", label: "Half Yearly" },
+        { value: "Yearly", label: "Yearly" },
+    ];
 
+    const handleCoupon = (tableMeta) => {
+        setOfferData({
+            ...offerData,
+            Companyname: tableMeta.rowData[1],
+        });
+        setShowOfferModal(true);
+    };
+
+    const handleOfferSubmit = async () => {
+        const res = await superadminCoupon(offerData);
+        if (res.Status) {
+            Swal.fire({
+                background: "#1a1e23 ",
+                backdrop: "#121010ba",
+                confirmButtonColor: "#1ccc8a",
+                title: "Success!",
+                text: res.message,
+                icon: "success",
+                timer: 2000,
+            });
+        } else {
+            Swal.fire({
+                background: "#1a1e23 ",
+                backdrop: "#121010ba",
+                confirmButtonColor: "#1ccc8a",
+                title: "Error!",
+                text: res.message,
+                icon: "error",
+                timer: 2000,
+            });
+        }
+ 
+        console.log("res", res)
+        setShowOfferModal(false); // Close modal
+    };
 
     useEffect(() => {
         adminDetailsData();
@@ -406,6 +454,24 @@ const Strategygroup = () => {
                             style={{ cursor: "pointer" }}
                             onClick={() => handleClientList(tableMeta)} // Pass tableMeta
                         />
+                    )
+                },
+            },
+        },
+
+        {
+            name: "Add Offer",
+            label: "Add Offer",
+            options: {
+                filter: true,
+                sort: false,
+                customBodyRender: (value, tableMeta, updateValue) => {
+                    return (
+                        <BadgePercent
+                            size={20}
+                            style={{ cursor: "pointer" }}
+                            onClick={() => handleCoupon(tableMeta)} // Pass tableMeta
+                        />
                     );
                 },
             },
@@ -597,7 +663,7 @@ const Strategygroup = () => {
             })
     }
 
-     
+
     useEffect(() => {
         formik.setValues({
             Companyname: singleAdminData?.Companyname,
@@ -715,10 +781,10 @@ const Strategygroup = () => {
             SOPPaperTrade: 0.0,
             SOPLiveTrade: 0.0,
             SOPScriptwise: 0.0,
-            ChartPaperTrade:0.0,
-            ChartLiveTrade:0.0,
+            ChartPaperTrade: 0.0,
+            ChartLiveTrade: 0.0,
             ChartPerMonth: 0.0,
-             
+
         },
         validate: (values) => {
             let errors = {};
@@ -762,10 +828,10 @@ const Strategygroup = () => {
             if (values.ChartPerTrade < 0) {
                 errors.ChartPerTrade = "Value cannot be negative";
             }
-            if(!values.ChartLiveTrade){
+            if (!values.ChartLiveTrade) {
                 errors.ChartLiveTrade = "Please enter Chart Live Trade";
             }
-            if(!values.ChartPaperTrade){
+            if (!values.ChartPaperTrade) {
                 errors.ChartPaperTrade = "Please enter Chart Paper Trade";
             }
             if (values.ChartPerMonth < 0) {
@@ -1373,9 +1439,93 @@ const Strategygroup = () => {
                     </div>
                 )}
 
+            {
+                showOfferModal && (
+                    <>
+                        {/* Overlay to dim the background */}
+                        <div
+                            style={{
+                                position: "fixed",
+                                top: 0,
+                                left: 0,
+                                width: "100%",
+                                height: "100%",
+                                backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent black
+                                zIndex: 1040, // Below modal but above other content
+                            }}
+                        ></div>
 
-
-
+                        {/* Modal */}
+                        <div className="modal show" id="exampleModal" style={{ display: "block", zIndex: 1050 }}>
+                            <div className="modal-dialog modal-dialog-centered">
+                                <div className="modal-content">
+                                    <div className="modal-header">
+                                        <h5 className="modal-title">Add Offer: {offerData.Companyname}</h5>
+                                        <button
+                                            type="button"
+                                            className="btn-close"
+                                            onClick={() => setShowOfferModal(false)}
+                                        />
+                                    </div>
+                                    <div className="modal-body">
+                                        <div className="mb-3">
+                                            <label className="form-label">Duration</label>
+                                            <select
+                                                className="form-control"
+                                                value={offerData.Durtion}
+                                                onChange={(e) =>
+                                                    setOfferData({ ...offerData, Durtion: e.target.value })
+                                                }
+                                            >
+                                                <option value="" disabled>Select Duration</option>
+                                                {durationOptions.map((option) => (
+                                                    <option key={option.value} value={option.value}>
+                                                        {option.label}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                        <div className="mb-3">
+                                            <label className="form-label">Price</label>
+                                            <input
+                                                type="number"
+                                                className="form-control"
+                                                value={offerData.Price}
+                                                onChange={(e) =>
+                                                    setOfferData({ ...offerData, Price: parseFloat(e.target.value) })
+                                                }
+                                            />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label className="form-label">Offer Price</label>
+                                            <input
+                                                type="number"
+                                                className="form-control"
+                                                value={offerData.OfferPrice}
+                                                onChange={(e) =>
+                                                    setOfferData({
+                                                        ...offerData,
+                                                        OfferPrice: parseFloat(e.target.value),
+                                                    })
+                                                }
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="modal-footer">
+                                        <button
+                                            type="button"
+                                            className="btn btn-primary"
+                                            onClick={handleOfferSubmit}
+                                        >
+                                            Submit
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                )
+            }
 
         </Content>
     );
