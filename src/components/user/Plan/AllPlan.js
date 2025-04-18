@@ -120,7 +120,7 @@ const ServicesList = () => {
         ? plansData?.data1[index]
         : plansData?.data[index];
 
-       
+
       const req1 = {
         Username: username,
         transactiontype: "Purchase",
@@ -135,6 +135,8 @@ const ServicesList = () => {
         cancelButtonText: "No, Cancel",
         reverseButtons: true,
       });
+
+      
 
       if (result.isConfirmed) {
         const CheckBalanceResponse = await AddBalance(req1);
@@ -449,22 +451,19 @@ const ServicesList = () => {
                           plan.Pattern?.join(", ")
                         )}
                       </p>
+                      {plan?.SOPPaperTrade > 0 &&
+                        <p className="allplan-card-subtitle">
+                          <strong className="card-text-Color">Paper Per Trade Price:</strong>
+                          <FaRupeeSign /> {plan?.SOPPaperTrade}
+                        </p>}
+                      {plan?.SOPLiveTrade > 0 &&
+                        <p className="allplan-card-subtitle">
+                          <strong className="card-text-Color">Live Per Trade Price:</strong>
+                          <FaRupeeSign /> {plan?.SOPLiveTrade}
+                        </p>
+                      }
 
-                      <p className="allplan-card-subtitle">
-                        <strong className="card-text-Color">Paper Per Trade Price:</strong>
-                        <FaRupeeSign /> {plan?.SOPPaperTrade}
-                      </p>
-
-                      <p className="allplan-card-subtitle">
-                        <strong className="card-text-Color">Live Per Trade Price:</strong>
-                        <FaRupeeSign /> {plan?.SOPLiveTrade}
-                      </p>
-
-
-
-
-
-
+ 
 
                       {/* {console.log("isPlanPurchased.includes(planExpired)", planExpired)} */}
                     </div>

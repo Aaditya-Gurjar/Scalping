@@ -273,6 +273,7 @@ import React, { useState, useEffect } from "react";
 import {
   addChartingScript,
   getChargingPlatformDataApi,
+  getStrategyTagApi,
 } from "../../CommonAPI/User";
 import Swal from "sweetalert2";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -334,6 +335,7 @@ const AddChartingScript = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const userName = localStorage.getItem("name");
+  const [strategTag, setStrategTag] = useState([])
 
 
 
@@ -415,8 +417,26 @@ const AddChartingScript = () => {
     }
   };
 
+  const getStrategyTag = async () => {
+    try {
+      const res = await getStrategyTagApi();
+      console.log("res", res);
+      if (res.Status) {
+        const strategTag = res.StrategyTag || [];
+        setStrategTag(strategTag);
+      } else {
+        // Handle error case
+      }
+    } catch (err) {
+      console.error("Error in getting the strategy tag", err);
+    }
+  }
+
+  console.log("getChartingData", chartingData);
+
   useEffect(() => {
     getChartingData();
+    getStrategyTag()
   }, []);
 
   const handleAddCharting = async (index) => {
@@ -433,6 +453,7 @@ const AddChartingScript = () => {
       MaxLoss: Number(data.MaxLoss) || 0,
       ExitDay: data.ExitDay,
       ASStatus: data.AdminStatus,
+      Strategytag : strategTag
     };
 
     

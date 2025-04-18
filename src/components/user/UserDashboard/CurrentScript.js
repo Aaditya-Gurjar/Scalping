@@ -11,6 +11,7 @@ import {
   getUserChartingScripts,
   DeleteSingleChartingScript,
   MatchPosition,
+  chartAllotStrategyApi,
 } from "../../CommonAPI/User";
 import Loader from "../../../ExtraComponent/Loader";
 import {
@@ -43,6 +44,8 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
   const [EditDataOption, setEditDataOption] = useState({});
   const [EditDataPattern, setEditDataPattern] = useState({});
   const [allScripts, setAllScripts] = useState({ data: [], len: 0 });
+  const [allScripts2, setAllScripts2] = useState({ data: [], len: 0 });
+
   const [editCharting, setEditCharting] = useState();
   const [getCharting, setGetCharting] = useState([]);
   const [channelList, setChannelList] = useState([]);
@@ -69,6 +72,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
   useEffect(() => {
     GetUserAllScripts();
+    GetChartingAllotStg();
   }, []);
 
   useEffect(() => {
@@ -136,6 +140,9 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
     getChartingScript();
   }, [FromDate, ToDate])
 
+
+  // chartAllotStrategyApi
+
   const GetUserAllScripts = async () => {
     const data = { Username: userName };
     await GetUserScripts(data)
@@ -150,6 +157,30 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
           });
         } else {
           setAllScripts({
+            data: [],
+            len: 0,
+          });
+        }
+      })
+      .catch((err) => {
+        console.log("Error in finding the User Scripts", err);
+      });
+  };
+
+  const GetChartingAllotStg = async () => {
+    const data = { Username: userName };
+    await chartAllotStrategyApi(data)
+      .then((response) => {
+
+        if (response.Status) {
+           
+          setAllScripts2({
+            data: response.data,
+            len: response.data?.length - 1,
+            Planname: response.data[response.data?.length - 1].Planname,
+          });
+        } else {
+          setAllScripts2({
             data: [],
             len: 0,
           });
@@ -689,12 +720,15 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
     } else if (data === "ChartingPlatform") {
 
 
-      if (allScripts?.data?.[allScripts.len]?.CombineChartingSignal?.length >= 1) {
+      console.log("chartinggggg: ", allScripts2?.data?.[allScripts2.len])
+
+      if (allScripts2?.data?.[allScripts2.len]?.CombineChartingSignal?.length >= 1) {
+        
         navigate("/user/newscript/charting", {
           state: {
             data: {
               selectStrategyType: "ChartingPlatform",
-              scriptType: allScripts,
+              scriptType: allScripts2,
             },
           },
         });

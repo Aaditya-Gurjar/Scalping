@@ -806,7 +806,7 @@ const Header = () => {
                             style={{ height: "24px", marginRight: "10px" }}
                           />
 
-                          <strong >{walletBalance || "-"}</strong>
+                          <strong className="btn-text-color" >{walletBalance || "-"}</strong>
                         </span>
                       ) : (
                         <span>

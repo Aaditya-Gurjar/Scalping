@@ -297,16 +297,16 @@ const AdminServicesList = () => {
                                 plan.Pattern?.join(", ")
                               )}
                             </p>
-                             <p className="allplan-card-subtitle">
-                                                  <strong className="card-text-Color">Paper Per Trade Price:</strong>
-                                                  <FaRupeeSign /> { plan.SOPPaperTrade }
-                                                </p>
-                            
-                                                <p className="allplan-card-subtitle">
-                                                  <strong className="card-text-Color">Live Per Trade Price:</strong>
-                                                  <FaRupeeSign /> { plan.SOPLiveTrade }
-                                                </p>
-                            
+                            {plan.SOPPaperTrade > 0 && <p className="allplan-card-subtitle">
+                              <strong className="card-text-Color">Price Per Paper Trade :</strong>
+                              <FaRupeeSign /> {plan.SOPPaperTrade}
+                            </p>}
+                            {plan.SOPLiveTrade > 0 &&
+                              <p className="allplan-card-subtitle">
+                                <strong className="card-text-Color">Price Per Live Trade :</strong>
+                                <FaRupeeSign /> {plan.SOPLiveTrade}
+                              </p>}
+
 
 
                           </div>}
@@ -358,7 +358,7 @@ const AdminServicesList = () => {
                               <strong>Segment:</strong>{" "}
                               {plan?.ChartingSignal?.join(", ")}
                             </p>
-                             {/* <p className="allplan-card-subtitle">  
+                            {/* <p className="allplan-card-subtitle">  
                                                   {/* <strong className="card-text-Color">Live Per Trade:</strong>
                                                   <FaRupeeSign /> {plan.ChartPerTrade}
                                                 </p>
@@ -367,15 +367,15 @@ const AdminServicesList = () => {
                                                   <strong className="card-text-Color">Fixed Per Month:</strong>
                                                   <FaRupeeSign /> {plan.ChartPerMonth}
                                                 </p> */}
-                                                <p className="allplan-card-subtitle">
-                                                  <strong className="card-text-Color">Paper Per Trade Price:</strong>
-                                                  <FaRupeeSign /> { plan.ChartPaperTrade }
-                                                </p>
-                            
-                                                <p className="allplan-card-subtitle">
-                                                  <strong className="card-text-Color">Live Per Trade Price:</strong>
-                                                  <FaRupeeSign /> { plan.ChartLiveTrade }
-                                                </p>
+                            {plan.ChartPaperTrade > 0 && <p className="allplan-card-subtitle">
+                              <strong className="card-text-Color">Paper Per Trade Price:</strong>
+                              <FaRupeeSign /> {plan.ChartPaperTrade}
+                            </p>}
+                            {plan.ChartLiveTrade > 0 &&
+                              <p className="allplan-card-subtitle">
+                                <strong className="card-text-Color">Live Per Trade Price:</strong>
+                                <FaRupeeSign /> {plan.ChartLiveTrade}
+                              </p>}
                           </div>
 
                           {/* Edit Button */}

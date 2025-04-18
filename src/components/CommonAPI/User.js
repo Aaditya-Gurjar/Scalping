@@ -765,6 +765,28 @@ export const GetUserScripts = async (data) => {
     }
 }
 
+
+
+export const chartAllotStrategyApi = async (data) => {
+    var token = localStorage.getItem('token')
+    try {
+        const res = await axios.get(`${Config.base_url}ChartAllotStretegy/${data.Username}`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+}
+
+
+
 export const addChartingScript = async (data) => {
     var token = localStorage.getItem('token')
     try {
@@ -1040,6 +1062,47 @@ export const overallReportApi = async (data) => {
     const token = localStorage.getItem('token')
     try {
         const res = await axios.post(`${Config.base_url}PnlData`, data,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+
+}
+
+
+
+export const getStrategyTagApi = async ( ) => {
+    var token = localStorage.getItem('token')
+    try {
+        const res = await axios.get(`${Config.base_url}StrategyTag`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+}
+
+
+export const applyCouponCode = async (data) => {
+    const token = localStorage.getItem('token')
+    try {
+        const res = await axios.post(`${Config.base_url}CouponCode`, data,
             {
                 headers: {
                     'Content-Type': 'application/json',

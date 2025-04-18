@@ -260,7 +260,18 @@ const DynamicForm = ({
                                             htmlFor={item.name}>
                                             {item.label}
 
-                                            {item.iconText && (
+                                           
+
+                                            {/* <Info
+                                              title="The minimum price level at which you want to initiate your first buying/selling position"
+                                              style={{ width: "15px" }}
+                                              className="mx-1"
+                                            /> */}
+                                            {/* <span className="text-danger">
+                                              *
+                                            </span> */}
+                                          </label>
+                                          {item.iconText && (
                                               <span className="custom-tooltip-wrapper">
                                                 <span
                                                   className="info-icon-container"
@@ -275,16 +286,6 @@ const DynamicForm = ({
                                                 </span>
                                               </span>
                                             )}
-
-                                            {/* <Info
-                                              title="The minimum price level at which you want to initiate your first buying/selling position"
-                                              style={{ width: "15px" }}
-                                              className="mx-1"
-                                            /> */}
-                                            {/* <span className="text-danger">
-                                              *
-                                            </span> */}
-                                          </label>
                                           <div>
                                             <select
                                               className="default-select wide form-control"
@@ -542,7 +543,9 @@ const DynamicForm = ({
                                               "item.iconText",
                                               item.iconText
                                             )} */}
-                                            {item.iconText && (
+                                           
+                                          </label>
+                                          {item.iconText && (
                                               <span className="custom-tooltip-wrapper">
                                                 <span
                                                   className="info-icon-container"
@@ -557,7 +560,6 @@ const DynamicForm = ({
                                                 </span>
                                               </span>
                                             )}
-                                          </label>
                                           <div>
                                             <select
                                               className="default-select wide form-control"
@@ -1001,7 +1003,9 @@ const DynamicForm = ({
                                               className={` col-lg-${item.label_size}`}
                                               htmlFor={item.name}>
                                               {item.label}
-                                              {item.iconText && (
+                                             
+                                            </label>
+                                            {item.iconText && (
                                                 <span className="custom-tooltip-wrapper">
                                                   <span
                                                     className="info-icon-container"
@@ -1018,7 +1022,6 @@ const DynamicForm = ({
                                                   </span>
                                                 </span>
                                               )}
-                                            </label>
                                             <div>
                                               <select
                                                 className="default-select wide form-control"
@@ -1432,6 +1435,8 @@ const DynamicForm = ({
                                               htmlFor={item.name}>
                                               {item.label}
 
+                                             
+                                              </label>
                                               {item.iconText && (
                                                 <span className="custom-tooltip-wrapper">
                                                   <span
@@ -1449,7 +1454,6 @@ const DynamicForm = ({
                                                   </span>
                                                 </span>
                                               )}
-                                              </label>
 
                                              
                                            

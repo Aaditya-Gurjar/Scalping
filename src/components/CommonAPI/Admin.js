@@ -1304,3 +1304,23 @@ export const getAdminCouponDetails = async (data) => {
         return err
     }
 }
+
+export const AddCouponCodeApi = async (data) => {
+    const token = localStorage.getItem('token')
+    try {
+        const res = await axios.post(`${Config.base_url}AddCouponCode`, data,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+
+}
