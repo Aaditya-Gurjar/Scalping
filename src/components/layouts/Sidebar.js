@@ -202,7 +202,7 @@ const permissions  = localStorage.getItem("adminPermission");
     },
     {
       path: "/admin/allplan",
-       // Plan icon
+      icon: <i className="fa fa-list-alt" />,
       label: "Plan",
       permission: [],
     },
