@@ -13,9 +13,7 @@ const AddClient = () => {
   const navigate = useNavigate();
   const [getExpiry, setExpiry] = useState({ loading: true, data: [] });
 
-
-
-  console.log("location--=-=-=-=-", location?.state);
+ 
 
   const ScrollToViewFirstError = (newErrors) => {
     if (Object.keys(newErrors).length !== 0) {
@@ -106,8 +104,8 @@ const AddClient = () => {
       Unique_ID: location.state.data.GroupN,
       Measurment_Type: "",
       Shifting_Point: 1,
-      Profit: 0,
-      Loss: 0,
+      Profit: "0",
+      Loss: "0",
       ExitType: "",
       WorkingDay: [],
     },
@@ -400,20 +398,12 @@ const AddClient = () => {
         }
       }
 
-      if (
-        values.Loss == undefined ||
-        values.Loss == "" ||
-        values.Loss == null
-      ) {
+      if (values.Loss === undefined || values.Loss === "" || values.Loss === null) {
         errors.Loss = "Please Enter Maximum Loss";
       }
-
-      if (
-        values.Profit == undefined ||
-        values.Profit == "" ||
-        values.Profit == null
-      ) {
-        errors.Profit = "Please Enter Maximum Loss";
+      
+      if (values.Profit === undefined || values.Profit === "" || values.Profit === null) {
+        errors.Profit = "Please Enter Maximum Profit";
       }
 
       if (!values.WorkingDay?.length > 0) {
@@ -429,6 +419,7 @@ const AddClient = () => {
       }
 
       // ScrollToViewFirstError(errors);
+      console.log("error", errors)
       return errors;
     },
     onSubmit: async (values) => {
@@ -732,8 +723,8 @@ const AddClient = () => {
     formik.setFieldValue("PEDeepLower", location.state.data.PEDeepLower);
     formik.setFieldValue("PEDeepHigher", location.state.data.PEDeepHigher);
     formik.setFieldValue("Shifting_Point", location.state.data["Target value"]);
-    formik.setFieldValue("Profit", location.state.data.Profit);
-    formik.setFieldValue("Loss", location.state.data.Loss);
+    formik.setFieldValue("Profit", location.state.data.Profit || 0);
+    formik.setFieldValue("Loss", location.state.data.Loss || 0);
     formik.setFieldValue("WorkingDay", workingDay);
     formik.setFieldValue("ExitType", "Normal");
   }, []);

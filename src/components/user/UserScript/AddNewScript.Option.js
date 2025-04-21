@@ -425,7 +425,7 @@ const AddClient = () => {
       }
 
       if (values.Profit == undefined || values.Profit == "" || values.Profit == null) {
-        errors.Profit = "Please Enter Maximum Loss";
+        errors.Profit = "Please Enter Maximum Profit";
       }
 
 
