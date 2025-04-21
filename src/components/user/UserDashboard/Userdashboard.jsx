@@ -767,7 +767,7 @@ const Userdashboard = () => {
             <>
               <div className="d-flex justify-content-center align-items-center flex-column gap-4 mt-4">
                 <div className="d-flex justify-content-start align-items-center w-100" style={{ maxWidth: "1200px" }}>
-                  <h5 className="me-3" style={{ minWidth: "100px", textAlign: "left" }}>All Bots:</h5>
+                  {/* <h5 className="me-3" style={{ minWidth: "100px", textAlign: "left" }}></h5> */}
                   <div className="d-flex flex-wrap gap-3">
                     {strategyType.map((type, index) => (
                       <button
@@ -790,7 +790,7 @@ const Userdashboard = () => {
   style={{ maxWidth: "1200px" }}
 >
   <h5 className="me-3" style={{ minWidth: "100px", textAlign: "left" }}>
-    Groups:
+    Suggested Bot:
   </h5>
 
   <div className="d-flex flex-wrap gap-3">

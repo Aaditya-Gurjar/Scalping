@@ -32,14 +32,14 @@ export const ClientActivityPage = () => [
             sort: true,
         }
     },
-    {
-        name: "Broker",
-        label: "Broker",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+    // {
+    //     name: "Broker",
+    //     label: "Broker",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
     {
         name: "Planname",
         label: "Plan Name",
@@ -80,7 +80,7 @@ export const ClientActivityPage = () => [
         }
     },
     {
-        name: "LicenseStartDate",
+        name: "LicanseStartDate",
         label: "LS Date",
         options: {
             filter: true,

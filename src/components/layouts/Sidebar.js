@@ -191,7 +191,7 @@ const permissions  = localStorage.getItem("adminPermission");
     {
       path: "/admin/clientservice",
       icon: <i className="fa fa-users" />, // Client Service icon
-      label: "Client Service",
+      label: "Add Client",
       permission: [],
     },
     {

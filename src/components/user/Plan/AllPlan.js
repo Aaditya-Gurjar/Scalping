@@ -7,6 +7,7 @@ import {
   BuyPlan,
   AddBalance,
   ExpirePlanDetails,
+  applyCouponCode,
 } from "../../CommonAPI/User";
 import Swal from "sweetalert2";
 // import Tab from "react-bootstrap/Tab";
@@ -20,6 +21,19 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+import { Modal, Button, TextField, Stack, Typography } from '@mui/material';
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  borderRadius: 2,
+  boxShadow: 24,
+  p: 4,
+};
 
 const ServicesList = () => {
   const username = localStorage.getItem("name");
@@ -35,6 +49,60 @@ const ServicesList = () => {
 
   const [expandedOptions, setExpandedOptions] = useState([]);
   const [expandedPatternItems, setExpandedPatternItems] = useState([]);
+  const [isContinue, setIsContinue] = useState(false);
+
+  const [open, setOpen] = useState(false);
+  const [couponCode, setCouponCode] = useState('');
+  const [selectedPlan, setSelectedPlan] = useState(null); // State to store selected plan details
+  const [verificationMessage, setVerificationMessage] = useState(""); // State for verification message
+  const [verificationColor, setVerificationColor] = useState(""); // State for message color
+  const [isContinueEnabled, setIsContinueEnabled] = useState(false); // State to manage "Continue" button enable/disable
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+
+  const handleVerify = async () => {
+    if (selectedPlan) {
+      console.log("Selected Plan Details:", selectedPlan);
+      console.log("Coupon Code Entered:", couponCode);
+
+      const req = {
+        User: username,
+        Planname: selectedPlan.Planname || selectedPlan.PlanName,
+        CouponCode: couponCode,
+      };
+
+      const res = await applyCouponCode(req);
+      console.log("Coupon Verification Response:", res);
+
+      if (res.Status) {
+        setVerificationMessage("Verified");
+        setVerificationColor("green");
+        setIsContinueEnabled(true); // Enable the "Continue" button
+      } else {
+        setVerificationMessage("Not Applicable");
+        setVerificationColor("red");
+        setIsContinueEnabled(false); // Disable the "Continue" button
+      }
+    } else {
+      console.error("No plan selected for verification.");
+    }
+  };
+
+  const handleContinue = () => {
+    // TODO: Continue with couponCode (if present)
+    console.log('Continuing with code:', couponCode);
+    handleClose();
+  };
+
+  const handleContinueWithout = () => {
+    console.log('Continuing without coupon');
+    handleClose();
+  };
+
+
+
 
   const toggleOptions = (index) => {
     setExpandedOptions((prev) =>
@@ -119,24 +187,25 @@ const ServicesList = () => {
       const planDetails = isCharting
         ? plansData?.data1[index]
         : plansData?.data[index];
-
+      setSelectedPlan(planDetails); // Set the selected plan
+      handleOpen(); // Open the modal
 
       const req1 = {
         Username: username,
         transactiontype: "Purchase",
         money: planDetails.SOPPrice || planDetails.ChartPerMonth,
       };
-      const result = await Swal.fire({
-        title: "Are you sure?",
-        text: `Do you want to buy the plan: ${planDetails.Planname || planDetails.PlanName} for ₹${planDetails.SOPPrice}?`,
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Yes, Buy it!",
-        cancelButtonText: "No, Cancel",
-        reverseButtons: true,
-      });
+      // const result = await Swal.fire({
+      //   title: "Are you sure?",
+      //   text: `Do you want to buy the plan: ${planDetails.Planname || planDetails.PlanName} for ₹${planDetails.SOPPrice}?`,
+      //   icon: "warning",
+      //   showCancelButton: true,
+      //   confirmButtonText: "Yes, Buy it!",
+      //   cancelButtonText: "No, Cancel",
+      //   reverseButtons: true,
+      // });
 
-      
+      const result = isContinue;
 
       if (result.isConfirmed) {
         const CheckBalanceResponse = await AddBalance(req1);
@@ -470,14 +539,14 @@ const ServicesList = () => {
                     {(isPlanPurchased(plan?.Planname) && !planExpired?.includes(plan?.Planname)) ? (
                       <button
                         className="allplan-button buy-again"
-                        onClick={() => HandleBuyPlan(index, 0, false)}
+                        onClick={() =>{ HandleBuyPlan(index, 0, false); handleOpen()}}
                       >
                         🔄 Buy Again
                       </button>
                     ) : (
                       <button
                         className="allplan-button"
-                        onClick={() => HandleBuyPlan(index, 1, false)}
+                        onClick={() => {HandleBuyPlan(index, 1, false); handleOpen()}}
                       >
                         🛒 Buy Now
                       </button>
@@ -558,6 +627,67 @@ const ServicesList = () => {
           </TabPanel>
         </TabContext>
       </Box>
+
+
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="coupon-modal-title"
+        aria-describedby="coupon-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="coupon-modal-title" variant="h6" component="h2" gutterBottom>
+            Enter Coupon Code
+          </Typography>
+
+          {/* Input + Verify Button */}
+          <Stack direction="row" spacing={2} alignItems="center" mb={1}>
+            <TextField
+              fullWidth
+              label="Coupon Code"
+              value={couponCode}
+              onChange={(e) => {
+                setCouponCode(e.target.value);
+                setVerificationMessage(""); // Clear message on input change
+                setIsContinueEnabled(false); // Disable "Continue" button on input change
+              }}
+            />
+            <Button variant="outlined" onClick={handleVerify}>
+              Verify
+            </Button>
+          </Stack>
+
+          {/* Verification Message */}
+          {verificationMessage && (
+            <Typography
+              variant="body2"
+              sx={{ color: verificationColor, marginTop: "8px" }}
+            >
+              {verificationMessage}
+            </Typography>
+          )}
+
+          {/* Continue Buttons */}
+          <Stack direction="column" spacing={2} mt={3}>
+            <button variant="text" className="btn border" onClick={handleContinueWithout}>
+              Continue without Coupon
+            </button>
+            <button
+              variant="contained"
+              className="addbtn"
+              onClick={handleContinue}
+              disabled={!isContinueEnabled} // Disable "Continue" button if not enabled
+              disableRipple={!isContinueEnabled}
+
+            >
+              Continue
+            </button>
+          </Stack>
+        </Box>
+      </Modal>
+
+
+
     </Content>
   );
 };
