@@ -6,10 +6,12 @@ import Select from 'react-select';
 import './AddCoupon.css';
 import { AddCouponCodeApi, GetClientService } from '../../CommonAPI/Admin';
 import { Get_All_Plans } from '../../CommonAPI/User';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const AddCoupon = () => {
     const [planOptions, setPlanOptions] = useState([]);
     const [userOptions, setUserOptions] = useState([]);
+    const navigate = useNavigate();
 
     // Fetch plans & users once
     useEffect(() => {
@@ -88,6 +90,8 @@ const AddCoupon = () => {
                     timerProgressBar: true
                 });
             }
+
+            navigate("/admin/Coupon")
 
 
         }

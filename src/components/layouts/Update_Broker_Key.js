@@ -294,7 +294,7 @@ const Update_Broker_Key = ({ closeModal, isVisible, Role }) => {
     const fields = [
         {
             name: "username",
-            label: formik.values.BrokerName.toUpperCase() === "ALICEBLUE" ? "Username " :
+            label: formik.values.BrokerName.toUpperCase() === "ALICEBLUE" ? "User ID " :
                 formik.values.BrokerName.toUpperCase() === "5PAISA" ? "App Name" :
                     formik.values.BrokerName.toUpperCase() === "ZEBULL" ? "Username" :
                         formik.values.BrokerName.toUpperCase() === "MANDOT" ? "Username" :
@@ -320,7 +320,7 @@ const Update_Broker_Key = ({ closeModal, isVisible, Role }) => {
         {
             name: "api_key",
             label: formik.values.BrokerName.toUpperCase() === "ANGEL" ? "App Api Key" :
-                formik.values.BrokerName.toUpperCase() === "ALICEBLUE" ? "App Api Key" :
+                formik.values.BrokerName.toUpperCase() === "ALICEBLUE" ? "API Key" :
                     formik.values.BrokerName.toUpperCase() === "ICICI" ? "App Api Key" :
                         formik.values.BrokerName.toUpperCase() === "UPSTOX" ? "App Api Key" :
                             formik.values.BrokerName.toUpperCase() === "5PAISA" ? "User ID" :

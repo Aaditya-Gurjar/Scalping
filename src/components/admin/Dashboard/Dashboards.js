@@ -275,21 +275,26 @@ const Dashboards = () => {
           <Loader />
         ) : (
           <div className="container-fluid" >
-            <div className="row">
+            <div className="row align-items-center">
               <div className="col-md-6 mb-3">
-                <h2>From Date</h2>
+                <label htmlFor="fromDate" className="form-label">
+                  From Date
+                </label>
                 <input
                   type="date"
+                  id="fromDate"
                   className="form-control"
                   onChange={(e) => setFromDate(e.target.value)}
                   value={fromDate}
                 />
               </div>
-
               <div className="col-md-6 mb-3">
-                <h2>To Date</h2>
+                <label htmlFor="toDate" className="form-label">
+                  To Date
+                </label>
                 <input
                   type="date"
+                  id="toDate"
                   className="form-control"
                   onChange={(e) => setToDate(e.target.value)}
                   value={toDate}
@@ -657,21 +662,26 @@ const Dashboards = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="row">
+                  <div className="row align-items-center">
                     <div className="col-md-6 mb-3">
-                      <h2>From Date</h2>
+                      <label htmlFor="fromDate1" className="form-label">
+                        From Date
+                      </label>
                       <input
                         type="date"
+                        id="fromDate1"
                         className="form-control"
                         onChange={(e) => setFromDate1(e.target.value)}
                         value={fromDate1}
                       />
                     </div>
-
                     <div className="col-md-6 mb-3">
-                      <h2>To Date</h2>
+                      <label htmlFor="toDate1" className="form-label">
+                        To Date
+                      </label>
                       <input
                         type="date"
+                        id="toDate1"
                         className="form-control"
                         onChange={(e) => setToDate1(e.target.value)}
                         value={toDate1}

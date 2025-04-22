@@ -11,7 +11,7 @@ import Modal from "react-bootstrap/Modal";    // <-- Modal import
 import Button from "react-bootstrap/Button";   // <-- Button import
 import "./AllPlan.css"; // Import your custom CSS
 import Content from "../../../ExtraComponent/Content";
-import { EditPlanname, GetAllStratgy } from "../../CommonAPI/Admin";
+import { EditPlanname, GetAllStratgy, getChartingStrategyTag } from "../../CommonAPI/Admin";
 import Swal from 'sweetalert2';
 
 
@@ -34,6 +34,7 @@ const AdminServicesList = () => {
   const [planData, setPlanData] = useState({})
   const [activeTab, setActiveTab] = useState("Scalping");
   const [editablePlans, setEditablePlans] = useState(['ABCd', 'XYZ', 'Testing'])
+  const [strategyTags, setStrategyTags] = useState([]); // State for strategy tag options
   const navigate = useNavigate();
 
   const EditablePlanName = async () => {
@@ -68,6 +69,8 @@ const AdminServicesList = () => {
     );
   };
 
+  console.log("strategyTags", strategyTags)
+
   // Function to handle edit button click
   const handleEdit = async (plan) => {
     try {
@@ -82,7 +85,9 @@ const AdminServicesList = () => {
 
   useEffect(() => {
     fetchPlans();
-  }, []);
+    // fetchStarategyTag();
+    fetchStrategyTags();
+  }, [showEditModal]);
 
   const fetchPlans = async () => {
     try {
@@ -112,6 +117,41 @@ const AdminServicesList = () => {
     }
   };
 
+
+  // const fetchStarategyTag = async () => {
+  //       const res = await getChartingStrategyTag();
+  //       console.log("All Strategy Tag", res);
+  //       if (res && res.data) {
+  //         const tags = res.data.map((tag) => ({
+  //           value: tag,
+  //           label: tag,
+  //         }));
+  //         setStrategyTags(tags); 
+  //       }
+  //   };
+
+  //   useEffect(() => {
+  //       fetchStarategyTag();
+  //   }, []);
+
+
+  const fetchStrategyTags = async () => {
+    try {
+      const res = await getChartingStrategyTag();
+      if (res && res.data) {
+        const tags = res.data.map((tag) => ({
+          value: tag.Strategytag,
+          label: tag.Strategytag,
+        }));
+        setStrategyTags(tags); // Store fetched strategy tags in state
+      }
+    } catch (err) {
+      console.error("Failed to fetch strategy tags");
+    }
+  };
+
+
+
   const handleModalChange = (e) => {
     const { name, value } = e.target;
     setEditPlanData({
@@ -129,7 +169,7 @@ const AdminServicesList = () => {
     }));
   };
 
-
+  console.log("editPlanData", editPlanData)
   const handleModalSave = async () => {
     try {
 
@@ -147,6 +187,7 @@ const AdminServicesList = () => {
         ChartPerMonth: editPlanData.ChartPerMonth || 0.0,
         ChartPaperTrade: editPlanData.ChartPaperTrade || 0.0, // New field
         ChartLiveTrade: editPlanData.ChartLiveTrade || 0.0,   // New field
+        Strategytag: editPlanData.Strategytag || [], // Pass selected strategy tags
       };
 
       const res = await EditPlan(updatedPlanRequest);
@@ -213,125 +254,131 @@ const AdminServicesList = () => {
                 <p>Loading...</p>
               ) : (
                 <div className="allplan-grid">
-                  {plansData.data.map((plan, index) => (
-                    <div key={index} className="allplan-card">
-                      <div className="plan-data">
-                        <div className="text-center">
-                          <h2 className="allplan-card-title">{plan.Planname}</h2>
-                          <h4 className="allplan-card-subtitle">
-                            <FaRupeeSign className="m-1" />
-                            <strong>{plan.SOPPrice}</strong>
-                          </h4>
-                          <h4 className="allplan-card-subtitle">
-                            Duration: {plan["Plan Validity"]}
-                          </h4>
-                          <h4 className="allplan-card-subtitle">
-                            Number of Script: {plan.NumberofScript}
-                          </h4>
-                          {<div className="plan-details">
-                            <p className="price-item">
-                              <strong>Scalping Strategy:</strong>{" "}
-                              {plan?.Scalping?.join(", ")}
-                            </p>
-                            <p className="price-item">
-                              <strong>Options:</strong>{" "}
-                              {plan["Option Strategy"]?.length > 1 ? (
-                                <>
-                                  {expandedOptions.includes(index) ? (
-                                    <>
-                                      {plan["Option Strategy"].join(", ")}
-                                      <span
-                                        className="show-more"
-                                        onClick={() => toggleOptions(index)}
-                                      >
-                                        {" "}
-                                        🔼
-                                      </span>
-                                    </>
-                                  ) : (
-                                    <>
-                                      {plan["Option Strategy"][0]}
-                                      <span
-                                        className="show-more"
-                                        onClick={() => toggleOptions(index)}
-                                      >
-                                        {" "}
-                                        🔽
-                                      </span>
-                                    </>
-                                  )}
-                                </>
-                              ) : (
-                                plan["Option Strategy"]?.join(", ")
-                              )}
-                            </p>
-                            <p className="price-item">
-                              <strong>Patterns:</strong>{" "}
-                              {plan.Pattern?.length > 1 ? (
-                                <>
-                                  {expandedPatternItems.includes(index) ? (
-                                    <>
-                                      {plan.Pattern.join(", ")}
-                                      <span
-                                        className="show-more"
-                                        onClick={() => toggleExpand(index)}
-                                      >
-                                        {" "}
-                                        🔼
-                                      </span>
-                                    </>
-                                  ) : (
-                                    <>
-                                      {plan.Pattern[0]}
-                                      <span
-                                        className="show-more"
-                                        onClick={() => toggleExpand(index)}
-                                      >
-                                        {" "}
-                                        🔽
-                                      </span>
-                                    </>
-                                  )}
-                                </>
-                              ) : (
-                                plan.Pattern?.join(", ")
-                              )}
-                            </p>
-                            {plan.SOPPaperTrade > 0 && <p className="allplan-card-subtitle">
-                              <strong className="card-text-Color">Price Per Paper Trade :</strong>
-                              <FaRupeeSign /> {plan.SOPPaperTrade}
-                            </p>}
-                            {plan.SOPLiveTrade > 0 &&
-                              <p className="allplan-card-subtitle">
-                                <strong className="card-text-Color">Price Per Live Trade :</strong>
-                                <FaRupeeSign /> {plan.SOPLiveTrade}
+                  {plansData.data
+                    .filter(
+                      (plan) =>
+                        !["Three Days Live", "Two Days Demo", "One Week Demo"].includes(plan.Planname) &&
+                        plan.SOPPrice > 0
+                    )
+                    .map((plan, index) => (
+                      <div key={index} className="allplan-card">
+                        <div className="plan-data">
+                          <div className="text-center">
+                            <h2 className="allplan-card-title">{plan.Planname}</h2>
+                            <h4 className="allplan-card-subtitle">
+                              <FaRupeeSign className="m-1" />
+                              <strong>{plan.SOPPrice}</strong>
+                            </h4>
+                            <h4 className="allplan-card-subtitle">
+                              Duration: {plan["Plan Validity"]}
+                            </h4>
+                            <h4 className="allplan-card-subtitle">
+                              Number of Script: {plan.NumberofScript}
+                            </h4>
+                            {<div className="plan-details">
+                              <p className="price-item">
+                                <strong>Scalping Strategy:</strong>{" "}
+                                {plan?.Scalping?.join(", ")}
+                              </p>
+                              <p className="price-item">
+                                <strong>Options:</strong>{" "}
+                                {plan["Option Strategy"]?.length > 1 ? (
+                                  <>
+                                    {expandedOptions.includes(index) ? (
+                                      <>
+                                        {plan["Option Strategy"].join(", ")}
+                                        <span
+                                          className="show-more"
+                                          onClick={() => toggleOptions(index)}
+                                        >
+                                          {" "}
+                                          🔼
+                                        </span>
+                                      </>
+                                    ) : (
+                                      <>
+                                        {plan["Option Strategy"][0]}
+                                        <span
+                                          className="show-more"
+                                          onClick={() => toggleOptions(index)}
+                                        >
+                                          {" "}
+                                          🔽
+                                        </span>
+                                      </>
+                                    )}
+                                  </>
+                                ) : (
+                                  plan["Option Strategy"]?.join(", ")
+                                )}
+                              </p>
+                              <p className="price-item">
+                                <strong>Patterns:</strong>{" "}
+                                {plan.Pattern?.length > 1 ? (
+                                  <>
+                                    {expandedPatternItems.includes(index) ? (
+                                      <>
+                                        {plan.Pattern.join(", ")}
+                                        <span
+                                          className="show-more"
+                                          onClick={() => toggleExpand(index)}
+                                        >
+                                          {" "}
+                                          🔼
+                                        </span>
+                                      </>
+                                    ) : (
+                                      <>
+                                        {plan.Pattern[0]}
+                                        <span
+                                          className="show-more"
+                                          onClick={() => toggleExpand(index)}
+                                        >
+                                          {" "}
+                                          🔽
+                                        </span>
+                                      </>
+                                    )}
+                                  </>
+                                ) : (
+                                  plan.Pattern?.join(", ")
+                                )}
+                              </p>
+                              {plan.SOPPaperTrade > 0 && <p className="allplan-card-subtitle">
+                                <strong className="card-text-Color">Price Per Paper Trade :</strong>
+                                <FaRupeeSign /> {plan.SOPPaperTrade}
                               </p>}
+                              {plan.SOPLiveTrade > 0 &&
+                                <p className="allplan-card-subtitle">
+                                  <strong className="card-text-Color">Price Per Live Trade :</strong>
+                                  <FaRupeeSign /> {plan.SOPLiveTrade}
+                                </p>}
 
 
 
-                          </div>}
-                          {/* Edit Button */}
+                            </div>}
+                            {/* Edit Button */}
 
-                          {
-                            editablePlans?.includes(plan.Planname) ? <button
-                              className="edit-btn"
-                              onClick={() => handleEdit(plan)}
-                            >
-                              <FaEdit /> Edit
-                            </button>
-                              :
-                              ""
-                          }
-                          {/* <button
+                            {
+                              editablePlans?.includes(plan.Planname) ? <button
+                                className="edit-btn"
+                                onClick={() => handleEdit(plan)}
+                              >
+                                <FaEdit /> Edit
+                              </button>
+                                :
+                                ""
+                            }
+                            {/* <button
                             className="edit-btn"
                             onClick={() => handleEdit(plan)}
                           >
                             <FaEdit /> Edit
                           </button> */}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
                 </div>
               )}
             </Tab>
@@ -340,25 +387,31 @@ const AdminServicesList = () => {
                 <p>Loading...</p>
               ) : (
                 <div className="allplan-grid">
-                  {plansData.data1.map((plan, index) => (
-                    <div key={index} className="allplan-card">
-                      <div className="plan-data">
-                        <div className="text-center">
-                          <h2 className="allplan-card-title">{plan.Planname}</h2>
-                          <h4 className="allplan-card-subtitle">
-                            <FaRupeeSign className="m-1" />
-                            <strong>{plan.ChartPerMonth
-                            }</strong>
-                          </h4>
-                          <h4 className="allplan-card-subtitle">
-                            Duration: {plan["Plan Validity"]}
-                          </h4>
-                          <div className="plan-details">
-                            <p className="price-item">
-                              <strong>Segment:</strong>{" "}
-                              {plan?.ChartingSignal?.join(", ")}
-                            </p>
-                            {/* <p className="allplan-card-subtitle">  
+                  {plansData.data1
+                    .filter(
+                      (plan) =>
+                        !["Three Days Live", "Two Days Demo", "One Week Demo"].includes(plan.Planname) &&
+                        plan.ChartPerMonth > 0
+                    )
+                    .map((plan, index) => (
+                      <div key={index} className="allplan-card">
+                        <div className="plan-data">
+                          <div className="text-center">
+                            <h2 className="allplan-card-title">{plan.Planname}</h2>
+                            <h4 className="allplan-card-subtitle">
+                              <FaRupeeSign className="m-1" />
+                              <strong>{plan.ChartPerMonth
+                              }</strong>
+                            </h4>
+                            <h4 className="allplan-card-subtitle">
+                              Duration: {plan["Plan Validity"]}
+                            </h4>
+                            <div className="plan-details">
+                              <p className="price-item">
+                                <strong>Segment:</strong>{" "}
+                                {plan?.ChartingSignal?.join(", ")}
+                              </p>
+                              {/* <p className="allplan-card-subtitle">  
                                                   {/* <strong className="card-text-Color">Live Per Trade:</strong>
                                                   <FaRupeeSign /> {plan.ChartPerTrade}
                                                 </p>
@@ -367,32 +420,38 @@ const AdminServicesList = () => {
                                                   <strong className="card-text-Color">Fixed Per Month:</strong>
                                                   <FaRupeeSign /> {plan.ChartPerMonth}
                                                 </p> */}
-                            {plan.ChartPaperTrade > 0 && <p className="allplan-card-subtitle">
-                              <strong className="card-text-Color">Paper Per Trade Price:</strong>
-                              <FaRupeeSign /> {plan.ChartPaperTrade}
-                            </p>}
-                            {plan.ChartLiveTrade > 0 &&
-                              <p className="allplan-card-subtitle">
-                                <strong className="card-text-Color">Live Per Trade Price:</strong>
-                                <FaRupeeSign /> {plan.ChartLiveTrade}
+                              {plan.ChartPaperTrade > 0 && <p className="allplan-card-subtitle">
+                                <strong className="card-text-Color">Paper Per Trade Price:</strong>
+                                <FaRupeeSign /> {plan.ChartPaperTrade}
                               </p>}
-                          </div>
+                              {plan.ChartLiveTrade > 0 &&
+                                <p className="allplan-card-subtitle">
+                                  <strong className="card-text-Color">Live Per Trade Price:</strong>
+                                  <FaRupeeSign /> {plan.ChartLiveTrade}
+                                </p>}
 
-                          {/* Edit Button */}
-                          {
-                            editablePlans?.includes(plan.Planname) ? <button
-                              className="edit-btn"
-                              onClick={() => handleEdit(plan)}
-                            >
-                              <FaEdit /> Edit
-                            </button>
-                              :
-                              ""
-                          }
+                              <p className="allplan-card-subtitle">
+                                <strong className="card-text-Color">Stratetgy Tag:</strong>
+                                <FaRupeeSign /> {plan.Strategytag?.join(", ")}
+
+                              </p>
+                            </div>
+
+                            {/* Edit Button */}
+                            {
+                              editablePlans?.includes(plan.Planname) ? <button
+                                className="edit-btn"
+                                onClick={() => handleEdit(plan)}
+                              >
+                                <FaEdit /> Edit
+                              </button>
+                                :
+                                ""
+                            }
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
                 </div>
               )}
             </Tab>
@@ -437,7 +496,7 @@ const AdminServicesList = () => {
                     className="form-control"
                     id="SOPPrice"
                     name="SOPPrice"
-                    value={editPlanData.SOPPrice || ""}
+                    value={editPlanData.SOPPrice || editPlanData.ChartPerMonth || ""}
                     onChange={handleModalChange}
                   />
                 </div>
@@ -484,7 +543,7 @@ const AdminServicesList = () => {
                       className="form-control"
                       id="SOPPaperTrade"
                       name="SOPPaperTrade"
-                      value={editPlanData.SOPPaperTrade || ""}
+                      value={editPlanData.SOPPaperTrade || editPlanData.ChartPaperTrade || ""}
                       onChange={handleModalChange}
                     />
                   </div>}
@@ -520,7 +579,7 @@ const AdminServicesList = () => {
                 {activeTab === "Charting" && (
                   <div className="row">
 
-                    <div className="col-md-6 mb-3">
+                    {/* <div className="col-md-6 mb-3">
                       <label htmlFor="ChartPerTrade" className="form-label">
                         Live Trade Amount
                       </label>
@@ -532,7 +591,7 @@ const AdminServicesList = () => {
                         value={editPlanData.ChartPerTrade || ""}
                         onChange={handleModalChange}
                       />
-                    </div>
+                    </div> */}
 
                     {/* Segment Multi-Select */}
                     <div className="col-md-6 mb-3">
@@ -585,6 +644,31 @@ const AdminServicesList = () => {
                         name="ChartLiveTrade"
                         value={editPlanData.ChartLiveTrade || ""}
                         onChange={handleModalChange}
+                      />
+                    </div>
+                    <div className="col-md-6 mb-3">
+                      <label htmlFor="strategytag" className="form-label">
+                        Strategy Tag
+                      </label>
+                      <Select
+                        id="strategytag"
+                        name="Strategytag"
+                        isMulti
+                        options={strategyTags.filter(
+                          (tag) =>
+                            !(editPlanData.Strategytag || []).includes(tag.value) // Exclude already selected tags
+                        )}
+                        value={(editPlanData.Strategytag || []).map((tag) => ({
+                          value: tag,
+                          label: tag,
+                        }))}
+                        onChange={(selectedOptions) =>
+                          setEditPlanData((prev) => ({
+                            ...prev,
+                            Strategytag: selectedOptions.map((opt) => opt.value),
+                          }))
+                        }
+                        className="custom-select"
                       />
                     </div>
                   </div>

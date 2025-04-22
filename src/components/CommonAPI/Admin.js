@@ -1324,3 +1324,53 @@ export const AddCouponCodeApi = async (data) => {
     }
 
 }
+
+
+export const addChartingStrategyTag = async (data) => { 
+    const token = localStorage.getItem('token');
+
+    try {
+        const formData = new FormData();
+        // formData me data append karo
+        for (const key in data) {
+            formData.append(key, data[key]);
+        }
+
+        const res = await axios.post(
+            `${Config.base_url}ChartingStretegyTag`,
+            formData,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    // Content-Type mat do, axios khud dega for FormData
+                }
+            }
+        );
+
+        return res?.data;
+    } catch (err) {
+        return err;
+    }
+}
+
+
+
+export const getChartingStrategyTag = async (data) => {
+    const token = localStorage.getItem('token')
+    try {
+        const res = await axios.get(`${Config.base_url}StrategyTagdata`, data,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+
+}

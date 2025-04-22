@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2'
 import { AddSubadminbyAdmin } from '../../CommonAPI/Admin'
-import AddForm from "../../../ExtraComponent/FormData";
+import AddForm from "../../../ExtraComponent/FormData2";
 import { useFormik } from "formik";
 import { useNavigate } from 'react-router-dom';
+import Content from '../../../ExtraComponent/Content';
 
 const AddSubadmin = () => {
     const navigate = useNavigate()
@@ -42,7 +43,7 @@ const AddSubadmin = () => {
             } else if (!Name_regex(values.Username)) {
                 errors.Username = "Please Enter Valid Username";
             }
-   
+
             const nameRegex = /^[a-zA-Z ]+$/;
             if (!values.Name) {
                 errors.Name = "Please Enter Name";
@@ -201,18 +202,25 @@ const AddSubadmin = () => {
 
 
     return (
-        <>
-            <AddForm
-                fields={fields}
-                page_title="Create Sub_Admin Account"
-                btn_name="Add"
-                btn_name1="Cancel"
-                formik={formik}
-                btn_name1_route={"/admin/allSubadmin"}
 
-            />
+        <Content
+            Page_title={"📄 Change Password"}
+            button_status={false}
+            backbutton_status={true}>
 
-        </>
+            <>
+                <AddForm
+                    fields={fields}
+                    page_title="Create Subadmin Account"
+                    btn_name="Add"
+                    btn_name1="Cancel"
+                    formik={formik}
+                    btn_name1_route={"/admin/allSubadmin"}
+
+                />
+
+            </>
+        </Content>
     );
 };
 

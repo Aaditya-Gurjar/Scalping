@@ -159,7 +159,7 @@ const Tradehistory = () => {
       <div className="iq-card-body">
         <div className="was-validated ">
           <div className="row">
-            <div
+            {/* <div
               className={`form-group ${
                 selectStrategyType === "Scalping" ? "col-lg-4" : "col-lg-4"
               }`}>
@@ -178,34 +178,68 @@ const Tradehistory = () => {
                   </option>
                 ))}
               </select>
+            </div> */}
+
+            <div className="form-group col-lg-12 mb-4">
+              <div className="d-flex justify-content-center netpnl-btn">
+                <ul
+                  className="nav nav-pills shadow rounded-pill p-1"
+                  style={{ backgroundColor: "#f1f3f5" }}
+                >
+                  {strategyNames.map((type, index) => (
+                    <li className="nav-item" key={index}>
+                      <button
+                        className={`nav-link ${selectStrategyType === type ? "active" : ""} rounded-pill`}
+                        onClick={() => {
+                          setStrategyType(type);
+                          sessionStorage.setItem("StrategyType", type);
+                        }}
+                        style={{
+                          padding: "10px 20px",
+                          margin: "5px",
+                          border: "none",
+                          outline: "none",
+                        }}
+                      >
+                        {type}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
 
-            <div
-              className={`form-group ${
-                selectStrategyType === "Scalping" ? "col-lg-4" : "col-lg-4"
-              }`}>
-              <label>Select form Date</label>
-              <DatePicker
-                className="form-select"
-                selected={FromDate == "" ? formattedDate : FromDate}
-                onChange={(date) => setFromDate(date)}
-              />
+
+          </div>
+          <div className="row d-flex justify-content-between align-items-center">
+            <p></p>
+            <div className="rown d-flex justify-content-end gap-2">
+              <div
+                className={`form-group ${selectStrategyType === "Scalping" ? "col-lg-2" : "col-lg-2"
+                  }`}>
+                <label>Select form Date</label>
+                <DatePicker
+                  className="form-select"
+                  selected={FromDate == "" ? formattedDate : FromDate}
+                  onChange={(date) => setFromDate(date)}
+                />
+              </div>
+              <div
+                className={`form-group ${selectStrategyType === "Scalping" ? "col-lg-2" : "col-lg-2"
+                  }`}>
+                <label>Select To Date</label>
+                <DatePicker
+                  className="form-select"
+                  selected={ToDate == "" ? Defult_To_Date : ToDate}
+                  onChange={(date) => setToDate(date)}
+                />
+              </div>
             </div>
-            <div
-              className={`form-group ${
-                selectStrategyType === "Scalping" ? "col-lg-4" : "col-lg-4"
-              }`}>
-              <label>Select To Date</label>
-              <DatePicker
-                className="form-select"
-                selected={ToDate == "" ? Defult_To_Date : ToDate}
-                onChange={(date) => setToDate(date)}
-              />
-            </div>
+
           </div>
         </div>
 
-        <button className="addbtn mt-2" onClick={handleSubmit}>
+        <button className="addbtn  ms-2 mt-2" onClick={handleSubmit}>
           Submit
         </button>
 
@@ -289,10 +323,10 @@ const Tradehistory = () => {
                   selectStrategyType == "Scalping"
                     ? columns1()
                     : selectStrategyType == "Pattern"
-                    ? columns3()
-                    : selectStrategyType == "ChartingPlatform"
-                    ? columns6()
-                    : columns5()
+                      ? columns3()
+                      : selectStrategyType == "ChartingPlatform"
+                        ? columns6()
+                        : columns5()
                 }
                 data={getPnLData.data1}
                 checkBox={false}

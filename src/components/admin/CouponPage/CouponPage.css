@@ -4,6 +4,7 @@
     gap: 20px;
     justify-content: center;
     padding: 20px;
+    width: 100%;
 }
 
 .coupon-card {
@@ -101,4 +102,19 @@
 
 .add-coupon-btn:active {
     transform: scale(0.95);
+}
+
+.no-data-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* Ensure it takes full width */
+    height: 300px; /* Adjust height as needed */
+}
+
+.no-data-found-large {
+    margin: auto;
+    display: block;
+    width: 200px; /* Adjust width */
+    height: 200px; /* Adjust height */
 }

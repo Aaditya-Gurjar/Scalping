@@ -349,19 +349,35 @@ const Adduser = () => {
             disable: false,
             options: permissionArray
         },
-        
-
-
-
+         
         {
             name: "BrokerPermission",
             label: "Broker Permission",
-            type: "select2",  
+            type: "custom",
             label_size: 12,
             col_size: 6,
             disable: false,
-            options: optionsArray
-        },
+            customRender: (value = []) => (
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                {value.slice(0, 20).map((item, index) => (
+                  <span
+                    key={index}
+                    style={{
+                      backgroundColor: "#e0f7fa",
+                      padding: "4px 8px",
+                      borderRadius: "4px",
+                      fontSize: "0.875rem",
+                      flex: "0 1 calc(20%)", // 5 per row
+                      boxSizing: "border-box",
+                    }}
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
+            )
+          }
+          
 
 
     ]

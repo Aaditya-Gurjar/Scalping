@@ -24,6 +24,7 @@ import {
 import { useLocation } from "react-router-dom";
 import NoDataFound from "../../../ExtraComponent/NoDataFound";
 import Content from "../../../ExtraComponent/Content";
+import TradeResponseCard from "./TradeResponseCard";
 
 const TradeResponse = () => {
   const location = useLocation();
@@ -374,8 +375,7 @@ const TradeResponse = () => {
     selectSegmentType,
   ]);
 
-  console.log("tradeHistory", tradeHistory);
-  console.log("getCharting", getCharting);
+   
 
   return (
     <Content
@@ -595,6 +595,24 @@ const TradeResponse = () => {
               </button>
             )}
 
+{showTable && (
+  <div className="mt-3">
+    {getAllTradeData.data && getAllTradeData.data.length > 0 ? (
+      <div className="row g-3">
+        {getAllTradeData.data.map((item, index) => (
+          <div className="col-md-6" key={index}>
+            <TradeResponseCard data={item} index={index} />
+          </div>
+        ))}
+      </div>
+    ) : (
+      <NoDataFound />
+    )}
+  </div>
+)}
+
+          {/* Commented out table rendering */}
+           
           {showTable && (
             <div className="mt-3">
               {getAllTradeData.data && getAllTradeData.data.length > 0 ? (
@@ -603,10 +621,10 @@ const TradeResponse = () => {
                     selectStrategyType === "Scalping"
                       ? columns3
                       : selectStrategyType === "Option Strategy"
-                        ? columns4
-                        : selectStrategyType === "ChartingPlatform"
-                          ? columns3
-                          : columns5
+                      ? columns4
+                      : selectStrategyType === "ChartingPlatform"
+                      ? columns3
+                      : columns5
                   }
                   data={getAllTradeData.data}
                   onRowSelect={handleRowSelect}
@@ -617,6 +635,8 @@ const TradeResponse = () => {
               )}
             </div>
           )}
+           
+
         </div>
 
         {selectStrategyType === "Scalping" &&

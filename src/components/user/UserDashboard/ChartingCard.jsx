@@ -30,6 +30,11 @@ const ChartingCard = ({ data }) => {
     }
   };
 
+  // Ensure currentPage cannot be negative
+  if (currentPage < 1) {
+    setCurrentPage(1);
+  }
+
   return (
     <div>
       {currentCards.map((item, index) => (

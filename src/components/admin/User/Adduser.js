@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2'
 import { CreateAccount, Get_Broker_Name, GetGroupNames } from '../../CommonAPI/Admin'
-import AddForm from "../../../ExtraComponent/FormData";
+import AddForm from "../../../ExtraComponent/FormData2";
 import { useFormik } from "formik";
 import { useNavigate } from 'react-router-dom';
 import Loader from '../../../ExtraComponent/Loader';
 import { Get_All_Plans } from "../../CommonAPI/User";
 import Select from 'react-select';
+import Content from '../../../ExtraComponent/Content';
 
 
 const Adduser = () => {
@@ -117,7 +118,7 @@ const Adduser = () => {
             planname: "",
             bname: "",
             groupName: [],
-            permissions : []
+            permissions: []
         },
         validate: (values) => {
             let errors = {};
@@ -185,11 +186,11 @@ const Adduser = () => {
                 group: selectedOptions && selectedOptions.map((item) => item.value),
             }
 
-    
-            const FilterPlanAmount = GetAllPlans.data.filter((item) => 
+
+            const FilterPlanAmount = GetAllPlans.data.filter((item) =>
                 (item.Planname || item.PlanName) === values.planname
             );
- 
+
             if (FilterPlanAmount.length > 0 && FilterPlanAmount[0].SOPPrice > values.ClientAmmount) {
                 Swal.fire({
                     background: "#1a1e23 ",
@@ -201,11 +202,11 @@ const Adduser = () => {
                     timer: 3000,
                     timerProgressBar: true
                 });
-            return;
+                return;
 
-            }    
-            
-            
+            }
+
+
             await CreateAccount(req)
                 .then((response) => {
                     if (response.Status) {
@@ -368,41 +369,48 @@ const Adduser = () => {
 
 
     return (
-        <>
-            {getGroupData.loading ? <Loader /> :
-                (
-                    <AddForm
-                        fields={fields.filter(
-                            (field) => !field.showWhen || field.showWhen(formik.values)
-                        )}
-                        page_title="Create Account"
-                        btn_name="Add"
-                        btn_name1="Cancel"
-                        formik={formik}
-                        btn_name1_route={"/admin/clientservice"}
-                        additional_field={
-                            <div className="col-lg-6 dropdownuser">
-                                <label>Select Group</label>
-                                <Select
-                                    defaultValue={selectedIndex?.Planname?.map((item) => ({
-                                        value: item,
-                                        label: item,
-                                    }))}
-                                    isMulti
-                                    options={optionsArray}
-                                    onChange={(selected) => {
-                                        setSelectedOptions(selected);
-                                        formik.setFieldValue('groupName', selected.map((option) => option.value));
-                                    }}
-                                    className="basic-multi-select"
-                                    classNamePrefix="select"
-                                />
-                            </div>
 
-                        }
-                    />
-                )}
-        </>
+        <Content
+            Page_title={"📄 Add User"}
+            button_status={false}
+            backbutton_status={true}>
+            <>
+                {getGroupData.loading ? <Loader /> :
+                    (
+                        <AddForm
+                            fields={fields.filter(
+                                (field) => !field.showWhen || field.showWhen(formik.values)
+                            )}
+                            page_title="Create Account"
+                            btn_name="Add"
+                            btn_name1="Cancel"
+                            formik={formik}
+                            btn_name1_route={"/admin/clientservice"}
+                            additional_field={
+                                <div className="col-lg-6 dropdownuser">
+                                    <label className='card-text-Color'>Select Group</label>
+                                    <Select
+                                        defaultValue={selectedIndex?.Planname?.map((item) => ({
+                                            value: item,
+                                            label: item,
+                                        }))}
+                                        isMulti
+                                        options={optionsArray}
+                                        onChange={(selected) => {
+                                            setSelectedOptions(selected);
+                                            formik.setFieldValue('groupName', selected.map((option) => option.value));
+                                        }}
+                                        className="basic-multi-select card-text-Color"
+                                        classNamePrefix="select"
+                                    />
+                                </div>
+
+                            }
+                        />
+                    )}
+            </>
+
+        </Content>
     );
 };
 

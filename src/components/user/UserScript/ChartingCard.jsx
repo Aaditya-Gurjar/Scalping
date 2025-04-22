@@ -1,12 +1,13 @@
-
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import NoDataFound from "../../../ExtraComponent/NoDataFound";
+import Select from "react-select";
 //
 const ChartingCard = ({
   item,
   index,
   chartingData,
+  strategTag,
   setChartingData,
   handleAddCharting,
 }) => {
@@ -20,10 +21,12 @@ const ChartingCard = ({
       </div>
     );
   }
+  const adminPermission = localStorage.getItem("adminPermission");
 
-  // Define initial values for Formik based on chartingData for the given index
+
+  console.log("adminPermission", adminPermission);
+
   const initialValues = {
-    // If Segment is "Cash", use Fund; otherwise, use Quantity (Lot)
     fundOrLot:
       item.Segment === "Cash"
         ? chartingData[index]?.Fund || ""
@@ -37,25 +40,42 @@ const ChartingCard = ({
     adminStatus: chartingData[index]?.AdminStatus === "On",
     // For trade mode, default is "Intraday"
     tradeMode: chartingData[index]?.ExitDay || "Intraday",
+    strategyTags: chartingData[index]?.Strategytag || [], // Set initial values for strategy tags
   };
+
+  // Dummy options for React Select
+  const strategyOptions = strategTag.map((tag) => ({
+    value: tag,
+    label: tag,
+  }));
 
   // Manual validation function (without Yup)
   const validate = (values) => {
     const errors = {};
     if (!values.fundOrLot) {
       errors.fundOrLot = "This field is required.";
+    } else if (values.fundOrLot < 0) {
+      errors.fundOrLot = "Value cannot be negative.";
     }
     if (!values.tradePerDay) {
       errors.tradePerDay = "This field is required.";
+    } else if (values.tradePerDay < 0) {
+      errors.tradePerDay = "Value cannot be negative.";
     }
-    if (!values.maxLoss) {
+    if (values.maxLoss === "") {
       errors.maxLoss = "This field is required.";
+    } else if (values.maxLoss < 0) {
+      errors.maxLoss = "Value cannot be negative.";
     }
-    if (!values.maxProfit) {
+    if (values.maxProfit === "") {
       errors.maxProfit = "This field is required.";
+    } else if (values.maxProfit < 0) {
+      errors.maxProfit = "Value cannot be negative.";
     }
     if (!values.runningTrade) {
       errors.runningTrade = "This field is required.";
+    } else if (values.runningTrade < 0) {
+      errors.runningTrade = "Value cannot be negative.";
     }
     return errors;
   };
@@ -105,6 +125,7 @@ const ChartingCard = ({
                 ? "On"
                 : "Off";
               updatedData[index].ExitDay = values.tradeMode;
+              updatedData[index].StrategyTag = values.strategyTags || []; // Save selected strategy tags
               setChartingData(updatedData);
 
               // Call parent's save handler
@@ -138,7 +159,7 @@ const ChartingCard = ({
                         </div>
                       </label>
                     </div>
-                    <div className="toggle-group">
+                   { adminPermission?.includes("Admin Signal") &&  <div className="toggle-group">
                       <label className="d-flex align-items-center gap-2">
                         <span style={labelStyle} className="card-text-Color">
                           Admin Signal
@@ -157,7 +178,7 @@ const ChartingCard = ({
                           </Field>
                         </div>
                       </label>
-                    </div>
+                    </div>}
                   </div>
 
                   {/* Input Grid */}
@@ -210,7 +231,7 @@ const ChartingCard = ({
                       <label
                         className="form-label card-text-Color"
                         style={labelStyle}>
-                        Max Loss
+                        Max Loss(in price)
                       </label>
                       <Field
                         name="maxLoss"
@@ -262,6 +283,59 @@ const ChartingCard = ({
                         placeholder="Enter running trade"
                       />
                       <ErrorMessage name="runningTrade">
+                        {(msg) => (
+                          <div style={{ color: "red", fontSize: "0.8rem" }}>
+                            {msg}
+                          </div>
+                        )}
+                      </ErrorMessage>
+                    </div>
+
+                    <div className="col-12">
+                      <label
+                        className="form-label card-text-Color"
+                        style={labelStyle}>
+                        Strategy Tag
+                      </label>
+                      <Select
+                        isMulti
+                        options={strategyOptions}
+                        value={strategyOptions.filter(option =>
+                          values.strategyTags.includes(option.value)
+                        )}
+                        onChange={(selectedOptions) =>
+                          setFieldValue(
+                            "strategyTags",
+                            selectedOptions.map((option) => option.value)
+                          )
+                        }
+                        className="basic-multi-select"
+                        classNamePrefix="select"
+                        styles={{
+                          control: (base) => ({
+                            ...base,
+                            backgroundColor: "#121212",
+                            border: "1px solid #222",
+                            color: "white",
+                          }),
+                          menu: (base) => ({
+                            ...base,
+                            backgroundColor: "#222",
+                            color: "white",
+                          }),
+                          option: (base, state) => ({
+                            ...base,
+                            backgroundColor: state.isSelected ? "#7367f0" : "#333",
+                            color: state.isSelected ? "white" : "#ccc",
+                            "&:hover": {
+                              backgroundColor: "#444",
+                              color: "white",
+                            },
+                          }),
+                        }}
+                      />
+
+                      <ErrorMessage name="strategyTags">
                         {(msg) => (
                           <div style={{ color: "red", fontSize: "0.8rem" }}>
                             {msg}

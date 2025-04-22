@@ -37,6 +37,7 @@ import ViewGroup from '../components/user/Group/ViewGroup';
 
 import { SidebarProvider } from "../components/layouts/SidebarContext";
 import OptionChain from '../components/user/OptioniChain/OptionChain';
+import ApiCreateInfo from '../components/user/ApiCreateInfo/ApiCreateInfo';
 
 
 const UserRoute = () => {
@@ -60,6 +61,8 @@ const UserRoute = () => {
             <Route path="/addscript/pattern" element={<AddScriptPattern />} />
             <Route path="/addscript/option" element={<AddScriptOption />} />
             <Route path="/discription" element={<Discription />} />
+            <Route path="/api-create-info" element={<ApiCreateInfo />} />
+
             <Route path="/tradehistory" element={<Tradehistory />} />
             <Route path="/traderesponse" element={<Traderesponse />} />
             <Route path="/profitandloss" element={<ProfitAndLoss />} />

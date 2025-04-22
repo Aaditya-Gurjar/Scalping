@@ -1,8 +1,6 @@
-
-
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
-import { AddPlan, GetAllStratgy } from '../../CommonAPI/Admin';
+import { AddPlan, GetAllStratgy, getChartingStrategyTag } from '../../CommonAPI/Admin';
 import AddForm from "../../../ExtraComponent/FormData";
 import { useFormik } from "formik";
 import Select from 'react-select';
@@ -45,14 +43,32 @@ const AddPlanPage = () => {
     const [selecteScalping, setSelecteScalping] = useState([]);
     const [selectePattern, setSelectePattern] = useState([]);
     const [selectedCharting, setSelectedCharting] = useState([]);
+    const [selectedStrategyTags, setSelectedStrategyTags] = useState([]); // State for selected strategy tags
 
     const [scalpingStratgy, setScalpingStratgy] = useState([]);
     const [OptionStratgy, setOptionStratgy] = useState([]);
     const [PatternStratgy, setPatternStratgy] = useState([]);
+    const [strategyTags, setStrategyTags] = useState([]); // State for strategy tag options
 
     useEffect(() => {
         GetScalpingStratgy();
+        fetchStrategyTags();
     }, []);
+
+    const fetchStrategyTags = async () => {
+        try {
+            const res = await getChartingStrategyTag();
+            if (res && res.data) {
+                const tags = res.data.map((tag) => ({
+                    value: tag.Strategytag,
+                    label: tag.Strategytag,
+                }));
+                setStrategyTags(tags); // Store fetched strategy tags in state
+            }
+        } catch (err) {
+            showError("Failed to fetch strategy tags");
+        }
+    };
 
     const GetScalpingStratgy = async () => {
         try {
@@ -82,9 +98,6 @@ const AddPlanPage = () => {
         });
     };
 
-    // console.log("formik.values.PlanType", formik.values.PlanType)
-
-
     const formik = useFormik({
         initialValues: {
             NumberofScript: "",
@@ -97,7 +110,6 @@ const AddPlanPage = () => {
             Charting: [],
             ChartPerMonth: "",
             ChartPaperTrade: 0.0,
-            
         },
         validate: (values) => {
             const errors = {};
@@ -146,18 +158,6 @@ const AddPlanPage = () => {
             }
           
             const req = {
-                // ...values,
-                // Scalping: selecteScalping.map((strategy) => strategy.value),
-                // Option: selecteOptions.map((strategy) => strategy.value),
-                // PatternS: selectePattern.map((strategy) => strategy.value),
-                // Charting: selectedCharting.map((chart) => chart.value),
-                // NumberofScript: formik.values.PlanType == "Scalping" ? values.NumberofScript : 0,
-                // ...(formik.values.PlanType === "Scalping"
-                //     ? { SOPPrice: values.SOPPrice }
-                //     : { ChartPerMonth: values.SOPPrice }),
-                // ChartPerTrade: values.SOPLiveTrade,
-
-
                 Scalping: selecteScalping.map((strategy) => strategy.value),
                 Option: selecteOptions.map((strategy) => strategy.value),
                 PatternS: selectePattern.map((strategy) => strategy.value),
@@ -165,17 +165,15 @@ const AddPlanPage = () => {
                 planname: values.planname,
                 Duration: values.Duration,
                 Charting: selectedCharting.map((chart) => chart.value),
+                Strategytag: selectedStrategyTags.map((tag) => tag.value), // Pass selected strategy tags
                 ...(formik.values.PlanType === "Scalping"
                     ? { SOPPrice: values.SOPPrice, SOPLiveTrade: (values.SOPLiveTrade || 0) }
                     : { ChartPerMonth: values.SOPPrice, SOPPrice: 0, ChartLiveTrade: (values.SOPLiveTrade || 0) }
                 ),
-
                 SOPPaperTrade: values.SOPPaperTrade || 0.0,
                 ChartPaperTrade: values.ChartPaperTrade || 0.0,
-                
-
             };
-         
+             
             try {
                 const response = await AddPlan(req);
                 if (response.Status) {
@@ -204,6 +202,10 @@ const AddPlanPage = () => {
     const handleChartingChange = (selected) => {
         setSelectedCharting(selected);
         formik.setFieldValue("Charting", selected);
+    };
+
+    const handleStrategyTagChange = (selected) => {
+        setSelectedStrategyTags(selected);
     };
 
     useEffect(() => {
@@ -310,23 +312,33 @@ const AddPlanPage = () => {
                 additional_field={
                     <>
                         {formik.values.PlanType == "Charting" && (
-                            <div className="col-lg-5 w" style={{ width: "39vw" }}>
-                                <CustomMultiSelect
-                                    label={<span className='card-text-Color'>Segment</span>}
-                                    options={[
-                                        { value: "Cash", label: "Cash" },
-                                        { value: "Future", label: "Future" },
-                                        { value: "Option", label: "Option" }
-                                    ]}
-                                    selected={selectedCharting}
-                                    onChange={handleChartingChange}
-                                />
-                                {/* Error message positioned directly below the select */}
-                                {formik.errors.Charting && (
-                                    <div className="text-danger mt-1 small">
-                                        {formik.errors.Charting}
-                                    </div>
-                                )}
+                            <div className="row" style={{ width: "100%" }}>
+                                <div className="col-lg-12 dropdown-multi" style={{ width: '36vw' }}>
+
+                                    <CustomMultiSelect
+                                        label={<span className='card-text-Color'>Segment</span>}
+                                        options={[
+                                            { value: "Cash", label: "Cash" },
+                                            { value: "Future", label: "Future" },
+                                            { value: "Option", label: "Option" }
+                                        ]}
+                                        selected={selectedCharting}
+                                        onChange={handleChartingChange}
+                                    />
+                                    {formik.errors.Charting && (
+                                        <div className="text-danger mt-1 small">
+                                            {formik.errors.Charting}
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="col-lg-12 dropdwown-multi" style={{ width: "48%" }}>
+                                    <CustomMultiSelect
+                                        label={<span className='card-text-Color'>Strategy Tag</span>}
+                                        options={strategyTags} // Use dynamic strategy tags
+                                        selected={selectedStrategyTags}
+                                        onChange={handleStrategyTagChange}
+                                    />
+                                </div>
                             </div>
                         )}
                         {formik.values.PlanType == "Scalping" && (

@@ -4,16 +4,27 @@ import { useFormik } from "formik";
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { GET_EXPIRY_DATE, ExpriyEndDate } from "../../CommonAPI/Admin";
-import { AddScript } from "../../CommonAPI/User";
+import { AddScript, CheckPnL } from "../../CommonAPI/User";
 import Content from "../../../ExtraComponent/Content";
+import { Modal } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
 
 const AddClient = () => {
   const location = useLocation();
   const userName = localStorage.getItem("name");
   const navigate = useNavigate();
   const [getExpiry, setExpiry] = useState({ loading: true, data: [] });
-
- 
+  const [openModel, setOpenModel] = useState(false);
+  const [PnlData, setPnlData] = useState({
+    MaximumProfit: "",
+    MaximumLoss: "",
+    SpotPriceMaximumProfit1: "",
+    SpotPriceMaximumProfit2: "",
+    SpotPriceMaximumLoss1: "",
+    SpotPriceMaximumLoss2: "",
+    NoprofitLoss1: "",
+    NoprofitLoss2: "",
+  });
 
   const ScrollToViewFirstError = (newErrors) => {
     if (Object.keys(newErrors).length !== 0) {
@@ -32,7 +43,6 @@ const AddClient = () => {
       }
     }
   };
- 
 
   const SweentAlertFun = (text) => {
     Swal.fire({
@@ -646,6 +656,154 @@ const AddClient = () => {
         });
     },
   });
+
+  const handleCheckPnl = async () => {
+    // const weekend = new Date().getDay();
+    // const currentDate = new Date();
+    // const currentTime =
+    //   currentDate.getHours() +
+    //   ":" +
+    //   currentDate.getMinutes() +
+    //   ":" +
+    //   currentDate.getSeconds();
+
+    // if (
+    //   weekend == 6 ||
+    //   weekend == 0 ||
+    //   currentTime >= "15:30:00" ||
+    //   currentTime <= "09:15:00"
+    // ) {
+    //   return SweentAlertFun("Market is off Today");
+    // }
+
+
+    const weekend = new Date().getDay();
+    const currentDate = new Date();
+    const hours = currentDate.getHours();
+    const minutes = currentDate.getMinutes();
+
+    const totalMinutes = hours * 60 + minutes; // e.g., 14 * 60 + 30 = 870
+
+    console.log("Current time (HH:MM):", `${hours}:${minutes}`);
+    console.log("Weekend:", weekend);
+
+    // Market hours: 9:15 AM to 3:30 PM => 555 to 930 in total minutes
+    if (weekend === 6 || weekend === 0 || totalMinutes < 555 || totalMinutes > 930) {
+      return SweentAlertFun("Market is off Today");
+    }
+
+    console.log("before req");
+
+    const req = {
+      MainStrategy: location.state.data.selectStrategyType,
+      Strategy: formik.values.Strategy,
+      Username: userName,
+      ETPattern: formik.values.ETPattern,
+      Timeframe: "",
+      Exchange: "NFO",
+      Symbol: formik.values.Symbol,
+      Instrument: "FUTIDX",
+      Strike: "",
+      Optiontype: "",
+      Targetvalue: formik.values.Targetvalue,
+      Slvalue: formik.values.Slvalue,
+      TStype: formik.values.TStype,
+      Quantity: formik.values.Quantity,
+      LowerRange:
+        formik.values.Striketype == "Premium_Range" &&
+        formik.values.Measurment_Type != "Shifting_FourLeg"
+          ? formik.values.Lower_Range
+          : 0,
+      HigherRange:
+        formik.values.Striketype == "Premium_Range" &&
+        formik.values.Measurment_Type != "Shifting_FourLeg"
+          ? formik.values.Higher_Range
+          : 0,
+      HoldExit: "",
+      EntryPrice: 0.0,
+      EntryRange: 0.0,
+      EntryTime: formik.values.EntryTime,
+      ExitTime: formik.values.ExitTime,
+      ExitDay: formik.values.ExitDay,
+      TradeExecution: formik.values.Trade_Execution,
+      FixedSM: "",
+      TType: "",
+      serendate: getEndData(formik.values.Measurment_Type),
+      expirydata1: getExpiry && getExpiry.data[0],
+      Expirytype: formik.values.Expirytype,
+      Striketype:
+        formik.values.Strategy != "ShortStraddle" &&
+        formik.values.Strategy != "LongStraddle" &&
+        formik.values.Measurment_Type != "Shifting_FourLeg"
+          ? formik.values.Striketype
+          : "",
+      DepthofStrike:
+        formik.values.Striketype != "Premium_Range" &&
+        formik.values.Measurment_Type != "Shifting_FourLeg" &&
+        formik.values.Strategy != "LongStraddle" &&
+        formik.values.Strategy != "ShortStraddle"
+          ? Number(formik.values.DepthofStrike)
+          : 0,
+      DeepStrike:
+        (formik.values.Measurment_Type == "Ladder_Coverd" &&
+          formik.values.Measurment_Type != "Shifting_FourLeg" &&
+          (formik.values.Strategy == "BullCallLadder" ||
+            formik.values.Strategy == "BullPutLadder")) ||
+        formik.values.Strategy == "LongIronCondor" ||
+        formik.values.Strategy == "ShortIronCondor"
+          ? Number(formik.values.DeepStrike)
+          : 0,
+      Group: formik.values.Unique_ID,
+      CEDepthLower: Number(formik.values.CEDepthLower),
+      CEDepthHigher: Number(formik.values.CEDepthHigher),
+      PEDepthLower: Number(formik.values.PEDepthLower),
+      PEDepthHigher: Number(formik.values.PEDepthHigher),
+      CEDeepLower: Number(formik.values.CEDeepLower),
+      CEDeepHigher: Number(formik.values.CEDeepHigher),
+      PEDeepLower: Number(formik.values.PEDeepLower),
+      PEDeepHigher: Number(formik.values.PEDeepHigher),
+      TradeCount: Number(formik.values.Trade_Count),
+      quantity2: 0.0,
+      quantity3: 0.0,
+      tgp2: 0.0,
+      tgp3: 0.0,
+      stepup: 0.0,
+      quantityselection: "",
+      quantityvalue: 0.0,
+      targetselection: "",
+    };
+
+    await CheckPnL(req)
+      .then((response) => {
+        if (response.Status) {
+          setOpenModel(true);
+          setPnlData({
+            MaximumProfit: response.MaximumProfit,
+            MaximumLoss: response.MaximumLoss,
+            SpotPriceMaximumProfit1: response.SpotPriceMaximumProfit1,
+            SpotPriceMaximumProfit2: response.SpotPriceMaximumProfit2,
+            SpotPriceMaximumLoss1: response.SpotPriceMaximumLoss1,
+            SpotPriceMaximumLoss2: response.SpotPriceMaximumLoss2,
+            NoprofitLoss1: response.NoprofitLoss1,
+            NoprofitLoss2: response.NoprofitLoss2,
+          });
+        } else {
+          setPnlData({
+            MaximumProfit: "",
+            MaximumLoss: "",
+            SpotPriceMaximumProfit1: "",
+            SpotPriceMaximumProfit2: "",
+            SpotPriceMaximumLoss1: "",
+            SpotPriceMaximumLoss2: "",
+            NoprofitLoss1: "",
+            NoprofitLoss2: "",
+          });
+        }
+      })
+      .catch((err) => {
+        console.log("Error in fetching the PnL", err);
+      });
+  };
 
   useEffect(() => {
     const workingDay = location?.state?.data?.WorkingDay?.map((item) => ({
@@ -1534,12 +1692,94 @@ const AddClient = () => {
           fields={fields.filter(
             (field) => !field.showWhen || field.showWhen(formik.values)
           )}
-          // page_title={`Add Script - option , Group : ${location.state.data.Username}`}
           btn_name="Add"
           btn_name1="Cancel"
           formik={formik}
           btn_name1_route={"/user/dashboard"}
+          additional_field={
+            <div>
+              {formik.values.Strategy !== "CoveredCall" &&
+                formik.values.Strategy !== "CoveredPut" &&
+                formik.values.Strategy !== "LongCollar" &&
+                formik.values.Strategy !== "ShortCollar" &&
+                formik.values.Strategy !== "LongFourLegStretegy" &&
+                formik.values.Strategy !== "ShortFourLegStretegy" && (
+                  <button
+                    className="addbtn"
+                    type="button"
+                    onClick={() => handleCheckPnl()}>
+                    Check PnL
+                  </button>
+                )}
+            </div>
+          }
         />
+        <Modal
+          show={openModel}
+          onHide={() => setOpenModel(false)}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered>
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">
+              PnL Details
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {PnlData ? (
+              <div className="container">
+                <div className="row">
+                  {[
+                    { label: "Maximum Profit", value: PnlData.MaximumProfit },
+                    { label: "Maximum Loss", value: PnlData.MaximumLoss },
+                    {
+                      label: "Spot Price Maximum Profit 1",
+                      value: PnlData.SpotPriceMaximumProfit1,
+                    },
+                    {
+                      label: "Spot Price Maximum Profit 2",
+                      value: PnlData.SpotPriceMaximumProfit2,
+                    },
+                    {
+                      label: "Spot Price Maximum Loss 1",
+                      value: PnlData.SpotPriceMaximumLoss1,
+                    },
+                    {
+                      label: "Spot Price Maximum Loss 2",
+                      value: PnlData.SpotPriceMaximumLoss2,
+                    },
+                    { label: "NoprofitLoss 1", value: PnlData.NoprofitLoss1 },
+                    { label: "NoprofitLoss 2", value: PnlData.NoprofitLoss2 },
+                  ].map(({ label, value }, index) => (
+                    <div
+                      key={index}
+                      className="col-md-6 d-flex align-items-center py-2">
+                      <label
+                        className="fw-bold text-white mb-0 me-2 card-text-Color"
+                        style={{ fontSize: "18px", minWidth: "150px" }}>
+                        {label}:
+                      </label>
+                      <span
+                        className="text-white mb-0"
+                        style={{ fontSize: "18px", fontWeight: "500" }}>
+                        {value !== null && !isNaN(value)
+                          ? parseFloat(value).toFixed(4)
+                          : "N/A"}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <p className="text-danger text-center">❌ No data available</p>
+            )}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setOpenModel(false)}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </Content>
     </>
   );

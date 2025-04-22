@@ -2579,7 +2579,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       formik1.setFieldValue("PEDepthLower", EditDataOption.PEDepthLower);
       formik1.setFieldValue("PEDepthHigher", EditDataOption.PEDepthHigher);
       formik1.setFieldValue("CEDeepLower", EditDataOption.CEDeepLower);
-      formik1.setFieldValue("CEDeepHigher", EditDataOption.CEDeepHigher);
+      formik1.setFieldValue("CEDeepHigher", EditDataOption.PEDeepHigher);
       formik1.setFieldValue("PEDeepLower", EditDataOption.PEDeepLower);
       formik1.setFieldValue("PEDeepHigher", EditDataOption.PEDeepHigher);
 
@@ -2758,7 +2758,7 @@ console.log("EditDataPattern", EditDataPattern)
 
 
 
-                              {data === "ChartingPlatform" &&
+                              {data === "ChartingPlatform" && getCharting?.length > 0 && (
                                 <div className="d-flex justify-content-end my-3">
                                   <ul
                                     className="nav nav-pills shadow-lg rounded-pill p-2"
@@ -2836,7 +2836,7 @@ console.log("EditDataPattern", EditDataPattern)
                                   </ul>
                                 </div>
 
-                              }
+                              )}
                               
                               {view === "table" ? (
                                 ((data === "Scalping" && getAllService.NewScalping?.length > 0) ||

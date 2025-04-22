@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
@@ -58,10 +56,43 @@ const DescriptionPage = () => {
   const [selectedPatternName, setSelectedPatternName] = useState("");
   const [description, setDescription] = useState([]);
   const [patternTypeOptions, setPatternTypeOptions] = useState([]);
-
+ const [ChartPatternTableData, setChartPatternTableData] = useState({
+    loading: true,
+    PatternData: [],
+    CandleData: [],
+  });
   const handleTabChange = (tab) => {
     setActiveTab(tab);
+  
+    if (tab === "Scalping") {
+      setScalpingOption("Single");
+      handleScalpingChange("Single");
+    } else if (tab === "Option") {
+      const defaultStrategy = strategyOptions[measurementType]?.[0];
+      if (defaultStrategy) {
+        setSelectedOption(defaultStrategy.value);
+        handleOptionChange(defaultStrategy);
+      }
+    } else if (tab === "Pattern") {
+      setSelectedPatternType("Charting Pattern");
+      fetchPatternTypeOptions(); // refetch names
+      if (patternTypeOptions.length > 0) {
+        const firstPattern = patternTypeOptions[0];
+        setSelectedPatternName(firstPattern);
+        fetchPatternData();
+      }
+    }
   };
+  
+
+  useEffect(() => {
+    if (activeTab === "Pattern" && patternTypeOptions.length > 0 && !selectedPatternName) {
+      const firstPattern = patternTypeOptions[0];
+      setSelectedPatternName(firstPattern);
+      fetchPatternData();
+    }
+  }, [patternTypeOptions]);
+  
 
   const handleScalpingChange = async (option) => {
     try {
@@ -145,6 +176,30 @@ const DescriptionPage = () => {
     const value = e.target.value;
     setSelectedPatternName(value);
   };
+
+  useEffect(() => {
+    // Call API for scalping data on initial render
+    handleScalpingChange(scalpingOption);
+  }, []); // Removed dependencies to ensure it runs only on initial render
+
+  useEffect(() => {
+    // Call API for option details on initial render
+    if (measurementType) {
+      const defaultStrategy = strategyOptions[measurementType][0];
+      setSelectedOption(defaultStrategy.value);
+      handleOptionChange(defaultStrategy);
+    }
+  }, []); // Removed dependencies to ensure it runs only on initial render
+
+  useEffect(() => {
+    // Call API for pattern data on initial render
+    fetchPatternData();
+  }, []); // Removed dependencies to ensure it runs only on initial render
+
+  useEffect(() => {
+    // Fetch pattern type options on initial render
+    fetchPatternTypeOptions();
+  }, []); // Removed dependencies to ensure it runs only on initial render
 
   return (
     <div className="desc-page-wrapper card-bg-color">

@@ -11,6 +11,7 @@ const Sidebar = ({ position }) => {
   const sidebarRef = useRef(null);
   const permission = localStorage.getItem("SubAdminPermission");
   const expire = localStorage.getItem("expire");
+  const adminPermission = localStorage.getItem("AdminPermission");
 
   const setImages = () => {
     $(".title_name").text(localStorage.getItem("pannel_name"));
@@ -89,16 +90,19 @@ const Sidebar = ({ position }) => {
         label: "ApiCreateInfo",
       },
 
+      
+
       {
-        path: "/admin/Master-Account",
-        icon: <i className="la la-user-shield"></i>,  
+        path: "/admin/Strategy-tag",
+        icon: <i className="la la-chess-knight"></i>,
         label: (
           <>
-            Master<br />Account
+            Strategy<br />Tag
           </>
         ),
       },
     ],
+  
     Superadmin: [
       {
         path: "/superadmin/client-trade-response",
@@ -172,8 +176,26 @@ const Sidebar = ({ position }) => {
         icon: <i className="lab la-get-pocket"></i>,
         label: "Description",
       },
+
+      // {
+      //   path: "/api-create-info",
+      //   icon: <i className="la la-rocket"></i>,
+      //   label: "API Process",
+      // },
     ],
   };
+
+  if (adminPermission?.includes("Copy Trading")) {
+    sidebarItems.Admin.push({
+      path: "/admin/Master-Account",
+      icon: <i className="la la-user-shield"></i>,  
+      label: (
+        <>
+          Master<br />Account
+        </>
+      ),
+    });
+  }
 
   const getSidebarMenu = () => {
     if (role === "User" && expire?.includes(1)) {

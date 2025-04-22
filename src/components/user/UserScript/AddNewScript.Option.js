@@ -57,7 +57,7 @@ const AddClient = () => {
       0,
       -1
     );
- 
+
     const foundItem = dataWithoutLastItem.find((item) => {
       return item["Option Strategy"].includes(stg);
     });
@@ -450,7 +450,7 @@ const AddClient = () => {
 
 
     onSubmit: async (values) => {
-       
+
       const req = {
         MainStrategy: location.state.data.selectStrategyType,
         Username: userName,
@@ -562,13 +562,13 @@ const AddClient = () => {
         WorkingDay: values?.WorkingDay
           ? values?.WorkingDay?.map((item) => item?.value || item)
           : [],
-          Planname: location?.state?.data?.scriptType?.data?.find(
-            (item) => item.EndDate == getEndData(formik.values.Measurment_Type)
-          )?.Planname,
+        Planname: location?.state?.data?.scriptType?.data?.find(
+          (item) => item.EndDate == getEndData(formik.values.Measurment_Type)
+        )?.Planname,
       };
 
-       
-     
+
+
 
       if (
         values.Striketype == "Depth_of_Strike" &&
@@ -854,7 +854,7 @@ const AddClient = () => {
       col_size: 3,
       headingtype: 2,
       disable: false,
-      iconText : text.depthOfStrike
+      iconText: text.depthOfStrike
     },
     {
       name: "DeepStrike",
@@ -885,7 +885,7 @@ const AddClient = () => {
       col_size: 3,
       headingtype: 2,
       disable: false,
-      iconText : text.lowerRange
+      iconText: text.lowerRange
     },
     {
       name: "Higher_Range",
@@ -899,7 +899,7 @@ const AddClient = () => {
       col_size: 3,
       headingtype: 2,
       disable: false,
-      iconText : text.higherRange
+      iconText: text.higherRange
     },
 
     {
@@ -1045,7 +1045,7 @@ const AddClient = () => {
       col_size: 3,
       headingtype: 2,
       disable: false,
-      iconText : text.uniqueId
+      iconText: text.uniqueId
     },
   ];
 
@@ -1074,7 +1074,7 @@ const AddClient = () => {
       col_size: formik.values.Measurment_Type != "Shifting_FourLeg" ? 3 : 4,
       headingtype: 3,
       disable: false,
-      iconText : text.riskHandle
+      iconText: text.riskHandle
     },
     {
       name: "TStype",
@@ -1097,7 +1097,7 @@ const AddClient = () => {
       col_size: 3,
       headingtype: 3,
       disable: false,
-      iconText : text.measurementType
+      iconText: text.measurementType
     },
 
     {
@@ -1512,7 +1512,7 @@ const AddClient = () => {
       formik.values.Strategy == "LongFourLegStretegy" ||
       formik.values.Strategy == "ShortFourLegStretegy"
     ) {
-      
+
       formik.setFieldValue("Striketype", "Premium_Range");
       formik.setFieldValue("ETPattern", "Premium Addition");
 
@@ -1585,23 +1585,43 @@ const AddClient = () => {
 
 
   const handleCheckPnl = async () => {
+    // const weekend = new Date().getDay();
+    // const currentDate = new Date();
+    // const currentTime =
+    //   currentDate.getHours() +
+    //   ":" +
+    //   currentDate.getMinutes() +
+    //   ":" +
+    //   currentDate.getSeconds();
+
+    //  console.log("currentTime", currentTime);
+    // console.log("weekend", weekend);
+
+
+    // if (
+    //   weekend == 6 ||
+    //   weekend == 0 ||
+    //   currentTime >= "15:30:00" || currentTime <= "09:15:00"
+    // ) {
+    //   return SweentAlertFun("Market is off Today");
+    // }
+
     const weekend = new Date().getDay();
     const currentDate = new Date();
-    const currentTime =
-      currentDate.getHours() +
-      ":" +
-      currentDate.getMinutes() +
-      ":" +
-      currentDate.getSeconds();
+    const hours = currentDate.getHours();
+    const minutes = currentDate.getMinutes();
 
-    if (
-      weekend == 6 ||
-      weekend == 0 ||
-      currentTime >= "15:30:00" ||
-      currentTime <= "09:15:00"
-    ) {
+    const totalMinutes = hours * 60 + minutes; // e.g., 14 * 60 + 30 = 870
+
+    console.log("Current time (HH:MM):", `${hours}:${minutes}`);
+    console.log("Weekend:", weekend);
+
+    // Market hours: 9:15 AM to 3:30 PM => 555 to 930 in total minutes
+    if (weekend === 6 || weekend === 0 || totalMinutes < 555 || totalMinutes > 930) {
       return SweentAlertFun("Market is off Today");
     }
+
+    console.log("before req");
 
     const req = {
       MainStrategy: location.state.data.selectStrategyType,
@@ -1685,8 +1705,11 @@ const AddClient = () => {
       targetselection: "",
     };
 
+    console.log("req", req);
+
     await CheckPnL(req)
       .then((response) => {
+        console.log("response", response);  
         if (response.Status) {
           setShowPnl(true);
           setOpenModel(true);
@@ -1729,7 +1752,7 @@ const AddClient = () => {
         button_status={false}
         backbutton_status={false}
       >
-      { formik.values.Exchange && formik.values.Instrument && formik.values.Symbol && formik.values.expirydata1  && <div className="AddScript_LivePrice card-text-Color"><div className="LivePriceContainer"><span> Live Price:  </span> <span className="LivePrice ms-2">{}</span></div></div>}
+        {formik.values.Exchange && formik.values.Instrument && formik.values.Symbol && formik.values.expirydata1 && <div className="AddScript_LivePrice card-text-Color"><div className="LivePriceContainer"><span> Live Price:  </span> <span className="LivePrice ms-2">{ }</span></div></div>}
         <AddForm
           fields={fields.filter(
             (field) => !field.showWhen || field.showWhen(formik.values)
