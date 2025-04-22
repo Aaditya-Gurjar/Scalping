@@ -432,7 +432,7 @@ const AdminServicesList = () => {
 
                               <p className="allplan-card-subtitle">
                                 <strong className="card-text-Color">Stratetgy Tag:</strong>
-                                <FaRupeeSign /> {plan.Strategytag?.join(", ")}
+                                <FaRupeeSign /> {plan?.Strategytag?.join(", ")}
 
                               </p>
                             </div>
