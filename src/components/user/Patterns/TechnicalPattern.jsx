@@ -108,10 +108,8 @@ const LastPattern = () => {
         PatternType: "Charting Pattern",
         Pattern : chartingPattern,
       }
-      console.log("Data for Single Chart", data);
 
       const res = await GetSingleChart(data)
-      console.log("Single Chart Data", res.data[0]);
 
     } catch (error) {
       console.error("Error in fetching candlestick pattern data", error);
@@ -129,10 +127,8 @@ const LastPattern = () => {
           PatternType: "Charting Pattern",
           Pattern: chartingPattern || "Broadening_Bottom",
         };
-        console.log("Data for Single Chart ", data);
   
         const res = await GetSingleChart(data);
-        console.log("Single Chart Data", res.data[0]);
   
         // Update state with the new data
         setSingleChartImg({ loading: false, data: res.data });
@@ -182,7 +178,6 @@ const LastPattern = () => {
   const fetchPatternNames = async () => {
     try {
       const response = await Get_Pattern_Name();
-      console.log("response", response);
       setPatternNames({
         loading: false,
         data: response.Status ? response.PatternName : [],
