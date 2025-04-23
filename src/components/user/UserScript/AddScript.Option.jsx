@@ -1728,7 +1728,7 @@ const AddClient = () => {
           <Modal.Body>
             {PnlData ? (
               <div className="container">
-                <div className="row">
+                <div className="row" id="Pnl-row-data">
                   {[
                     { label: "Maximum Profit", value: PnlData.MaximumProfit },
                     { label: "Maximum Loss", value: PnlData.MaximumLoss },
@@ -1755,12 +1755,12 @@ const AddClient = () => {
                       key={index}
                       className="col-md-6 d-flex align-items-center py-2">
                       <label
-                        className="fw-bold text-white mb-0 me-2 card-text-Color"
+                        className="fw-bold mb-0 me-2 "
                         style={{ fontSize: "18px", minWidth: "150px" }}>
                         {label}:
                       </label>
                       <span
-                        className="text-white mb-0"
+                        className="mb-0"
                         style={{ fontSize: "18px", fontWeight: "500" }}>
                         {value !== null && !isNaN(value)
                           ? parseFloat(value).toFixed(4)
@@ -1775,7 +1775,7 @@ const AddClient = () => {
             )}
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={() => setOpenModel(false)}>
+            <Button className="submit-button-one" onClick={() => setOpenModel(false)}>
               Close
             </Button>
           </Modal.Footer>

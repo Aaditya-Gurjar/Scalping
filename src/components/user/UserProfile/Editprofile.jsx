@@ -165,7 +165,7 @@ const Editprofile = () => {
                                                     )}
                                                 </div>
                                             </div>
-                                            <button type="submit" className="btn btn-primary me-2" onClick={handleSubmit}>
+                                            <button type="submit" className="btn btn-primary me-2 submit-button-one" onClick={handleSubmit}>
                                                 Submit
                                             </button>
                                             <Link to={'/user/dashboard'} className="btn iq-bg-danger">
