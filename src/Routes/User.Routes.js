@@ -38,6 +38,7 @@ import ViewGroup from '../components/user/Group/ViewGroup';
 import { SidebarProvider } from "../components/layouts/SidebarContext";
 import OptionChain from '../components/user/OptioniChain/OptionChain';
 import ApiCreateInfo from '../components/user/ApiCreateInfo/ApiCreateInfo';
+import AddChartingScript2 from '../components/user/UserScript/AddChartingScript2';
 
 
 const UserRoute = () => {
@@ -79,6 +80,7 @@ const UserRoute = () => {
             <Route path="all/plan" element={<AllPlan />} />
             <Route path='/newStrategy' element={<NewStrategy />} />
             <Route path='/newscript/charting' element={<AddChartingScript />} />
+            <Route path='/newscript/charting2' element={<AddChartingScript2 />} />
 
 
           </Routes>

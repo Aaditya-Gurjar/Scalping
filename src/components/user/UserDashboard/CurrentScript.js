@@ -681,7 +681,36 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
   };
 
 
-  const AddScript = (data) => {
+const AddScript = (data) => {
+  if (data === "ChartingPlatform") {
+    if (allScripts2?.data?.[allScripts2.len]?.CombineChartingSignal?.length >= 1) {
+      navigate("/user/newscript/charting2", {
+        state: {
+          data: {
+            selectStrategyType: "ChartingPlatform",
+            scriptType: allScripts2,
+            tableType,
+            data,
+            selectedType,
+            FromDate,
+            ToDate,
+            chartingSubTab, // Pass the current tab
+            getCharting,
+            view,
+            fixedRowPerPage,
+          },
+        },
+      });
+    } else {
+      Swal.fire({
+        title: "Warning",
+        text: "You don't have any valid plan to use this strategy",
+        icon: "warning",
+        timer: 2000,
+        timerProgressBar: true,
+      });
+    }
+  } else {
     if (data === "Option Strategy") {
       if (allScripts?.data?.[allScripts.len]?.CombineOption?.length >= 1) {
         navigate("/user/newscript/option", {
@@ -724,7 +753,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
       if (allScripts2?.data?.[allScripts2.len]?.CombineChartingSignal?.length >= 1) {
         
-        navigate("/user/newscript/charting", {
+        navigate("/user/newscript/charting2", {
           state: {
             data: {
               selectStrategyType: "ChartingPlatform",
@@ -759,7 +788,8 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
         });
       }
     }
-  };
+  }
+};
 
   const GetAllUserScriptDetails = async () => {
     const data = { userName: userName };
