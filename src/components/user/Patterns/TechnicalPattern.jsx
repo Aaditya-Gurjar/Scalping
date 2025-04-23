@@ -129,7 +129,7 @@ const LastPattern = () => {
           PatternType: "Charting Pattern",
           Pattern: chartingPattern || "Broadening_Bottom",
         };
-        console.log("Data for Single Chart", data);
+        console.log("Data for Single Chart ", data);
   
         const res = await GetSingleChart(data);
         console.log("Single Chart Data", res.data[0]);
