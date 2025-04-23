@@ -430,11 +430,16 @@ const AdminServicesList = () => {
                                   <FaRupeeSign /> {plan.ChartLiveTrade}
                                 </p>}
 
-                              <p className="allplan-card-subtitle">
-                                <strong className="card-text-Color">Stratetgy Tag:</strong>
-                                <FaRupeeSign /> {plan?.Strategytag?.join(", ")}
+                              {plan?.Strategytag && (
+                                <p className="allplan-card-subtitle">
+                                  <strong className="card-text-Color">Strategy Tag:</strong>
+                                  <FaRupeeSign />{" "}
+                                  {Array.isArray(plan.Strategytag)
+                                    ? plan.Strategytag.join(", ")
+                                    : plan.Strategytag}
+                                </p>
+                              )}
 
-                              </p>
                             </div>
 
                             {/* Edit Button */}

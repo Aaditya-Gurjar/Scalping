@@ -135,9 +135,10 @@ const Tradehistory = () => {
   useEffect(() => {
     if (location?.state?.type && location?.state?.type != "MultiCondition") {
       setStrategyType(StrategyType || location?.state?.type);
+      handleSubmit(); // Auto-submit when location.state is present
     } else if (location?.state?.type == "MultiCondition") {
-      // setTableType("MultiCondition")
       setStrategyType(StrategyType || "Scalping");
+      handleSubmit(); // Auto-submit when location.state is present
     } else {
       // setTableType("Scalping");
     }
@@ -245,62 +246,7 @@ const Tradehistory = () => {
 
         {showTable && (
           <>
-            {/* {selectStrategyType === "ChartingPlatform" && (
-              <div className="container">
-                
-                <div className="d-flex justify-content-center">
-                  <ul
-                    className="nav nav-pills shadow rounded-pill p-1"
-                    style={{ backgroundColor: "#f1f3f5" }}>
-                    <li className="nav-item">
-                      <button
-                        className={`nav-link ${
-                          activeTab === "Cash" ? "active" : ""
-                        } rounded-pill`}
-                        onClick={() => setActiveTab("Cash")}
-                        style={{
-                          padding: "10px 20px",
-                          margin: "5px",
-                          border: "none",
-                          outline: "none",
-                        }}>
-                        Cash
-                      </button>
-                    </li>
-                    <li className="nav-item">
-                      <button
-                        className={`nav-link ${
-                          activeTab === "Future" ? "active" : ""
-                        } rounded-pill`}
-                        onClick={() => setActiveTab("Future")}
-                        style={{
-                          padding: "10px 20px",
-                          margin: "5px",
-                          border: "none",
-                          outline: "none",
-                        }}>
-                        Future
-                      </button>
-                    </li>
-                    <li className="nav-item">
-                      <button
-                        className={`nav-link ${
-                          activeTab === "Option" ? "active" : ""
-                        } rounded-pill`}
-                        onClick={() => setActiveTab("Option")}
-                        style={{
-                          padding: "10px 20px",
-                          margin: "5px",
-                          border: "none",
-                          outline: "none",
-                        }}>
-                        Option
-                      </button>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            )} */}
+          
 
             <p
               className="bold mt-4"

@@ -26,7 +26,7 @@ const LastPattern = () => {
     "Candlestick Patterns"
   );
   const [selectedRowData, setSelectedRowData] = useState("");
-  const [scriptType, setScriptType] = useState("");
+  const [scriptType, setScriptType] = useState("AvailableScript");
   const [candlestickPattern, setCandlestickPattern] =
     useState("Bearish_Engulfing");
   const [selectedTimeFrame, setSelectedTimeFrame] = useState("1M");
@@ -58,8 +58,7 @@ const LastPattern = () => {
     loading: true,
     data: [],
   });
-  const [chartingPattern, setChartingPattern] = useState("");
-
+  const [chartingPattern, setChartingPattern] = useState("Broadening_Bottom");
 
   useEffect(() => {
     fetchAllSymbols();
@@ -71,9 +70,33 @@ const LastPattern = () => {
     fetchPatternNames();
     fetchChartingPatternNames();
   }, []);
+
+  useEffect(() => {
+    if (allSymbols.length > 0 && !chartPattern) {
+      setChartPattern(allSymbols[0]);
+    }
+  }, [allSymbols]);
+
   useEffect(() => {
     GetSingleChartPattern();
   }, [candlestickPattern]);
+
+  useEffect(() => {
+    const getCandlestickPatternData = async () => {
+      try {
+        const data = {
+          PatternType: "Charting Pattern",
+          Pattern: chartingPattern,
+        };
+        const res = await GetSingleChart(data);
+        setSingleChartImg({ loading: false, data: res.data });
+      } catch (error) {
+        console.error("Error in fetching candlestick pattern data", error);
+        setSingleChartImg({ loading: false, data: [] });
+      }
+    };
+    getCandlestickPatternData();
+  }, [chartingPattern]);
 
   useEffect(() => {
     fetchChartingData();
@@ -84,7 +107,6 @@ const LastPattern = () => {
     selectedTimeFrame,
     chartingPattern,
     candlestickPattern,
-    
   ]);
 
   useEffect(() => {
@@ -102,48 +124,7 @@ const LastPattern = () => {
     setSelectedRowData(rowData);
   };
 
-  const getCandlestickPatternData = async() => {
-    try {
-      data = {
-        PatternType: "Charting Pattern",
-        Pattern : chartingPattern,
-      }
-      console.log("Data for Single Chart", data);
 
-      const res = await GetSingleChart(data)
-      console.log("Single Chart Data", res.data[0]);
-
-    } catch (error) {
-      console.error("Error in fetching candlestick pattern data", error);
-      
-    }
-  }
-  useEffect(() => {
-    getCandlestickPatternData()
-  }, [chartingPattern])
-
-  useEffect(() => {
-    const getCandlestickPatternData = async () => {
-      try {
-        const data = {
-          PatternType: "Charting Pattern",
-          Pattern: chartingPattern || "Broadening_Bottom",
-        };
-        console.log("Data for Single Chart", data);
-  
-        const res = await GetSingleChart(data);
-        console.log("Single Chart Data", res.data[0]);
-  
-        // Update state with the new data
-        setSingleChartImg({ loading: false, data: res.data });
-      } catch (error) {
-        console.error("Error in fetching candlestick pattern data", error);
-        setSingleChartImg({ loading: false, data: [] });
-      }
-    };
-  
-    getCandlestickPatternData();
-  }, [chartingPattern]); // Trigger whenever chartingPattern changes
 
   const fetchAvailableScripts = async () => {
     try {
@@ -182,7 +163,6 @@ const LastPattern = () => {
   const fetchPatternNames = async () => {
     try {
       const response = await Get_Pattern_Name();
-      console.log("response", response);
       setPatternNames({
         loading: false,
         data: response.Status ? response.PatternName : [],
@@ -204,40 +184,41 @@ const LastPattern = () => {
     }
   };
 
-
   const fetchChartingData = async () => {
     try {
-      if (scriptType && selectedTimeFrame && chartPattern && chartingPattern) {
-        const data = {
-          Script: scriptType,
-          TimeFrame: selectedTimeFrame,
-          Username,
-          Symbol: chartPattern,
-          Patternname: chartingPattern,
-        };
-        const response = await ChartPatternAPI(data);
-        setChartPatternTableData({
-          loading: false,
-          CandleData: response.Status ? response?.Data?.CandleData : [],
-          PatternData: response.Status ? response?.Data?.PatternData : [],
-        });
-        setShowCandle(response.Status);
-      }
-
-      if (candlestickPattern && selectedTimeFrame && chartPattern) {
-        const data = {
-          PatternName: candlestickPattern,
-          TimeFrame: selectedTimeFrame,
-          Username,
-          Symbol: chartPattern,
-        };
-        const response = await Candlestick_Pattern(data);
-        setCandlestickTable({
-          loading: false,
-          data1: response.Status ? response.Data.CandleData : [],
-          data2: response.Status ? response.Data.PatternData : [],
-        });
-        setShowCandle(response.Status);
+      if (selectedPatternType === "Charting Patterns") {
+        if (scriptType && selectedTimeFrame && chartPattern && chartingPattern) {
+          const data = {
+            Script: scriptType,
+            TimeFrame: selectedTimeFrame,
+            Username,
+            Symbol: chartPattern,
+            Patternname: chartingPattern,
+          };
+          const response = await ChartPatternAPI(data);
+          setChartPatternTableData({
+            loading: false,
+            CandleData: response.Status ? response?.Data?.CandleData : [],
+            PatternData: response.Status ? response?.Data?.PatternData : [],
+          });
+          setShowCandle(response.Status);
+        }
+      } else {
+        if (candlestickPattern && selectedTimeFrame && chartPattern) {
+          const data = {
+            PatternName: candlestickPattern,
+            TimeFrame: selectedTimeFrame,
+            Username,
+            Symbol: chartPattern,
+          };
+          const response = await Candlestick_Pattern(data);
+          setCandlestickTable({
+            loading: false,
+            data1: response.Status ? response.Data.CandleData : [],
+            data2: response.Status ? response.Data.PatternData : [],
+          });
+          setShowCandle(response.Status);
+        }
       }
     } catch (err) {
       console.error("Error in fetching data:", err);
@@ -246,74 +227,36 @@ const LastPattern = () => {
 
   const GetSingleChartPattern = async () => {
     const data = {
-      Pattern: candlestickPattern || '',
+      Pattern: candlestickPattern,
       TType: "",
       PatternType: "CandleStick Pattern",
     };
-    await GetSingleChart(data)
-      .then((response) => {
-        
-        if (response.status) {
-          setSingleChartImg({ loading: false, data: response.data });
-        } else {
-          setSingleChartImg({ loading: false, data: [] });
-        }
-      })
-      .catch((err) => {
-        console.error("Error in fetching single chart image", err);
-      });
+    try {
+      const response = await GetSingleChart(data);
+      if (response.status) {
+        setSingleChartImg({ loading: false, data: response.data });
+      } else {
+        setSingleChartImg({ loading: false, data: [] });
+      }
+    } catch (err) {
+      console.error("Error in fetching single chart image", err);
+    }
   };
 
   useEffect(() => {
     if (selectedPatternType === "Charting Patterns") {
-      setChartingPattern("");
-      setScriptType("");
+      setChartingPattern("Broadening_Bottom");
+      setScriptType("AvailableScript");
       setSelectedTimeFrame("1M");
       setChartPattern("");
       setSelectedRowData("");
-    } else if (selectedPatternType === "Candlestick Patterns") {
+    } else {
       setCandlestickPattern("Bearish_Engulfing");
       setSelectedTimeFrame("1M");
       setChartPattern("");
       setSelectedRowData("");
     }
   }, [selectedPatternType]);
-
-  useEffect(() => {
-    // Set initial values and trigger API calls on initial render
-    if (selectedPatternType === "Candlestick Patterns") {
-      setCandlestickPattern("Bearish_Engulfing");
-      fetchChartingData();
-    } else if (selectedPatternType === "Charting Patterns") {
-      setChartingPattern("Broadening_Bottom");
-      fetchChartingData();
-    }
-  }, []); // Runs only on initial render
-  
-  useEffect(() => {
-    // Trigger API calls whenever selectedPatternType changes
-    if (selectedPatternType === "Candlestick Patterns") {
-      setCandlestickPattern("Bearish_Engulfing");
-      fetchChartingData();
-    } else if (selectedPatternType === "Charting Patterns") {
-      setChartingPattern("Broadening_Bottom");
-      fetchChartingData();
-    }
-  }, [selectedPatternType]);
-  
-  useEffect(() => {
-    // Trigger API call when candlestickPattern changes
-    if (candlestickPattern) {
-      fetchChartingData();
-    }
-  }, [candlestickPattern]);
-  
-  useEffect(() => {
-    // Trigger API call when chartingPattern changes
-    if (chartingPattern) {
-      fetchChartingData();
-    }
-  }, [chartingPattern]);
 
   return (
     <>
@@ -347,7 +290,6 @@ const LastPattern = () => {
                         className="form-control  mt-2"
                         onChange={(e) => setCandlestickPattern(e.target.value)}
                         value={candlestickPattern}>
-                        {/* <option value="">Please Select Pattern</option> */}
                         {patternNames.data &&
                           patternNames.data.map((item) => (
                             <option value={item} key={item}>
@@ -363,7 +305,6 @@ const LastPattern = () => {
                         className="form-control  mt-2"
                         onChange={(e) => setChartingPattern(e.target.value)}
                         value={chartingPattern}>
-                        {/* <option value="">Please Select Pattern</option> */}
                         {chartingPatternNames.data.map((item) => (
                           <option value={item} key={item}>
                             {item}
@@ -378,38 +319,26 @@ const LastPattern = () => {
               {selectedPatternType === "Candlestick Patterns" ? (
                 ""
               ) : (
-                <div
-                  className={`${
-                    selectedPatternType == "Charting Patterns"
-                      ? "col-md-2"
-                      : "col-md-3"
-                  }`}>
+                <div className="col-md-2">
                   <div className="form-group">
                     <label>Script</label>
                     <select
                       className="form-control  mt-2"
                       onChange={(e) => setScriptType(e.target.value)}
                       value={scriptType}>
-                      {/* <option value="">Please Select Script</option> */}
                       <option value="AvailableScript">Available Script</option>
                       <option value="MyScript">My Script</option>
                     </select>
                   </div>
                 </div>
               )}
-              <div
-                className={`${
-                  selectedPatternType == "Charting Patterns"
-                    ? "col-md-2"
-                    : "col-md-3"
-                }`}>
+              <div className={`col-md-${selectedPatternType === "Charting Patterns" ? "2" : "3"}`}>
                 <div className="form-group">
                   <label>Time Frame</label>
                   <select
                     className="form-control  mt-2"
                     onChange={(e) => setSelectedTimeFrame(e.target.value)}
                     value={selectedTimeFrame}>
-                    {/* <option value="">Please Select Time Frame</option> */}
                     {timeFrameData?.data?.map((item) => (
                       <option value={item} key={item}>
                         {item}
@@ -418,12 +347,7 @@ const LastPattern = () => {
                   </select>
                 </div>
               </div>
-              <div
-                className={`${
-                  selectedPatternType == "Charting Patterns"
-                    ? "col-md-2"
-                    : "col-md-3"
-                }`}>
+              <div className={`col-md-${selectedPatternType === "Charting Patterns" ? "2" : "3"}`}>
                 <div className="form-group">
                   <label>Select Specific Pattern</label>
                   <select
@@ -446,45 +370,44 @@ const LastPattern = () => {
             </div>
           </div>
 
-         {selectedPatternType !="Charting Patterns" && <div className="container-fluid">
-            <div className="row justify-content-center">
-              {selectedPatternType == "Candlestick Patterns" &&
-              getSingleChartImg?.data?.length === 0 ? null : (
-                <div className="col-12">
-                  <div
-                    className="card p-3"
-                    style={{
-                      maxHeight: "auto",
-                      boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-                    }}>
-                    <div className="row g-0 align-items-center">
-                      {/* Left Side - Text Content */}
-                      <div className="col-12 col-md-6 p-3">
-                        <h5 className="mt-3">Description</h5>
-                        <p>
-                          {getSingleChartImg?.data[0]?.Description || "N/A"}
-                        </p>
-                      </div>
-
-                      {/* Right Side - Image */}
-                      <div className="col-12 col-md-6 d-flex align-items-center justify-content-center p-2">
-                        <img
-                          src={`data:image/png;base64,${getSingleChartImg?.data[0]?.image_data}`}
-                          className="img-fluid rounded shadow"
-                          alt="Pattern Image"
-                          style={{
-                            width: "100%",
-                            maxHeight: "300px",
-                            objectFit: "contain",
-                          }}
-                        />
+          {selectedPatternType !== "Charting Patterns" && (
+            <div className="container-fluid">
+              <div className="row justify-content-center">
+                {selectedPatternType === "Candlestick Patterns" &&
+                getSingleChartImg?.data?.length === 0 ? null : (
+                  <div className="col-12">
+                    <div
+                      className="card p-3"
+                      style={{
+                        maxHeight: "auto",
+                        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                      }}>
+                      <div className="row g-0 align-items-center">
+                        <div className="col-12 col-md-6 p-3">
+                          <h5 className="mt-3">Description</h5>
+                          <p>
+                            {getSingleChartImg?.data[0]?.Description || "N/A"}
+                          </p>
+                        </div>
+                        <div className="col-12 col-md-6 d-flex align-items-center justify-content-center p-2">
+                          <img
+                            src={`data:image/png;base64,${getSingleChartImg?.data[0]?.image_data}`}
+                            className="img-fluid rounded shadow"
+                            alt="Pattern Image"
+                            style={{
+                              width: "100%",
+                              maxHeight: "300px",
+                              objectFit: "contain",
+                            }}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
-          </div>}
+          )}
 
           <div className="col-xl-12 mt-3">
             {selectedPatternType === "Candlestick Patterns"
@@ -509,11 +432,9 @@ const LastPattern = () => {
 
           {showCandle && (
             <div className="col-xl-12 mt-3">
-              {(!getCandlestickTable.loading ||
-                !ChartPatternTableData.loading) &&
-              selectedPatternType === "Candlestick Patterns" ? (
+              {selectedPatternType === "Candlestick Patterns" ? (
                 <AgChartsReact
-                  ChartData={getCandlestickTable && getCandlestickTable?.data1}
+                  ChartData={getCandlestickTable?.data1}
                   timeFrame={selectedTimeFrame}
                   type={"pattern"}
                 />
@@ -528,14 +449,11 @@ const LastPattern = () => {
           )}
         </div>
 
-
-        {
-          selectedPatternType === "Charting Patterns" && (
-           <div>
-            <ChartingPatternCard data = {getSingleChartImg.data} />
-           </div>
-          )
-        }
+        {selectedPatternType === "Charting Patterns" && (
+          <div>
+            <ChartingPatternCard data={getSingleChartImg.data} />
+          </div>
+        )}
       </Contnet>
     </>
   );

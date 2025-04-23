@@ -54,10 +54,12 @@ const Pannel = () => {
       return `${year}.${month}.${day}`;
     }
   };
+  console.log("getSortName", getSortName);
 
   const GetSortTypeName = async () => {
     const data = { userName: userName };
     await GetName(data).then((response) => {
+      console.log("Get Sort Type Name", response);
       if (response.Status) {
         setSortName(response.Taskstatus);
       } else {
@@ -178,23 +180,21 @@ const Pannel = () => {
                 <label htmlFor="email">Activity</label>
                 <select
                   className="form-select"
-                  required=""
+                  required
                   onChange={(e) => {
                     setActivity(e.target.value);
                     sessionStorage.setItem("Activity", e.target.value);
                   }}
-                  value={getActivity}>
-                  <option value="">All Activity</option>
-                  <option value={"Login"}>Login</option>
-                  <option value={"Broker Update"}>Broker Update</option>
-                  <option value={"Add Script"}>Add Script</option>
-                  <option value={"Continue Script"}>Continue Script</option>
-                  <option value={"Square Script"}>Square Script</option>
-                  <option value={"Discontinue Script"}>
-                    Discontinue Script
-                  </option>
+                  value={getActivity}
+                >
+                  {getSortName.map((item, index) => (
+                    <option value={item} key={index}>
+                      {item}
+                    </option>
+                  ))}
                 </select>
               </div>
+
             </div>
           </div>
           <div className="table-responsive">

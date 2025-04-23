@@ -250,6 +250,7 @@ const Tradehistory = () => {
     }
   };
 
+  console.log("selectedRowData", selectedRowData);
   const getChartingSegmentData = async () => {
     try {
       const req = {
@@ -264,6 +265,7 @@ const Tradehistory = () => {
         Group: "",
         TradePattern: "",
         PatternName: "",
+        InitialDeposite: 0,
       };
       const res = await get_Trade_History(req);
       setChartingData(res?.data || []);
@@ -302,13 +304,14 @@ const Tradehistory = () => {
             : "Cash",
         Symbol: selectedRowData?.Symbol || "",
         Username: selectedRowData?.Username || "",
-        ETPattern: selectedRowData?.Targettype || "",
+        ETPattern: selectedRowData?.Targettype || selectedRowData.TType || "",
         Timeframe: selectedRowData?.TimeFrame || "",
         From_date: convertDateFormat(FromDate || formattedDate),
         To_date: convertDateFormat(ToDate || Default_To_Date),
         Group: selectedRowData?.GroupN || "",
         TradePattern: "",
         PatternName: "",
+        InitialDeposite: 0,
       };
 
       if (section === "pnlAnalysis") {
@@ -781,10 +784,24 @@ console.log("AnalyticsOverview", AnalyticsOverview);
 const getChartOptions = (data, type) => ({
   chart: { type: "pie" },
   labels: data.map((t) => t.ETime.split(" ")[1].substring(0, 5)),
+
   colors:
-    type === "Profit"
-      ? ["#28a745", "#218838", "#1e7e34"]
-      : ["#dc3545", "#c82333", "#bd2130"],
+  type === "Profit"
+    ? [
+        "#22c55e", // Emerald Green
+        "#3b82f6", // Blue
+        "#10b981", // Teal
+        "#6366f1", // Indigo
+        "#f59e0b"  // Amber
+      ]
+    : [
+        "#b91c1c", // Dark Red
+        "#dc2626", // Red
+        "#991b1b", // Deeper Red
+        "#7f1d1d", // Blood Red
+        "#450a0a"  // Near-Black Red
+      ],
+
   legend: { position: "bottom" },
   dataLabels: { enabled: true },
   tooltip: {
@@ -793,5 +810,6 @@ const getChartOptions = (data, type) => ({
     },
   },
 });
+
 
 export default Tradehistory;

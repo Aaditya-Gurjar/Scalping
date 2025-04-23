@@ -185,13 +185,13 @@ const TradeResponse = () => {
           const filterLiveTrade1 =
             selectStrategyType !== "Scalping"
               ? response?.Data?.filter(
-                  (item) => item.TradeExecution === "Live Trade"
-                )
+                (item) => item.TradeExecution === "Live Trade"
+              )
               : response?.NewScalping?.filter(
-                  (item) => item.TradeExecution === "Live Trade"
-                );
+                (item) => item.TradeExecution === "Live Trade"
+              );
 
-         
+
 
           console.log("filterLiveTrade1", filterLiveTrade1);
           setTradeHistory({
@@ -375,7 +375,7 @@ const TradeResponse = () => {
     selectSegmentType,
   ]);
 
-   
+
 
   return (
     <Content
@@ -408,65 +408,65 @@ const TradeResponse = () => {
               </select>
             </div> */}
 
-            
+
             <div className="d-flex justify-content-center response-btns">
-                <ul
-                  className="nav nav-pills shadow rounded-pill p-1"
-                  style={{ backgroundColor: "#f1f3f5" }}
-                >
-                  {(strategyType || []).map((type, index) => (
-                    <li className="nav-item" key={index}>
-                      <button
-                        className={`nav-link ${selectStrategyType === type ? "active" : ""} rounded-pill`}
-                        onClick={() => {
-                          setSelectStrategyType(type);
-                          sessionStorage.setItem("StrategyType", type);
-                        }}
-                        style={{
-                          padding: "10px 20px",
-                          margin: "5px",
-                          border: "none",
-                          outline: "none",
-                        }}
-                      >
-                        {type}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <ul
+                className="nav nav-pills shadow rounded-pill p-1"
+                style={{ backgroundColor: "#f1f3f5" }}
+              >
+                {(strategyType || []).map((type, index) => (
+                  <li className="nav-item" key={index}>
+                    <button
+                      className={`nav-link ${selectStrategyType === type ? "active" : ""} rounded-pill`}
+                      onClick={() => {
+                        setSelectStrategyType(type);
+                        sessionStorage.setItem("StrategyType", type);
+                      }}
+                      style={{
+                        padding: "10px 20px",
+                        margin: "5px",
+                        border: "none",
+                        outline: "none",
+                      }}
+                    >
+                      {type}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
 
 
             {/* Select From Date */}
-           <div className="response-page-dates">
-           <div
-              className={`form-group ${selectStrategyType === "ChartingPlatform"
+            <div className="response-page-dates">
+              <div
+                className={`form-group ${selectStrategyType === "ChartingPlatform"
                   ? "col-lg-2"
                   : "col-lg-2"
-                }`}>
-              <label>Select form Date</label>
-              <DatePicker
-                className="form-select"
-                selected={FromDate === "" ? formattedDate : FromDate}
-                onChange={(date) => setFromDate(date)}
-              />
-            </div>
+                  }`}>
+                <label>Select form Date</label>
+                <DatePicker
+                  className="form-select"
+                  selected={FromDate === "" ? formattedDate : FromDate}
+                  onChange={(date) => setFromDate(date)}
+                />
+              </div>
 
-            {/* Select To Date */}
-            <div
-              className={`form-group ${selectStrategyType === "ChartingPlatform"
+              {/* Select To Date */}
+              <div
+                className={`form-group ${selectStrategyType === "ChartingPlatform"
                   ? "col-lg-2"
                   : "col-lg-2"
-                }`}>
-              <label>Select To Date</label>
-              <DatePicker
-                className="form-select"
-                selected={ToDate === "" ? Defult_To_Date : ToDate}
-                onChange={(date) => setToDate(date)}
-              />
+                  }`}>
+                <label>Select To Date</label>
+                <DatePicker
+                  className="form-select"
+                  selected={ToDate === "" ? Defult_To_Date : ToDate}
+                  onChange={(date) => setToDate(date)}
+                />
+              </div>
             </div>
-           </div>
           </div>
 
 
@@ -595,24 +595,24 @@ const TradeResponse = () => {
               </button>
             )}
 
-{showTable && (
-  <div className="mt-3">
-    {getAllTradeData.data && getAllTradeData.data.length > 0 ? (
-      <div className="row g-3">
-        {getAllTradeData.data.map((item, index) => (
-          <div className="col-md-6" key={index}>
-            <TradeResponseCard data={item} index={index} />
-          </div>
-        ))}
-      </div>
-    ) : (
-      <NoDataFound />
-    )}
-  </div>
-)}
+          {showTable && (
+            <div className="mt-3">
+              {getAllTradeData.data && getAllTradeData.data.length > 0 ? (
+                <div className="row g-3">
+                  {getAllTradeData.data.map((item, index) => (
+                    <div className="col-md-6" key={index}>
+                      <TradeResponseCard data={item} index={index} />
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+          )}
 
           {/* Commented out table rendering */}
-           
+
           {showTable && (
             <div className="mt-3">
               {getAllTradeData.data && getAllTradeData.data.length > 0 ? (
@@ -621,10 +621,10 @@ const TradeResponse = () => {
                     selectStrategyType === "Scalping"
                       ? columns3
                       : selectStrategyType === "Option Strategy"
-                      ? columns4
-                      : selectStrategyType === "ChartingPlatform"
-                      ? columns3
-                      : columns5
+                        ? columns4
+                        : selectStrategyType === "ChartingPlatform"
+                          ? columns3
+                          : columns5
                   }
                   data={getAllTradeData.data}
                   onRowSelect={handleRowSelect}
@@ -635,7 +635,7 @@ const TradeResponse = () => {
               )}
             </div>
           )}
-           
+
 
         </div>
 

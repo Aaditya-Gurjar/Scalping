@@ -552,7 +552,7 @@ const ServicesList = () => {
                         </p>
                       }
 
- 
+
 
                       {/* {console.log("isPlanPurchased.includes(planExpired)", planExpired)} */}
                     </div>
@@ -619,17 +619,18 @@ const ServicesList = () => {
                         <strong className="card-text-Color">Fixed Per Month:</strong>
                         <FaRupeeSign /> {plan.ChartPerMonth}
                       </p>
-                      <p className="allplan-card-subtitle">
-                        <strong className="card-text-Color">Stratetgy Tag:</strong>
-                        <FaRupeeSign /> {plan.Strategytag?.join(", ")}
-
-                      </p>
+                      {plan?.Strategytag && (
+                        <p className="allplan-card-subtitle">
+                          <strong className="card-text-Color">Strategy Tag:</strong>
+                          <FaRupeeSign />{" "}
+                          {Array.isArray(plan.Strategytag)
+                            ? plan.Strategytag.join(", ")
+                            : plan.Strategytag}
+                        </p>
+                      )}
                     </div>
 
-
-
-
-
+ 
                     {isPlanPurchased(plan.Planname) ? (
                       <button
                         className="allplan-button buy-again"

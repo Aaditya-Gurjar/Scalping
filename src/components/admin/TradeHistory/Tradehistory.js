@@ -806,10 +806,18 @@ const Tradehistory = () => {
 const getChartOptions = (data, type) => ({
     chart: { type: "pie" },
     labels: data.map((t) => t.ETime.split(" ")[1].substring(0, 5)),
-    colors:
-        type === "Profit"
-            ? ["#28a745", "#218838", "#1e7e34"]
-            : ["#dc3545", "#c82333", "#bd2130"],
+    colors: [
+        "#FF5733", // Red-Orange
+        "#33FF57", // Green
+        "#3357FF", // Blue
+        "#FF33A1", // Pink
+        "#F3FF33", // Yellow
+        "#33FFF3", // Cyan
+        "#A133FF", // Purple
+        "#FF8C33", // Orange
+        "#33FF8C", // Light Green
+        "#8C33FF"  // Violet
+    ],
     legend: { position: "bottom" },
     dataLabels: { enabled: true },
     tooltip: {
