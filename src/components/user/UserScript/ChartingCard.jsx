@@ -77,6 +77,9 @@ const ChartingCard = ({
     } else if (values.runningTrade < 0) {
       errors.runningTrade = "Value cannot be negative.";
     }
+    if (!values.strategyTags || values.strategyTags.length === 0) {
+      errors.strategyTags = "Please select at least one strategy tag.";
+    }
     return errors;
   };
 
@@ -337,7 +340,7 @@ const ChartingCard = ({
 
                       <ErrorMessage name="strategyTags">
                         {(msg) => (
-                          <div style={{ color: "red", fontSize: "0.8rem" }}>
+                          <div style={{ color: "red", fontSize: "0.8rem", marginTop: "5px" }}>
                             {msg}
                           </div>
                         )}

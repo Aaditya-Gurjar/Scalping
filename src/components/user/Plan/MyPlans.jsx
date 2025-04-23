@@ -74,16 +74,26 @@ const MyPurchasedPlans = () => {
                 <BadgeCheck size={24} color="#4caf50" />
               </h2>
 
-              {  plan?.NumberofScript > 0 &&
-              <h4 className="myplan-card-subtitle">
-                No of Scripts: {plan?.NumberofScript}
-              </h4>}
+              {plan?.NumberofScript > 0 && (
+                <h4 className="myplan-card-subtitle">
+                  No of Scripts: {plan?.NumberofScript}
+                </h4>
+              )}
 
               {hasChartingSignal ? (
-                <p className="myplan-card-detail">
-                  <strong>Charting Signal:</strong>{" "}
-                  {plan?.ChartingSignal?.join(", ")}
-                </p>
+                <>
+                  <p className="myplan-card-detail">
+                    <strong>Charting Signal:</strong>{" "}
+                    {plan?.ChartingSignal?.join(", ")}
+                  </p>
+                  
+                  <p className="myplan-card-detail">
+                    <strong>Start Date:</strong> {plan?.StartDate}
+                  </p>
+                  <p className="myplan-card-detail">
+                    <strong>End Date:</strong> {plan?.EndDate}
+                  </p>
+                </>
               ) : (
                 <>
                   <p className="myplan-card-detail">
@@ -99,12 +109,10 @@ const MyPurchasedPlans = () => {
                     {plan?.Pattern?.join(", ")}
                   </p>
                   <p className="myplan-card-detail">
-                    <strong>Start Date:</strong>{" "}
-                    {plan?.StartDate}
+                    <strong>Start Date:</strong> {plan?.StartDate}
                   </p>
                   <p className="myplan-card-detail">
-                    <strong>End Date:</strong>{" "}
-                    {plan?.EndDate}
+                    <strong>End Date:</strong> {plan?.EndDate}
                   </p>
                 </>
               )}

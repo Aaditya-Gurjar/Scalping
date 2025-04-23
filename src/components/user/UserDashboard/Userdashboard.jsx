@@ -70,8 +70,7 @@ const Userdashboard = () => {
     const year = date.getFullYear();
     return `${year}.${month}.${day}`;
   };
-
-
+ 
   const [getGroupName, setGroupName] = useState({ loading: true, data: [] });
   const [getPositionData, setPositionData] = useState({
     loading: true,
@@ -87,8 +86,7 @@ const Userdashboard = () => {
     const res = await GetAllUserGroup(data)
     setGroupNames(res?.Data)
   }
-
-
+ 
   useEffect(() => {
     fetchStrategyType();
     GetOpenPosition();
@@ -98,11 +96,7 @@ const Userdashboard = () => {
   useEffect(() => {
     getUserAllGroup();
   }, [activeTab]);
-
-
-
-
-
+  
   const fetchStrategyType = async () => {
     try {
       const res = await getStrategyType();
@@ -141,9 +135,7 @@ const Userdashboard = () => {
         setData2({ status: false, msg: "Error fetching groups" });
       });
   };
-
-
-
+ 
   const GetOpenPosition = async () => {
     const data = { userName: userName };
     await OpenPosition(data)
@@ -718,10 +710,7 @@ const Userdashboard = () => {
       setTableType(StrategyType || "Scalping");
     }
   }, [subTab]);
-
-
-
-
+ 
   return (
     <Content
       Page_title="📊 User Dashboard"
@@ -786,39 +775,39 @@ const Userdashboard = () => {
                   </div>
                 </div>
                 <div
-  className="d-flex justify-content-start align-items-center w-100"
-  style={{ maxWidth: "1200px" }}
->
-  <h5 className="me-3" style={{ minWidth: "100px", textAlign: "left" }}>
-    Suggested Bot:
-  </h5>
+                  className="d-flex justify-content-start align-items-center w-100"
+                  style={{ maxWidth: "1200px" }}
+                >
+                  <h5 className="me-3" style={{ minWidth: "100px", textAlign: "left" }}>
+                    Suggested Bot:
+                  </h5>
 
-  <div className="d-flex flex-wrap gap-3">
-    {groupNames && groupNames.length > 0 ? (
-      groupNames.map((group, index) => (
-        <button
-          key={index}
-          className={`btn bot-btn ${getGroup === group ? "bot-btn-active" : "bot-btn"}`}
-          onClick={() => {
-            setGroup(group);
-            setSubTab("");
-            sessionStorage.setItem("groupName", group);
-            sessionStorage.removeItem("StrategyType"); // Clear StrategyType from session
-          }}
-          style={{ whiteSpace: "nowrap" }}
-        >
-          <FaEye className="me-1" /> {group}
-        </button>
-      ))
-    ) : (
-      <span className="text-muted">No group available</span>
-    )}
-  </div>
-</div>
+                  <div className="d-flex flex-wrap gap-3">
+                    {groupNames && groupNames.length > 0 ? (
+                      groupNames.map((group, index) => (
+                        <button
+                          key={index}
+                          className={`btn bot-btn ${getGroup === group ? "bot-btn-active" : "bot-btn"}`}
+                          onClick={() => {
+                            setGroup(group);
+                            setSubTab("");
+                            sessionStorage.setItem("groupName", group);
+                            sessionStorage.removeItem("StrategyType"); // Clear StrategyType from session
+                          }}
+                          style={{ whiteSpace: "nowrap" }}
+                        >
+                          <FaEye className="me-1" /> {group}
+                        </button>
+                      ))
+                    ) : (
+                      <span className="text-muted">No group available</span>
+                    )}
+                  </div>
+                </div>
 
               </div>
               {subTab === "ChartingPlatform" && (
-                <div className="d-flex justify-content-end align-items-center dashboard-date"  
+                <div className="d-flex justify-content-end align-items-center dashboard-date"
                 >
                   <div className="form-group me-3">
                     <label className="form-label">From Date</label>
@@ -893,12 +882,12 @@ const Userdashboard = () => {
                   {getGroup && (
                     <>
                       {/* <ViewGroup group={getGroup}  isCopyScriptVisible={true}/> */}
-                        <GroupScript
-                          data={subTab}
-                          selectedType={activeTab}
-                          GroupName={getGroup}
-                          data2={data2}
-                          getGroup={getGroup} />
+                      <GroupScript
+                        data={subTab}
+                        selectedType={activeTab}
+                        GroupName={getGroup}
+                        data2={data2}
+                        getGroup={getGroup} />
                     </>
                   )}
                 </div>
