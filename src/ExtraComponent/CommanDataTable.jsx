@@ -465,26 +465,29 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked, showIs
   }, [selectedColumns, handleModalOpen, isExpanded, toggleExpand, showIsExpandable]);
 
   // Customized columns for MUIDataTable
-  const customizedColumns = useMemo(
-    () =>
-      visibleColumns.map((column) => ({
-        ...column,
-        options: {
-          ...column.options,
-          sort: false,
-          setCellProps: () => ({
-            style: { width: column.width || "auto", minWidth: "100px" },
-          }),
-          setHeaderProps: () => ({
-            style: {
-              pointerEvents: column.name === "Action" ? "auto" : "none",
-              cursor: column.name === "Action" ? "pointer" : "default",
-            },
-          }),
-        },
-      })),
+  const customizedColumns = useMemo(() =>
+    visibleColumns.map((column) => ({
+      ...column,
+      options: {
+        ...column.options,
+        sort: false,
+        setCellProps: () => ({
+          style: {
+            width: column.name === "BrokerPermission" ? "450px" : (column.width || "100px"),
+            minWidth: column.name === "BrokerPermission" ? "450px" : "100px",
+          },
+        }),
+        setHeaderProps: () => ({
+          style: {
+            pointerEvents: column.name === "Action" ? "auto" : "none",
+            cursor: column.name === "Action" ? "pointer" : "default",
+          },
+        }),
+      },
+    })),
     [visibleColumns]
   );
+  
 
   // Handle "Select All" checkbox in modal
   const handleSelectAllChange = useCallback(() => {

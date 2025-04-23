@@ -600,7 +600,7 @@ const Strategygroup = () => {
                 customBodyRender: (value) => {
                     if (Array.isArray(value)) {
                         let formattedText = value
-                            .map((item, index) => ((index + 1) % 3 === 0 ? item + "\n" : item)) // Har 3rd element ke baad new line
+                            .map((item, index) => ((index + 1) % 7 === 0 ? item + "\n" : item)) // Har 3rd element ke baad new line
                             .join(", "); // Comma separated format
 
                         return <pre style={{ whiteSpace: "pre-wrap" }}>{formattedText}</pre>;
