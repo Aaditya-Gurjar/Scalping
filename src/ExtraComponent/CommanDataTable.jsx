@@ -310,7 +310,7 @@ import MUIDataTable from "mui-datatables";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
-const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked, showIsExpandable = true, FixedRowPerPage }) => {
+const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked, showIsExpandable = true, FixedRowPerPage = null }) => {
   const [selectedColumns, setSelectedColumns] = useState(columns?.slice(0, 7) || []);
   const [selectedRowData, setSelectedRowData] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -385,7 +385,7 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked, showIs
       search: false,
       filter: false,
       sort: false,
-      rowsPerPage: FixedRowPerPage ? FixedRowPerPage : rowsPerPage,
+      rowsPerPage: FixedRowPerPage !== null ? FixedRowPerPage : rowsPerPage,
       rowsPerPageOptions: [5, 10, 25, 50, 100],
       onChangeRowsPerPage: (newRowsPerPage) => {
         setRowsPerPage(newRowsPerPage);

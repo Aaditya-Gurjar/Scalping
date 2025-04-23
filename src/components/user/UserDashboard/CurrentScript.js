@@ -2867,7 +2867,7 @@ console.log("EditDataPattern", EditDataPattern)
                                               : []
                                     }
                                     checkBox={false}
-                                    FixedRowPerPage={fixedRowPerPage}
+                                    FixedRowPerPage={data === "ChartingPlatform" ? fixedRowPerPage : null}
 
                                   />
                                 ) : (
