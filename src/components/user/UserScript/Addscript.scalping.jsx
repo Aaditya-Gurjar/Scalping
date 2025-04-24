@@ -248,7 +248,7 @@ const AddClient = () => {
       if (!values.Group) {
         errors.Group = "Please Enter Unique Name.";
       }
-      if (!values.HoldExit && values.Strategy != "Fixed Price") {
+      if (!values.HoldExit && values.Strategy != "Fixed Price" && values.position_type !== "Single") {
         errors.HoldExit = "Please Select Whether To Hold Or Exit.";
       }
       if (!values.Slvalue) {
@@ -715,6 +715,8 @@ const AddClient = () => {
       label: item,
       value: item,
     }));
+
+    console.log("workingDay", workingDay);  
     formik.setFieldValue("Strategy", location?.state?.data?.ScalpType);
     formik.setFieldValue("Exchange", location?.state?.data?.Exchange);
     formik.setFieldValue(
@@ -775,7 +777,7 @@ const AddClient = () => {
     );
     formik.setFieldValue("Profit", location?.state?.data?.Profit);
     formik.setFieldValue("Loss", location?.state?.data?.Loss);
-    formik.setFieldValue("WorkingDay", workingDay);
+    formik.setFieldValue("WorkingDay", workingDay || []);
     formik.setFieldValue(
       "TargetExit",
       location?.state?.data?.TargetExit == true ? "true" : false

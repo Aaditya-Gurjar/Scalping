@@ -1269,7 +1269,7 @@ div#lottie-fullscreen svg path {
   /* display: none; */
   width: 6rem;
   padding-top: 15px;
-  padding-left: 20px;
+  padding-left: 10px;
   float: left;
   position: relative;
   -webkit-transition: all 0.3s ease-out 0s;
@@ -1279,7 +1279,12 @@ div#lottie-fullscreen svg path {
   /* transition: all 0.3s ease-out 0s; */
   /* background: transparent; */
 }
-
+.header-logo-img{
+  height: 50px;
+  max-width: 100px;
+  object-fit: contain;
+  margin-left: -10px;
+}
 .iq-sidebar-logo a {
   display: flex;
   align-items: flex-start;
@@ -1305,9 +1310,9 @@ div#lottie-fullscreen svg path {
 }
 
 .iq-sidebar-logo img {
-  height: 45px;
-  object-fit: cover;
-  /* width: 80px; */
+  max-width: 100px;
+  object-fit: contain;
+  max-height: 50px;
 }
 
 .iq-top-navbar .iq-navbar-custom .iq-menu-bt-sidebar .iq-menu-bt {

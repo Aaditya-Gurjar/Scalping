@@ -2,6 +2,7 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import NoDataFound from "../../../ExtraComponent/NoDataFound";
 import Select from "react-select";
+import { useNavigate } from "react-router-dom";
 //
 const ChartingCard = ({
   item,
@@ -10,7 +11,25 @@ const ChartingCard = ({
   strategTag,
   setChartingData,
   handleAddCharting,
+  
+  selectStrategyType,
+  scriptType,
+  tableType,
+  data,
+  selectedType,
+  FromDate,
+  ToDate,
+  chartingSubTab,
+  getCharting,
+  view,
+  fixedRowPerPage,
+  allScripts2 ,
+  
 }) => {
+  const navigate = useNavigate();
+
+
+
   // If there's no data, display NoDataFound component in the center
   if (!chartingData || chartingData.length === 0) {
     return (
@@ -22,7 +41,6 @@ const ChartingCard = ({
     );
   }
   const adminPermission = localStorage.getItem("adminPermission");
-
 
   console.log("adminPermission", adminPermission);
 
@@ -87,6 +105,27 @@ const ChartingCard = ({
     color: "white",
   };
 
+  const handleSignal = (segment) => {
+    navigate("/user/newscript/charting2", {
+      state: {
+        data: {
+          selectStrategyType: "ChartingPlatform",
+          scriptType: allScripts2, // Pass allScripts2 here
+          tableType,
+          data,
+          selectedType,
+          FromDate,
+          ToDate,
+          chartingSubTab, // Pass the current tab
+          getCharting,
+          view,
+          fixedRowPerPage,
+          segment,
+        },
+      },
+    });
+  }
+
   const labelStyle = { color: "#ccc" };
 
   return (
@@ -100,8 +139,10 @@ const ChartingCard = ({
           <h5 className="mb-0 text-center fw-semibold  text-white">
             {item.Segment}
           </h5>
+
+          <button className="signal-btn" onClick={() => handleSignal(item.Segment) }>View Signal</button>
         </div>
-        <div className="card-body px-4 py-3">
+        <div className="card-body px-3 py-3">
           <Formik
             enableReinitialize
             initialValues={initialValues}

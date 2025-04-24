@@ -1299,31 +1299,19 @@ const DynamicForm = ({
                                             className="basic-multi-select"
                                             value={formik.values[item.name]}
                                             onChange={(selected) => {
-                                              if (
-                                                selected.some(
-                                                  (option) =>
-                                                    option.value === "all"
-                                                )
-                                              ) {
-                                                if (
-                                                  formik.values[item.name]
-                                                    .length ===
-                                                  item.options.length
-                                                ) {
-                                                  formik.setFieldValue(
-                                                    item.name,
-                                                    []
-                                                  ); // Deselect all
+                                              const isSelectAllSelected = selected.some(
+                                                (option) => option.value === "all"
+                                              );
+                                              if (isSelectAllSelected) {
+                                                if (formik.values[item.name]?.length === item.options?.length) {
+                                                  formik.setFieldValue(item.name, []); // Deselect all
                                                 } else {
-                                                  formik.setFieldValue(
-                                                    item.name,
-                                                    item.options
-                                                  ); // Select all
+                                                  formik.setFieldValue(item.name, item.options); // Select all
                                                 }
                                               } else {
                                                 formik.setFieldValue(
                                                   item.name,
-                                                  selected
+                                                  selected.filter((option) => option.value !== "all")
                                                 );
                                               }
                                             }}

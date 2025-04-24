@@ -8,16 +8,33 @@ import Swal from "sweetalert2";
 import { useNavigate, useLocation } from "react-router-dom";
 import ChartingCard from "./ChartingCard";
 
-const AddChartingScript = () => {
+const AddChartingScript = ({
+  selectStrategyType,
+  scriptType,
+  tableType,
+  data,
+  selectedType,
+  FromDate,
+  ToDate,
+  chartingSubTab,
+  getCharting,
+  view,
+  fixedRowPerPage,
+  allScripts2 // Add allScripts2 to props
+}) => {
   const navigate = useNavigate();
   const location = useLocation();
   const userName = localStorage.getItem("name");
   const [strategTag, setStrategTag] = useState([])
 
-  const allowedSegments = location?.state?.data?.scriptType?.data[location?.state?.data?.scriptType?.data.length - 1]?.CombineChartingSignal
+  const allowedSegments = scriptType?.data[scriptType?.data.length - 1]?.CombineChartingSignal
+  // const allowedSegments = location?.state?.data?.scriptType?.data[location?.state?.data?.scriptType?.data.length - 1]?.CombineChartingSignal
+  console.log("allowedSegments----", allowedSegments);
+  console.log("scriptType----", scriptType);
+
 
   const defaultChartingData = (userName) =>
-    allowedSegments.map((segment) => ({
+    allowedSegments?.map((segment) => ({
       Username: userName,
       Status: "Off",
       Fund: 0,
@@ -31,11 +48,17 @@ const AddChartingScript = () => {
       RunningTrade: 0,
       TradeStatus: "Off",
       TradePerDay: 0,
-    }));
+    })) || []; // Ensure it defaults to an empty array if allowedSegments is undefined
 
-    const [chartingData, setChartingData] = useState(
-      defaultChartingData(userName)
-    );
+  const [chartingData, setChartingData] = useState([]); // Initialize with an empty array
+
+  useEffect(() => {
+    if (allowedSegments?.length > 0) {
+      setChartingData(defaultChartingData(userName)); // Initialize chartingData only if allowedSegments is valid
+    }
+    getChartingData();
+    getStrategyTag();
+  }, [allowedSegments]); // Add allowedSegments as a dependency
 
   const getChartingData = async () => {
     try {
@@ -103,7 +126,7 @@ const AddChartingScript = () => {
     }
   }
 
-  console.log("getChartingData", chartingData);
+  console.log("-chartingData--", chartingData);
 
   useEffect(() => {
     getChartingData();
@@ -160,15 +183,9 @@ const AddChartingScript = () => {
 
   return (
     <div className="iq-card">
-      <div className="d-flex justify-content-end">
-        <button
-          className="btn btn-primary m-3"
-          onClick={() => navigate("/user/dashboard")}>
-          Back
-        </button>
-      </div>
+      
       <div className="row">
-        {chartingData.map((item, index) => (
+        {chartingData?.map((item, index) => (
           <ChartingCard
             key={index}
             item={item}
@@ -177,6 +194,18 @@ const AddChartingScript = () => {
             chartingData={chartingData}
             setChartingData={setChartingData}
             handleAddCharting={handleAddCharting}
+            selectStrategyType="ChartingPlatform"
+            scriptType={scriptType}
+            tableType={tableType}
+            data={data}
+            selectedType={selectedType}
+            FromDate={FromDate}
+            ToDate={ToDate}
+            chartingSubTab={chartingSubTab}
+            getCharting={getCharting}
+            view={view}
+            fixedRowPerPage={fixedRowPerPage}
+            allScripts2={scriptType} // Pass allScripts2 here
           />
         ))}
       </div>

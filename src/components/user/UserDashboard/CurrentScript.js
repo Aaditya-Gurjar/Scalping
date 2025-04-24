@@ -28,14 +28,18 @@ import NoDataFound from "../../../ExtraComponent/NoDataFound";
 import { text } from "../../../ExtraComponent/IconTexts";
 import { connectWebSocket } from "./LivePrice";
 import $ from "jquery";
-import ChartingCard from "./ChartingCard";
+import ChartingCardDashboard from "../UserScript/ChartingCard";
 import { FaTable, FaTh } from "react-icons/fa"; // Update the import to use a different icon for card view
 import { FixedOffsetZone } from "luxon";
+import ChartingCard from "./ChartingCard";
+import AddChartingScript from "../UserScript/AddChartingScript";
 
 const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
 
   const userName = localStorage.getItem("name");
+  const strategyType = sessionStorage.getItem("StrategyType");
+
   const adminPermission = localStorage.getItem("adminPermission");
   const navigate = useNavigate();
   const [refresh, setRefresh] = useState(false);
@@ -52,12 +56,13 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
   const [priceData, setPriceData] = useState([]);
   const [view, setView] = useState("table");
   const fixedRowPerPage = data === 'ChartingPlatform' ? 15 : 5;
- 
+
   const [chartingSubTab, setChartingSubTab] = useState("Cash");
 
   const stg = sessionStorage.getItem("StrategyType");
 
-  
+  console.log("allScripts2", allScripts2)
+
 
   const [getAllService, setAllservice] = useState({
     loading: true,
@@ -72,8 +77,29 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
   useEffect(() => {
     GetUserAllScripts();
-    GetChartingAllotStg();
+    GetChartingAllotStg(); 
   }, []);
+
+  useEffect(() => {
+    const initializeData = async () => {
+      await GetUserAllScripts();
+      await GetChartingAllotStg(); // Ensure allScripts2 is loaded properly on page load
+    };
+    initializeData();
+  }, []);
+
+  useEffect(() => {
+    if (data === "ChartingPlatform") {
+      GetChartingAllotStg(); // Ensure data is refreshed for ChartingPlatform
+      getChartingScript(); // Fetch charting scripts for the selected tab
+    }
+  }, [data, chartingSubTab]);
+
+  useEffect(() => {
+    if (data === "ChartingPlatform" && allScripts2.data.length === 0) {
+      GetChartingAllotStg(); 
+    }
+  }, [strategyType]);
 
   useEffect(() => {
     if (data == "ChartingPlatform") getChartingScript();
@@ -81,10 +107,10 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
 
   useEffect(() => {
-    if(stg !== "ChartingPlatform"){
+    if (stg !== "ChartingPlatform") {
       setView("table")
     }
-  },[stg])
+  }, [stg])
 
 
   useEffect(() => {
@@ -100,7 +126,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       updatedList = getCharting?.map(item => `${item.Exchange}|${item.Token}`).join("#");
     }
 
-    setChannelList(updatedList);  
+    setChannelList(updatedList);
   }, [data, getAllService, getCharting]);
 
 
@@ -149,7 +175,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       .then((response) => {
 
         if (response.Status) {
-           
+
           setAllScripts({
             data: response.data,
             len: response.data?.length - 1,
@@ -167,13 +193,16 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       });
   };
 
+
+
   const GetChartingAllotStg = async () => {
+    console.log("GetChartingAllotStg")
     const data = { Username: userName };
     await chartAllotStrategyApi(data)
       .then((response) => {
 
         if (response.Status) {
-           
+
           setAllScripts2({
             data: response.data,
             len: response.data?.length - 1,
@@ -381,8 +410,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
     }
   };
   const HandleContinueDiscontinue = async (rowData, type) => {
-
-
+ 
     const index = rowData.rowIndex;
     const isOpen = rowData.tableData[index][5];
 
@@ -413,7 +441,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       console.log("Error in finding the trading status");
       return;
     }
-  
+
 
     if (trading) {
       Swal.fire({
@@ -494,21 +522,21 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
                         Symbol: getCharting[index]?.TSymbol,
                       }
                       : "";
-                      
+
 
         }
       });
     } else if (data == "ChartingPlatform") {
-    
-      const req =  {
+
+      const req = {
         Username: userName,
         // User: getCharting[index]?.AccType,
         Symbol: getCharting[index]?.TSymbol,
       }
 
-      
+
       if (data == "ChartingPlatform") {
-        
+
         await DeleteSingleChartingScript(req).then((response) => {
 
           if (response.Status) {
@@ -679,85 +707,24 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       }
     }
   };
-
-
-const AddScript = (data) => {
-  if (data === "ChartingPlatform") {
-    if (allScripts2?.data?.[allScripts2.len]?.CombineChartingSignal?.length >= 1) {
-      navigate("/user/newscript/charting", {
-        state: {
-          data: {
-            selectStrategyType: "ChartingPlatform",
-            scriptType: allScripts2,
-            tableType,
-            data,
-            selectedType,
-            FromDate,
-            ToDate,
-            chartingSubTab, // Pass the current tab
-            getCharting,
-            view,
-            fixedRowPerPage,
-          },
-        },
-      });
-    } else {
-      Swal.fire({
-        title: "Warning",
-        text: "You don't have any valid plan to use this strategy",
-        icon: "warning",
-        timer: 2000,
-        timerProgressBar: true,
-      });
-    }
-  } else {
-    if (data === "Option Strategy") {
-      if (allScripts?.data?.[allScripts.len]?.CombineOption?.length >= 1) {
-        navigate("/user/newscript/option", {
-          state: {
-            data: {
-              selectStrategyType: "Option Strategy",
-              scriptType: allScripts,
-            },
-          },
-        });
-      } else {
-        Swal.fire({
-          title: "Warning",
-          text: "You don't have any valid plan to use this strategy",
-          icon: "warning",
-          timer: 2000,
-          timerProgressBar: true,
-        });
-      }
-    } else if (data === "Pattern" || data === "Pattern Script") {
-      if (allScripts?.data?.[allScripts.len]?.CombinePattern?.length >= 1) {
-        navigate("/user/newscript/pattern", {
-          state: {
-            data: { selectStrategyType: "Pattern", scriptType: allScripts },
-          },
-        });
-      } else {
-        Swal.fire({
-          title: "Warning",
-          text: "You don't have any valid plan to use this strategy",
-          icon: "warning",
-          timer: 2000,
-          timerProgressBar: true,
-        });
-      }
-    } else if (data === "ChartingPlatform") {
-
-
-      console.log("chartinggggg: ", allScripts2?.data?.[allScripts2.len])
-
+ 
+  const AddScript = (data) => {
+    if (data === "ChartingPlatform") {
       if (allScripts2?.data?.[allScripts2.len]?.CombineChartingSignal?.length >= 1) {
-        
-        navigate("/user/newscript/charting", {
+        navigate("/user/newscript/charting2", {
           state: {
             data: {
               selectStrategyType: "ChartingPlatform",
               scriptType: allScripts2,
+              tableType,
+              data,
+              selectedType,
+              FromDate,
+              ToDate,
+              chartingSubTab, // Pass the current tab
+              getCharting,
+              view,
+              fixedRowPerPage,
             },
           },
         });
@@ -771,25 +738,86 @@ const AddScript = (data) => {
         });
       }
     } else {
+      if (data === "Option Strategy") {
+        if (allScripts?.data?.[allScripts.len]?.CombineOption?.length >= 1) {
+          navigate("/user/newscript/option", {
+            state: {
+              data: {
+                selectStrategyType: "Option Strategy",
+                scriptType: allScripts,
+              },
+            },
+          });
+        } else {
+          Swal.fire({
+            title: "Warning",
+            text: "You don't have any valid plan to use this strategy",
+            icon: "warning",
+            timer: 2000,
+            timerProgressBar: true,
+          });
+        }
+      } else if (data === "Pattern" || data === "Pattern Script") {
+        if (allScripts?.data?.[allScripts.len]?.CombinePattern?.length >= 1) {
+          navigate("/user/newscript/pattern", {
+            state: {
+              data: { selectStrategyType: "Pattern", scriptType: allScripts },
+            },
+          });
+        } else {
+          Swal.fire({
+            title: "Warning",
+            text: "You don't have any valid plan to use this strategy",
+            icon: "warning",
+            timer: 2000,
+            timerProgressBar: true,
+          });
+        }
+      } 
+      else if (data === "ChartingPlatform") {
 
-      if (allScripts?.data?.[allScripts.len]?.CombineScalping?.length >= 1) {
-        navigate("/user/newscript/scalping", {
-          state: {
-            data: { selectStrategyType: "Scalping", scriptType: allScripts },
-          },
-        });
+
+        console.log("chartinggggg: ", allScripts2?.data?.[allScripts2.len])
+
+        if (allScripts2?.data?.[allScripts2.len]?.CombineChartingSignal?.length >= 1) {
+
+          navigate("/user/newscript/charting", {
+            state: {
+              data: {
+                selectStrategyType: "ChartingPlatform",
+                scriptType: allScripts2,
+              },
+            },
+          });
+        } else {
+          Swal.fire({
+            title: "Warning",
+            text: "You don't have any valid plan to use this strategy",
+            icon: "warning",
+            timer: 2000,
+            timerProgressBar: true,
+          });
+        }
       } else {
-        Swal.fire({
-          title: "Warning",
-          text: "You don't have any valid plan to use this strategy",
-          icon: "warning",
-          timer: 2000,
-          timerProgressBar: true,
-        });
+
+        if (allScripts?.data?.[allScripts.len]?.CombineScalping?.length >= 1) {
+          navigate("/user/newscript/scalping", {
+            state: {
+              data: { selectStrategyType: "Scalping", scriptType: allScripts },
+            },
+          });
+        } else {
+          Swal.fire({
+            title: "Warning",
+            text: "You don't have any valid plan to use this strategy",
+            icon: "warning",
+            timer: 2000,
+            timerProgressBar: true,
+          });
+        }
       }
     }
-  }
-};
+  };
 
   const GetAllUserScriptDetails = async () => {
     const data = { userName: userName };
@@ -1476,7 +1504,7 @@ const AddScript = (data) => {
       PEDeepHigher: 0.0,
       DepthofStrike: 0,
       TradeCount: "",
-      WorkingDay : [],
+      WorkingDay: [],
       Profit: 0,
       Loss: 0,
 
@@ -1559,7 +1587,7 @@ const AddScript = (data) => {
         values.FixedSM == "Multiple"
       ) {
         errors.Profit = "Please Enter Maximum Loss";
-      }   if (!values.WorkingDay?.length > 0) {
+      } if (!values.WorkingDay?.length > 0) {
         errors.WorkingDay = "Please select Working day";
       }
       // console.log("Errr", errors)
@@ -1703,7 +1731,7 @@ const AddScript = (data) => {
 
 
   ];
- 
+
   const OptionEntryRuleArr = [
     {
       name: "CEDepthLower",
@@ -2703,14 +2731,12 @@ const AddScript = (data) => {
       formik2.setFieldValue("Loss", EditDataPattern.Loss || 0);
     }
   }, [showEditModal, data, EditDataPattern]);
-console.log("EditDataPattern", EditDataPattern)
-
+  console.log("EditDataPattern", EditDataPattern)
 
   const updatedFields = fields.filter((item) => {
     return item.hiding == false
   })
 
-  // console.log("tab ", tab)
   return (
     <div className="container-fluid">
       <div className="row">
@@ -2728,19 +2754,19 @@ console.log("EditDataPattern", EditDataPattern)
                         </div>
                         <div className='d-flex justify-content-end'>
                           {/* <button className='addbtn btn btn-primary rounded mx-2 mt-1' onClick={() => AddScript(data)}>Add Script</button> */}
-                          <button className='addbtn mx-2 mt-1' onClick={() => AddScript(data)}>Add Script</button>
+                          <button className='addbtn mx-2 mt-1' onClick={() => AddScript(data)}>{data === "ChartingPlatform"? "Signals" : "Add Script"}</button>
 
                         </div>
 
                       </div>
                       <div className="iq-card-body" style={{ padding: "3px" }}>
-                        <div className="table-responsive">
+                        {data !== "ChartingPlatform" && <div className="table-responsive">
                           {getAllService.loading ? (
                             <Loader />
                           ) : (
                             <>
                               {/* Tabs should always be visible when ChartingPlatform is selected */}
-                              {data === "ChartingPlatform" && (
+                              {/* {data === "ChartingPlatform" && (
                                 <div className="d-flex justify-content-center my-3">
                                   <ul
                                     className="nav nav-pills shadow-lg rounded-pill p-2"
@@ -2784,11 +2810,9 @@ console.log("EditDataPattern", EditDataPattern)
                                     ))}
                                   </ul>
                                 </div>
-                              )}
+                              )} */}
 
-
-
-                              {data === "ChartingPlatform" && getCharting?.length > 0 && (
+                              {/* {data === "ChartingPlatform" && getCharting?.length > 0 && (
                                 <div className="d-flex justify-content-end my-3">
                                   <ul
                                     className="nav nav-pills shadow-lg rounded-pill p-2"
@@ -2866,13 +2890,12 @@ console.log("EditDataPattern", EditDataPattern)
                                   </ul>
                                 </div>
 
-                              )}
-                              
+                              )} */}
+
                               {view === "table" ? (
                                 ((data === "Scalping" && getAllService.NewScalping?.length > 0) ||
                                   (data === "Option Strategy" && getAllService.OptionData?.length > 0) ||
-                                  ((data === "Pattern" || data === "Pattern Script") && getAllService.PatternData?.length > 0) ||
-                                  (data === "ChartingPlatform" && getCharting?.length > 0)) ? (
+                                  ((data === "Pattern" || data === "Pattern Script") && getAllService.PatternData?.length > 0)) ? (
                                   <FullDataTable
                                     columns={
                                       data === "Scalping"
@@ -2911,13 +2934,31 @@ console.log("EditDataPattern", EditDataPattern)
                                 />
                               )}
 
-
-
-
-
                             </>
                           )}
-                        </div>
+                        </div>}
+
+
+
+                        {
+                          data === "ChartingPlatform" && (
+                            <AddChartingScript
+                            selectStrategyType="ChartingPlatform"
+                            scriptType={allScripts2}
+                            tableType={tableType}
+                            data={data}
+                            selectedType={selectedType}
+                            FromDate={FromDate}
+                            ToDate={ToDate}
+                            chartingSubTab={chartingSubTab}
+                            getCharting={getCharting}
+                            view={view}
+                            fixedRowPerPage={fixedRowPerPage}
+                            allScripts2={allScripts2} // Pass allScripts2 here
+                          />
+                          )
+                        }
+ 
                       </div>
                     </>
                   )}

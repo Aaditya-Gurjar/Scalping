@@ -1906,3 +1906,13 @@ Border Color
   color: white !important;
   background-color: rgb(0, 77, 90) !important
 }
+
+
+.signal-btn{
+  padding: 5px 10px 5px 10px;
+  border-radius: 10px;
+  color: var(--text-color) !important;
+  background: var(--bg-color) !important;
+  outline: none;
+  border: none;
+}

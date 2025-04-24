@@ -209,8 +209,8 @@ const Tradehistory = () => {
         PatternName: "",
       };
 
-      // Fetch AnalyticsOverview data
-      const analyticsParams = {
+      // Fetch Total Profit/Loss Overview data
+      const overviewParams = {
         MainStrategy: basicData.MainStrategy,
         Strategy: basicData.Strategy,
         Symbol: basicData.Symbol,
@@ -224,17 +224,20 @@ const Tradehistory = () => {
         PatternName: "",
         InitialDeposite: 0,
       };
-      const analyticsRes = await overallReportApi(analyticsParams);
-      setAnalyticsOverview({ data: analyticsRes.Data || [] });
+      const overviewRes = await get_Trade_History(overviewParams);
+      setAllTradeData({
+        data: overviewRes?.data || [],
+        Overall: overviewRes?.Overall || [],
+      });
 
-      // Open AnalyticsOverview section
+      // Open Total Profit/Loss Overview section
       setShowReportSections(true);
-      setLoadedSections((prev) => ({ ...prev, AnalyticsOverview: true }));
-      setOpenSection("AnalyticsOverview");
+      setLoadedSections((prev) => ({ ...prev, overview: true }));
+      setOpenSection("overview");
 
-      // Scroll to the AnalyticsOverview section
+      // Scroll to the Total Profit/Loss Overview section
       setTimeout(() => {
-        sectionRefs.current["AnalyticsOverview"]?.scrollIntoView({
+        sectionRefs.current["overview"]?.scrollIntoView({
           behavior: "smooth",
           block: "start",
         });
@@ -633,30 +636,7 @@ console.log("AnalyticsOverview", AnalyticsOverview);
           {showReportSections && (
             <div className="mt-5">
               {/* AnalyticsOverview Section */}
-              <ReportSection title="Analytics Overview" section="AnalyticsOverview">
-                {AnalyticsOverview.data?.length > 0 ? (
-                  <div className="analytics-overview">
-                    <div className="row">
-                      {Object.entries(AnalyticsOverview.data[0]).map(([key, value]) => (
-                        <div className="col-md-4 mb-3" key={key}>
-                          <div className="card modern-card-shadow">
-                            <div className="card-body text-center">
-                              <h6 className="text-muted">{key}</h6>
-                              <h5 className="text-primary">
-                                {value !== null ? value : "N/A"}
-                              </h5>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <NoDataFound />
-                )}
-              </ReportSection>
 
-              {/* Profit/Loss Overview Section */}
               <ReportSection title="Total Profit/Loss Overview" section="overview">
                 <div
                   className="pnl-overview"
@@ -701,6 +681,33 @@ console.log("AnalyticsOverview", AnalyticsOverview);
                   checkBox={false}
                 />
               </ReportSection>
+
+
+              <ReportSection title="Analytics Overview" section="AnalyticsOverview">
+                {AnalyticsOverview.data?.length > 0 ? (
+                  <div className="analytics-overview">
+                    <div className="row">
+                      {Object.entries(AnalyticsOverview.data[0]).map(([key, value]) => (
+                        <div className="col-md-4 mb-3" key={key}>
+                          <div className="card modern-card-shadow">
+                            <div className="card-body text-center">
+                              <h6 className="text-muted">{key}</h6>
+                              <h5 className="text-primary">
+                                {value !== null ? value : "N/A"}
+                              </h5>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <NoDataFound />
+                )}
+              </ReportSection>
+
+              {/* Profit/Loss Overview Section */}
+              
 
               <ReportSection title="Profit/Loss Analysis" section="pnlAnalysis">
                 <ProfitAndLossGraph data={getPnLData.data} />

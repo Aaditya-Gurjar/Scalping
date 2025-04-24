@@ -806,7 +806,7 @@ const Userdashboard = () => {
                 </div>
 
               </div>
-              {subTab === "ChartingPlatform" && (
+              {/* {subTab === "ChartingPlatform" && (
                 <div className="d-flex justify-content-end align-items-center dashboard-date"
                 >
                   <div className="form-group me-3">
@@ -828,7 +828,7 @@ const Userdashboard = () => {
                     />
                   </div>
                 </div>
-              )}
+              )} */}
             </>
           )}
         </div>
@@ -933,6 +933,7 @@ const Userdashboard = () => {
                 />
               </div>
             )}
+            
 
             {getPositionData.ChartingData?.length > 0 && (
               <div className="mt-4">
@@ -944,14 +945,10 @@ const Userdashboard = () => {
                   alignDates="right"
                 />
               </div>
-            )}
-
-
+            )} 
           </>
         )}
-
-        {/* Agar dono section me kahin bhi data nahi hai to hi NoDataFound dikhao */}
-
+ 
         {
           activeTab1 === "OpenPosition" &&
           getPositionData.Scalping?.length === 0 &&

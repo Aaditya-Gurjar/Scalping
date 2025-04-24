@@ -56,7 +56,7 @@ const Header = () => {
           if (response.Status) {
             localStorage.setItem(
               "adminPermission",
-              JSON.stringify(response.Data[0])
+              JSON.stringify(response.Data)
             );
           } else {
             setPermissionData({
@@ -510,7 +510,7 @@ const Header = () => {
       <div className="iq-top-navbar ">
         <div className="iq-navbar-custom">
           <div className="iq-sidebar-logo">
-            <img className="header_img2" alt="Logo" id="header_img2" />
+            <img className="header_img2 header-logo-img" alt="Logo" id="header_img2" />
             {/* <div className="top-logo"> */}
             {/* <img className="header_img1" alt="Logo" id="header_img1" /> */}
 

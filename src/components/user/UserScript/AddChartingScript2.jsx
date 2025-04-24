@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Loader from "../../../ExtraComponent/Loader";
 import NoDataFound from "../../../ExtraComponent/NoDataFound";
 import FullDataTable from "../../../ExtraComponent/CommanDataTable(original)";
@@ -23,6 +23,7 @@ const AddChartingScript2 = () => {
     chartingSubTab: initialTab,
     view: initialView,
     fixedRowPerPage,
+    segment
   } = location.state?.data || {};
 
   const [chartingSubTab, setChartingSubTab] = useState(initialTab || "Cash");
@@ -31,7 +32,7 @@ const AddChartingScript2 = () => {
   const [loading, setLoading] = useState(false);
   const [fromDate, setFromDate] = useState(new Date(initialFromDate || Date.now()));
   const [toDate, setToDate] = useState(new Date(initialToDate || Date.now()));
-
+const navigate = useNavigate();
   const fetchChartingData = async () => {
     setLoading(true);
     const req = {
@@ -55,6 +56,14 @@ const AddChartingScript2 = () => {
     }
   };
 
+  console.log("segment", segment);
+
+  useEffect(() => {
+    if (segment) {
+      setChartingSubTab(segment);
+    }
+  }, [segment]);
+
   useEffect(() => {
     fetchChartingData();
   }, [chartingSubTab, fromDate, toDate]);
@@ -65,6 +74,16 @@ const AddChartingScript2 = () => {
       button_status={false}
       backbutton_status={false}>
       <div className="iq-card-body">
+
+        <div className="d-flex justify-content-end">
+                <button
+                  className="btn btn-primary m-3"
+                  onClick={() => navigate("/user/dashboard")}>
+                  Back
+                </button>
+              </div>
+
+
         {/* Add view toggle buttons */}
         {data === "ChartingPlatform" && (
           <div
