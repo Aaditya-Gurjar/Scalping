@@ -7221,4 +7221,22 @@ margin-bottom: 0 !important;
 .dropdown-multi .css-13cymwt-control{
   width: 36vw !important;
 }
- 
+
+.charting-capsule-btns{
+  position: absolute;
+  top: 4%;
+  left: 36%;
+}
+
+.table-cards-view-btns{
+  position: absolute;
+  right: 2%;
+  top: 6%;
+}
+
+.chartingsignal-capsule-btns{
+  position: absolute;
+    left: 36%;
+    gap: 5px;
+    align-items: center;
+}

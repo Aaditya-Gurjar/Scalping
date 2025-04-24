@@ -80,7 +80,7 @@ const UserRoute = () => {
             <Route path="all/plan" element={<AllPlan />} />
             <Route path='/newStrategy' element={<NewStrategy />} />
             <Route path='/newscript/charting' element={<AddChartingScript />} />
-            <Route path='/newscript/charting2' element={<AddChartingScript2 />} />
+            {/* <Route path='/newscript/charting2' element={<AddChartingScript2 />} /> */}
 
 
           </Routes>

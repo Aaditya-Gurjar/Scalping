@@ -37,8 +37,8 @@ const AddChartingScript2 = () => {
     const req = {
       Username: localStorage.getItem("name"),
       Segment: chartingSubTab,
-      From_date: fromDate.toISOString().split("T")[0].replace(/-/g, "."),
-      To_date: toDate.toISOString().split("T")[0].replace(/-/g, "."),
+      From_date: fromDate.toISOString().split("T")[0].replace(/-/g, "."), // Format to yyyy.mm.dd
+      To_date: toDate.toISOString().split("T")[0].replace(/-/g, "."), // Format to yyyy.mm.dd
     };
     try {
       const response = await getUserChartingScripts(req);
@@ -66,48 +66,78 @@ const AddChartingScript2 = () => {
       backbutton_status={false}>
       <div className="iq-card-body">
         {/* Add view toggle buttons */}
-        {data === "ChartingPlatform" && getCharting?.length > 0 && (
-          <div className="d-flex justify-content-end my-3">
-            <ul
-              className="nav nav-pills shadow-lg rounded-pill p-2"
-              style={{
-                backgroundColor: "#f8f9fa",
-                display: "flex",
-                justifyContent: "center",
-                gap: "10px",
-              }}
-            >
-              <li className="nav-item flex-grow-1 text-center">
+        {data === "ChartingPlatform" && (
+          <div
+            className="d-flex justify-content-between align-items-center my-3"
+            style={{
+              backgroundColor: "#f8f9fa",
+              padding: "10px",
+              borderRadius: "10px",
+              flexWrap: "wrap",
+              gap: "10px",
+            }}
+          >
+            {/* Heading */}
+            <h4 className="m-0" style={{ fontWeight: "600" }}>
+              {tableType === "MultiCondition" ? "Scalping" : data}
+            </h4>
+
+            {/* Capsule Buttons */}
+            <div className="d-flex chartingsignal-capsule-btns" style={{ gap: "10px", flexGrow: 1 }}>
+              {["Cash", "Future", "Option"].map((tab) => (
                 <button
-                  className={`nav-link rounded-pill w-100 ${view === "table" ? "active" : ""}`}
-                  onClick={() => setView("table")}
+                  key={tab}
+                  className={`nav-link rounded-pill ${chartingSubTab === tab ? "active" : ""}`}
+                  onClick={() => setChartingSubTab(tab)}
                   style={{
-                    padding: "7px",
-                    fontSize: "10px",
+                    padding: "10px 30px", // Increased padding for larger size
+                    fontSize: "14px", // Increased font size for better visibility
                     fontWeight: "600",
-                    backgroundColor: view === "table" ? "#007bff" : "#fff",
-                    color: view === "table" ? "#fff" : "#333",
+                    backgroundColor: chartingSubTab === tab ? "#007bff" : "#fff",
+                    color: chartingSubTab === tab ? "#fff" : "#333",
+                    border: "1px solid #ddd",
                   }}
                 >
-                  Table View
+                  {tab}
                 </button>
-              </li>
-              <li className="nav-item flex-grow-1 text-center">
-                <button
-                  className={`nav-link rounded-pill w-100 ${view === "card" ? "active" : ""}`}
-                  onClick={() => setView("card")}
-                  style={{
-                    padding: "7px",
-                    fontSize: "10px",
-                    fontWeight: "600",
-                    backgroundColor: view === "card" ? "#007bff" : "#fff",
-                    color: view === "card" ? "#fff" : "#333",
-                  }}
-                >
-                  Card View
-                </button>
-              </li>
-            </ul>
+              ))}
+            </div>
+
+            {/* View Toggle Buttons */}
+            <div className="d-flex" style={{ gap: "10px" }}>
+              {getCharting?.length > 0 && (
+                <>
+                  <button
+                    className={`nav-link rounded-pill ${view === "table" ? "active" : ""}`}
+                    onClick={() => setView("table")}
+                    style={{
+                      padding: "7px 20px",
+                      fontSize: "12px",
+                      fontWeight: "600",
+                      backgroundColor: view === "table" ? "#007bff" : "#fff",
+                      color: view === "table" ? "#fff" : "#333",
+                      border: "1px solid #ddd",
+                    }}
+                  >
+                    Table View
+                  </button>
+                  <button
+                    className={`nav-link rounded-pill ${view === "card" ? "active" : ""}`}
+                    onClick={() => setView("card")}
+                    style={{
+                      padding: "7px 20px",
+                      fontSize: "12px",
+                      fontWeight: "600",
+                      backgroundColor: view === "card" ? "#007bff" : "#fff",
+                      color: view === "card" ? "#fff" : "#333",
+                      border: "1px solid #ddd",
+                    }}
+                  >
+                    Card View
+                  </button>
+                </>
+              )}
+            </div>
           </div>
         )}
       </div>
@@ -115,13 +145,13 @@ const AddChartingScript2 = () => {
         {data && (
           <>
             <div className="iq-card-header d-flex justify-content-between">
-              <div className="iq-header-title">
-                {tableType === "MultiCondition" ? (
+              {/* <div className="iq-header-title">
+                  {tableType === "MultiCondition" ? (
                   <h3 className="card-title">{"Scalping"}</h3>
                 ) : (
-                  <h4 className="card-title">{data}</h4>
-                )}
-              </div>
+                  // <h4 className="card-title">{data}</h4>
+                )}  
+              </div> */}
             </div>
             <div className="iq-card-body" style={{ padding: "3px" }}>
               <div className="table-responsive">
@@ -129,43 +159,8 @@ const AddChartingScript2 = () => {
                   <Loader />
                 ) : (
                   <>
-                    {data === "ChartingPlatform" && (
-                      <div className="d-flex justify-content-center my-3">
-                        <ul
-                          className="nav nav-pills shadow-lg rounded-pill p-2"
-                          style={{
-                            backgroundColor: "#f8f9fa",
-                            display: "flex",
-                            justifyContent: "center",
-                            gap: "10px",
-                          }}
-                        >
-                          {["Cash", "Future", "Option"].map((tab) => (
-                            <li
-                              className="nav-item flex-grow-1 text-center"
-                              key={tab}
-                            >
-                              <button
-                                className={`nav-link rounded-pill w-100 ${chartingSubTab === tab ? "active" : ""}`}
-                                onClick={() => setChartingSubTab(tab)}
-                                style={{
-                                  padding: "14px 30px",
-                                  fontSize: "18px",
-                                  fontWeight: "600",
-                                  backgroundColor: chartingSubTab === tab ? "#007bff" : "#fff",
-                                  color: chartingSubTab === tab ? "#fff" : "#333",
-                                }}
-                              >
-                                {tab}
-                              </button>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-
-                    <div className="d-flex justify-content-between my-3">
-                      <div>
+                    <div className="d-flex justify-content-end  " style={{ gap: "20px" }}>
+                      <div style={{ width: "10%" }}>
                         <strong>From Date:</strong>
                         <DatePicker
                           selected={fromDate}
@@ -174,7 +169,7 @@ const AddChartingScript2 = () => {
                           className="form-control"
                         />
                       </div>
-                      <div>
+                      <div style={{ width: "10%" }}>
                         <strong>To Date:</strong>
                         <DatePicker
                           selected={toDate}
@@ -189,7 +184,7 @@ const AddChartingScript2 = () => {
                     {view === "table" ? (
                       getCharting?.length > 0 ? (
                         <FullDataTable
-                          columns={getColumns8(() => {}, chartingSubTab, fetchChartingData)}
+                          columns={getColumns8(() => { }, chartingSubTab, fetchChartingData)}
                           data={getCharting}
                           checkBox={false}
                           FixedRowPerPage={fixedRowPerPage}
@@ -200,9 +195,7 @@ const AddChartingScript2 = () => {
                     ) : (
                       <div className="card-view-container">
                         {getCharting?.length > 0 ? (
-                          getCharting.map((item, index) => (
-                            <ChartingCard key={index} data={item} />
-                          ))
+                          <ChartingCard data={getCharting} />
                         ) : (
                           <NoDataFound />
                         )}

@@ -684,7 +684,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 const AddScript = (data) => {
   if (data === "ChartingPlatform") {
     if (allScripts2?.data?.[allScripts2.len]?.CombineChartingSignal?.length >= 1) {
-      navigate("/user/newscript/charting2", {
+      navigate("/user/newscript/charting", {
         state: {
           data: {
             selectStrategyType: "ChartingPlatform",
@@ -753,7 +753,7 @@ const AddScript = (data) => {
 
       if (allScripts2?.data?.[allScripts2.len]?.CombineChartingSignal?.length >= 1) {
         
-        navigate("/user/newscript/charting2", {
+        navigate("/user/newscript/charting", {
           state: {
             data: {
               selectStrategyType: "ChartingPlatform",
