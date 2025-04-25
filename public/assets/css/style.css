@@ -1,4 +1,3 @@
-
 :root {
   --bg-color: #f0f8ff;
   --text-color: #2a2a2a;
@@ -19,6 +18,19 @@
   --dark-txt-color: white;
   --broker_card_bg: #0e1218;
 
+}
+
+[data-theme="dark"] label {
+  color: var(--text-color);
+}
+
+[data-theme="dark"] .submit-button-one {
+  border: 1px solid white !important;
+  /* Dark mode mein white border */
+}
+
+[data-theme="dark"] p strong {
+  color: var(--text-color)
 }
 
 /* Definition Lists */
@@ -247,7 +259,7 @@ a:hover {
   border-color: #d6d6d6;
 }
 
-.avatar-upload .avatar-edit input + label:after {
+.avatar-upload .avatar-edit input+label:after {
   content: "f040";
   font-family: "FontAwesome";
   color: #374948;
@@ -667,7 +679,7 @@ ul.iq-menu a span {
   font-size: 12px !important;
   display: block !important;
   width: 100%;
-  margin-top:6px;
+  margin-top: 6px;
 }
 
 .iq-sidebar.sidebar-left {
@@ -741,11 +753,11 @@ ul.iq-menu a span {
   margin: 10px 0;
 }
 
-.iq-menu-item-rightsidebar{
-    list-style-type: none;
-    position: relative;
-    white-space: nowrap;
-    margin: 5px !important;
+.iq-menu-item-rightsidebar {
+  list-style-type: none;
+  position: relative;
+  white-space: nowrap;
+  margin: 5px !important;
 }
 
 
@@ -765,15 +777,18 @@ ul.iq-menu a span {
   justify-content: center;
   align-items: center;
 }
+
 .sidebar-left .link-icon i {
   font-size: 25px !important;
-  margin-top : 2px;
- 
+  margin-top: 2px;
+
 
 }
-.sidebar-left a{
+
+.sidebar-left a {
   padding: 10px 0 15px 0 !important;
 }
+
 .iq-sidebar-menu .iq-menu li li a {
   font-size: 14px;
 }
@@ -1055,7 +1070,7 @@ body.sidebar-main .iq-sidebar:hover .iq-menu li.menu-open>a {
   font-size: 12px;
 }
 
-.breadcrumb-item + .breadcrumb-item::before {
+.breadcrumb-item+.breadcrumb-item::before {
   content: "ea5f";
   font-family: "remixicon";
   font-size: 14px;
@@ -2884,9 +2899,7 @@ FAQ
   color: #212529;
 }
 
-.iq-accordion.career-style.faq-style
-  .iq-accordion-block.accordion-active
-  .accordion-title:before {
+.iq-accordion.career-style.faq-style .iq-accordion-block.accordion-active .accordion-title:before {
   content: "f209";
   display: inline-block;
 }
@@ -5679,7 +5692,7 @@ ul.nav.nav-tabs.justify-content-center,
 .nav-fill .nav-item {
   width: 250px !important;
   /* margin: 0px auto; */
-    color: var(--text-color) !important;
+  color: var(--text-color) !important;
   flex: none !important;
 }
 
@@ -5771,7 +5784,7 @@ button.btn.btn-primary,
 }
 
 .navbar-nav li a,
-.navbar-nav li  {
+.navbar-nav li {
   color: var(--text-color) !important;
   text-decoration: none;
 }
@@ -6312,15 +6325,15 @@ ul.breadcrumb-links li a {
   color: var(--bg-color) !important;
 }
 
- .MuiButtonBase-root {
-   background: var(--bg-color) !important;
- }
+.MuiButtonBase-root {
+  background: var(--bg-color) !important;
+}
 
 .MuiButtonBase-root.Mui-selected {
   background: #1976d2 !important;
 }
 
-button:hover{
+button:hover {
   scale: 1.1;
 }
 
@@ -6613,12 +6626,12 @@ button:hover{
 /* .addbtn{
 height: auto;
 } */
- .button-container {
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   height: 100vh;
- }
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 
 .edit-btn {
   display: flex;
@@ -6655,496 +6668,498 @@ height: auto;
   display: flex;
   justify-content: center;
 }
-.css-13cymwt-control{
+
+.css-13cymwt-control {
   padding: 3px;
 }
 
-.css-13cymwt-control{
+.css-13cymwt-control {
   width: 39vw;
 }
 
-.form-label{
-margin-bottom: 0 !important;
+.form-label {
+  margin-bottom: 0 !important;
 
 }
 
- 
 
 
 
- /* _______________Description______________ */
+
+/* _______________Description______________ */
 /* styles.css */
- .desc-page-wrapper {
-   width: 100%;
-   padding: 20px;
-   background-color: #f4f4f4;
- }
-
- .desc-container {
-   width: 100%;
-   background: white;
-   padding: 20px;
-   border-radius: 10px;
-   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
- }
-
- .desc-nav-tabs {
-   display: flex;
-   justify-content: center;
-   border-bottom: none;
- }
-
- .desc-nav-tabs .nav-link {
-   font-size: 16px;
-   font-weight: bold;
-   color: #555;
-   transition: all 0.3s ease;
-   border-radius: 8px;
-   padding: 10px 20px;
- }
-
- .desc-nav-tabs .nav-link.active {
-   background-color: #007bff;
-   color: white !important;
-   border-radius: 8px;
- }
-
- .desc-tab-content {
-   background: #ffffff;
-   padding: 20px;
-   border-radius: 10px;
-   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-   margin-top: 15px;
-   text-align: left;
- }
-
- .desc-btn-group {
-   display: flex;
-   justify-content: center;
-   margin-top: 15px;
- }
-
- .desc-btn-group .btn {
-   margin: 5px;
-   border-radius: 8px;
- }
-
- .desc-btn-group .btn.active {
-   background-color: #007bff;
-   color: white;
-   border-color: #007bff;
- }
-
- .desc-btn-group .btn-outline-primary:hover,
- .desc-btn-group .btn-outline-secondary:hover,
- .desc-btn-group .btn-outline-success:hover {
-   background-color: #0056b3;
-   color: white;
- }
-
- .desc-heading {
-   font-weight: bold;
-   color: #333;
-   text-align: center;
-   margin-bottom: 15px;
- }
-
-
-
- /* Modern full-width wrapper */
- .desc-page-wrapper {
-   width: 100%;
-   padding: 20px;
-   background-color: #f4f4f4;
- }
-
- /* Full-width container with card style */
- .desc-container {
-   width: 100%;
-   background: #fff;
-   padding: 20px;
-   border-radius: 10px;
-   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
- }
-
- /* Centered navigation tabs */
- .desc-nav-tabs {
-   display: flex;
-   justify-content: center;
-   border-bottom: none;
- }
-
- .desc-nav-tabs .nav-link {
-   font-size: 16px;
-   font-weight: bold;
-   color: #555;
-   transition: all 0.3s ease;
-   border-radius: 8px;
-   padding: 10px 20px;
- }
-
- .desc-nav-tabs .nav-link.active {
-   background-color: #007bff;
-   color: #fff !important;
-   border-radius: 8px;
- }
-
- /* Tab content area styling */
- .desc-tab-content {
-   background: #fff;
-   padding: 20px;
-   border-radius: 10px;
-   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-   margin-top: 15px;
- }
-
- /* Button group styling - centered buttons */
- .desc-btn-group {
-   display: flex;
-   justify-content: center;
-   margin-top: 15px;
- }
-
- .desc-btn-group .btn {
-   font-size: 14px;
-   padding: 6px 16px;
-   margin: 4px;
-   border-radius: 8px;
- }
-
- /* Custom styling for outlined primary buttons */
- .btn-outline-primary {
-   border: 1px solid #007bff;
-   color: #007bff;
-   transition: background-color 0.2s ease;
- }
-
- .btn-outline-primary.active,
- .btn-outline-primary:hover {
-   background-color: #007bff;
-   color: #fff;
- }
-
- /* Modern card styling for description details */
- .desc-card {
-   background-color: #fff;
-   border: 1px solid #e0e0e0;
-   border-radius: 8px;
-   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-   padding: 16px;
-   font-size: 14px;
-   line-height: 1.5;
-   color: #555;
- }
-
- /* Description text styling */
- .desc-text {
-   margin: 0.5rem 0;
-   color: #666;
-   font-size: 18px !important;
- }
-
- /* Heading styling */
- .desc-heading {
-   font-size: 18px;
-   font-weight: 600;
-   color: #333;
-   margin-bottom: 16px;
-   text-align: center;
- }
-
-
- /* Modern card styling for description details with smaller font */
- .desc-card {
-   font-size: 12px;
-   /* Smaller font size for modern look */
-   color: #333;
-   font-family: 'Roboto', sans-serif;
-   /* Use a modern font; ensure you load it if necessary */
-   background-color: #fff;
-   border: 1px solid #ddd;
-   border-radius: 8px;
-   padding: 16px;
-   line-height: 1.4;
-   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
- }
-
- /* Styling for description text paragraphs */
- .desc-text {
-   margin: 0.4rem 0;
-   color: #555;
- }
-
-
-
- /* Existing styles retained... */
-
- /* Option Details - Two column layout */
- .option-details {
-   display: flex;
-   gap: 20px;
-   flex-wrap: wrap;
-   align-items: flex-start;
-   margin-top: 15px;
-   padding: 15px;
-   background-color: #fafafa;
-   border: 1px solid #eee;
-   border-radius: 8px;
- }
-
- .option-image-container {
-   flex: 1;
-   min-width: 200px;
-   display: flex;
-   justify-content: center;
-   align-items: center;
- }
-
- .option-image {
-   max-width: 100%;
-   border-radius: 8px;
-   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
- }
-
- .option-info {
-   flex: 2;
-   min-width: 250px;
-   font-size: 13px;
-   color: #444;
-   line-height: 1.4;
- }
-
- .option-info p {
-   margin: 6px 0;
- }
-
- .nested-info {
-   margin-left: 15px;
-   margin-bottom: 6px;
- }
-
- /* Example: Adjust heading and overall description card font sizes */
- .desc-heading {
-   font-size: 18px;
-   font-weight: 600;
-   color: #333;
-   margin-bottom: 16px;
-   text-align: center;
- }
-
- .desc-details {
-   font-size: 14px;
- }
-
- .option-info p{
-  font-size: 16px;
- }
-
-
- .desc-page-wrapper {
-   width: 100%;
-   padding: 20px;
-   background-color: #f4f4f4;
- }
-
- .desc-container {
-   width: 100%;
-   background: #fff;
-   padding: 20px;
-   border-radius: 10px;
-   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
- }
-
- .desc-nav-tabs {
-   display: flex;
-   justify-content: center;
-   border-bottom: none;
- }
-
- .desc-nav-tabs .nav-link {
-   font-size: 16px;
-   font-weight: bold;
-   color: #555;
-   transition: all 0.3s ease;
-   border-radius: 8px;
-   padding: 10px 20px;
- }
-
- .desc-nav-tabs .nav-link.active {
-   background-color: #007bff;
-   color: #fff !important;
-   border-radius: 8px;
- }
-
- .desc-tab-content {
-   background: #fff;
-   padding: 20px;
-   border-radius: 10px;
-   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-   margin-top: 15px;
- }
-
- .desc-btn-group {
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   margin-top: 15px;
- }
-
- /* Dropdown container for Pattern tab */
- .dropdown-container {
-   width: auto;
- }
-
- /* Use Bootstrap's form-select styling, or add custom adjustments */
- .form-select {
-   font-size: 14px;
-   padding: 6px 10px;
-   border-radius: 5px;
- }
-
- /* Additional styling for headings and details */
- .desc-heading {
-   font-size: 18px;
-   font-weight: 600;
-   color: #333;
-   margin-bottom: 16px;
-   text-align: center;
- }
-
- .desc-details {
-   font-size: 14px;
- }
-
-
- .pattern-container-unique {
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   gap: 15px;
- }
-
- /* Image Section */
- .image-container-unique {
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   width: 100%;
- }
-
- .pattern-image-unique {
-   width: 230px;
-   height: 230px;
-   object-fit: contain;
-   border-radius: 10px;
-   border: 3px solid #007bff;
-   box-shadow: 0px 5px 15px rgba(0, 123, 255, 0.2);
-   transition: transform 0.3s ease-in-out;
- }
-
-   
-
- /* Text Section */
- .text-content-unique {
-   text-align: left;
-   padding: 10px;
-   width: 100%;
-   max-width: 600px;
- }
-
- .pattern-title-unique {
-   font-size: 24px;
-   font-weight: bold;
-   color: #333;
-   text-transform: uppercase;
-   border-bottom: 2px solid #007bff;
-   display: inline-block;
-   padding-bottom: 5px;
- }
-
- .pattern-type-unique,
- .trading-type-unique {
-   font-size: 16px;
-   color: #555;
-   margin: 8px 0;
- }
-
- .pattern-description-unique {
-   font-size: 14px;
-   line-height: 1.6;
-   color: #444;
-   background: #fff;
-   padding: 10px;
-   border-left: 5px solid #007bff;
-   border-radius: 5px;
-   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
- }
-
- /* Responsive Design */
- @media (min-width: 768px) {
-   .pattern-container-unique {
-     flex-direction: row;
-     justify-content: center;
-   }
-
-   .image-container-unique {
-     width: 25%;
-   }
-
-   .text-content-unique {
-     width: 60%;
-   }
- }
-
- .css-13cymwt-control{
-  width : auto !important;
- }
-
-
- .toggle-container {
-   margin-bottom: 10px;
-   display: flex;
-   justify-content: flex-end;
- }
-
- .toggle-button {
-   display: flex;
-   align-items: center;
-   background-color: black;
-   border: none;
-   color: white;
-   padding: 4px 6px;
-   border-radius: 4px;
-   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-   transition: background-color 0.3s ease, transform 0.2s ease;
-   font-size: 0.8rem;
-   cursor: pointer;
- }
-
- .toggle-button:hover {
-   background-color: #34495e;
- }
-
- .toggle-button:active {
-   transform: scale(0.95);
- }
-
- .toggle-button .btn .btn-primary{
-  margin-left: -50px;
- }
-
- .AddScript_LivePrice{
+.desc-page-wrapper {
+  width: 100%;
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+.desc-container {
+  width: 100%;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.desc-nav-tabs {
   display: flex;
-    justify-content: end;
-    margin-bottom: -42px;
-    margin-right: 10px;
+  justify-content: center;
+  border-bottom: none;
+}
 
- }
+.desc-nav-tabs .nav-link {
+  font-size: 16px;
+  font-weight: bold;
+  color: #555;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  padding: 10px 20px;
+}
 
- .LivePriceContainer {
+.desc-nav-tabs .nav-link.active {
+  background-color: #007bff;
+  color: white !important;
+  border-radius: 8px;
+}
+
+.desc-tab-content {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  margin-top: 15px;
+  text-align: left;
+}
+
+.desc-btn-group {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.desc-btn-group .btn {
+  margin: 5px;
+  border-radius: 8px;
+}
+
+.desc-btn-group .btn.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.desc-btn-group .btn-outline-primary:hover,
+.desc-btn-group .btn-outline-secondary:hover,
+.desc-btn-group .btn-outline-success:hover {
+  background-color: #0056b3;
+  color: white;
+}
+
+.desc-heading {
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+
+
+/* Modern full-width wrapper */
+.desc-page-wrapper {
+  width: 100%;
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+/* Full-width container with card style */
+.desc-container {
+  width: 100%;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Centered navigation tabs */
+.desc-nav-tabs {
+  display: flex;
+  justify-content: center;
+  border-bottom: none;
+}
+
+.desc-nav-tabs .nav-link {
+  font-size: 16px;
+  font-weight: bold;
+  color: #555;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  padding: 10px 20px;
+}
+
+.desc-nav-tabs .nav-link.active {
+  background-color: #007bff;
+  color: #fff !important;
+  border-radius: 8px;
+}
+
+/* Tab content area styling */
+.desc-tab-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-top: 15px;
+}
+
+/* Button group styling - centered buttons */
+.desc-btn-group {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.desc-btn-group .btn {
+  font-size: 14px;
+  padding: 6px 16px;
+  margin: 4px;
+  border-radius: 8px;
+}
+
+/* Custom styling for outlined primary buttons */
+.btn-outline-primary {
+  border: 1px solid #007bff;
+  color: #007bff;
+  transition: background-color 0.2s ease;
+}
+
+.btn-outline-primary.active,
+.btn-outline-primary:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* Modern card styling for description details */
+.desc-card {
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 16px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #555;
+}
+
+/* Description text styling */
+.desc-text {
+  margin: 0.5rem 0;
+  color: #666;
+  font-size: 18px !important;
+}
+
+/* Heading styling */
+.desc-heading {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+
+/* Modern card styling for description details with smaller font */
+.desc-card {
+  font-size: 12px;
+  /* Smaller font size for modern look */
+  color: #333;
+  font-family: 'Roboto', sans-serif;
+  /* Use a modern font; ensure you load it if necessary */
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  line-height: 1.4;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for description text paragraphs */
+.desc-text {
+  margin: 0.4rem 0;
+  color: #555;
+}
+
+
+
+/* Existing styles retained... */
+
+/* Option Details - Two column layout */
+.option-details {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  margin-top: 15px;
+  padding: 15px;
+  background-color: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 8px;
+}
+
+.option-image-container {
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.option-image {
+  max-width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.option-info {
+  flex: 2;
+  min-width: 250px;
+  font-size: 13px;
+  color: #444;
+  line-height: 1.4;
+}
+
+.option-info p {
+  margin: 6px 0;
+}
+
+.nested-info {
+  margin-left: 15px;
+  margin-bottom: 6px;
+}
+
+/* Example: Adjust heading and overall description card font sizes */
+.desc-heading {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.desc-details {
+  font-size: 14px;
+}
+
+.option-info p {
+  font-size: 16px;
+}
+
+
+.desc-page-wrapper {
+  width: 100%;
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+.desc-container {
+  width: 100%;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.desc-nav-tabs {
+  display: flex;
+  justify-content: center;
+  border-bottom: none;
+}
+
+.desc-nav-tabs .nav-link {
+  font-size: 16px;
+  font-weight: bold;
+  color: #555;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  padding: 10px 20px;
+}
+
+.desc-nav-tabs .nav-link.active {
+  background-color: #007bff;
+  color: #fff !important;
+  border-radius: 8px;
+}
+
+.desc-tab-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-top: 15px;
+}
+
+.desc-btn-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+}
+
+/* Dropdown container for Pattern tab */
+.dropdown-container {
+  width: auto;
+}
+
+/* Use Bootstrap's form-select styling, or add custom adjustments */
+.form-select {
+  font-size: 14px;
+  padding: 6px 10px;
+  border-radius: 5px;
+}
+
+/* Additional styling for headings and details */
+.desc-heading {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.desc-details {
+  font-size: 14px;
+}
+
+
+.pattern-container-unique {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Image Section */
+.image-container-unique {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.pattern-image-unique {
+  width: 230px;
+  height: 230px;
+  object-fit: contain;
+  border-radius: 10px;
+  border: 3px solid #007bff;
+  box-shadow: 0px 5px 15px rgba(0, 123, 255, 0.2);
+  transition: transform 0.3s ease-in-out;
+}
+
+
+
+/* Text Section */
+.text-content-unique {
+  text-align: left;
+  padding: 10px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.pattern-title-unique {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  text-transform: uppercase;
+  border-bottom: 2px solid #007bff;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+.pattern-type-unique,
+.trading-type-unique {
+  font-size: 16px;
+  color: #555;
+  margin: 8px 0;
+}
+
+.pattern-description-unique {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #444;
+  background: #fff;
+  padding: 10px;
+  border-left: 5px solid #007bff;
+  border-radius: 5px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+@media (min-width: 768px) {
+  .pattern-container-unique {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .image-container-unique {
+    width: 25%;
+  }
+
+  .text-content-unique {
+    width: 60%;
+  }
+}
+
+.css-13cymwt-control {
+  width: auto !important;
+}
+
+
+.toggle-container {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.toggle-button {
   display: flex;
   align-items: center;
-  background: #1e1e2f; /* Dark Elegant Background */
+  background-color: black;
+  border: none;
+  color: white;
+  padding: 4px 6px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.toggle-button:hover {
+  background-color: #34495e;
+}
+
+.toggle-button:active {
+  transform: scale(0.95);
+}
+
+.toggle-button .btn .btn-primary {
+  margin-left: -50px;
+}
+
+.AddScript_LivePrice {
+  display: flex;
+  justify-content: end;
+  margin-bottom: -42px;
+  margin-right: 10px;
+
+}
+
+.LivePriceContainer {
+  display: flex;
+  align-items: center;
+  background: #1e1e2f;
+  /* Dark Elegant Background */
   color: #fff;
   padding: 8px 12px;
   border-radius: 6px;
@@ -7161,22 +7176,23 @@ margin-bottom: 0 !important;
 .LivePrice {
   font-size: 18px;
   font-weight: 600;
-  color: #00ff99; /* Classy Neon Green */
+  color: #00ff99;
+  /* Classy Neon Green */
   padding: 4px 8px;
   border-radius: 4px;
 }
- 
 
-.tss-1cdcmys-MUIDataTable-responsiveBase{
+
+.tss-1cdcmys-MUIDataTable-responsiveBase {
   max-height: auto !important;
 }
 
-.report-btns{
+.report-btns {
   position: absolute !important;
   z-index: 2;
 }
 
-.report-page-dates{
+.report-page-dates {
   position: absolute !important;
   z-index: 1;
   right: 30px;
@@ -7191,39 +7207,40 @@ margin-bottom: 0 !important;
   right: 4% !important;
 }
 
-.response-btns{
+.response-btns {
   position: absolute !important;
   z-index: 2;
   right: 24%;
 }
 
-.response-page-dates{
+.response-page-dates {
   display: flex;
-    justify-content: end;
-    align-items: center;
-    gap: 5px;
+  justify-content: end;
+  align-items: center;
+  gap: 5px;
 }
-.dashboard-date{
+
+.dashboard-date {
   position: relative !important;
-    top: 31%;
-    right: 21%;
-    margin-bottom: -6rem;
+  top: 31%;
+  right: 21%;
+  margin-bottom: -6rem;
 
 }
 
-.netpnl-btn{
+.netpnl-btn {
   position: absolute !important;
   top: 15%;
 }
 
-.dropdown-multi .css-13cymwt-control{
+.dropdown-multi .css-13cymwt-control {
   width: 36vw !important;
   margin-right: 10px;
 }
 
 
 
-.dropdown-multi .css-13cymwt-control{
+.dropdown-multi .css-13cymwt-control {
   width: 36vw !important;
 }
 
