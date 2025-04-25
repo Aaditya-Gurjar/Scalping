@@ -116,7 +116,7 @@ const LastPattern = () => {
         <div className="row">
           <div className="col-md-6">
             <div className="form-group">
-              <label>Select Pattern</label>
+              <label className="card-text-Color">Select Pattern</label>
               <select
                 className="form-control  mt-2"
                 onChange={(e) => setSelectPattern(e.target.value)}
@@ -131,7 +131,7 @@ const LastPattern = () => {
           </div>
           <div className="col-md-6">
             <div className="form-group">
-              <label>Select Specific Pattern</label>
+              <label className="card-text-Color">Select Specific Pattern</label>
               <select
                 className="form-control  mt-2"
                 onChange={(e) => setPatternType(e.target.value)}

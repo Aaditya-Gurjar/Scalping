@@ -18,8 +18,8 @@ const AddChartingScript2 = () => {
     tableType,
     data,
     selectedType,
-    FromDate: initialFromDate,
-    ToDate: initialToDate,
+    // FromDate: initialFromDate,
+    // ToDate: initialToDate,
     chartingSubTab: initialTab,
     view: initialView,
     fixedRowPerPage,
@@ -30,16 +30,19 @@ const AddChartingScript2 = () => {
   const [view, setView] = useState(initialView || "table");
   const [getCharting, setGetCharting] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [fromDate, setFromDate] = useState(new Date(initialFromDate || Date.now()));
-  const [toDate, setToDate] = useState(new Date(initialToDate || Date.now()));
+  const [fromDate, setFromDate] = useState(new Date( Date.now()));
+  const [toDate, setToDate] = useState(new Date( Date.now()));
 const navigate = useNavigate();
   const fetchChartingData = async () => {
     setLoading(true);
+    const adjustedToDate = new Date(toDate);
+    adjustedToDate.setDate(adjustedToDate.getDate() + 1); // Increment toDate by 1 day
+
     const req = {
       Username: localStorage.getItem("name"),
       Segment: chartingSubTab,
       From_date: fromDate.toISOString().split("T")[0].replace(/-/g, "."), // Format to yyyy.mm.dd
-      To_date: toDate.toISOString().split("T")[0].replace(/-/g, "."), // Format to yyyy.mm.dd
+      To_date: adjustedToDate.toISOString().split("T")[0].replace(/-/g, "."), // Format to yyyy.mm.dd
     };
     try {
       const response = await getUserChartingScripts(req);
@@ -87,7 +90,7 @@ const navigate = useNavigate();
         {/* Add view toggle buttons */}
         {data === "ChartingPlatform" && (
           <div
-            className="d-flex justify-content-between align-items-center my-3"
+            className="d-flex justify-content-between align-items-center my-3 card-bg-color"
             style={{
               backgroundColor: "#f8f9fa",
               padding: "10px",
@@ -97,7 +100,7 @@ const navigate = useNavigate();
             }}
           >
             {/* Heading */}
-            <h4 className="m-0" style={{ fontWeight: "600" }}>
+            <h4 className="m-0 card-text-Color" style={{ fontWeight: "600" }}>
               {tableType === "MultiCondition" ? "Scalping" : data}
             </h4>
 
@@ -178,9 +181,9 @@ const navigate = useNavigate();
                   <Loader />
                 ) : (
                   <>
-                    <div className="d-flex justify-content-end  " style={{ gap: "20px" }}>
+                    <div className="d-flex justify-content-end " style={{ gap: "20px" }}>
                       <div style={{ width: "10%" }}>
-                        <strong>From Date:</strong>
+                        <strong className="card-text-Color">From Date:</strong>
                         <DatePicker
                           selected={fromDate}
                           onChange={(date) => setFromDate(date)}
@@ -189,7 +192,7 @@ const navigate = useNavigate();
                         />
                       </div>
                       <div style={{ width: "10%" }}>
-                        <strong>To Date:</strong>
+                        <strong className="card-text-Color">To Date:</strong>
                         <DatePicker
                           selected={toDate}
                           onChange={(date) => setToDate(date)}

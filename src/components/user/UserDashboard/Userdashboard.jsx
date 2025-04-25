@@ -19,6 +19,8 @@ import ViewGroup from "../Group/ViewGroup";
 const Userdashboard = () => {
   const userName = localStorage.getItem("name");
   const StrategyType = sessionStorage.getItem("StrategyType");
+  const deletedStrategyType = sessionStorage.getItem("deletedStrategyType");
+
   const addVia = sessionStorage.getItem("addVia");
   const groupName = sessionStorage.getItem("groupName");
   const [activeTab1, setActiveTab1] = useState("CurrentPosition");
@@ -39,18 +41,11 @@ const Userdashboard = () => {
   const [FromDate, setFromDate] = useState(new Date());
   const [showLivePrice, setShowLivePrice] = useState(false);
 
-
-  // Date configuration
-  // const currentDate = new Date();
-  // const formattedDate = `${currentDate.getFullYear()}.${String(
-  //   currentDate.getMonth() + 1
-  // ).padStart(2, "0")}.${String(currentDate.getDate()).padStart(2, "0")}`;
-  // const tomorrow = new Date(currentDate);
-  // tomorrow.setDate(currentDate.getDate() + 1);
-  // const Defult_To_Date = `${tomorrow.getFullYear()}.${String(
-  //   tomorrow.getMonth() + 1
-  // ).padStart(2, "0")}.${String(tomorrow.getDate()).padStart(2, "0")}`;
-
+useEffect(() => {
+  setSubTab(deletedStrategyType)
+}
+, [deletedStrategyType]);
+ 
   const currentDate = new Date();
   const formattedDate = `${String(currentDate.getDate()).padStart(2, "0")}.${String(
     currentDate.getMonth() + 1
@@ -792,7 +787,7 @@ const Userdashboard = () => {
                             setGroup(group);
                             setSubTab("");
                             sessionStorage.setItem("groupName", group);
-                            sessionStorage.removeItem("StrategyType"); // Clear StrategyType from session
+                            sessionStorage.removeItem("StrategyType"); 
                           }}
                           style={{ whiteSpace: "nowrap" }}
                         >

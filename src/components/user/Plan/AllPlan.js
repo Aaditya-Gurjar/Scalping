@@ -662,6 +662,23 @@ const ServicesList = () => {
         aria-describedby="coupon-modal-description"
       >
         <Box sx={style}>
+          {/* Close Button */}
+          <Button
+            onClick={handleClose}
+            sx={{
+              position: "absolute",
+              top: 8,
+              right: 8,
+              minWidth: "auto",
+              padding: 2,
+              color: "#000",
+              backgroundColor: "transparent",
+              "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.1)" },
+              transition: "background-color 0.3s ease",
+            }}
+          >
+            ✖
+          </Button>
           <Typography id="coupon-modal-title" variant="h6" component="h2" gutterBottom>
             Enter Coupon Code
           </Typography>

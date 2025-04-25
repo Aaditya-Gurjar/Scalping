@@ -314,9 +314,10 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
                   setRefresh(!refresh);
                 },
               });
-              setTimeout(() => {
-                window.location.reload();
-              }, 1500);
+              // setTimeout(() => {
+              //   sessionStorage.setItem("deletedStrategyType", data);
+              //   // window.location.reload();
+              // }, 1500);
             } else {
               Swal.fire({
                 title: "Error !",
