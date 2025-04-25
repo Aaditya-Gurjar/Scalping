@@ -1,15 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import RiseLoader from 'react-spinners/RiseLoader';
 
-// Define the Loader component
 const Loader = () => {
+    const [isDarkTheme, setIsDarkTheme] = useState(false);
+
+    useEffect(() => {
+        const storedTheme = localStorage.getItem("theme");
+        setIsDarkTheme(storedTheme === "dark");
+    }, []);
+
     return (
         <div className='d-flex justify-content-center align-items-center' style={{ height: "50vh" }} >
-
-            <div className="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            {
+                isDarkTheme ? (
+                    <RiseLoader color="#ffffff" />
+                ) : (
+                    <div className="lds-spinner">
+                        <div></div><div></div><div></div><div></div><div></div><div></div>
+                        <div></div><div></div><div></div><div></div><div></div><div></div>
+                    </div>
+                )
+            }
         </div>
     );
 };
-
 
 export default Loader;

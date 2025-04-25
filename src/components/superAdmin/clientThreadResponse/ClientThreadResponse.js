@@ -15,7 +15,7 @@ const TradeResponse = () => {
     const CompanyName = sessionStorage.getItem("CompanyName")
     const ClientName = sessionStorage.getItem("ClientName")
     const StrategyType = sessionStorage.getItem("StrategyType")
-    
+
 
     const [selectStrategyType, setStrategyType] = useState(StrategyType || '')
     const [clientAllScript, setClientAllScript] = useState({ loading: true, data: [] })
@@ -28,6 +28,7 @@ const TradeResponse = () => {
     const [comapnyName, setCompanyName] = useState(CompanyName || '')
     const [allClientDetails, setAllClientDetails] = useState([])
     const [clientName, setClientName] = useState(ClientName || '')
+    const [isLoading, setIsLoading] = useState(false)
 
 
 
@@ -147,6 +148,7 @@ const TradeResponse = () => {
 
 
     const handleSubmit = async () => {
+        setIsLoading(true)
         if (comapnyName == '') {
             Swal.fire({
                 background: "#1a1e23 ",
@@ -217,6 +219,8 @@ const TradeResponse = () => {
             .catch((err) => {
                 console.log("Error in finding the All TradeData", err)
             })
+        setIsLoading(false)
+
     }
 
     useEffect(() => {
@@ -230,109 +234,115 @@ const TradeResponse = () => {
 
     return (
         <Content
-                Page_title={"Trade Response"}
-                button_status={false}
-                backbutton_status={true}
-            >
-       
-                        <div className="iq-card-body">
-                            <div className="was-validated ">
-                                <div className='row'>
-                                    <div className="form-group col-lg-2">
-                                        <label>Select Company</label>
-                                        <select className="form-select" required=""
-                                            onChange={(e) => {
-                                                setCompanyName(e.target.value)
-                                                sessionStorage.setItem('CompanyName',e.target.value)
-                                            }}
-                                            value={comapnyName}
-                                        >
-                                            <option value={''}>Select Company</option>
-                                            {getAllComapny && getAllComapny.map((item, index) => {
-                                                return (
-                                                    <option key={index} value={item}>{item}</option>
-                                                )
-                                            })}
-                                        </select>
-                                    </div>
-                                    <div className="form-group col-lg-2">
-                                        <label>Select Client Name</label>
-                                        <select className="form-select" required=""
-                                            onChange={(e) => {
-                                                setClientName(e.target.value)
-                                                sessionStorage.setItem("ClientName",e.target.value)
-                                            }}
-                                            value={clientName}
-                                        >
-                                            <option value={''}>Select Client Name</option>
-                                            {allClientDetails && allClientDetails.map((item, index) => {
-                                                return (
-                                                    <option key={index} value={item}>{item}</option>
-                                                )
-                                            })}
-                                        </select>
-                                    </div>
-                                    <div className="form-group col-lg-2">
-                                        <label>Strategy Type</label>
-                                        <select className="form-select" required=""
-                                            onChange={(e) => {
-                                                setStrategyType(e.target.value)
-                                                sessionStorage.setItem("StrategyType",e.target.value)
-                                            }}
-                                            value={selectStrategyType}>
+            Page_title={"Trade Response"}
+            button_status={false}
+            backbutton_status={true}
+        >
 
-                                            <option value={"Scalping"}>Scalping</option>
-                                            <option value={"Option Strategy"}>Option Strategy</option>
-                                            <option value={"Pattern"}>Pattern Script</option>
-                                        </select>
-                                    </div>
-                                    <div className="form-group col-lg-3">
-                                        <label>Select form Date</label>
-                                        <DatePicker className="form-select" selected={FromDate == '' ? formattedDate : FromDate} onChange={(date) => setFromDate(date)} />
-                                    </div>
-                                    <div className="form-group col-lg-3">
-                                        <label>Select To Date</label>
-                                        <DatePicker className="form-select" selected={ToDate == '' ? Defult_To_Date : ToDate} onChange={(date) => setToDate(date)} />
-
-                                    </div>
-                                </div>
-                            </div>
-                            {
-                                <div className="modal-body">
-                                    {
-                                        clientAllScript.data && clientAllScript.data?.length > 0 ?
-                                            (<GridExample
-                                                columns={selectStrategyType === "Scalping" ? columns :
-                                                    selectStrategyType === "Option Strategy" ? columns1 :
-                                                        selectStrategyType === "Pattern" ? columns2 : columns
-                                                }
-                                                data={clientAllScript.data}
-                                                onRowSelect={handleRowSelect}
-                                                checkBox={true}
-                                            />)
-                                            :
-                                            (<NoDataFound />)
-                                    }
-
-                                </div>
-                            }
-                            <button className='btn btn-primary mt-2' onClick={handleSubmit}>Submit</button>
-
-                            {
-                                showTable && <>
-                                    <div className='mt-3'>
-                                        <GridExample
-                                            columns={selectStrategyType === "Scalping" ? columns3 : selectStrategyType === "Option Strategy" ? columns4 : columns5}
-                                            data={getAllTradeData.data}
-                                            onRowSelect={handleRowSelect}
-                                            checkBox={false}
-                                        />
-                                    </div>
-
-                                </>
-                            }
+            <div className="iq-card-body">
+                <div className="was-validated ">
+                    <div className='row'>
+                        <div className="form-group col-lg-2">
+                            <label>Select Company</label>
+                            <select className="form-select" required=""
+                                onChange={(e) => {
+                                    setCompanyName(e.target.value)
+                                    sessionStorage.setItem('CompanyName', e.target.value)
+                                }}
+                                value={comapnyName}
+                            >
+                                <option value={''}>Select Company</option>
+                                {getAllComapny && getAllComapny.map((item, index) => {
+                                    return (
+                                        <option key={index} value={item}>{item}</option>
+                                    )
+                                })}
+                            </select>
                         </div>
-                   
+                        <div className="form-group col-lg-2">
+                            <label>Select Client Name</label>
+                            <select className="form-select" required=""
+                                onChange={(e) => {
+                                    setClientName(e.target.value)
+                                    sessionStorage.setItem("ClientName", e.target.value)
+                                }}
+                                value={clientName}
+                            >
+                                <option value={''}>Select Client Name</option>
+                                {allClientDetails && allClientDetails.map((item, index) => {
+                                    return (
+                                        <option key={index} value={item}>{item}</option>
+                                    )
+                                })}
+                            </select>
+                        </div>
+                        <div className="form-group col-lg-2">
+                            <label>Strategy Type</label>
+                            <select className="form-select" required=""
+                                onChange={(e) => {
+                                    setStrategyType(e.target.value)
+                                    sessionStorage.setItem("StrategyType", e.target.value)
+                                }}
+                                value={selectStrategyType}>
+
+                                <option value={"Scalping"}>Scalping</option>
+                                <option value={"Option Strategy"}>Option Strategy</option>
+                                <option value={"Pattern"}>Pattern Script</option>
+                            </select>
+                        </div>
+                        <div className="form-group col-lg-3">
+                            <label>Select form Date</label>
+                            <DatePicker className="form-select" selected={FromDate == '' ? formattedDate : FromDate} onChange={(date) => setFromDate(date)} />
+                        </div>
+                        <div className="form-group col-lg-3">
+                            <label>Select To Date</label>
+                            <DatePicker className="form-select" selected={ToDate == '' ? Defult_To_Date : ToDate} onChange={(date) => setToDate(date)} />
+
+                        </div>
+                    </div>
+                </div>
+                <div className="modal-body">
+                    {
+                        isLoading ? (
+                            <Loader />
+                        ) : clientAllScript.data && clientAllScript.data.length > 0 ? (
+                            <GridExample
+                                columns={
+                                    selectStrategyType === "Scalping"
+                                        ? columns
+                                        : selectStrategyType === "Option Strategy"
+                                            ? columns1
+                                            : selectStrategyType === "Pattern"
+                                                ? columns2
+                                                : columns
+                                }
+                                data={clientAllScript.data}
+                                onRowSelect={handleRowSelect}
+                                checkBox={true}
+                            />
+                        ) : (
+                            <NoDataFound />
+                        )
+                    }
+                </div>
+
+                <button className='btn btn-primary mt-2' onClick={handleSubmit}>Submit</button>
+
+                {
+                    showTable && <>
+                        <div className='mt-3'>
+                            <GridExample
+                                columns={selectStrategyType === "Scalping" ? columns3 : selectStrategyType === "Option Strategy" ? columns4 : columns5}
+                                data={getAllTradeData.data}
+                                onRowSelect={handleRowSelect}
+                                checkBox={false}
+                            />
+                        </div>
+
+                    </>
+                }
+            </div>
+
         </Content>
     );
 };
