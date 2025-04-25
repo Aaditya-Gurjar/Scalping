@@ -23,6 +23,16 @@
 [data-theme="dark"] label {
   color: var(--text-color);
 }
+[data-theme="dark"] .pclass {
+  background-color: var(--bg-color);
+  border: 1px solid white;
+}
+[data-theme="dark"] .borderColor {
+  border-bottom: 1px solid white;
+}
+[data-theme="dark"] .planClass {
+  color: var(--text-color);
+}
 
 [data-theme="dark"] .submit-button-one {
   border: 1px solid white !important;
@@ -1284,7 +1294,7 @@ div#lottie-fullscreen svg path {
   /* display: none; */
   width: 6rem;
   padding-top: 15px;
-  padding-left: 10px;
+  padding-left: 20px;
   float: left;
   position: relative;
   -webkit-transition: all 0.3s ease-out 0s;
@@ -1294,12 +1304,7 @@ div#lottie-fullscreen svg path {
   /* transition: all 0.3s ease-out 0s; */
   /* background: transparent; */
 }
-.header-logo-img{
-  height: 50px;
-  max-width: 100px;
-  object-fit: contain;
-  margin-left: -5px;
-}
+
 .iq-sidebar-logo a {
   display: flex;
   align-items: flex-start;
@@ -1325,9 +1330,9 @@ div#lottie-fullscreen svg path {
 }
 
 .iq-sidebar-logo img {
-  max-width: 100px;
-  object-fit: contain;
-  max-height: 50px;
+  height: 45px;
+  object-fit: cover;
+  /* width: 80px; */
 }
 
 .iq-top-navbar .iq-navbar-custom .iq-menu-bt-sidebar .iq-menu-bt {
@@ -7242,23 +7247,4 @@ height: auto;
 
 .dropdown-multi .css-13cymwt-control {
   width: 36vw !important;
-}
-
-.charting-capsule-btns{
-  position: absolute;
-  top: 4%;
-  left: 36%;
-}
-
-.table-cards-view-btns{
-  position: absolute;
-  right: 2%;
-  top: 6%;
-}
-
-.chartingsignal-capsule-btns{
-  position: absolute;
-    left: 36%;
-    gap: 5px;
-    align-items: center;
 }

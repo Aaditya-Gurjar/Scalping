@@ -38,7 +38,7 @@ const AllStrategyTag = () => {
                 ) : (
                     strategyTags.map((tag, index) => (
                         <div className="strategy-card" key={index}>
-                            <div className="strategy-image-container">
+                            <div className="strategy-image-container pclass">
                                 <img
                                     src={
                                         tag.Image.startsWith('data:image') 
@@ -52,8 +52,8 @@ const AllStrategyTag = () => {
                                     }}
                                 />
                             </div>
-                            <div className="strategy-content">
-                                <div className="strategy-row">
+                            <div className="strategy-content pclass">
+                                <div className="strategy-row ">
                                     <p className="strategy-label">Strategy Tag:</p>
                                     <p className="strategy-value">{tag.Strategytag}</p>
                                 </div>

@@ -307,7 +307,7 @@ const Dashboards = () => {
               <div className="col-sm-12">
                 <div className="row ">
                   <div className="col-lg-4 ">
-                    <div className="iq-card ">
+                    <div className="iq-card borderColor">
                       <div className="progress">
                         <div
                           className="progress-bar bg-primary"
@@ -421,7 +421,7 @@ const Dashboards = () => {
                   </div>
 
                   <div className="col-lg-4">
-                    <div className="iq-card ">
+                    <div className="iq-card borderColor">
                       <div className="progress">
                         <div
                           className="progress-bar bg-primary"
@@ -540,7 +540,7 @@ const Dashboards = () => {
                   </div>
 
                   <div className="col-lg-4">
-                    <div className="iq-card ">
+                    <div className="iq-card borderColor">
                       <div className="progress">
                         <div
                           className="progress-bar bg-primary"
@@ -689,7 +689,7 @@ const Dashboards = () => {
                     </div>
                   </div> 
                    <div className="col-lg-4">
-                    <div className="iq-card ">
+                    <div className="iq-card borderColor">
                       <div className="progress">
                         <div
                           className="progress-bar bg-primary"
@@ -819,7 +819,7 @@ const Dashboards = () => {
                   </div>
 
                   <div className="col-lg-4">
-                    <div className="iq-card ">
+                    <div className="iq-card borderColor">
                       <div className="progress">
                         <div
                           className="progress-bar bg-primary"
@@ -949,7 +949,7 @@ const Dashboards = () => {
                   </div> 
 
                   <div className="col-lg-4">
-                    <div className="iq-card ">
+                    <div className="iq-card borderColor">
                       <div className="progress">
                         <div
                           className="progress-bar bg-primary"

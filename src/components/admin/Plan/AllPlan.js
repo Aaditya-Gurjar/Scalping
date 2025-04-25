@@ -267,7 +267,7 @@ const AdminServicesList = () => {
                             <h2 className="allplan-card-title">{plan.Planname}</h2>
                             <h4 className="allplan-card-subtitle">
                               <FaRupeeSign className="m-1" />
-                              <strong>{plan.SOPPrice}</strong>
+                              <strong className="planClass">{plan.SOPPrice}</strong>
                             </h4>
                             <h4 className="allplan-card-subtitle">
                               Duration: {plan["Plan Validity"]}
@@ -400,7 +400,7 @@ const AdminServicesList = () => {
                             <h2 className="allplan-card-title">{plan.Planname}</h2>
                             <h4 className="allplan-card-subtitle">
                               <FaRupeeSign className="m-1" />
-                              <strong>{plan.ChartPerMonth
+                              <strong className="planClass">{plan.ChartPerMonth
                               }</strong>
                             </h4>
                             <h4 className="allplan-card-subtitle">

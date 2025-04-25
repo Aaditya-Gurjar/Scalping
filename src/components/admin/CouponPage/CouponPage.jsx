@@ -43,7 +43,7 @@ const CouponPage = () => {
                 <div className="coupon-container">
                     {couponDetails.length > 0 ? (
                         couponDetails.map((coupon, index) => (
-                            <div className="coupon-card" key={index}>
+                            <div className="coupon-card pclass" key={index}>
                                 <h3 className="coupon-planname">{coupon.Planname}</h3>
                                 <p>
                                     <strong>Coupon Code:</strong>
