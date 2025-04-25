@@ -63,7 +63,7 @@
 //   });
 //   const handleTabChange = (tab) => {
 //     setActiveTab(tab);
-  
+
 //     if (tab === "Scalping") {
 //       setScalpingOption("Single");
 //       handleScalpingChange("Single");
@@ -83,7 +83,7 @@
 //       }
 //     }
 //   };
-  
+
 
 //   useEffect(() => {
 //     if (activeTab === "Pattern" && patternTypeOptions.length > 0 && !selectedPatternName) {
@@ -92,7 +92,7 @@
 //       fetchPatternData();
 //     }
 //   }, [patternTypeOptions]);
-  
+
 
 //   const handleScalpingChange = async (option) => {
 //     try {
@@ -119,15 +119,15 @@
 //   useEffect(() => {
 //     handleOptionChange(strategyOptions[measurementType][0]?.value)
 //   }, [strategyOptions, measurementType, activeTab])
- 
-  
+
+
 //   useEffect(() => {
 //     if (measurementType) {
 //       const defaultStrategy = strategyOptions[measurementType][0];
 //       setSelectedOption(defaultStrategy.value);
 //       handleOptionChange(defaultStrategy);
 //     }
-    
+
 //   }, [measurementType]);
 
 //   const fetchPatternData = async () => {
@@ -152,7 +152,7 @@
 //     handleScalpingChange(scalpingOption);
 //   }, [scalpingOption, activeTab]);
 
-   
+
 //   const fetchPatternTypeOptions = async () => {
 //     if (selectedPatternType === "Charting Pattern") {
 //       const data = await Get_Pattern_Charting();
@@ -482,19 +482,19 @@ const TABS = ["Scalping", "Option", "Pattern"];
 const DescriptionPage = () => {
   // Tab state
   const [activeTab, setActiveTab] = useState("Scalping");
-  
+
   // Scalping tab state
   const [scalpingOption, setScalpingOption] = useState("Single");
-  
+
   // Option tab state
   const [measurementType, setMeasurementType] = useState("Straddle/Strangle");
   const [selectedOption, setSelectedOption] = useState("");
-  
+
   // Pattern tab state
   const [selectedPatternType, setSelectedPatternType] = useState("Charting Pattern");
   const [selectedPatternName, setSelectedPatternName] = useState("");
   const [patternTypeOptions, setPatternTypeOptions] = useState([]);
-  
+
   // Common state
   const [description, setDescription] = useState([]);
   const [patternData, setPatternData] = useState([]);
@@ -502,7 +502,7 @@ const DescriptionPage = () => {
   // Handle tab change
   const handleTabChange = (tab) => {
     setActiveTab(tab);
-    
+
     // Initialize default settings for each tab
     if (tab === "Scalping") {
       setScalpingOption("Single");
@@ -544,7 +544,7 @@ const DescriptionPage = () => {
   // Fetch pattern data
   const fetchPatternData = async () => {
     if (!selectedPatternName) return;
-    
+
     try {
       const reqData = {
         Pattern: selectedPatternName,
@@ -563,15 +563,15 @@ const DescriptionPage = () => {
     try {
       const patternTypeToUse = patternType || selectedPatternType;
       let data;
-      
+
       if (patternTypeToUse === "Charting Pattern") {
         data = await Get_Pattern_Charting();
       } else {
         data = await Get_Pattern_Name();
       }
-      
+
       setPatternTypeOptions(data.PatternName || []);
-      
+
       // Select first pattern by default if available
       if (data.PatternName && data.PatternName.length > 0) {
         setSelectedPatternName(data.PatternName[0]);
@@ -648,9 +648,8 @@ const DescriptionPage = () => {
                 {["Single", "Multiple"].map((option) => (
                   <button
                     key={option}
-                    className={`btn btn-outline-primary ${
-                      scalpingOption === option ? "active" : ""
-                    }`}
+                    className={`btn btn-outline-primary ${scalpingOption === option ? "active" : ""
+                      }`}
                     onClick={() => handleScalpingChange(option)}
                   >
                     {option}
@@ -700,9 +699,8 @@ const DescriptionPage = () => {
                     {STRATEGY_OPTIONS[measurementType].map((opt) => (
                       <button
                         key={opt.value}
-                        className={`btn btn-outline-secondary ${
-                          selectedOption === opt.value ? "active" : ""
-                        }`}
+                        className={`btn btn-outline-secondary ${selectedOption === opt.value ? "active" : ""
+                          }`}
                         onClick={() => handleOptionChange(opt)}
                       >
                         {opt.title}
@@ -821,7 +819,7 @@ const DescriptionPage = () => {
                 </div>
               </div>
               <div className="desc-details mt-3">
-                <div className="pattern-container-unique">
+                <div className="pattern-container-unique option-details d-flex flex-wrap card-bg-color">
                   <div className="image-container-unique">
                     {patternData?.[0]?.image_data && (
                       <img

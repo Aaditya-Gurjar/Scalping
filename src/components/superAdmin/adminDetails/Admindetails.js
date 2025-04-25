@@ -1356,7 +1356,7 @@ const Strategygroup = () => {
                                 <div className="modal-footer">
                                     <button
                                         type="button"
-                                        className="btn btn-secondary card-bg-color btn-text-color"
+                                        // className="submit-button-one"
                                         data-bs-dismiss="modal"
                                         onClick={() => setShowAllClientList(false)} // Close modal on button click
                                     >
