@@ -50,13 +50,14 @@ const ViewGroup = ({ group, isCopyScriptVisible, handleAddScript11, handleAddScr
 
 
 
-
+  console.log("allScripts----", allScripts)
 
   const handleAddScript1 = (data1, type) => {
 
     const selectedRowIndex = data1?.rowIndex;
     const selectedRow = type == 1 ? getAllService?.data?.[selectedRowIndex] : getAllService?.data1?.[selectedRowIndex];
-
+ 
+    console.log("allScripts", allScripts )
     if (data2?.status == false) {
       Swal.fire({
         title: "Error",
@@ -92,7 +93,7 @@ const ViewGroup = ({ group, isCopyScriptVisible, handleAddScript11, handleAddScr
     }
   }
   const handleAddScript2 = (data1) => {
-
+console.log("allScripts", allScripts )
 
     if (data2.status == false) {
       Swal.fire({
@@ -155,6 +156,11 @@ const ViewGroup = ({ group, isCopyScriptVisible, handleAddScript11, handleAddScr
     }
   }
   const handleAddScript3 = (data1) => {
+
+console.log("allScripts", allScripts )
+
+
+
     if (data2.status == false) {
       Swal.fire({
         title: "Error",
@@ -386,26 +392,26 @@ const ViewGroup = ({ group, isCopyScriptVisible, handleAddScript11, handleAddScr
   };
 
   const GetUserAllScripts = async () => {
-        const data = { Username: userName }
-        await GetUserScripts(data)
-            .then((response) => {
-                if (response.Status) {
-                    setAllScripts({
-                        data: response?.data,
-                        len: response?.data?.length - 1
-                    })
-                }
-                else {
-                    setAllScripts({
-                        data: [],
-                        len: 0
-                    })
-                }
-            })
-            .catch((err) => {
-                console.log("Error in finding the User Scripts", err)
-            })
-    }
+    const data = { Username: userName }
+    await GetUserScripts(data)
+      .then((response) => {
+        if (response.Status) {
+          setAllScripts({
+            data: response?.data,
+            len: response?.data?.length - 1
+          })
+        }
+        else {
+          setAllScripts({
+            data: [],
+            len: 0
+          })
+        }
+      })
+      .catch((err) => {
+        console.log("Error in finding the User Scripts", err)
+      })
+  }
 
   const GetAllUserScriptDetails = async () => {
     const stgType = localStorage.getItem("groupTab"); // moved inside to get fresh value

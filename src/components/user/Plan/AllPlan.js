@@ -57,6 +57,7 @@ const ServicesList = () => {
   const [verificationMessage, setVerificationMessage] = useState(""); // State for verification message
   const [verificationColor, setVerificationColor] = useState(""); // State for message color
   const [isContinueEnabled, setIsContinueEnabled] = useState(false); // State to manage "Continue" button enable/disable
+const adminPermission = localStorage.getItem("adminPermission");
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
@@ -445,7 +446,9 @@ const ServicesList = () => {
               }}
             >
               <Tab label="📊 SOP" value="1" />
-              <Tab label=" ⚡ Charting" value="2" />
+              {adminPermission?.includes("ChartingPlatform") && (
+                <Tab label="⚡ Charting" value="2" />
+              )}
             </TabList>
           </Box>
 

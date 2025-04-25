@@ -404,9 +404,16 @@ const AddClient = () => {
           values.Instrument == "OPTIDX" || values.Instrument == "OPTSTK"
             ? values.Strike
             : "",
-        expirydata1:
-          values.Exchange == "NSE" ? getExpiryDate.data[0] : values.expirydata1,
-        TType: values.TType,
+            expirydata1: formik.values.expirydata1 == "Monthly"
+            ? getExpiryDate?.data?.[0]
+            : formik.values.expirydata1 == "Next_Month"
+              ? getExpiryDate?.data?.[1]
+              : formik.values.Exchange == "NSE"
+                ? getExpiryDate?.data?.[0]
+                : formik.values.expirydata1,
+            // expirydata1:
+            //   values.Exchange == "NSE" ? getExpiryDate.data[0] : values.expirydata1,
+            TType: values.TType,
         TStype:
           values.Strategy == "One Directional" ||
             values.Strategy == "Multi Directional" ||
@@ -696,7 +703,7 @@ const AddClient = () => {
   };
 
   const result = extractDetails(location.state.data.Symbol);
- 
+
 
   useEffect(() => {
     if (formik.values.Exchange !== "MCX") {
@@ -716,7 +723,7 @@ const AddClient = () => {
       value: item,
     }));
 
-    console.log("workingDay", workingDay);  
+    console.log("workingDay", workingDay);
     formik.setFieldValue("Strategy", location?.state?.data?.ScalpType);
     formik.setFieldValue("Exchange", location?.state?.data?.Exchange);
     formik.setFieldValue(
@@ -737,7 +744,7 @@ const AddClient = () => {
     formik.setFieldValue("Slvalue", location?.state?.data?.["Re-entry Point"]);
     formik.setFieldValue("LowerRange", location?.state?.data?.LowerRange);
     formik.setFieldValue("HigherRange", location?.state?.data?.HigherRange);
-    formik.setFieldValue("HoldExit", location?.state?.data?.HoldExit);
+    formik.setFieldValue("HoldExit", location?.state?.data?.HoldExit || "Hold");
     formik.setFieldValue("ExitDay", location?.state?.data?.ExitDay);
     formik.setFieldValue("EntryTime", location?.state?.data?.EntryTime);
     formik.setFieldValue("ExitTime", location?.state?.data?.ExitTime);
@@ -773,7 +780,7 @@ const AddClient = () => {
     );
     formik.setFieldValue(
       "RepeatationCount",
-      location?.state?.data?.RepeatationCount
+      location?.state?.data?.RepeatationCount || 2
     );
     formik.setFieldValue("Profit", location?.state?.data?.Profit);
     formik.setFieldValue("Loss", location?.state?.data?.Loss);
@@ -936,12 +943,24 @@ const AddClient = () => {
       name: "expirydata1",
       label: "Expiry Date",
       type: "select",
-      options:
-        getExpiryDate &&
+      options: formik.values.Exchange == "NFO" &&
+        (formik.values.Instrument == "FUTIDX" ||
+          formik.values.Instrument == "FUTSTK")
+        ? [
+          { label: "Monthly", value: "Monthly" },
+          { label: "Next Month", value: "Next_Month" },
+        ]
+        : getExpiryDate &&
         getExpiryDate.data.map((item) => ({
           label: item,
           value: item,
         })),
+      // options:
+      //   getExpiryDate &&
+      //   getExpiryDate.data.map((item) => ({
+      //     label: item,
+      //     value: item,
+      //   })),
       showWhen: (values) =>
         values.Exchange === "NFO" ||
         values.Exchange === "CDS" ||
@@ -1669,7 +1688,7 @@ const AddClient = () => {
       }
       if (formik.values.Strategy !== location.state.data.ScalpType) {
         formik.setFieldValue("Group", "");
-        formik.setFieldValue("HoldExit", "");
+        formik.setFieldValue("HoldExit", "Hold");
         formik.setFieldValue("HigherRange", 0);
         formik.setFieldValue("LowerRange", 0);
         formik.setFieldValue("TStype", "");

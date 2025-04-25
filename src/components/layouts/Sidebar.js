@@ -291,29 +291,35 @@ const permissions  = localStorage.getItem("adminPermission");
       label: "Dashboard",
       permission: [],
     },
-    {
-      path: "technical/pattern",
-      icon: <i className="fa fa-puzzle-piece" />, // Technical Patterns icon
-      label: "Tech Patterns",
-      permission: [],
-    },
-    {
-      path: "lastpattern",
-      icon: <i className="fa fa-random" />, // Last Patterns icon
-      label: "Last Patterns",
-      permission: [],
-    },
-    {
-      path: "all/plan",
-      icon: <i className="ri-folder-chart-line" />, // All Plans icon
-      label: "All Plans",
-      permission: [],
-    },
+    
     {
       path: "tradereport",
       icon: <i className="la la-sellsy" />, // Trade Report icon
       label: "Trade Report",
       permission: [],
+    },
+
+    {
+      path: "tradehistory",
+      icon: <i className="la la-history"></i>,
+      label: "Trade History",
+      permission: [],
+
+    },
+    {
+      path: "traderesponse",
+      icon: <i className="la la-sellsy"></i>,
+      label: (<>Trade <br/> Response</>),
+      permission: [],
+
+
+    },
+    {
+      path: "profitandloss",
+      icon: <i className="las la-universal-access"></i>,
+      label: "Net P&L",
+      permission: [],
+
     },
     {
       path: 'Group',

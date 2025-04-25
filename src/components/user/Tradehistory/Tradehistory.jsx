@@ -198,7 +198,7 @@ const Tradehistory = () => {
             : selectStrategyType === "Pattern"
             ? selectedRowData.TradePattern
             : activeTab,
-        Symbol: selectedRowData.Symbol || "",
+        Symbol:  selectStrategyType === "Option Strategy"? selectedRowData.MainSymbol : selectedRowData.Symbol,
         Username: selectedRowData.Username || "",
         ETPattern:  selectStrategyType ==="Pattern" ? selectedRowData.Pattern :(selectedRowData.TType ||selectedRowData.Targettype),
         Timeframe: selectedRowData.TimeFrame || "",

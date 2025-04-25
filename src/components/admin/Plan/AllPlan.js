@@ -36,6 +36,7 @@ const AdminServicesList = () => {
   const [editablePlans, setEditablePlans] = useState(['ABCd', 'XYZ', 'Testing'])
   const [strategyTags, setStrategyTags] = useState([]); // State for strategy tag options
   const navigate = useNavigate();
+  const adminPermission = localStorage.getItem("adminPermission")
 
   const EditablePlanName = async () => {
     try {
@@ -382,36 +383,37 @@ const AdminServicesList = () => {
                 </div>
               )}
             </Tab>
-            <Tab eventKey="Charting" title="Charting" onClick={() => setActiveTab("Charting")}>
-              {plansData.loading ? (
-                <p>Loading...</p>
-              ) : (
-                <div className="allplan-grid">
-                  {plansData.data1
-                    .filter(
-                      (plan) =>
-                        !["Three Days Live", "Two Days Demo", "One Week Demo"].includes(plan.Planname) &&
-                        plan.ChartPerMonth > 0
-                    )
-                    .map((plan, index) => (
-                      <div key={index} className="allplan-card">
-                        <div className="plan-data">
-                          <div className="text-center">
-                            <h2 className="allplan-card-title">{plan.Planname}</h2>
-                            <h4 className="allplan-card-subtitle">
-                              <FaRupeeSign className="m-1" />
-                              <strong className="planClass">{plan.ChartPerMonth
-                              }</strong>
-                            </h4>
-                            <h4 className="allplan-card-subtitle">
-                              Duration: {plan["Plan Validity"]}
-                            </h4>
-                            <div className="plan-details">
-                              <p className="price-item">
-                                <strong>Segment:</strong>{" "}
-                                {plan?.ChartingSignal?.join(", ")}
-                              </p>
-                              {/* <p className="allplan-card-subtitle">  
+            {adminPermission.includes("ChartingPlatform") && (
+              <Tab eventKey="Charting" title="Charting" onClick={() => setActiveTab("Charting")}>
+                {plansData.loading ? (
+                  <p>Loading...</p>
+                ) : (
+                  <div className="allplan-grid">
+                    {plansData.data1
+                      .filter(
+                        (plan) =>
+                          !["Three Days Live", "Two Days Demo", "One Week Demo"].includes(plan.Planname) &&
+                          plan.ChartPerMonth > 0
+                      )
+                      .map((plan, index) => (
+                        <div key={index} className="allplan-card">
+                          <div className="plan-data">
+                            <div className="text-center">
+                              <h2 className="allplan-card-title">{plan.Planname}</h2>
+                              <h4 className="allplan-card-subtitle">
+                                <FaRupeeSign className="m-1" />
+                                <strong className="planClass">{plan.ChartPerMonth
+                                }</strong>
+                              </h4>
+                              <h4 className="allplan-card-subtitle">
+                                Duration: {plan["Plan Validity"]}
+                              </h4>
+                              <div className="plan-details">
+                                <p className="price-item">
+                                  <strong>Segment:</strong>{" "}
+                                  {plan?.ChartingSignal?.join(", ")}
+                                </p>
+                                {/* <p className="allplan-card-subtitle">  
                                                   {/* <strong className="card-text-Color">Live Per Trade:</strong>
                                                   <FaRupeeSign /> {plan.ChartPerTrade}
                                                 </p>
@@ -420,46 +422,47 @@ const AdminServicesList = () => {
                                                   <strong className="card-text-Color">Fixed Per Month:</strong>
                                                   <FaRupeeSign /> {plan.ChartPerMonth}
                                                 </p> */}
-                              {plan.ChartPaperTrade > 0 && <p className="allplan-card-subtitle">
-                                <strong className="card-text-Color">Paper Per Trade Price:</strong>
-                                <FaRupeeSign /> {plan.ChartPaperTrade}
-                              </p>}
-                              {plan.ChartLiveTrade > 0 &&
-                                <p className="allplan-card-subtitle">
-                                  <strong className="card-text-Color">Live Per Trade Price:</strong>
-                                  <FaRupeeSign /> {plan.ChartLiveTrade}
+                                {plan.ChartPaperTrade > 0 && <p className="allplan-card-subtitle">
+                                  <strong className="card-text-Color">Paper Per Trade Price:</strong>
+                                  <FaRupeeSign /> {plan.ChartPaperTrade}
                                 </p>}
+                                {plan.ChartLiveTrade > 0 &&
+                                  <p className="allplan-card-subtitle">
+                                    <strong className="card-text-Color">Live Per Trade Price:</strong>
+                                    <FaRupeeSign /> {plan.ChartLiveTrade}
+                                  </p>}
 
-                              {plan?.Strategytag && (
-                                <p className="allplan-card-subtitle">
-                                  <strong className="card-text-Color">Strategy Tag:</strong>
-                                  <FaRupeeSign />{" "}
-                                  {Array.isArray(plan.Strategytag)
-                                    ? plan.Strategytag.join(", ")
-                                    : plan.Strategytag}
-                                </p>
-                              )}
+                                {plan?.Strategytag && (
+                                  <p className="allplan-card-subtitle">
+                                    <strong className="card-text-Color">Strategy Tag:</strong>
+                                    <FaRupeeSign />{" "}
+                                    {Array.isArray(plan.Strategytag)
+                                      ? plan.Strategytag.join(", ")
+                                      : plan.Strategytag}
+                                  </p>
+                                )}
 
+                              </div>
+
+                              {/* Edit Button */}
+                              {
+                                editablePlans?.includes(plan.Planname) ? <button
+                                  className="edit-btn"
+                                  onClick={() => handleEdit(plan)}
+                                >
+                                  <FaEdit /> Edit
+                                </button>
+                                  :
+                                  ""
+                              }
                             </div>
-
-                            {/* Edit Button */}
-                            {
-                              editablePlans?.includes(plan.Planname) ? <button
-                                className="edit-btn"
-                                onClick={() => handleEdit(plan)}
-                              >
-                                <FaEdit /> Edit
-                              </button>
-                                :
-                                ""
-                            }
                           </div>
                         </div>
-                      </div>
-                    ))}
-                </div>
-              )}
-            </Tab>
+                      ))}
+                  </div>
+                )}
+              </Tab>
+            )}
           </Tabs>
         </div>
       </div>
