@@ -22,6 +22,7 @@ const Adduser = () => {
         const nameRegex = /^[a-zA-Z]+$/;
         return nameRegex.test(name);
     };
+    const adminPermission = localStorage.getItem("adminPermission")
 
 
     useEffect(() => {
@@ -184,6 +185,7 @@ const Adduser = () => {
                 ClientAmmount: formik.values.Select_License == 1 ? 0 : Number(values.ClientAmmount),
                 planname: values.planname,
                 group: selectedOptions && selectedOptions.map((item) => item.value),
+                Permission: formik.values.permissions || [], // Ensure permissions is always an array
             }
 
 
@@ -206,7 +208,7 @@ const Adduser = () => {
 
             }
 
-
+ 
             await CreateAccount(req)
                 .then((response) => {
                     if (response.Status) {
@@ -242,6 +244,13 @@ const Adduser = () => {
                 })
         },
     });
+    
+    const permissionArray = [
+    ];
+    
+    if (adminPermission) {
+        adminPermission.includes("Option Chain") && permissionArray.push({ label: "Option Chain", value: "Option Chain" });
+    }
 
     const fields = [
         {
@@ -351,7 +360,7 @@ const Adduser = () => {
             disable: false,
         },
 
-
+       
 
     ];
 
@@ -387,24 +396,60 @@ const Adduser = () => {
                             formik={formik}
                             btn_name1_route={"/admin/clientservice"}
                             additional_field={
-                                <div className="col-lg-6 dropdownuser">
-                                    <label className='card-text-Color'>Select Group</label>
-                                    <Select
-                                        defaultValue={selectedIndex?.Planname?.map((item) => ({
-                                            value: item,
-                                            label: item,
-                                        }))}
-                                        isMulti
-                                        options={optionsArray}
-                                        onChange={(selected) => {
-                                            setSelectedOptions(selected);
-                                            formik.setFieldValue('groupName', selected.map((option) => option.value));
-                                        }}
-                                        className="basic-multi-select card-text-Color"
-                                        classNamePrefix="select"
-                                    />
-                                </div>
-
+                                <>
+                                    <div className="col-lg-6 dropdownuser">
+                                        <label className='card-text-Color'>Select Group</label>
+                                        <Select
+                                            defaultValue={selectedIndex?.Planname?.map((item) => ({
+                                                value: item,
+                                                label: item,
+                                            }))}
+                                            isMulti
+                                            options={optionsArray}
+                                            onChange={(selected) => {
+                                                setSelectedOptions(selected);
+                                                formik.setFieldValue('groupName', selected.map((option) => option.value));
+                                            }}
+                                            className="basic-multi-select card-text-Color"
+                                            classNamePrefix="select"
+                                        />
+                                    </div>
+                                    {permissionArray.length > 0 && (
+                                        <div className="col-lg-6">
+                                            <label className='card-text-Color'>Permission</label>
+                                            <div className="checkbox-group">
+                                                {permissionArray.map((permission, index) => (
+                                                    <div key={index} className="form-check">
+                                                        <input
+                                                            type="checkbox"
+                                                            id={`permission-${index}`}
+                                                            className="form-check-input"
+                                                            value={permission.value}
+                                                            onChange={(e) => {
+                                                                const selectedPermissions = formik.values.permissions || [];
+                                                                if (e.target.checked) {
+                                                                    formik.setFieldValue('permissions', [...selectedPermissions, permission.value]);
+                                                                } else {
+                                                                    formik.setFieldValue(
+                                                                        'permissions',
+                                                                        selectedPermissions.filter((perm) => perm !== permission.value)
+                                                                    );
+                                                                }
+                                                            }}
+                                                            checked={formik.values.permissions.includes(permission.value)}
+                                                        />
+                                                        <label
+                                                            htmlFor={`permission-${index}`}
+                                                            className="form-check-label card-text-Color"
+                                                        >
+                                                            {permission.label}
+                                                        </label>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+                                </>
                             }
                         />
                     )}

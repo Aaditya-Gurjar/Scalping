@@ -11,7 +11,7 @@ export function register(config) {
               if (installingWorker.state === 'installed') {
                 if (navigator.serviceWorker.controller) {
                   console.log('New content available; reloading...');
-                  window.location.reload(); // auto reload jab update aaye
+                  window.location.reload();  
                 }
               }
             };

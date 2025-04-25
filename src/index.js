@@ -6,6 +6,7 @@ import { HashRouter } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { ThemeProvider } from "./ThemeContext";
 import { AbortedDeferredError } from "react-router";
+import { register } from "./Utils/Serviceworker";
 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -16,3 +17,5 @@ root.render(
     </HashRouter>
   </ThemeProvider>
 );
+ 
+// register();

@@ -28,6 +28,12 @@ const Clientservice = () => {
     const [walletBalance, setWalletBalance] = useState('');
     const navigate = useNavigate();
 
+    const adminPermission = localStorage.getItem("adminPermission");
+    const permissionArray = [];
+
+    if (adminPermission) {
+        adminPermission.includes("Option Chain") && permissionArray.push({ label: "Option Chain", value: "Option Chain" });
+    }
 
     useEffect(() => {
         fetchClientService();
@@ -146,6 +152,7 @@ const Clientservice = () => {
             User: "",
             Broker: "",
             GroupName: "",
+            permissions: [],
         },
         validate: values => {
             const errors = {};
@@ -169,6 +176,7 @@ const Clientservice = () => {
                 User: values.User,
                 GroupName: selectedOptions?.map((item) => item?.value || item),
                 Broker: values.Broker,
+                Permission: formik.values.permissions || [], // Ensure permissions is always an array
 
             }
 
@@ -538,6 +546,42 @@ const Clientservice = () => {
                                                             />
                                                         </div>
                                                     </div>
+                                                    {permissionArray.length > 0 && (
+                                                        <div className="col-lg-12 mt-3">
+                                                            <h6 style={{ color: "white" }}>Permissions</h6>
+                                                            <div className="checkbox-group">
+                                                                {permissionArray.map((permission, index) => (
+                                                                    <div key={index} className="form-check">
+                                                                        <input
+                                                                            type="checkbox"
+                                                                            id={`permission-${index}`}
+                                                                            className="form-check-input"
+                                                                            value={permission.value}
+                                                                            onChange={(e) => {
+                                                                                const selectedPermissions = formik.values.permissions || [];
+                                                                                if (e.target.checked) {
+                                                                                    formik.setFieldValue('permissions', [...selectedPermissions, permission.value]);
+                                                                                } else {
+                                                                                    formik.setFieldValue(
+                                                                                        'permissions',
+                                                                                        selectedPermissions.filter((perm) => perm !== permission.value)
+                                                                                    );
+                                                                                }
+                                                                            }}
+                                                                            checked={formik.values.permissions.includes(permission.value)}
+                                                                        />
+                                                                        <label
+                                                                            htmlFor={`permission-${index}`}
+                                                                            className="form-check-label"
+                                                                            style={{ color: "white" }}
+                                                                        >
+                                                                            {permission.label}
+                                                                        </label>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                    )}
                                                 </div>
                                             }
                                         />
