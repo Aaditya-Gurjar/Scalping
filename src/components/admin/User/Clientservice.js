@@ -494,11 +494,11 @@ const Clientservice = () => {
                             aria-hidden="true"
                             style={{ display: "block" }}>
                             <div className="modal-dialog modal-dialog-centered custom-modal-width">
-                                <div className="modal-content">
+                                <div className="modal-content card-bg-color">
                                     <div className="modal-header p-3">
                                         {" "}
                                         {/* Adjusted padding */}
-                                        <h5 className="modal-title" id="modalLabel">
+                                        <h5 className="modal-title card-text-Color" id="modalLabel">
                                             Edit Client: {selectedIndex?.Username}
                                         </h5>
                                         <button
@@ -514,7 +514,7 @@ const Clientservice = () => {
                                         />
                                     </div>
                                     <hr style={{ margin: "0" }} /> {/* Remove margin from hr */}
-                                    <div className="modal-body p-1">
+                                    <div className="modal-body p-1 card-bg-color">
                                         {" "}
                                         {/* Adjusted padding */}
                                         <AddForm
@@ -529,7 +529,7 @@ const Clientservice = () => {
                                                 <div className="mt-2">
                                                     <div className="row">
                                                         <div className="col-lg-12">
-                                                            <h6 style={{ color: "white" }}>Select Group</h6>
+                                                            <h6 className="card-text-Color">Select Group</h6>
 
                                                             <Select
                                                                 defaultValue={selectedIndex?.Group?.map((item) => {
@@ -548,7 +548,7 @@ const Clientservice = () => {
                                                     </div>
                                                     {permissionArray.length > 0 && (
                                                         <div className="col-lg-12 mt-3">
-                                                            <h6 style={{ color: "white" }}>Permissions</h6>
+                                                            <h6 className="card-text-Color">Permissions</h6>
                                                             <div className="checkbox-group">
                                                                 {permissionArray.map((permission, index) => (
                                                                     <div key={index} className="form-check">
@@ -572,8 +572,7 @@ const Clientservice = () => {
                                                                         />
                                                                         <label
                                                                             htmlFor={`permission-${index}`}
-                                                                            className="form-check-label"
-                                                                            style={{ color: "white" }}
+                                                                            className="form-check-label card-text-Color"
                                                                         >
                                                                             {permission.label}
                                                                         </label>

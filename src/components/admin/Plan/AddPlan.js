@@ -6,6 +6,7 @@ import { useFormik } from "formik";
 import Select from 'react-select';
 import { useNavigate } from 'react-router-dom';
 import Content from '../../../ExtraComponent/Content';
+import { use } from 'react';
 
 
 // Custom multi-select component
@@ -20,6 +21,7 @@ const CustomMultiSelect = ({ label, options, selected, onChange, disabled }) => 
             zIndex: 9999,
         }),
     };
+
 
     return (
         <div className="col-lg-6">
@@ -49,6 +51,15 @@ const AddPlanPage = () => {
     const [OptionStratgy, setOptionStratgy] = useState([]);
     const [PatternStratgy, setPatternStratgy] = useState([]);
     const [strategyTags, setStrategyTags] = useState([]); // State for strategy tag options
+    const adminPermission = localStorage.getItem("adminPermission");
+
+    const [planOptionArr, setPlanOptionArr] = useState([{ value: "Scalping", label: "SOP" }]);
+
+    useEffect(() => {
+        if (adminPermission.includes("ChartingPlatform")) {
+            setPlanOptionArr((prev) => [...prev, { value: "Charting", label: "Charting" }]);
+        }
+    }, []);
 
     useEffect(() => {
         GetScalpingStratgy();
@@ -231,7 +242,7 @@ const AddPlanPage = () => {
             name: "PlanType",
             label: "Plan Type",
             type: "select",
-            options: [{ value: "Scalping", label: "SOP" }, { value: "Charting", label: "Charting" }],
+            options: planOptionArr,
             col_size: 6,
         },
         {
