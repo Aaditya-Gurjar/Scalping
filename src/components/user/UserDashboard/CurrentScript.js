@@ -77,7 +77,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
   useEffect(() => {
     GetUserAllScripts();
-    GetChartingAllotStg(); 
+    GetChartingAllotStg();
   }, []);
 
   useEffect(() => {
@@ -97,7 +97,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
   useEffect(() => {
     if (data === "ChartingPlatform" && allScripts2.data.length === 0) {
-      GetChartingAllotStg(); 
+      GetChartingAllotStg();
     }
   }, [strategyType]);
 
@@ -411,7 +411,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
     }
   };
   const HandleContinueDiscontinue = async (rowData, type) => {
- 
+
     const index = rowData.rowIndex;
     const isOpen = rowData.tableData[index][5];
 
@@ -442,7 +442,6 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       console.log("Error in finding the trading status");
       return;
     }
-
 
     if (trading) {
       Swal.fire({
@@ -524,20 +523,43 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
                       }
                       : "";
 
-
+          await Discontinue(req) // Pass the req object here
+            .then((response) => {
+              if (response.Status) {
+                Swal.fire({
+                  background: "#1a1e23 ",
+                  backdrop: "#121010ba",
+                  title: "Success",
+                  text: response.message,
+                  icon: "success",
+                  timer: 2000,
+                  timerProgressBar: true,
+                }).then(() => {
+                  setRefresh(!refresh);
+                });
+              } else {
+                Swal.fire({
+                  title: "Error !",
+                  text: response.message,
+                  icon: "error",
+                  timer: 2000,
+                  timerProgressBar: true,
+                });
+              }
+            })
+            .catch((err) => {
+              console.log("Error in delete script", err);
+            });
         }
       });
     } else if (data == "ChartingPlatform") {
 
-      const req = {
-        Username: userName,
-        // User: getCharting[index]?.AccType,
-        Symbol: getCharting[index]?.TSymbol,
-      }
-
-
       if (data == "ChartingPlatform") {
-
+        const req = {
+          Username: userName,
+          // User: getCharting[index]?.AccType,
+          Symbol: getCharting[index]?.TSymbol,
+        }
         await DeleteSingleChartingScript(req).then((response) => {
 
           if (response.Status) {
@@ -564,38 +586,38 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
           }
         });
       } else {
-        await Discontinue(req)
-          .then((response) => {
-            if (response.Status) {
-              Swal.fire({
-                // title: "Success",
-                // text: response.message,
-                // icon: "success",
-                // timer: 2000,
-                // timerProgressBar: true
-                background: "#1a1e23 ",
-                backdrop: "#121010ba",
-                title: "Success",
-                text: response.message,
-                icon: "success",
-                timer: 2000,
-                timerProgressBar: true,
-              }).then(() => {
-                setRefresh(!refresh);
-              });
-            } else {
-              Swal.fire({
-                title: "Error !",
-                text: response.message,
-                icon: "error",
-                timer: 2000,
-                timerProgressBar: true,
-              });
-            }
-          })
-          .catch((err) => {
-            console.log("Error in delete script", err);
-          });
+        // await Discontinue(req)
+        //   .then((response) => {
+        //     if (response.Status) {
+        //       Swal.fire({
+        //         // title: "Success",
+        //         // text: response.message,
+        //         // icon: "success",
+        //         // timer: 2000,
+        //         // timerProgressBar: true
+        //         background: "#1a1e23 ",
+        //         backdrop: "#121010ba",
+        //         title: "Success",
+        //         text: response.message,
+        //         icon: "success",
+        //         timer: 2000,
+        //         timerProgressBar: true,
+        //       }).then(() => {
+        //         setRefresh(!refresh);
+        //       });
+        //     } else {
+        //       Swal.fire({
+        //         title: "Error !",
+        //         text: response.message,
+        //         icon: "error",
+        //         timer: 2000,
+        //         timerProgressBar: true,
+        //       });
+        //     }
+        //   })
+        //   .catch((err) => {
+        //     console.log("Error in delete script", err);
+        //   });
       }
       return;
     } else {
@@ -708,7 +730,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       }
     }
   };
- 
+
   const AddScript = (data) => {
     if (data === "ChartingPlatform") {
       if (allScripts2?.data?.[allScripts2.len]?.CombineChartingSignal?.length >= 1) {
@@ -774,7 +796,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
             timerProgressBar: true,
           });
         }
-      } 
+      }
       else if (data === "ChartingPlatform") {
 
 
@@ -2755,7 +2777,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
                         </div>
                         <div className='d-flex justify-content-end'>
                           {/* <button className='addbtn btn btn-primary rounded mx-2 mt-1' onClick={() => AddScript(data)}>Add Script</button> */}
-                          <button className='addbtn mx-2 mt-1' onClick={() => AddScript(data)}>{data === "ChartingPlatform"? "Signals" : "Add Script"}</button>
+                          <button className='addbtn mx-2 mt-1' onClick={() => AddScript(data)}>{data === "ChartingPlatform" ? "Signals" : "Add Script"}</button>
 
                         </div>
 
@@ -2944,22 +2966,22 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
                         {
                           data === "ChartingPlatform" && (
                             <AddChartingScript
-                            selectStrategyType="ChartingPlatform"
-                            scriptType={allScripts2}
-                            tableType={tableType}
-                            data={data}
-                            selectedType={selectedType}
-                            FromDate={FromDate}
-                            ToDate={ToDate}
-                            chartingSubTab={chartingSubTab}
-                            getCharting={getCharting}
-                            view={view}
-                            fixedRowPerPage={fixedRowPerPage}
-                            allScripts2={allScripts2} // Pass allScripts2 here
-                          />
+                              selectStrategyType="ChartingPlatform"
+                              scriptType={allScripts2}
+                              tableType={tableType}
+                              data={data}
+                              selectedType={selectedType}
+                              FromDate={FromDate}
+                              ToDate={ToDate}
+                              chartingSubTab={chartingSubTab}
+                              getCharting={getCharting}
+                              view={view}
+                              fixedRowPerPage={fixedRowPerPage}
+                              allScripts2={allScripts2} // Pass allScripts2 here
+                            />
                           )
                         }
- 
+
                       </div>
                     </>
                   )}

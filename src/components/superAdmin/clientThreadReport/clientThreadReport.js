@@ -3,18 +3,21 @@ import { getCompanyName, clientThreadeReport } from '../../CommonAPI/SuperAdmin'
 import FullDataTable from '../../../ExtraComponent/CommanDataTable'
 import NoDataFound from '../../../ExtraComponent/NoDataFound'
 import Content from '../../../ExtraComponent/Content';
+import Loader from '../../../ExtraComponent/Loader';
 
 const ClientThreadReport = () => {
 
     const SelectPanelName = sessionStorage.getItem("SelectPanelName")
 
-    const [getAllClientThreadeReport, setAllClientThreadeReport] = useState([])
+    const [getAllClientThreadeReport, setAllClientThreadeReport] = useState({ loading : false, Charting:[], Scalping: [], Option: [], Pattern: [], ReadData: []})
     const [comapnyName, setCompanyName] = useState(SelectPanelName || '')
     const [getAllComapny, setAllComapny] = useState([])
 
     useEffect(() => {
         ComapnyDetails()
     }, [])
+
+    console.log("getAllClientThreadeReport", getAllClientThreadeReport)
 
     useEffect(() => {
         getClientThreadeReport()
@@ -44,10 +47,10 @@ const ClientThreadReport = () => {
         await clientThreadeReport(req)
             .then((response) => {
                 if (response.Status) {
-                    setAllClientThreadeReport(response.Data)
+                    setAllClientThreadeReport({ loading: false, Charting: response.Charting, Scalping: response.Scalping, Option: response.Option, Pattern: response.Pattern, ReadData: response.ReadData })
                 }
                 else {
-                    setAllClientThreadeReport([])
+                    setAllClientThreadeReport({ loading : false, Charting:[], Scalping: [], Option: [], Pattern: [], ReadData: []})
                 }
             })
             .catch((err) => {
@@ -174,30 +177,82 @@ const ClientThreadReport = () => {
                                     })}
                                 </select>
                             </div>
-                            {/* <div className="form-group col-md-3 ms-2">
-                                        <label>Select Username</label>
-                                        <select className="form-select" required=""
-                                            onChange={(e) => setCompanyName(e.target.value)}
-                                            value={comapnyName}
-                                        >
-                                            {getAllComapny && getAllComapny.map((item, index) => {
-                                                return (
-                                                    <option key={index} value={item}>{item}</option>
-                                                )
-                                            })}
-                                        </select>
-                                    </div> */}
+                             
                         </div>
                     </div>
                     {
-                        getAllClientThreadeReport?.length > 0 ?
-                            (<FullDataTable
-                                columns={columns}
-                                data={getAllClientThreadeReport}
-                                checkBox={false}
-                            />)
-                            :
-                            (<NoDataFound />)
+                        getAllClientThreadeReport.loading ? (
+                            <div className="flex justify-center items-center h-52">
+                                <Loader />
+                            </div>
+                        ) : (
+                            <>
+                                {
+                                    !getAllClientThreadeReport.loading &&
+                                    (getAllClientThreadeReport.Scalping?.length ?? 0) === 0 &&
+                                    (getAllClientThreadeReport.Option?.length ?? 0) === 0 &&
+                                    (getAllClientThreadeReport.Pattern?.length ?? 0) === 0 &&
+                                    (getAllClientThreadeReport.ReadData?.length ?? 0) === 0 &&
+                                    <NoDataFound />
+                                }
+
+                                {
+                                    (getAllClientThreadeReport.Scalping?.length ?? 0) > 0 &&
+                                    (
+                                        <>
+                                            <h4>Scalping</h4>
+                                            <FullDataTable
+                                                columns={columns}
+                                                data={getAllClientThreadeReport.Scalping}
+                                                checkBox={false}
+                                            />
+                                        </>
+                                    )
+                                }
+
+                                {
+                                    (getAllClientThreadeReport.Option?.length ?? 0) > 0 &&
+                                    (
+                                        <>
+                                            <h4 className='mt-5'>Option Strategy</h4>
+                                            <FullDataTable
+                                                columns={columns}
+                                                data={getAllClientThreadeReport.Option}
+                                                checkBox={false}
+                                            />
+                                        </>
+                                    )
+                                }
+
+                                {
+                                    (getAllClientThreadeReport.Pattern?.length ?? 0) > 0 &&
+                                    (
+                                        <>
+                                            <h4 className='mt-5'>Pattern Script</h4>
+                                            <FullDataTable
+                                                columns={columns}
+                                                data={getAllClientThreadeReport.Pattern}
+                                                checkBox={false}
+                                            />
+                                        </>
+                                    )
+                                }
+
+                                {
+                                    (getAllClientThreadeReport.ReadData?.length ?? 0) > 0 &&
+                                    (
+                                        <>
+                                            <h4 className='mt-5'>ReadData</h4>
+                                            <FullDataTable
+                                                columns={columns}
+                                                data={getAllClientThreadeReport.ReadData}
+                                                checkBox={false}
+                                            />
+                                        </>
+                                    )
+                                }
+                            </>
+                        )
                     }
 
                 </div>

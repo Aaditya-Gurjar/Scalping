@@ -1144,8 +1144,6 @@ const Strategygroup = () => {
             Page_title={"Admin Details"}
             button_status={false}
             backbutton_status={true}
-
-
         >
 
 

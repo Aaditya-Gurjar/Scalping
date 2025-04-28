@@ -67,7 +67,7 @@ const TradeResponse = () => {
   const day = String(currentDate.getDate()).padStart(2, "0");
   const formattedDate = `${year}.${month}.${day}`;
 
-  // from date
+  // Select Select From Date
   const DefultToDate = new Date();
   DefultToDate.setDate(DefultToDate.getDate() + 1);
   const year1 = DefultToDate.getFullYear();
@@ -438,14 +438,14 @@ const TradeResponse = () => {
 
 
 
-            {/* Select From Date */}
+            {/* Select Select From Date */}
             <div className="response-page-dates">
               <div
                 className={`form-group ${selectStrategyType === "ChartingPlatform"
                   ? "col-lg-2"
                   : "col-lg-2"
                   }`}>
-                <label>Select form Date</label>
+                <label>Select Select From Date</label>
                 <DatePicker
                   className="form-select"
                   selected={FromDate === "" ? formattedDate : FromDate}
@@ -453,13 +453,13 @@ const TradeResponse = () => {
                 />
               </div>
 
-              {/* Select To Date */}
+              {/* Select Select To Date */}
               <div
                 className={`form-group ${selectStrategyType === "ChartingPlatform"
                   ? "col-lg-2"
                   : "col-lg-2"
                   }`}>
-                <label>Select To Date</label>
+                <label>Select Select To Date</label>
                 <DatePicker
                   className="form-select"
                   selected={ToDate === "" ? Defult_To_Date : ToDate}

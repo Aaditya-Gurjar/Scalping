@@ -7,9 +7,18 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Swal from 'sweetalert2';
 import { columns3, columns2, columns1, columns, columns5, columns4 } from './TradeReponseColumn'
-import { getCompanyName, getClientName, getClientScript, ClientTradeResponse } from '../../CommonAPI/SuperAdmin'
+import { getCompanyName, getClientName, getClientScript, ClientTradeResponse, getStrategyType } from '../../CommonAPI/SuperAdmin'
 import NoDataFound from '../../../ExtraComponent/NoDataFound';
 import Content from '../../../ExtraComponent/Content';
+import { map } from 'jquery';
+import { index } from 'd3';
+
+// Utility function to set the date
+const setDate = (date, daysToAdd) => {
+    const newDate = new Date(date);
+    newDate.setDate(newDate.getDate() + daysToAdd);
+    return newDate;
+};
 
 const TradeResponse = () => {
     const CompanyName = sessionStorage.getItem("CompanyName")
@@ -29,7 +38,7 @@ const TradeResponse = () => {
     const [allClientDetails, setAllClientDetails] = useState([])
     const [clientName, setClientName] = useState(ClientName || '')
     const [isLoading, setIsLoading] = useState(false)
-
+    const [allStrategies, setAllStrategies] = useState([]); // State to hold all strategies
 
 
     const Username = localStorage.getItem('name')
@@ -41,7 +50,7 @@ const TradeResponse = () => {
     const formattedDate = `${year}.${month}.${day}`;
 
 
-    // from date
+    // Select Select From Date
     const DefultToDate = new Date();
     DefultToDate.setDate(DefultToDate.getDate() + 1);
     const year1 = DefultToDate.getFullYear();
@@ -223,8 +232,12 @@ const TradeResponse = () => {
 
     }
 
-    useEffect(() => {
-        setStrategyType(StrategyType || 'Scalping')
+    const getStrategy  = async () => {
+        const res = await getStrategyType()
+        setAllStrategies(res.Data); // Store all strategies in state
+    }
+    useEffect(() => { 
+        getStrategy ()
     }, []);
 
     useEffect(() => {
@@ -280,22 +293,21 @@ const TradeResponse = () => {
                             <label>Strategy Type</label>
                             <select className="form-select" required=""
                                 onChange={(e) => {
-                                    setStrategyType(e.target.value)
-                                    sessionStorage.setItem("StrategyType", e.target.value)
+                                    setStrategyType(e.target.value); // Set selected strategy
+                                    sessionStorage.setItem("StrategyType", e.target.value);
                                 }}
                                 value={selectStrategyType}>
-
-                                <option value={"Scalping"}>Scalping</option>
-                                <option value={"Option Strategy"}>Option Strategy</option>
-                                <option value={"Pattern"}>Pattern Script</option>
+                                {allStrategies.map((item, index) => (
+                                    <option key={index} value={item}>{item}</option>
+                                ))}
                             </select>
                         </div>
                         <div className="form-group col-lg-3">
-                            <label>Select form Date</label>
+                            <label>Select Select From Date</label>
                             <DatePicker className="form-select" selected={FromDate == '' ? formattedDate : FromDate} onChange={(date) => setFromDate(date)} />
                         </div>
                         <div className="form-group col-lg-3">
-                            <label>Select To Date</label>
+                            <label>Select Select To Date</label>
                             <DatePicker className="form-select" selected={ToDate == '' ? Defult_To_Date : ToDate} onChange={(date) => setToDate(date)} />
 
                         </div>

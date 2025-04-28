@@ -4,11 +4,16 @@ import Loader from "../../../ExtraComponent/Loader";
 import NoDataFound from "../../../ExtraComponent/NoDataFound";
 import FullDataTable from "../../../ExtraComponent/CommanDataTable(original)";
 import { getColumns8 } from "../../user/UserDashboard/Columns";
-import { getUserChartingScripts } from "../../CommonAPI/User";
+import { getStrategyTagApi, getUserChartingScripts } from "../../CommonAPI/User";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Content from "../../../ExtraComponent/Content";
 import ChartingCard from "../UserDashboard/ChartingCard";
+
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import Select from "react-select";
 
 const AddChartingScript2 = () => {
   const location = useLocation();
@@ -30,9 +35,13 @@ const AddChartingScript2 = () => {
   const [view, setView] = useState(initialView || "table");
   const [getCharting, setGetCharting] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [fromDate, setFromDate] = useState(new Date( Date.now()));
-  const [toDate, setToDate] = useState(new Date( Date.now()));
-const navigate = useNavigate();
+  const [fromDate, setFromDate] = useState(new Date(Date.now()));
+  const [toDate, setToDate] = useState(new Date(Date.now()));
+  const [strategy, setStrategy] = React.useState('All');
+  const [strategyTagOptions, setStrategyTagOptions] = useState([]);
+  const navigate = useNavigate();
+  const Username = localStorage.getItem("name");
+
   const fetchChartingData = async () => {
     setLoading(true);
     const adjustedToDate = new Date(toDate);
@@ -46,8 +55,14 @@ const navigate = useNavigate();
     };
     try {
       const response = await getUserChartingScripts(req);
+      console.log("response", response)
       if (response?.Status) {
-        setGetCharting(response.Client);
+        let filteredData = response.Client;
+        if (strategy !== "All") {
+          filteredData = filteredData.filter(item => item.StrategyTag === strategy);
+          console.log("Filtered data based on strategy:", filteredData);
+        }
+        setGetCharting(filteredData);
       } else {
         setGetCharting([]);
       }
@@ -59,7 +74,25 @@ const navigate = useNavigate();
     }
   };
 
-  console.log("segment", segment);
+  const handleChange = (selectedOption) => {
+    setStrategy(selectedOption.value);
+    console.log("Selected strategy:", selectedOption.value);
+  };
+
+  const fetchStrategyTags = async () => {
+    try {
+      const response = await getStrategyTagApi(Username);
+      console.log("response", response)
+      setStrategyTagOptions(response?.StrategyTag || []);
+    }
+    catch (error) {
+      console.error("Error fetching strategy tags:", error);
+    }
+  }
+
+  useEffect(() => {
+    fetchStrategyTags();
+  }, []);
 
   useEffect(() => {
     if (segment) {
@@ -69,8 +102,9 @@ const navigate = useNavigate();
 
   useEffect(() => {
     fetchChartingData();
-  }, [chartingSubTab, fromDate, toDate]);
+  }, [chartingSubTab, fromDate, toDate, strategy]);
 
+  console.log("strategyTagOptions", strategyTagOptions)
   return (
     <Content
       Page_title={"🖥️ Panel Track"}
@@ -79,12 +113,14 @@ const navigate = useNavigate();
       <div className="iq-card-body">
 
         <div className="d-flex justify-content-end">
-                <button
-                  className="btn btn-primary m-3"
-                  onClick={() => navigate("/user/dashboard", { state:{prevSelectedTab: "ChartigPlatform"}})}>
-                  Back
-                </button>
-              </div>
+          <button
+            className="btn btn-primary m-3"
+            onClick={() => navigate("/user/dashboard")}>
+            Back
+          </button>
+        </div>
+
+
 
 
         {/* Add view toggle buttons */}
@@ -99,6 +135,11 @@ const navigate = useNavigate();
               gap: "10px",
             }}
           >
+
+
+
+
+
             {/* Heading */}
             <h4 className="m-0 card-text-Color" style={{ fontWeight: "600" }}>
               {tableType === "MultiCondition" ? "Scalping" : data}
@@ -124,6 +165,19 @@ const navigate = useNavigate();
                 </button>
               ))}
             </div>
+            <Box sx={{ minWidth: 120 }}>
+              <FormControl fullWidth>
+                <Select
+                  options={[
+                    { value: "All", label: "All" },
+                    ...strategyTagOptions.map((option) => ({ value: option, label: option })),
+                  ]}
+                  value={{ value: strategy, label: strategy }}
+                  onChange={handleChange}
+                  placeholder="Select Strategy Tag"
+                />
+              </FormControl>
+            </Box>
 
             {/* View Toggle Buttons */}
             <div className="d-flex" style={{ gap: "10px" }}>
@@ -160,7 +214,10 @@ const navigate = useNavigate();
                 </>
               )}
             </div>
+            
           </div>
+
+
         )}
       </div>
       <div>
@@ -183,7 +240,7 @@ const navigate = useNavigate();
                   <>
                     <div className="d-flex justify-content-end " style={{ gap: "20px" }}>
                       <div style={{ width: "10%" }}>
-                        <strong className="card-text-Color">From Date:</strong>
+                        <strong className="card-text-Color">Select From Date:</strong>
                         <DatePicker
                           selected={fromDate}
                           onChange={(date) => setFromDate(date)}
@@ -192,7 +249,7 @@ const navigate = useNavigate();
                         />
                       </div>
                       <div style={{ width: "10%" }}>
-                        <strong className="card-text-Color">To Date:</strong>
+                        <strong className="card-text-Color">Select To Date:</strong>
                         <DatePicker
                           selected={toDate}
                           onChange={(date) => setToDate(date)}

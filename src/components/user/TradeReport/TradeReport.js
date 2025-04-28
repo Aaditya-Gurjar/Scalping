@@ -66,7 +66,7 @@ const TradeReport = () => {
     const day = String(currentDate.getDate()).padStart(2, '0');
     const formattedDate = `${year}.${month}.${day}`;
 
-    // Set Default To Date (next day)
+    // Set Default Select To Date (next day)
     const DefultToDate = new Date();
     DefultToDate.setDate(DefultToDate.getDate() + 1);
     const year1 = DefultToDate.getFullYear();
@@ -432,7 +432,7 @@ const TradeReport = () => {
                         <div className="d-flex justify-content-end col-lg-12 report-page-dates">
                             <div className="form-group me-2"></div>
                             <div className="form-group me-3 col-lg-2">
-                                <label>Select From Date</label>
+                                <label>Select Select From Date</label>
                                 <DatePicker
                                     className="form-select"
                                     selected={FromDate === '' ? formattedDate : FromDate}
@@ -441,7 +441,7 @@ const TradeReport = () => {
                             </div>
 
                             <div className="form-group col-lg-2">
-                                <label>Select To Date</label>
+                                <label>Select Select To Date</label>
                                 <DatePicker
                                     className="form-select"
                                     selected={ToDate === '' ? Defult_To_Date : ToDate}

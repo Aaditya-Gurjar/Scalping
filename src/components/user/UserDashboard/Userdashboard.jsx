@@ -816,7 +816,7 @@ console.log("location.state.prevSelectedTab", location.state?.prevSelectedTab)
                 <div className="d-flex justify-content-end align-items-center dashboard-date"
                 >
                   <div className="form-group me-3">
-                    <label className="form-label">From Date</label>
+                    <label className="form-label">Select From Date</label>
                     <DatePicker
                       className="form-control"
                       selected={FromDate || formattedDate}
@@ -825,7 +825,7 @@ console.log("location.state.prevSelectedTab", location.state?.prevSelectedTab)
                     />
                   </div>
                   <div className="form-group">
-                    <label className="form-label">To Date</label>
+                    <label className="form-label">Select To Date</label>
                     <DatePicker
                       className="form-control"
                       selected={ToDate || Defult_To_Date}

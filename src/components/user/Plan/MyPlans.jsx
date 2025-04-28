@@ -167,7 +167,7 @@ const MyPurchasedPlans = () => {
           <div className="container-fluid mb-5">
             <div className="row">
               <div className="col-md-6 mb-3">
-                <h5>From Date</h5>
+                <h5>Select From Date</h5>
                 <input
                   type="date"
                   className="form-control"
@@ -177,7 +177,7 @@ const MyPurchasedPlans = () => {
               </div>
 
               <div className="col-md-6 mb-3">
-                <h5>To Date</h5>
+                <h5>Select To Date</h5>
                 <input
                   type="date"
                   className="form-control"
@@ -198,7 +198,7 @@ const MyPurchasedPlans = () => {
           <div className="container-fluid mb-5">
             <div className="row">
               <div className="col-md-6 mb-3">
-                <h5>From Date</h5>
+                <h5>Select From Date</h5>
                 <input
                   type="date"
                   className="form-control"
@@ -208,7 +208,7 @@ const MyPurchasedPlans = () => {
               </div>
 
               <div className="col-md-6 mb-3">
-                <h5>To Date</h5>
+                <h5>Select To Date</h5>
                 <input
                   type="date"
                   className="form-control"

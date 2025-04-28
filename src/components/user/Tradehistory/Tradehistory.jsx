@@ -500,7 +500,7 @@ console.log("AnalyticsOverview", AnalyticsOverview);
            <div className="history-page-dates">
            <div className="col-12 col-md-6 col-lg-2">
               <div className="form-group">
-                <label className="form-label">From Date</label>
+                <label className="form-label">Select From Date</label>
                 <DatePicker
                   className="form-control"
                   selected={FromDate || formattedDate}
@@ -511,7 +511,7 @@ console.log("AnalyticsOverview", AnalyticsOverview);
             </div>
             <div className="col-12 col-md-6 col-lg-2">
               <div className="form-group">
-                <label className="form-label">To Date</label>
+                <label className="form-label">Select To Date</label>
                 <DatePicker
                   className="form-control"
                   selected={ToDate || Default_To_Date}

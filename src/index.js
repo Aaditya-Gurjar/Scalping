@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
@@ -8,6 +8,7 @@ import { ThemeProvider } from "./ThemeContext";
 import { AbortedDeferredError } from "react-router";
 import { register } from "./Utils/Serviceworker";
 
+ 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

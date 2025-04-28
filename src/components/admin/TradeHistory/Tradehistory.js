@@ -525,7 +525,7 @@ const Tradehistory = () => {
                         </div>
                         <div className="col-12 col-md-4 col-lg-3">
                             <div className="form-group">
-                                <label className="form-label">From Date</label>
+                                <label className="form-label">Select From Date</label>
                                 <DatePicker
                                     className="form-control"
                                     selected={FromDate || formattedDate}
@@ -536,7 +536,7 @@ const Tradehistory = () => {
                         </div>
                         <div className="col-12 col-md-4 col-lg-3">
                             <div className="form-group">
-                                <label className="form-label">To Date</label>
+                                <label className="form-label">Select To Date</label>
                                 <DatePicker
                                     className="form-control"
                                     selected={ToDate || Default_To_Date}

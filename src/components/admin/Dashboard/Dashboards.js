@@ -278,7 +278,7 @@ const Dashboards = () => {
             <div className="row align-items-center">
               <div className="col-md-6 mb-3">
                 <label htmlFor="fromDate" className="form-label">
-                  From Date
+                  Select From Date
                 </label>
                 <input
                   type="date"
@@ -290,7 +290,7 @@ const Dashboards = () => {
               </div>
               <div className="col-md-6 mb-3">
                 <label htmlFor="toDate" className="form-label">
-                  To Date
+                  Select To Date
                 </label>
                 <input
                   type="date"
@@ -665,7 +665,7 @@ const Dashboards = () => {
                   <div className="row align-items-center">
                     <div className="col-md-6 mb-3">
                       <label htmlFor="fromDate1" className="form-label">
-                        From Date
+                        Select From Date
                       </label>
                       <input
                         type="date"
@@ -677,7 +677,7 @@ const Dashboards = () => {
                     </div>
                     <div className="col-md-6 mb-3">
                       <label htmlFor="toDate1" className="form-label">
-                        To Date
+                        Select To Date
                       </label>
                       <input
                         type="date"
