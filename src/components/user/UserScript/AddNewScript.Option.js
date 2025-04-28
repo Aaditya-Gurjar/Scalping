@@ -641,8 +641,10 @@ const AddClient = () => {
               timer: 1500,
               timerProgressBar: true,
             });
+            sessionStorage.setItem("addScriptTab", "Option Strategy"); 
+
             setTimeout(() => {
-              navigate("/user/dashboard");
+              navigate("/user/dashboard", { state:{prevSelectedTab: "Option Strategy"}});
             }, 1500);
           } else {
             Swal.fire({

@@ -692,8 +692,10 @@ const AddClient = () => {
                 timer: 1500,
                 timerProgressBar: true,
               });
+
+              sessionStorage.setItem("addScriptTab", "Scalping"); 
               setTimeout(() => {
-                navigate("/user/dashboard");
+                navigate("/user/dashboard" );
               }, 1500);
             } else {
               Swal.fire({
@@ -2080,6 +2082,10 @@ const AddClient = () => {
         btn_name1="Cancel"
         formik={formik}
         btn_name1_route={"/user/dashboard"}
+        btn_name1_onClick={() => {
+          sessionStorage.setItem("addScriptTab", "Scalping");
+          navigate("/user/dashboard");
+        }}
         additional_field={
           <div>
             {![
