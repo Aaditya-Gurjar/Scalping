@@ -7202,10 +7202,10 @@ height: auto;
   max-height: auto !important;
 }
 
-.report-btns {
+/* .report-btns {
   position: absolute !important;
   z-index: 2;
-}
+} */
 
 .report-page-dates {
   position: absolute !important;

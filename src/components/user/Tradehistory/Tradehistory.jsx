@@ -466,8 +466,8 @@ console.log("AnalyticsOverview", AnalyticsOverview);
       <div className="iq-card-body">
         <div className="card-body">
           <div className="row g-3 mb-4">
-            <div className="col-12 col-md-6 col-lg-4">
-              <div className="d-flex justify-content-center report-btns">
+            <div className="col-12 col-md-6 col-lg-8">
+              <div className="d-flex  report-btns">
                 <ul
                   className="nav nav-pills shadow rounded-pill p-1"
                   style={{ backgroundColor: "#f1f3f5" }}
@@ -497,8 +497,9 @@ console.log("AnalyticsOverview", AnalyticsOverview);
               </div>
 
             </div>
+            <div className="col-12 col-md-6 col-lg-4">
            <div className="history-page-dates">
-           <div className="col-12 col-md-6 col-lg-2">
+           <div className="col-12 col-md-6 col-lg-6">
               <div className="form-group">
                 <label className="form-label">Select From Date</label>
                 <DatePicker
@@ -509,7 +510,7 @@ console.log("AnalyticsOverview", AnalyticsOverview);
                 />
               </div>
             </div>
-            <div className="col-12 col-md-6 col-lg-2">
+            <div className="col-12 col-md-6 col-lg-6">
               <div className="form-group">
                 <label className="form-label">Select To Date</label>
                 <DatePicker
@@ -520,6 +521,7 @@ console.log("AnalyticsOverview", AnalyticsOverview);
                 />
               </div>
             </div>
+           </div>
            </div>
           </div>
           {selectStrategyType === "Scalping" ? (

@@ -27,7 +27,7 @@ const Pannel = () => {
   const day = String(currentDate.getDate()).padStart(2, "0");
   const formattedDate = `${year}.${month}.${day}`;
 
-  // Select Select From Date
+  // Select From Date
   const DefultToDate = new Date();
   DefultToDate.setDate(DefultToDate.getDate() + 1);
   const year1 = DefultToDate.getFullYear();
@@ -161,7 +161,7 @@ const Pannel = () => {
           <div>
             <div className="row">
               <div className="form-group col-lg-4">
-                <label>Select Select From Date</label>
+                <label>Select From Date</label>
                 <DatePicker
                   className="form-select"
                   selected={fromDate == "" ? formattedDate : fromDate}
@@ -169,7 +169,7 @@ const Pannel = () => {
                 />
               </div>
               <div className="form-group col-lg-4">
-                <label>Select Select To Date</label>
+                <label>Select To Date</label>
                 <DatePicker
                   className="form-select"
                   selected={ToDate == "" ? Defult_To_Date : ToDate}
@@ -245,7 +245,7 @@ const Pannel = () => {
               <div>
                 <div className="row">
                   <div className="form-group col-lg-3 ">
-                    <label>Select Select From Date</label>
+                    <label>Select From Date</label>
                     <DatePicker
                       className="form-select"
                       selected={fromDate == "" ? formattedDate : fromDate}
@@ -253,7 +253,7 @@ const Pannel = () => {
                     />
                   </div>
                   <div className="form-group col-lg-3">
-                    <label>Select Select To Date</label>
+                    <label>Select To Date</label>
                     <DatePicker
                       className="form-select"
                       selected={ToDate == "" ? Defult_To_Date : ToDate}
