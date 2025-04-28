@@ -25,17 +25,17 @@ const Userlog = () => {
     })
 
 
+
     const [selectStrategyType, setStrategyType] = useState(StrategyType || '')
 
     const getAllServiceGiven = async () => {
         if (selectStrategyType == '') {
             return ""
         }
-        const data = { Strategy: selectStrategyType && selectStrategyType  == "Scalping" ? "NewScalping" : selectStrategyType }
+        const data = { Strategy: selectStrategyType && selectStrategyType == "Scalping" ? "NewScalping" : selectStrategyType }
         await Get_All_Service(data)
             .then((response) => {
                 if (response.Status) {
-                    console.log("response", response);
 
                     setServiceDetails({
                         loading: false,
@@ -134,30 +134,7 @@ const Userlog = () => {
                 sort: true,
             }
         },
-        {
-            name: "Fixed Price",
-            label: "Fixed Price",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
-        {
-            name: "OneDirection",
-            label: "One Directional",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
-        {
-            name: "SingleScript",
-            label: "Multi Directional",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
+
         {
             name: "MCX",
             label: "MCX",
@@ -166,31 +143,20 @@ const Userlog = () => {
                 sort: true,
             }
         },
+
         {
-            name: "CDS",
-            label: "CDS",
+            name: "Multi Conditional",
+            label: "Scalping",
             options: {
                 filter: true,
                 sort: true,
             }
         },
-        {
-            name: "Candlestickpattern",
-            label: "Candlestickpattern",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
-        {
-            name: "ChartPattern",
-            label: "ChartPattern",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
-        
+
+
+
+
+
 
     ];
 
@@ -494,7 +460,7 @@ const Userlog = () => {
         },
         {
             name: "UsedService",
-            label: "UsedService",
+            label: "Used Service",
             options: {
                 filter: true,
                 sort: true,
@@ -517,6 +483,14 @@ const Userlog = () => {
             }
         },
         {
+            name: "MCX",
+            label: "MCX",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
             name: "Candlestickpattern",
             label: "Candlestick Pattern",
             options: {
@@ -532,22 +506,8 @@ const Userlog = () => {
                 sort: true,
             }
         },
-        {
-            name: "MCX",
-            label: "MCX",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
-        {
-            name: "CDS",
-            label: "CDS",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
+
+
 
 
     ];
@@ -563,13 +523,20 @@ const Userlog = () => {
 
         await get_User_Data(data)
             .then((response) => {
-                console.log("Response", response)
-
                 if (response.Status) {
-                    setUserData({
-                        loading: false,
-                        data: response.NewScalping
-                    })
+                    if (selectStrategyType === "Scalping") {
+                        setUserData({
+                            loading: false,
+                            data: response.NewScalping
+                        })
+                    }
+                    else {
+                        setUserData({
+                            loading: false,
+                            data: response.Data
+                        })
+                    }
+
                 }
                 else {
                     setUserData({
@@ -592,59 +559,59 @@ const Userlog = () => {
                 backbutton_status={true}
 
             >
-                
-                            <div className="iq-card-body">
 
-                                <div className="was-validated ">
-                                    <div className='d-flex'>
+                <div className="iq-card-body">
 
-                                        <div className="form-group col-md-4 ms-2">
-                                            <label>Strategy Type</label>
-                                            <select className="form-select" required=""
-                                                onChange={(e) => {
-                                                    setStrategyType(e.target.value)
-                                                    sessionStorage.setItem('StrategyType', e.target.value)
-                                                }}
-                                                value={selectStrategyType}>
-                                                <option value={"Scalping"}>Scalping</option>
-                                                <option value={"Option Strategy"}>Option Strategy</option>
-                                                <option value={"Pattern"}>Pattern Script</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                {getServiceDetails.loading ? (
-                                    <Loader />
-                                ) : (
-                                    <>
-                                        {selectStrategyType === "Scalping" && (
-                                            getServiceDetails.data?.length > 0 ? (
-                                                <div className="iq-card-body px-2">
-                                                    <FullDataTable columns={columns} data={getServiceDetails.data} checkBox={false} />
-                                                </div>
-                                            ) : <NoDataFound />
-                                        )}
+                    <div className="was-validated ">
+                        <div className='d-flex'>
 
-                                        {selectStrategyType === "Option Strategy" && (
-                                            getServiceDetails.data?.length > 0 ? (
-                                                <div className="iq-card-body px-2">
-                                                    <FullDataTable columns={columns1} data={getServiceDetails.data} checkBox={false} />
-                                                </div>
-                                            ) : <NoDataFound />
-                                        )}
-
-                                        {selectStrategyType === "Pattern" && (
-                                            getServiceDetails.data?.length > 0 ? (
-                                                <div className="iq-card-body px-2">
-                                                    <FullDataTable columns={columns2} data={getServiceDetails.data} checkBox={false} />
-                                                </div>
-                                            ) : <NoDataFound />
-                                        )}
-                                    </>
-                                )}
-
+                            <div className="form-group col-md-4 ms-2">
+                                <label>Strategy Type</label>
+                                <select className="form-select" required=""
+                                    onChange={(e) => {
+                                        setStrategyType(e.target.value)
+                                        sessionStorage.setItem('StrategyType', e.target.value)
+                                    }}
+                                    value={selectStrategyType}>
+                                    <option value={"Scalping"}>Scalping</option>
+                                    <option value={"Option Strategy"}>Option Strategy</option>
+                                    <option value={"Pattern"}>Pattern Script</option>
+                                </select>
                             </div>
-                       
+                        </div>
+                    </div>
+                    {getServiceDetails.loading ? (
+                        <Loader />
+                    ) : (
+                        <>
+                            {selectStrategyType === "Scalping" && (
+                                getServiceDetails.data?.length > 0 ? (
+                                    <div className="iq-card-body px-2">
+                                        <FullDataTable columns={columns} data={getServiceDetails.data} checkBox={false} />
+                                    </div>
+                                ) : <NoDataFound />
+                            )}
+
+                            {selectStrategyType === "Option Strategy" && (
+                                getServiceDetails.data?.length > 0 ? (
+                                    <div className="iq-card-body px-2">
+                                        <FullDataTable columns={columns1} data={getServiceDetails.data} checkBox={false} />
+                                    </div>
+                                ) : <NoDataFound />
+                            )}
+
+                            {selectStrategyType === "Pattern" && (
+                                getServiceDetails.data?.length > 0 ? (
+                                    <div className="iq-card-body px-2">
+                                        <FullDataTable columns={columns2} data={getServiceDetails.data} checkBox={false} />
+                                    </div>
+                                ) : <NoDataFound />
+                            )}
+                        </>
+                    )}
+
+                </div>
+
                 {
                     <>
                         <div
@@ -656,8 +623,8 @@ const Userlog = () => {
                         >
                             <div className="modal-dialog modal-xl modal-dialog-centered">
                                 <div className="modal-content">
-                                    <div className="modal-header">
-                                        <h5 className="modal-title">All Scripts</h5>
+                                    <div className="modal-header card-bg-color">
+                                        <h5 className="modal-title ">All Scripts</h5>
                                         <button
                                             type="button"
                                             className="btn-close"

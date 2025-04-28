@@ -156,6 +156,26 @@ export const getClientName = async (data) => {
     }
 
 }
+
+
+export const getStrategyType = async () => {
+    var token = localStorage.getItem('token')
+    try {
+        const res = await axios.get(`${Config.base_url}MainStrategy`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+        return res?.data
+
+    }
+    catch (err) {
+        return err
+    }
+}
 export const addBroker = async (data) => {
     const token = localStorage.getItem('token')
     try {
@@ -334,19 +354,19 @@ export const updateAdmin = async (data) => {
 export const apiCreateInfo = async (data) => {
     const token = localStorage.getItem('token')
 
-    
-// Brokername: str = Form(...),
-// Companyname: str = Form(...),
-// step1: str = Form(None),
-// step1image: UploadFile = File(None),
-// step2: str = Form(None),
-// step2image: UploadFile = File(None),
-// step3: str = Form(None),
-// step3image: UploadFile = File(None),
-// step4: str = Form(None),
-// step4image: UploadFile = File(None),
-// step5: str = Form(None),
-// step5image: UploadFile = File(None)
+
+    // Brokername: str = Form(...),
+    // Companyname: str = Form(...),
+    // step1: str = Form(None),
+    // step1image: UploadFile = File(None),
+    // step2: str = Form(None),
+    // step2image: UploadFile = File(None),
+    // step3: str = Form(None),
+    // step3image: UploadFile = File(None),
+    // step4: str = Form(None),
+    // step4image: UploadFile = File(None),
+    // step5: str = Form(None),
+    // step5image: UploadFile = File(None)
     try {
         const formData = new FormData();
         formData.append('Brokername', data.Brokername);
@@ -399,7 +419,7 @@ export const pm2Reload = async (data) => {
 export const allClientListDetails = async (data) => {
     const token = localStorage.getItem('token');
     try {
-     
+
 
         const res = await axios.get(`${Config.superAdmin_base_url}ClientDetails/${data}`, data,
             {
@@ -539,12 +559,55 @@ export const seeAllSubAdminList = async (data) => {
 
 //delete subadmin
 export const deleteSubAdminData = async (data) => {
-  
+
 
 
     const token = localStorage.getItem('token');
     try {
         const res = await axios.post(`${Config.superAdmin_base_url}SubadminDeleteDetails`, data,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+        return res?.data
+    } catch (error) {
+        return error
+    }
+}
+
+
+
+
+export const superAdminClientThreadeReport1 = async (companyName) => {
+    const token = localStorage.getItem('token')
+    try {
+        const res = await axios.get(`${Config.base_url}CAllThreadreport/${companyName}`, 
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+
+}
+
+
+export const superadminCoupon = async (data) => {
+
+
+
+    const token = localStorage.getItem('token');
+    try {
+        const res = await axios.post(`${Config.superAdmin_base_url}Adminoffer`, data,
             {
                 headers: {
                     'Content-Type': 'application/json',

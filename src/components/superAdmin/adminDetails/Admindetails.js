@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
-import { adminDetails, addFund, closePanel, updateAdmin, pm2Reload, allClientListDetails, superToAdminPermission, superToAdminBrokerPermission, superToAdminGetNewPermission, seeAllSubAdminList, deleteSubAdminData } from '../../CommonAPI/SuperAdmin';
+import { adminDetails, addFund, closePanel, updateAdmin, pm2Reload, allClientListDetails, superToAdminPermission, superToAdminBrokerPermission, superToAdminGetNewPermission, seeAllSubAdminList, deleteSubAdminData, superadminCoupon } from '../../CommonAPI/SuperAdmin';
 import GridExample from '../../../ExtraComponent/CommanDataTable'
-import { SquarePen, RotateCcw, Eye, UserPlus, Earth, UserSearch, Trash2 } from 'lucide-react';
+import { SquarePen, RotateCcw, Eye, UserPlus, Earth, UserSearch, Trash2, BadgePercent } from 'lucide-react';
 import { useFormik } from "formik";
 import AddForm from "../../../ExtraComponent/FormData";
 import NoDataFound from '../../../ExtraComponent/NoDataFound';
@@ -66,8 +66,56 @@ const Strategygroup = () => {
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [selectedIndex, setSelectedIndex] = useState(0);
 
+    const [offerData, setOfferData] = useState({
+        Durtion: "",
+        Price: "",
+        OfferPrice: "",
+        Companyname: "",
+    });
+    const [showOfferModal, setShowOfferModal] = useState(false);
 
+    const durationOptions = [
+        { value: "One_Month", label: "One Month" },
+        { value: "Quarterly", label: "Quarterly" },
+        { value: "Half_Yearly", label: "Half Yearly" },
+        { value: "Yearly", label: "Yearly" },
+    ];
 
+    const handleCoupon = (tableMeta) => {
+        setOfferData({
+            ...offerData,
+            Companyname: tableMeta.rowData[1],
+        });
+        setShowOfferModal(true);
+    };
+
+    const handleOfferSubmit = async () => {
+        const res = await superadminCoupon(offerData);
+        if (res.Status) {
+            Swal.fire({
+                background: "#1a1e23 ",
+                backdrop: "#121010ba",
+                confirmButtonColor: "#1ccc8a",
+                title: "Success!",
+                text: res.message,
+                icon: "success",
+                timer: 2000,
+            });
+        } else {
+            Swal.fire({
+                background: "#1a1e23 ",
+                backdrop: "#121010ba",
+                confirmButtonColor: "#1ccc8a",
+                title: "Error!",
+                text: res.message,
+                icon: "error",
+                timer: 2000,
+            });
+        }
+ 
+        console.log("res", res)
+        setShowOfferModal(false); // Close modal
+    };
 
     useEffect(() => {
         adminDetailsData();
@@ -406,6 +454,24 @@ const Strategygroup = () => {
                             style={{ cursor: "pointer" }}
                             onClick={() => handleClientList(tableMeta)} // Pass tableMeta
                         />
+                    )
+                },
+            },
+        },
+
+        {
+            name: "Add Offer",
+            label: "Add Offer",
+            options: {
+                filter: true,
+                sort: false,
+                customBodyRender: (value, tableMeta, updateValue) => {
+                    return (
+                        <BadgePercent
+                            size={20}
+                            style={{ cursor: "pointer" }}
+                            onClick={() => handleCoupon(tableMeta)} // Pass tableMeta
+                        />
                     );
                 },
             },
@@ -534,16 +600,16 @@ const Strategygroup = () => {
                 customBodyRender: (value) => {
                     if (Array.isArray(value)) {
                         let formattedText = value
-                            .map((item, index) => ((index + 1) % 3 === 0 ? item + "\n" : item)) // Har 3rd element ke baad new line
+                            .map((item, index) => ((index + 1) % 7 === 0 ? item + "\n" : item)) // Har 3rd element ke baad new line
                             .join(", "); // Comma separated format
-        
+
                         return <pre style={{ whiteSpace: "pre-wrap" }}>{formattedText}</pre>;
                     }
                     return value;
                 }
             }
         }
-        
+
     ];
 
     const handleAddFound = (index) => {
@@ -597,55 +663,203 @@ const Strategygroup = () => {
             })
     }
 
+
     useEffect(() => {
         formik.setValues({
             Companyname: singleAdminData?.Companyname,
             Username: singleAdminData?.username,
             mobile_no: singleAdminData?.SignMobileNo,
             SignEmail: singleAdminData?.SignEmail,
-            Url: "",
+            Url: singleAdminData?.Url,
+            SOPPaperTrade: singleAdminData?.SOPPaperTrade,
+            SOPLiveTrade: singleAdminData?.SOPLiveTrade,
+            SOPScriptwise: singleAdminData?.SOPScriptwise,
+            ChartPerTrade: singleAdminData?.ChartPerTrade,
+            ChartPerMonth: singleAdminData?.ChartPerMonth,
         })
     }, [singleAdminData])
 
 
+    // const formik = useFormik({
+    //     initialValues: {
+    //         Companyname: '',
+    //         Username: '',
+    //         mobile_no: '',
+    //         SignEmail: '',
+    //         Url: '',
+    //     },
+    //     validate: (values) => {
+    //         let errors = {};
+
+    //         if (!values.mobile_no) {
+    //             errors.mobile_no = "Please enter mobile number";
+    //         }
+    //         if (!values.SignEmail) {
+    //             errors.SignEmail = "Please enter email";
+    //         }
+    //         else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.SignEmail)) {
+    //             errors.SignEmail = "Invalid email address";
+    //         }
+
+    //         return errors;
+    //     },
+    //     onSubmit: async (values) => {
+
+    //         const req = {
+    //             Companyname: singleAdminData?.Companyname,
+    //             Username: singleAdminData?.username,
+    //             mobile_no: values.mobile_no,
+    //             SignEmail: values.SignEmail,
+    //             Url: "",
+    //         }
+
+    //         await updateAdmin(req)
+    //             .then((response) => {
+    //                 if (response.Status) {
+    //                     Swal.fire({
+    //                         background: "#1a1e23 ",
+    //                         backdrop: "#121010ba",
+    //                         confirmButtonColor: "#1ccc8a",
+    //                         title: "Admin Updated!",
+    //                         text: response.message,
+    //                         icon: "success",
+    //                         timer: 2000,
+    //                         timerProgressBar: true,
+    //                     });
+    //                     adminDetailsData();
+    //                     setShowUpdate(false);
+    //                     formik.resetForm();
+    //                 }
+    //                 else {
+    //                     Swal.fire({
+    //                         background: "#1a1e23 ",
+    //                         backdrop: "#121010ba",
+    //                         confirmButtonColor: "#1ccc8a",
+    //                         title: "Error!",
+    //                         text: response.message,
+    //                         icon: "error",
+    //                         timer: 2000,
+    //                         timerProgressBar: true,
+    //                     });
+    //                 }
+    //             })
+    //             .catch((err) => {
+
+    //                 console.log("Error in fatching the Dashboard Details", err)
+    //             })
+    //     },
+    // });
+
+    // const fields = [
+    //     {
+    //         name: "mobile_no",
+    //         label: "Mobile Number",
+    //         type: "text3",
+    //         label_size: 12,
+    //         hiding: false,
+    //         col_size: 12,
+    //         disable: false,
+    //     },
+    //     {
+    //         name: "SignEmail",
+    //         label: "Email",
+    //         type: "text",
+    //         label_size: 12,
+    //         hiding: false,
+    //         col_size: 12,
+    //         disable: false,
+    //     },
+    // ]
+
     const formik = useFormik({
         initialValues: {
-            Companyname: '',
-            Username: '',
-            mobile_no: '',
-            SignEmail: '',
-            Url: '',
+            Companyname: "",
+            Username: "",
+            mobile_no: "",
+            SignEmail: "",
+            Url: "",
+            SOPPaperTrade: 0.0,
+            SOPLiveTrade: 0.0,
+            SOPScriptwise: 0.0,
+            ChartPaperTrade: 0.0,
+            ChartLiveTrade: 0.0,
+            ChartPerMonth: 0.0,
+
         },
         validate: (values) => {
             let errors = {};
 
             if (!values.mobile_no) {
                 errors.mobile_no = "Please enter mobile number";
+            } else if (!/^\d{10}$/.test(values.mobile_no)) {
+                errors.mobile_no = "Mobile number must be 10 digits";
             }
+
             if (!values.SignEmail) {
                 errors.SignEmail = "Please enter email";
-            }
-            else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.SignEmail)) {
+            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.SignEmail)) {
                 errors.SignEmail = "Invalid email address";
+            }
+
+            if (!values.Companyname) {
+                errors.Companyname = "Please enter company name";
+            }
+
+            if (!values.Username) {
+                errors.Username = "Please enter username";
+            }
+
+            if (!values.Url) {
+                errors.Url = "Please enter a URL";
+            } else if (!values.Url.startsWith("http://") && !values.Url
+                .startsWith("https://")) {
+                errors.Url = "Invalid URL format";
+            }
+
+            if (values.SOPPaperTrade < 0) {
+                errors.SOPPaperTrade = "Value cannot be negative";
+            }
+            if (values.SOPLiveTrade < 0) {
+                errors.SOPLiveTrade = "Value cannot be negative";
+            }
+            if (values.SOPScriptwise < 0) {
+                errors.SOPScriptwise = "Value cannot be negative";
+            }
+            if (values.ChartPerTrade < 0) {
+                errors.ChartPerTrade = "Value cannot be negative";
+            }
+            if (!values.ChartLiveTrade) {
+                errors.ChartLiveTrade = "Please enter Chart Live Trade";
+            }
+            if (!values.ChartPaperTrade) {
+                errors.ChartPaperTrade = "Please enter Chart Paper Trade";
+            }
+            if (values.ChartPerMonth < 0) {
+                errors.ChartPerMonth = "Value cannot be negative";
             }
 
             return errors;
         },
         onSubmit: async (values) => {
-
             const req = {
                 Companyname: singleAdminData?.Companyname,
                 Username: singleAdminData?.username,
                 mobile_no: values.mobile_no,
                 SignEmail: values.SignEmail,
-                Url: "",
-            }
+                Url: values.Url,
+                SOPPaperTrade: values.SOPPaperTrade,
+                SOPLiveTrade: values.SOPLiveTrade,
+                SOPScriptwise: values.SOPScriptwise,
+                ChartPaperTrade: values.ChartPaperTrade,
+                ChartLiveTrade: values.ChartLiveTrade,
+                ChartPerMonth: values.ChartPerMonth,
+            };
 
             await updateAdmin(req)
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
-                            background: "#1a1e23 ",
+                            background: "#1a1e23",
                             backdrop: "#121010ba",
                             confirmButtonColor: "#1ccc8a",
                             title: "Admin Updated!",
@@ -657,10 +871,9 @@ const Strategygroup = () => {
                         adminDetailsData();
                         setShowUpdate(false);
                         formik.resetForm();
-                    }
-                    else {
+                    } else {
                         Swal.fire({
-                            background: "#1a1e23 ",
+                            background: "#1a1e23",
                             backdrop: "#121010ba",
                             confirmButtonColor: "#1ccc8a",
                             title: "Error!",
@@ -672,20 +885,20 @@ const Strategygroup = () => {
                     }
                 })
                 .catch((err) => {
-
-                    console.log("Error in fatching the Dashboard Details", err)
-                })
+                    console.log("Error in fetching the Dashboard Details", err);
+                });
         },
     });
+
 
     const fields = [
         {
             name: "mobile_no",
             label: "Mobile Number",
-            type: "text3",
+            type: "text",
             label_size: 12,
             hiding: false,
-            col_size: 12,
+            col_size: 6,
             disable: false,
         },
         {
@@ -694,10 +907,100 @@ const Strategygroup = () => {
             type: "text",
             label_size: 12,
             hiding: false,
-            col_size: 12,
+            col_size: 6,
             disable: false,
         },
-    ]
+        {
+            name: "Url",
+            label: "URL",
+            type: "text",
+            label_size: 12,
+            hiding: false,
+            col_size: 6,
+            disable: true,
+        },
+        {
+            name: "Companyname",
+            label: "Company Name",
+            type: "text",
+            label_size: 12,
+            hiding: false,
+            col_size: 6,
+            disable: false,
+        },
+        {
+            name: "Username",
+            label: "Username",
+            type: "text",
+            label_size: 12,
+            hiding: false,
+            col_size: 6,
+            disable: true,
+        },
+        {
+            name: "SOPPaperTrade",
+            label: "SOP Paper Trade",
+            type: "number",
+            label_size: 12,
+            hiding: false,
+            col_size: 6,
+            disable: false,
+            defaultValue: 0.0,
+        },
+        {
+            name: "SOPLiveTrade",
+            label: "Live Trade Amount(SOP)",
+            type: "number",
+            label_size: 12,
+            hiding: false,
+            col_size: 6,
+            disable: false,
+            defaultValue: 0.0,
+        },
+        {
+            name: "SOPScriptwise",
+            label: "Per Script Amount(SOP)",
+            type: "number",
+            label_size: 12,
+            hiding: false,
+            col_size: 6,
+            disable: false,
+            defaultValue: 0.0,
+        },
+        {
+            name: "ChartLiveTrade",
+            label: "Chart Live Trade Amount",
+            type: "number",
+            label_size: 12,
+            hiding: false,
+            col_size: 6,
+            disable: false,
+            defaultValue: 0.0,
+        },
+
+        {
+            name: "ChartPaperTrade",
+            label: "Chart Paper Trade Amount",
+            type: "number",
+            label_size: 12,
+            hiding: false,
+            col_size: 6,
+            disable: false,
+            defaultValue: 0.0,
+        },
+
+        {
+            name: "ChartPerMonth",
+            label: "Chart Per Month",
+            type: "number",
+            label_size: 12,
+            hiding: false,
+            col_size: 6,
+            disable: false,
+            defaultValue: 0.0,
+        },
+    ];
+
 
     const formik1 = useFormik({
         initialValues: {
@@ -838,30 +1141,28 @@ const Strategygroup = () => {
 
     return (
         <Content
-                Page_title={"Admin Details"}
-                button_status={false}
-                backbutton_status={true}
-               
+            Page_title={"Admin Details"}
+            button_status={false}
+            backbutton_status={true}
+        >
 
-            >
-       
 
-                        <div className="iq-card-body">
-                            <div className="table-responsive customtable">
-                                {
-                                    getAdminDetails.length > 0 ?
-                                        (<GridExample
-                                            columns={columns}
-                                            data={getAdminDetails}
-                                            checkBox={false}
-                                        />)
-                                        :
-                                        (<NoDataFound />)
-                                }
+            <div className="iq-card-body">
+                <div className="table-responsive customtable">
+                    {
+                        getAdminDetails.length > 0 ?
+                            (<GridExample
+                                columns={columns}
+                                data={getAdminDetails}
+                                checkBox={false}
+                            />)
+                            :
+                            (<NoDataFound />)
+                    }
 
-                            </div>
-                        </div>
-                   
+                </div>
+            </div>
+
 
             {
                 showModal && <div className="modal show" id="exampleModal" style={{ display: "block" }}>
@@ -901,34 +1202,34 @@ const Strategygroup = () => {
             }
 
             {
-                showUpdate && <div className="modal show" id="exampleModal" style={{ display: "block" }}>
-                    <div className="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"></div>
-                    <div className="modal-dialog modal-dialog-centered">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title" id="exampleModalLabel">
-                                    Update Admin : {singleAdminData?.Companyname}
-                                </h5>
+                showUpdate && (
+                    <div className="modal show" id="exampleModal" style={{ display: "block" }}>
+                        <div className="modal fade" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"></div>
 
-                                <button
-                                    type="button"
-                                    className="btn-close"
-                                    data-bs-dismiss="modal"
-                                    aria-label="Close"
-                                    onClick={() => { setShowUpdate(false); formik.resetForm() }}
-                                />
-                            </div>
-                            <div>
-                                <AddForm
-                                    fields={fields}
-                                    btn_name="Update"
-                                    formik={formik}
-                                />
+                        <div className="modal-dialog modal-dialog-centered modal-lg" style={{ maxWidth: "800px", margin: "50px auto", zIndex: "1050" }}>
+                            <div className="modal-content" style={{ borderRadius: "10px", overflow: "hidden" }}>
+                                <div className="modal-header" style={{ backgroundColor: "#343a40", color: "#fff" }}>
+                                    <h5 className="modal-title">
+                                        Update Admin: {singleAdminData?.Companyname}
+                                    </h5>
+                                    <button
+                                        type="button"
+                                        className="btn-close"
+                                        data-bs-dismiss="modal"
+                                        aria-label="Close"
+                                        onClick={() => { setShowUpdate(false); formik.resetForm(); }}
+                                        style={{ background: "none", border: "none", color: "#fff", fontSize: "1.2rem" }}
+                                    />
+                                </div>
+                                <div className="modal-body" style={{ padding: "20px", maxHeight: "70vh", overflowY: "auto" }}>
+                                    <AddForm fields={fields} btn_name="Update" formik={formik} />
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                )
             }
+
 
             {
                 showPermission1 && <div className="modal show" id="exampleModal" style={{ display: "block" }}>
@@ -1008,7 +1309,7 @@ const Strategygroup = () => {
                         aria-labelledby="exampleModalLabel"
                         aria-hidden="true"
                     >
-                        <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-dialog modal-dialog-centered modal-lg">
                             <div className="modal-content">
                                 <div className="modal-header">
                                     <h5 className="modal-title" id="exampleModalLabel">
@@ -1022,13 +1323,13 @@ const Strategygroup = () => {
                                         onClick={() => setShowAllClientList(false)} // Close modal on button click
                                     />
                                 </div>
-                                <div className="modal-body">
-                                    <table className="table table-striped">
-                                        <thead>
+                                <div className="modal-body" style={{ maxHeight: "70vh", overflowY: "auto" }}>
+                                    <table className="table table-striped table-bordered">
+                                        <thead className="">
                                             <tr>
-                                                <th>Name</th>
-                                                <th>Email</th>
-                                                <th>Phone</th>
+                                                <th style={{ width: "33%" }}>Name</th>
+                                                <th style={{ width: "33%" }}>Email</th>
+                                                <th style={{ width: "33%" }}>Phone</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -1053,7 +1354,7 @@ const Strategygroup = () => {
                                 <div className="modal-footer">
                                     <button
                                         type="button"
-                                        className="btn btn-secondary"
+                                        // className="submit-button-one"
                                         data-bs-dismiss="modal"
                                         onClick={() => setShowAllClientList(false)} // Close modal on button click
                                     >
@@ -1136,10 +1437,94 @@ const Strategygroup = () => {
                     </div>
                 )}
 
+            {
+                showOfferModal && (
+                    <>
+                        {/* Overlay to dim the background */}
+                        <div
+                            style={{
+                                position: "fixed",
+                                top: 0,
+                                left: 0,
+                                width: "100%",
+                                height: "100%",
+                                backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent black
+                                zIndex: 1040, // Below modal but above other content
+                            }}
+                        ></div>
 
+                        {/* Modal */}
+                        <div className="modal show" id="exampleModal" style={{ display: "block", zIndex: 1050 }}>
+                            <div className="modal-dialog modal-dialog-centered">
+                                <div className="modal-content">
+                                    <div className="modal-header">
+                                        <h5 className="modal-title">Add Offer: {offerData.Companyname}</h5>
+                                        <button
+                                            type="button"
+                                            className="btn-close"
+                                            onClick={() => setShowOfferModal(false)}
+                                        />
+                                    </div>
+                                    <div className="modal-body">
+                                        <div className="mb-3">
+                                            <label className="form-label">Duration</label>
+                                            <select
+                                                className="form-control"
+                                                value={offerData.Durtion}
+                                                onChange={(e) =>
+                                                    setOfferData({ ...offerData, Durtion: e.target.value })
+                                                }
+                                            >
+                                                <option value="" disabled>Select Duration</option>
+                                                {durationOptions.map((option) => (
+                                                    <option key={option.value} value={option.value}>
+                                                        {option.label}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                        <div className="mb-3">
+                                            <label className="form-label">Price</label>
+                                            <input
+                                                type="number"
+                                                className="form-control"
+                                                value={offerData.Price}
+                                                onChange={(e) =>
+                                                    setOfferData({ ...offerData, Price: parseFloat(e.target.value) })
+                                                }
+                                            />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label className="form-label">Offer Price</label>
+                                            <input
+                                                type="number"
+                                                className="form-control"
+                                                value={offerData.OfferPrice}
+                                                onChange={(e) =>
+                                                    setOfferData({
+                                                        ...offerData,
+                                                        OfferPrice: parseFloat(e.target.value),
+                                                    })
+                                                }
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="modal-footer">
+                                        <button
+                                            type="button"
+                                            className="btn btn-primary"
+                                            onClick={handleOfferSubmit}
+                                        >
+                                            Submit
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                )
+            }
 
-
-        
         </Content>
     );
 };

@@ -12,7 +12,7 @@ import Profile from '../components/user/UserProfile/Profile';
 import AddScriptOption from '../components/user/UserScript/AddScript.Option'
 import LastPattern from '../components/user/Patterns/LastPattern';
 import Editprofile from '../components/user/UserProfile/Editprofile';
-import Discription from '../components/user/Discription/Discription';
+import Discription from '../components/user/Discription/Discription2 copy';
 import Tradehistory from '../components/user/Tradehistory/Tradehistory';
 import Traderesponse from '../components/user/TradeResponse/Traderesponse';
 import ProfitAndLoss from '../components/user/ProfitAndLoss/ProfitAndLoss';
@@ -36,6 +36,9 @@ import Group from '../components/user/Group/Group';
 import ViewGroup from '../components/user/Group/ViewGroup';
 
 import { SidebarProvider } from "../components/layouts/SidebarContext";
+import OptionChain from '../components/user/OptioniChain/OptionChain';
+import ApiCreateInfo from '../components/user/ApiCreateInfo/ApiCreateInfo';
+import AddChartingScript2 from '../components/user/UserScript/AddChartingScript2';
 
 
 const UserRoute = () => {
@@ -59,12 +62,15 @@ const UserRoute = () => {
             <Route path="/addscript/pattern" element={<AddScriptPattern />} />
             <Route path="/addscript/option" element={<AddScriptOption />} />
             <Route path="/discription" element={<Discription />} />
+            <Route path="/api-create-info" element={<ApiCreateInfo />} />
+
             <Route path="/tradehistory" element={<Tradehistory />} />
             <Route path="/traderesponse" element={<Traderesponse />} />
             <Route path="/profitandloss" element={<ProfitAndLoss />} />
             <Route path="/pannel" element={<Pannel />} />
             <Route path="/tradereport" element={<TradeReport />} />
             <Route path="/Group" element={<Group />} />
+            <Route path="/OptionChain" element={<OptionChain />} />
             <Route path="/ViewGroup" element={<ViewGroup />} />
             <Route path="/newscript/scalping" element={<AddNewScalpingScript />} />
             <Route path="/newscript/option" element={<AddNewScalpingOption />} />
@@ -74,6 +80,7 @@ const UserRoute = () => {
             <Route path="all/plan" element={<AllPlan />} />
             <Route path='/newStrategy' element={<NewStrategy />} />
             <Route path='/newscript/charting' element={<AddChartingScript />} />
+            <Route path='/newscript/charting2' element={<AddChartingScript2 />} />
 
 
           </Routes>

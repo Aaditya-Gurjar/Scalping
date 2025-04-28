@@ -112,7 +112,7 @@ const Tradehistory = () => {
   const day = String(currentDate.getDate()).padStart(2, "0");
   const formattedDate = `${year}.${month}.${day}`;
 
-  // from date
+  // Select Select From Date
   const DefultToDate = new Date();
   DefultToDate.setDate(DefultToDate.getDate() + 1);
   const year1 = DefultToDate.getFullYear();
@@ -152,7 +152,6 @@ const Tradehistory = () => {
     await getChargingPlatformDataApi(Username)
       .then((res) => {
         if (res.Status) {
-          console.log("resssss", res);
           setChartingSegments(res.Client);
           setSegmentType(res?.Client?.[0]?.Segment);
         } else {
@@ -640,7 +639,6 @@ const Tradehistory = () => {
                       </select>
                     </div>
                   )} */}
-                  {console.log("getChartingSegments", getChartingSegments)}
                   {selectStrategyType == "ChartingPlatform" && (
                     <div
                       className={`form-group  ${
@@ -673,7 +671,7 @@ const Tradehistory = () => {
                         ? "col-lg-3"
                         : "col-lg-4"
                     }`}>
-                    <label>Select form Date</label>
+                    <label>Select Select From Date</label>
                     <DatePicker
                       className="form-select"
                       selected={FromDate == "" ? formattedDate : FromDate}
@@ -687,7 +685,7 @@ const Tradehistory = () => {
                         ? "col-lg-3"
                         : "col-lg-4"
                     }`}>
-                    <label>Select To Date</label>
+                    <label>Select Select To Date</label>
                     <DatePicker
                       className="form-select custom-date"
                       selected={ToDate == "" ? Defult_To_Date : ToDate}

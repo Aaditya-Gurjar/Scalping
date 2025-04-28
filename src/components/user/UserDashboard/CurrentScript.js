@@ -11,6 +11,7 @@ import {
   getUserChartingScripts,
   DeleteSingleChartingScript,
   MatchPosition,
+  chartAllotStrategyApi,
 } from "../../CommonAPI/User";
 import Loader from "../../../ExtraComponent/Loader";
 import {
@@ -25,9 +26,20 @@ import Formikform from "../../../ExtraComponent/FormData2";
 import { useFormik } from "formik";
 import NoDataFound from "../../../ExtraComponent/NoDataFound";
 import { text } from "../../../ExtraComponent/IconTexts";
+import { connectWebSocket } from "./LivePrice";
+import $ from "jquery";
+import ChartingCardDashboard from "../UserScript/ChartingCard";
+import { FaTable, FaTh } from "react-icons/fa"; // Update the import to use a different icon for card view
+import { FixedOffsetZone } from "luxon";
+import ChartingCard from "./ChartingCard";
+import AddChartingScript from "../UserScript/AddChartingScript";
 
-const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate }) => {
+const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
+
+
   const userName = localStorage.getItem("name");
+  const strategyType = sessionStorage.getItem("StrategyType");
+
   const adminPermission = localStorage.getItem("adminPermission");
   const navigate = useNavigate();
   const [refresh, setRefresh] = useState(false);
@@ -36,19 +48,20 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
   const [EditDataOption, setEditDataOption] = useState({});
   const [EditDataPattern, setEditDataPattern] = useState({});
   const [allScripts, setAllScripts] = useState({ data: [], len: 0 });
+  const [allScripts2, setAllScripts2] = useState({ data: [], len: 0 });
+
   const [editCharting, setEditCharting] = useState();
   const [getCharting, setGetCharting] = useState([]);
-  
-  console.log("getCharting", getCharting);
-
-  console.log("ToDate", ToDate);
-
-
-
+  const [channelList, setChannelList] = useState([]);
+  const [priceData, setPriceData] = useState([]);
+  const [view, setView] = useState("table");
+  const fixedRowPerPage = data === 'ChartingPlatform' ? 15 : 5;
 
   const [chartingSubTab, setChartingSubTab] = useState("Cash");
-  console.log("chartingSubTab", chartingSubTab);
 
+  const stg = sessionStorage.getItem("StrategyType");
+
+  console.log("allScripts2", allScripts2)
 
 
   const [getAllService, setAllservice] = useState({
@@ -64,19 +77,81 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
 
   useEffect(() => {
     GetUserAllScripts();
+    GetChartingAllotStg();
   }, []);
 
   useEffect(() => {
+    const initializeData = async () => {
+      await GetUserAllScripts();
+      await GetChartingAllotStg(); // Ensure allScripts2 is loaded properly on page load
+    };
+    initializeData();
+  }, []);
+
+  useEffect(() => {
+    if (data === "ChartingPlatform") {
+      GetChartingAllotStg(); // Ensure data is refreshed for ChartingPlatform
+      getChartingScript(); // Fetch charting scripts for the selected tab
+    }
+  }, [data, chartingSubTab]);
+
+  useEffect(() => {
+    if (data === "ChartingPlatform" && allScripts2.data.length === 0) {
+      GetChartingAllotStg();
+    }
+  }, [strategyType]);
+
+  useEffect(() => {
     if (data == "ChartingPlatform") getChartingScript();
-  }, [data , chartingSubTab]);
+  }, [data, chartingSubTab]);
+
+
+  useEffect(() => {
+    if (stg !== "ChartingPlatform") {
+      setView("table")
+    }
+  }, [stg])
+
+
+  useEffect(() => {
+    let updatedList = "";
+
+    if (data === "Scalping") {
+      updatedList = getAllService.NewScalping?.map(item => `${item.Exchange}|${item.Token}`).join("#");
+    } else if (data === "Option Strategy") {
+      updatedList = getAllService.OptionData?.map(item => `${item.Exchange}|${item.Token}`).join("#");
+    } else if (data === "Pattern" || data === "Pattern Script") {
+      updatedList = getAllService.PatternData?.map(item => `${item.Exchange}|${item.Token}`).join("#");
+    } else if (data === "ChartingPlatform") {
+      updatedList = getCharting?.map(item => `${item.Exchange}|${item.Token}`).join("#");
+    }
+
+    setChannelList(updatedList);
+  }, [data, getAllService, getCharting]);
+
+
+  useEffect(() => {
+    showLivePrice()
+  }, [channelList]);
+
+
+  const showLivePrice = async () => {
+    console.log("Channel List", channelList)
+    connectWebSocket(channelList, (data) => {
+      if (data.lp && data.tk) {
+        $(".LivePrice_" + data.tk).html(data.lp);
+        // console.log("Updated Price Data:", data);
+      }
+    });
+  }
+
 
   const getChartingScript = async () => {
-    const req = { Username: userName, Segment: chartingSubTab , From_date: FromDate, To_date: ToDate };
+    const req = { Username: userName, Segment: chartingSubTab, From_date: FromDate, To_date: ToDate };
     await getUserChartingScripts(req)
       .then((response) => {
-        console.log("getUserChartingScripts", response);
 
-        if (response.Status) {
+        if (response?.Status) {
           setGetCharting(response.Client);
         } else {
           setGetCharting([]);
@@ -87,17 +162,54 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       });
   };
 
+  useEffect(() => {
+    getChartingScript();
+  }, [FromDate, ToDate])
+
+
+  // chartAllotStrategyApi
+
   const GetUserAllScripts = async () => {
     const data = { Username: userName };
     await GetUserScripts(data)
       .then((response) => {
+
         if (response.Status) {
+
           setAllScripts({
             data: response.data,
             len: response.data?.length - 1,
+            Planname: response.data[response.data?.length - 1].Planname,
           });
         } else {
           setAllScripts({
+            data: [],
+            len: 0,
+          });
+        }
+      })
+      .catch((err) => {
+        console.log("Error in finding the User Scripts", err);
+      });
+  };
+
+
+
+  const GetChartingAllotStg = async () => {
+    console.log("GetChartingAllotStg")
+    const data = { Username: userName };
+    await chartAllotStrategyApi(data)
+      .then((response) => {
+
+        if (response.Status) {
+
+          setAllScripts2({
+            data: response.data,
+            len: response.data?.length - 1,
+            Planname: response.data[response.data?.length - 1].Planname,
+          });
+        } else {
+          setAllScripts2({
             data: [],
             len: 0,
           });
@@ -119,7 +231,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
   };
 
   const handleDelete = async (rowData, type) => {
-    console.log("data", data);
     const index = rowData.rowIndex;
     const req =
       data == "Scalping" && type == 1
@@ -203,9 +314,10 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
                   setRefresh(!refresh);
                 },
               });
-              setTimeout(() => {
-                window.location.reload();
-              }, 1500);
+              // setTimeout(() => {
+              //   sessionStorage.setItem("deletedStrategyType", data);
+              //   // window.location.reload();
+              // }, 1500);
             } else {
               Swal.fire({
                 title: "Error !",
@@ -224,9 +336,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
   };
 
   const handleMatchPosition = async (rowData, type) => {
-    console.log("matchPosition", rowData.rowIndex);
     const index = rowData.rowIndex;
-    console.log("data is ", getAllService.NewScalping[index]);
 
     const req = {
       // Username: userName,
@@ -253,12 +363,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       TradePattern: "",
       PatternName: "",
     };
-    console.log("outside");
     if (req) {
       try {
-        console.log("inside");
         const response = await MatchPosition(req);
-        console.log("response is ", response);
         if (response.status) {
           Swal.fire({
             title: response.Status ? "Success" : "Error !",
@@ -295,10 +402,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       setEditDataScalping(getAllService.ScalpingData[index]);
     } else if (data == "Scalping" && type == 2) {
       setEditDataScalping(getAllService.NewScalping[index]);
-      console.log(
-        "EditDataScalping.PositionType",
-        EditDataScalping.PositionType
-      );
     } else if (data == "Option Strategy") {
       setEditDataOption(getAllService.OptionData[index]);
     } else if (data == "Pattern" || data == "Pattern Script") {
@@ -308,9 +411,21 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
     }
   };
   const HandleContinueDiscontinue = async (rowData, type) => {
-    console.log("rowData", rowData.rowIndex);
 
     const index = rowData.rowIndex;
+    const isOpen = rowData.tableData[index][5];
+
+    // if (isOpen !== undefined || isOpen !== null || isOpen !== "" || isOpen !== "Open") {
+    //   Swal.fire({
+    //     title: "Status is Not Open",
+    //     text: "Unable to Exit",
+    //     icon: "warning",
+    //     timer: 2000,
+    //     timerProgressBar: true,
+    //   });
+    //   return;
+    // }
+
     let trading;
 
     if (data == "Scalping" && type == 1) {
@@ -328,7 +443,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       return;
     }
 
-    // console.log("getAllService.PatternData[index].Trading", getAllService.PatternData[index].Trading)
     if (trading) {
       Swal.fire({
         title: "Do you want to Discontinue",
@@ -340,7 +454,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
         confirmButtonText: "Yes",
       }).then(async (result) => {
         if (result.isConfirmed) {
-          console.log("####", data, type);
           const req =
             data == "Scalping" && type == 1
               ? {
@@ -410,8 +523,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
                       }
                       : "";
 
-          if (data == "ChartingPlatform") {
-            await DeleteSingleChartingScript(req).then((response) => {
+          await Discontinue(req) // Pass the req object here
+            .then((response) => {
               if (response.Status) {
                 Swal.fire({
                   background: "#1a1e23 ",
@@ -433,45 +546,79 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
                   timerProgressBar: true,
                 });
               }
+            })
+            .catch((err) => {
+              console.log("Error in delete script", err);
             });
-          } else {
-            await Discontinue(req)
-              .then((response) => {
-                console.log("response", response);
-                if (response.Status) {
-                  Swal.fire({
-                    // title: "Success",
-                    // text: response.message,
-                    // icon: "success",
-                    // timer: 2000,
-                    // timerProgressBar: true
-                    background: "#1a1e23 ",
-                    backdrop: "#121010ba",
-                    title: "Success",
-                    text: response.message,
-                    icon: "success",
-                    timer: 2000,
-                    timerProgressBar: true,
-                  }).then(() => {
-                    setRefresh(!refresh);
-                  });
-                } else {
-                  Swal.fire({
-                    title: "Error !",
-                    text: response.message,
-                    icon: "error",
-                    timer: 2000,
-                    timerProgressBar: true,
-                  });
-                }
-              })
-              .catch((err) => {
-                console.log("Error in delete script", err);
-              });
-          }
         }
       });
     } else if (data == "ChartingPlatform") {
+
+      if (data == "ChartingPlatform") {
+        const req = {
+          Username: userName,
+          // User: getCharting[index]?.AccType,
+          Symbol: getCharting[index]?.TSymbol,
+        }
+        await DeleteSingleChartingScript(req).then((response) => {
+
+          if (response.Status) {
+            Swal.fire({
+              background: "#1a1e23 ",
+              backdrop: "#121010ba",
+              title: "Success",
+              text: response.message,
+              icon: "success",
+              timer: 2000,
+              timerProgressBar: true,
+            }).then(() => {
+
+              setRefresh(!refresh);
+            });
+          } else {
+            Swal.fire({
+              title: "Error !",
+              text: response.message,
+              icon: "error",
+              timer: 2000,
+              timerProgressBar: true,
+            });
+          }
+        });
+      } else {
+        // await Discontinue(req)
+        //   .then((response) => {
+        //     if (response.Status) {
+        //       Swal.fire({
+        //         // title: "Success",
+        //         // text: response.message,
+        //         // icon: "success",
+        //         // timer: 2000,
+        //         // timerProgressBar: true
+        //         background: "#1a1e23 ",
+        //         backdrop: "#121010ba",
+        //         title: "Success",
+        //         text: response.message,
+        //         icon: "success",
+        //         timer: 2000,
+        //         timerProgressBar: true,
+        //       }).then(() => {
+        //         setRefresh(!refresh);
+        //       });
+        //     } else {
+        //       Swal.fire({
+        //         title: "Error !",
+        //         text: response.message,
+        //         icon: "error",
+        //         timer: 2000,
+        //         timerProgressBar: true,
+        //       });
+        //     }
+        //   })
+        //   .catch((err) => {
+        //     console.log("Error in delete script", err);
+        //   });
+      }
       return;
     } else {
       {
@@ -585,14 +732,34 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
   };
 
   const AddScript = (data) => {
-    if (data2.status == false) {
-      Swal.fire({
-        title: "Error",
-        text: data2.msg,
-        icon: "error",
-        timer: 1500,
-        timerProgressBar: true,
-      });
+    if (data === "ChartingPlatform") {
+      if (allScripts2?.data?.[allScripts2.len]?.CombineChartingSignal?.length >= 1) {
+        navigate("/user/newscript/charting2", {
+          state: {
+            data: {
+              selectStrategyType: "ChartingPlatform",
+              scriptType: allScripts2,
+              tableType,
+              data,
+              selectedType,
+              FromDate,
+              ToDate,
+              chartingSubTab, // Pass the current tab
+              getCharting,
+              view,
+              fixedRowPerPage,
+            },
+          },
+        });
+      } else {
+        Swal.fire({
+          title: "Warning",
+          text: "You don't have any valid plan to use this strategy",
+          icon: "warning",
+          timer: 2000,
+          timerProgressBar: true,
+        });
+      }
     } else {
       if (data === "Option Strategy") {
         if (allScripts?.data?.[allScripts.len]?.CombineOption?.length >= 1) {
@@ -629,15 +796,19 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
             timerProgressBar: true,
           });
         }
-      } else if (data === "ChartingPlatform") {
-        if (
-          allScripts?.data?.[allScripts.len]?.CombineChartingSignal?.length >= 1
-        ) {
+      }
+      else if (data === "ChartingPlatform") {
+
+
+        console.log("chartinggggg: ", allScripts2?.data?.[allScripts2.len])
+
+        if (allScripts2?.data?.[allScripts2.len]?.CombineChartingSignal?.length >= 1) {
+
           navigate("/user/newscript/charting", {
             state: {
               data: {
                 selectStrategyType: "ChartingPlatform",
-                scriptType: allScripts,
+                scriptType: allScripts2,
               },
             },
           });
@@ -651,6 +822,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
           });
         }
       } else {
+
         if (allScripts?.data?.[allScripts.len]?.CombineScalping?.length >= 1) {
           navigate("/user/newscript/scalping", {
             state: {
@@ -677,6 +849,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       .then((response) => {
         if (response.Status) {
           // console.log("GetAllUserScriptDetails",response);
+          // const channelList = response.NewScalping.map(item => `${item.Exchange}|${item.Token}`).join("#");
 
           setAllservice({
             loading: false,
@@ -728,6 +901,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       EntryRange: 0.0, // float
       EntryTime: "",
       ExitTime: "",
+      FinalTarget: 0.0,
 
       ExitDay: "", // str
       TradeExecution: "", // str
@@ -859,71 +1033,156 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       if (!values.TradeCount) {
         errors.TradeCount = "Please Enter Trade Count.";
       }
+      if (!values.RolloverTF && EditDataPattern.RolloverTF === true) {
+        errors.RolloverDay = "Please Select RollOver"
+      }
+
+      if (!values.RolloverTF && values.ScalpType == "Multi_Conditional" &&
+        values.PositionType == "Multiple") {
+        errors.RolloverTF = "Please Select RollOver";
+      }
+
+
+      if (
+        !values.RolloverDay &&
+        values.ScalpType == "Multi_Conditional" &&
+        values.PositionType == "Multiple" &&
+        values.RolloverTF == true
+      ) {
+        errors.RolloverDay = "Please Enter No. of Days";
+      }
+
+      if (
+        !values.RolloverTime &&
+        values.ScalpType == "Multi_Conditional" &&
+        values.PositionType == "Multiple" &&
+        values.RolloverTF == true
+      ) {
+        errors.RolloverTime = "Please Enter RollOver Exit Time";
+      }
+
+      if (
+        !values.PEDeepLower &&
+        (values.Strategy == "ShortFourLegStretegy" ||
+          values.Strategy == "LongFourLegStretegy") &&
+        values.PEDeepLower == 0
+      ) {
+        errors.PEDeepLower =
+          values.PEDeepLower == 0
+            ? "PE Hedge Lower can not be Zero"
+            : "Please Enter PE Hedge Lower.";
+      }
+
+      if (
+        !values.PEDepthHigher &&
+        (values.Strategy == "ShortFourLegStretegy" ||
+          values.Strategy == "LongFourLegStretegy") &&
+        values.PEDepthHigher == 0
+      ) {
+        errors.PEDepthHigher =
+          values.PEDepthHigher == 0
+            ? "PE Main Higher can not be Zero"
+            : "Please Enter PE Main Higher.";
+      }
+
+      if (
+        !values.PEDeepHigher &&
+        values.PEDeepHigher == 0 &&
+        (values.Strategy == "ShortFourLegStretegy" ||
+          values.Strategy == "LongFourLegStretegy")
+      ) {
+        errors.PEDeepHigher =
+          values.PEDeepHigher == 0
+            ? "PE Hedge Higher can not be Zero"
+            : "Please Enter PE Hedge Higher.";
+      }
+      if (
+        !values.CEDepthLower &&
+        values.CEDepthLower == 0 &&
+        (values.Strategy == "ShortFourLegStretegy" ||
+          values.Strategy == "LongFourLegStretegy")
+      ) {
+        errors.CEDepthLower =
+          values.CEDepthLower == 0
+            ? "CE Main Lower can not be Zero"
+            : "Please Enter CE Main Lower";
+      }
+      if (
+        !values.CEDepthHigher &&
+        values.CEDepthHigher == 0 &&
+        (values.Strategy == "ShortFourLegStretegy" ||
+          values.Strategy == "LongFourLegStretegy")
+      ) {
+        errors.CEDepthHigher =
+          values.CEDepthHigher == 0
+            ? "CE Main Higher can not be Zero"
+            : "Please Enter CE Main Higher";
+      }
+      if (
+        !values.PEDepthLower &&
+        values.PEDepthLower == 0 &&
+        (values.Strategy == "ShortFourLegStretegy" ||
+          values.Strategy == "LongFourLegStretegy")
+      ) {
+        errors.PEDepthLower =
+          values.PEDepthLower == 0
+            ? "PE Main Lower can not be Zero"
+            : "Please Enter PE Main Lower";
+      }
+      if (
+        !values.CEDeepLower &&
+        values.CEDeepLower == 0 &&
+        (values.Strategy == "ShortFourLegStretegy" ||
+          values.Strategy == "LongFourLegStretegy")
+      ) {
+        errors.CEDeepLower =
+          values.CEDeepLower == 0
+            ? "CE Hedge Lower can not be Zero"
+            : "Please Enter CE Hedge Lower";
+      }
+      if (
+        !values.CEDeepHigher &&
+        values.CEDeepHigher == 0 &&
+        (values.Strategy == "ShortFourLegStretegy" ||
+          values.Strategy == "LongFourLegStretegy")
+      ) {
+        errors.CEDeepHigher =
+          values.CEDeepHigher == 0
+            ? "CE Hedge Higher can not be Zero"
+            : "Please Enter CE Hedge Higher";
+      }
+      if (
+        !values.PEDeepHigher &&
+        values.PEDeepHigher == 0 &&
+        (values.Strategy == "ShortFourLegStretegy" ||
+          values.Strategy == "LongFourLegStretegy")
+      ) {
+        errors.PEDeepHigher =
+          values.PEDeepHigher == 0
+            ? "PE Hedge Higher can not be Zero"
+            : "Please Enter PE Hedge Higher";
+      }
+
+      if (EditDataScalping.Targetselection == "Entry Wise SL" &&
+        values.FinalTarget == undefined ||
+        (values.FinalTarget == "" &&
+          formik.values.FixedSM == "Multiple" &&
+          formik.values.Strategy == "Multi_Conditional" &&
+          formik.values.Targetselection == "Entry Wise SL")
+      ) {
+        errors.FinalTarget = "Please Enter Final Target Price";
+      }
 
       console.log("errors", errors)
+
       return errors;
     },
     onSubmit: async (values) => {
-      // const req = {
-      //   MainStrategy: "NewScalping", // str
-      //   Strategy: EditDataScalping.Targetselection, // str
-      //   // Strategy:  , // str
-      //   Symbol: EditDataScalping.Symbol, // str
-      //   Username: userName, // str
-      //   ETPattern: "", // str (Trade type)
-      //   Timeframe: "", // str
-      //   Targetvalue:
-      //     parseFloat(EditDataScalping["Booking Point"]) ||
-      //     parseFloat(values.Targetvalue), // float
-      //   Slvalue: parseFloat(values.Slvalue), // float
-      //   TStype:
-      //     EditDataScalping.ScalpType != "Fixed Price"
-      //       ? values.TStype
-      //       : EditDataScalping.TStype, // str
-      //   LowerRange: 0.0,
-      //   HigherRange: 0.0,
-      //   HoldExit: EditDataScalping.HoldExit || "HoldExit", // str
-      //   EntryPrice: parseFloat(EditDataScalping.EntryPrice) || 0.0, // float
-      //   EntryRange: parseFloat(EditDataScalping.EntryRange) || 0.0, // float
-      //   EntryTime: EditDataScalping.EntryTime, // str
-      //   ExitTime: EditDataScalping?.ExitTime, // str
-      //   ExitDay: EditDataScalping.ExitDay || "", // str
-      //   TradeExecution: EditDataScalping.TradeExecution || "", // str
-      //   Group: EditDataScalping.GroupN || "", // str
-
-      //   // Depth values for CE and PE options
-      //   CEDepthLower: 0.0, // float
-      //   CEDepthHigher: 0.0, // float
-      //   PEDepthLower: 0.0, // float
-      //   PEDepthHigher: 0.0, // float
-      //   CEDeepLower: 0.0, // float
-      //   CEDeepHigher: 0.0, // float
-      //   PEDeepLower: 0.0, // float
-      //   PEDeepHigher: 0.0, // float
-      //   DepthofStrike: 0.0, // float
-
-      //   TradeCount: EditDataScalping.TradeCount || 0, // int
-
-      //   // Additional trade parameters
-      //   tgp2: EditDataScalping["Booking Point 2"] || 0.0,
-      //   tgp3: EditDataScalping["Booking Point 3"] || 0.0,
-      //   RolloverTF: EditDataScalping.RolloverTF || false, // bool
-      //   RolloverDay: "", // str
-      //   RolloverTime: "", // str
-      //   TargetExit: values.TargetExit, // bool
-      //   RepeatationCount: EditDataScalping.RepeatationCount || 0, // int
-      //   Profit: EditDataScalping.Profit || 0.0, // float
-      //   Loss: EditDataScalping.Loss || 0.0, // float
-      //   WorkingDay:
-      //     formik?.values?.WorkingDay?.map((day) => day?.value || day) || [], // list (array)
-      // };
-
 
       const req = {
 
         MainStrategy: "NewScalping", // str
-        Strategy: values.Strategy || EditDataScalping.Targetselection, // str
-        // Strategy:  , // str
+        Strategy: values.Strategy || EditDataScalping.Targetselection,
         Symbol: values.Symbol || EditDataScalping.Symbol, // str
         Username: userName, // str
         ETPattern: values.ETPattern || EditDataScalping.TType, // str (Trade type)
@@ -941,7 +1200,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
         ExitDay: values.ExitDay || EditDataScalping.ExitDay || "", // str
         TradeExecution: values.TradeExecution || EditDataScalping.TradeExecution || "", // str
         Group: values.Group || EditDataScalping.GroupN || "", // str
-
+        FinalTarget: values.FinalTarget || parseFloat(EditDataScalping.FinalTarget),
         // Depth values for CE and PE options
         CEDepthLower: 0.0, // float
         CEDepthHigher: 0.0, // float
@@ -958,15 +1217,14 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
         // Additional trade parameters
         tgp2: values.tgp2 || EditDataScalping["Booking Point 2"] || 0.0,
         tgp3: values.tgp3 || EditDataScalping["Booking Point 3"] || 0.0,
-        RolloverTF: values.RolloverTF || EditDataScalping.RolloverTF || false, // bool
-        RolloverDay: values.RolloverDay || "", // str
-        RolloverTime: values.RolloverTime || "", // str
+        RolloverTF: values.RolloverTF || EditDataScalping.RolloverTF, // bool
+        RolloverDay: values.RolloverDay || EditDataScalping.RolloverDay, // str
+        RolloverTime: values.RolloverTime || EditDataScalping.RolloverTime, // str
         TargetExit: values.TargetExit, // bool
         RepeatationCount: values.RepeatationCount || EditDataScalping.RepeatationCount || 0, // int
         Profit: values.Profit || EditDataScalping.Profit || 0.0, // float
         Loss: values.Loss || EditDataScalping.Loss || 0.0, // float
-        WorkingDay: values.WorkingDay?.map(day => day?.value || day) || formik?.values?.WorkingDay?.map(day => day?.value || day) || [] // list (array)
-
+        WorkingDay: values.WorkingDay?.map(day => day?.value || day) || formik?.values?.WorkingDay?.map(day => day?.value || day) || [],
 
       }
       if (
@@ -1045,7 +1303,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
     },
   });
 
+
   const formik1 = useFormik({
+    enableReinitialize: true,
     initialValues: {
       MainStrategy: "",
       Strategy: "",
@@ -1076,6 +1336,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       PEDeepHigher: 0.0,
       DepthofStrike: 0,
       TradeCount: 0,
+      Profit: 0,
+      Loss: 0,
       WorkingDay: [],
     },
     validate: (values) => {
@@ -1091,7 +1353,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       if (!values.Targetvalue) {
         errors.Targetvalue = "Please Enter Target Value.";
       }
-      if (!values.Slvalue) {
+      if (!values.Slvalue && !(EditDataOption.STG === "ShortShifting" || EditDataOption.STG === "LongShifting")) {
         errors.Slvalue = "Please Enter Stoploss.";
       }
 
@@ -1142,45 +1404,20 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       if (!values?.WorkingDay?.length > 0) {
         errors.WorkingDay = "Please select Working day";
       }
-      // console.log("Errr", errors)
+
+      if (values.Loss !== 0 && (values.Loss == undefined || values.Loss == "" || values.Loss == null)) {
+        errors.Loss = "Please Enter Maximum Loss";
+      }
+
+      if (values.Profit !== 0 && (values.Profit == undefined || values.Profit == "" || values.Profit == null)) {
+        errors.Profit = "Please Enter Maximum Prifit";
+      }
+      console.log("Errr", errors)
 
       return errors;
     },
     onSubmit: async (values) => {
       const req = {
-        // MainStrategy: data,
-        // Strategy: EditDataOption.STG,
-        // Symbol: EditDataOption.MainSymbol,
-        // Username: userName,
-        // ETPattern: EditDataOption.Targettype,
-        // Timeframe: "",
-        // Targetvalue: values.Targetvalue,
-        // Slvalue: Number(values.Slvalue),
-        // TStype: values.TStype,
-        // Quantity: Number(values.Quantity),
-        // LowerRange: EditDataOption.LowerRange,
-        // HigherRange: EditDataOption.HigherRange,
-        // HoldExit: "",
-        // EntryPrice: 0.0,
-        // EntryRange: 0.0,
-        // EntryTime: values.EntryTime,
-        // ExitTime: values.ExitTime,
-        // ExitDay: EditDataOption['Product Type'],
-        // TradeExecution: EditDataOption.TradeExecution,
-        // Group: EditDataOption.GroupN,
-        // CEDepthLower: EditDataOption.CEDepthLower,
-        // CEDepthHigher: EditDataOption.CEDepthHigher,
-        // PEDepthLower: EditDataOption.PEDepthLower,
-        // PEDepthHigher: EditDataOption.PEDepthHigher,
-        // CEDeepLower: EditDataOption.CEDeepLower,
-        // CEDeepHigher: EditDataOption.PEDeepHigher,
-        // PEDeepLower: EditDataOption.PEDeepLower,
-        // PEDeepHigher: EditDataOption.PEDeepHigher,
-        // DepthofStrike: EditDataOption.DepthofStrike,
-        // TradeCount: values.TradeCount,
-        // WorkingDay: values.WorkingDay?.map(day => day?.value || day) || [] // list (array)
-
-        // ------------------------------------------------------
 
         MainStrategy: data,
         Strategy: EditDataOption.STG,
@@ -1188,7 +1425,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
         Username: userName,
         ETPattern: EditDataOption.Targettype,
         Timeframe: "",
-        // Quantity: Number(values.Quantity),
         Targetvalue: values.Targetvalue,
         Slvalue: Number(values.Slvalue),
         TStype: values.TStype,
@@ -1202,14 +1438,14 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
         ExitDay: EditDataOption["Product Type"],
         TradeExecution: EditDataOption.TradeExecution,
         Group: EditDataOption.GroupN,
-        CEDepthLower: EditDataOption.CEDepthLower,
-        CEDepthHigher: EditDataOption.CEDepthHigher,
-        PEDepthLower: EditDataOption.PEDepthLower,
-        PEDepthHigher: EditDataOption.PEDepthHigher,
-        CEDeepLower: EditDataOption.CEDeepLower,
-        CEDeepHigher: EditDataOption.PEDeepHigher,
-        PEDeepLower: EditDataOption.PEDeepLower,
-        PEDeepHigher: EditDataOption.PEDeepHigher,
+        CEDepthLower: values.CEDepthLower || EditDataOption.CEDepthLower,
+        CEDepthHigher: values.CEDepthHigher || EditDataOption.CEDepthHigher,
+        PEDepthLower: values.PEDepthLower || EditDataOption.PEDepthLower,
+        PEDepthHigher: values.PEDepthHigher || EditDataOption.PEDepthHigher,
+        CEDeepLower: values.CEDeepLower || EditDataOption.CEDeepLower,
+        CEDeepHigher: values.CEDeepHigher || EditDataOption.PEDeepHigher,
+        PEDeepLower: values.PEDeepLower || EditDataOption.PEDeepLower,
+        PEDeepHigher: values.PEDeepHigher || EditDataOption.PEDeepHigher,
         DepthofStrike: EditDataOption.DepthofStrike,
         TradeCount: values.TradeCount || EditDataOption.TradeCount,
         WorkingDay: values.WorkingDay?.map((day) => day?.value || day) || [], // list (array)
@@ -1224,8 +1460,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
         RolloverTime: "", // str
         TargetExit: false, // bool
         RepeatationCount: 0, // int
-        Profit: 0.0, // float
-        Loss: 0.0, // float
+        Profit: Number(values.Profit || EditDataOption.Profit), // float
+        Loss: Number(values.Loss || EditDataOption.Loss), // float
 
 
       };
@@ -1291,6 +1527,10 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       PEDeepHigher: 0.0,
       DepthofStrike: 0,
       TradeCount: "",
+      WorkingDay: [],
+      Profit: 0,
+      Loss: 0,
+
     },
     validate: (values) => {
       let errors = {};
@@ -1352,6 +1592,27 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       if (!values.TradeCount) {
         errors.TradeCount = "Please Enter Trade Count.";
       }
+      if (
+        (values.Loss === undefined ||
+          values.Loss === null ||
+          values.Loss === "") &&
+        values.Strategy == "Multi_Conditional" &&
+        values.FixedSM == "Multiple"
+      ) {
+        errors.Loss = "Please Enter Maximum Loss";
+      }
+
+      if (
+        (values.Profit === undefined ||
+          values.Profit === null ||
+          values.Profit === "") &&
+        values.Strategy == "Multi_Conditional" &&
+        values.FixedSM == "Multiple"
+      ) {
+        errors.Profit = "Please Enter Maximum Loss";
+      } if (!values.WorkingDay?.length > 0) {
+        errors.WorkingDay = "Please select Working day";
+      }
       // console.log("Errr", errors)
 
 
@@ -1359,51 +1620,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
     },
     onSubmit: async (values) => {
 
-      // MainStrategy: "NewScalping", // str
-      //   Strategy: values.Strategy || EditDataScalping.Targetselection, // str
-      //   // Strategy:  , // str
-      //   Symbol: values.Symbol || EditDataScalping.Symbol, // str
-      //   Username: userName, // str
-      //   ETPattern: "", // str (Trade type)
-      //   Timeframe: "", // str
-      //   Targetvalue: parseFloat(values.Targetvalue) || parseFloat(EditDataScalping["Booking Point"]), // float
-      //   Slvalue: parseFloat(values.Slvalue), // float
-      //   TStype: EditDataScalping.ScalpType != "Fixed Price" ? values.TStype : EditDataScalping.TStype, // str
-      //   LowerRange: values.LowerRange || 0.0, // float (Profit in scalping)
-      //   HigherRange: values.HigherRange || 0.0, // float (Loss in scalping)
-      //   HoldExit: values.HoldExit || EditDataScalping.HoldExit || "HoldExit", // str
-      //   EntryPrice: values.EntryPrice || parseFloat(EditDataScalping.EntryPrice) || 0.0, // float
-      //   EntryRange: values.EntryRange || parseFloat(EditDataScalping.EntryRange) || 0.0, // float
-      //   EntryTime: values.EntryTime || EditDataScalping.EntryTime, // str
-      //   ExitTime: values.ExitTime || EditDataScalping?.ExitTime, // str
-      //   ExitDay: values.ExitDay || EditDataScalping.ExitDay || "", // str
-      //   TradeExecution: values.TradeExecution || EditDataScalping.TradeExecution || "", // str
-      //   Group: values.Group || EditDataScalping.GroupN || "", // str
-
-      //   // Depth values for CE and PE options
-      //   CEDepthLower: 0.0, // float
-      //   CEDepthHigher: 0.0, // float
-      //   PEDepthLower: 0.0, // float
-      //   PEDepthHigher: 0.0, // float
-      //   CEDeepLower: 0.0, // float
-      //   CEDeepHigher: 0.0, // float
-      //   PEDeepLower: 0.0, // float
-      //   PEDeepHigher: 0.0, // float
-      //   DepthofStrike: 0.0, // float
-
-      //   TradeCount: values.TradeCount || EditDataScalping.TradeCount || 0, // int
-
-      //   // Additional trade parameters
-      //   tgp2: values.tgp2 || EditDataScalping["Booking Point 2"] || 0.0,
-      //   tgp3: values.tgp3 || EditDataScalping["Booking Point 3"] || 0.0,
-      //   RolloverTF: values.RolloverTF || EditDataScalping.RolloverTF || false, // bool
-      //   RolloverDay: values.RolloverDay || "", // str
-      //   RolloverTime: values.RolloverTime || "", // str
-      //   TargetExit: values.TargetExit, // bool
-      //   RepeatationCount: values.RepeatationCount || EditDataScalping.RepeatationCount || 0, // int
-      //   Profit: values.Profit || EditDataScalping.Profit || 0.0, // float
-      //   Loss: values.Loss || EditDataScalping.Loss || 0.0, // float
-      //   WorkingDay: values.WorkingDay?.map(day => day?.value || day) || formik?.values?.WorkingDay?.map(day => day?.value || day) || [] // list (array)
 
       const req = {
         MainStrategy: data,
@@ -1414,7 +1630,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
         Timeframe: EditDataPattern.TimeFrame,
         Targetvalue: Number(values.Targetvalue),
         Slvalue: Number(values.Slvalue),
-        TStype: EditDataPattern.TStype,
+        TStype: values.TStype || EditDataPattern.TStype,
         LowerRange: 0.0,
         Quantity: Number(values.Quantity),
         HigherRange: 0.0,
@@ -1446,7 +1662,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
         RepeatationCount: values.RepeatationCount || 0, // int
         Profit: values.Profit || EditDataScalping.Profit || 0.0, // float
         Loss: values.Loss || 0.0, // float
-        WorkingDay: [] // list (array)
+        WorkingDay: [],
+
 
       };
 
@@ -1478,8 +1695,169 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       });
     },
   });
+  const OptionRiskManagementArr = [
+    {
+      name: "TradeCount",
+      label: "No. of Cycle",
+      type: "text3",
+      label_size: 12,
+      headingtype: 4,
+      showWhen: () =>
+        showEditModal &&
+        EditDataScalping.PositionType === "Multiple" &&
+        formik.values.TargetExit == "true",
+      col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
+      iconText: text.Trade_Count,
+      disable: false,
+      hiding: false,
+    },
+    {
+      name: "Loss",
+      label: "Max Loss (in price)",
+      type: "text3",
+      label_size: 12,
+      col_size: 4,
+      headingtype: 4,
+      disable: false,
+      hiding: false,
+    },
 
-  const fields1 = [
+    {
+      name: "Profit",
+      label: " Max Profit (in price)",
+      type: "text3",
+      label_size: 12,
+      col_size: 4,
+      headingtype: 4,
+      disable: false,
+      hiding: false,
+    },
+    {
+      name: "WorkingDay",
+      label: "Working Day",
+      type: "multiselect",
+      options: [
+        { label: "Monday", value: "Monday" },
+        { label: "Tuesday", value: "Tuesday" },
+        { label: "Wednesday", value: "Wednesday" },
+        { label: "Thursday", value: "Thursday" },
+        { label: "Friday", value: "Friday" },
+        { label: "Saturday", value: "Saturday" },
+      ],
+      label_size: 12,
+      col_size: 4,
+      headingtype: 4,
+      showWhen: () => showEditModal,
+      disable: false,
+      hiding: false,
+    },
+
+
+  ];
+
+  const OptionEntryRuleArr = [
+    {
+      name: "CEDepthLower",
+      label: "CE Main Lower",
+      type: "text3",
+      hiding: false,
+      label_size: 12,
+      col_size: 3,
+      showWhen: () =>
+        showEditModal && (EditDataOption.STG == "ShortFourLegStretegy" || EditDataOption.STG == "LongFourLegStretegy"),
+      headingtype: 2,
+      disable: false,
+    },
+
+    {
+      name: "CEDepthHigher",
+      label: "CE Main Higher",
+      type: "text3",
+      hiding: false,
+      showWhen: () =>
+        showEditModal && (EditDataOption.STG == "ShortFourLegStretegy" || EditDataOption.STG == "LongFourLegStretegy"),
+      label_size: 12,
+      col_size: 3,
+      headingtype: 2,
+      disable: false,
+    },
+
+    {
+      name: "CEDeepLower",
+      label: "CE Hedge Lower",
+      type: "text3",
+      hiding: false,
+      showWhen: () =>
+        showEditModal && (EditDataOption.STG == "ShortFourLegStretegy" || EditDataOption.STG == "LongFourLegStretegy"),
+      label_size: 12,
+      col_size: 3,
+      headingtype: 2,
+      disable: false,
+    },
+    {
+      name: "CEDeepHigher",
+      label: "CE Hedge Higher",
+      type: "text3",
+      hiding: false,
+      showWhen: () =>
+        showEditModal && (EditDataOption.STG == "ShortFourLegStretegy" || EditDataOption.STG == "LongFourLegStretegy"),
+      label_size: 12,
+      col_size: 3,
+      headingtype: 2,
+      disable: false,
+    },
+    {
+      name: "PEDepthLower",
+      label: "PE Main Lower",
+      type: "text3",
+      hiding: false,
+      showWhen: () =>
+        showEditModal && (EditDataOption.STG == "ShortFourLegStretegy" || EditDataOption.STG == "LongFourLegStretegy"),
+      label_size: 12,
+      col_size: 3,
+      headingtype: 2,
+      disable: false,
+    },
+    {
+      name: "PEDepthHigher",
+      label: "PE Main Higher",
+      type: "text3",
+      hiding: false,
+      showWhen: () =>
+        showEditModal && (EditDataOption.STG == "ShortFourLegStretegy" || EditDataOption.STG == "LongFourLegStretegy"),
+      label_size: 12,
+      col_size: 3,
+      headingtype: 2,
+      disable: false,
+    },
+    {
+      name: "PEDeepLower",
+      label: "PE Hedge Lower",
+      type: "text3",
+      hiding: false,
+      showWhen: () =>
+        showEditModal && (EditDataOption.STG == "ShortFourLegStretegy" || EditDataOption.STG == "LongFourLegStretegy"),
+      label_size: 12,
+      col_size: 3,
+      headingtype: 2,
+      disable: false,
+    },
+    {
+      name: "PEDeepHigher",
+      label: "PE Hedge Higher",
+      type: "number",
+      hiding: false,
+      showWhen: () =>
+        showEditModal && (EditDataOption.STG === "ShortFourLegStretegy" || EditDataOption.STG === "LongFourLegStretegy"),
+      label_size: 12,
+      col_size: 3,
+      headingtype: 2,
+      disable: false,
+    },
+  ];
+
+
+  const OptionExitRuleArr = [
     {
       name: "TStype",
       label: "Measurement Type",
@@ -1488,47 +1866,173 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
         { label: "Percentage", value: "Percentage" },
         { label: "Point", value: "Point" },
       ],
-
+      // showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
+      showWhen: () =>
+        showEditModal && !(EditDataOption.STG === "ShortShifting" || EditDataOption.STG === "LongShifting"),
       label_size: 12,
-      col_size: 6,
+      headingtype: 4,
+      col_size: 4,
       hiding: false,
       disable: false,
     },
-    // {
-    //   name: "Quantity",
-    //   label:
-    //     showEditModal && EditDataScalping.Exchange == "NFO"
-    //       ? "Lot"
-    //       : "Quantity",
-    //   type: "text5",
-    //   label_size: 12,
-    //   col_size: 6,
-    //   hiding: false,
-    //   disable: false,
-    // },
+
     {
       name: "Targetvalue",
-      label: "Target",
-      type: "text5",
+      label:
+        (EditDataOption.STG === "ShortShifting" || EditDataOption.STG === "LongShifting") ? "Shifting Point" : "Target",
+      type: "text3",
       label_size: 12,
-      col_size: 4,
+      col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
+      headingtype: 3,
       disable: false,
       hiding: false,
     },
-
     {
       name: "Slvalue",
       label: "Stoploss",
-      type: "text5",
+      type: "text3",
+      label_size: 12,
+      col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
+      showWhen: () =>
+        showEditModal && !(EditDataOption.STG === "ShortShifting" || EditDataOption.STG === "LongShifting"),
+      headingtype: 3,
+      disable: false,
+      hiding: false,
+    },
+  ];
+
+  const OptionTimeDurationArr = [
+    {
+      name: "EntryTime",
+      label: "Entry Time",
+      type: "timepiker",
+      label_size: 12,
+      col_size: 4,
+      headingtype: 5,
+      disable: false,
+      hiding: false,
+    },
+    {
+      name: "ExitTime",
+      label: "Exit Time",
+      type: "timepiker",
+      label_size: 12,
+      col_size: 4,
+      headingtype: 5,
+      disable: false,
+      hiding: false,
+    },
+
+  ];
+
+  const OptionFields = [
+
+    {
+      name: "Heading",
+      label: "Risk_Management",
+      type: "heading",
+      hiding: false,
+      label_size: 12,
+      headingtype: 4,
+      col_size: 12,
+      data: OptionRiskManagementArr.filter(
+        (item) => !item.showWhen || item.showWhen(formik.values)
+      ),
+      disable: false,
+    },
+
+    {
+      name: "Heading",
+      label: "Entry_Rule",
+      type: "heading",
+      hiding: false,
+      label_size: 12,
+      headingtype: 2,
+      col_size: 12,
+      showWhen: () => showEditModal && (EditDataOption.STG == "ShortFourLegStretegy" || EditDataOption.STG == "LongFourLegStretegy"),
+      data: OptionEntryRuleArr.filter(
+        (item) => !item.showWhen || item.showWhen(formik.values)
+      ),
+      disable: false,
+    },
+
+    // {
+    //   name: "Heading",
+    //   label: "Entry_Rule",
+    //   type: "heading",
+    //   hiding: false,
+    //   label_size: 12,
+    //   headingtype: 4,
+    //   col_size: 12,
+    //   data: OptionEntryRuleArr.filter(
+    //     (item) => !item.showWhen || item.showWhen(formik.values)
+
+    //   ),
+    //   disable: false,
+    // },
+
+    {
+      name: "Heading",
+      label: "Exit_Rule",
+      type: "heading",
+      hiding: false,
+      label_size: 12,
+      col_size: 12,
+      headingtype: 3,
+      data: OptionExitRuleArr.filter(
+        (item) => !item.showWhen || item.showWhen(formik.values)
+      ),
+      disable: false,
+    },
+    {
+      name: "Heading",
+      label: "Time_Duration",
+      type: "heading",
+      hiding: false,
+      label_size: 12,
+      col_size: 12,
+      headingtype: 5,
+      data: OptionTimeDurationArr.filter(
+        (item) => !item.showWhen || item.showWhen(formik.values)
+      ),
+      disable: false,
+    },
+
+  ];
+
+
+  const PatternRiskManagementArr = [
+
+    {
+      name: "TradeCount",
+      label: "Trade Count",
+      type: "text3",
       label_size: 12,
       col_size: 4,
       disable: false,
       hiding: false,
     },
-
+    {
+      name: "Profit",
+      label: "Max Profit",
+      type: "text3",
+      label_size: 12,
+      col_size: 4,
+      disable: false,
+      hiding: false,
+    },
+    {
+      name: "Loss",
+      label: "Max Loss",
+      type: "text3",
+      label_size: 12,
+      col_size: 4,
+      disable: false,
+      hiding: false,
+    },
     {
       name: "WorkingDay",
-      label: "Working Day ",
+      label: "Working Day",
       type: "multiselect",
       options: [
         { label: "Monday", value: "Monday" },
@@ -1543,60 +2047,22 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       disable: false,
       hiding: false,
     },
-
-    {
-      name: "TradeCount",
-      label: "Trade Count",
-      type: "text5",
-      label_size: 12,
-      col_size: 4,
-      disable: false,
-      hiding: false,
-    },
-    {
-      name: "EntryTime",
-      label: "Entry Time",
-      type: "timepiker",
-      label_size: 12,
-      col_size: 4,
-      disable: false,
-      hiding: false,
-    },
-    {
-      name: "ExitTime",
-      label: "Exit Time",
-      type: "timepiker",
-      label_size: 12,
-      col_size: 4,
-      disable: false,
-      hiding: false,
-    },
   ];
-
-  const fields2 = [
-    {
-      name: "TStype",
-      label: "Measurement Type",
-      type: "select",
-      options: [
-        { label: "Percantage", value: "Percantage" },
-        { label: "Point", value: "Point" },
-      ],
-
-      label_size: 12,
-      col_size: 6,
-      hiding: false,
-      disable: false,
-    },
+  const PatternExitRuleArr = [
     // {
-    //   name: "Quantity",
-    //   label: "Lot Size",
-    //   type: "text5",
+    //   name: "TStype",
+    //   label: "Measurement Type",
+    //   type: "select",
+    //   options: [
+    //     { label: "Percentage", value: "Percentage" },
+    //     { label: "Point", value: "Point" },
+    //   ],
     //   label_size: 12,
     //   col_size: 6,
     //   hiding: false,
     //   disable: false,
     // },
+
     {
       name: "Targetvalue",
       label: "Target",
@@ -1605,6 +2071,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       col_size: 6,
       disable: false,
       hiding: false,
+      headingtype: 3,
+      type: "text3",
     },
     {
       name: "Slvalue",
@@ -1614,17 +2082,13 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       col_size: 6,
       disable: false,
       hiding: false,
-    },
-    {
-      name: "TradeCount",
-      label: "Trade Count",
-      type: "text5",
-      label_size: 12,
-      col_size: 4,
-      disable: false,
-      hiding: false,
+      headingtype: 3,
+      type: "text3",
     },
 
+  ];
+
+  const PatternTimeDurationArr = [
     {
       name: "EntryTime",
       label: "Entry Time",
@@ -1643,7 +2107,54 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       disable: false,
       hiding: false,
     },
+
   ];
+
+
+  const PatternFields = [
+
+    {
+      name: "Heading",
+      label: "Risk_Management",
+      type: "heading",
+      hiding: false,
+      label_size: 12,
+      headingtype: 4,
+      col_size: 12,
+      data: PatternRiskManagementArr.filter(
+        (item) => !item.showWhen || item.showWhen(formik.values)
+      ),
+      disable: false,
+    },
+    {
+      name: "Heading",
+      label: "Exit_Rule",
+      type: "heading",
+      hiding: false,
+      label_size: 12,
+      col_size: 12,
+      headingtype: 3,
+      data: PatternExitRuleArr.filter(
+        (item) => !item.showWhen || item.showWhen(formik.values)
+      ),
+      disable: false,
+    },
+    {
+      name: "Heading",
+      label: "Time_Duration",
+      type: "heading",
+      hiding: false,
+      label_size: 12,
+      col_size: 12,
+      headingtype: 5,
+      data: PatternTimeDurationArr.filter(
+        (item) => !item.showWhen || item.showWhen(formik.values)
+      ),
+      disable: false,
+    },
+
+  ];
+
 
   const EntryRuleArr = [
     // {
@@ -1751,7 +2262,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
 
     {
       name: "TradeCount",
-      label: "Trade Count",
+      label: "No. of Cycle",
       type: "text3",
       label_size: 12,
       headingtype: 4,
@@ -1817,7 +2328,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
 
     {
       name: "Profit",
-      label: "Max Profit ",
+      label: "Max Profit (in price) ",
       type: "text3",
       label_size: 12,
       col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
@@ -1829,7 +2340,7 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
     },
     {
       name: "Loss",
-      label: "Max Loss ",
+      label: "Max Loss (in price)",
       type: "text3",
       label_size: 12,
       col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
@@ -1862,6 +2373,76 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       disable: false,
       hiding: false,
     },
+    {
+      name: "RolloverTF",
+      label: "RollOver",
+      type: "select",
+      options: [
+        { label: "True", value: true },
+        { label: "False", value: false },
+      ],
+      label_size: 12,
+      col_size: 4,
+      headingtype: 4,
+      showWhen: (values) =>
+        (EditDataScalping.ExitDay == "Delivery" &&
+          EditDataScalping.ScalpType == "Multi_Conditional" &&
+          EditDataScalping.PositionType == "Multiple") &&
+        EditDataScalping["Instrument Type"] !== "FUTIDX",
+      disable: false,
+      hiding: false,
+    },
+
+    {
+      name: "RolloverDay",
+      label: "No. of Days",
+      type: "select",
+      label_size: 12,
+      options: [
+        { label: "0", value: "0" },
+        { label: "1", value: "1" },
+        { label: "2", value: "2" },
+        { label: "3", value: "3" },
+        { label: "4", value: "4" },
+        { label: "5", value: "5" }
+      ],
+      showWhen: (values) => {
+        const rollOverBoolean = formik.values.RolloverTF === "true" || formik.values.RolloverTF === true;
+
+        return (
+          rollOverBoolean &&
+          (EditDataScalping.ExitDay == "Delivery" &&
+            EditDataScalping.ScalpType == "Multi_Conditional" &&
+            EditDataScalping.PositionType == "Multiple")
+        );
+      },
+      col_size: 4,
+      headingtype: 4,
+      disable: false,
+      hiding: false,
+    },
+
+    {
+      name: "RolloverTime",
+      label: "RollOver Exit Time",
+      type: "timepiker",
+      label_size: 12,
+      showWhen: (values) => {
+        const rollOverBoolean = formik.values.RolloverTF === "true" || formik.values.RolloverTF === true;
+
+
+        return (
+          rollOverBoolean &&
+          (EditDataScalping.ExitDay == "Delivery" &&
+            EditDataScalping.ScalpType == "Multi_Conditional" &&
+            EditDataScalping.PositionType == "Multiple")
+        );
+      },
+      col_size: 4,
+      headingtype: 4,
+      disable: false,
+      hiding: false,
+    },
   ];
 
   const ExitRuleArr = [
@@ -1884,11 +2465,24 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
     },
 
     {
+      name: "FinalTarget",
+      label: "Final Target Price",
+      type: "text3",
+      label_size: 12,
+      showWhen: (values) =>
+        EditDataScalping.Targetselection === "Entry Wise SL",
+      col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
+      headingtype: 3,
+      disable: false,
+      hiding: false,
+    },
+
+    {
       name: "Targetvalue",
       label:
-        EditDataScalping.PositionType === "Single"
-          ? "Target 1"
-          : "Fixed Target",
+        EditDataScalping.Targetselection === "Fixed Target"
+          ? "Fixed Target"
+          : "Booking Point",
       type: "text3",
       label_size: 12,
       col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
@@ -2004,9 +2598,9 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       const WorkingDay = EditDataScalping?.WorkingDay?.map((day) => {
         return { label: day, value: day };
       });
-      console.log("EditDataScalping.TargetExit", EditDataScalping.TargetExit);
 
       formik.setFieldValue("EntryPrice", EditDataScalping.EntryPrice);
+      formik.setFieldValue("FinalTarget", EditDataScalping.FinalTarget);
       formik.setFieldValue("EntryRange", EditDataScalping.EntryRange);
       formik.setFieldValue(
         "Targetvalue",
@@ -2046,15 +2640,31 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
         "RepeatationCount",
         EditDataScalping.RepeatationCount
       );
-      formik.setFieldValue("RolloverTF", EditDataScalping.RolloverTF);
+
       formik.setFieldValue("Profit", EditDataScalping.Profit);
       formik.setFieldValue("Loss", EditDataScalping.Loss);
       formik.setFieldValue("TargetExit", EditDataScalping.TargetExit);
       formik.setFieldValue("WorkingDay", WorkingDay);
+      formik.setFieldValue("RolloverTF", EditDataScalping.RolloverTF);
+      formik.setFieldValue("RolloverDay", EditDataScalping.RolloverDay);
+      formik.setFieldValue("RolloverTime", EditDataScalping.RolloverTime);
+
     } else if (data == "Option Strategy") {
       const WorkingDay = EditDataOption?.WorkingDay?.map((day) => {
         return { label: day, value: day };
       });
+
+      // Initialize CE/PE fields
+      formik1.setFieldValue("CEDepthLower", EditDataOption.CEDepthLower);
+      formik1.setFieldValue("CEDepthHigher", EditDataOption.CEDepthHigher);
+      formik1.setFieldValue("PEDepthLower", EditDataOption.PEDepthLower);
+      formik1.setFieldValue("PEDepthHigher", EditDataOption.PEDepthHigher);
+      formik1.setFieldValue("CEDeepLower", EditDataOption.CEDeepLower);
+      formik1.setFieldValue("CEDeepHigher", EditDataOption.PEDeepHigher);
+      formik1.setFieldValue("PEDeepLower", EditDataOption.PEDeepLower);
+      formik1.setFieldValue("PEDeepHigher", EditDataOption.PEDeepHigher);
+
+
       formik1.setFieldValue("TStype", EditDataOption.strategytype);
       formik1.setFieldValue("Targetvalue", EditDataOption["Target value"]);
       formik1.setFieldValue("Slvalue", EditDataOption["SL value"]);
@@ -2062,6 +2672,8 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       formik1.setFieldValue("EntryTime", EditDataOption["Entry Time"]);
       formik1.setFieldValue("ExitTime", EditDataOption["Exit Time"]);
       formik1.setFieldValue("TradeCount", EditDataOption.TradeCount);
+      formik1.setFieldValue("Profit", EditDataOption.Profit || 0);
+      formik1.setFieldValue("Loss", EditDataOption.Loss || 0);
       formik1.setFieldValue("WorkingDay", WorkingDay);
     } else if (data == "Pattern") {
       formik2.setFieldValue("TStype", EditDataPattern.TStype);
@@ -2073,70 +2685,76 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
       formik2.setFieldValue("TradeCount", EditDataPattern.TradeCount);
     }
 
-  }, [showEditModal, data, EditDataScalping]);
-
-
+  }, [showEditModal, data, EditDataScalping, EditDataPattern]);
 
   useEffect(() => {
-    if (data == "Scalping") {
-      const WorkingDay = EditDataScalping?.WorkingDay?.map(day => {
-        return { label: day, value: day }
-      })
-      console.log("EditDataScalping.TargetExit", EditDataScalping.TargetExit)
+    if (data === "Scalping") {
+      const WorkingDay = EditDataScalping?.WorkingDay?.map((day) => {
+        return { label: day, value: day };
+      });
+      formik.setFieldValue("EntryPrice", EditDataScalping.EntryPrice);
+      formik.setFieldValue("EntryRange", EditDataScalping.EntryRange);
+      formik.setFieldValue("Targetvalue", parseFloat(EditDataScalping["Booking Point"]));
+      formik.setFieldValue("tgp2", parseFloat(EditDataScalping["Booking Point2"]));
+      formik.setFieldValue("tgp3", parseFloat(EditDataScalping["Booking Point3"]));
+      formik.setFieldValue("Slvalue", parseFloat(EditDataScalping["Re-entry Point"]));
+      formik.setFieldValue("HoldExit", EditDataScalping.HoldExit);
+      formik.setFieldValue("EntryTime", EditDataScalping.EntryTime);
+      formik.setFieldValue("ExitTime", EditDataScalping.ExitTime);
+      formik.setFieldValue("TradeCount", EditDataScalping.TradeCount);
+      formik.setFieldValue("TType", EditDataScalping.TType);
+      formik.setFieldValue("TStype", EditDataScalping.TStype);
+      formik.setFieldValue("EntryPrice", parseFloat(EditDataScalping.EntryPrice));
+      formik.setFieldValue("EntryRange", parseFloat(EditDataScalping.EntryRange));
+      formik.setFieldValue("HoldExit", EditDataScalping.HoldExit);
+      formik.setFieldValue("Symbol", EditDataScalping.Symbol);
+      formik.setFieldValue("ExitDay", EditDataScalping.ExitDay);
+      formik.setFieldValue("RepeatationCount", EditDataScalping.RepeatationCount);
+      formik.setFieldValue("RolloverTF", EditDataScalping.RolloverTF);
+      formik.setFieldValue("Profit", EditDataScalping.Profit);
+      formik.setFieldValue("Loss", EditDataScalping.Loss);
+      formik.setFieldValue("TargetExit", EditDataScalping.TargetExit);
+      formik.setFieldValue("WorkingDay", WorkingDay);
+    } else if (data === "Option Strategy") {
+      const WorkingDay = EditDataOption?.WorkingDay?.map((day) => {
+        return { label: day, value: day };
+      });
+      formik1.setFieldValue("TStype", EditDataOption.strategytype);
+      formik1.setFieldValue("Targetvalue", EditDataOption["Target value"]);
+      formik1.setFieldValue("Slvalue", EditDataOption["SL value"]);
+      // formik1.setFieldValue("Quantity", EditDataOption["Lot Size"])
+      formik1.setFieldValue("EntryTime", EditDataOption["Entry Time"]);
+      formik1.setFieldValue("ExitTime", EditDataOption["Exit Time"]);
+      formik1.setFieldValue("TradeCount", EditDataOption.TradeCount);
+      formik1.setFieldValue("WorkingDay", WorkingDay);
+      formik1.setFieldValue("Profit", EditDataOption.Profit || 0);
+      formik1.setFieldValue("Loss", EditDataOption.Loss || 0);
 
-      formik.setFieldValue('EntryPrice', EditDataScalping.EntryPrice)
-      formik.setFieldValue('EntryRange', EditDataScalping.EntryRange)
-      formik.setFieldValue('Targetvalue', parseFloat(EditDataScalping['Booking Point']))
-      formik.setFieldValue('tgp2', parseFloat(EditDataScalping['Booking Point2']))
-      formik.setFieldValue('tgp3', parseFloat(EditDataScalping['Booking Point3']))
-      formik.setFieldValue('Slvalue', parseFloat(EditDataScalping['Re-entry Point']))
-      formik.setFieldValue('HoldExit', EditDataScalping.HoldExit)
-      formik.setFieldValue('EntryTime', EditDataScalping.EntryTime)
-      formik.setFieldValue('ExitTime', EditDataScalping.ExitTime)
-      formik.setFieldValue('TradeCount', EditDataScalping.TradeCount)
-      formik.setFieldValue("TType", EditDataScalping.TType)
-      formik.setFieldValue("TStype", EditDataScalping.TStype)
-      // formik.setFieldValue("Quantity", EditDataScalping.Quantity)
-      formik.setFieldValue("EntryPrice", parseFloat(EditDataScalping.EntryPrice))
-      formik.setFieldValue("EntryRange", parseFloat(EditDataScalping.EntryRange))
-      formik.setFieldValue("HoldExit", EditDataScalping.HoldExit)
-      formik.setFieldValue("Symbol", EditDataScalping.Symbol)
-      formik.setFieldValue("ExitDay", EditDataScalping.ExitDay)
-      formik.setFieldValue("RepeatationCount", EditDataScalping.RepeatationCount)
-      formik.setFieldValue("RolloverTF", EditDataScalping.RolloverTF)
-      formik.setFieldValue("Profit", EditDataScalping.Profit)
-      formik.setFieldValue("Loss", EditDataScalping.Loss)
-      formik.setFieldValue("TargetExit", EditDataScalping.TargetExit)
-      formik.setFieldValue('WorkingDay', WorkingDay);
+      formik1.setFieldValue("CEDepthLower", EditDataOption.CEDepthLower || 0.0);
+      formik1.setFieldValue("CEDepthHigher", EditDataOption.CEDepthHigher || 0.0);
+      formik1.setFieldValue("PEDepthLower", EditDataOption.PEDepthLower || 0.0);
+      formik1.setFieldValue("PEDepthHigher", EditDataOption.PEDepthHigher || 0.0);
+      formik1.setFieldValue("CEDeepLower", EditDataOption.CEDeepLower || 0.0);
+      formik1.setFieldValue("CEDeepHigher", EditDataOption.CEDeepHigher || 0.0);
+      formik1.setFieldValue("PEDeepLower", EditDataOption.PEDeepLower || 0.0);
+      formik1.setFieldValue("PEDeepHigher", EditDataOption.PEDeepHigher || 0.0);
 
-
+    } else if (data === "Pattern") {
+      const WorkingDay = EditDataPattern?.WorkingDay?.map((day) => {
+        return { label: day, value: day };
+      });
+      formik2.setFieldValue("TStype", EditDataPattern.TStype);
+      formik2.setFieldValue("Targetvalue", EditDataPattern["Target value"]);
+      formik2.setFieldValue("Slvalue", EditDataPattern["SL value"]);
+      formik2.setFieldValue("EntryTime", EditDataPattern.EntryTime);
+      formik2.setFieldValue("ExitTime", EditDataPattern.ExitTime);
+      formik2.setFieldValue("TradeCount", EditDataPattern.TradeCount);
+      formik2.setFieldValue("WorkingDay", WorkingDay);
+      formik2.setFieldValue("Profit", EditDataPattern.Profit || 0);
+      formik2.setFieldValue("Loss", EditDataPattern.Loss || 0);
     }
-    else if (data == "Option Strategy") {
-
-      const WorkingDay = EditDataOption?.WorkingDay?.map(day => {
-        return { label: day, value: day }
-      })
-      formik1.setFieldValue('TStype', EditDataOption.strategytype)
-      formik1.setFieldValue('Targetvalue', EditDataOption['Target value'])
-      formik1.setFieldValue('Slvalue', EditDataOption['SL value'])
-      // formik1.setFieldValue('Quantity', EditDataOption['Lot Size'])
-      formik1.setFieldValue('EntryTime', EditDataOption['Entry Time'])
-      formik1.setFieldValue('ExitTime', EditDataOption['Exit Time'])
-      formik1.setFieldValue('TradeCount', EditDataOption.TradeCount)
-      formik1.setFieldValue('WorkingDay', WorkingDay)
-    }
-    else if (data == "Pattern") {
-
-      formik2.setFieldValue('TStype', EditDataPattern.TStype)
-      formik2.setFieldValue('Targetvalue', EditDataPattern['Target value'])
-      formik2.setFieldValue('Slvalue', EditDataPattern['SL value'])
-      formik2.setFieldValue('EntryTime', EditDataPattern.EntryTime)
-      formik2.setFieldValue('ExitTime', EditDataPattern.ExitTime)
-      formik2.setFieldValue('TradeCount', EditDataPattern.TradeCount)
-
-    }
-  }, [showEditModal, data, EditDataScalping])
-
+  }, [showEditModal, data, EditDataPattern]);
+  console.log("EditDataPattern", EditDataPattern)
 
   const updatedFields = fields.filter((item) => {
     return item.hiding == false
@@ -2159,104 +2777,212 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
                         </div>
                         <div className='d-flex justify-content-end'>
                           {/* <button className='addbtn btn btn-primary rounded mx-2 mt-1' onClick={() => AddScript(data)}>Add Script</button> */}
-                          <button className='addbtn mx-2 mt-1' onClick={() => AddScript(data)}>Add Script</button>
+                          <button className='addbtn mx-2 mt-1' onClick={() => AddScript(data)}>{data === "ChartingPlatform" ? "Signals" : "Add Script"}</button>
 
                         </div>
 
                       </div>
                       <div className="iq-card-body" style={{ padding: "3px" }}>
-                        <div className="table-responsive">
+                        {data !== "ChartingPlatform" && <div className="table-responsive">
                           {getAllService.loading ? (
                             <Loader />
                           ) : (
                             <>
                               {/* Tabs should always be visible when ChartingPlatform is selected */}
-                              {data === "ChartingPlatform" && (
-  <div className="d-flex justify-content-center my-3">
-    <ul
-      className="nav nav-pills shadow-lg rounded-pill p-2"
-      style={{
-        backgroundColor: "#f8f9fa",
-        display: "flex",
-        justifyContent: "center",
-        gap: "15px",
-        maxWidth: "600px", // Width Increase
-        width: "100%", // Full Responsive Width
-      }}
-    >
-      {["Cash", "Future", "Option"].map((tab) => (
-        <li className="nav-item flex-grow-1 text-center" key={tab}>
-          <button
-            className={`nav-link rounded-pill w-100 ${chartingSubTab === tab ? "active" : ""}`}
-            onClick={() => setChartingSubTab(tab)}
-            style={{
-              padding: "14px 30px",
-              fontSize: "18px",
-              fontWeight: "600",
-              transition: "all 0.3s ease-in-out",
-              backgroundColor: chartingSubTab === tab ? "#007bff" : "#fff",
-              color: chartingSubTab === tab ? "#fff" : "#333",
-              boxShadow: chartingSubTab === tab ? "0px 4px 12px rgba(0, 123, 255, 0.4)" : "none",
-              border: chartingSubTab === tab ? "2px solid #007bff" : "2px solid transparent",
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.backgroundColor = "#007bff";
-              e.target.style.color = "#fff";
-            }}
-            onMouseLeave={(e) => {
-              if (chartingSubTab !== tab) {
-                e.target.style.backgroundColor = "#fff";
-                e.target.style.color = "#333";
-              }
-            }}
-          >
-            {tab}
-          </button>
-        </li>
-      ))}
-    </ul>
-  </div>
-)}
+                              {/* {data === "ChartingPlatform" && (
+                                <div className="d-flex justify-content-center my-3">
+                                  <ul
+                                    className="nav nav-pills shadow-lg rounded-pill p-2"
+                                    style={{
+                                      backgroundColor: "#f8f9fa",
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      gap: "10px",
 
+                                    }}
+                                  >
+                                    {["Cash", "Future", "Option"].map((tab) => (
+                                      <li className="nav-item flex-grow-1 text-center" key={tab}>
+                                        <button
+                                          className={`nav-link rounded-pill w-100 ${chartingSubTab === tab ? "active" : ""}`}
+                                          onClick={() => setChartingSubTab(tab)}
+                                          style={{
+                                            padding: "14px 30px",
+                                            fontSize: "18px",
+                                            fontWeight: "600",
+                                            transition: "all 0.3s ease-in-out",
+                                            backgroundColor: chartingSubTab === tab ? "#007bff" : "#fff",
+                                            color: chartingSubTab === tab ? "#fff" : "#333",
+                                            boxShadow: chartingSubTab === tab ? "0px 4px 12px rgba(0, 123, 255, 0.4)" : "none",
+                                            border: chartingSubTab === tab ? "2px solid #007bff" : "2px solid transparent",
+                                          }}
+                                          onMouseEnter={(e) => {
+                                            e.target.style.backgroundColor = "#007bff";
+                                            e.target.style.color = "#fff";
+                                          }}
+                                          onMouseLeave={(e) => {
+                                            if (chartingSubTab !== tab) {
+                                              e.target.style.backgroundColor = "#fff";
+                                              e.target.style.color = "#333";
+                                            }
+                                          }}
+                                        >
+                                          {tab}
+                                        </button>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              )} */}
 
-                              {/* Show FullDataTable only if getCharting has data */}
-                              {(data === "Scalping" && getAllService.NewScalping?.length > 0) ||
-                                (data === "Option Strategy" && getAllService.OptionData?.length > 0) ||
-                                ((data === "Pattern" || data === "Pattern Script") && getAllService.PatternData?.length > 0) ||
-                                (data === "ChartingPlatform" && getCharting?.length > 0) ? (
-                                <FullDataTable
-                                  columns={
-                                    data === "Scalping"
-                                      ? getColumns6(handleDelete, handleEdit, HandleContinueDiscontinue, handleMatchPosition)
-                                      : data === "Option Strategy"
-                                        ? getColumns4(handleDelete, handleEdit, HandleContinueDiscontinue)
-                                        : (data === "Pattern" || data === "Pattern Script")
-                                          ? getColumns5(handleDelete, handleEdit, HandleContinueDiscontinue)
-                                          : data === "ChartingPlatform"
-                                            ? getColumns8(HandleContinueDiscontinue)
-                                            : getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue)
-                                  }
-                                  data={
-                                    data === "Scalping"
-                                      ? getAllService.NewScalping
-                                      : data === "Option Strategy"
-                                        ? getAllService.OptionData
-                                        : (data === "Pattern" || data === "Pattern Script")
-                                          ? getAllService.PatternData
-                                          : data === "ChartingPlatform"
-                                            ? getCharting
-                                            : []
-                                  }
-                                  checkBox={false}
-                                />
+                              {/* {data === "ChartingPlatform" && getCharting?.length > 0 && (
+                                <div className="d-flex justify-content-end my-3">
+                                  <ul
+                                    className="nav nav-pills shadow-lg rounded-pill p-2"
+                                    style={{
+                                      backgroundColor: "#f8f9fa",
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      gap: "10px",
+                                    }}
+                                  >
+                                    <li className="nav-item flex-grow-1 text-center">
+                                      <button
+                                        className={`nav-link rounded-pill w-100 ${view === "table" ? "active" : ""}`}
+                                        onClick={() => setView("table")}
+                                        style={{
+                                          display: "flex",
+                                          justifyContent: "center",
+                                          alignItems: "center",
+                                          gap: "3px",
+                                          padding: "7px",
+                                          fontSize: "10px",
+                                          fontWeight: "600",
+                                          transition: "all 0.3s ease-in-out",
+                                          backgroundColor: view === "table" ? "#007bff" : "#fff",
+                                          color: view === "table" ? "#fff" : "#333",
+                                          boxShadow: view === "table" ? "0px 4px 12px rgba(0, 123, 255, 0.4)" : "none",
+                                          border: view === "table" ? "2px solid #007bff" : "2px solid transparent",
+                                        }}
+                                        onMouseEnter={(e) => {
+                                          e.target.style.backgroundColor = "#007bff";
+                                          e.target.style.color = "#fff";
+                                        }}
+                                        onMouseLeave={(e) => {
+                                          if (view !== "table") {
+                                            e.target.style.backgroundColor = "#fff";
+                                            e.target.style.color = "#333";
+                                          }
+                                        }}
+                                      >
+                                        <FaTable /> Table View
+                                      </button>
+                                    </li>
+                                    <li className="nav-item flex-grow-1 text-center">
+                                      <button
+                                        className={`nav-link rounded-pill w-100 ${view === "card" ? "active" : ""}`}
+                                        onClick={() => setView("card")}
+                                        style={{
+                                          display: "flex",
+                                          justifyContent: "center",
+                                          alignItems: "center",
+                                          gap: "3px",
+                                          padding: "7px",
+                                          fontSize: "10px",
+                                          fontWeight: "600",
+                                          transition: "all 0.3s ease-in-out",
+                                          backgroundColor: view === "card" ? "#007bff" : "#fff",
+                                          color: view === "card" ? "#fff" : "#333",
+                                          boxShadow: view === "card" ? "0px 4px 12px rgba(0, 123, 255, 0.4)" : "none",
+                                          border: view === "card" ? "2px solid #007bff" : "2px solid transparent",
+                                        }}
+                                        onMouseEnter={(e) => {
+                                          e.target.style.backgroundColor = "#007bff";
+                                          e.target.style.color = "#fff";
+                                        }}
+                                        onMouseLeave={(e) => {
+                                          if (view !== "card") {
+                                            e.target.style.backgroundColor = "#fff";
+                                            e.target.style.color = "#333";
+                                          }
+                                        }}
+                                      >
+                                        <FaTh /> Card View
+                                      </button>
+                                    </li>
+                                  </ul>
+                                </div>
+
+                              )} */}
+
+                              {view === "table" ? (
+                                ((data === "Scalping" && getAllService.NewScalping?.length > 0) ||
+                                  (data === "Option Strategy" && getAllService.OptionData?.length > 0) ||
+                                  ((data === "Pattern" || data === "Pattern Script") && getAllService.PatternData?.length > 0)) ? (
+                                  <FullDataTable
+                                    columns={
+                                      data === "Scalping"
+                                        ? getColumns6(handleDelete, handleEdit, HandleContinueDiscontinue, handleMatchPosition)
+                                        : data === "Option Strategy"
+                                          ? getColumns4(handleDelete, handleEdit, HandleContinueDiscontinue)
+                                          : (data === "Pattern" || data === "Pattern Script")
+                                            ? getColumns5(handleDelete, handleEdit, HandleContinueDiscontinue)
+                                            : data === "ChartingPlatform"
+                                              ? getColumns8(HandleContinueDiscontinue, chartingSubTab, getChartingScript)
+                                              : getColumns3(handleDelete, handleEdit, HandleContinueDiscontinue)
+                                    }
+                                    data={
+                                      data === "Scalping"
+                                        ? getAllService.NewScalping
+                                        : data === "Option Strategy"
+                                          ? getAllService.OptionData
+                                          : (data === "Pattern" || data === "Pattern Script")
+                                            ? getAllService.PatternData
+                                            : data === "ChartingPlatform"
+                                              ? getCharting
+                                              : []
+                                    }
+                                    checkBox={false}
+                                    FixedRowPerPage={data === "ChartingPlatform" ? fixedRowPerPage : null}
+
+                                  />
+                                ) : (
+                                  (data !== "ChartingPlatform" || (data === "ChartingPlatform" && ["Cash", "Future", "Option"].includes(chartingSubTab))) && (
+                                    <NoDataFound />
+                                  )
+                                )
                               ) : (
-                                (data !== "ChartingPlatform" || (data === "ChartingPlatform" && ["Cash", "Future", "Option"].includes(chartingSubTab))) && <NoDataFound />
+                                <ChartingCard
+                                  data={getCharting}
+                                />
                               )}
+
                             </>
                           )}
-                        </div>
-                      </div>
+                        </div>}
 
+
+
+                        {
+                          data === "ChartingPlatform" && (
+                            <AddChartingScript
+                              selectStrategyType="ChartingPlatform"
+                              scriptType={allScripts2}
+                              tableType={tableType}
+                              data={data}
+                              selectedType={selectedType}
+                              FromDate={FromDate}
+                              ToDate={ToDate}
+                              chartingSubTab={chartingSubTab}
+                              getCharting={getCharting}
+                              view={view}
+                              fixedRowPerPage={fixedRowPerPage}
+                              allScripts2={allScripts2} // Pass allScripts2 here
+                            />
+                          )
+                        }
+
+                      </div>
                     </>
                   )}
                 </div>
@@ -2264,7 +2990,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
             </div>
           </div>
         </div>
-
       </div>
 
       {showEditModal && <div className="modal show" id="exampleModal" style={{ display: "block", marginTop: "5rem" }}>
@@ -2288,7 +3013,6 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
                     fields={(EditDataScalping.PositionType !== "Multiple" ? updatedFields : fields).filter(
                       (field) => !field.showWhen || field.showWhen(formik.values)
                     )}
-
                     btn_name="Update"
                     formik={formik}
                   />
@@ -2298,19 +3022,21 @@ const Coptyscript = ({ tableType, data, selectedType, data2, FromDate, ToDate })
 
                   <div className='p-4'>
                     <Formikform
-                      fields={fields1}
+                      fields={OptionFields.filter(
+                        (field) => !field.showWhen || field.showWhen(formik1.values)
+                      )}
                       btn_name="Update"
                       formik={formik1}
                     />
+
                   </div>
                 </>
                   :
                   <div className='p-4'>
                     <Formikform
-                      fields={fields2.filter(
+                      fields={PatternFields.filter(
                         (field) => !field.showWhen || field.showWhen(formik2.values)
                       )}
-
                       btn_name="Update"
                       formik={formik2}
                     />

@@ -50,8 +50,7 @@ const Pannel = () => {
     const fetchStrategyType = async () => {
         try {
             const res = await getStrategyType();
-            //   console.log("fetchStrategyType",res);
-
+            
             if (res.Data) {
                 setStrategyType(res.Data);
             }

@@ -27,7 +27,7 @@ const Pannel = () => {
   const day = String(currentDate.getDate()).padStart(2, "0");
   const formattedDate = `${year}.${month}.${day}`;
 
-  // from date
+  // Select Select From Date
   const DefultToDate = new Date();
   DefultToDate.setDate(DefultToDate.getDate() + 1);
   const year1 = DefultToDate.getFullYear();
@@ -54,10 +54,12 @@ const Pannel = () => {
       return `${year}.${month}.${day}`;
     }
   };
+  console.log("getSortName", getSortName);
 
   const GetSortTypeName = async () => {
     const data = { userName: userName };
     await GetName(data).then((response) => {
+      console.log("Get Sort Type Name", response);
       if (response.Status) {
         setSortName(response.Taskstatus);
       } else {
@@ -80,15 +82,15 @@ const Pannel = () => {
         },
       },
     },
-    {
-      name: "Username",
-      label: "Username",
+    // {
+    //   name: "Username",
+    //   label: "Username",
 
-      options: {
-        filter: true,
-        sort: true,
-      },
-    },
+    //   options: {
+    //     filter: true,
+    //     sort: true,
+    //   },
+    // },
     {
       name: "Activity",
       label: "Activity",
@@ -154,13 +156,12 @@ const Pannel = () => {
       <Content
         Page_title={"🖥️ Panel Track"}
         button_status={false}
-        backbutton_status={false}
-      >
+        backbutton_status={false}>
         <div className="iq-card-body">
           <div>
             <div className="row">
               <div className="form-group col-lg-4">
-                <label>Select form Date</label>
+                <label>Select Select From Date</label>
                 <DatePicker
                   className="form-select"
                   selected={fromDate == "" ? formattedDate : fromDate}
@@ -168,7 +169,7 @@ const Pannel = () => {
                 />
               </div>
               <div className="form-group col-lg-4">
-                <label>Select To Date</label>
+                <label>Select Select To Date</label>
                 <DatePicker
                   className="form-select"
                   selected={ToDate == "" ? Defult_To_Date : ToDate}
@@ -179,24 +180,21 @@ const Pannel = () => {
                 <label htmlFor="email">Activity</label>
                 <select
                   className="form-select"
-                  required=""
+                  required
                   onChange={(e) => {
                     setActivity(e.target.value);
                     sessionStorage.setItem("Activity", e.target.value);
                   }}
                   value={getActivity}
                 >
-                  <option value="">All Activity</option>
-                  <option value={"Login"}>Login</option>
-                  <option value={"Broker Update"}>Broker Update</option>
-                  <option value={"Add Script"}>Add Script</option>
-                  <option value={"Continue Script"}>Continue Script</option>
-                  <option value={"Square Script"}>Square Script</option>
-                  <option value={"Discontinue Script"}>
-                    Discontinue Script
-                  </option>
+                  {getSortName.map((item, index) => (
+                    <option value={item} key={index}>
+                      {item}
+                    </option>
+                  ))}
                 </select>
               </div>
+
             </div>
           </div>
           <div className="table-responsive">
@@ -216,8 +214,7 @@ const Pannel = () => {
           <div
             className="modal custom-modal d-flex"
             id="add_vendor"
-            role="dialog"
-          >
+            role="dialog">
             <div className="modal-dialog modal-dialog-centered modal-md custom-width-modal">
               <div className="modal-content">
                 <div className="modal-header border-0 pb-0">
@@ -229,8 +226,7 @@ const Pannel = () => {
                     className="btn-close"
                     data-bs-dismiss="modal"
                     aria-label="Close"
-                    onClick={() => setShowModal(!showModal)}
-                  ></button>
+                    onClick={() => setShowModal(!showModal)}></button>
                 </div>
                 <form action="#">
                   <div className="modal-body">
@@ -249,7 +245,7 @@ const Pannel = () => {
               <div>
                 <div className="row">
                   <div className="form-group col-lg-3 ">
-                    <label>Select form Date</label>
+                    <label>Select Select From Date</label>
                     <DatePicker
                       className="form-select"
                       selected={fromDate == "" ? formattedDate : fromDate}
@@ -257,7 +253,7 @@ const Pannel = () => {
                     />
                   </div>
                   <div className="form-group col-lg-3">
-                    <label>Select To Date</label>
+                    <label>Select Select To Date</label>
                     <DatePicker
                       className="form-select"
                       selected={ToDate == "" ? Defult_To_Date : ToDate}
@@ -270,8 +266,7 @@ const Pannel = () => {
                       className="form-select my-2"
                       required=""
                       onChange={(e) => setActivity(e.target.value)}
-                      value={getActivity}
-                    >
+                      value={getActivity}>
                       <option value="">All Activity</option>
                       {getSortName.map((item, index) => {
                         return <option value={item}>{item}</option>;
@@ -299,8 +294,7 @@ const Pannel = () => {
           <div
             className="modal custom-modal d-flex"
             id="add_vendor"
-            role="dialog"
-          >
+            role="dialog">
             <div className="modal-dialog modal-dialog-centered modal-md custom-width-modal">
               <div className="modal-content">
                 <div className="modal-header border-0 pb-0">
@@ -312,8 +306,7 @@ const Pannel = () => {
                     className="btn-close"
                     data-bs-dismiss="modal"
                     aria-label="Close"
-                    onClick={() => setShowModal(!showModal)}
-                  ></button>
+                    onClick={() => setShowModal(!showModal)}></button>
                 </div>
                 <form action="#">
                   <div className="modal-body">

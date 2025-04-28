@@ -39,7 +39,7 @@ const Login = () => {
                         icon: "success",
                         timer: 1500,
                         timerProgressBar: true
-                    }); 
+                    });
 
                     setTimeout(() => {
                         if (response.Role === 'Admin') {
@@ -270,7 +270,17 @@ const Login = () => {
             <div className="container ">
                 <div className="row no-gutters">
                     <p className="sign-in-logo  text-center">
-                        <img className="" alt="logo" id="imglogo" style={{ width: '200px', height: '50px', objectFit: 'cover' }} />
+                        <img
+                            className=""
+                            alt="logo"
+                            id="imglogo"
+                            style={{
+                                width: '150px',         // Fixed smaller width
+                                height: 'auto',         // Maintain aspect ratio
+                                objectFit: 'contain',   // Don't crop the logo
+                            }}
+                        />
+
                     </p>
                     <div className="col-md-7 dark-card mx-auto p-5">
                         <div className="">

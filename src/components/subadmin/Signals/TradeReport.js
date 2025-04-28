@@ -41,7 +41,7 @@ const TradeReport = () => {
     const formattedDate = `${year}.${month}.${day}`;
 
 
-    // from date
+    // Select Select From Date
     const DefultToDate = new Date();
 
     DefultToDate.setDate(DefultToDate.getDate() + 1);
@@ -136,7 +136,6 @@ const TradeReport = () => {
         await get_Trade_Report(data)
 
             .then((response) => {
-                console.log("get_Trade_Report", response);
 
                 if (response.Status) {
                     setAllTradeData({
@@ -231,12 +230,12 @@ const TradeReport = () => {
 
 
                             <div className="form-group col-lg-3">
-                                <label>Select form Date</label>
+                                <label>Select Select From Date</label>
                                 <DatePicker className="form-select" selected={FromDate == '' ? formattedDate : FromDate} onChange={(date) => setFromDate(date)} />
 
                             </div>
                             <div className="form-group col-lg-3">
-                                <label>Select To Date</label>
+                                <label>Select Select To Date</label>
                                 <DatePicker className="form-select" selected={ToDate == '' ? Defult_To_Date : ToDate} onChange={(date) => setToDate(date)} />
 
                             </div>

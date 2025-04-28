@@ -4,14 +4,29 @@ import { useFormik } from "formik";
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { GET_EXPIRY_DATE, ExpriyEndDate } from "../../CommonAPI/Admin";
-import { AddScript } from "../../CommonAPI/User";
+import { AddScript, CheckPnL } from "../../CommonAPI/User";
 import Content from "../../../ExtraComponent/Content";
+import { Modal } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
 
 const AddClient = () => {
   const location = useLocation();
+  console.log("hfkflf", location.state.data);
+
   const userName = localStorage.getItem("name");
   const navigate = useNavigate();
   const [getExpiry, setExpiry] = useState({ loading: true, data: [] });
+  const [openModel, setOpenModel] = useState(false);
+  const [PnlData, setPnlData] = useState({
+    MaximumProfit: "",
+    MaximumLoss: "",
+    SpotPriceMaximumProfit1: "",
+    SpotPriceMaximumProfit2: "",
+    SpotPriceMaximumLoss1: "",
+    SpotPriceMaximumLoss2: "",
+    NoprofitLoss1: "",
+    NoprofitLoss2: "",
+  });
 
   const ScrollToViewFirstError = (newErrors) => {
     if (Object.keys(newErrors).length !== 0) {
@@ -31,8 +46,6 @@ const AddClient = () => {
     }
   };
 
-  console.log("location", location.state);
-
   const SweentAlertFun = (text) => {
     Swal.fire({
       background: "#1a1e23 ",
@@ -47,9 +60,12 @@ const AddClient = () => {
   };
 
   const getEndData = (stg) => {
+    if (!stg) {
+      return
+    }
     const dataWithoutLastItem = location?.state?.scriptType?.data.slice(0, -1);
     const foundItem = dataWithoutLastItem.find((item) => {
-      return item["Option Strategy"].includes(stg);
+      return item["Option Strategy"]?.includes(stg);
     });
     return foundItem.EndDate;
   };
@@ -61,7 +77,7 @@ const AddClient = () => {
       Strategy: location.state.data.STG,
       ETPattern: "",
       Timeframe: "",
-      Exchange: "",
+      Exchange: location.state.data.Exchange,
       Symbol: location.state.data.MainSymbol,
       Instrument: "FUTIDX",
       Strike: "",
@@ -100,8 +116,8 @@ const AddClient = () => {
       Unique_ID: location.state.data.GroupN,
       Measurment_Type: "",
       Shifting_Point: 1,
-      Profit: 0,
-      Loss: 0,
+      Profit: "0",
+      Loss: "0",
       ExitType: "",
       WorkingDay: [],
     },
@@ -369,10 +385,10 @@ const AddClient = () => {
             values.DeepStrike == 0
               ? "Deep Strike Cannot Be Zero."
               : values.DeepStrike == 1
-              ? "Deep Strike Cannot Be 1."
-              : values.DeepStrike == -1
-              ? "Deep Strike Cannot Be -1."
-              : "Enter Deep Strike Between -10 to 10.";
+                ? "Deep Strike Cannot Be 1."
+                : values.DeepStrike == -1
+                  ? "Deep Strike Cannot Be -1."
+                  : "Enter Deep Strike Between -10 to 10.";
         }
       }
       if (
@@ -394,23 +410,18 @@ const AddClient = () => {
         }
       }
 
-      if (
-        values.Loss == undefined ||
-        values.Loss == "" ||
-        values.Loss == null
-      ) {
+      if (values.Loss === undefined || values.Loss === "" || values.Loss === null) {
         errors.Loss = "Please Enter Maximum Loss";
       }
 
-      if (
-        values.Profit == undefined ||
-        values.Profit == "" ||
-        values.Profit == null
-      ) {
-        errors.Profit = "Please Enter Maximum Loss";
+      if (values.Profit === undefined || values.Profit === "" || values.Profit === null) {
+        errors.Profit = "Please Enter Maximum Profit";
       }
 
-      if (!values.WorkingDay?.length > 0) {
+      // if (!values.WorkingDay?.length > 0) {
+      //   errors.WorkingDay = "Please select Working day";
+      // }
+      if (!values.WorkingDay || values.WorkingDay.length === 0) {
         errors.WorkingDay = "Please select Working day";
       }
 
@@ -423,6 +434,7 @@ const AddClient = () => {
       }
 
       // ScrollToViewFirstError(errors);
+      console.log("error", errors)
       return errors;
     },
     onSubmit: async (values) => {
@@ -435,18 +447,18 @@ const AddClient = () => {
             ? values.ETPattern
             : values.Strategy == "ShortShifting" ||
               values.Strategy == "LongShifting"
-            ? "Future"
-            : "",
+              ? "Future"
+              : "",
         Timeframe: "",
-        Exchange: "NFO",
+        Exchange: values.Exchange,
         Symbol: values.Symbol,
         Instrument: "FUTIDX",
         Strike: "",
         Optiontype: "",
         Targetvalue:
           values.Measurment_Type == "Shifting_FourLeg" &&
-          (values.Strategy == "ShortShifting" ||
-            values.Strategy == "LongShifting")
+            (values.Strategy == "ShortShifting" ||
+              values.Strategy == "LongShifting")
             ? Number(values.Shifting_Point)
             : Number(values.Targetvalue),
         Slvalue: values.Slvalue,
@@ -454,12 +466,12 @@ const AddClient = () => {
         Quantity: values.Quantity,
         LowerRange:
           values.Striketype == "Premium_Range" &&
-          values.Measurment_Type != "Shifting_FourLeg"
+            values.Measurment_Type != "Shifting_FourLeg"
             ? values.Lower_Range
             : 0,
         HigherRange:
           values.Striketype == "Premium_Range" &&
-          values.Measurment_Type != "Shifting_FourLeg"
+            values.Measurment_Type != "Shifting_FourLeg"
             ? values.Higher_Range
             : 0,
         HoldExit: "",
@@ -477,75 +489,75 @@ const AddClient = () => {
         Expirytype: values.Expirytype,
         Striketype:
           formik.values.Strategy != "ShortStraddle" &&
-          formik.values.Strategy != "LongStraddle" &&
-          formik.values.Measurment_Type != "Shifting_FourLeg" &&
-          formik.values.Strategy != "ShortStraddle" &&
-          formik.values.Strategy != "LongStraddle"
+            formik.values.Strategy != "LongStraddle" &&
+            formik.values.Measurment_Type != "Shifting_FourLeg" &&
+            formik.values.Strategy != "ShortStraddle" &&
+            formik.values.Strategy != "LongStraddle"
             ? values.Striketype
             : "",
         DepthofStrike:
           formik.values.Striketype != "Premium_Range" &&
-          formik.values.Measurment_Type != "Shifting_FourLeg" &&
-          formik.values.Strategy != "LongStraddle" &&
-          formik.values.Strategy != "ShortStraddle"
+            formik.values.Measurment_Type != "Shifting_FourLeg" &&
+            formik.values.Strategy != "LongStraddle" &&
+            formik.values.Strategy != "ShortStraddle"
             ? Number(values.DepthofStrike)
             : formik.values.Measurment_Type == "Shifting_FourLeg" &&
               formik.values.Strategy != "ShortFourLegStretegy" &&
               formik.values.Strategy != "LongFourLegStretegy"
-            ? values.Shifting_Value
-            : 0,
+              ? values.Shifting_Value
+              : 0,
         DeepStrike:
           (formik.values.Measurment_Type == "Ladder_Coverd" &&
             formik.values.Measurment_Type != "Shifting_FourLeg" &&
             (formik.values.Strategy == "BullCallLadder" ||
               formik.values.Strategy == "BullPutLadder")) ||
-          formik.values.Strategy == "LongIronCondor" ||
-          formik.values.Strategy == "ShortIronCondor"
+            formik.values.Strategy == "LongIronCondor" ||
+            formik.values.Strategy == "ShortIronCondor"
             ? Number(values.DeepStrike)
             : 0,
         Group:
           values.Strategy == "LongFourLegStretegy" ||
-          values.Strategy == "ShortFourLegStretegy"
+            values.Strategy == "ShortFourLegStretegy"
             ? values.Unique_ID
             : "",
         CEDepthLower:
           values.Strategy == "ShortFourLegStretegy" ||
-          values.Strategy == "LongFourLegStretegy"
+            values.Strategy == "LongFourLegStretegy"
             ? Number(values.CEDepthLower)
             : 0,
         CEDepthHigher:
           values.Strategy == "ShortFourLegStretegy" ||
-          values.Strategy == "LongFourLegStretegy"
+            values.Strategy == "LongFourLegStretegy"
             ? Number(values.CEDepthHigher)
             : 0,
         PEDepthLower:
           values.Strategy == "ShortFourLegStretegy" ||
-          values.Strategy == "LongFourLegStretegy"
+            values.Strategy == "LongFourLegStretegy"
             ? Number(values.PEDepthLower)
             : 0,
         PEDepthHigher:
           values.Strategy == "ShortFourLegStretegy" ||
-          values.Strategy == "LongFourLegStretegy"
+            values.Strategy == "LongFourLegStretegy"
             ? Number(values.PEDepthHigher)
             : 0,
         CEDeepLower:
           values.Strategy == "ShortFourLegStretegy" ||
-          values.Strategy == "LongFourLegStretegy"
+            values.Strategy == "LongFourLegStretegy"
             ? Number(values.CEDeepLower)
             : 0,
         CEDeepHigher:
           values.Strategy == "ShortFourLegStretegy" ||
-          values.Strategy == "LongFourLegStretegy"
+            values.Strategy == "LongFourLegStretegy"
             ? Number(values.CEDeepHigher)
             : 0,
         PEDeepLower:
           values.Strategy == "ShortFourLegStretegy" ||
-          values.Strategy == "LongFourLegStretegy"
+            values.Strategy == "LongFourLegStretegy"
             ? Number(values.PEDeepLower)
             : 0,
         PEDeepHigher:
           values.Strategy == "ShortFourLegStretegy" ||
-          values.Strategy == "LongFourLegStretegy"
+            values.Strategy == "LongFourLegStretegy"
             ? Number(values.PEDeepHigher)
             : 0,
         TradeCount: values.Trade_Count,
@@ -559,7 +571,6 @@ const AddClient = () => {
           : [],
       };
 
-      console.log("req", req);
 
       if (
         values.Striketype == "Depth_of_Strike" &&
@@ -652,6 +663,164 @@ const AddClient = () => {
   });
 
   useEffect(() => {
+    if (formik.submitCount > 0) { // Submit ke baad hi chalega
+      if (!formik.values.WorkingDay || formik.values.WorkingDay.length === 0) {
+        formik.setFieldError('WorkingDay', 'Please select at least one Working Day');
+        formik.setFieldTouched('WorkingDay', true, false);
+      }
+    }
+  }, [formik.submitCount]); 
+  
+
+  const handleCheckPnl = async () => {
+    // const weekend = new Date().getDay();
+    // const currentDate = new Date();
+    // const currentTime =
+    //   currentDate.getHours() +
+    //   ":" +
+    //   currentDate.getMinutes() +
+    //   ":" +
+    //   currentDate.getSeconds();
+
+    // if (
+    //   weekend == 6 ||
+    //   weekend == 0 ||
+    //   currentTime >= "15:30:00" ||
+    //   currentTime <= "09:15:00"
+    // ) {
+    //   return SweentAlertFun("Market is off Today");
+    // }
+
+
+    const weekend = new Date().getDay();
+    const currentDate = new Date();
+    const hours = currentDate.getHours();
+    const minutes = currentDate.getMinutes();
+
+    const totalMinutes = hours * 60 + minutes; // e.g., 14 * 60 + 30 = 870
+
+    console.log("Current time (HH:MM):", `${hours}:${minutes}`);
+    console.log("Weekend:", weekend);
+
+    // Market hours: 9:15 AM to 3:30 PM => 555 to 930 in total minutes
+    if (weekend === 6 || weekend === 0 || totalMinutes < 555 || totalMinutes > 930) {
+      return SweentAlertFun("Market is off Today");
+    }
+
+    console.log("before req");
+
+    const req = {
+      MainStrategy: location.state.data.selectStrategyType,
+      Strategy: formik.values.Strategy,
+      Username: userName,
+      ETPattern: formik.values.ETPattern,
+      Timeframe: "",
+      Exchange: "",
+      Symbol: formik.values.Symbol,
+      Instrument: "FUTIDX",
+      Strike: "",
+      Optiontype: "",
+      Targetvalue: formik.values.Targetvalue,
+      Slvalue: formik.values.Slvalue,
+      TStype: formik.values.TStype,
+      Quantity: formik.values.Quantity,
+      LowerRange:
+        formik.values.Striketype == "Premium_Range" &&
+          formik.values.Measurment_Type != "Shifting_FourLeg"
+          ? formik.values.Lower_Range
+          : 0,
+      HigherRange:
+        formik.values.Striketype == "Premium_Range" &&
+          formik.values.Measurment_Type != "Shifting_FourLeg"
+          ? formik.values.Higher_Range
+          : 0,
+      HoldExit: "",
+      EntryPrice: 0.0,
+      EntryRange: 0.0,
+      EntryTime: formik.values.EntryTime,
+      ExitTime: formik.values.ExitTime,
+      ExitDay: formik.values.ExitDay,
+      TradeExecution: formik.values.Trade_Execution,
+      FixedSM: "",
+      TType: "",
+      serendate: getEndData(formik.values.Measurment_Type),
+      expirydata1: getExpiry && getExpiry.data[0],
+      Expirytype: formik.values.Expirytype,
+      Striketype:
+        formik.values.Strategy != "ShortStraddle" &&
+          formik.values.Strategy != "LongStraddle" &&
+          formik.values.Measurment_Type != "Shifting_FourLeg"
+          ? formik.values.Striketype
+          : "",
+      DepthofStrike:
+        formik.values.Striketype != "Premium_Range" &&
+          formik.values.Measurment_Type != "Shifting_FourLeg" &&
+          formik.values.Strategy != "LongStraddle" &&
+          formik.values.Strategy != "ShortStraddle"
+          ? Number(formik.values.DepthofStrike)
+          : 0,
+      DeepStrike:
+        (formik.values.Measurment_Type == "Ladder_Coverd" &&
+          formik.values.Measurment_Type != "Shifting_FourLeg" &&
+          (formik.values.Strategy == "BullCallLadder" ||
+            formik.values.Strategy == "BullPutLadder")) ||
+          formik.values.Strategy == "LongIronCondor" ||
+          formik.values.Strategy == "ShortIronCondor"
+          ? Number(formik.values.DeepStrike)
+          : 0,
+      Group: formik.values.Unique_ID,
+      CEDepthLower: Number(formik.values.CEDepthLower),
+      CEDepthHigher: Number(formik.values.CEDepthHigher),
+      PEDepthLower: Number(formik.values.PEDepthLower),
+      PEDepthHigher: Number(formik.values.PEDepthHigher),
+      CEDeepLower: Number(formik.values.CEDeepLower),
+      CEDeepHigher: Number(formik.values.CEDeepHigher),
+      PEDeepLower: Number(formik.values.PEDeepLower),
+      PEDeepHigher: Number(formik.values.PEDeepHigher),
+      TradeCount: Number(formik.values.Trade_Count),
+      quantity2: 0.0,
+      quantity3: 0.0,
+      tgp2: 0.0,
+      tgp3: 0.0,
+      stepup: 0.0,
+      quantityselection: "",
+      quantityvalue: 0.0,
+      targetselection: "",
+    };
+
+    await CheckPnL(req)
+      .then((response) => {
+        if (response.Status) {
+          setOpenModel(true);
+          setPnlData({
+            MaximumProfit: response.MaximumProfit,
+            MaximumLoss: response.MaximumLoss,
+            SpotPriceMaximumProfit1: response.SpotPriceMaximumProfit1,
+            SpotPriceMaximumProfit2: response.SpotPriceMaximumProfit2,
+            SpotPriceMaximumLoss1: response.SpotPriceMaximumLoss1,
+            SpotPriceMaximumLoss2: response.SpotPriceMaximumLoss2,
+            NoprofitLoss1: response.NoprofitLoss1,
+            NoprofitLoss2: response.NoprofitLoss2,
+          });
+        } else {
+          setPnlData({
+            MaximumProfit: "",
+            MaximumLoss: "",
+            SpotPriceMaximumProfit1: "",
+            SpotPriceMaximumProfit2: "",
+            SpotPriceMaximumLoss1: "",
+            SpotPriceMaximumLoss2: "",
+            NoprofitLoss1: "",
+            NoprofitLoss2: "",
+          });
+        }
+      })
+      .catch((err) => {
+        console.log("Error in fetching the PnL", err);
+      });
+  };
+
+  useEffect(() => {
     const workingDay = location?.state?.data?.WorkingDay?.map((item) => ({
       label: item,
       value: item,
@@ -668,28 +837,28 @@ const AddClient = () => {
           location.state.data.STG == "ShortIronButterfly" ||
           location.state.data.STG == "LongIronCondor" ||
           location.state.data.STG == "ShortIronCondor"
-        ? "Butterfly_Condor"
-        : location.state.data.STG == "BearCallSpread" ||
-          location.state.data.STG == "BearPutSpread" ||
-          location.state.data.STG == "BullCallSpread" ||
-          location.state.data.STG == "BullPutSpread"
-        ? "Spread"
-        : location.state.data.STG == "BullCallLadder" ||
-          location.state.data.STG == "BullPutLadder" ||
-          location.state.data.STG == "CoveredCall" ||
-          location.state.data.STG == "CoveredPut"
-        ? "Ladder_Coverd"
-        : location.state.data.STG == "LongCollar" ||
-          location.state.data.STG == "ShortCollar" ||
-          location.state.data.STG == "RatioCallSpread" ||
-          location.state.data.STG == "RatioPutSpread"
-        ? "Collar_Ratio"
-        : location.state.data.STG == "LongFourLegStretegy" ||
-          location.state.data.STG == "ShortShifting" ||
-          location.state.data.STG == "LongShifting" ||
-          location.state.data.STG == "ShortFourLegStretegy"
-        ? "Shifting_FourLeg"
-        : ""
+          ? "Butterfly_Condor"
+          : location.state.data.STG == "BearCallSpread" ||
+            location.state.data.STG == "BearPutSpread" ||
+            location.state.data.STG == "BullCallSpread" ||
+            location.state.data.STG == "BullPutSpread"
+            ? "Spread"
+            : location.state.data.STG == "BullCallLadder" ||
+              location.state.data.STG == "BullPutLadder" ||
+              location.state.data.STG == "CoveredCall" ||
+              location.state.data.STG == "CoveredPut"
+              ? "Ladder_Coverd"
+              : location.state.data.STG == "LongCollar" ||
+                location.state.data.STG == "ShortCollar" ||
+                location.state.data.STG == "RatioCallSpread" ||
+                location.state.data.STG == "RatioPutSpread"
+                ? "Collar_Ratio"
+                : location.state.data.STG == "LongFourLegStretegy" ||
+                  location.state.data.STG == "ShortShifting" ||
+                  location.state.data.STG == "LongShifting" ||
+                  location.state.data.STG == "ShortFourLegStretegy"
+                  ? "Shifting_FourLeg"
+                  : ""
     );
     formik.setFieldValue("Strategy", location.state.data.STG);
     formik.setFieldValue("Symbol", location.state.data.MainSymbol);
@@ -718,6 +887,7 @@ const AddClient = () => {
         ? location.state.data.DepthofStrike
         : ""
     );
+    formik.setFieldValue("Exchange", location.state.data.Exchange);
     formik.setFieldValue("CEDepthLower", location.state.data.CEDepthLower);
     formik.setFieldValue("CEDepthHigher", location.state.data.CEDepthHigher);
     formik.setFieldValue("CEDeepLower", location.state.data.CEDeepLower);
@@ -727,13 +897,26 @@ const AddClient = () => {
     formik.setFieldValue("PEDeepLower", location.state.data.PEDeepLower);
     formik.setFieldValue("PEDeepHigher", location.state.data.PEDeepHigher);
     formik.setFieldValue("Shifting_Point", location.state.data["Target value"]);
-    formik.setFieldValue("Profit", location.state.data.Profit);
-    formik.setFieldValue("Loss", location.state.data.Loss);
+    formik.setFieldValue("Profit", location.state.data.Profit || 0);
+    formik.setFieldValue("Loss", location.state.data.Loss || 0);
     formik.setFieldValue("WorkingDay", workingDay);
     formik.setFieldValue("ExitType", "Normal");
   }, []);
 
   const SymbolSelectionArr = [
+    {
+      name: "Exchange", // New field name for Exchange
+      label: "Exchange", // Label for the new field
+      type: "select",
+      options: [
+        { label: "NFO", value: "NFO" },
+      ],
+      hiding: false,
+      label_size: 12,
+      col_size: 3,
+      headingtype: 1,
+      disable: false,
+    },
     {
       name: "Symbol",
       label: "Symbol",
@@ -756,9 +939,9 @@ const AddClient = () => {
         formik.values.Symbol == "BANKNIFTY"
           ? [{ label: "Monthly", value: "Monthly" }]
           : [
-              { label: "Weekly", value: "Weekly" },
-              { label: "Monthly", value: "Monthly" },
-            ],
+            { label: "Weekly", value: "Weekly" },
+            { label: "Monthly", value: "Monthly" },
+          ],
       hiding: false,
       label_size: 12,
       col_size: 3,
@@ -797,16 +980,16 @@ const AddClient = () => {
         formik.values.Striketype == "Depth_of_Strike"
           ? "Depth of Strike"
           : formik.values.Striketype == "Straddle_Width"
-          ? "Percentage"
-          : formik.values.Striketype == "Premium_Range"
-          ? "Premium Range"
-          : formik.values.Striketype == "Per_ATM"
-          ? "% of ATM"
-          : "Depth of Strike",
+            ? "Percentage"
+            : formik.values.Striketype == "Premium_Range"
+              ? "Premium Range"
+              : formik.values.Striketype == "Per_ATM"
+                ? "% of ATM"
+                : "Depth of Strike",
       type:
         formik.values.Striketype == "Per_ATM" ||
-        formik.values.Striketype == "Straddle_Width" ||
-        formik.values.Striketype == "Depth_of_Strike"
+          formik.values.Striketype == "Straddle_Width" ||
+          formik.values.Striketype == "Depth_of_Strike"
           ? "number"
           : "text4",
       hiding: false,
@@ -1017,18 +1200,18 @@ const AddClient = () => {
       type: "select1",
       options:
         formik.values.Strategy == "CoveredPut" ||
-        formik.values.Strategy == "CoveredCall" ||
-        formik.values.Strategy == "ShortCollar" ||
-        formik.values.Strategy == "LongCollar"
+          formik.values.Strategy == "CoveredCall" ||
+          formik.values.Strategy == "ShortCollar" ||
+          formik.values.Strategy == "LongCollar"
           ? [
-              { label: "Future", value: "Future" },
-              { label: "Leg vice", value: "Leg vice" },
-            ]
+            { label: "Future", value: "Future" },
+            { label: "Leg vice", value: "Leg vice" },
+          ]
           : [
-              { label: "Future", value: "Future" },
-              { label: "Leg vice", value: "Leg vice" },
-              { label: "Premium Addition", value: "Premium Addition" },
-            ],
+            { label: "Future", value: "Future" },
+            { label: "Leg vice", value: "Leg vice" },
+            { label: "Premium Addition", value: "Premium Addition" },
+          ],
       showWhen: (value) => value.Measurment_Type != "Shifting_FourLeg",
       hiding: false,
       label_size: 12,
@@ -1110,9 +1293,9 @@ const AddClient = () => {
         formik.values.ETPattern == "Premium Addition"
           ? [{ label: "Point", value: "Point" }]
           : [
-              { label: "Point", value: "Point" },
-              { label: "Percentage", value: "Percentage" },
-            ],
+            { label: "Point", value: "Point" },
+            { label: "Percentage", value: "Percentage" },
+          ],
       hiding: false,
       label_size: 12,
       showWhen: (value) =>
@@ -1167,7 +1350,7 @@ const AddClient = () => {
 
     {
       name: "Loss",
-      label: "Max Loss ",
+      label: "Max Loss (in price)",
       type: "text3",
       label_size: 12,
       col_size: 4,
@@ -1178,7 +1361,7 @@ const AddClient = () => {
 
     {
       name: "Profit",
-      label: " Max Profit ",
+      label: " Max Profit (in price) ",
       type: "text3",
       label_size: 12,
       col_size: 4,
@@ -1268,53 +1451,53 @@ const AddClient = () => {
       title:
         formik.values.Measurment_Type == "Straddle_Strangle"
           ? [
-              { title: "Long Strangle", value: "LongStrangle" },
-              { title: "Short Strangle", value: "ShortStrangle" },
-              { title: "Long Straddle", value: "LongStraddle" },
-              { title: "Short Straddle", value: "ShortStraddle" },
-            ]
+            { title: "Long Strangle", value: "LongStrangle" },
+            { title: "Short Strangle", value: "ShortStrangle" },
+            { title: "Long Straddle", value: "LongStraddle" },
+            { title: "Short Straddle", value: "ShortStraddle" },
+          ]
           : formik.values.Measurment_Type == "Butterfly_Condor"
-          ? [
+            ? [
               { title: "Long Iron Butterfly", value: "LongIronButterfly" },
               { title: "Short Iron Butterfly", value: "ShortIronButterfly" },
               { title: "Long Iron Condor", value: "LongIronCondor" },
               { title: "Short Iron Condor", value: "ShortIronCondor" },
             ]
-          : formik.values.Measurment_Type == "Spread"
-          ? [
-              { title: "Bear Call Spread", value: "BearCallSpread" },
-              { title: "Bear Put Spread", value: "BearPutSpread" },
-              { title: "Bull Call Spread", value: "BullCallSpread" },
-              { title: "Bull Put Spread", value: "BullPutSpread" },
-            ]
-          : formik.values.Measurment_Type == "Ladder_Coverd"
-          ? [
-              { title: "Bull Call Ladder", value: "BullCallLadder" },
-              { title: "Bull Put Ladder", value: "BullPutLadder" },
-              { title: "Covered Call", value: "CoveredCall" },
-              { title: "Covered Put", value: "CoveredPut" },
-            ]
-          : formik.values.Measurment_Type == "Collar_Ratio"
-          ? [
-              { title: "Long Collar", value: "LongCollar" },
-              { title: "Short Collar", value: "ShortCollar" },
-              { title: "Ratio Call Spread", value: "RatioCallSpread" },
-              { title: "Ratio Put Spread", value: "RatioPutSpread" },
-            ]
-          : formik.values.Measurment_Type == "Shifting_FourLeg"
-          ? [
-              { title: "Short Shifting", value: "ShortShifting" },
-              { title: "Long Shifting", value: "LongShifting" },
-              {
-                title: "ShortFourLegStrategy",
-                value: "ShortFourLegStretegy",
-              },
-              {
-                title: "LongFourLegStrategy",
-                value: "LongFourLegStretegy",
-              },
-            ]
-          : "",
+            : formik.values.Measurment_Type == "Spread"
+              ? [
+                { title: "Bear Call Spread", value: "BearCallSpread" },
+                { title: "Bear Put Spread", value: "BearPutSpread" },
+                { title: "Bull Call Spread", value: "BullCallSpread" },
+                { title: "Bull Put Spread", value: "BullPutSpread" },
+              ]
+              : formik.values.Measurment_Type == "Ladder_Coverd"
+                ? [
+                  { title: "Bull Call Ladder", value: "BullCallLadder" },
+                  { title: "Bull Put Ladder", value: "BullPutLadder" },
+                  { title: "Covered Call", value: "CoveredCall" },
+                  { title: "Covered Put", value: "CoveredPut" },
+                ]
+                : formik.values.Measurment_Type == "Collar_Ratio"
+                  ? [
+                    { title: "Long Collar", value: "LongCollar" },
+                    { title: "Short Collar", value: "ShortCollar" },
+                    { title: "Ratio Call Spread", value: "RatioCallSpread" },
+                    { title: "Ratio Put Spread", value: "RatioPutSpread" },
+                  ]
+                  : formik.values.Measurment_Type == "Shifting_FourLeg"
+                    ? [
+                      { title: "Short Shifting", value: "ShortShifting" },
+                      { title: "Long Shifting", value: "LongShifting" },
+                      {
+                        title: "ShortFourLegStrategy",
+                        value: "ShortFourLegStretegy",
+                      },
+                      {
+                        title: "LongFourLegStrategy",
+                        value: "LongFourLegStretegy",
+                      },
+                    ]
+                    : "",
       label_size: 12,
       col_size: 8,
       disable: false,
@@ -1489,36 +1672,36 @@ const AddClient = () => {
   useEffect(() => {
     const temp =
       location.state.data.STG == "ShortStrangle" ||
-      location.state.data.STG == "LongStrangle" ||
-      location.state.data.STG == "LongStraddle" ||
-      location.state.data.STG == "ShortStraddle"
+        location.state.data.STG == "LongStrangle" ||
+        location.state.data.STG == "LongStraddle" ||
+        location.state.data.STG == "ShortStraddle"
         ? "Straddle_Strangle"
         : location.state.data.STG == "LongIronButterfly" ||
           location.state.data.STG == "ShortIronButterfly" ||
           location.state.data.STG == "LongIronCondor" ||
           location.state.data.STG == "ShortIronCondor"
-        ? "Butterfly_Condor"
-        : location.state.data.STG == "BearCallSpread" ||
-          location.state.data.STG == "BearPutSpread" ||
-          location.state.data.STG == "BullCallSpread" ||
-          location.state.data.STG == "BullPutSpread"
-        ? "Spread"
-        : location.state.data.STG == "BullCallLadder" ||
-          location.state.data.STG == "BullPutLadder" ||
-          location.state.data.STG == "CoveredCall" ||
-          location.state.data.STG == "CoveredPut"
-        ? "Ladder_Coverd"
-        : location.state.data.STG == "LongCollar" ||
-          location.state.data.STG == "ShortCollar" ||
-          location.state.data.STG == "RatioCallSpread" ||
-          location.state.data.STG == "RatioPutSpread"
-        ? "Collar_Ratio"
-        : location.state.data.STG == "LongFourLegStretegy" ||
-          location.state.data.STG == "ShortShifting" ||
-          location.state.data.STG == "LongShifting" ||
-          location.state.data.STG == "ShortFourLegStretegy"
-        ? "Shifting_FourLeg"
-        : "";
+          ? "Butterfly_Condor"
+          : location.state.data.STG == "BearCallSpread" ||
+            location.state.data.STG == "BearPutSpread" ||
+            location.state.data.STG == "BullCallSpread" ||
+            location.state.data.STG == "BullPutSpread"
+            ? "Spread"
+            : location.state.data.STG == "BullCallLadder" ||
+              location.state.data.STG == "BullPutLadder" ||
+              location.state.data.STG == "CoveredCall" ||
+              location.state.data.STG == "CoveredPut"
+              ? "Ladder_Coverd"
+              : location.state.data.STG == "LongCollar" ||
+                location.state.data.STG == "ShortCollar" ||
+                location.state.data.STG == "RatioCallSpread" ||
+                location.state.data.STG == "RatioPutSpread"
+                ? "Collar_Ratio"
+                : location.state.data.STG == "LongFourLegStretegy" ||
+                  location.state.data.STG == "ShortShifting" ||
+                  location.state.data.STG == "LongShifting" ||
+                  location.state.data.STG == "ShortFourLegStretegy"
+                  ? "Shifting_FourLeg"
+                  : "";
 
     if (
       formik.values.Measurment_Type &&
@@ -1538,12 +1721,94 @@ const AddClient = () => {
           fields={fields.filter(
             (field) => !field.showWhen || field.showWhen(formik.values)
           )}
-          // page_title={`Add Script - option , Group : ${location.state.data.Username}`}
           btn_name="Add"
           btn_name1="Cancel"
           formik={formik}
           btn_name1_route={"/user/dashboard"}
+          additional_field={
+            <div>
+              {formik.values.Strategy !== "CoveredCall" &&
+                formik.values.Strategy !== "CoveredPut" &&
+                formik.values.Strategy !== "LongCollar" &&
+                formik.values.Strategy !== "ShortCollar" &&
+                formik.values.Strategy !== "LongFourLegStretegy" &&
+                formik.values.Strategy !== "ShortFourLegStretegy" && (
+                  <button
+                    className="addbtn"
+                    type="button"
+                    onClick={() => handleCheckPnl()}>
+                    Check PnL
+                  </button>
+                )}
+            </div>
+          }
         />
+        <Modal
+          show={openModel}
+          onHide={() => setOpenModel(false)}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered>
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">
+              PnL Details
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {PnlData ? (
+              <div className="container">
+                <div className="row" id="Pnl-row-data">
+                  {[
+                    { label: "Maximum Profit", value: PnlData.MaximumProfit },
+                    { label: "Maximum Loss", value: PnlData.MaximumLoss },
+                    {
+                      label: "Spot Price Maximum Profit 1",
+                      value: PnlData.SpotPriceMaximumProfit1,
+                    },
+                    {
+                      label: "Spot Price Maximum Profit 2",
+                      value: PnlData.SpotPriceMaximumProfit2,
+                    },
+                    {
+                      label: "Spot Price Maximum Loss 1",
+                      value: PnlData.SpotPriceMaximumLoss1,
+                    },
+                    {
+                      label: "Spot Price Maximum Loss 2",
+                      value: PnlData.SpotPriceMaximumLoss2,
+                    },
+                    { label: "NoprofitLoss 1", value: PnlData.NoprofitLoss1 },
+                    { label: "NoprofitLoss 2", value: PnlData.NoprofitLoss2 },
+                  ].map(({ label, value }, index) => (
+                    <div
+                      key={index}
+                      className="col-md-6 d-flex align-items-center py-2">
+                      <label
+                        className="fw-bold mb-0 me-2 "
+                        style={{ fontSize: "18px", minWidth: "150px" }}>
+                        {label}:
+                      </label>
+                      <span
+                        className="mb-0"
+                        style={{ fontSize: "18px", fontWeight: "500" }}>
+                        {value !== null && !isNaN(value)
+                          ? parseFloat(value).toFixed(4)
+                          : "N/A"}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <p className="text-danger text-center">❌ No data available</p>
+            )}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button className="submit-button-one" onClick={() => setOpenModel(false)}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </Content>
     </>
   );

@@ -24,6 +24,7 @@ import {
 import { useLocation } from "react-router-dom";
 import NoDataFound from "../../../ExtraComponent/NoDataFound";
 import Content from "../../../ExtraComponent/Content";
+import TradeResponseCard from "./TradeResponseCard";
 
 const TradeResponse = () => {
   const location = useLocation();
@@ -34,7 +35,6 @@ const TradeResponse = () => {
   const [selectStrategyType, setSelectStrategyType] = useState(
     StrategyType || "Scalping"
   );
-  // console.log("selectStrategyType", selectStrategyType);
 
   const [strategyType, setStrategyType] = useState([]);
 
@@ -67,13 +67,16 @@ const TradeResponse = () => {
   const day = String(currentDate.getDate()).padStart(2, "0");
   const formattedDate = `${year}.${month}.${day}`;
 
-  // from date
+  // Select Select From Date
   const DefultToDate = new Date();
   DefultToDate.setDate(DefultToDate.getDate() + 1);
   const year1 = DefultToDate.getFullYear();
   const month1 = String(DefultToDate.getMonth() + 1).padStart(2, "0");
   const day1 = String(DefultToDate.getDate()).padStart(2, "0");
   const Defult_To_Date = `${year1}.${month1}.${day1}`;
+
+  console.log("tradeHistory", tradeHistory);
+  console.log("getCharting", getCharting)
 
   useEffect(() => {
     if (selectStrategyType == "Scalping") {
@@ -140,6 +143,20 @@ const TradeResponse = () => {
     return `${year}.${month}.${day}`;
   };
 
+  const columnsToRender = () => {
+    switch (selectStrategyType) {
+      case "Scalping":
+        return columns6;
+      case "Option Strategy":
+        return columns1;
+      case "Pattern":
+        return columns2;
+      case "ChartingPlatform":
+        return columns8;
+      default:
+        return columns6;
+    }
+  };
   const GetTradeStrategyType = async () => {
     try {
       const res = await getStrategyType();
@@ -166,11 +183,16 @@ const TradeResponse = () => {
             return item.TradeExecution == "Live Trade";
           });
           const filterLiveTrade1 =
-            selectStrategyType != "Scalping"
-              ? []
-              : response?.NewScalping?.filter((item) => {
-                  return item.TradeExecution == "Live Trade";
-                });
+            selectStrategyType !== "Scalping"
+              ? response?.Data?.filter(
+                (item) => item.TradeExecution === "Live Trade"
+              )
+              : response?.NewScalping?.filter(
+                (item) => item.TradeExecution === "Live Trade"
+              );
+
+
+
           console.log("filterLiveTrade1", filterLiveTrade1);
           setTradeHistory({
             loading: false,
@@ -255,45 +277,45 @@ const TradeResponse = () => {
     const data = {
       MainStrategy:
         selectStrategyType == "Scalping" &&
-        selectedRowData.ScalpType == "Multi_Conditional"
+          selectedRowData.ScalpType == "Multi_Conditional"
           ? "NewScalping"
           : selectStrategyType,
       Strategy:
         selectStrategyType == "Scalping" &&
-        selectedRowData.ScalpType != "Multi_Conditional"
+          selectedRowData.ScalpType != "Multi_Conditional"
           ? selectedRowData && selectedRowData.ScalpType
           : selectStrategyType == "Option Strategy"
-          ? selectedRowData && selectedRowData.STG
-          : selectStrategyType == "Pattern"
-          ? selectedRowData && selectedRowData.TradePattern
-          : selectStrategyType == "Scalping" &&
-            selectedRowData.ScalpType == "Multi_Conditional"
-          ? selectedRowData && selectedRowData.Targetselection
-          : selectStrategyType == "ChartingPlatform" &&
-            (selectedRowData.Optiontype == " " ||
-              selectedRowData?.Optiontype == "")
-          ? "Cash"
-          : selectStrategyType == "ChartingPlatform" &&
-            selectedRowData?.Optiontype == "SX"
-          ? "Future"
-          : "Option",
+            ? selectedRowData && selectedRowData.STG
+            : selectStrategyType == "Pattern"
+              ? selectedRowData && selectedRowData.TradePattern
+              : selectStrategyType == "Scalping" &&
+                selectedRowData.ScalpType == "Multi_Conditional"
+                ? selectedRowData && selectedRowData.Targetselection
+                : selectStrategyType == "ChartingPlatform" &&
+                  (selectedRowData.Optiontype == " " ||
+                    selectedRowData?.Optiontype == "")
+                  ? "Cash"
+                  : selectStrategyType == "ChartingPlatform" &&
+                    selectedRowData?.Optiontype == "SX"
+                    ? "Future"
+                    : "Option",
       Symbol:
         selectStrategyType == "Scalping" || selectStrategyType == "Pattern"
           ? selectedRowData && selectedRowData.Symbol
           : selectStrategyType == "Option Strategy"
-          ? selectedRowData && selectedRowData.IName
-          : selectStrategyType == "ChartingPlatform"
-          ? selectedRowData && selectedRowData?.TSymbol
-          : "",
+            ? selectedRowData && selectedRowData.IName
+            : selectStrategyType == "ChartingPlatform"
+              ? selectedRowData && selectedRowData?.TSymbol
+              : "",
       Username: Username,
       ETPattern:
         selectStrategyType == "Scalping"
           ? ""
           : selectStrategyType == "Option Strategy"
-          ? selectedRowData && selectedRowData.Targettype
-          : selectStrategyType == "Pattern"
-          ? selectedRowData && selectedRowData.Pattern
-          : "",
+            ? selectedRowData && selectedRowData.Targettype
+            : selectStrategyType == "Pattern"
+              ? selectedRowData && selectedRowData.Pattern
+              : "",
       Timeframe:
         selectStrategyType == "Pattern"
           ? selectedRowData && selectedRowData.TimeFrame
@@ -302,7 +324,7 @@ const TradeResponse = () => {
       To_date: convertDateFormat(ToDate == "" ? Defult_To_Date : ToDate),
       Group:
         selectStrategyType == "Scalping" ||
-        selectStrategyType == "Option Strategy"
+          selectStrategyType == "Option Strategy"
           ? selectedRowData && selectedRowData.GroupN
           : "",
       TradePattern: "",
@@ -353,6 +375,8 @@ const TradeResponse = () => {
     selectSegmentType,
   ]);
 
+
+
   return (
     <Content
       Page_title={"📢 Trade Response"}
@@ -362,12 +386,11 @@ const TradeResponse = () => {
         <div className="was-validated ">
           <div className="row">
             {/* Select Strategy Type */}
-            <div
-              className={`form-group ${
-                selectStrategyType === "ChartingPlatform"
+            {/* <div
+              className={`form-group ${selectStrategyType === "ChartingPlatform"
                   ? "col-lg-3"
                   : "col-lg-4"
-              }`}>
+                }`}>
               <label>Select Strategy Type</label>
               <select
                 className="form-select"
@@ -383,136 +406,151 @@ const TradeResponse = () => {
                   </option>
                 ))}
               </select>
+            </div> */}
+
+
+            <div className="d-flex justify-content-center response-btns">
+              <ul
+                className="nav nav-pills shadow rounded-pill p-1"
+                style={{ backgroundColor: "#f1f3f5" }}
+              >
+                {(strategyType || []).map((type, index) => (
+                  <li className="nav-item" key={index}>
+                    <button
+                      className={`nav-link ${selectStrategyType === type ? "active" : ""} rounded-pill`}
+                      onClick={() => {
+                        setSelectStrategyType(type);
+                        sessionStorage.setItem("StrategyType", type);
+                      }}
+                      style={{
+                        padding: "10px 20px",
+                        margin: "5px",
+                        border: "none",
+                        outline: "none",
+                      }}
+                    >
+                      {type}
+                    </button>
+                  </li>
+                ))}
+              </ul>
             </div>
 
-            {/* Removed: Select Table Type (No longer displayed) */}
 
-            {/* Select Segment Type */}
-            {selectStrategyType === "ChartingPlatform" && (
-              <div className="form-group col-lg-3">
-                <label>Select Segment Type</label>
-                <select
+
+            {/* Select Select From Date */}
+            <div className="response-page-dates">
+              <div
+                className={`form-group ${selectStrategyType === "ChartingPlatform"
+                  ? "col-lg-2"
+                  : "col-lg-2"
+                  }`}>
+                <label>Select Select From Date</label>
+                <DatePicker
                   className="form-select"
-                  required
-                  onChange={(e) => setSegmentType(e.target.value)}
-                  value={selectSegmentType}>
-                  {getChartingSegments?.map((item, index) => {
-                    return (
-                      <option key={index} value={item.Segment}>
-                        {item.Segment}
-                      </option>
-                    );
-                  })}
-                </select>
+                  selected={FromDate === "" ? formattedDate : FromDate}
+                  onChange={(date) => setFromDate(date)}
+                />
               </div>
-            )}
 
-            {/* Select From Date */}
-            <div
-              className={`form-group ${
-                selectStrategyType === "ChartingPlatform"
-                  ? "col-lg-3"
-                  : "col-lg-4"
-              }`}>
-              <label>Select form Date</label>
-              <DatePicker
-                className="form-select"
-                selected={FromDate === "" ? formattedDate : FromDate}
-                onChange={(date) => setFromDate(date)}
-              />
-            </div>
-
-            {/* Select To Date */}
-            <div
-              className={`form-group ${
-                selectStrategyType === "ChartingPlatform"
-                  ? "col-lg-3"
-                  : "col-lg-4"
-              }`}>
-              <label>Select To Date</label>
-              <DatePicker
-                className="form-select"
-                selected={ToDate === "" ? Defult_To_Date : ToDate}
-                onChange={(date) => setToDate(date)}
-              />
+              {/* Select Select To Date */}
+              <div
+                className={`form-group ${selectStrategyType === "ChartingPlatform"
+                  ? "col-lg-2"
+                  : "col-lg-2"
+                  }`}>
+                <label>Select Select To Date</label>
+                <DatePicker
+                  className="form-select"
+                  selected={ToDate === "" ? Defult_To_Date : ToDate}
+                  onChange={(date) => setToDate(date)}
+                />
+              </div>
             </div>
           </div>
+
+
 
           <div className="modal-body">
-            {tableType === "Scalping" && // Check if the tableType is Scalping
-              (getCharting.length > 0 || tradeHistory?.data.length > 0 ? (
-                <div>
-                  <div className="iq-header-title mt-4">
-                    <h4 className="card-title">{selectStrategyType}</h4>
-                    {selectStrategyType === "ChartingPlatform" && (
-                      <div className="container">
-                        {/* Tab Navigation */}
-                        <div className="d-flex justify-content-center">
-                          <ul
-                            className="nav nav-pills shadow rounded-pill p-1"
-                            style={{ backgroundColor: "#f1f3f5" }}>
-                            <li className="nav-item">
-                              <button
-                                className={`nav-link ${
-                                  activeTab === "Cash" ? "active" : ""
+            {tableType === "Scalping" && (
+              <>
+                <div className="iq-header-title mt-4">
+                  <h4 className="card-title">{selectStrategyType}</h4>
+                  {selectStrategyType === "ChartingPlatform" && (
+                    <div className="container">
+                      {/* Tab Navigation */}
+                      <div className="d-flex justify-content-center">
+                        <ul
+                          className="nav nav-pills shadow rounded-pill p-1"
+                          style={{ backgroundColor: "#f1f3f5" }}>
+                          <li className="nav-item">
+                            <button
+                              className={`nav-link ${activeTab === "Cash" ? "active" : ""
                                 } rounded-pill`}
-                                onClick={() => setActiveTab("Cash")}
-                                style={{
-                                  padding: "10px 20px",
-                                  margin: "5px",
-                                  border: "none",
-                                  outline: "none",
-                                }}>
-                                Cash
-                              </button>
-                            </li>
-                            <li className="nav-item">
-                              <button
-                                className={`nav-link ${
-                                  activeTab === "Future" ? "active" : ""
+                              onClick={() => setActiveTab("Cash")}
+                              style={{
+                                padding: "10px 20px",
+                                margin: "5px",
+                                border: "none",
+                                outline: "none",
+                              }}>
+                              Cash
+                            </button>
+                          </li>
+                          <li className="nav-item">
+                            <button
+                              className={`nav-link ${activeTab === "Future" ? "active" : ""
                                 } rounded-pill`}
-                                onClick={() => setActiveTab("Future")}
-                                style={{
-                                  padding: "10px 20px",
-                                  margin: "5px",
-                                  border: "none",
-                                  outline: "none",
-                                }}>
-                                Future
-                              </button>
-                            </li>
-                            <li className="nav-item">
-                              <button
-                                className={`nav-link ${
-                                  activeTab === "Option" ? "active" : ""
+                              onClick={() => setActiveTab("Future")}
+                              style={{
+                                padding: "10px 20px",
+                                margin: "5px",
+                                border: "none",
+                                outline: "none",
+                              }}>
+                              Future
+                            </button>
+                          </li>
+                          <li className="nav-item">
+                            <button
+                              className={`nav-link ${activeTab === "Option" ? "active" : ""
                                 } rounded-pill`}
-                                onClick={() => setActiveTab("Option")}
-                                style={{
-                                  padding: "10px 20px",
-                                  margin: "5px",
-                                  border: "none",
-                                  outline: "none",
-                                }}>
-                                Option
-                              </button>
-                            </li>
-                          </ul>
-                        </div>
+                              onClick={() => setActiveTab("Option")}
+                              style={{
+                                padding: "10px 20px",
+                                margin: "5px",
+                                border: "none",
+                                outline: "none",
+                              }}>
+                              Option
+                            </button>
+                          </li>
+                        </ul>
                       </div>
-                    )}
-                  </div>
-                  <GridExample
-                    columns={selectStrategyType === "ChartingPlatform" ? columns3 : columns6}
-                    data={selectStrategyType === "ChartingPlatform" ? getChartingSegmentData : tradeHistory?.data1}
-                    onRowSelect={handleRowSelect}
-                    checkBox={true}
-                    isChecked={location?.state?.RowIndex}
-                  />
+                    </div>
+                  )}
                 </div>
-              ) : (
-                <NoDataFound />
-              ))}
+                {(getCharting.length > 0 || tradeHistory?.data.length > 0) ? (
+                  <div>
+                    <GridExample
+                      columns={columnsToRender()}
+                      data={
+                        selectStrategyType === "ChartingPlatform"
+                          ? getChartingSegmentData
+                          : tradeHistory?.data1
+                      }
+                      onRowSelect={handleRowSelect}
+                      checkBox={true}
+                      isChecked={location?.state?.RowIndex}
+                    />
+                  </div>
+                ) : (
+                  <NoDataFound />
+                )}
+              </>
+            )}
           </div>
+
 
           {tableType === "MultiCondition" &&
             selectStrategyType === "Scalping" && (
@@ -560,15 +598,33 @@ const TradeResponse = () => {
           {showTable && (
             <div className="mt-3">
               {getAllTradeData.data && getAllTradeData.data.length > 0 ? (
+                <div className="row g-3">
+                  {getAllTradeData.data.map((item, index) => (
+                    <div className="col-md-6" key={index}>
+                      <TradeResponseCard data={item} index={index} />
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <NoDataFound />
+              )}
+            </div>
+          )}
+
+          {/* Commented out table rendering */}
+
+          {showTable && (
+            <div className="mt-3">
+              {getAllTradeData.data && getAllTradeData.data.length > 0 ? (
                 <GridExample
                   columns={
                     selectStrategyType === "Scalping"
                       ? columns3
                       : selectStrategyType === "Option Strategy"
-                      ? columns4
-                      : selectStrategyType === "ChartingPlatform"
-                      ? columns3
-                      : columns5
+                        ? columns4
+                        : selectStrategyType === "ChartingPlatform"
+                          ? columns3
+                          : columns5
                   }
                   data={getAllTradeData.data}
                   onRowSelect={handleRowSelect}
@@ -579,6 +635,8 @@ const TradeResponse = () => {
               )}
             </div>
           )}
+
+
         </div>
 
         {selectStrategyType === "Scalping" &&
@@ -592,5 +650,6 @@ const TradeResponse = () => {
     </Content>
   );
 };
+
 
 export default TradeResponse;

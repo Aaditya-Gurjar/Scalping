@@ -65,7 +65,7 @@ const AddClient = () => {
       LowerRange: 0,
       HigherRange: 0,
       // HoldExit: "Hold",
-      HoldExit:"",
+      HoldExit: "",
       EntryPrice: 0,
       EntryRange: 0,
       EntryTime: "09:15:00",
@@ -153,14 +153,13 @@ const AddClient = () => {
       }
 
 
-      if (values.ExitTime=="") {
+      if (values.ExitTime == "") {
         errors.ExitTime = "Please Select Exit Time.";
       } else if (values.ExitTime > (values.Exchange === "MCX" ? mcxMaxTime : maxTime)) {
-        console.log("values.ExitTime", values.ExitTime)
         errors.ExitTime = `Exit Time Must be Before ${values.Exchange === "MCX" ? "23:29:59" : "15:29:59"}.`;
       }
 
-      if (values.EntryTime=="") {
+      if (values.EntryTime == "") {
         errors.EntryTime = "Please Select Entry Time.";
       } else if (values.EntryTime < (values.Exchange === "MCX" ? mcxMinTime : minTime)) {
         errors.EntryTime = `Entry Time Must be After ${values.Exchange === "MCX" ? "09:00:00" : "09:15:00"}.`;
@@ -205,7 +204,7 @@ const AddClient = () => {
       if (!values.Group) {
         errors.Group = "Please Enter Unique Name.";
       }
-      
+
       if (!values.Slvalue) {
         errors.Slvalue = values.Strategy == "Fixed Price" ? "Please Enter Stop Loss Price." : "Please Select Stop Loss Value.";
       }
@@ -244,7 +243,7 @@ const AddClient = () => {
       if (values.Strategy == "Multi_Conditional" && !values.position_type) {
         errors.position_type = "Please Select Position Type";
       }
-     
+
 
 
       if (
@@ -264,11 +263,11 @@ const AddClient = () => {
       ) {
         errors.RollOverExitTime = "Please Enter RollOver Exit Time";
       }
-      
+
       if (values.FinalTarget == undefined || values.FinalTarget == "" && (formik.values.position_type == "Multiple" && (formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise Target"))) {
-        errors.FinalTarget = "Please Enter Final Target";
+        errors.FinalTarget = "Please Enter Final Target Price";
       }
-    
+
 
       return errors;
     },
@@ -333,7 +332,7 @@ const AddClient = () => {
         quantityselection: values.position_type == "Multiple" && values.Strategy == "Multi_Conditional" ? values.quantityselection : "",
         quantityvalue: values.position_type == "Multiple" && values.Strategy == "Multi_Conditional" ? Number(values.quantityvalue) : 0,
         targetselection: values.position_type == "Multiple" && values.Strategy == "Multi_Conditional" ? values.Targetselection : "Single",
-        
+
         RollOver: (values.position_type ==
           "Multiple" && values.Strategy == "Multi_Conditional"
           ? values.RollOver
@@ -350,7 +349,7 @@ const AddClient = () => {
             values.RollOver == true
             ? values.RollOverExitTime
             : "00:00:00",
-        
+
         FinalTarget: (formik.values.position_type == "Multiple" && formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise Target") ? parseFloat(values.FinalTarget) : 0.0,
 
       };
@@ -490,7 +489,7 @@ const AddClient = () => {
     formik.setFieldValue("TStype", "Point")
   }, [])
 
-  
+
   useEffect(() => {
     if (formik.values.Exchange !== 'MCX') {
       formik.setFieldValue('ExitTime', '15:25:00');
@@ -673,6 +672,7 @@ const AddClient = () => {
       disable: false,
       headingtype: 2,
       hiding: false,
+      iconText: text.firstTradeLowerRange
     },
 
     {
@@ -684,6 +684,7 @@ const AddClient = () => {
       col_size: 4,
       disable: false,
       hiding: false,
+      iconText: text.firstTradeHigherRange
     },
     {
       name: "Group",
@@ -714,6 +715,7 @@ const AddClient = () => {
       col_size: 6,
       hiding: false,
       disable: false,
+      iconText: text.measurementType,
     },
 
     {
@@ -747,7 +749,7 @@ const AddClient = () => {
 
     {
       name: "FinalTarget",
-      label: "Final Target",
+      label: "Final Target Price",
       type: "text3",
       label_size: 12,
       showWhen: () => (formik.values.position_type == "Multiple" && formik.values.Strategy == "Multi_Conditional" && formik.values.Targetselection == "Entry Wise SL"),
@@ -840,6 +842,7 @@ const AddClient = () => {
         values.Strategy == "One Directional",
       disable: false,
       hiding: false,
+      iconText: text.lowerRange
     },
     {
       name: "HigherRange",
@@ -853,6 +856,7 @@ const AddClient = () => {
         values.Strategy == "One Directional",
       disable: false,
       hiding: false,
+      iconText: text.higherRange
     },
     // {
     //   name: "HoldExit",
@@ -879,6 +883,7 @@ const AddClient = () => {
       headingtype: 4,
       disable: false,
       hiding: false,
+      iconText: text.stepUp
     },
     {
       name: "quantityselection",
@@ -894,6 +899,7 @@ const AddClient = () => {
       headingtype: 4,
       disable: false,
       hiding: false,
+      iconText: text.incrementType
     },
     {
       name: "quantityvalue",
@@ -905,6 +911,8 @@ const AddClient = () => {
       headingtype: 4,
       disable: false,
       hiding: false,
+      iconText: text.incrementValue
+
     },
   ]
 
@@ -1049,17 +1057,7 @@ const AddClient = () => {
       data: EntryRuleArr.filter((item) => !item.showWhen || item.showWhen(formik.values)),
       disable: false,
     },
-    {
-      name: "Heading",
-      label: "Risk_Management",
-      type: "heading",
-      hiding: false,
-      label_size: 12,
-      headingtype: 4,
-      col_size: 12,
-      data: RiskManagementArr.filter((item) => !item.showWhen || item.showWhen(formik.values)),
-      disable: false,
-    },
+
     {
       name: "Heading",
       label: "Exit_Rule",
@@ -1071,6 +1069,19 @@ const AddClient = () => {
       data: ExitRuleArr.filter((item) => !item.showWhen || item.showWhen(formik.values)),
       disable: false,
     },
+
+    {
+      name: "Heading",
+      label: "Risk_Management",
+      type: "heading",
+      hiding: false,
+      label_size: 12,
+      headingtype: 4,
+      col_size: 12,
+      data: RiskManagementArr.filter((item) => !item.showWhen || item.showWhen(formik.values)),
+      disable: false,
+    },
+
 
     {
       name: "Heading",

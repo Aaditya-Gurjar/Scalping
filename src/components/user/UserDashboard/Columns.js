@@ -6,6 +6,8 @@ import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createPortal } from "react-dom";
 
+import { IconButton, Typography } from "@mui/material";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
 
 // DropdownComponent as a separate component
@@ -92,7 +94,7 @@ const DropdownComponent = ({ tableMeta, handleDelete, type, handleMatchPosition,
                             border: "1px solid #555",
                             borderRadius: "4px",
                             boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
-                            zIndex: 1000,
+                            zIndex: 1,
                             maxHeight: "200px",
                             overflowY: "auto",
                             minWidth: "150px",
@@ -101,22 +103,30 @@ const DropdownComponent = ({ tableMeta, handleDelete, type, handleMatchPosition,
                         <ul style={{ listStyle: "none", margin: 0, padding: "8px 0" }}>
                             {/* New Edit Option */}
                             <li
-                                onClick={handleEdit}
+                                onClick={() => {
+                                    handleEdit();
+                                    setIsDropdownOpen(false);
+                                }}
                                 style={{ padding: "8px 16px", cursor: "pointer", color: "#fff" }}
                                 onMouseEnter={(e) => (e.target.style.backgroundColor = "#444")}
-                                onMouseLeave={(e) => (e.target.style.backgroundColor = "#333")}
+                                onMouseLeave={(e) => {
+                                    e.target.style.backgroundColor = "#333";
+                                }}
                             >
                                 Edit
                             </li>
                             <li
-                                onClick={handleDelete}
+                                onClick={() => {
+                                    handleDelete();
+                                    setIsDropdownOpen(false);
+                                }}
                                 style={{ padding: "8px 16px", cursor: "pointer", backgroundColor: "#333", color: "#fff" }}
                                 onMouseEnter={(e) => (e.target.style.backgroundColor = "#444")}
                                 onMouseLeave={(e) => (e.target.style.backgroundColor = "#333")}
                             >
                                 Delete
                             </li>
-                            {type === "MultiCondition" && (
+                            {/* {type === "MultiCondition" && (
                                 <li
                                     onClick={handleMatchPosition}
                                     style={{ padding: "8px 16px", cursor: "pointer", color: "#fff" }}
@@ -125,7 +135,7 @@ const DropdownComponent = ({ tableMeta, handleDelete, type, handleMatchPosition,
                                 >
                                     Match Position
                                 </li>
-                            )}
+                            )} */}
                             <li
                                 onClick={() =>
                                     navigate("/user/tradehistory", {
@@ -181,6 +191,7 @@ const DropdownComponent = ({ tableMeta, handleDelete, type, handleMatchPosition,
         </>
     );
 };
+
 
 
 export const getColumns = (handleAddScript1) => [
@@ -1447,6 +1458,23 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
             }
         }
     },
+
+    {
+        name: "Token",
+        label: "LivePrice",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value, tableMeta, updateValue) => {
+                return (
+                    
+                    <div><span className={`LivePrice_${value}`}>-</span></div>
+                   
+                );
+            }
+        },
+       
+    },
     {
         name: "STG",
         label: "Strategy",
@@ -1475,14 +1503,6 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
     },
 
     {
-        name: "Expirydate",
-        label: "Expiry Date",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
         name: "Action",
         label: "Action",
         options: {
@@ -1497,6 +1517,16 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
             }
         }
     },
+
+    {
+        name: "Expirydate",
+        label: "Expiry Date",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    
     // {
     //     name: "Instrument Type",
     //     label: "Instrument Type",
@@ -1514,6 +1544,7 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
+  
 
     {
         name: "Exchange",
@@ -1822,16 +1853,17 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
             filter: true,
             sort: true,
             customBodyRender: (value) => {
-
                 if (!value || (Array.isArray(value) && value.length === 0)) {
                     return "-";
                 }
                 if (Array.isArray(value)) {
-                    if (value.length && typeof value[0] === "object" && value[0].label) {
-                        return value.map((day) => day.label).join(", ");
-                    }
-                    // Fallback: if it's an array of strings
-                    return value.join(", ");
+                    return (
+                        <span>
+                            {value.map((day, index) =>
+                                (index > 0 && index % 3 === 0 ? <><br />{day}</> : (index === 0 ? day : `, ${day}`))
+                            )}
+                        </span>
+                    );
                 }
                 return value;
             },
@@ -1925,6 +1957,22 @@ export const
             }
         },
         {
+            name: "Token",
+            label: "LivePrice",
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value, tableMeta, updateValue) => {
+                    return (
+                        
+                        <div><span className={`LivePrice_${value}`}>-</span></div>
+                       
+                    );
+                }
+            },
+           
+        },
+        {
             name: "TimeFrame",
             label: "Time Frame",
             options: {
@@ -1942,16 +1990,6 @@ export const
             }
         },
 
-        {
-            name: "TType",
-            label: "Transaction Type",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
-
-
 
         {
             name: "Action",
@@ -1968,6 +2006,19 @@ export const
                 },
             },
         },
+
+        {
+            name: "TType",
+            label: "Transaction Type",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+
+
+
+      
         {
             name: "TradeExecution",
             label: "Trade Execution",
@@ -2218,6 +2269,25 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             sort: true,
         }
     },
+    
+
+    {
+        name: "Token",
+        label: "LivePrice",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value, tableMeta, updateValue) => {
+                return (
+                    
+                    <div><span className={`LivePrice_${value}`}>-</span></div>
+                   
+                );
+            }
+        },
+       
+    },
+    
 
     {
         name: "TType",
@@ -2231,22 +2301,12 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
 
     {
         name: "Targetselection",
-        label: "Target Selection",
+        label: "Target Type",
         options: {
             filter: true,
             sort: true,
         }
     },
-    {
-        name: "Quantity",
-        label: "Lot",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-
-
     {
         name: "Action",
         label: "Action",
@@ -2272,6 +2332,17 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
             },
         },
     },
+    {
+        name: "Quantity",
+        label: "Lot",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+
+
+   
 
     // {
     //     name: "ScalpType",
@@ -2511,7 +2582,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
     },
     {
         name: "Quantity2",
-        label: "Lot2",
+        label: "Lot 2",
         options: {
             filter: true,
             sort: true,
@@ -2519,7 +2590,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
     },
     {
         name: "Quantity3",
-        label: "Lot3",
+        label: "Lot 3",
         options: {
             filter: true,
             sort: true,
@@ -2668,7 +2739,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
 
 ];
 
-export const getColumns8 = () => [
+export const getColumns8 = (handleContinutyDiscontinuty, chartingSubTab, getChartingScript) => [
     {
         name: "S.No",
         label: "S.No",
@@ -2681,7 +2752,161 @@ export const getColumns8 = () => [
             }
         },
     },
+
+    // {
+    //     name: "Trading",
+    //     label: "Trading",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //         customBodyRender: (value, tableMeta, updateValue) => {
+    //             const isChecked = Boolean(value);
+
+    //             return (
+    //                 <Checkbox
+    //                     checked={isChecked}
+    //                     onClick={() => handleContinutyDiscontinuty(tableMeta, 2)}
+    //                 />
+
+    //             );
+    //         }
+    //     }
+    // },
+    {
+        name: "Trading",
+        label: "Trading",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value, tableMeta, updateValue) => {
+                const label = value ? "Continue" : "Discontinue";
+                const labelStyle = value ? { backgroundColor: 'green', color: 'white' } : { backgroundColor: 'red', color: 'white' };
+
+                return (
+
+                    label === "Continue" ? (
+                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-success">{label}</button>) : (
+                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-danger">{label}</button>
+                    )
+
+
+
+                );
+            }
+        }
+    },
+    {
+        name: "EntryPrice",
+        label: "Entry Price",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+
+    {
+        name: "EntryTime",
+        label: "Entry Time",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+
+
+    // {
+    //     name: "ExitPrice",
+    //     label: "Exit Price",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
+
+
+    {
+        name: "Exittime",
+        label: "Exit Time",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+
+    {
+        name: "Status",
+        label: "Status",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+
+    {
+        name: "ManuallyExit",
+        label: "Manually Exit",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value, tableMeta) =>
+                tableMeta.rowData[tableMeta.columnIndex - 1] === "Open" ? (
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                        <IconButton onClick={() => {
+                            handleContinutyDiscontinuty(tableMeta);
+                            getChartingScript();
+                        }}>
+                            <ExitToAppIcon color="error" />
+                        </IconButton>
+                        <Typography variant="caption" color="textSecondary">Exit</Typography>
+                    </div>
+                ) : null
+        }
+    },
+
    
+
+    {
+        name: "StrategyTag",
+        label: "Strategy Tag",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "TType",
+        label: "Transaction Type",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Target",
+        label: "Target",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Sl",
+        label: "Stoploss",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+
+    {
+        name: "Ordertype",
+        label: "Order Type",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+
     {
         name: "Token",
         label: "Token",
@@ -2690,24 +2915,11 @@ export const getColumns8 = () => [
             sort: true,
         }
     },
-    {
-        name: "TSymbol",
-        label: "TSymbol",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Lotsize",
-        label: "Lot Size",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value) => value ? value : "-"
 
-        }
-    },
+    
+
+  
+
     {
         name: "Exchange",
         label: "Exchange",
@@ -2724,46 +2936,13 @@ export const getColumns8 = () => [
             sort: true,
         }
     },
-    {
-        name: "TType",
-        label: "Trade Type",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Target",
-        label: "Target",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Sl",
-        label: "Re-entry",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Exittime",
-        label: "Exittime",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Ordertype",
-        label: "Ordertype",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+  
+
+   
+    
+   
+  
+    
     {
         name: "AccType",
         label: "Account Type",
@@ -2773,22 +2952,26 @@ export const getColumns8 = () => [
             customBodyRender: (value) => value ? value : "-"
         }
     },
-    {
-        name: "Price",
-        label: "Price",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Optiontype",
-        label: "Option Type",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
+    // {
+    //     name: "Optiontype",
+    //     label: "Option Type",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
+
+    ...(chartingSubTab === "Option"
+        ? [{
+            name: "Optiontype",
+            label: "Option Type",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        }]
+        : []),
 
     {
         name: "Date",
@@ -2798,22 +2981,12 @@ export const getColumns8 = () => [
             sort: true,
         }
     },
-    {
-        name: "Status",
-        label: "Status",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "ManuallyExit",
-        label: "ManuallyExit",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value) => value ? "true" : "false"
-        }
-    },
+
+
+    //both status and Manully exit must be one after another 
+ 
+
+    
+    
 
 ];

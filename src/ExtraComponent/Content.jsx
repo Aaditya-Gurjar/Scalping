@@ -32,7 +32,7 @@ const Content = ({
   };
   return (
     <div className="content-body">
-        <div className="page-titles">
+        {/* <div className="page-titles">
           <nav className="breadcrumb">
             <div className="col-lg-6 col-sm-6 col-12">
               <ul className="breadcrumb-links">
@@ -101,7 +101,7 @@ const Content = ({
               )}
             </div>
           </nav>
-        </div>
+        </div> */}
 
         <div className="row">
           <div className="col-xl-12">

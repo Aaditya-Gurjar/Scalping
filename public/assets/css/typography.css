@@ -177,6 +177,12 @@ label {
   color: var(--text-color);
 }
 
+.user-profile-span{color: var(--text-color);}
+
+.text-white-important {
+  color: white !important;
+}
+
 .form-control {
   height: 45px;
   background: transparent;
@@ -1291,8 +1297,11 @@ Card
   margin-bottom: 15px;
 }
 
+
+
 .nav-tabs .nav-item {
   margin-bottom: -2px;
+  color: var(--text-color) !important;
 }
 
 .nav-tabs .nav-item a {
@@ -1490,8 +1499,8 @@ Buttons
 
 /*--------------*/
 .btn-primary {
-  color: #ffffff;
-  background: rgba(8, 155, 171, 1);
+  color: #ffffff !important;
+  background: rgba(8, 155, 171, 1) !important;
   background: -moz-linear-gradient(left, rgba(8, 155, 171, 1) 0%, rgba(13, 181, 200, 1) 100%);
   background: -webkit-gradient(left top, right top, color-stop(0%, rgba(8, 155, 171, 1)), color-stop(100%, rgba(13, 181, 200, 1)));
   background: -webkit-linear-gradient(left, rgba(8, 155, 171, 1) 0%, rgba(13, 181, 200, 1) 100%);
@@ -1843,11 +1852,9 @@ Border Color
 }
 
 
-
 .card-body {
   color: #a09e9e;
 }
-
 
 .card-text-Color{
   color: var(--text-color) !important;
@@ -1860,6 +1867,7 @@ Border Color
   color: var(--bg-color) !important;
 }
 
+
 .MuiPickersLayout-root .css-1st8yxe-MuiPickersLayout-root {
   background-color: black !important;
 }
@@ -1868,4 +1876,43 @@ Border Color
 .form-control,
 .MuiInputBase-root{
   border: 0.5px solid white;
+}
+
+.form-label{
+  color: var(--text-color) !important;
+  }
+  .modal-header{
+    background-color: var(--bg-color) !important;
+  }
+
+  .css-1dimb5e-singleValue{
+    color: var(--text-color) !important;
+  }
+
+  .css-t3ipsp-control{
+    background-color: var(--bg-color) !important;
+  }
+
+  
+.bot-btn{
+  color:   var(--bg-color) !important;
+  background-color: var(--text-color) !important;
+  padding: 4px 10px;  
+  margin-bottom: 15px;
+  transition: all .15s ease;
+}
+
+.bot-btn-active{
+  color: white !important;
+  background-color: rgb(0, 77, 90) !important
+}
+
+
+.signal-btn{
+  padding: 5px 10px 5px 10px;
+  border-radius: 10px;
+  color: var(--text-color) !important;
+  background: var(--bg-color) !important;
+  outline: none;
+  border: none;
 }

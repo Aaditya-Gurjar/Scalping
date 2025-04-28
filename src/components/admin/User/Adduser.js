@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2'
 import { CreateAccount, Get_Broker_Name, GetGroupNames } from '../../CommonAPI/Admin'
-import AddForm from "../../../ExtraComponent/FormData";
+import AddForm from "../../../ExtraComponent/FormData2";
 import { useFormik } from "formik";
 import { useNavigate } from 'react-router-dom';
 import Loader from '../../../ExtraComponent/Loader';
 import { Get_All_Plans } from "../../CommonAPI/User";
 import Select from 'react-select';
+import Content from '../../../ExtraComponent/Content';
 
 
 const Adduser = () => {
@@ -21,6 +22,8 @@ const Adduser = () => {
         const nameRegex = /^[a-zA-Z]+$/;
         return nameRegex.test(name);
     };
+    const adminPermission = localStorage.getItem("adminPermission")
+
 
     useEffect(() => {
         getBrokerName()
@@ -83,11 +86,11 @@ const Adduser = () => {
 
                 if (response.Status) {
                     const LivePlanName = [
-                        ...response.Admin.filter((item) => item.PlanName !== 'One Week Demo' && item.PlanName !== 'Two Days Demo'),
+                        ...response.Admin.filter((item) => item.Planname !== 'One Week Demo' && item.Planname !== 'Two Days Demo'),
                         ...response.Charting // Charting array ko add kar diya
                     ];
 
-                    const DemoPlanName = response.Admin.filter((item) => item.PlanName === 'One Week Demo' || item.PlanName === 'Two Days Demo');
+                    const DemoPlanName = response.Admin.filter((item) => item.Planname === 'One Week Demo' || item.Planname === 'Two Days Demo');
 
                     setAllPlans({
                         DemoPlanName: DemoPlanName,
@@ -116,6 +119,7 @@ const Adduser = () => {
             planname: "",
             bname: "",
             groupName: [],
+            permissions: []
         },
         validate: (values) => {
             let errors = {};
@@ -166,9 +170,11 @@ const Adduser = () => {
             if (!values.bname && formik.values.Select_License == '2') {
                 errors.bname = "Please Select Broker"
             }
+            console.log("eror", errors)
             return errors;
         },
         onSubmit: async (values) => {
+
             const req = {
                 username: values.username,
                 email: values.email,
@@ -179,23 +185,30 @@ const Adduser = () => {
                 ClientAmmount: formik.values.Select_License == 1 ? 0 : Number(values.ClientAmmount),
                 planname: values.planname,
                 group: selectedOptions && selectedOptions.map((item) => item.value),
+                Permission: formik.values.permissions || [], // Ensure permissions is always an array
             }
 
-            const FilterPlanAmount = GetAllPlans.data.filter((item) => item.PlanName === values.planname);
-            if (FilterPlanAmount[0].payment > values.ClientAmmount && FilterPlanAmount[0].payment !== '') {
+
+            const FilterPlanAmount = GetAllPlans.data.filter((item) =>
+                (item.Planname || item.PlanName) === values.planname
+            );
+
+            if (FilterPlanAmount.length > 0 && FilterPlanAmount[0].SOPPrice > values.ClientAmmount) {
                 Swal.fire({
                     background: "#1a1e23 ",
                     backdrop: "#121010ba",
                     confirmButtonColor: "#1ccc8a",
                     title: "Invalid Amount",
-                    text: `The plan amount is ${FilterPlanAmount[0].payment}, but you've entered ${values.ClientAmmount}. Please enter an amount greater than the plan amount.`,
+                    text: `The plan amount is ${FilterPlanAmount[0].SOPPrice}, but you've entered ${values.ClientAmmount}. Please enter an amount greater than or equal to the plan amount.`,
                     icon: "error",
                     timer: 3000,
                     timerProgressBar: true
                 });
-                return
+                return;
 
             }
+
+ 
             await CreateAccount(req)
                 .then((response) => {
                     if (response.Status) {
@@ -231,6 +244,13 @@ const Adduser = () => {
                 })
         },
     });
+    
+    const permissionArray = [
+    ];
+    
+    if (adminPermission) {
+        adminPermission.includes("Option Chain") && permissionArray.push({ label: "Option Chain", value: "Option Chain" });
+    }
 
     const fields = [
         {
@@ -311,13 +331,13 @@ const Adduser = () => {
             type: "select1",
             options: formik.values.Select_License === '1'
                 ? GetAllPlans.DemoPlanName.map((item) => ({
-                    label: item.PlanName,
-                    value: item.PlanName,
+                    label: (item.PlanName || item.Planname),
+                    value: (item.PlanName || item.Planname),
                 }))
                 : formik.values.Select_License === '2'
                     ? GetAllPlans.LivePlanName.map((item) => ({
-                        label: item.PlanName,
-                        value: item.PlanName,
+                        label: (item.PlanName || item.Planname),
+                        value: (item.PlanName || item.Planname),
                     }))
                     : [],
             label_size: 12,
@@ -340,7 +360,7 @@ const Adduser = () => {
             disable: false,
         },
 
-
+       
 
     ];
 
@@ -358,43 +378,84 @@ const Adduser = () => {
 
 
     return (
-        <>
-            {getGroupData.loading ? <Loader /> :
-                (
-                    <AddForm
-                        fields={fields.filter(
-                            (field) => !field.showWhen || field.showWhen(formik.values)
-                        )}
-                        page_title="Create Account"
-                        btn_name="Add"
-                        btn_name1="Cancel"
-                        formik={formik}
-                        btn_name1_route={"/admin/clientservice"}
 
+        <Content
+            Page_title={"📄 Add User"}
+            button_status={false}
+            backbutton_status={true}>
+            <>
+                {getGroupData.loading ? <Loader /> :
+                    (
+                        <AddForm
+                            fields={fields.filter(
+                                (field) => !field.showWhen || field.showWhen(formik.values)
+                            )}
+                            page_title="Create Account"
+                            btn_name="Add"
+                            btn_name1="Cancel"
+                            formik={formik}
+                            btn_name1_route={"/admin/clientservice"}
+                            additional_field={
+                                <>
+                                    <div className="col-lg-6 dropdownuser">
+                                        <label className='card-text-Color'>Select Group</label>
+                                        <Select
+                                            defaultValue={selectedIndex?.Planname?.map((item) => ({
+                                                value: item,
+                                                label: item,
+                                            }))}
+                                            isMulti
+                                            options={optionsArray}
+                                            onChange={(selected) => {
+                                                setSelectedOptions(selected);
+                                                formik.setFieldValue('groupName', selected.map((option) => option.value));
+                                            }}
+                                            className="basic-multi-select card-text-Color"
+                                            classNamePrefix="select"
+                                        />
+                                    </div>
+                                    {permissionArray.length > 0 && (
+                                        <div className="col-lg-6">
+                                            <label className='card-text-Color'>Permission</label>
+                                            <div className="checkbox-group">
+                                                {permissionArray.map((permission, index) => (
+                                                    <div key={index} className="form-check">
+                                                        <input
+                                                            type="checkbox"
+                                                            id={`permission-${index}`}
+                                                            className="form-check-input"
+                                                            value={permission.value}
+                                                            onChange={(e) => {
+                                                                const selectedPermissions = formik.values.permissions || [];
+                                                                if (e.target.checked) {
+                                                                    formik.setFieldValue('permissions', [...selectedPermissions, permission.value]);
+                                                                } else {
+                                                                    formik.setFieldValue(
+                                                                        'permissions',
+                                                                        selectedPermissions.filter((perm) => perm !== permission.value)
+                                                                    );
+                                                                }
+                                                            }}
+                                                            checked={formik.values.permissions.includes(permission.value)}
+                                                        />
+                                                        <label
+                                                            htmlFor={`permission-${index}`}
+                                                            className="form-check-label card-text-Color"
+                                                        >
+                                                            {permission.label}
+                                                        </label>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+                                </>
+                            }
+                        />
+                    )}
+            </>
 
-                        additional_field={
-                            <div className="col-lg-6 dropdownuser">
-                                <label>Select Group</label>
-                                <Select
-                                    defaultValue={selectedIndex?.Planname?.map((item) => ({
-                                        value: item,
-                                        label: item,
-                                    }))}
-                                    isMulti
-                                    options={optionsArray}
-                                    onChange={(selected) => {
-                                        setSelectedOptions(selected);
-                                        formik.setFieldValue('groupName', selected.map((option) => option.value));
-                                    }}
-                                    className="basic-multi-select"
-                                    classNamePrefix="select"
-                                />
-                            </div>
-
-                        }
-                    />
-                )}
-        </>
+        </Content>
     );
 };
 

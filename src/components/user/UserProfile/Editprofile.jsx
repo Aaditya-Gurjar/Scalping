@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import { PasswordChange } from '../../CommonAPI/Common'
 import { Eye, EyeOff } from 'lucide-react'
+import Content from '../../../ExtraComponent/Content'
 
 const Editprofile = () => {
     const userName = localStorage.getItem('name')
@@ -17,15 +18,15 @@ const Editprofile = () => {
     const [showPass3, setShowPass3] = useState(false)
 
     const handleSubmit = async () => {
-        if (getVeryfyError == '' && getNewError == '' && getCurrentPassError == ''){
+        if (getVeryfyError == '' && getNewError == '' && getCurrentPassError == '') {
             const data = { User: userName, new_password: newPass, old_password: currPass, confirm_password: verifyPass }
             await PasswordChange(data)
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Success",
                             text: response.message,
                             icon: "success",
@@ -35,9 +36,9 @@ confirmButtonColor: "#1ccc8a",
                     }
                     else {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Error !",
                             text: response.message,
                             icon: "error",
@@ -81,100 +82,106 @@ confirmButtonColor: "#1ccc8a",
     };
 
     return (
-        <div>
-            <div className="col-lg-12">
-                <div className="iq-edit-list-data">
-                    <div className="tab-content">
 
-                        <div className="tab-pane fade active show" id="chang-pwd" role="tabpanel">
-                            <div className="iq-card">
-                                <div className="iq-card-header d-flex justify-content-between">
-                                    <div className="iq-header-title">
-                                        <h4 className="card-title">Change Password</h4>
+        <Content
+            Page_title={"📄 Change Password"}
+            button_status={false}
+            backbutton_status={true}>
+            <div>
+                <div className="col-lg-12">
+                    <div className="iq-edit-list-data">
+                        <div className="tab-content">
+
+                            <div className="tab-pane fade active show" id="chang-pwd" role="tabpanel">
+                                <div className="iq-card">
+                                    <div className="iq-card-header d-flex justify-content-between">
+                                        <div className="iq-header-title">
+                                            <h4 className="card-title">Change Password</h4>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="iq-card-body">
-                                    <div>
-                                        <div className="form-group">
-                                            <label htmlFor="cpass">Current Password:</label>
+                                    <div className="iq-card-body">
+                                        <div>
+                                            <div className="form-group d-flex flex-column align-items-start">
+                                                <label htmlFor="cpass" className="mb-2">Current Password:</label>
+                                                <div className="input-container" style={{ width: '40%' }}>
+                                                    <input
+                                                        type={showPass1 ? 'text' : 'password'}
+                                                        className="form-control my-2"
+                                                        id="cpass"
+                                                        placeholder='Enter current password'
+                                                        onChange={handleCurrentPassword}
+                                                        value={currPass}
+                                                    />
+                                                    <div className="input-span" onClick={() => setShowPass1(!showPass1)}>
+                                                        {showPass1 ? <EyeOff /> : <Eye />}
+                                                    </div>
+                                                    {getCurrentPassError && (
+                                                        <div className="error-message" style={{ color: 'red' }}>
+                                                            {getCurrentPassError}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            <div className="form-group d-flex flex-column align-items-start">
+                                                <label htmlFor="npass" className="mb-2">New Password:</label>
+                                                <div className="input-container" style={{ width: '40%' }}>
+                                                    <input
+                                                        type={showPass2 ? 'text' : 'password'}
+                                                        className="form-control my-2"
+                                                        id="npass"
+                                                        placeholder='Enter new password'
+                                                        onChange={handleNewPassword}
+                                                        value={newPass}
+                                                    />
+                                                    <div className="input-span" onClick={() => setShowPass2(!showPass2)}>
+                                                        {showPass2 ? <EyeOff /> : <Eye />}
+                                                    </div>
+                                                    {getNewError && (
+                                                        <div className="error-message" style={{ color: 'red' }}>
+                                                            {getNewError}
+                                                        </div>
+                                                    )}
 
-                                            <div className="input-container">
-                                                <input
-                                                    type={showPass1 ? 'text' : 'password'}
-                                                    className="form-control my-2"
-                                                    id="cpass"
-                                                    placeholder='Enter current password'
-                                                    onChange={handleCurrentPassword}
-                                                    value={currPass}
-                                                />
-                                                <div className="input-span" onClick={() => setShowPass1(!showPass1)}>
-                                                    {showPass1 ? <EyeOff /> : <Eye />}
                                                 </div>
-                                                {getCurrentPassError && (
-                                                    <div className="error-message" style={{ color: 'red' }}>
-                                                        {getCurrentPassError}
-                                                    </div>
-                                                )}
                                             </div>
-                                        </div>
-                                        <div className="form-group">
-                                            <label htmlFor="npass">New Password:</label>
-                                            <div className="input-container">
-                                                <input
-                                                    type={showPass2 ? 'text' : 'password'}
-                                                    className="form-control my-2"
-                                                    id="npass"
-                                                    placeholder='Enter new password'
-                                                    onChange={handleNewPassword}
-                                                    value={newPass}
-                                                />
-                                                <div className="input-span" onClick={() => setShowPass2(!showPass2)}>
-                                                    {showPass2 ? <EyeOff /> : <Eye />}
+                                            <div className="form-group d-flex flex-column align-items-start">
+                                                <label htmlFor="vpass" className="mb-2">Verify Password:</label>
+                                                <div className="input-container" style={{ width: '40%' }}>
+                                                    <input
+                                                        type={showPass3 ? 'text' : 'password'}
+                                                        className="form-control my-2"
+                                                        id="vpass"
+                                                        placeholder='Enter verify password'
+                                                        onChange={handleVeryfyPassword}
+                                                        value={verifyPass}
+                                                    />
+                                                    <div className="input-span" onClick={() => setShowPass3(!showPass3)}>
+                                                        {showPass3 ? <EyeOff /> : <Eye />}
+                                                    </div>
+                                                    {getVeryfyError && (
+                                                        <div className="error-message" style={{ color: 'red' }}>
+                                                            {getVeryfyError}
+                                                        </div>
+                                                    )}
                                                 </div>
-                                                {getNewError && (
-                                                    <div className="error-message" style={{ color: 'red' }}>
-                                                        {getNewError}
-                                                    </div>
-                                                )}
-
                                             </div>
+                                            <button type="submit" className="btn btn-primary me-2 submit-button-one" onClick={handleSubmit}>
+                                                Submit
+                                            </button>
+                                            <Link to={'/user/dashboard'} className="btn iq-bg-danger">
+                                                Cancel
+                                            </Link>
                                         </div>
-                                        <div className="form-group">
-                                            <label htmlFor="vpass">Verify Password:</label>
-                                            <div className="input-container">
-                                                <input
-                                                    type={showPass3 ? 'text' : 'password'}
-                                                    className="form-control my-2"
-                                                    id="vpass"
-                                                    placeholder='Enter verify password'
-                                                    onChange={handleVeryfyPassword}
-                                                    value={verifyPass}
-                                                />
-                                                <div className="input-span" onClick={() => setShowPass3(!showPass3)}>
-                                                    {showPass3 ? <EyeOff /> : <Eye />}
-                                                </div>
-                                                {getVeryfyError && (
-                                                    <div className="error-message" style={{ color: 'red' }}>
-                                                        {getVeryfyError}
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </div>
-                                        <button type="submit" className="btn btn-primary me-2" onClick={handleSubmit}>
-                                            Submit
-                                        </button>
-                                        <Link to={'/user/dashboard'} className="btn iq-bg-danger">
-                                            Cancel
-                                        </Link>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
 
-        </div>
+        </Content>
     )
 }
 

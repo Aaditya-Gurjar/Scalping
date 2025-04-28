@@ -45,7 +45,7 @@ Container with dark background */
 
 /* Styling for each tab (nav-link) */
 .custom-tabs .nav-tabs .nav-link {
-    color: #bbb;
+    color: #ebebeb;
     background-color: #1f1f1f;
     border: 2px solid #444;
     border-radius: 12px;
@@ -197,3 +197,6 @@ Container with dark background */
     text-align: left;
 }
 
+.customer-btn {
+    height: auto;
+}

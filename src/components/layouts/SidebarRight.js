@@ -11,6 +11,7 @@ const Sidebar = ({ position }) => {
   const sidebarRef = useRef(null);
   const permission = localStorage.getItem("SubAdminPermission");
   const expire = localStorage.getItem("expire");
+  const adminPermission = localStorage.getItem("adminPermission");
 
   const setImages = () => {
     $(".title_name").text(localStorage.getItem("pannel_name"));
@@ -51,37 +52,37 @@ const Sidebar = ({ position }) => {
   }, []);
 
   const sidebarItems = {
-
-
-    Admin: [ 
-
-
+    Admin: [
       {
         path: "/admin/tradehistory",
         icon: <i className="la la-history"></i>,
-        label: "Trade History",
+        label: (<>Trade <br /> history</>),
+
       },
       {
         path: "/admin/servicreport",
         icon: <i className="la la-cog" />, // Service Report icon
-        label: "Service Report",
+        label: (<>Service <br /> Report</>),
         // permission: [],
       },
       {
         path: "/admin/clientactivity",
         icon: <i className="la la-fingerprint"></i>,
-        label: "Client Activity",
+        label: (<>Client <br /> Activity</>),
+
       },
       {
         path: "/admin/clientreport",
         icon: <i className="la la-briefcase"></i>,
-        label: "Client Trade Report",
+        label: (<>Client Thread <br/> Report</>),
       },
       {
         path: "/admin/smtp",
         icon: <i className="la la-envelope"></i>,
-        label: "SMTP Details",
+        label: (<>SMTP <br /> Details</>),
+
       },
+
       {
         path: "/admin/system",
         icon: <i className="la la-desktop"></i>,
@@ -90,19 +91,22 @@ const Sidebar = ({ position }) => {
       {
         path: "/admin/api-create-info",
         icon: <i className="la la-rocket"></i>,
-        label: "ApiCreateInfo",
+        label: (<>API<br />CreateInfo</>),
+
       },
+  
     ],
+  
     Superadmin: [
       {
         path: "/superadmin/client-trade-response",
         icon: <i className="la la-reply"></i>,
-        label: "Client Trade Response",
+        label: (<>Client Trade <br/> Response</>),
       },
       {
         path: "/superadmin/update-client-details",
         icon: <i className="la la-user"></i>,
-        label: "Update Client Details",
+        label: (<>Update Client <br/> Details</>),
       },
       {
         path: "/superadmin/api-create-info",
@@ -114,6 +118,7 @@ const Sidebar = ({ position }) => {
         icon: <i className="la la-bell"></i>,
         label: "New-Update",
       },
+      
     ],
     Subadmin: [
       {
@@ -141,19 +146,19 @@ const Sidebar = ({ position }) => {
     ],
     User: [
       {
-        path: "tradehistory",
-        icon: <i className="la la-history"></i>,
-        label: "Trade History",
+        path: "technical/pattern",
+        icon: <i className="fa fa-puzzle-piece" />, // Technical Patterns icon
+        label: "Tech Patterns",
       },
       {
-        path: "traderesponse",
-        icon: <i className="la la-sellsy"></i>,
-        label: "Trade Response",
+        path: "lastpattern",
+        icon: <i className="fa fa-random" />, // Last Patterns icon
+        label: "Last Patterns",
       },
       {
-        path: "profitandloss",
-        icon: <i className="las la-universal-access"></i>,
-        label: "Net P&L",
+        path: "all/plan",
+        icon: <i className="ri-folder-chart-line" />, // All Plans icon
+        label: "All Plans",
       },
       {
         path: "pannel",
@@ -165,8 +170,38 @@ const Sidebar = ({ position }) => {
         icon: <i className="lab la-get-pocket"></i>,
         label: "Description",
       },
+
+      // {
+      //   path: "/api-create-info",
+      //   icon: <i className="la la-rocket"></i>,
+      //   label: "API Process",
+      // },
     ],
   };
+
+  if (adminPermission?.includes("ChartingPlatform")) {
+    sidebarItems.Admin.push({
+      path: "/admin/Strategy-tag",
+      icon: <i className="la la-chess-knight"></i>,
+      label: (
+        <>
+          Strategy<br />Tag
+        </>
+      ),
+    },);
+  }
+
+  if (adminPermission?.includes("Copy Trading")) {
+    sidebarItems.Admin.push({
+      path: "/admin/Master-Account",
+      icon: <i className="la la-user-shield"></i>,  
+      label: (
+        <>
+          Master<br />Account
+        </>
+      ),
+    });
+  }
 
   const getSidebarMenu = () => {
     if (role === "User" && expire?.includes(1)) {
@@ -189,31 +224,43 @@ const Sidebar = ({ position }) => {
 
   return (
     <div className="iq-sidebar sidebar-right" ref={sidebarRef} onClick={() => sessionStorage.clear()}>
-      <div id="sidebar-scrollbar" data-scrollbar="true">
-        <nav className="iq-sidebar-menu">
-          <ul className="iq-menu">
-            {getSidebarMenu().map((item) => (
-              <li
-                key={item.path}
-                className={activeItem === item.path ? "active" : ""}
-              >
-                <Link to={item.path} onClick={() => setActiveItem(item.path)}>
-                  <OverlayTrigger
-                    placement="left"
-                    delay={{ show: 250, hide: 400 }}
-                    overlay={
-                      <Tooltip id={`tooltip-${item.label}`}>
-                        {item.label}
-                      </Tooltip>
-                    }
-                  >
-                    <div className="d-inline-block">{item.icon}</div>
-                  </OverlayTrigger>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
+      <div
+        id="sidebar-scrollbar"
+        data-scrollbar="true"
+        tabIndex={-1}
+        style={{ overflow: "hidden", outline: "none" }}
+      >
+        <div className="scroll-content">
+          <nav className="iq-sidebar-menu">
+            <ul className="iq-menu">
+              {getSidebarMenu().map((item) => (
+                <li
+                  key={item.path}
+                  className={`iq-menu-item-rightsidebar ${activeItem === item.path ? "active" : ""}`}
+                >
+                  <Link to={item.path} onClick={() => setActiveItem(item.path)}>
+                    <OverlayTrigger
+                      placement="left"
+                      delay={{ show: 250, hide: 400 }}
+                      overlay={
+                        <Tooltip id={`tooltip-${item.label}`}>
+                          {item.label}
+                        </Tooltip>
+                      }
+                    >
+                      <div className="d-inline-block link-icon">{item.icon}</div>
+                    </OverlayTrigger>
+                    <span className="ms-0">{item.label}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <div className="p-3" />
+        </div>
+        <div className="scrollbar-track scrollbar-track-y" style={{ display: "block" }}>
+          <div className="scrollbar-thumb scrollbar-thumb-y" style={{ height: "84.57px" }} />
+        </div>
       </div>
     </div>
   );

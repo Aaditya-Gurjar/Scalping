@@ -175,7 +175,7 @@ Container & Card Styling
 /* Additional spacing for form labels */
 .form-label {
     font-weight: 600;
-    margin-bottom: 0.5rem;
+    /* margin-bottom: 0.5rem; */
 }
 
 /* Modern Dropdown & DatePicker Styling */
@@ -258,5 +258,34 @@ Container & Card Styling
 /* Additional Form Label Spacing */
 .form-label {
     font-weight: 600;
-    margin-bottom: 0.5rem;
+    /* margin-bottom: 0.5rem; */
+}
+
+/* Analytics Overview */
+.analytics-overview {
+    padding: 10px; /* Reduce padding for the section */
+}
+
+.analytics-overview .card {
+    border: none;
+    border-radius: 6px; /* Slightly smaller border radius */
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); /* Reduce shadow intensity */
+    background: #f8f9fa;
+    height: 120px; /* Decrease card height */
+}
+
+.analytics-overview .card-body {
+    padding: 10px; /* Reduce padding inside the card */
+}
+
+.analytics-overview h6 {
+    font-size: 0.8rem; /* Decrease font size for the label */
+    font-weight: 600;
+    margin-bottom: 3px; /* Reduce margin below the label */
+}
+
+.analytics-overview h5 {
+    font-size: 1.2rem; /* Decrease font size for the value */
+    font-weight: 700;
+    margin: 0;
 }

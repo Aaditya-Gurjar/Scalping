@@ -23,7 +23,7 @@ const Sidebar = ({ position }) => {
   const [permission, setPermission] = useState(
     JSON.parse(localStorage.getItem("SubAdminPermission")) || null
   );
-
+const permissions  = localStorage.getItem("adminPermission");
 
   const expire = localStorage.getItem("expire");
 
@@ -175,7 +175,7 @@ const Sidebar = ({ position }) => {
     },
   ];
 
-  const adminSideBaar = [
+  let adminSideBaar = [
     {
       path: "/admin/dashboard",
       icon: <i className="ri-home-8-line" />, // Dashboard icon
@@ -185,13 +185,13 @@ const Sidebar = ({ position }) => {
     {
       path: "/admin/strategygroup",
       icon: <i className="la la-sellsy" />, // Strategy Group icon
-      label: "Strategy Group",
+      label: (<>Strategy <br/>Group</>),    
       permission: [],
     },
     {
       path: "/admin/clientservice",
       icon: <i className="fa fa-users" />, // Client Service icon
-      label: "Client Service",
+      label: "Add Client",
       permission: [],
     },
     {
@@ -202,24 +202,50 @@ const Sidebar = ({ position }) => {
     },
     {
       path: "/admin/allplan",
-      icon: <i className="fa fa-list-alt" />, // Plan icon
+      icon: <i className="fa fa-list-alt" />,
       label: "Plan",
       permission: [],
     },
     {
       path: "/admin/allscript",
-      icon: <i className="fa fa-code" />, // Add Script icon
-      label: "Add Script",
+      icon: <i className="fa fa-code" />,
+      label: "All Script",
       permission: [],
     },
     {
       path: "/admin/userlogs",
-      icon: <i className="fa fa-history" />, // User Panel Log icon
-      label: "User Panel Log",
+      icon: <i className="fa-regular fa-link" />,  
+      label: 
+      (
+        <>
+          User Panel  <br /> Log
+        </>
+      ),
       permission: [],
     },
-
+    {
+      path: "/admin/Coupon",
+      icon: <i className="fa fa-percent" />, 
+      label: 
+      (
+        <>
+          Add Coupon  
+        </>
+      ),
+      permission: [],
+    },
   ];
+
+  const isOptionChainIncluded = permissions?.includes("Option Chain")
+   
+  if(isOptionChainIncluded){
+    adminSideBaar.push({
+      path: "/admin/OptionChain",
+      icon: <i className="ri-stock-line" />, // Option Chain icon
+      label: (<>Option <br/>Chain</>),
+      permission: [],
+    });
+  }
 
   const superAdmin = [
     {
@@ -249,7 +275,11 @@ const Sidebar = ({ position }) => {
     {
       path: "/superadmin/client-thread-report",
       icon: <Pyramid />, // Client Trade Report icon
-      label: "Client Trade Report",
+      label: (
+        <>
+          Client Thread <br /> Report
+        </>
+      ),
       permission: [],
     },
   ];
@@ -261,29 +291,35 @@ const Sidebar = ({ position }) => {
       label: "Dashboard",
       permission: [],
     },
-    {
-      path: "technical/pattern",
-      icon: <i className="fa fa-puzzle-piece" />, // Technical Patterns icon
-      label: "Technical Patterns",
-      permission: [],
-    },
-    {
-      path: "lastpattern",
-      icon: <i className="fa fa-random" />, // Last Patterns icon
-      label: "Last Patterns",
-      permission: [],
-    },
-    {
-      path: "all/plan",
-      icon: <i className="ri-folder-chart-line" />, // All Plans icon
-      label: "All Plans",
-      permission: [],
-    },
+    
     {
       path: "tradereport",
       icon: <i className="la la-sellsy" />, // Trade Report icon
       label: "Trade Report",
       permission: [],
+    },
+
+    {
+      path: "tradehistory",
+      icon: <i className="la la-history"></i>,
+      label: "Trade History",
+      permission: [],
+
+    },
+    {
+      path: "traderesponse",
+      icon: <i className="la la-sellsy"></i>,
+      label: (<>Trade <br/> Response</>),
+      permission: [],
+
+
+    },
+    {
+      path: "profitandloss",
+      icon: <i className="las la-universal-access"></i>,
+      label: "Net P&L",
+      permission: [],
+
     },
     {
       path: 'Group',
@@ -291,6 +327,13 @@ const Sidebar = ({ position }) => {
       label: 'Group',
       permission: [] // No restriction
     },
+
+    // {
+    //   path: "OptionChain",
+    //   icon: <i className="ri-stock-line" />, // Option Chain icon
+    //   label: (<>Option <br/>Chain</>),
+    //   permission: [],
+    // }
   ];
 
 
@@ -307,15 +350,15 @@ const Sidebar = ({ position }) => {
           className={activeItem === item.path ? "active" : ""}
           onClick={(e) => handleSidebarClick(e, item.path)}
         >
-          <Link to={expire?.includes(1) ? "/user/all/plan" : item.path} className="iq-waves-effect">
+          <Link  to={expire?.includes(1) ? "/user/all/plan" : item.path} className="iq-waves-effect sidebar-left">
             <OverlayTrigger
               placement="right"
               delay={{ show: 250, hide: 400 }}
               overlay={<Tooltip id={`tooltip-${item.label}`}>{item.label}</Tooltip>}
             >
-              <div className="d-inline-block">{item.icon}</div>
+              <div className="d-inline-block link-icon">{item.icon}</div>
             </OverlayTrigger>
-            <span style={{ marginLeft: "8px" }}>{item.label}</span>
+            <span >{item.label}</span>
           </Link>
         </li>
       ));

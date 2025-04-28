@@ -63,6 +63,48 @@ export const GetAdminDashboard = async (data) => {
 
 }
 
+export const GetAdminDashboardClient = async (data) => {
+    const token = localStorage.getItem('token')
+    try {
+        const res = await axios.post(`${Config.base_url}admindashboardclient`, data,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+
+}
+
+export const GetAdminDashboardTrade = async (data) => {
+    const token = localStorage.getItem('token')
+    try {
+        const res = await axios.post(`${Config.base_url}admindashboardtrade`, data,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+
+}
+
+
+
 export const Add_Group = async (data) => {
     const token = localStorage.getItem('token')
     try {
@@ -518,6 +560,27 @@ export const Get_Client_Report = async (data) => {
 
 
     }
+}
+
+
+
+export const clientThreadeReport1 = async () => {
+    const token = localStorage.getItem('token')
+    try {
+        const res = await axios.get(`${Config.base_url}CAllThreadreport`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+
 }
 
 export const Get_Broker_Name = async () => {
@@ -1127,7 +1190,6 @@ export const SubAdminPermission = async (data) => {
 }
 
 export const AdminPermission = async (data) => {
-    console.log("username", data)
     try {
         const res = await axios.get(`${Config.base_url}Permissiondata/${data.username}`)
         return res?.data
@@ -1137,3 +1199,178 @@ export const AdminPermission = async (data) => {
     }
 }
 
+
+
+// EditPlanname
+
+export const EditPlanname = async (data) => {
+    try {
+        const res = await axios.get(`${Config.base_url}EditPlanname`)
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+}
+
+
+export const GetAccountsApi = async (data) => {
+    try {
+        const res = await axios.get(`${Config.base_url}GETMasterAccount`)
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+}
+
+
+
+
+export const MasterAccountApi = async (data) => {
+    const token = localStorage.getItem('token')
+    try {
+        const res = await axios.post(`${Config.base_url}MasterAccount`, data,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+
+}
+
+
+export const UpdateMasterAccount = async (data) => {
+    const token = localStorage.getItem('token')
+    try {
+        const res = await axios.post(`${Config.base_url}UpdateMasterAccount`, data,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+
+}
+ 
+
+export const TradeExecutionAPI = async (data) => {
+    const token = localStorage.getItem('token')
+    try {
+
+        let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: `${Config.base_url}ChartingPlatform`,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            data: data
+        };
+
+        let response = await axios.request(config);
+        return response?.data
+
+
+    }
+    catch (err) {
+        return err
+    }
+}
+
+ 
+
+export const getAdminCouponDetails = async (data) => {
+    try {
+        const res = await axios.get(`${Config.base_url}CouponCodeDetails`)
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+}
+
+export const AddCouponCodeApi = async (data) => {
+    const token = localStorage.getItem('token')
+    try {
+        const res = await axios.post(`${Config.base_url}AddCouponCode`, data,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+
+}
+
+
+export const addChartingStrategyTag = async (data) => { 
+    const token = localStorage.getItem('token');
+
+    try {
+        const formData = new FormData();
+        // formData me data append karo
+        for (const key in data) {
+            formData.append(key, data[key]);
+        }
+
+        const res = await axios.post(
+            `${Config.base_url}ChartingStretegyTag`,
+            formData,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    // Content-Type mat do, axios khud dega for FormData
+                }
+            }
+        );
+
+        return res?.data;
+    } catch (err) {
+        return err;
+    }
+}
+
+
+
+export const getChartingStrategyTag = async (data) => {
+    const token = localStorage.getItem('token')
+    try {
+        const res = await axios.get(`${Config.base_url}StrategyTagdata`, data,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+
+}

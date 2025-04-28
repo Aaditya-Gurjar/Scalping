@@ -29,6 +29,12 @@ import EditSubadmin from '../components/admin/SubAdmin/EditSubadmin';
 import ApiCreateInfo from '../components/admin/apicreateInfo/ApiCreateInfo';
 import SidebarRight from '../components/layouts/SidebarRight';
 import ChartComponent from '../components/admin/AdvanceChart/ChartComponent';
+import OptionChain from '../components/admin/OptionChain/OptionChain';
+import MasterAccount from '../components/admin/MasterAccount/MasterAccount';
+import CouponPage from '../components/admin/CouponPage/CouponPage';
+import AddCoupon from '../components/admin/CouponPage/AddCoupon';
+import StrategyTag from '../components/admin/AdminScript/StrategyTag/StrategyTag';
+import AllStrategyTag from '../components/admin/AdminScript/StrategyTag/AllStrategyTag';
 
 // const Dashboards = lazy(() => import('../components/admin/Dashboard/Dashboards'));
 // const Sidebar = lazy(() => import('../components/layouts/Sidebar'));
@@ -93,6 +99,12 @@ const AdminRoute = () => {
             <Route path="/editSubadmin" element={<EditSubadmin />} />
             <Route path="/api-create-info" element={<ApiCreateInfo />} />
             <Route path="/chart" element={<ChartComponent />} />
+            <Route path="/optionchain" element={<OptionChain />} />
+            <Route path="/Master-Account" element={<MasterAccount />} />
+            <Route path="/Coupon" element={<CouponPage />} />
+            <Route path="/addCoupon" element={<AddCoupon />} />
+            <Route path="/add-Strategy-tag" element={<StrategyTag />} />
+            <Route path="/Strategy-tag" element={<AllStrategyTag />} />
           </Routes>
         </div>
         <SidebarRight position="right"/>

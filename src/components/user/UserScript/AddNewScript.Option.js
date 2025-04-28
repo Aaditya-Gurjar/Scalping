@@ -58,7 +58,6 @@ const AddClient = () => {
       -1
     );
 
-    console.log("dataWithoutLastItem", dataWithoutLastItem);
     const foundItem = dataWithoutLastItem.find((item) => {
       return item["Option Strategy"].includes(stg);
     });
@@ -142,6 +141,7 @@ const AddClient = () => {
       Loss: "0",
       ExitType: "",
       WorkingDay: [],
+      Planname: "",
     },
     validate: (values) => {
       let errors = {};
@@ -209,10 +209,12 @@ const AddClient = () => {
         errors.Expirytype = "Please select an expiry type.";
       }
 
-      if (!values.Lower_Range && values.Striketype === "Premium_Range") {
+      if (!values.Lower_Range && values.Striketype === "Premium_Range" &&
+        values.Measurment_Type != "Shifting_FourLeg") {
         errors.Lower_Range = "Please enter the lower range.";
       }
-      if (!values.Higher_Range && values.Striketype === "Premium_Range") {
+      if (!values.Higher_Range && values.Striketype === "Premium_Range" &&
+        values.Measurment_Type != "Shifting_FourLeg") {
         errors.Higher_Range = "Please enter the higher range.";
       }
       if (!values.Striketype) {
@@ -423,7 +425,7 @@ const AddClient = () => {
       }
 
       if (values.Profit == undefined || values.Profit == "" || values.Profit == null) {
-        errors.Profit = "Please Enter Maximum Loss";
+        errors.Profit = "Please Enter Maximum Profit";
       }
 
 
@@ -436,14 +438,19 @@ const AddClient = () => {
         errors.ExitType = "Please Select Exit Type";
       }
 
-      if (!values.WorkingDay.length > 0) {
+      if (!values.WorkingDay?.length > 0) {
         errors.WorkingDay = "Please select Working day";
       }
       // ScrollToViewFirstError(errors)
+      console.log("errors", errors);
 
       return errors;
     },
+
+
+
     onSubmit: async (values) => {
+
       const req = {
         MainStrategy: location.state.data.selectStrategyType,
         Username: userName,
@@ -453,8 +460,12 @@ const AddClient = () => {
             ? values.ETPattern
             : values.Strategy == "ShortShifting" ||
               values.Strategy == "LongShifting"
-              ? "Future"
-              : "",
+              ? "Leg vice"
+              : (
+                formik.values.Strategy == "LongFourLegStretegy" ||
+                formik.values.Strategy == "ShortFourLegStretegy"
+              ) ? "Premium Addition" : "",
+
         Timeframe: "",
         Exchange: "NFO",
         Symbol: values.Symbol,
@@ -492,13 +503,15 @@ const AddClient = () => {
         expirydata1: getExpiry && getExpiry.data[0],
         Expirytype: values.Expirytype,
         Striketype:
-          formik.values.Strategy != "ShortStraddle" &&
-            formik.values.Strategy != "LongStraddle" &&
-            formik.values.Measurment_Type != "Shifting_FourLeg" &&
-            formik.values.Strategy != "ShortStraddle" &&
-            formik.values.Strategy != "LongStraddle"
+          formik.values.Strategy !== "ShortStraddle" &&
+            formik.values.Strategy !== "LongStraddle" &&
+            formik.values.Measurment_Type !== "Shifting_FourLeg"
             ? values.Striketype
-            : "",
+            : (formik.values.Strategy === "LongFourLegStretegy" ||
+              formik.values.Strategy === "ShortFourLegStretegy")
+              ? "Premium_Range"
+              : "",
+
         DepthofStrike:
           formik.values.Striketype != "Premium_Range" &&
             formik.values.Measurment_Type != "Shifting_FourLeg" &&
@@ -549,7 +562,13 @@ const AddClient = () => {
         WorkingDay: values?.WorkingDay
           ? values?.WorkingDay?.map((item) => item?.value || item)
           : [],
+        Planname: location?.state?.data?.scriptType?.data?.find(
+          (item) => item.EndDate == getEndData(formik.values.Measurment_Type)
+        )?.Planname,
       };
+
+
+
 
       if (
         values.Striketype == "Depth_of_Strike" &&
@@ -562,7 +581,10 @@ const AddClient = () => {
       }
 
       if (
-        values.Striketype == "Premium_Range" &&
+        values.Striketype === "Premium_Range" &&
+        values.Measurment_Type != "Shifting_FourLeg" &&
+        formik.values.Strategy !== "LongFourLegStretegy" &&
+        formik.values.Strategy !== "ShortFourLegStretegy" &&
         Number(values.Lower_Range) >= Number(values.Higher_Range)
       ) {
         return SweentAlertFun(
@@ -619,8 +641,10 @@ const AddClient = () => {
               timer: 1500,
               timerProgressBar: true,
             });
+            sessionStorage.setItem("addScriptTab", "Option Strategy"); 
+
             setTimeout(() => {
-              navigate("/user/dashboard");
+              navigate("/user/dashboard", { state:{prevSelectedTab: "Option Strategy"}});
             }, 1500);
           } else {
             Swal.fire({
@@ -694,6 +718,8 @@ const AddClient = () => {
       ].CombineOption?.[0]
     );
 
+
+
     // formik.setFieldValue('Exchange', "NSE");
     formik.setFieldValue("Symbol", symbolOptions[0]?.value || "");
     formik.setFieldValue("ETPattern", "Future");
@@ -714,6 +740,7 @@ const AddClient = () => {
     formik.setFieldValue("Shifting_Value", 1);
     formik.setFieldValue("Trade_Count", 1);
     formik.setFieldValue("ExitType", "Normal");
+
 
   }, []);
 
@@ -799,6 +826,7 @@ const AddClient = () => {
       col_size: 3,
       headingtype: 2,
       disable: false,
+      iconText: text.strikeType,
     },
     {
       name: "DepthofStrike",
@@ -828,6 +856,7 @@ const AddClient = () => {
       col_size: 3,
       headingtype: 2,
       disable: false,
+      iconText: text.depthOfStrike
     },
     {
       name: "DeepStrike",
@@ -858,6 +887,7 @@ const AddClient = () => {
       col_size: 3,
       headingtype: 2,
       disable: false,
+      iconText: text.lowerRange
     },
     {
       name: "Higher_Range",
@@ -871,6 +901,7 @@ const AddClient = () => {
       col_size: 3,
       headingtype: 2,
       disable: false,
+      iconText: text.higherRange
     },
 
     {
@@ -1016,6 +1047,7 @@ const AddClient = () => {
       col_size: 3,
       headingtype: 2,
       disable: false,
+      iconText: text.uniqueId
     },
   ];
 
@@ -1044,6 +1076,7 @@ const AddClient = () => {
       col_size: formik.values.Measurment_Type != "Shifting_FourLeg" ? 3 : 4,
       headingtype: 3,
       disable: false,
+      iconText: text.riskHandle
     },
     {
       name: "TStype",
@@ -1066,6 +1099,7 @@ const AddClient = () => {
       col_size: 3,
       headingtype: 3,
       disable: false,
+      iconText: text.measurementType
     },
 
     {
@@ -1146,13 +1180,14 @@ const AddClient = () => {
     },
     {
       name: "Trade_Count",
-      label: "No Of Cycle",
+      label: "No. Of Cycle",
       type: "text3",
       label_size: 12,
       col_size: 4,
       headingtype: 4,
       disable: false,
       hiding: false,
+      iconText: text.NoOfCycyle,
     },
 
     {
@@ -1176,7 +1211,7 @@ const AddClient = () => {
     },
     {
       name: "Loss",
-      label: "Max Loss ",
+      label: "Max Loss (in price)",
       type: "text3",
       label_size: 12,
       col_size: 4,
@@ -1187,7 +1222,7 @@ const AddClient = () => {
 
     {
       name: "Profit",
-      label: " Max Profit ",
+      label: " Max Profit (in price) ",
       type: "text3",
       label_size: 12,
       col_size: 4,
@@ -1476,11 +1511,15 @@ const AddClient = () => {
 
   useEffect(() => {
     if (
-      formik.values.Strategy == "LongStraddle" ||
-      formik.values.Strategy == "ShortStraddle"
+      formik.values.Strategy == "LongFourLegStretegy" ||
+      formik.values.Strategy == "ShortFourLegStretegy"
     ) {
-      formik.setFieldValue("Striketype", "Depth_of_Strike");
+
+      formik.setFieldValue("Striketype", "Premium_Range");
+      formik.setFieldValue("ETPattern", "Premium Addition");
+
     }
+
     if (formik.values.Striketype != "Premium_Range") {
       formik.setFieldValue("Higher_Range", 1);
       formik.setFieldValue("Lower_Range", 1);
@@ -1521,6 +1560,8 @@ const AddClient = () => {
     }
     if (formik.values.Measurment_Type == "Shifting_FourLeg") {
       formik.setFieldValue("ETPattern", "Premium Addition");
+      formik.setFieldValue("Higher_Range", 0);
+      formik.setFieldValue("Lower_Range", 0);
     }
 
     if (
@@ -1543,24 +1584,46 @@ const AddClient = () => {
     formik.values.Measurment_Type,
   ]);
 
+
+
   const handleCheckPnl = async () => {
+    // const weekend = new Date().getDay();
+    // const currentDate = new Date();
+    // const currentTime =
+    //   currentDate.getHours() +
+    //   ":" +
+    //   currentDate.getMinutes() +
+    //   ":" +
+    //   currentDate.getSeconds();
+
+    //  console.log("currentTime", currentTime);
+    // console.log("weekend", weekend);
+
+
+    // if (
+    //   weekend == 6 ||
+    //   weekend == 0 ||
+    //   currentTime >= "15:30:00" || currentTime <= "09:15:00"
+    // ) {
+    //   return SweentAlertFun("Market is off Today");
+    // }
+
     const weekend = new Date().getDay();
     const currentDate = new Date();
-    const currentTime =
-      currentDate.getHours() +
-      ":" +
-      currentDate.getMinutes() +
-      ":" +
-      currentDate.getSeconds();
+    const hours = currentDate.getHours();
+    const minutes = currentDate.getMinutes();
 
-    if (
-      weekend == 6 ||
-      weekend == 0 ||
-      currentTime >= "15:30:00" ||
-      currentTime <= "09:15:00"
-    ) {
+    const totalMinutes = hours * 60 + minutes; // e.g., 14 * 60 + 30 = 870
+
+    console.log("Current time (HH:MM):", `${hours}:${minutes}`);
+    console.log("Weekend:", weekend);
+
+    // Market hours: 9:15 AM to 3:30 PM => 555 to 930 in total minutes
+    if (weekend === 6 || weekend === 0 || totalMinutes < 555 || totalMinutes > 930) {
       return SweentAlertFun("Market is off Today");
     }
+
+    console.log("before req");
 
     const req = {
       MainStrategy: location.state.data.selectStrategyType,
@@ -1644,8 +1707,11 @@ const AddClient = () => {
       targetselection: "",
     };
 
+    console.log("req", req);
+
     await CheckPnL(req)
       .then((response) => {
+        console.log("response", response);  
         if (response.Status) {
           setShowPnl(true);
           setOpenModel(true);
@@ -1688,6 +1754,7 @@ const AddClient = () => {
         button_status={false}
         backbutton_status={false}
       >
+        {formik.values.Exchange && formik.values.Instrument && formik.values.Symbol && formik.values.expirydata1 && <div className="AddScript_LivePrice card-text-Color"><div className="LivePriceContainer"><span> Live Price:  </span> <span className="LivePrice ms-2">{ }</span></div></div>}
         <AddForm
           fields={fields.filter(
             (field) => !field.showWhen || field.showWhen(formik.values)
@@ -1707,7 +1774,7 @@ const AddClient = () => {
                 formik.values.Strategy == "ShortFourLegStretegy" ? (
                 ""
               ) : (
-                <button className="addbtn" onClick={() => handleCheckPnl()}>
+                <button className="addbtn" type="button" onClick={() => handleCheckPnl()}>
                   Check PnL
                 </button>
               )}
@@ -1723,7 +1790,7 @@ const AddClient = () => {
           centered
         >
           <Modal.Header closeButton>
-            <Modal.Title id="contained-modal-title-vcenter">
+            <Modal.Title id="contained-modal-title-vcenter ">
               PnL Details
             </Modal.Title>
           </Modal.Header>
@@ -1755,7 +1822,7 @@ const AddClient = () => {
                   ].map(({ label, value }, index) => (
                     <div key={index} className="col-md-6 d-flex align-items-center py-2">
                       <label
-                        className="fw-bold text-white mb-0 me-2"
+                        className="fw-bold text-white mb-0 me-2 card-text-Color"
                         style={{ fontSize: "18px", minWidth: "150px" }}
                       >
                         {label}:

@@ -6,7 +6,7 @@ import * as Config from "../../Utils/Config";
 import axios from "axios";
 import { TradingStatus } from "../CommonAPI/User";
 import Swal from "sweetalert2";
-import { IndianRupee, Eye } from "lucide-react";
+import { IndianRupee, Eye, Wallet } from "lucide-react";
 import {
   LastPattern,
   DataStart,
@@ -56,7 +56,7 @@ const Header = () => {
           if (response.Status) {
             localStorage.setItem(
               "adminPermission",
-              JSON.stringify(response.Data[0])
+              JSON.stringify(response.Data)
             );
           } else {
             setPermissionData({
@@ -209,7 +209,6 @@ const Header = () => {
 
   const clearSession = () => {
     var decoded = jwtDecode(token);
-    console.log("Session Expired", decoded);
     if (decoded.exp * 1000 < new Date().getTime()) {
       localStorage.clear();
       window.location.reload();
@@ -511,7 +510,7 @@ const Header = () => {
       <div className="iq-top-navbar ">
         <div className="iq-navbar-custom">
           <div className="iq-sidebar-logo">
-            <img className="header_img2" alt="Logo" id="header_img2" />
+            <img className="header_img2 header-logo-img" alt="Logo" id="header_img2" />
             {/* <div className="top-logo"> */}
             {/* <img className="header_img1" alt="Logo" id="header_img1" /> */}
 
@@ -807,11 +806,11 @@ const Header = () => {
                             style={{ height: "24px", marginRight: "10px" }}
                           />
 
-                          <strong >{walletBalance || "-"}</strong>
+                          <strong className="btn-text-color" >{walletBalance || "-"}</strong>
                         </span>
                       ) : (
                         <span>
-                          <Eye className="iconcol" />
+                          <Wallet className="iconcol" />
                         </span>
                       )}
                     </button>
@@ -877,9 +876,9 @@ const Header = () => {
                     <div className="iq-sub-dropdown iq-user-dropdown">
                       <div className="iq-card shadow-none m-0">
                         <div className="iq-card-body p-0 ">
-                          <div className="bg-primary p-3 card-bg-color">
-                            <h5 className="mb-0  line-height btn-text-color">{Username}</h5>
-                            <span className=" font-size-12 btn-text-color">online</span>
+                          <div className="bg-primary p-3">
+                            <h5 className="text-white-important">{Username}</h5>
+                            <span className="text-white-important">online</span>
                           </div>
                           <Link
                             to="/user/profile"
@@ -1075,8 +1074,8 @@ const Header = () => {
           ></div>
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content shadow-lg border-0 rounded-4">
-              <div className="modal-header bg-primary">
-                <h5 className="modal-title" id="exampleModalLabel">
+              <div className="modal-header card-bg-color">
+                <h5 className="modal-title card-text-Color" id="exampleModalLabel">
                   🔑 Auto Login
                 </h5>
                 <button
@@ -1103,7 +1102,7 @@ const Header = () => {
                       </>
                     ) : (
                       <>
-                        🔑 <strong>Auto Login</strong>
+                        🔑 <strong className="btn-text-color">Auto Login</strong>
                       </>
                     )}
                   </button>
@@ -1122,7 +1121,7 @@ const Header = () => {
                       </>
                     ) : (
                       <>
-                        🚀 <strong>Data Start</strong>
+                        🚀 <strong className="btn-text-color">Data Start</strong>
                       </>
                     )}
                   </button>
@@ -1140,7 +1139,7 @@ const Header = () => {
                       </>
                     ) : (
                       <>
-                        🔍 <strong>Last Pattern</strong>
+                        🔍 <strong className="btn-text-color">Last Pattern</strong>
                       </>
                     )}
                   </button>

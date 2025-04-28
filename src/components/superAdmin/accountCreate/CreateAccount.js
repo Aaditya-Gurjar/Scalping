@@ -1,7 +1,9 @@
+
+
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import { createAdmin, superToAdminGetNewPermission } from '../../CommonAPI/SuperAdmin';
-import AddForm from "../../../ExtraComponent/FormData";
+import AddForm from "../../../ExtraComponent/FormData2";
 import { useFormik } from "formik";
 import { useNavigate } from 'react-router-dom';
 import Content from '../../../ExtraComponent/Content';
@@ -49,9 +51,9 @@ const Adduser = () => {
 
                 } else {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Error!",
                         text: response.message,
                         icon: "error",
@@ -76,13 +78,19 @@ confirmButtonColor: "#1ccc8a",
             ConfirmPassword: "",
             SignEmail: "",
             AmmountDetails: 0,
+            SOPLiveTrade: 0,
+            SOPPaperTrade: 0,
+            SOPScriptwise: 0, 
+            ChartLiveTrade: 0,
+
             Companyname: "",
             Url: "",
 
             Permission: [],
 
-            Chartingamount: 0,
-            BrokerPermission: [], // Initial empty array for BrokerPermission
+            ChartPerMonth: 0,
+            ChartPaperTrade: 0,
+            BrokerPermission: [],
         },
         validate: (values) => {
             let errors = {};
@@ -110,15 +118,31 @@ confirmButtonColor: "#1ccc8a",
             if (!values.AmmountDetails) {
                 errors.AmmountDetails = "Please Enter Amount";
             }
+            if (!values.SOPLiveTrade) {
+                errors.SOPLiveTrade = "Please Enter Live Trade Amount";
+            }
+            if (!values.SOPPaperTrade) {
+                errors.SOPPaperTrade = "Please Enter Paper Trade Amount";
+            }
+            if (!values.SOPScriptwise) {
+                errors.SOPScriptwise = "Please Enter Paper Trade Amount";
+            }
             if (!values.Companyname) {
                 errors.Companyname = "Please Enter Company Name";
             }
             if (!values.Url) {
                 errors.Url = "Please Enter URL"
             }
-            if (!values.Chartingamount) {
-                errors.Chartingamount = "Please Enter Charting Amount";
+            if (!values.ChartPerMonth) {
+                errors.ChartPerMonth = "Please Enter Charting Amount";
             }
+            if (!values.ChartPaperTrade) {
+                errors.ChartPaperTrade = "Please Enter Chart Per Trade";
+            }
+            if(!values.ChartLiveTrade) {
+                errors.ChartLiveTrade = "Please Enter Chart Live Trade";
+            }
+            
             return errors;
         },
         onSubmit: async (values) => {
@@ -129,22 +153,27 @@ confirmButtonColor: "#1ccc8a",
                 ConfirmPassword: values.ConfirmPassword,
                 SignEmail: values.SignEmail,
                 AmmountDetails: values.AmmountDetails,
+                SOPLiveTrade: values.SOPLiveTrade,
+                SOPPaperTrade: values.SOPPaperTrade,
+                SOPScriptwise: values.SOPScriptwise,
                 Companyname: values.Companyname,
                 Url: values.Url,
                 permission: values.Permission,
-
-                Chartingamount: values.Chartingamount,
-                BrokerPermission: values.BrokerPermission, // Added to request object
+                ChartPerMonth: values.ChartPerMonth,
+                
+                BrokerPermission: values.BrokerPermission,
+                ChartPaperTrade: values.ChartPaperTrade, 
+                ChartLiveTrade: values.ChartLiveTrade,
             };
-            
+
 
             await createAdmin(req)
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Admin Created!",
                             text: response.message,
                             icon: "success",
@@ -157,9 +186,9 @@ confirmButtonColor: "#1ccc8a",
                     }
                     else {
                         Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                            background: "#1a1e23 ",
+                            backdrop: "#121010ba",
+                            confirmButtonColor: "#1ccc8a",
                             title: "Error!",
                             text: response.message,
                             icon: "error",
@@ -173,11 +202,7 @@ confirmButtonColor: "#1ccc8a",
                 });
         },
     });
-
-
-
-
-
+ 
     const fields = [
         {
             name: "SignuserName",
@@ -234,6 +259,65 @@ confirmButtonColor: "#1ccc8a",
             disable: false,
         },
         {
+            name: "SOPLiveTrade",
+            label: "Live Trade Amount(SOP)",
+            type: "text3",
+            label_size: 12,
+            hiding: false,
+            col_size: 6,
+            disable: false,
+        },
+        {
+            name: "SOPPaperTrade",
+            label: "Paper Trade Amount(SOP)",
+            type: "text3",
+            label_size: 12,
+            hiding: false,
+            col_size: 6,
+            disable: false,
+        },
+        {
+            name: "SOPScriptwise",
+            label: "Per Script Amount(SOP)",
+            type: "text3",
+            label_size: 12,
+            hiding: false,
+            col_size: 6,
+            disable: false,
+        },
+
+        {
+            name: "ChartPerMonth",
+            label: "Charting Amount",
+            type: "text3",
+            label_size: 12,
+            hiding: false,
+            col_size: 6,
+            disable: false,
+        },
+       
+
+        {
+            name: "ChartLiveTrade",
+            label: "Chart Live Trade Amount",
+            type: "text3",
+            label_size: 12,
+            hiding: false,
+            col_size: 6,
+            disable: false,
+        },
+        {
+            name : "ChartPaperTrade",
+            label : "Chart Paper Trade Amount",
+            type : "text3",
+            label_size : 12,
+            hiding : false,
+            col_size : 6,
+            disable : false,
+        },
+ 
+       
+        {
             name: "Companyname",
             label: "Company Name",
             type: "text",
@@ -255,32 +339,41 @@ confirmButtonColor: "#1ccc8a",
         {
             name: "Permission",
             label: "Permission",
-            type: "select2", // Custom dropdown for brokers
+            type: "select2",  
             label_size: 12,
             col_size: 6,
             disable: false,
             options: permissionArray
         },
-        {
-            name: "Chartingamount",
-            label: "Charting Amount",
-            type: "text3",
-            label_size: 12,
-            hiding: false,
-            col_size: 6,
-            disable: false,
-        },
-
-
+         
         {
             name: "BrokerPermission",
             label: "Broker Permission",
-            type: "select2", // Custom dropdown for brokers
+            type: "custom",
             label_size: 12,
             col_size: 6,
             disable: false,
-            options: optionsArray
-        },
+            customRender: (value = []) => (
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                {value.slice(0, 20).map((item, index) => (
+                  <span
+                    key={index}
+                    style={{
+                      backgroundColor: "#e0f7fa",
+                      padding: "4px 8px",
+                      borderRadius: "4px",
+                      fontSize: "0.875rem",
+                      flex: "0 1 calc(20%)", // 5 per row
+                      boxSizing: "border-box",
+                    }}
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
+            )
+          }
+          
 
 
     ]
@@ -288,20 +381,20 @@ confirmButtonColor: "#1ccc8a",
 
     return (
         <>
-        <Content
+            <Content
                 Page_title={"Create Admin"}
                 button_status={false}
                 backbutton_status={true}
-              
+
 
             >
-            <AddForm
-                fields={fields}                
-                btn_name="Add"
-                btn_name1="Cancel"
-                formik={formik}
-                btn_name1_route={"/admin/clientservice"}
-            />
+                <AddForm
+                    fields={fields}
+                    btn_name="Add"
+                    btn_name1="Cancel"
+                    formik={formik}
+                    btn_name1_route={"/admin/clientservice"}
+                />
             </Content>
         </>
     );

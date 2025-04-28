@@ -10,27 +10,17 @@ import {
   getStrategyType,
 } from "../../CommonAPI/Admin";
 import GridExample from "../../../ExtraComponent/CommanDataTable";
-import {
-  get_Trade_Data,
-  ChartingPlatformsegment,
-  getChargingPlatformDataApi,
-} from "../../CommonAPI/User";
 import DatePicker from "react-datepicker";
-import { AgChartsReact } from "ag-charts-react";
-import "ag-charts-enterprise";
 import ApexCharts from "react-apexcharts";
 import "react-datepicker/dist/react-datepicker.css";
 import Swal from "sweetalert2";
 import {
-  columns8,
-  columns7,
-  columns6,
-  columns5,
-  columns4,
-  columns3,
-  columns2,
-  columns1,
   columns,
+  columns1,
+  columns2,
+  columns3,
+  columns5,
+  columns6,
   getColumns10,
 } from "./TradeHistoryColumn";
 import NoDataFound from "../../../ExtraComponent/NoDataFound";
@@ -39,11 +29,24 @@ import DrawdownChartComponent from "../../admin/AdvanceChart/DrawdownChartCompon
 import ProfitAndLossGraph from "../../admin/AdvanceChart/ProfitAndLossGraph";
 import ChartComponent from "../../admin/AdvanceChart/ChartComponent";
 import Content from "../../../ExtraComponent/Content";
+import { overallReportApi } from "../../CommonAPI/User";
 
 const Tradehistory = () => {
   const StrategyType = sessionStorage.getItem("StrategyType");
   const location = useLocation();
-  const sectionRefs = useRef({});
+  const sectionRefs = useRef({}); // Refs for each section to scroll to
+  const Username = localStorage.getItem("name");
+  const currentDate = new Date();
+  const formattedDate = `${currentDate.getFullYear()}.${String(
+    currentDate.getMonth() + 1
+  ).padStart(2, "0")}.${String(currentDate.getDate()).padStart(2, "0")}`;
+  const tomorrow = new Date(currentDate);
+  tomorrow.setDate(currentDate.getDate() + 1);
+  const Default_To_Date = `${tomorrow.getFullYear()}.${String(
+    tomorrow.getMonth() + 1
+  ).padStart(2, "0")}.${String(tomorrow.getDate()).padStart(2, "0")}`;
+
+  // States
   const [selectStrategyType, setStrategyType] = useState(
     StrategyType || "Scalping"
   );
@@ -54,13 +57,8 @@ const Tradehistory = () => {
   const [ToDate, setToDate] = useState("");
   const [FromDate, setFromDate] = useState("");
   const [showReportSections, setShowReportSections] = useState(false);
-  const [getCharting, setGetCharting] = useState([]);
-  const [selectSegmentType, setSegmentType] = useState("");
-  const [getChartingSegments, setChartingSegments] = useState([]);
   const [activeTab, setActiveTab] = useState("Cash");
   const [getChartingData, setChartingData] = useState([]);
-
-  // Track if data for a section has been loaded.
   const [loadedSections, setLoadedSections] = useState({
     overview: false,
     pnlAnalysis: false,
@@ -70,8 +68,6 @@ const Tradehistory = () => {
     profitLoss: false,
     consistent: false,
   });
-
-  // Data states
   const [getAllTradeData, setAllTradeData] = useState({
     data: [],
     Overall: [],
@@ -87,53 +83,67 @@ const Tradehistory = () => {
     data: [],
     data1: [],
   });
-
-  const Username = localStorage.getItem("name");
-
-  // Date configuration
-  const currentDate = new Date();
-  const formattedDate = `${currentDate.getFullYear()}.${String(
-    currentDate.getMonth() + 1
-  ).padStart(2, "0")}.${String(currentDate.getDate()).padStart(2, "0")}`;
-  const tomorrow = new Date(currentDate);
-  tomorrow.setDate(currentDate.getDate() + 1);
-  const Defult_To_Date = `${tomorrow.getFullYear()}.${String(
-    tomorrow.getMonth() + 1
-  ).padStart(2, "0")}.${String(tomorrow.getDate()).padStart(2, "0")}`;
+  const [openSection, setOpenSection] = useState(null);  
+  const [AnalyticsOverview, setAnalyticsOverview] = useState([]); 
+  // Set row selection based on location state
+  useEffect(() => {
+    if (location?.state?.goto === "dashboard") {
+      if (location?.state?.type === "MultiCondition") {
+        setSelectedRowData(tradeHistory.data1?.[location?.state?.RowIndex]);
+      } else {
+        setSelectedRowData(tradeHistory.data?.[location?.state?.RowIndex]);
+      }
+      setStrategyType(
+        location?.state?.type === "MultiCondition"
+          ? "Scalping"
+          : location?.state?.type
+      );
+    }
+    setCheckedRows(location?.state?.RowIndex);
+  }, [
+    tradeHistory,
+    location?.state?.RowIndex,
+    location?.state?.goto,
+    location?.state?.type,
+  ]);
 
   useEffect(() => {
     const fetchStrategyTypes = async () => {
       try {
         const res = await getStrategyType();
-        setStrategyNames(res.Data || []);
+        setStrategyNames(res.Data || []); 
       } catch (error) {
         console.error("Error fetching strategy types:", error);
+        setStrategyNames([]);  
       }
     };
-
-    const fetchTradeHistory = async () => {
-      try {
-        const response = await get_User_Data({
-          Data: selectStrategyType,
-          Username,
-        });
-        console.log("fetchTradeHistory", response);
-
-        setTradeHistory(
-          response.Status
-            ? {
-                data: response?.Data || [],
-                data1: response?.NewScalping || [],
-              }
-            : { data: [], data1: [] }
-        );
-      } catch (err) {
-        console.error("Error fetching trade history:", err);
-      }
-    };
-
+    if (selectStrategyType !== "ChartingPlatform") {
+      const fetchTradeHistory = async () => {
+        try {
+          const response = await get_User_Data({
+            Data: selectStrategyType,
+            Username,
+          });
+          setTradeHistory(
+            response.Status
+              ? {
+                  data: response?.Data || [],
+                  data1: response?.NewScalping || [],
+                }
+              : { data: [], data1: [] }
+          );
+        } catch (err) {
+          console.error("Error fetching trade history:", err);
+        }
+      };
+      fetchTradeHistory();
+    }
     fetchStrategyTypes();
-    fetchTradeHistory();
+  }, [selectStrategyType, Username]);
+
+  useEffect(() => {
+    setCheckedRows([]); // Reset checked rows
+    setSelectedRowData(null); // Reset selected row data
   }, [selectStrategyType]);
 
   const convertDateFormat = (date) => {
@@ -145,24 +155,24 @@ const Tradehistory = () => {
     )}.${String(dateObj.getDate()).padStart(2, "0")}`;
   };
 
-  // When a row is selected, reset open sections and hide report sections.
   const handleRowSelect = (rowData) => {
     setSelectedRowData(rowData);
-    setOpenSections({});
+    setOpenSection(null); // Reset open section when selecting a new row
     setShowReportSections(false);
   };
 
+  console.log("selectedRowData", selectedRowData);
   const handleSubmit = async () => {
+    if (selectStrategyType === "ChartingPlatform") return;
     if (!selectedRowData) {
       Swal.fire({
         icon: "warning",
         title: "Please select a row first!",
         confirmButtonColor: "#1ccc8a",
+        timer: 2000,
       });
       return;
     }
-
-    // Reset loaded sections so that new data will be fetched
     setLoadedSections({
       overview: false,
       pnlAnalysis: false,
@@ -172,7 +182,6 @@ const Tradehistory = () => {
       profitLoss: false,
       consistent: false,
     });
-
     try {
       const basicData = {
         MainStrategy:
@@ -183,156 +192,138 @@ const Tradehistory = () => {
             : selectStrategyType,
         Strategy:
           selectStrategyType === "Scalping"
-            ? selectedRowData.ScalpType !== "Multi_Conditional"
-              ? selectedRowData.Targetselection
-              : selectedRowData.Targetselection
+            ? selectedRowData.Targetselection
             : selectStrategyType === "Option Strategy"
             ? selectedRowData.STG
             : selectStrategyType === "Pattern"
             ? selectedRowData.TradePattern
             : activeTab,
-        Symbol:
-          selectStrategyType === "Scalping" || selectStrategyType === "Pattern"
-            ? selectedRowData.Symbol
-            : selectStrategyType === "Option Strategy"
-            ? selectedRowData.IName
-            : selectStrategyType === "ChartingPlatform"
-            ? selectedRowData.TSymbol
-            : "",
-        ETPattern:
-          selectStrategyType === "Scalping"
-            ? selectedRowData.TType
-            : selectStrategyType === "Option Strategy"
-            ? selectedRowData.Targettype
-            : selectStrategyType === "Pattern"
-            ? selectedRowData.Pattern
-            : "",
-        Group: ["Scalping", "Option Strategy"].includes(selectStrategyType)
-          ? selectedRowData.GroupN
-          : "",
-        Username,
+        Symbol:  selectStrategyType === "Option Strategy"? selectedRowData.MainSymbol : selectedRowData.Symbol,
+        Username: selectedRowData.Username || "",
+        ETPattern:  selectStrategyType ==="Pattern" ? selectedRowData.Pattern :(selectedRowData.TType ||selectedRowData.Targettype),
+        Timeframe: selectedRowData.TimeFrame || "",
         From_date: convertDateFormat(FromDate || formattedDate),
-        To_date: convertDateFormat(ToDate || Defult_To_Date),
-        Timeframe:
-          selectStrategyType === "Pattern" ? selectedRowData.TimeFrame : "",
+        To_date: convertDateFormat(ToDate || Default_To_Date),
+        Group: selectedRowData.GroupN || "",
         TradePattern: "",
         PatternName: "",
       };
 
-      const tradeRes = await get_Trade_History(basicData);
+      // Fetch Total Profit/Loss Overview data
+      const overviewParams = {
+        MainStrategy: basicData.MainStrategy,
+        Strategy: basicData.Strategy,
+        Symbol: basicData.Symbol,
+        Username: basicData.Username,
+        ETPattern: basicData.ETPattern,
+        Timeframe: basicData.Timeframe,
+        From_date: basicData.From_date,
+        To_date: basicData.To_date,
+        Group: basicData.Group,
+        TradePattern: "",
+        PatternName: "",
+        InitialDeposite: 0,
+      };
+      const overviewRes = await get_Trade_History(overviewParams);
+      setAllTradeData({
+        data: overviewRes?.data || [],
+        Overall: overviewRes?.Overall || [],
+      });
 
-      // console.log("treadertes", tradeRes);
+      // Open Total Profit/Loss Overview section
+      setShowReportSections(true);
+      setLoadedSections((prev) => ({ ...prev, overview: true }));
+      setOpenSection("overview");
 
-      if (tradeRes.Status) {
-        setAllTradeData({
-          data: tradeRes.data || [],
-          Overall: tradeRes.Overall || [],
+      // Scroll to the Total Profit/Loss Overview section
+      setTimeout(() => {
+        sectionRefs.current["overview"]?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
         });
-        setShowReportSections(true);
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: tradeRes.message,
-          text: tradeRes.message,
-          confirmButtonColor: "#1ccc8a",
-        });
-      }
+      }, 100);
     } catch (error) {
       Swal.fire({
         icon: "error",
-        title: "Failed to load initial data",
+        title: "Failed to load data",
         text: error.message,
         confirmButtonColor: "#1ccc8a",
+        timer: 2000,
       });
     }
   };
 
+  console.log("selectedRowData", selectedRowData);
   const getChartingSegmentData = async () => {
     try {
       const req = {
         MainStrategy: "ChartingPlatform",
         Strategy: activeTab,
         Symbol: "",
-        Username: Username,
+        Username,
         ETPattern: "",
         Timeframe: "",
         From_date: convertDateFormat(FromDate || formattedDate),
-        To_date: convertDateFormat(ToDate || Defult_To_Date),
+        To_date: convertDateFormat(ToDate || Default_To_Date),
         Group: "",
         TradePattern: "",
         PatternName: "",
+        InitialDeposite: 0,
       };
       const res = await get_Trade_History(req);
-      console.log("reees", res);
       setChartingData(res?.data || []);
+      setAllTradeData({
+        data: res?.data || [],
+        Overall: res?.Overall || [],
+      });
     } catch (error) {
-      console.log("Error in getChartingSegmentData", error);
+      console.error("Error in getChartingSegmentData", error);
     }
   };
+
   useEffect(() => {
-    getChartingSegmentData();
-  }, [activeTab]);
-  console.log("getChartingData", getChartingData);
+    if (selectStrategyType === "ChartingPlatform") {
+      getChartingSegmentData();
+    }
+  }, [activeTab, selectStrategyType, FromDate, ToDate]);
 
   const loadSectionData = async (section) => {
     if (loadedSections[section]) return;
     try {
-      // For "overview", assume data is already loaded via handleSubmit.
-      if (section === "overview") {
-        setLoadedSections((prev) => ({ ...prev, [section]: true }));
-        return;
-      }
       const params = {
         MainStrategy:
           selectStrategyType === "Scalping"
-            ? selectedRowData.ScalpType === "Multi_Conditional"
+            ? selectedRowData?.ScalpType === "Multi_Conditional"
               ? "NewScalping"
               : selectStrategyType
             : selectStrategyType,
         Strategy:
           selectStrategyType === "Scalping"
-            ? selectedRowData.ScalpType !== "Multi_Conditional"
-              ? selectedRowData.Targetselection
-              : selectedRowData.Targetselection
+            ? selectedRowData?.Targetselection
             : selectStrategyType === "Option Strategy"
-            ? selectedRowData.STG
+            ? selectedRowData?.STG
             : selectStrategyType === "Pattern"
-            ? selectedRowData.TradePattern
+            ? selectedRowData?.TradePattern
             : "Cash",
-        Symbol:
-          selectStrategyType === "Scalping" || selectStrategyType === "Pattern"
-            ? selectedRowData.Symbol
-            : selectStrategyType === "Option Strategy"
-            ? selectedRowData.IName
-            : selectStrategyType === "ChartingPlatform"
-            ? selectedRowData.TSymbol
-            : "",
-        ETPattern:
-          selectStrategyType === "Scalping"
-            ? selectedRowData.TType
-            : selectStrategyType === "Option Strategy"
-            ? selectedRowData.Targettype
-            : selectStrategyType === "Pattern"
-            ? selectedRowData.Pattern
-            : "",
-        Group: ["Scalping", "Option Strategy"].includes(selectStrategyType)
-          ? selectedRowData.GroupN
-          : "",
-        Username,
+        Symbol: selectedRowData?.Symbol || "",
+        Username: selectedRowData?.Username || "",
+        ETPattern: selectedRowData?.Targettype || selectedRowData.TType || "",
+        Timeframe: selectedRowData?.TimeFrame || "",
         From_date: convertDateFormat(FromDate || formattedDate),
-        To_date: convertDateFormat(ToDate || Defult_To_Date),
-        Timeframe:
-          selectStrategyType === "Pattern" ? selectedRowData.TimeFrame : "",
+        To_date: convertDateFormat(ToDate || Default_To_Date),
+        Group: selectedRowData?.GroupN || "",
         TradePattern: "",
         PatternName: "",
+        InitialDeposite: 0,
       };
-
-      console.log("section-", section, "-");
 
       if (section === "pnlAnalysis") {
         const pnlRes = await get_PnL_Data(params);
         setPnlData({ data: pnlRes.Barchart || [] });
-      } else if (section?.includes("equity")) {
+      } else if (section.includes("AnalyticsOverview")) {
+        const analyticsRes = await overallReportApi(params);
+        setAnalyticsOverview({ data: analyticsRes.Data || [] });
+      } else if (section.includes("equity")) {
         const equityRes = await get_EQuityCurveData(params);
         setEquityCurveDetails({ data: equityRes.Equitycurve || [] });
       } else if (section === "drawdown") {
@@ -343,7 +334,6 @@ const Tradehistory = () => {
           get_FiveMostLossTrade(params),
           get_FiveMostProfitTrade(params),
         ]);
-
         setFiveLossTrade({ data: lossRes.fivelosstrade || [] });
         setFiveProfitTrade({ data: profitRes.fiveprofittrade || [] });
       }
@@ -353,30 +343,37 @@ const Tradehistory = () => {
         icon: "error",
         title: `Failed to load ${section} data`,
         text: error.message,
-        // confirmButtonColor: "#1ccc8a",
+        timer: 2000,
       });
     }
   };
 
-  // Track open/closed state for each section.
-  const [openSections, setOpenSections] = useState({});
+  useEffect(() => {
+    setOpenSection(null); // Reset open section when activeTab changes
+  }, [activeTab]);
 
-  // ReportSection component.
   const ReportSection = ({ title, section, children }) => {
-    const isOpen = openSections[section] || false;
+    const isOpen = openSection === section;
+    const sectionRef = (el) => (sectionRefs.current[section] = el); // Assign ref to this section
 
     const toggleSection = async () => {
       if (!isOpen) {
-        setOpenSections((prev) => ({ ...prev, [section]: true }));
+        setOpenSection(section); // Open this section, closing others
         await loadSectionData(section);
+        // Scroll to the opened section after a slight delay to ensure rendering
+        setTimeout(() => {
+          sectionRefs.current[section]?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }, 100);
       } else {
-        setOpenSections((prev) => ({ ...prev, [section]: false }));
+        setOpenSection(null); // Close this section
       }
     };
 
     const renderButtonContent = () => {
       if (!isOpen) return "🔼 Show Data";
-
       return loadedSections[section] ? (
         "🔽 Hide Data"
       ) : (
@@ -384,14 +381,15 @@ const Tradehistory = () => {
           <span
             className="spinner-border spinner-border-sm me-1"
             role="status"
-            aria-hidden="true"></span>
+            aria-hidden="true"
+          ></span>
           Loading Data...
         </>
       );
     };
 
     return (
-      <div className="card mb-3">
+      <div ref={sectionRef} className="card mb-3">
         <div className="card-header d-flex justify-content-between align-items-center">
           <h5 className="m-0">{title}</h5>
           <button className="btn btn-primary btn-sm" onClick={toggleSection}>
@@ -411,13 +409,28 @@ const Tradehistory = () => {
     );
   };
 
+  useEffect(() => {
+    if (selectStrategyType === "ChartingPlatform") {
+      setLoadedSections({
+        overview: false,
+        pnlAnalysis: false,
+        equity: false,
+        drawdown: false,
+        trades: false,
+        profitLoss: false,
+        consistent: false,
+      });
+      setShowReportSections(true);
+    }
+  }, [selectStrategyType, activeTab, FromDate, ToDate]);
+
   const getColumnsForStrategy = () => {
     switch (selectStrategyType) {
       case "Scalping":
         return columns();
       case "Option Strategy":
         return columns1();
-      case "Pattern" || "Pattern Script":
+      case "Pattern":
         return columns2();
       case "ChartingPlatform":
         return getColumns10();
@@ -426,84 +439,91 @@ const Tradehistory = () => {
     }
   };
 
+  const hasSubmittedRef = useRef(false);
+
+  useEffect(() => {
+    const autoSubmitIfNeeded = async () => {
+      if (
+        !hasSubmittedRef.current &&
+        location?.state?.goto === "dashboard" &&
+        selectedRowData
+      ) {
+        hasSubmittedRef.current = true;
+        await handleSubmit();
+      }
+    };
+
+    autoSubmitIfNeeded();
+  }, [selectedRowData, location?.state?.goto]);
+
+console.log("AnalyticsOverview", AnalyticsOverview);
   return (
     <Content
-      Page_title={"📊 Trade History Analysis"}
+      Page_title={"📊 Trade History "}
       button_status={false}
-      backbutton_status={true}>
+      backbutton_status={true}
+    >
       <div className="iq-card-body">
         <div className="card-body">
           <div className="row g-3 mb-4">
-            <div className={`col-12 col-md-6 ${"col-lg-4"}`}>
-              <div className="form-group">
-                <label className="form-label">Strategy Type</label>
-                <select
-                  className="form-select"
-                  value={selectStrategyType}
-                  onChange={(e) => {
-                    setStrategyType(e.target.value);
-                    sessionStorage.setItem("StrategyType", e.target.value);
-                  }}>
-                  {strategyNames.map((item) => (
-                    <option key={item} value={item}>
-                      {item}
-                    </option>
+            <div className="col-12 col-md-6 col-lg-4">
+              <div className="d-flex justify-content-center report-btns">
+                <ul
+                  className="nav nav-pills shadow rounded-pill p-1"
+                  style={{ backgroundColor: "#f1f3f5" }}
+                >
+                  {strategyNames.map((type, index) => (
+                    <li className="nav-item" key={index}>
+                      <button
+                        className={`nav-link ${
+                          selectStrategyType === type ? "active" : ""
+                        } rounded-pill`}
+                        onClick={() => {
+                          setStrategyType(type);
+                          sessionStorage.setItem("StrategyType", type);
+                        }}
+                        style={{
+                          padding: "10px 20px",
+                          margin: "5px",
+                          border: "none",
+                          outline: "none",
+                        }}
+                      >
+                        {type}
+                      </button>
+                    </li>
                   ))}
-                </select>
+                </ul>
               </div>
-            </div>
-            {/* {selectStrategyType === "ChartingPlatform" && (
-              <div className="col-12 col-md-6 col-lg-3">
-                <div className="form-group">
-                  <label className="form-label">Segment Type</label>
-                  <div onWheel={(e) => e.stopPropagation()}>
-                    <select
-                      className="form-select"
-                      value={selectStrategyType}
-                      onChange={(e) => {
-                        setStrategyType(e.target.value);
-                        sessionStorage.setItem("StrategyType", e.target.value);
-                      }}>
-                      {strategyNames.map((item) => (
-                        <option key={item} value={item}>
-                          {item}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-              </div>
-            )} */}
 
-            <div className={`col-12 col-md-6 ${"col-lg-4"}`}>
+            </div>
+           <div className="history-page-dates">
+           <div className="col-12 col-md-6 col-lg-2">
               <div className="form-group">
-                <label className="form-label">From Date</label>
+                <label className="form-label">Select From Date</label>
                 <DatePicker
                   className="form-control"
                   selected={FromDate || formattedDate}
                   onChange={setFromDate}
-                  dateFormat="yyyy.MM.dd"
+                  dateFormat="dd/MM/yyyy"
                 />
               </div>
             </div>
-            <div className={`col-12 col-md-6 ${"col-lg-4"}`}>
+            <div className="col-12 col-md-6 col-lg-2">
               <div className="form-group">
-                <label className="form-label">To Date</label>
+                <label className="form-label">Select To Date</label>
                 <DatePicker
                   className="form-control"
-                  selected={ToDate || Defult_To_Date}
+                  selected={ToDate || Default_To_Date}
                   onChange={setToDate}
-                  dateFormat="yyyy.MM.dd"
+                  dateFormat="dd/MM/yyyy"
                 />
               </div>
             </div>
+           </div>
           </div>
-
-          {console.log("tradeHistory", tradeHistory)}
-
           {selectStrategyType === "Scalping" ? (
             <div className="mb-4">
-              {/* <h5>Multi Conditional Strategies</h5> */}
               <h5>Scalping</h5>
               {tradeHistory.data1?.length > 0 ? (
                 <GridExample
@@ -511,6 +531,7 @@ const Tradehistory = () => {
                   data={tradeHistory.data1}
                   onRowSelect={handleRowSelect}
                   checkBox={true}
+                  isChecked={checkedRows}
                 />
               ) : (
                 <NoDataFound />
@@ -519,14 +540,13 @@ const Tradehistory = () => {
           ) : (
             <div className="mb-4">
               <h5>{selectStrategyType}</h5>
-
               {selectStrategyType === "ChartingPlatform" && (
                 <div className="container">
-                  {/* Tab Navigation */}
                   <div className="d-flex justify-content-center">
                     <ul
                       className="nav nav-pills shadow rounded-pill p-1"
-                      style={{ backgroundColor: "#f1f3f5" }}>
+                      style={{ backgroundColor: "#f1f3f5" }}
+                    >
                       <li className="nav-item">
                         <button
                           className={`nav-link ${
@@ -538,7 +558,8 @@ const Tradehistory = () => {
                             margin: "5px",
                             border: "none",
                             outline: "none",
-                          }}>
+                          }}
+                        >
                           Cash
                         </button>
                       </li>
@@ -553,7 +574,8 @@ const Tradehistory = () => {
                             margin: "5px",
                             border: "none",
                             outline: "none",
-                          }}>
+                          }}
+                        >
                           Future
                         </button>
                       </li>
@@ -568,7 +590,8 @@ const Tradehistory = () => {
                             margin: "5px",
                             border: "none",
                             outline: "none",
-                          }}>
+                          }}
+                        >
                           Option
                         </button>
                       </li>
@@ -576,10 +599,11 @@ const Tradehistory = () => {
                   </div>
                 </div>
               )}
-
-              {tradeHistory.data?.length ||
-              (selectStrategyType === "ChartingPlatform" &&
-                getChartingData?.length > 0) ? (
+              {(
+                selectStrategyType === "ChartingPlatform"
+                  ? getChartingData?.length > 0
+                  : tradeHistory.data?.length
+              ) ? (
                 <GridExample
                   columns={getColumnsForStrategy()}
                   data={
@@ -588,26 +612,32 @@ const Tradehistory = () => {
                       : tradeHistory.data
                   }
                   onRowSelect={handleRowSelect}
-                  checkBox={true}
+                  checkBox={
+                    selectStrategyType === "ChartingPlatform" ? false : true
+                  }
+                  isChecked={checkedRows}
                 />
               ) : (
                 <NoDataFound />
               )}
             </div>
           )}
-          <div className="d-grid gap-2">
-            <button
-              className="addbtn"
-              onClick={handleSubmit}
-              disabled={!selectedRowData}>
-              📜 Generate History
-            </button>
-          </div>
+          {selectStrategyType !== "ChartingPlatform" && (
+            <div className="d-grid gap-2">
+              <button
+                className="addbtn"
+                onClick={handleSubmit}
+                disabled={!selectedRowData}
+              >
+                📜 Generate History
+              </button>
+            </div>
+          )}
           {showReportSections && (
             <div className="mt-5">
-              <ReportSection
-                title="Total Profit/Loss Overview"
-                section="overview">
+              {/* AnalyticsOverview Section */}
+
+              <ReportSection title="Total Profit/Loss Overview" section="overview">
                 <div
                   className="pnl-overview"
                   style={{
@@ -617,13 +647,15 @@ const Tradehistory = () => {
                     textAlign: "center",
                     boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
                     marginBottom: "20px",
-                  }}>
+                  }}
+                >
                   <h4
                     style={{
                       margin: 0,
                       fontSize: "1.75rem",
                       fontWeight: "bold",
-                    }}>
+                    }}
+                  >
                     💰 Total PnL: ₹
                     <span
                       className="badge ms-2"
@@ -631,13 +663,14 @@ const Tradehistory = () => {
                         backgroundColor:
                           getAllTradeData.Overall[0]?.PnL > 0
                             ? "#008000"
-                            : "#B22222", // Dark Green & Dark Red
+                            : "#B22222",
                         color: "white",
                         padding: "8px 15px",
                         borderRadius: "5px",
                         fontSize: "1.25rem",
                         fontWeight: "bold",
-                      }}>
+                      }}
+                    >
                       {getAllTradeData.Overall[0]?.PnL?.toFixed(2) || "0.00"}
                     </span>
                   </h4>
@@ -648,6 +681,33 @@ const Tradehistory = () => {
                   checkBox={false}
                 />
               </ReportSection>
+
+
+              <ReportSection title="Analytics Overview" section="AnalyticsOverview">
+                {AnalyticsOverview.data?.length > 0 ? (
+                  <div className="analytics-overview">
+                    <div className="row">
+                      {Object.entries(AnalyticsOverview.data[0]).map(([key, value]) => (
+                        <div className="col-md-4 mb-3" key={key}>
+                          <div className="card modern-card-shadow">
+                            <div className="card-body text-center">
+                              <h6 className="text-muted">{key}</h6>
+                              <h5 className="text-primary">
+                                {value !== null ? value : "N/A"}
+                              </h5>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <NoDataFound />
+                )}
+              </ReportSection>
+
+              {/* Profit/Loss Overview Section */}
+              
 
               <ReportSection title="Profit/Loss Analysis" section="pnlAnalysis">
                 <ProfitAndLossGraph data={getPnLData.data} />
@@ -672,15 +732,14 @@ const Tradehistory = () => {
                   checkBox={false}
                 />
               </ReportSection>
-
               <ReportSection title="Top Trades Analysis" section="trades">
                 <div className="row">
-                  {/* Top Profitable Trades */}
                   <div className="col-md-6">
                     <div className="card h-100">
                       <div
                         className="card-header text-white"
-                        style={{ backgroundColor: "#006400" }}>
+                        style={{ backgroundColor: "#006400" }}
+                      >
                         💹 Top Profitable Trades
                       </div>
                       <div className="card-body">
@@ -696,13 +755,12 @@ const Tradehistory = () => {
                       </div>
                     </div>
                   </div>
-
-                  {/* Top Loss-Making Trades */}
                   <div className="col-md-6">
                     <div className="card h-100">
                       <div
                         className="card-header text-white"
-                        style={{ backgroundColor: "#8B0000" }}>
+                        style={{ backgroundColor: "#8B0000" }}
+                      >
                         📉 Top Loss-Making Trades
                       </div>
                       <div className="card-body">
@@ -733,10 +791,24 @@ const Tradehistory = () => {
 const getChartOptions = (data, type) => ({
   chart: { type: "pie" },
   labels: data.map((t) => t.ETime.split(" ")[1].substring(0, 5)),
+
   colors:
-    type === "Profit"
-      ? ["#28a745", "#218838", "#1e7e34"]
-      : ["#dc3545", "#c82333", "#bd2130"],
+  type === "Profit"
+    ? [
+        "#22c55e", // Emerald Green
+        "#3b82f6", // Blue
+        "#10b981", // Teal
+        "#6366f1", // Indigo
+        "#f59e0b"  // Amber
+      ]
+    : [
+        "#b91c1c", // Dark Red
+        "#dc2626", // Red
+        "#991b1b", // Deeper Red
+        "#7f1d1d", // Blood Red
+        "#450a0a"  // Near-Black Red
+      ],
+
   legend: { position: "bottom" },
   dataLabels: { enabled: true },
   tooltip: {
@@ -745,5 +817,6 @@ const getChartOptions = (data, type) => ({
     },
   },
 });
+
 
 export default Tradehistory;

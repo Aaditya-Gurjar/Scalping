@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { GetClientService, GetGroupNames, EditClientPanle, Get_Broker_Name } from '../../CommonAPI/Admin';
 import FullDataTable from '../../../ExtraComponent/CommanDataTable';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { SquarePen } from 'lucide-react';
 import { useFormik } from 'formik';
 import DropdownMultiselect from 'react-multiselect-dropdown-bootstrap';
@@ -11,6 +11,7 @@ import { Get_All_Plans, GetUserBalence } from "../../CommonAPI/User";
 import Select from 'react-select';
 import NoDataFound from '../../../ExtraComponent/NoDataFound';
 import Content from '../../../ExtraComponent/Content';
+import { Button } from 'react-bootstrap';
 
 
 
@@ -25,17 +26,20 @@ const Clientservice = () => {
     const [searchInput, setSearchInput] = useState('')
     const [GetAllPlans, setAllPlans] = useState({ LivePlanName: [], DemoPlanName: [], data: [] });
     const [walletBalance, setWalletBalance] = useState('');
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        fetchBrokerName();
-        fetchGroupDetails();
-        GetAllPlansData();
-    }, []);
+    const adminPermission = localStorage.getItem("adminPermission");
+    const permissionArray = [];
+
+    if (adminPermission) {
+        adminPermission.includes("Option Chain") && permissionArray.push({ label: "Option Chain", value: "Option Chain" });
+    }
 
     useEffect(() => {
         fetchClientService();
     }, [searchInput]);
 
+ 
 
 
     const GetBalence = async (Username) => {
@@ -119,8 +123,8 @@ const Clientservice = () => {
         await Get_All_Plans()
             .then((response) => {
                 if (response.Status) {
-                    const LivePlanName = response.Admin.filter((item) => item.PlanName !== 'One Week Demo' && item.PlanName !== 'Two Days Demo');
-                    const DemoPlanName = response.Admin.filter((item) => item.PlanName === 'One Week Demo' || item.PlanName === 'Two Days Demo');
+                    const LivePlanName = response.Admin.filter((item) => item.Planname !== 'One Week Demo' && item.Planname !== 'Two Days Demo');
+                    const DemoPlanName = response.Admin.filter((item) => item.Planname === 'One Week Demo' || item.Planname === 'Two Days Demo');
                     setAllPlans({ DemoPlanName: DemoPlanName, LivePlanName: LivePlanName, data: response.Admin });
                 }
                 else {
@@ -133,11 +137,22 @@ const Clientservice = () => {
     };
 
 
+    useEffect(() => {
+        fetchBrokerName();
+        fetchGroupDetails();
+        GetAllPlansData();
+    }, []);
+
+    useEffect(() => {
+    }, [GetAllPlans]);
+
+
     const formik = useFormik({
         initialValues: {
             User: "",
             Broker: "",
             GroupName: "",
+            permissions: [],
         },
         validate: values => {
             const errors = {};
@@ -161,9 +176,10 @@ const Clientservice = () => {
                 User: values.User,
                 GroupName: selectedOptions?.map((item) => item?.value || item),
                 Broker: values.Broker,
+                Permission: formik.values.permissions || [], // Ensure permissions is always an array
 
             }
- 
+
             try {
                 const response = await EditClientPanle(req);
                 if (response.Status) {
@@ -353,8 +369,8 @@ const Clientservice = () => {
             }
         },
         {
-            name: 'Licanse',
-            label: 'Licanse',
+            name: 'License',
+            label: 'License',
             options: {
                 filter: true,
                 sort: true,
@@ -362,8 +378,8 @@ const Clientservice = () => {
             }
         },
         {
-            name: 'LicanseStartDate',
-            label: 'LicanseStartDate',
+            name: 'LicenseStartDate',
+            label: 'LicenseStartDate',
             options: {
                 filter: true,
                 sort: true,
@@ -379,28 +395,27 @@ const Clientservice = () => {
                 customBodyRender: (value) => value || '-'
             }
         },
-        {
-            name: 'AutoLogin',
-            label: 'Auto Login',
-            options: {
-                filter: true,
-                sort: true,
-                customBodyRender: (value) => value || '-'
-            }
-        },
-        
-        {
-            name: 'Key',
-            label: 'Key',
-            options: {
-                filter: true,
-                sort: true,
-                customBodyRender: (value) => value || '-'
-            }
-        },
+        // {
+        //     name: 'AutoLogin',
+        //     label: 'Auto Login',
+        //     options: {
+        //         filter: true,
+        //         sort: true,
+        //         customBodyRender: (value) => value || '-'
+        //     }
+        // },
+
+        // {
+        //     name: 'Key',
+        //     label: 'Key',
+        //     options: {
+        //         filter: true,
+        //         sort: true,
+        //         customBodyRender: (value) => value || '-'
+        //     }
+        // },
     ];
 
-    console.log("selectedIndex", selectedIndex);
 
 
     useEffect(() => {
@@ -425,7 +440,10 @@ const Clientservice = () => {
                 button_title={"Create Account"}
 
             >
-                <div className="iq-card-body">
+
+
+
+                <div className="iq-card-body d-flex justify-content-between">
                     <div className="mb-3 col-lg-3">
                         <input
                             type="text"
@@ -434,19 +452,34 @@ const Clientservice = () => {
                             onChange={(e) => setSearchInput(e.target.value)}
                             value={searchInput}
                         />
+
+
+
                     </div>
-                    {
-                        clientService.data && clientService.data.length > 0 ?
-                            (<FullDataTable
-                                columns={columns}
-                                data={clientService.data}
-                                checkBox={false}
-                            />)
-                            :
-                            (<NoDataFound />)
-                    }
+
+
+                    <button
+                        className='addbtn '
+                        color="addbtn"
+                        onClick={() => navigate("/admin/adduser")}
+                    >
+                        Create Account
+                    </button>
+
+
 
                 </div>
+
+                {
+                    clientService.data && clientService.data.length > 0 ?
+                        (<FullDataTable
+                            columns={columns}
+                            data={clientService.data}
+                            checkBox={false}
+                        />)
+                        :
+                        (<NoDataFound />)
+                }
                 {showModal && (
                     <>
                         {/* Darkened background overlay */}
@@ -461,11 +494,11 @@ const Clientservice = () => {
                             aria-hidden="true"
                             style={{ display: "block" }}>
                             <div className="modal-dialog modal-dialog-centered custom-modal-width">
-                                <div className="modal-content">
+                                <div className="modal-content card-bg-color">
                                     <div className="modal-header p-3">
                                         {" "}
                                         {/* Adjusted padding */}
-                                        <h5 className="modal-title" id="modalLabel">
+                                        <h5 className="modal-title card-text-Color" id="modalLabel">
                                             Edit Client: {selectedIndex?.Username}
                                         </h5>
                                         <button
@@ -481,7 +514,7 @@ const Clientservice = () => {
                                         />
                                     </div>
                                     <hr style={{ margin: "0" }} /> {/* Remove margin from hr */}
-                                    <div className="modal-body p-1">
+                                    <div className="modal-body p-1 card-bg-color">
                                         {" "}
                                         {/* Adjusted padding */}
                                         <AddForm
@@ -496,7 +529,7 @@ const Clientservice = () => {
                                                 <div className="mt-2">
                                                     <div className="row">
                                                         <div className="col-lg-12">
-                                                            <h6 style={{ color: "white" }}>Select Group</h6>
+                                                            <h6 className="card-text-Color">Select Group</h6>
 
                                                             <Select
                                                                 defaultValue={selectedIndex?.Group?.map((item) => {
@@ -513,6 +546,41 @@ const Clientservice = () => {
                                                             />
                                                         </div>
                                                     </div>
+                                                    {permissionArray.length > 0 && (
+                                                        <div className="col-lg-12 mt-3">
+                                                            <h6 className="card-text-Color">Permissions</h6>
+                                                            <div className="checkbox-group">
+                                                                {permissionArray.map((permission, index) => (
+                                                                    <div key={index} className="form-check">
+                                                                        <input
+                                                                            type="checkbox"
+                                                                            id={`permission-${index}`}
+                                                                            className="form-check-input"
+                                                                            value={permission.value}
+                                                                            onChange={(e) => {
+                                                                                const selectedPermissions = formik.values.permissions || [];
+                                                                                if (e.target.checked) {
+                                                                                    formik.setFieldValue('permissions', [...selectedPermissions, permission.value]);
+                                                                                } else {
+                                                                                    formik.setFieldValue(
+                                                                                        'permissions',
+                                                                                        selectedPermissions.filter((perm) => perm !== permission.value)
+                                                                                    );
+                                                                                }
+                                                                            }}
+                                                                            checked={formik.values.permissions.includes(permission.value)}
+                                                                        />
+                                                                        <label
+                                                                            htmlFor={`permission-${index}`}
+                                                                            className="form-check-label card-text-Color"
+                                                                        >
+                                                                            {permission.label}
+                                                                        </label>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                    )}
                                                 </div>
                                             }
                                         />

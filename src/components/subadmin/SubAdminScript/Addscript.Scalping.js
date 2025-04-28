@@ -4,6 +4,8 @@ import { useFormik } from "formik";
 import { useState, useEffect } from "react";
 import Swal from 'sweetalert2';
 import { Get_Symbol, Get_StrikePrice, GET_EXPIRY_DATE, AddAdminScript, GetExchange } from '../../CommonAPI/Admin'
+import { iconButtonClasses } from "@mui/material";
+import { text } from "../../../ExtraComponent/IconTexts";
 
 
 const AddClient = () => {
@@ -309,7 +311,7 @@ const AddClient = () => {
       //   errors.TargetExit = "Please select Continue After Cycle Exit";
       // }
       if (
-        !values.WorkingDay.length > 0 &&
+        !values.WorkingDay?.length > 0 &&
         values.Strategy == "Multi_Conditional" &&
         values.position_type == "Multiple"
       ) {
@@ -894,8 +896,8 @@ const AddClient = () => {
       col_size: formik.values.position_type == "Single" ? 3 : 3,
       headingtype: 4,
       disable: false,
-      // iconText: text.Increment_Type,
       hiding: false,
+      iconText : text.continueAfterCycleExit
     },
     {
       name: "RepeatationCount",
@@ -912,7 +914,7 @@ const AddClient = () => {
     },
     {
       name: "Loss",
-      label: "Max Loss ",
+      label: "Max Loss (in price)",
       type: "text3",
       label_size: 12,
       col_size: formik.values.position_type == "Multiple" ? 3 : 4,
@@ -926,7 +928,7 @@ const AddClient = () => {
 
     {
       name: "Profit",
-      label: " Max Profit ",
+      label: " Max Profit (in price) ",
       type: "text3",
       label_size: 12,
       col_size: formik.values.position_type == "Multiple" ? 3 : 4,

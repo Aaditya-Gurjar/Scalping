@@ -6,6 +6,8 @@ import {
   Get_All_Buyed_Plans,
   BuyPlan,
   AddBalance,
+  ExpirePlanDetails,
+  applyCouponCode,
 } from "../../CommonAPI/User";
 import Swal from "sweetalert2";
 // import Tab from "react-bootstrap/Tab";
@@ -19,6 +21,19 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+import { Modal, Button, TextField, Stack, Typography } from '@mui/material';
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  borderRadius: 2,
+  boxShadow: 24,
+  p: 4,
+};
 
 const ServicesList = () => {
   const username = localStorage.getItem("name");
@@ -27,12 +42,190 @@ const ServicesList = () => {
     data: [],
     data1: [],
   });
+
   const [purchasedPlans, setPurchasedPlans] = useState([]);
   const expire = localStorage.getItem("expire");
-
+  const [planExpired, setPlanExpired] = useState([]);
 
   const [expandedOptions, setExpandedOptions] = useState([]);
   const [expandedPatternItems, setExpandedPatternItems] = useState([]);
+  const [isContinue, setIsContinue] = useState(false);
+
+  const [open, setOpen] = useState(false);
+  const [couponCode, setCouponCode] = useState('');
+  const [selectedPlan, setSelectedPlan] = useState(null); // State to store selected plan details
+  const [verificationMessage, setVerificationMessage] = useState(""); // State for verification message
+  const [verificationColor, setVerificationColor] = useState(""); // State for message color
+  const [isContinueEnabled, setIsContinueEnabled] = useState(false); // State to manage "Continue" button enable/disable
+const adminPermission = localStorage.getItem("adminPermission");
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => {
+    setOpen(false);
+    setVerificationMessage(""); // Reset verification message
+    setVerificationColor(""); // Reset message color
+    setIsContinueEnabled(false); // Disable "Continue" button
+  };
+
+
+  const handleVerify = async () => {
+    if (selectedPlan) {
+      const planDetails = selectedPlan.isCharting
+        ? getUpdatedPlansCharting[selectedPlan.index]
+        : getUpdatedPlans[selectedPlan.index]; // Use getUpdatedPlans or getUpdatedPlansCharting
+
+      console.log("Selected Plan Details:", planDetails);
+      console.log("Coupon Code Entered:", couponCode);
+
+      const req = {
+        User: username,
+        Planname: planDetails.Planname || planDetails.PlanName, // Ensure correct plan name is passed
+        CouponCode: couponCode,
+      };
+
+      const res = await applyCouponCode(req);
+      console.log("Coupon Verification Response:", res);
+
+      if (res.Status) {
+        const actualPrice = planDetails.SOPPrice || planDetails.ChartPerMonth;
+        const discountPercentage = res.Data; // Discount percentage from the response
+        const discountedPrice = actualPrice - (actualPrice * discountPercentage) / 100;
+
+        setVerificationMessage("Verified");
+        setVerificationColor("green");
+        setIsContinueEnabled(true); // Enable the "Continue" button
+        setSelectedPlan({
+          ...selectedPlan,
+          discountedPrice: discountedPrice.toFixed(2), // Store the discounted price
+          discountPercentage, // Store the discount percentage
+        });
+      } else {
+        setVerificationMessage("Not Applicable");
+        setVerificationColor("red");
+        setIsContinueEnabled(false); // Disable the "Continue" button
+      }
+    } else {
+      console.error("No plan selected for verification.");
+    }
+  };
+
+  const handleContinue = async () => {
+    handleClose(); // Close the modal
+    if (selectedPlan) {
+      const actualPrice = selectedPlan.SOPPrice || selectedPlan.ChartPerMonth;
+      const discountedPrice = selectedPlan.discountedPrice || actualPrice;
+      const discountPercentage = selectedPlan.discountPercentage || 0;
+
+      if (selectedPlan.isBuyNow) {
+        // Show Confirm Purchase modal for Buy Now
+        const result = await Swal.fire({
+          title: "Confirm Purchase",
+          html: `
+            <p>Actual Price: <strong>₹${actualPrice}</strong></p>
+            <p>Discount: <strong>${discountPercentage}%</strong></p>
+            <p>After Discount: <strong>₹${discountedPrice}</strong></p>
+          `,
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonText: "Yes",
+          cancelButtonText: "Cancel",
+          reverseButtons: false,
+          showCloseButton: true, // Add close button to the top-right corner
+        });
+
+        if (result.isConfirmed) {
+          HandleBuyPlan(selectedPlan.index, 1, selectedPlan.isCharting, discountedPrice); // Pass discounted price
+        }
+      } else {
+        // Show Extend End Date or Extend Number of Scripts modal for Buy Again
+        const result = await Swal.fire({
+          title: "Choose an Option",
+          text: `Do you want to extend the end date or extend the number of scripts for the plan: ${selectedPlan.Planname || selectedPlan.PlanName}?`,
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonText: "Extend End Date",
+          cancelButtonText: "Cancel",
+          reverseButtons: false, // Ensure "Extend End Date" is on the left and "Cancel" is on the right
+          allowOutsideClick: false, // Prevent closing the alert by clicking outside
+          showCloseButton: true, // Add a close button to the top-right corner
+        });
+
+        if (result.isConfirmed) {
+          await HandleBuyPlan(selectedPlan.index, 0, selectedPlan.isCharting, discountedPrice); // Extend End Date
+        } else if (result.dismiss === Swal.DismissReason.cancel || result.dismiss === Swal.DismissReason.close) {
+          Swal.fire({
+            title: "Cancelled",
+            text: "Plan purchase has been cancelled.",
+            icon: "info",
+            timer: 1500,
+            timerProgressBar: true,
+          });
+        }
+      }
+    }
+  };
+
+  const handleContinueWithout = async () => {
+    handleClose(); // Close the modal
+    if (selectedPlan) {
+      if (selectedPlan.isBuyNow) {
+        // Show Confirm Purchase modal for Buy Now
+        const result = await Swal.fire({
+          title: "Confirm Purchase",
+          text: `Do you want to continue with this plan: ${selectedPlan.Planname || selectedPlan.PlanName} for ₹${selectedPlan.SOPPrice || selectedPlan.ChartPerMonth}?`,
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonText: "Yes",
+          cancelButtonText: "Cancel",
+          reverseButtons: false,
+          showCloseButton: true, // Add close button to the top-right corner
+        });
+
+        if (result.isConfirmed) {
+          HandleBuyPlan(selectedPlan.index, 1, selectedPlan.isCharting); // Confirm purchase
+        }
+      } else {
+        // Show Extend End Date or Extend Number of Scripts modal for Buy Again
+        const result = await Swal.fire({
+          title: "Choose an Option",
+          text: `Do you want to extend the end date or extend the number of scripts for the plan: ${selectedPlan.Planname || selectedPlan.PlanName}?`,
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonText: "Extend End Date",
+          cancelButtonText: "Extend Number of Scripts",
+          reverseButtons: false, // Ensure "Extend End Date" is on the left and "Extend Number of Scripts" is on the right
+          allowOutsideClick: false, // Prevent closing the alert by clicking outside
+          showCloseButton: true, // Add a close button to the top-right corner
+        });
+
+        if (result.isConfirmed) {
+          await HandleBuyPlan(selectedPlan.index, 0, selectedPlan.isCharting); // Extend End Date
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          await HandleBuyPlan(selectedPlan.index, 1, selectedPlan.isCharting); // Extend Number of Scripts
+        }
+      }
+    }
+  };
+
+  const handleBuyNow = (index, isCharting) => {
+    const planDetails = isCharting ? plansData?.data1[index] : plansData?.data[index];
+    if (!["Three Days Live", "Two Days Demo", "One Week Demo"].includes(planDetails.Planname)) {
+      setSelectedPlan({ ...planDetails, index, isCharting, isBuyNow: true });
+      handleOpen(); // Open the coupon modal
+    } else {
+      console.warn("Invalid plan selected:", planDetails.Planname);
+    }
+  };
+
+  const handleBuyAgain = (index, isCharting) => {
+    const planDetails = isCharting ? plansData?.data1[index] : plansData?.data[index];
+    if (!["Three Days Live", "Two Days Demo", "One Week Demo"].includes(planDetails.Planname)) {
+      setSelectedPlan({ ...planDetails, index, isCharting, isBuyNow: false });
+      handleOpen(); // Open the coupon modal
+    } else {
+      console.warn("Invalid plan selected:", planDetails.Planname);
+    }
+  };
 
   const toggleOptions = (index) => {
     setExpandedOptions((prev) =>
@@ -49,7 +242,6 @@ const ServicesList = () => {
   };
 
 
-
   useEffect(() => {
     fetchPlans();
     fetchPurchasedPlans();
@@ -62,13 +254,13 @@ const ServicesList = () => {
         const filterPlan = response?.Admin?.filter(
           (plan) =>
             !["Three Days Live", "Two Days Demo", "One Week Demo"].includes(
-              plan.PlanName
+              plan.Planname
             )
         );
         const filterPlanCharting = response?.Charting?.filter(
           (plan) =>
             !["Three Days Live", "Two Days Demo", "One Week Demo"].includes(
-              plan.PlanName
+              plan.Planname
             )
         );
         setPlansData({
@@ -83,6 +275,7 @@ const ServicesList = () => {
     }
   };
 
+
   const fetchPurchasedPlans = async () => {
     try {
       const response = await Get_All_Buyed_Plans({ userName: username });
@@ -93,159 +286,77 @@ const ServicesList = () => {
       console.error("Error fetching purchased plans:", error);
     }
   };
+  const isPlanExpired = async () => {
+    try {
+      const response = await ExpirePlanDetails(username);
+      if (response.Status) {
+        setPlanExpired(response.ExpirePlan || []);
+      }
+    }
+    catch (error) {
+      console.error("Error fetching purchased plans:", error);
+    }
+  }
+  useEffect(() => {
+    isPlanExpired();
+  }, [])
 
   const isPlanPurchased = (planName) => {
     return purchasedPlans.some((plan) => plan.Planname === planName);
   };
 
-  const HandleBuyPlan = async (index, type, isCharting) => {
+  const HandleBuyPlan = async (index, type, isCharting, price) => {
     try {
       const planDetails = isCharting
         ? plansData?.data1[index]
         : plansData?.data[index];
 
-      console.log("planDetails", planDetails);
       const req1 = {
         Username: username,
         transactiontype: "Purchase",
-        money: planDetails.payment,
+        money: price || planDetails.SOPPrice || planDetails.ChartPerMonth, // Use discounted price if available
       };
-      const result = await Swal.fire({
-        title: "Are you sure?",
-        text: `Do you want to buy the plan: ${planDetails.PlanName} for ₹${planDetails.payment}?`,
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Yes, Buy it!",
-        cancelButtonText: "No, Cancel",
-        reverseButtons: true,
-      });
 
-      if (result.isConfirmed) {
-        const CheckBalanceResponse = await AddBalance(req1);
-        if (CheckBalanceResponse.Status && type == 0) {
-          const result = await Swal.fire({
-            title: "What do you want to do?",
-            text: `This is your Scubscribed Script so what do you do Extend the EndDate or Extend the Number of Scripts`,
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Extend End Date",
-            cancelButtonText: "Extend Number of Scripts",
-            reverseButtons: true,
+      const CheckBalanceResponse = await AddBalance(req1);
+      if (CheckBalanceResponse.Status) {
+        const req = {
+          Username: username,
+          Scalping: planDetails.Scalping,
+          Option: planDetails["Option Strategy"],
+          PatternS: planDetails.Pattern,
+          NumberofScript: planDetails.NumberofScript,
+          Duration: planDetails["Plan Validity"],
+          Planname: planDetails.Planname || planDetails.PlanName,
+          SOPPrice: price || planDetails.SOPPrice, // Use discounted price if available
+          Extendtype: type === 0 ? "ExtendServiceEndDate" : "ExtendServiceCount",
+          money: price || planDetails.SOPPrice,
+          Charting: planDetails.ChartingSignal,
+        };
+
+        const buyPlanResponse = await BuyPlan(req);
+        if (buyPlanResponse.Status) {
+          fetchPurchasedPlans();
+          Swal.fire({
+            title: "Success!",
+            text: buyPlanResponse.message,
+            icon: "success",
+            timer: 1500,
+            timerProgressBar: true,
           });
-          if (result.isConfirmed) {
-            const req = {
-              Username: username,
-              Scalping: planDetails.Scalping,
-              Option: planDetails["Option Strategy"],
-              PatternS: planDetails.Pattern,
-              NumberofScript: planDetails.NumberofScript,
-              Duration: planDetails["Plan Validity"],
-              Planname: planDetails.PlanName,
-              payment: planDetails.payment,
-              Extendtype: "ExtendServiceEndDate",
-              Charting: planDetails.ChartingSignal,
-            };
-            const buyPlanResponse = await BuyPlan(req);
-            if (buyPlanResponse.Status) {
-              fetchPurchasedPlans();
-              Swal.fire({
-                title: "Success!",
-                text: buyPlanResponse.message,
-                icon: "success",
-                timer: 1500,
-                timerProgressBar: true,
-              });
-            } else {
-              Swal.fire({
-                title: "Error!",
-                text: buyPlanResponse.message,
-                icon: "error",
-                timer: 1500,
-                timerProgressBar: true,
-              });
-            }
-          } else {
-            const req = {
-              Username: username,
-              Scalping: planDetails.Scalping,
-              Option: planDetails["Option Strategy"],
-              PatternS: planDetails.Pattern,
-              NumberofScript: planDetails.NumberofScript,
-              Duration: planDetails["Plan Validity"],
-              Planname: planDetails.PlanName,
-              payment: planDetails.payment,
-              Extendtype: "ExtendServiceCount",
-              Charting: planDetails.ChartingSignal,
-            };
-            const buyPlanResponse = await BuyPlan(req);
-            if (buyPlanResponse.Status) {
-              fetchPurchasedPlans();
-              Swal.fire({
-                title: "Success!",
-                text: buyPlanResponse.message,
-                icon: "success",
-                timer: 1500,
-                timerProgressBar: true,
-              });
-            } else {
-              Swal.fire({
-                title: "Error!",
-                text: buyPlanResponse.message,
-                icon: "error",
-                timer: 1500,
-                timerProgressBar: true,
-              });
-            }
-          }
-        } else if (CheckBalanceResponse.Status && type == 1) {
-          const req = {
-            Username: username,
-            Scalping: planDetails.Scalping,
-            Option: planDetails["Option Strategy"],
-            PatternS: planDetails.Pattern,
-            NumberofScript: planDetails.NumberofScript,
-            Duration: planDetails["Plan Validity"],
-            Planname: planDetails.PlanName,
-            payment: planDetails.payment,
-            Extendtype: "",
-            Charting: planDetails.ChartingSignal,
-          };
-          const buyPlanResponse = await BuyPlan(req);
-          if (buyPlanResponse.Status) {
-            fetchPurchasedPlans();
-            Swal.fire({
-              title: "Success!",
-              text: buyPlanResponse.message,
-              icon: "success",
-              timer: 1500,
-              timerProgressBar: true,
-            });
-            setTimeout(() => {
-              window.location.reload();
-            }, 1500);
-          } else {
-            Swal.fire({
-              title: "Error!",
-              text: buyPlanResponse.message,
-              icon: "error",
-              timer: 1500,
-              timerProgressBar: true,
-            });
-          }
         } else {
           Swal.fire({
             title: "Error!",
-            text: CheckBalanceResponse.message,
-            icon: "worning",
+            text: buyPlanResponse.message,
+            icon: "error",
             timer: 1500,
             timerProgressBar: true,
           });
         }
       } else {
         Swal.fire({
-          title: "Cancelled",
-          text: "Your purchase has been cancelled.",
-          icon: "info",
+          title: "Error!",
+          text: CheckBalanceResponse.message,
+          icon: "warning",
           timer: 1500,
           timerProgressBar: true,
         });
@@ -264,16 +375,19 @@ const ServicesList = () => {
 
   const getUpdatedPlans = plansData.data?.filter(
     (plan) =>
-      plan.PlanName !== "Three Days Live" &&
-      plan.PlanName !== "Two Days Demo" &&
-      plan.PlanName !== "One Week Demo"
+      (plan?.SOPPrice !== 0 && plan?.payment !== 0) &&
+      plan.Planname !== "Three Days Live" &&
+      plan.Planname !== "Two Days Demo" &&
+      plan.Planname !== "One Week Demo"
   );
   const getUpdatedPlansCharting = plansData.data1?.filter(
     (plan) =>
-      plan.PlanName !== "Three Days Live" &&
-      plan.PlanName !== "Two Days Demo" &&
-      plan.PlanName !== "One Week Demo"
+      (plan?.ChartPerMonth !== 0) &&
+      plan.Planname !== "Three Days Live" &&
+      plan.Planname !== "Two Days Demo" &&
+      plan.Planname !== "One Week Demo"
   );
+
 
   const [value, setValue] = useState("1");
 
@@ -332,7 +446,9 @@ const ServicesList = () => {
               }}
             >
               <Tab label="📊 SOP" value="1" />
-              <Tab label=" ⚡ Charting" value="2" />
+              {adminPermission?.includes("ChartingPlatform") && (
+                <Tab label="⚡ Charting" value="2" />
+              )}
             </TabList>
           </Box>
 
@@ -345,14 +461,14 @@ const ServicesList = () => {
                 getUpdatedPlans?.map((plan, index) => (
                   <div key={index} className="allplan-card mb-3">
                     <div className="plan-header">
-                      <h2 className="allplan-card-title">{plan.PlanName}</h2>
-                      {isPlanPurchased(plan.PlanName) && (
+                      <h2 className="allplan-card-title">{plan.Planname}</h2>
+                      {isPlanPurchased(plan.Planname) && (
                         <BadgeCheck className="purchased-badge" />
                       )}
                     </div>
                     <h3 className="allplan-card-subtitle">
                       <strong className="card-text-Color">Price:</strong>
-                      <FaRupeeSign /> {plan.payment}
+                      <FaRupeeSign /> {(plan.SOPPrice || plan.payment)}
                     </h3>
                     <h3 className="allplan-card-subtitle">
                       Duration: {plan["Plan Validity"]}
@@ -426,20 +542,34 @@ const ServicesList = () => {
                           plan.Pattern?.join(", ")
                         )}
                       </p>
+                      {plan?.SOPPaperTrade > 0 && (
+                        <p className="allplan-card-subtitle">
+                          <strong className="card-text-Color">Paper Per Trade Price:</strong>
+                          <FaRupeeSign /> {plan?.SOPPaperTrade}
+                        </p>
+                      )}
+                      {plan?.SOPLiveTrade > 0 &&
+                        <p className="allplan-card-subtitle">
+                          <strong className="card-text-Color">Live Per Trade Price:</strong>
+                          <FaRupeeSign /> {plan?.SOPLiveTrade}
+                        </p>
+                      }
 
 
+
+                      {/* {console.log("isPlanPurchased.includes(planExpired)", planExpired)} */}
                     </div>
-                    {isPlanPurchased(plan.PlanName) ? (
+                    {(isPlanPurchased(plan?.Planname) && !planExpired?.includes(plan?.Planname)) ? (
                       <button
                         className="allplan-button buy-again"
-                        onClick={() => HandleBuyPlan(index, 0, false)}
+                        onClick={() => handleBuyAgain(index, false)}
                       >
                         🔄 Buy Again
                       </button>
                     ) : (
                       <button
                         className="allplan-button"
-                        onClick={() => HandleBuyPlan(index, 1, false)}
+                        onClick={() => handleBuyNow(index, false)}
                       >
                         🛒 Buy Now
                       </button>
@@ -458,13 +588,13 @@ const ServicesList = () => {
                 getUpdatedPlansCharting?.map((plan, index) => (
                   <div key={index} className="allplan-card mb-3">
                     <div className="plan-header">
-                      <h2 className="allplan-card-title">{plan.PlanName}</h2>
-                      {isPlanPurchased(plan.PlanName) && (
+                      <h2 className="allplan-card-title">{plan.Planname}</h2>
+                      {isPlanPurchased(plan.Planname) && (
                         <BadgeCheck className="purchased-badge" />
                       )}
                     </div>
                     <h3 className="allplan-card-subtitle">
-                      <FaRupeeSign /> {plan.payment}
+                      <FaRupeeSign /> {plan.ChartPerMonth}
                     </h3>
                     <h3 className="allplan-card-subtitle">
                       Duration: {plan["Plan Validity"]}
@@ -477,18 +607,44 @@ const ServicesList = () => {
                         <strong className="card-text-Color">Charting Signals:</strong>{" "}
                         {plan.ChartingSignal?.join(", ")}
                       </p>
+                      {plan.ChartLiveTrade !== 0 &&
+                        <p className="allplan-card-subtitle">
+                          <strong className="card-text-Color">Price Per Live Trade:</strong>
+                          <FaRupeeSign /> {plan.ChartLiveTrade}
+                        </p>}
+                      {plan.ChartPaperTrade !== 0 &&
+                        <p className="allplan-card-subtitle">
+                          <strong className="card-text-Color">Price Per Paper Trade:</strong>
+                          <FaRupeeSign /> {plan.ChartPaperTrade}
+                        </p>}
+
+                      <p className="allplan-card-subtitle">
+                        <strong className="card-text-Color">Fixed Per Month:</strong>
+                        <FaRupeeSign /> {plan.ChartPerMonth}
+                      </p>
+                      {plan?.Strategytag && (
+                        <p className="allplan-card-subtitle">
+                          <strong className="card-text-Color">Strategy Tag:</strong>
+                          <FaRupeeSign />{" "}
+                          {Array.isArray(plan.Strategytag)
+                            ? plan.Strategytag.join(", ")
+                            : plan.Strategytag}
+                        </p>
+                      )}
                     </div>
-                    {isPlanPurchased(plan.PlanName) ? (
+
+ 
+                    {isPlanPurchased(plan.Planname) ? (
                       <button
                         className="allplan-button buy-again"
-                        onClick={() => HandleBuyPlan(index, 0, true)}
+                        onClick={() => handleBuyAgain(index, true)}
                       >
                         🔄 Buy Again
                       </button>
                     ) : (
                       <button
                         className="allplan-button"
-                        onClick={() => HandleBuyPlan(index, 1, true)}
+                        onClick={() => handleBuyNow(index, true)}
                       >
                         🛒 Buy Now
                       </button>
@@ -500,6 +656,84 @@ const ServicesList = () => {
           </TabPanel>
         </TabContext>
       </Box>
+
+
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="coupon-modal-title"
+        aria-describedby="coupon-modal-description"
+      >
+        <Box sx={style}>
+          {/* Close Button */}
+          <Button
+            onClick={handleClose}
+            sx={{
+              position: "absolute",
+              top: 8,
+              right: 8,
+              minWidth: "auto",
+              padding: 2,
+              color: "#000",
+              backgroundColor: "transparent",
+              "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.1)" },
+              transition: "background-color 0.3s ease",
+            }}
+          >
+            ✖
+          </Button>
+          <Typography id="coupon-modal-title" variant="h6" component="h2" gutterBottom>
+            Enter Coupon Code
+          </Typography>
+
+          {/* Input + Verify Button */}
+          <Stack direction="row" spacing={2} alignItems="center" mb={1}>
+            <TextField
+              fullWidth
+              label="Coupon Code"
+              value={couponCode}
+              onChange={(e) => {
+                setCouponCode(e.target.value);
+                setVerificationMessage(""); // Clear message on input change
+                setIsContinueEnabled(false); // Disable "Continue" button on input change
+              }}
+            />
+            <Button variant="outlined" onClick={handleVerify}>
+              Verify
+            </Button>
+          </Stack>
+
+          {/* Verification Message */}
+          {verificationMessage && (
+            <Typography
+              variant="body2"
+              sx={{ color: verificationColor, marginTop: "8px" }}
+            >
+              {verificationMessage}
+            </Typography>
+          )}
+
+          {/* Continue Buttons */}
+          <Stack direction="column" spacing={2} mt={3}>
+            <button variant="text" className="btn border" onClick={handleContinueWithout}>
+              Continue without Coupon
+            </button>
+            <button
+              variant="contained"
+              className="addbtn"
+              onClick={handleContinue}
+              disabled={!isContinueEnabled} // Disable "Continue" button if not enabled
+              disableRipple={!isContinueEnabled}
+
+            >
+              Continue
+            </button>
+          </Stack>
+        </Box>
+      </Modal>
+
+
+
     </Content>
   );
 };

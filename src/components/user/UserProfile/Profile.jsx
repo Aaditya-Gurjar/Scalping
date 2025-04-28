@@ -1,159 +1,25 @@
-// import React, { useEffect, useState } from "react";
-// import { Container, Row, Col, Card, Modal } from "react-bootstrap";
-// import { FaPhone, FaEnvelope, FaUserTie, FaClipboardList, FaUsers, FaRegStar } from "react-icons/fa";
-// import "bootstrap/dist/css/bootstrap.min.css";
-// import { Get_Profile_Data } from "../../CommonAPI/User";
-
-// const ProfilePage = () => {
-//   const username = localStorage.getItem("name");
-//   const cachedProfile = localStorage.getItem("profileData");
-//   const [data, setData] = useState(cachedProfile ? JSON.parse(cachedProfile) : { loading: false, data: {} });
-//   console.log("data mai kya aa rha hai", data);
-
-//   // Fetch profile data with caching
-//   const getProfileData = async () => {
-//     if (!cachedProfile) {
-//       try {
-//         const requestData = { username };
-//         const response = await Get_Profile_Data(requestData);
-//         console.log("response", response);
-
-//         if (response.Status) {
-//           localStorage.setItem("expire", "false");
-//           localStorage.setItem("profileData", JSON.stringify(response?.Data[0])); // Cache data
-//           setData({ loading: true, data: response?.Data[0] });
-//         } else {
-//           if (response.message === "Client Expired") {
-//             localStorage.setItem("expire", "true");
-//           }
-//           setData({ loading: true, data: {} });
-//         }
-//       } catch (error) {
-//         console.error("Error fetching profile data:", error);
-//       }
-//     }
-//   };
-
-//   useEffect(() => {
-//     getProfileData();
-//     console.log("getProfileData", getProfileData());
-
-//   }, []);
-
-//   return (
-//     <>
-//       <Container style={{ paddingTop: "10%" }}>
-//         <Row className="justify-content-center">
-//           <Col xs={12} sm={10} md={8} lg={6}>
-//             <Card >
-//               <Card.Body className="p-4">
-//                 {/* Profile Header */}
-//                 <div className="text-center mb-4">
-//                   <div className="avatar-container" >
-//                     <img
-//                       src={"/assets/images/user/1.jpg"}
-//                       alt="Profile Avatar"
-//                       className="profile-avatar"
-//                       style={{ width: "100px", height: "100px", borderRadius: "50%", cursor: "pointer" }}
-//                     />
-//                   </div>
-//                   <h3 className="mt-3 text-gradient">{username}</h3>
-//                 </div>
-
-//                 {/* Info Grid */}
-//                 <Row className="g-3">
-//                   {[
-//                     // { icon: <FaPhone />, text: data?.data?.Mobile_No || "-", color: "#4e54c8" },
-//                     // { icon: <FaEnvelope />, text: data?.data?.EmailId || "-", color: "#8f94fb" },
-//                     // { icon: <FaUserTie />, text: `Broker: ${data?.data?.BrokerName || "-"}`, color: "#00b4d8" },
-//                     // { icon: <FaClipboardList />, text: `Scripts: ${data?.data?.NumberofScript || "-"}`, color: "#00f5d4" },
-//                     // { icon: <FaUsers />, text: data?.data?.Group?.length ? data?.data?.Group.join(", ") : "No Group Available", color: "#9d4edd" },
-//                     // { icon: <FaRegStar />, text: data?.data?.Planname?.length ? data?.data?.Planname.join(", ") : "No Plan Available", color: "#ff9e00" },
-
-//                     { icon: <FaPhone />, text: data?.Mobile_No || "-", color: "#4e54c8" },
-//                     { icon: <FaEnvelope />, text: data?.EmailId || "-", color: "#8f94fb" },
-//                     { icon: <FaUserTie />, text: `Broker: ${data?.BrokerName || "-"}`, color: "#00b4d8" },
-//                     { icon: <FaClipboardList />, text: `Scripts: ${data?.NumberofScript || "-"}`, color: "#00f5d4" },
-//                     { icon: <FaUsers />, text: data?.Group?.length ? data?.Group.join(", ") : "No Group Available", color: "#9d4edd" },
-
-//                     {
-//                       icon: <FaRegStar />,
-//                       text: data?.Planname?.length
-//                         ? (
-//                           <>
-//                             {data.Planname.slice(0, 2).join(", ")}
-//                             {data.Planname.length > 2 && (
-//                               <span
-//                                 onClick={() => alert(data.Planname.join(", "))}
-//                                 style={{ color: "blue", cursor: "pointer" }}
-//                               >
-//                                 ...
-//                               </span>
-//                             )}
-//                           </>
-//                         )
-//                         : "No Plan Available",
-//                       color: "#ff9e00"
-//                     }
-
-//                   ].map((item, index) => (
-//                     <Col xs={12} sm={6} key={index}>
-//                       <Card className="info-card hover-transform" style={{ "--hover-color": item.color }}>
-//                         <Card.Body className="d-flex align-items-center">
-//                           <span className="icon-wrapper me-3" style={{ color: item.color }}>
-//                             {item.icon}
-//                           </span>
-//                           <span>{item.text}</span>
-//                         </Card.Body>
-//                       </Card>
-//                     </Col>
-//                   ))}
-//                 </Row>
-//               </Card.Body>
-//             </Card>
-//           </Col>
-//         </Row>
-//       </Container>
-
-//     </>
-//   );
-// };
-
-// export default ProfilePage;
-
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Card } from "react-bootstrap";
-import {
-  FaPhone,
-  FaEnvelope,
-  FaUserTie,
-  FaClipboardList,
-  FaUsers,
-  FaRegStar,
-} from "react-icons/fa";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Get_Profile_Data } from "../../CommonAPI/User";
+import { Container, Grid, Card, Typography, Box, Button } from "@mui/material";
+import { FaPhone, FaEnvelope, FaUserTie, FaClipboardList, FaUsers, FaRegStar } from "react-icons/fa";
+import { Get_Profile_Data, reGenerateKeyApi } from "../../CommonAPI/User";
+import Content from "../../../ExtraComponent/Content";
+import Swal from "sweetalert2"; // Import SweetAlert
 
 const ProfilePage = () => {
   const username = localStorage.getItem("name");
 
-  // ✅ Initialize state without using localStorage for first render
   const [data, setData] = useState({ loading: true, profile: {} });
+  const [showMore, setShowMore] = useState(false); // State to toggle "Show More"
 
-  // ✅ Fetch profile data on component mount
   useEffect(() => {
     const getProfileData = async () => {
       try {
         const requestData = { username };
         const response = await Get_Profile_Data(requestData);
-        console.log("Profile response:", response);
 
         if (response.Status) {
           localStorage.setItem("expire", "false");
-          localStorage.setItem(
-            "profileData",
-            JSON.stringify(response?.Data[0])
-          ); // Cache data
+          localStorage.setItem("profileData", JSON.stringify(response?.Data[0]));
           setData({ loading: false, profile: response?.Data[0] });
         } else {
           if (response.message === "Client Expired") {
@@ -168,106 +34,98 @@ const ProfilePage = () => {
     };
 
     getProfileData();
-  }, []); // ✅ Runs once on mount
+  }, []);
 
-  // ✅ Destructure profile data for cleaner code
-  const { Mobile_No, EmailId, BrokerName, NumberofScript, Group, Planname } =
-    data.profile;
+  const regenerateKey = async () => {
+    try {
+      const data = { Username: username };
+      const res = await reGenerateKeyApi(data);
+      console.log("Response from reGenerateKeyApi:", res);
+
+      if (res.Status) {
+        Swal.fire({
+          icon: "success",
+          title: "Pin Regenerated Successfully",
+          text: "The new pin has been sent to your registered email.",
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Failed to regenerate the pin. Please try again.",
+        });
+      }
+    } catch (error) {
+      console.error("Error regenerating key:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "An unexpected error occurred. Please try again later.",
+      });
+    }
+  };
+
+  const { Mobile_No, EmailId, BrokerName, NumberofScript, Group, ActivePlan } = data.profile;
+
+  const infoItems = [
+    { icon: <FaPhone />, label: "Phone", value: Mobile_No || "-" },
+    { icon: <FaEnvelope />, label: "Email", value: EmailId || "-" },
+    { icon: <FaUserTie />, label: "Broker", value: BrokerName || "-" },
+    { icon: <FaClipboardList />, label: "Scripts", value: NumberofScript || "-" },
+    { icon: <FaUsers />, label: "Group", value: Group?.length ? Group.join(", ") : "No Group Available" },
+    {
+      icon: <FaRegStar />,
+      label: "Active Plan",
+      value: ActivePlan?.length ? ActivePlan.join(", ") : "No Plan Available",
+    },
+  ];
 
   return (
-    <Container style={{ paddingTop: "5%" }}>
-      <Row className="justify-content-center">
-        <Col xs={12} sm={10} md={8} lg={6}>
-          <Card>
-            <Card.Body className="p-4 profile-card">
-              {/* Profile Header */}
-              <div className="text-center mb-4">
-                <div className="avatar-container">
-                  <img
-                    src={"/assets/images/user/1.jpg"}
-                    alt="Profile Avatar"
-                    className="profile-avatar"
-                    style={{
-                      width: "100px",
-                      height: "100px",
-                      borderRadius: "50%",
-                      cursor: "pointer",
-                    }}
-                  />
-                </div>
-                <h3 className="mt-3 text-gradient">{username}</h3>
-              </div>
-
-              {/* Profile Data Grid */}
-              <Row className="g-3">
-                {[
-                  {
-                    icon: <FaPhone />,
-                    text: Mobile_No || "-",
-                    color: "#4e54c8",
-                  },
-                  {
-                    icon: <FaEnvelope />,
-                    text: EmailId || "-",
-                    color: "#8f94fb",
-                  },
-                  {
-                    icon: <FaUserTie />,
-                    text: `Broker: ${BrokerName || "-"}`,
-                    color: "#00b4d8",
-                  },
-                  {
-                    icon: <FaClipboardList />,
-                    text: `Scripts: ${NumberofScript || "-"}`,
-                    color: "#00f5d4",
-                  },
-                  {
-                    icon: <FaUsers />,
-                    text: Group?.length
-                      ? Group.join(", ")
-                      : "No Group Available",
-                    color: "#9d4edd",
-                  },
-                  {
-                    icon: <FaRegStar />,
-                    text: Planname?.length ? (
-                      <>
-                        {Planname.slice(0, 2).join(", ")}
-                        {Planname.length > 2 && (
-                          <span
-                            onClick={() => alert(Planname.join(", "))}
-                            style={{ color: "blue", cursor: "pointer" }}>
-                            ...
-                          </span>
-                        )}
-                      </>
-                    ) : (
-                      "No Plan Available"
-                    ),
-                    color: "#ff9e00",
-                  },
-                ].map((item, index) => (
-                  <Col xs={12} sm={6} key={index}>
+    <Content Page_title={"📄 All Strategy"} button_status={false} backbutton_status={true}>
+      <Container sx={{ paddingTop: "5%", maxWidth: "1200px", color: "var(--text-color)" }}>
+        <Grid container justifyContent="center">
+          <Grid item xs={12}>
+            <Card className="card-bg-color" sx={{ padding: 4, borderRadius: 2 }}>
+              <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
+                <Typography variant="h4" className="card-text-Color" sx={{ fontWeight: "bold" }}>
+                  {username}
+                </Typography>
+                <button className="addbtn" style={{ marginLeft: "auto" }} onClick={regenerateKey}>
+                  Re-Generate Key
+                </button>
+              </Box>
+              <Grid container spacing={3}>
+                {infoItems.map((item, index) => (
+                  <Grid item xs={12} sm={6} md={4} key={index}>
                     <Card
-                      className="info-card hover-transform"
-                      style={{ "--hover-color": item.color }}>
-                      <Card.Body className="d-flex align-items-center">
-                        <span
-                          className="icon-wrapper me-3"
-                          style={{ color: item.color }}>
-                          {item.icon}
-                        </span>
-                        <span>{item.text}</span>
-                      </Card.Body>
+                      className="card-bg-color"
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        padding: 2,
+                        borderRadius: 2,
+                        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+                      }}>
+                      <Box sx={{ fontSize: 24, marginRight: 2 }} className="card-text-Color">
+                        {item.icon}
+                      </Box>
+                      <Box>
+                        <Typography variant="body2" className="card-text-Color" sx={{ fontWeight: "bold" }}>
+                          {item.label}
+                        </Typography>
+                        <Typography variant="body1" className="card-text-Color">
+                          {item.value}
+                        </Typography>
+                      </Box>
                     </Card>
-                  </Col>
+                  </Grid>
                 ))}
-              </Row>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+              </Grid>
+            </Card>
+          </Grid>
+        </Grid>
+      </Container>
+    </Content>
   );
 };
 

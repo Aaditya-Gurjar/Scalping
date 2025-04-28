@@ -115,9 +115,9 @@ const Update_Broker_Key = ({ closeModal, isVisible, Role }) => {
             const response = await UpdateBrokerData(req);
             if (response.Status) {
                 Swal.fire({
- background: "#1a1e23 ",
- backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                    background: "#1a1e23 ",
+                    backdrop: "#121010ba",
+                    confirmButtonColor: "#1ccc8a",
                     title: 'Success!',
                     text: 'Broker key updated successfully.',
                     icon: 'success',
@@ -128,9 +128,9 @@ confirmButtonColor: "#1ccc8a",
                 });
             } else {
                 Swal.fire({
- background: "#1a1e23 ",
- backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                    background: "#1a1e23 ",
+                    backdrop: "#121010ba",
+                    confirmButtonColor: "#1ccc8a",
                     title: 'Error!',
                     text: 'Failed to update broker key.',
                     icon: 'error',
@@ -200,9 +200,9 @@ confirmButtonColor: "#1ccc8a",
                     setUpDateData({ data: response.Data });
 
                     Swal.fire({
- background: "#1a1e23 ",
- backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Updated successfully!",
                         text: "Broker Credential Updated successfully!",
                         icon: "success",
@@ -216,9 +216,9 @@ confirmButtonColor: "#1ccc8a",
                 else {
 
                     Swal.fire({
- background: "#1a1e23 ",
- backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Error",
                         text: response.message,
                         icon: "error",
@@ -294,17 +294,19 @@ confirmButtonColor: "#1ccc8a",
     const fields = [
         {
             name: "username",
-            label: formik.values.BrokerName.toUpperCase() === "ALICEBLUE" ? "Username " :
+            label: formik.values.BrokerName.toUpperCase() === "ALICEBLUE" ? "User ID " :
                 formik.values.BrokerName.toUpperCase() === "5PAISA" ? "App Name" :
                     formik.values.BrokerName.toUpperCase() === "ZEBULL" ? "Username" :
                         formik.values.BrokerName.toUpperCase() === "MANDOT" ? "Username" :
                             formik.values.BrokerName.toUpperCase() === "INDIRA" ? "Username" :
                                 formik.values.BrokerName.toUpperCase() === "KOTAK" ? "User ID (Received in Email) " :
                                     formik.values.BrokerName.toUpperCase() === "MARKETHUB" ? "User ID" :
+                                    formik.values.BrokerName.toUpperCase() === "MARKETHUBMM" ? "Client ID" :
                                         "Username",
             showWhen: (values) =>
                 values.BrokerName.toUpperCase() === "ALICEBLUE" ||
                 values.BrokerName.toUpperCase() === "MARKETHUB" ||
+                values.BrokerName.toUpperCase() === "MARKETHUBMM" ||
                 values.BrokerName.toUpperCase() === "5PAISA" ||
                 values.BrokerName.toUpperCase() === "ZEBULL" ||
                 values.BrokerName.toUpperCase() === "MANDOT" ||
@@ -318,7 +320,7 @@ confirmButtonColor: "#1ccc8a",
         {
             name: "api_key",
             label: formik.values.BrokerName.toUpperCase() === "ANGEL" ? "App Api Key" :
-                formik.values.BrokerName.toUpperCase() === "ALICEBLUE" ? "App Api Key" :
+                formik.values.BrokerName.toUpperCase() === "ALICEBLUE" ? "API Key" :
                     formik.values.BrokerName.toUpperCase() === "ICICI" ? "App Api Key" :
                         formik.values.BrokerName.toUpperCase() === "UPSTOX" ? "App Api Key" :
                             formik.values.BrokerName.toUpperCase() === "5PAISA" ? "User ID" :
@@ -359,12 +361,14 @@ confirmButtonColor: "#1ccc8a",
                                     formik.values.BrokerName.toUpperCase() === "INDIRA" ? "User Password" :
                                         formik.values.BrokerName.toUpperCase() === "KOTAK" ? "Demat Password" :
                                             formik.values.BrokerName.toUpperCase() === "MARKETHUB" ? "Password" :
+                                              formik.values.BrokerName.toUpperCase() === "MARKETHUBMM" ? "Password" :
                                                 "Mobile No.",
             showWhen: (values) =>
                 values.BrokerName.toUpperCase() === "UPSTOX" ||
                 values.BrokerName.toUpperCase() === "5PAISA" ||
                 values.BrokerName.toUpperCase() === "MASTERTRUST" ||
                 values.BrokerName.toUpperCase() === "MARKETHUB" ||
+                values.BrokerName.toUpperCase() === "MARKETHUBMM" ||
                 values.BrokerName.toUpperCase() === "FYERS" ||
                 values.BrokerName.toUpperCase() === "ZEBULL" ||
                 values.BrokerName.toUpperCase() === "KOTAK" ||
@@ -412,12 +416,14 @@ confirmButtonColor: "#1ccc8a",
                                         formik.values.BrokerName.toUpperCase() === "INDIRA" ? "Mobile No." :
                                             formik.values.BrokerName.toUpperCase() === "KOTAK" ? "Consumer Secret Key" :
                                                 formik.values.BrokerName.toUpperCase() === "MARKETHUB" ? "Verification Code" :
+                                                    formik.values.BrokerName.toUpperCase() === "MARKETHUBMM" ? "Verification Code":
                                                     "Mobile No.",
             showWhen: (values) => values.BrokerName.toUpperCase() === "ICICI" ||
                 values.BrokerName.toUpperCase() === "UPSTOX" ||
                 values.BrokerName.toUpperCase() === "5PAISA" ||
                 values.BrokerName.toUpperCase() === "MASTERTRUST" ||
                 values.BrokerName.toUpperCase() === "MARKETHUB" ||
+                values.BrokerName.toUpperCase() === "MARKETHUBMM" ||
                 values.BrokerName.toUpperCase() === "ZEBULL" ||
                 values.BrokerName.toUpperCase() === "KOTAK" ||
                 values.BrokerName.toUpperCase() === "MANDOT" ||
@@ -447,8 +453,8 @@ confirmButtonColor: "#1ccc8a",
                 <div className="modal show setApi" id="exampleModal" style={{ display: "block" }}>
                     <div className="modal-dialog">
                         <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title" id="exampleModalLabel">
+                            <div className="modal-header card-bg-color">
+                                <h5 className="modal-title card-text-Color" id="exampleModalLabel">
                                     Update Broker Key : - {userDetails.data && userDetails.data.BrokerName}
                                 </h5>
 

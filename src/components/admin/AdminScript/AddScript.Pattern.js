@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 import { useState, useEffect } from "react";
 import Swal from 'sweetalert2';
 import { AddAdminScript, GET_EXPIRY_DATE, Get_StrikePrice, Get_Symbol, Get_Pattern_Time_Frame, Get_Pattern_Charting, Get_Pattern_Name, GetExchange } from '../../CommonAPI/Admin'
+import { text } from "../../../ExtraComponent/IconTexts";
 
 const AddClient = () => {
 
@@ -191,7 +192,14 @@ const AddClient = () => {
                 ExitDay: values.ExitDay,
                 FixedSM: "",
                 TType: values.TType,
-                expirydata1: values.Exchange == "NSE" ? "-" : values.expirydata1,
+                // expirydata1: values.Exchange == "NSE" ? "-" : values.expirydata1,
+                expirydata1: 
+                  values.expirydata1 === "Monthly"
+                    ? getExpiryDate?.data?.[0]
+                    : values.expirydata1 === "Next_Month"
+                      ? getExpiryDate?.data?.[1]
+                      : values.expirydata1 || "-", // Ensure a fallback value is set
+
                 Expirytype: "",
                 Striketype: "",
                 DepthofStrike: 0,
@@ -395,10 +403,22 @@ const AddClient = () => {
             name: "expirydata1",
             label: "Expiry Date",
             type: "select",
-            options: getExpiryDate && getExpiryDate.data.map((item) => ({
+            options: formik.values.Exchange == "NFO" &&
+            (formik.values.Instrument == "FUTIDX" ||
+                formik.values.Instrument == "FUTSTK")
+            ? [
+                { label: "Monthly", value: "Monthly" },
+                { label: "Next Month", value: "Next_Month" },
+            ]
+            : getExpiryDate &&
+            getExpiryDate.data.map((item) => ({
                 label: item,
-                value: item
+                value: item,
             })),
+            // options: getExpiryDate && getExpiryDate.data.map((item) => ({
+            //     label: item,
+            //     value: item
+            // })),
             showWhen: (values) => values.Exchange === "NFO" || values.Exchange === "CDS" || values.Exchange === "MCX",
             label_size: 12,
             headingtype: 1,
@@ -492,6 +512,7 @@ const AddClient = () => {
             headingtype: 4,
             col_size: 4,
             disable: false,
+            icontext: text.MeasurementType,
         },
 
         {

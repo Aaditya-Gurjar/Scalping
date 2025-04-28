@@ -1,10 +1,12 @@
 import { useLocation, useNavigate } from "react-router-dom"
-import AddForm from "../../../ExtraComponent/FormData";
+import AddForm from "../../../ExtraComponent/FormData2";
 import { useFormik } from "formik";
 import { useState, useEffect } from "react";
 import Swal from 'sweetalert2';
 import { GET_EXPIRY_DATE, Get_StrikePrice, Get_Symbol, Get_Pattern_Time_Frame, Get_Pattern_Charting, Get_Pattern_Name, GetExchange } from '../../CommonAPI/Admin'
 import { AddScript } from '../../CommonAPI/User'
+import { text } from "../../../ExtraComponent/IconTexts";
+import Content from "../../../ExtraComponent/Content";
 
 const AddClient = () => {
     const location = useLocation()
@@ -112,6 +114,10 @@ const AddClient = () => {
             quantityselection: "",
             quantityvalue: 0.0,
             targetselection: "",
+            Profit: 0,
+            Loss: 0,
+            WorkingDay: [],
+            Planname:""
         },
 
         validate: (values) => {
@@ -189,6 +195,28 @@ const AddClient = () => {
             if (!values.TStype && values.Strategy != 'Fixed Price') {
                 errors.TStype = "Please Select Measurement Type.";
             }
+            if (!values.WorkingDay?.length > 0) {
+                errors.WorkingDay = "Please select Working day";
+              }
+              if (
+                (values.Loss === undefined ||
+                  values.Loss === null ||
+                  values.Loss === "") &&
+                values.Strategy == "Multi_Conditional" &&
+                values.FixedSM == "Multiple"
+              ) {
+                errors.Loss = "Please Enter Maximum Loss";
+              }
+        
+              if (
+                (values.Profit === undefined ||
+                  values.Profit === null ||
+                  values.Profit === "") &&
+                values.Strategy == "Multi_Conditional" &&
+                values.FixedSM == "Multiple"
+              ) {
+                errors.Profit = "Please Enter Maximum Loss";
+              }
             // ScrollToViewFirstError(errors)
             return errors;
         },
@@ -252,12 +280,20 @@ const AddClient = () => {
                 quantityselection: "",
                 quantityvalue: 0.0,
                 targetselection: "",
+                WorkingDay: values?.WorkingDay?.map((item) => item?.value || item),
+                Loss:  Number(values.Loss) || 0, 
+                Profit:  Number(values.Profit)|| 0,
+                Planname: location?.state?.data?.scriptType?.data?.find(
+                    (item) => item.EndDate == getEndData(formik.values.Strategy)
+                  )?.Planname,
             }
 
+             
+             
             if (values.EntryTime >= values.ExitTime) {
                 return SweentAlertFun("Exit Time should be greater than Entry Time")
             }
-
+           
             await AddScript(req)
                 .then((response) => {
                     if (response.Status) {
@@ -271,6 +307,8 @@ const AddClient = () => {
                             timer: 1500,
                             timerProgressBar: true
                         });
+              sessionStorage.setItem("addScriptTab", "Pattern"); 
+
                         setTimeout(() => {
                             navigate('/user/dashboard')
                         }, 1500)
@@ -338,8 +376,7 @@ const AddClient = () => {
 
             })
     }
-    console.log("getAllExchange", getAllExchange)
-
+    
     const SymbolSelectionArr = [
         {
             name: "Exchange",
@@ -538,6 +575,7 @@ const AddClient = () => {
             headingtype: 4,
             col_size: 4,
             disable: false,
+            icontext: text.MeasurementType
         },
 
         {
@@ -584,7 +622,53 @@ const AddClient = () => {
             col_size: 6,
             disable: false,
             hiding: false,
+            icontext: text.TradeCountPattern
         },
+
+        {
+              name: "WorkingDay",
+              label: "Working Day",
+              type: "multiselect",
+              options: [
+        
+                // { label: "Select All", value: "all" },
+                { label: "Monday", value: "Monday" },
+                { label: "Tuesday", value: "Tuesday" },
+                { label: "Wednesday", value: "Wednesday" },
+                { label: "Thursday", value: "Thursday" },
+                { label: "Friday", value: "Friday" },
+                { label: "Saturday", value: "Saturday" },
+              ],
+              label_size: 12,
+              col_size: 3,
+              headingtype: 4,
+              disable: false,
+              col_size: formik.values.TargetExit == "true" || formik.values.FixedSM != "Multiple" ? 4 : 6,
+              iconText: text.Increment_Type,
+              hiding: false,
+            },
+            {
+              name: "Profit",
+              label: "Max Profit (in price) ",
+              type: "text3",
+              label_size: 12,
+              // col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
+              col_size: 4,
+              headingtype: 4, 
+              disable: false,
+              hiding: false,
+            },
+        
+            {
+              name: "Loss",
+              label: "Max Loss (in price)",
+              type: "text3",
+              label_size: 12,
+              col_size: 4,
+              headingtype: 4,
+              disable: false,
+              hiding: false,
+            },
 
 
     ]
@@ -742,7 +826,6 @@ const AddClient = () => {
         getSymbol()
     }, [formik.values.Instrument, formik.values.Exchange])
 
-
     const getStrikePrice = async () => {
         if (formik.values.Instrument && formik.values.Exchange && formik.values.Symbol) {
 
@@ -768,7 +851,6 @@ const AddClient = () => {
     useEffect(() => {
         getStrikePrice()
     }, [formik.values.Instrument, formik.values.Exchange, formik.values.Symbol])
-
 
     const getExpiry = async () => {
         if (formik.values.Symbol) {
@@ -893,14 +975,21 @@ const AddClient = () => {
 
     return (
         <>
-            <AddForm
-                fields={fields.filter((field) => !field.showWhen || field.showWhen(formik.values))}
-                page_title="Add Script - Pattern"
-                btn_name="Add"
-                btn_name1="Cancel"
-                formik={formik}
-                btn_name1_route={"/user/dashboard"}
-            />
+            <Content
+                Page_title={"📌 Add Script - Option Strategy"}
+                button_status={false}
+                backbutton_status={false}
+            >
+                <AddForm
+                    fields={fields.filter((field) => !field.showWhen || field.showWhen(formik.values))}
+                    page_title="Add Script - Pattern"
+                    btn_name="Add"
+                    btn_name1="Cancel"
+                    formik={formik}
+                    btn_name1_route={"/user/dashboard"}
+                />
+
+            </Content>
         </>
     );
 };

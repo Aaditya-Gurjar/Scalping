@@ -1,223 +1,13 @@
-// import React, { useEffect, useState } from 'react';
-// import axios from 'axios';
-// import Swal from 'sweetalert2'
-// import { AddPlan, GetAllStratgy } from '../../CommonAPI/Admin'
-// import AddForm from "../../../ExtraComponent/FormData";
-// import { useFormik } from "formik";
-// import DropdownMultiselect from "react-multiselect-dropdown-bootstrap";
-// import { useNavigate } from 'react-router-dom';
-
-// const AddPlanPage = () => {
-//     const navigate = useNavigate()
-//     const [selecteOptions, setSelectedOptions] = useState([])
-//     const [selecteScalping, setSelecteScalping] = useState([])
-//     const [selectePattern, setSelectePattern] = useState([])
-//     const [scalpingStratgy, setScalpingStratgy] = useState([])
-//     const [OptionStratgy, setOptionStratgy] = useState([])
-//     const [PatternStratgy, setPatternStratgy] = useState([])
-
-//     useEffect(() => {
-//         GetScalpingStratgy()
-//     }, [])
-
-//     const GetScalpingStratgy = async () => {
-//         await GetAllStratgy()
-//             .then((response) => {
-//                 if (response.Status) {
-//                     setScalpingStratgy(Object.values(response.Scalping))
-//                     setPatternStratgy(Object.values(response.Pattern))
-//                     setOptionStratgy(Object.values(response.Option))
-
-//                 }
-//                 else {
-//                     setScalpingStratgy([])
-//                 }
-//             })
-//             .catch((err) => {
-//                 console.log("Error in getting the Scalping Stratgy", err)
-//             })
-//     }
-
-//     const formik = useFormik({
-//         initialValues: {
-//             NumberofScript: "",
-//             payment: "",
-//             planname: "",
-//             Duration: "",
-//         },
-//         validate: (values) => {
-//             let errors = {};
-//             if (!values.NumberofScript) {
-//                 errors.NumberofScript = "Please Enter Number of Script"
-//             }
-//             if (!values.payment) {
-//                 errors.payment = "Please Enter Payment"
-//             }
-//             if (!values.planname) {
-//                 errors.planname = "Please Enter Plan Name"
-//             }
-//             if (!values.Duration) {
-//                 errors.Duration = "Please Select Duration"
-//             }
-//             return errors;
-//         },
-//         onSubmit: async (values) => {
-//             const req = {
-//                 NumberofScript: values.NumberofScript,
-//                 payment: values.payment,
-//                 planname: values.planname,
-//                 Duration: values.Duration,
-//                 Scalping: selecteScalping,
-//                 Option: selecteOptions,
-//                 PatternS: selectePattern
-//             }
-//             await AddPlan(req)
-//                 .then((response) => {
-//                     if (response.Status) {
-//                         Swal.fire({
-
-//                             title: "Success!",
-//                             text: response.message,
-//                             icon: "success",
-//                             timer: 1500,
-//                             timerProgressBar: true
-//                         });
-//                         setTimeout(() => {
-//                             navigate('/admin/allplan')
-//                         }, 1500)
-//                     }
-//                     else {
-//                         Swal.fire({
-
-//                             title: "Error!",
-//                             text: response.message,
-//                             icon: "error",
-//                             timer: 1500,
-//                             timerProgressBar: true
-//                         });
-//                     }
-//                 })
-//                 .catch((err) => {
-//                     console.log("Error in adding the new user", err)
-//                 })
-//         },
-//     });
-
-//     const fields = [
-//         {
-//             name: "NumberofScript",
-//             label: "Number of Script",
-//             type: "text3",
-//             label_size: 12,
-//             hiding: false,
-//             col_size: 6,
-//             disable: false,
-//         },
-//         {
-//             name: "payment",
-//             label: "Payment",
-//             type: "text3",
-//             label_size: 12,
-//             hiding: false,
-//             col_size: 6,
-//             disable: false,
-//         },
-//         {
-//             name: "planname",
-//             label: "Plan Name",
-//             type: "text",
-//             label_size: 12,
-//             hiding: false,
-//             col_size: 6,
-//             disable: false,
-//         }, 
-//         {
-//             name: "Duration",
-//             label: "Duration",
-//             type: "select1",
-//             options: [
-//                 { value: "One_Month", label: "One Month" },
-//                 { value: "Quarterly", label: "Quarterly" },
-//                 { value: "Half_Yearly", label: "Half Yearly" },
-//                 { value: "Yearly", label: "Yearly" },
-//             ],
-//             label_size: 12,
-//             hiding: false,
-//             col_size: 6,
-//             disable: false,
-//         },
-//     ];
-
-//     return (
-//         <>
-//             <AddForm
-//                 fields={fields.filter(
-//                     (field) => !field.showWhen || field.showWhen(formik.values)
-//                 )}
-//                 page_title="Add Plan"
-//                 btn_name="Add"
-//                 btn_name1="Cancel"
-//                 formik={formik}
-//                 btn_name1_route={"/admin/clientservice"}
-//                 additional_field={
-//                     <>
-//                         {scalpingStratgy && scalpingStratgy.length > 0 && (
-//                             <div className="col-lg-6 mt-2 ">
-//                                 <h6>Scalping</h6>
-//                                 <DropdownMultiselect
-//                                     options={scalpingStratgy}
-//                                     name="groupName"
-//                                     handleOnChange={(selected) => {
-//                                         setSelecteScalping(selected);
-//                                     }}
-//                                 />
-//                             </div>
-//                         )}
-
-//                         {OptionStratgy && OptionStratgy.length > 0 && (
-//                             <div className="col-lg-6 mt-2 ">
-//                                 <h6>Option</h6>
-//                                 <DropdownMultiselect
-//                                     options={OptionStratgy}
-//                                     name="groupName"
-//                                     handleOnChange={(selected) => {
-//                                         setSelectedOptions(selected);
-//                                     }}
-//                                 />
-//                             </div>
-//                         )}
-
-//                         {PatternStratgy && PatternStratgy.length > 0 && (
-//                             <div className="col-lg-6 mt-2  ">
-//                                 <h6>Patterm</h6>
-//                                 <DropdownMultiselect
-//                                     options={PatternStratgy}
-//                                     name="groupName"
-//                                     handleOnChange={(selected) => {
-//                                         setSelectePattern(selected);
-//                                     }}
-//                                 />
-//                             </div>
-
-//                         )}
-//                     </>
-//                 }
-//             />
-
-//         </>
-//     );
-// };
-
-// export default AddPlanPage;
-
-
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
-import { AddPlan, GetAllStratgy } from '../../CommonAPI/Admin';
+import { AddPlan, GetAllStratgy, getChartingStrategyTag } from '../../CommonAPI/Admin';
 import AddForm from "../../../ExtraComponent/FormData";
 import { useFormik } from "formik";
 import Select from 'react-select';
 import { useNavigate } from 'react-router-dom';
+import Content from '../../../ExtraComponent/Content';
+import { use } from 'react';
+
 
 // Custom multi-select component
 const CustomMultiSelect = ({ label, options, selected, onChange, disabled }) => {
@@ -231,6 +21,7 @@ const CustomMultiSelect = ({ label, options, selected, onChange, disabled }) => 
             zIndex: 9999,
         }),
     };
+
 
     return (
         <div className="col-lg-6">
@@ -254,14 +45,41 @@ const AddPlanPage = () => {
     const [selecteScalping, setSelecteScalping] = useState([]);
     const [selectePattern, setSelectePattern] = useState([]);
     const [selectedCharting, setSelectedCharting] = useState([]);
+    const [selectedStrategyTags, setSelectedStrategyTags] = useState([]); // State for selected strategy tags
 
     const [scalpingStratgy, setScalpingStratgy] = useState([]);
     const [OptionStratgy, setOptionStratgy] = useState([]);
     const [PatternStratgy, setPatternStratgy] = useState([]);
+    const [strategyTags, setStrategyTags] = useState([]); // State for strategy tag options
+    const adminPermission = localStorage.getItem("adminPermission");
+
+    const [planOptionArr, setPlanOptionArr] = useState([{ value: "Scalping", label: "SOP" }]);
+
+    useEffect(() => {
+        if (adminPermission.includes("ChartingPlatform")) {
+            setPlanOptionArr((prev) => [...prev, { value: "Charting", label: "Charting" }]);
+        }
+    }, []);
 
     useEffect(() => {
         GetScalpingStratgy();
+        fetchStrategyTags();
     }, []);
+
+    const fetchStrategyTags = async () => {
+        try {
+            const res = await getChartingStrategyTag();
+            if (res && res.data) {
+                const tags = res.data.map((tag) => ({
+                    value: tag.Strategytag,
+                    label: tag.Strategytag,
+                }));
+                setStrategyTags(tags); // Store fetched strategy tags in state
+            }
+        } catch (err) {
+            showError("Failed to fetch strategy tags");
+        }
+    };
 
     const GetScalpingStratgy = async () => {
         try {
@@ -290,20 +108,25 @@ const AddPlanPage = () => {
             timerProgressBar: true
         });
     };
+
     const formik = useFormik({
         initialValues: {
             NumberofScript: "",
-            payment: 0,
+            SOPPrice: 0,
             planname: "",
             Duration: "One_Month",
             PlanType: "Scalping",
-            Charting: []
+            SOPLiveTrade: 0,
+            SOPPaperTrade: 0,
+            Charting: [],
+            ChartPerMonth: "",
+            ChartPaperTrade: 0.0,
         },
         validate: (values) => {
             const errors = {};
             // if (!values.NumberofScript && formik.values.PlanType == "Scalping")
             //     errors.NumberofScript = "Please enter the number of scripts.";
-            // if (!values.payment) errors.payment = "Payment is required.";
+            // if (!values.SOPPrice) errors.SOPPrice = "SOPPrice is required.";
             // if (!values.planname) errors.planname = "Please provide a plan name.";
 
             if (!values.NumberofScript && formik.values.PlanType === "Scalping") {
@@ -312,11 +135,12 @@ const AddPlanPage = () => {
                 errors.NumberofScript = "Number of scripts cannot be zero.";
             }
 
-            if (!values.payment) {
-                errors.payment = "Payment is required.";
-            } else if (values.payment == 0) {
-                errors.payment = "Payment cannot be zero.";
+            if (!values.SOPPrice) {
+                errors.SOPPrice = "Payment is required.";
+            } else if (values.SOPPrice == 0) {
+                errors.SOPPrice = "Payment cannot be zero.";
             }
+
 
             if (!values.planname) {
                 errors.planname = "Please provide a plan name.";
@@ -324,27 +148,43 @@ const AddPlanPage = () => {
                 errors.planname = "Plan name should only contain alphabets (No numbers or special characters).";
             }
 
+            if (values.PlanType === "Charting" && (!values.Charting || values.Charting.length === 0)) {
+                errors.Charting = "Please select at least one Segment.";
+            }
 
 
             if (!values.Duration) errors.Duration = "Please select a plan duration.";
-            if (formik.values.PlanType == "Charting" && selectedCharting.length === 0)
-                errors.Charting = "Please select at least one Segment.";
-
+            
+            if(!values.ChartPaperTrade && formik.values.PlanType !== "Scalping"){
+                errors.ChartPaperTrade = "Please enter the Chart Paper Trade Amount.";
+            }
+  
             return errors;
+
         },
         onSubmit: async (values) => {
             if (formik.values.PlanType == "Scalping" && selecteScalping.length === 0 && selecteOptions.length === 0 && selectePattern.length === 0) {
-                showError("Error!", "Please select at least one strategy Either Scalping , Option , Pattern.");
+                showError("Error!", "Please select at least one strategy either Scalping, Option or Pattern.");
                 return;
             }
+          
             const req = {
-                ...values,
                 Scalping: selecteScalping.map((strategy) => strategy.value),
                 Option: selecteOptions.map((strategy) => strategy.value),
                 PatternS: selectePattern.map((strategy) => strategy.value),
-                Charting: selectedCharting.map((chart) => chart.value),
                 NumberofScript: formik.values.PlanType == "Scalping" ? values.NumberofScript : 0,
+                planname: values.planname,
+                Duration: values.Duration,
+                Charting: selectedCharting.map((chart) => chart.value),
+                Strategytag: selectedStrategyTags.map((tag) => tag.value), // Pass selected strategy tags
+                ...(formik.values.PlanType === "Scalping"
+                    ? { SOPPrice: values.SOPPrice, SOPLiveTrade: (values.SOPLiveTrade || 0) }
+                    : { ChartPerMonth: values.SOPPrice, SOPPrice: 0, ChartLiveTrade: (values.SOPLiveTrade || 0) }
+                ),
+                SOPPaperTrade: values.SOPPaperTrade || 0.0,
+                ChartPaperTrade: values.ChartPaperTrade || 0.0,
             };
+             
             try {
                 const response = await AddPlan(req);
                 if (response.Status) {
@@ -372,9 +212,11 @@ const AddPlanPage = () => {
 
     const handleChartingChange = (selected) => {
         setSelectedCharting(selected);
-        setSelecteOptions([]);
-        setSelecteScalping([]);
-        setSelectePattern([]);
+        formik.setFieldValue("Charting", selected);
+    };
+
+    const handleStrategyTagChange = (selected) => {
+        setSelectedStrategyTags(selected);
     };
 
     useEffect(() => {
@@ -400,7 +242,7 @@ const AddPlanPage = () => {
             name: "PlanType",
             label: "Plan Type",
             type: "select",
-            options: [{ value: "Scalping", label: "Scalping" }, { value: "Charting", label: "Charting" }],
+            options: planOptionArr,
             col_size: 6,
         },
         {
@@ -411,7 +253,7 @@ const AddPlanPage = () => {
             col_size: 6,
         },
         {
-            name: "payment",
+            name: "SOPPrice",
             label: "Payment",
             type: "text3",
             col_size: 6,
@@ -422,18 +264,6 @@ const AddPlanPage = () => {
             type: "text",
             col_size: 6,
         },
-        // {
-        //     name: "LiveTradeAccount",
-        //     label: "Live Trade Account",
-        //     type: "text",
-        //     col_size: 6,
-        // },
-        // {
-        //     name: "PaperTradeAccount",
-        //     label: "Paper Trade Account",
-        //     type: "text",
-        //     col_size: 6,
-        // },
         {
             name: "Duration",
             label: "Duration",
@@ -446,64 +276,112 @@ const AddPlanPage = () => {
             ],
             col_size: 6,
         },
+        {
+            name: "SOPLiveTrade",
+            label: "Live Trade Amount",
+            type: "text",
+            col_size: 6,
+        },
+        {
+            name: "SOPPaperTrade",
+            label: "Paper Trade Amount",
+            type: "text",
+            showWhen: () => formik.values.PlanType === "Scalping", // Removed unnecessary {}
+            col_size: 6,
+        },
+
+        {
+            name: "ChartPaperTrade",
+            label: "Paper Trade Amount",
+            type: "text",
+            showWhen: () => formik.values.PlanType !== "Scalping", 
+            col_size: 6,
+        },
+
+        
+
+
+
     ];
 
     return (
 
-        <AddForm
-            fields={fields.filter((field) => !field.showWhen || field.showWhen(formik.values))}
-            page_title="Add Plan"
-            btn_name="Add"
-            btn_name1="Cancel"
-            formik={formik}
-            btn_name1_route={"/admin/allplan"}
-            additional_field={
-                <>
-                    {formik.values.PlanType == "Charting" && (
-                        <>
+        <Content
+            Page_title={" ➕ Add Plan"}
+            button_status={false}
+            backbutton_status={false}
+        >
+
+
+            <AddForm
+                className="admin-add-btn"
+                fields={fields.filter((field) => !field.showWhen || field.showWhen(formik.values))}
+                btn_name="Add"
+                btn_name1="Cancel"
+                formik={formik}
+                btn_name1_route={"/admin/allplan"}
+                additional_field={
+                    <>
+                        {formik.values.PlanType == "Charting" && (
+                            <div className="row" style={{ width: "100%" }}>
+                                <div className="col-lg-12 dropdown-multi" style={{ width: '36vw' }}>
+
+                                    <CustomMultiSelect
+                                        label={<span className='card-text-Color'>Segment</span>}
+                                        options={[
+                                            { value: "Cash", label: "Cash" },
+                                            { value: "Future", label: "Future" },
+                                            { value: "Option", label: "Option" }
+                                        ]}
+                                        selected={selectedCharting}
+                                        onChange={handleChartingChange}
+                                    />
+                                    {formik.errors.Charting && (
+                                        <div className="text-danger mt-1 small">
+                                            {formik.errors.Charting}
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="col-lg-12 dropdwown-multi" style={{ width: "48%" }}>
+                                    <CustomMultiSelect
+                                        label={<span className='card-text-Color'>Strategy Tag</span>}
+                                        options={strategyTags} // Use dynamic strategy tags
+                                        selected={selectedStrategyTags}
+                                        onChange={handleStrategyTagChange}
+                                    />
+                                </div>
+                            </div>
+                        )}
+                        {formik.values.PlanType == "Scalping" && (
                             <CustomMultiSelect
-                                label={<span >Segment</span>}
-                                options={[
-                                    { value: "Cash", label: "Cash" },
-                                    { value: "Future", label: "Future" },
-                                    { value: "Option", label: "Option" }
-                                ]}
-                                selected={selectedCharting}
-                                onChange={handleChartingChange}
+                                label={<span className='card-text-Color' >Scalping</span>}
+                                options={scalpingStratgy.map(strategy => ({ value: strategy, label: strategy }))}
+                                selected={selecteScalping}
+                                onChange={(selected) => handleSelectChange("scalping", selected)}
                             />
-                            <div><h6 className="text-danger">{formik.errors.Charting}</h6></div>
-                        </>
-                    )}
+                        )}
 
-                    {formik.values.PlanType == "Scalping" && (
-                        <CustomMultiSelect
-                            label={<span >Scalping</span>}
-                            options={scalpingStratgy.map(strategy => ({ value: strategy, label: strategy }))}
-                            selected={selecteScalping}
-                            onChange={(selected) => handleSelectChange("scalping", selected)}
-                        />
-                    )}
+                        {formik.values.PlanType == "Scalping" && (
+                            <CustomMultiSelect
+                                label={<span className='card-text-Color' >Option</span>}
+                                options={OptionStratgy.map(strategy => ({ value: strategy, label: strategy }))}
+                                selected={selecteOptions}
+                                onChange={(selected) => handleSelectChange("option", selected)}
+                            />
+                        )}
 
-                    {formik.values.PlanType == "Scalping" && (
-                        <CustomMultiSelect
-                            label={<span >Option</span>}
-                            options={OptionStratgy.map(strategy => ({ value: strategy, label: strategy }))}
-                            selected={selecteOptions}
-                            onChange={(selected) => handleSelectChange("option", selected)}
-                        />
-                    )}
-
-                    {formik.values.PlanType == "Scalping" && (
-                        <CustomMultiSelect
-                            label={<span >Pattern</span>}
-                            options={PatternStratgy.map(strategy => ({ value: strategy, label: strategy }))}
-                            selected={selectePattern}
-                            onChange={(selected) => handleSelectChange("pattern", selected)}
-                        />
-                    )}
-                </>
-            }
-        />
+                        {formik.values.PlanType == "Scalping" && (
+                            <CustomMultiSelect
+                                label={<span className='card-text-Color'>Pattern</span>}
+                                options={PatternStratgy.map(strategy => ({ value: strategy, label: strategy }))}
+                                selected={selectePattern}
+                                onChange={(selected) => handleSelectChange("pattern", selected)}
+                            />
+                        )}
+                    </>
+                }
+            />
+        </Content>
     );
 };
 

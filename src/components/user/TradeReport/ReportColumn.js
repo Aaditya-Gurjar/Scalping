@@ -187,14 +187,7 @@ export const getColumns1 = () => [
         }
     },
 
-    {
-        name: "Instrument Type",
-        label: "Instrument Type",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
     {
         name: "Expirydate",
         label: "Expiry Date",
@@ -243,7 +236,7 @@ export const getColumns1 = () => [
     {
         name: "SL value",
         // label: "Re-entry",
-        label: "Re-entry",
+        label: "Stoploss",
         options: {
             filter: true,
             sort: true,
@@ -262,20 +255,13 @@ export const getColumns1 = () => [
     },
     {
         name: "Lot Size",
-        label: "LotSize",
+        label: "Lot",
         options: {
             filter: true,
             sort: true,
         }
     },
-    {
-        name: "Product Type",
-        label: "Product Type",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
     {
         name: "Entry Time",
         label: "Entry Time",
@@ -284,9 +270,19 @@ export const getColumns1 = () => [
             sort: true,
         }
     },
+
     {
         name: "Exit Time",
         label: "Exit Time",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+
+    {
+        name: "Product Type",
+        label: "Exit Day",
         options: {
             filter: true,
             sort: true,
@@ -352,7 +348,7 @@ export const getColumns1 = () => [
     },
     {
         name: "CEDepthLower",
-        label: "CEDepth Lower",
+        label: "CE Main Lower",
         options: {
             filter: true,
             sort: true,
@@ -360,23 +356,7 @@ export const getColumns1 = () => [
     },
     {
         name: "CEDepthHigher",
-        label: "CEDepth Higher",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "PEDepthLower",
-        label: "PEDepth Lower",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "PEDepthHigher",
-        label: "PEDepth Higher",
+        label: "CE Main Higher",
         options: {
             filter: true,
             sort: true,
@@ -384,7 +364,7 @@ export const getColumns1 = () => [
     },
     {
         name: "CEDeepLower",
-        label: "CEDeep Lower",
+        label: "CE Hedge Lower",
         options: {
             filter: true,
             sort: true,
@@ -392,15 +372,23 @@ export const getColumns1 = () => [
     },
     {
         name: "CEDeepHigher",
-        label: "CEDeep Higher",
+        label: "CE Hedge Higher",
         options: {
             filter: true,
             sort: true,
         }
     },
     {
-        name: "PEDeepHigher",
-        label: "PEDeep Higher",
+        name: "PEDepthLower",
+        label: "PE Main Lower",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "PEDepthHigher",
+        label: "PE Main Higher",
         options: {
             filter: true,
             sort: true,
@@ -408,25 +396,25 @@ export const getColumns1 = () => [
     },
     {
         name: "PEDeepLower",
-        label: "PEDeep Lower",
+        label: "PE Hedge Lower",
         options: {
             filter: true,
             sort: true,
         }
     },
+
     {
-        name: "GroupN",
-        label: "Unique Name",
+        name: "PEDeepHigher",
+        label: "PE Hedge Higher",
         options: {
             filter: true,
             sort: true,
-            customBodyRender: (value) => value ? value : "-"
         }
     },
 
     {
         name: "TradeCount",
-        label: "Trade Count",
+        label: "No. of Cycle",
         options: {
             filter: true,
             sort: true,
@@ -458,7 +446,7 @@ export const getColumns1 = () => [
                 return value;
             },
         },
-    }, 
+    },
 
 ]
 export const getColumns2 = () => [
@@ -478,8 +466,16 @@ export const getColumns2 = () => [
         },
     },
     {
-        name: "TradePattern",
-        label: "Pattern Type",
+        name: "Symbol",
+        label: "Symbol",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "TimeFrame",
+        label: "Time Frame",
         options: {
             filter: true,
             sort: true,
@@ -494,6 +490,23 @@ export const getColumns2 = () => [
         }
     },
     {
+        name: "TType",
+        label: "Transaction Type",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "TradePattern",
+        label: "Pattern Type",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+
+    {
         name: "Exchange",
         label: "Exchange",
         options: {
@@ -501,14 +514,7 @@ export const getColumns2 = () => [
             sort: true,
         }
     },
-    {
-        name: "Symbol",
-        label: "Symbol",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
     {
         name: "Token",
         label: "Token",
@@ -517,14 +523,7 @@ export const getColumns2 = () => [
             sort: true,
         }
     },
-    {
-        name: "TType",
-        label: "Trade Type",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
     {
         name: "TStype",
         label: "Measurement Type",
@@ -543,8 +542,7 @@ export const getColumns2 = () => [
     },
     {
         name: "SL value",
-        // label: "Re-entry",
-        label: "Re-entry",
+        label: "Stoploss",
         options: {
             filter: true,
             sort: true,
@@ -552,7 +550,7 @@ export const getColumns2 = () => [
     },
     {
         name: "Quantity",
-        label: "Quantity",
+        label: "Lot",
         options: {
             filter: true,
             sort: true,
@@ -575,14 +573,7 @@ export const getColumns2 = () => [
             sort: true,
         }
     },
-    {
-        name: "ExitDay",
-        label: "Exit Day",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
     {
         name: "EntryTime",
         label: "Entry Time",
@@ -599,15 +590,16 @@ export const getColumns2 = () => [
             sort: true,
         }
     },
-
     {
-        name: "TimeFrame",
-        label: "Time Frame",
+        name: "ExitDay",
+        label: "Exit Day",
         options: {
             filter: true,
             sort: true,
         }
     },
+
+
     {
         name: "SEDate",
         label: "SEDate",
@@ -649,6 +641,7 @@ export const getColumns9 = () => [
             }
         },
     },
+
     {
         name: "Symbol",
         label: "Symbol",
@@ -700,28 +693,14 @@ export const getColumns9 = () => [
     },
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    {
-        name: "ScalpType",
-        label: "ScalpType",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+    // {
+    //     name: "ScalpType",
+    //     label: "ScalpType",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
     {
         name: "Exchange",
         label: "Exchange",
@@ -758,14 +737,7 @@ export const getColumns9 = () => [
             sort: true,
         }
     },
-    {
-        name: "ExitDay",
-        label: "Exit Day",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
     {
         name: "EntryTime",
         label: "Entry Time",
@@ -777,6 +749,14 @@ export const getColumns9 = () => [
     {
         name: "ExitTime",
         label: "Exit Time",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "ExitDay",
+        label: "Exit Day",
         options: {
             filter: true,
             sort: true,
@@ -810,13 +790,23 @@ export const getColumns9 = () => [
         }
     },
     {
+        name: "TargetExit",
+        label: "Continue after cycle exit",
+        options: {
+            filter: true,
+            sort: true,
+            customBodyRender: (value) => value ? "true" : "false"
+        }
+    },
+    {
         name: "TradeCount",
-        label: "Trade Count",
+        label: "No. of Cycle",
         options: {
             filter: true,
             sort: true,
         }
     },
+
     {
         name: "StepUp",
         label: "Step Up",
@@ -845,7 +835,7 @@ export const getColumns9 = () => [
 
     {
         name: "Booking Point2",
-        label: "Booking Point2",
+        label: "Target 2",
         options: {
             filter: true,
             sort: true,
@@ -853,7 +843,7 @@ export const getColumns9 = () => [
     },
     {
         name: "Booking Point3",
-        label: "Booking Point3",
+        label: "Target 3",
         options: {
             filter: true,
             sort: true,
@@ -861,7 +851,7 @@ export const getColumns9 = () => [
     },
     {
         name: "Quantity2",
-        label: "Quantity2",
+        label: "Lot 2",
         options: {
             filter: true,
             sort: true,
@@ -869,7 +859,7 @@ export const getColumns9 = () => [
     },
     {
         name: "Quantity3",
-        label: "Quantity3",
+        label: "Lot 3",
         options: {
             filter: true,
             sort: true,
@@ -901,7 +891,7 @@ export const getColumns9 = () => [
                 return value;
             },
         },
-    }, 
+    },
     {
         name: "TStype",
         label: "Measurement Type",
@@ -910,23 +900,7 @@ export const getColumns9 = () => [
             sort: true,
         }
     },
-    {
-        name: "PositionType",
-        label: "Position Type",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Trading",
-        label: "Trading",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value) => value ? "true" : "false"
-        }
-    },
+
     {
         name: "Profit",
         label: "Profit",
@@ -943,33 +917,11 @@ export const getColumns9 = () => [
             sort: true,
         }
     },
-    {
-        name: "HoldExit",
-        label: "Hold / Exit",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Instrument Symbol",
-        label: "Instrument Symbol",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Username",
-        label: "Username",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
+
     {
         name: "EntryPrice",
-        label: "Entry Price",
+        label: "First Trade Lower Range",
         options: {
             filter: true,
             sort: true,
@@ -977,7 +929,7 @@ export const getColumns9 = () => [
     },
     {
         name: "EntryRange",
-        label: "Entry Range",
+        label: "First Trade Higher Range",
         options: {
             filter: true,
             sort: true,
@@ -985,20 +937,13 @@ export const getColumns9 = () => [
     },
     {
         name: "GroupN",
-        label: "GroupN",
+        label: "Unique Name",
         options: {
             filter: true,
             sort: true,
         }
     },
-    {
-        name: "TaskStatus",
-        label: "Task Status",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
     {
         name: "Instrument Type",
         label: "Instrument Type",
@@ -1015,15 +960,7 @@ export const getColumns9 = () => [
             sort: true,
         }
     },
-    {
-        name: "Expirytype",
-        label: "Expiry Type",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value) => value ? value : "-"
-        }
-    },
+
     {
         name: "OrderType",
         label: "OrderType",
@@ -1034,7 +971,7 @@ export const getColumns9 = () => [
     },
     {
         name: "RolloverTF",
-        label: "Rollover TF",
+        label: "Rollover",
         options: {
             filter: true,
             sort: true,
@@ -1059,15 +996,7 @@ export const getColumns9 = () => [
             customBodyRender: (value) => value ? value : "-"
         }
     },
-    {
-        name: "TargetExit",
-        label: "Target Exit",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value) => value ? "true" : "false"
-        }
-    },
+
     {
         name: "RepeatationCount",
         label: "Repeatation Count",
@@ -1077,13 +1006,14 @@ export const getColumns9 = () => [
         }
     },
     {
-        name: "Token1",
-        label: "Token1",
+        name: "HoldExit",
+        label: "Hold / Exit",
         options: {
             filter: true,
             sort: true,
         }
     },
+
     {
         name: "MatchPosition",
         label: "Match Position",
@@ -1093,7 +1023,7 @@ export const getColumns9 = () => [
             customBodyRender: (value) => value ? "true" : "false"
         }
     },
-   
+
     {
         name: "FinalTarget",
         label: "Final Target",
@@ -1107,15 +1037,14 @@ export const getColumns9 = () => [
 ]
 
 
-export const getColumns3 = () => [
-    {
+export const getColumns3 = (Targetselection) => {
+    const columns = [{
         name: "S.No",
         label: "S.No",
         options: {
             filter: true,
             sort: true,
             customBodyRender: (value, tableMeta, updateValue) => {
-
                 const rowIndex = tableMeta.rowIndex;
 
                 return rowIndex + 1;
@@ -1125,7 +1054,7 @@ export const getColumns3 = () => [
     },
     {
         name: "ScalpType",
-        label: "ScalpType",
+        label: "Target Type",
         options: {
             filter: true,
             sort: true,
@@ -1158,7 +1087,7 @@ export const getColumns3 = () => [
     },
     {
         name: "TradeType",
-        label: "Trade Type",
+        label: "Transaction Type",
         options: {
             filter: true,
             sort: true,
@@ -1181,15 +1110,7 @@ export const getColumns3 = () => [
             sort: true,
         }
     },
-    {
-        name: "SL",
-        // label: "Re-entry",
-        label: "Re-entry",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+   
     {
         name: "Trade",
         label: "Trade",
@@ -1206,430 +1127,601 @@ export const getColumns3 = () => [
             sort: true,
         }
     },
-]
-export const getColumns6 = () => [
-    {
-        name: "S.No",
-        label: "S.No",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value, tableMeta, updateValue) => {
+    ]
 
-                const rowIndex = tableMeta.rowIndex;
+    if (Targetselection === "Single") {
+        columns.splice(8, 0, {
+            name: "SL",
+            label: "Stoploss",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        });
+    } else {
+        columns.splice(8, 0, {
+            name: "SL",
+            label: "Re-entry",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        });
+    }
+    return columns;
+}
+export const getColumns6 = (Targetselection) => {
+    const columns = [
+        {
+            name: "S.No",
+            label: "S.No",
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value, tableMeta, updateValue) => {
+                    const rowIndex = tableMeta.rowIndex;
+                    return rowIndex + 1;
 
-                return rowIndex + 1;
-
+                }
+            },
+        },
+        {
+            name: "ScalpType",
+            label: "Target Type",
+            options: {
+                filter: true,
+                sort: true,
             }
         },
-    },
-    {
-        name: "ScalpType",
-        label: "ScalpType",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
 
-    {
-        name: "Symbol",
-        label: "Symbol",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "ETime",
-        label: "Entry Time",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "EPrice",
-        label: "Entry Price",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "ExitTime",
-        label: "Exit Time",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+        {
+            name: "Symbol",
+            label: "Symbol",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "ETime",
+            label: "Entry Time",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "EPrice",
+            label: "Entry Price",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "ExitTime",
+            label: "Exit Time",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
 
-    {
-        name: "ExitPrice",
-        label: "Exit Price",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "TradeType",
-        label: "TradeType",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+        {
+            name: "ExitPrice",
+            label: "Exit Price",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "TradeType",
+            label: "Transaction Type",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
 
-    {
-        name: "Quantity",
-        label: "Quantity",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Target",
-        label: "Target",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "SL",
-        // label: "Re-entry",
-        label: "Re-entry",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Trade",
-        label: "Trade",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+        {
+            name: "Quantity",
+            label: "Quantity",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "Target",
+            label: "Target",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+
+        {
+            name: "Trade",
+            label: "Trade",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "GroupN",
+            label: "Unique Name",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+    ]
+    if (Targetselection === "Single") {
+        columns.splice(10, 0, {
+            name: "SL",
+            label: "Stoploss",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        });
+    } else {
+        columns.splice(10, 0, {
+            name: "SL",
+            label: "Re-entry",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        });
+    }
+
+    return columns;
+
+}
 
 
-    {
-        name: "GroupN",
-        label: "Unique Name",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-
-]
 // Option
-export const getColumns4 = () => [
-    {
-        name: "S.No",
-        label: "S.No",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value, tableMeta, updateValue) => {
+// export const getColumns4 = (STG) => [
+//     {
+//         name: "S.No",
+//         label: "S.No",
+//         options: {
+//             filter: true,
+//             sort: true,
+//             customBodyRender: (value, tableMeta, updateValue) => {
 
-                const rowIndex = tableMeta.rowIndex;
+//                 const rowIndex = tableMeta.rowIndex;
 
-                return rowIndex + 1;
+//                 return rowIndex + 1;
 
+//             }
+//         },
+//     },
+//     {
+//         name: "STG",
+//         label: "Strategy",
+//         options: {
+//             filter: true,
+//             sort: true,
+//         }
+//     },
+//     {
+//         name: "Symbol",
+//         label: "Symbol",
+//         options: {
+//             filter: true,
+//             sort: true,
+//         }
+//     },
+//     {
+//         name: "ETime",
+//         label: "Entry Time",
+//         options: {
+//             filter: true,
+//             sort: true,
+//         }
+//     },
+
+//     {
+//         name: "EPrice",
+//         label: "Entry Price",
+//         options: {
+//             filter: true,
+//             sort: true,
+//         }
+//     },
+
+//     {
+//         name: "TradeType",
+//         label: "Transaction Type",
+//         options: {
+//             filter: true,
+//             sort: true,
+//         }
+//     },
+
+//     {
+//         name: "LotSize",
+//         label: "Lot",
+//         options: {
+//             filter: true,
+//             sort: true,
+//         }
+//     },
+//     {
+//         name: "Option Type",
+//         label: "Option Type",
+//         options: {
+//             filter: true,
+//             sort: true,
+//         }
+//     },
+//     {
+//         name: "Target",
+//         label: "Target",
+//         options: {
+//             filter: true,
+//             sort: true,
+//         }
+//     },
+//     {
+//         name: "SL",
+//         label: "Stoploss",
+//         options: {
+//             filter: true,
+//             sort: true,
+//         }
+//     },
+
+//     {
+//         name: "Targettype",
+//         label: "Risk Handle",
+//         options: {
+//             filter: true,
+//             sort: true,
+//         }
+//     },
+
+//     {
+//         name: "Spot Price",
+//         label: "Spot Price",
+//         options: {
+//             filter: true,
+//             sort: true,
+//         }
+//     },
+//     {
+//         name: "Hashing",
+//         label: "Hashing",
+//         options: {
+//             filter: true,
+//             sort: true,
+//         }
+//     },
+
+
+// ]
+
+export const getColumns4 = (STG) => {
+
+    const columns = [
+        {
+            name: "S.No",
+            label: "S.No",
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value, tableMeta, updateValue) => {
+                    return tableMeta.rowIndex + 1;
+                }
+            },
+        },
+        {
+            name: "STG",
+            label: "Strategy",
+            options: {
+                filter: true,
+                sort: true,
             }
         },
-    },
-    {
-        name: "STG",
-        label: "Strategy",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Symbol",
-        label: "Symbol",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "ETime",
-        label: "Entry Time",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-
-    {
-        name: "EPrice",
-        label: "Entry Price",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-
-    {
-        name: "TradeType",
-        label: "Trade Type",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-
-    {
-        name: "LotSize",
-        label: "Lot Size",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Option Type",
-        label: "Option Type",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Target",
-        label: "Target",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "SL",
-        // label: "Re-entry",
-        label: "Re-entry",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Trade",
-        label: "Trade",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Targettype",
-        label: "Risk Handle",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Token",
-        label: "Token",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Spot Price",
-        label: "Spot Price",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Hashing",
-        label: "Hashing",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-
-    {
-        name: "GroupN",
-        label: "Unique Name",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-]
-export const getColumns7 = () => [
-    {
-        name: "S.No",
-        label: "S.No",
-        options: {
-            filter: true,
-            sort: true,
-            customBodyRender: (value, tableMeta, updateValue) => {
-
-                const rowIndex = tableMeta.rowIndex;
-
-                return rowIndex + 1;
-
+        {
+            name: "Symbol",
+            label: "Symbol",
+            options: {
+                filter: true,
+                sort: true,
             }
         },
-    },
-    {
-        name: "STG",
-        label: "Strategy",
-        options: {
-            filter: true,
-            sort: true,
+        {
+            name: "ETime",
+            label: "Entry Time",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "EPrice",
+            label: "Entry Price",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "TradeType",
+            label: "Transaction Type",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "LotSize",
+            label: "Quantity",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "Option Type",
+            label: "Option Type",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "Target",
+            label: "Target",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "SL",
+            label: "Stoploss",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "Targettype",
+            label: "Risk Handle",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "Hashing",
+            label: "Hashing",
+            options: {
+                filter: true,
+                sort: true,
+            }
         }
-    },
+    ];
 
-    {
-        name: "Symbol",
-        label: "Symbol",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "ETime",
-        label: "Entry Time",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "EPrice",
-        label: "Entry Price",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "ExitTime",
-        label: "Exit Time",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+    if (STG !== "LongShifting" && STG !== "ShortShifting") {
+        columns.splice(12, 0, {
+            name: "Spot Price",
+            label: "Spot Price",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        });
+    }
 
-    {
-        name: "ExitPrice",
-        label: "Exit Price",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "TradeType",
-        label: "Trade Type",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+    if (STG === "LongShifting" || STG == "ShortShifting") {
+        columns.push({
+            name: "EnFPrice",
+            label: "Future Entry Price",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        });
 
-    {
-        name: "LotSize",
-        label: "LotSize",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Option Type",
-        label: "Option Type",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Target",
-        label: "Target",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "SL",
-        // label: "Re-entry",
-        label: "Re-entry",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Trade",
-        label: "Trade",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+        // columns.push({
+        //     name: "ExFPrice",
+        //     label: "Future Exit Price",
+        //     options: {
+        //         filter: true,
+        //         sort: true,
+        //     }
+        // });
+    }
+
+    return columns;
+};
 
 
-    {
-        name: "Targettype",
-        label: "Risk Handle",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Token",
-        label: "Token",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Spot Price",
-        label: "Spot Price",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Hashing",
-        label: "Hashing",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
 
-    {
-        name: "GroupN",
-        label: "Unique Name",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-]
+export const getColumns7 = (STG) => {
+    const columns = [
+        {
+            name: "S.No",
+            label: "S.No",
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value, tableMeta, updateValue) => {
+
+                    const rowIndex = tableMeta.rowIndex;
+
+                    return rowIndex + 1;
+
+                }
+            },
+        },
+        {
+            name: "STG",
+            label: "Strategy",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "Symbol",
+            label: "Symbol",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "ETime",
+            label: "Entry Time",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "EPrice",
+            label: "Entry Price",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "ExitTime",
+            label: "Exit Time",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "ExitPrice",
+            label: "Exit Price",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "TradeType",
+            label: "Transaction Type",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "LotSize",
+            label: "Quantity",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "Option Type",
+            label: "Option Type",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "Target",
+            label: "Target",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "SL",
+            label: "Stoploss",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "Trade",
+            label: "Trade",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+
+
+        {
+            name: "Targettype",
+            label: "Risk Handle",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "Token",
+            label: "Token",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+
+        {
+            name: "Hashing",
+            label: "Hashing",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+    ]
+    if (STG !== "LongShifting" && STG !== "ShortShifting") {
+        columns.splice(12, 0, {
+            name: "Spot Price",
+            label: "Spot Price",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        });
+    }
+
+    if (STG === "LongShifting" || STG == "ShortShifting") {
+        columns.push({
+            name: "EnFPrice",
+            label: "Future Entry Price",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        });
+
+        columns.push({
+            name: "ExFPrice",
+            label: "Future Exit Price",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        });
+    }
+
+
+
+    return columns
+
+}
 //Pattern
 export const getColumns5 = () => [
     {
@@ -1691,7 +1783,7 @@ export const getColumns5 = () => [
 
     {
         name: "TradeType",
-        label: "Trade Type",
+        label: "Transaction Type",
         options: {
             filter: true,
             sort: true,
@@ -1717,22 +1809,12 @@ export const getColumns5 = () => [
     },
     {
         name: "SL",
-        // label: "Re-entry",
-        label: "Re-entry",
+        label: "Stoploss",
         options: {
             filter: true,
             sort: true,
         }
     },
-    {
-        name: "Trade",
-        label: "Trade",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-
 
     {
         name: "TimeFrame",
@@ -1750,14 +1832,7 @@ export const getColumns5 = () => [
             sort: true,
         }
     },
-    {
-        name: "Token",
-        label: "Token",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
 
 ]
 
@@ -1843,7 +1918,7 @@ export const getColumns8 = () => [
     },
     {
         name: "TradeType",
-        label: "Trade Type",
+        label: "Transaction Type",
         options: {
             filter: true,
             sort: true,
@@ -1869,8 +1944,7 @@ export const getColumns8 = () => [
     },
     {
         name: "SL",
-        // label: "Re-entry",
-        label: "Re-entry",
+        label: "Stoploss",
         options: {
             filter: true,
             sort: true,
@@ -1885,7 +1959,6 @@ export const getColumns8 = () => [
         }
     },
 
-
     {
         name: "TimeFrame",
         label: "Time Frame",
@@ -1895,14 +1968,14 @@ export const getColumns8 = () => [
         }
     },
 
-    {
-        name: "Token",
-        label: "Token",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+    // {
+    //     name: "Token",
+    //     label: "Token",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
 
 ]
 
@@ -1932,27 +2005,36 @@ export const getColumns10 = () => [
     },
 
 
-    {
-        name: "AccType",
-        label: "AccType",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+    // {
+    //     name: "AccType",
+    //     label: "AccType",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
 
-    {
-        name: "Segmenttype",
-        label: "Segmenttype",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+    // {
+    //     name: "Segmenttype",
+    //     label: "Segmenttype",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
 
     {
         name: "Token",
         label: "Token",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+
+    {
+        name: "EPrice",
+        label: "EPrice",
         options: {
             filter: true,
             sort: true,
@@ -1968,13 +2050,14 @@ export const getColumns10 = () => [
         }
     },
     {
-        name: "EPrice",
-        label: "EPrice",
+        name: "ExitPrice",
+        label: "ExitPrice",
         options: {
             filter: true,
             sort: true,
         }
     },
+   
     {
         name: "ExitTime",
         label: "ExitTime",
@@ -1983,9 +2066,10 @@ export const getColumns10 = () => [
             sort: true,
         }
     },
+  
     {
-        name: "ExitPrice",
-        label: "ExitPrice",
+        name: "ManuallyExit",
+        label: "Manually Exit",
         options: {
             filter: true,
             sort: true,
@@ -2027,6 +2111,14 @@ export const getColumns10 = () => [
         name: "SL",
         // label: "Re-entry",
         label: "Re-entry",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "StrategyTag",
+        label: "Strategy Tag",
         options: {
             filter: true,
             sort: true,
@@ -2052,32 +2144,23 @@ export const getColumns12 = () => [
     },
 
 
-    {
-        name: "AccType",
-        label: "AccType",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+    // {
+    //     name: "AccType",
+    //     label: "AccType",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
 
-    {
-        name: "Segmenttype",
-        label: "Segmenttype",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-
-    {
-        name: "Token",
-        label: "Token",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+    // {
+    //     name: "Segmenttype",
+    //     label: "Segmenttype",
+    //     options: {
+    //         filter: true,
+    //         sort: true,
+    //     }
+    // },
     {
         name: "Symbol",
         label: "Symbol",
@@ -2086,14 +2169,7 @@ export const getColumns12 = () => [
             sort: true,
         }
     },
-    {
-        name: "ETime",
-        label: "ETime",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
+
     {
         name: "EPrice",
         label: "EPrice",
@@ -2102,9 +2178,10 @@ export const getColumns12 = () => [
             sort: true,
         }
     },
+   
     {
-        name: "ExitTime",
-        label: "ExitTime",
+        name: "ETime",
+        label: "ETime",
         options: {
             filter: true,
             sort: true,
@@ -2119,24 +2196,17 @@ export const getColumns12 = () => [
         }
     },
     {
+        name: "ExitTime",
+        label: "ExitTime",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+
+    {
         name: "TradeType",
         label: "Trade Type",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Quantity",
-        label: "Quantity",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-    {
-        name: "Trade",
-        label: "Trade",
         options: {
             filter: true,
             sort: true,
@@ -2159,6 +2229,45 @@ export const getColumns12 = () => [
             sort: true,
         }
     },
+
+    {
+        name: "Token",
+        label: "Token",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+
+   
+    {
+        name: "StrategyTag",
+        label: "Strategy Tag",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    
+   
+    
+    {
+        name: "Quantity",
+        label: "Quantity",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    {
+        name: "Trade",
+        label: "Trade",
+        options: {
+            filter: true,
+            sort: true,
+        }
+    },
+    
 
 
 

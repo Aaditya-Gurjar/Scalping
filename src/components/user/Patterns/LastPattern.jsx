@@ -19,7 +19,7 @@ const LastPattern = () => {
     data: [],
   });
   const [getCandleData, setCandleData] = useState({ loading: true, data: [] });
-  const [getPatternType, setPatternType] = useState("Doji");
+  const [getPatternType, setPatternType] = useState("All");
   const [selectPattern, setSelectPattern] = useState("Candlestick Patterns");
   const [getChartPattern, setChartPattern] = useState("");
   const [selectedRowData, setSelectedRowData] = useState("");
@@ -116,7 +116,7 @@ const LastPattern = () => {
         <div className="row">
           <div className="col-md-6">
             <div className="form-group">
-              <label>Select Pattern</label>
+              <label className="card-text-Color">Select Pattern</label>
               <select
                 className="form-control  mt-2"
                 onChange={(e) => setSelectPattern(e.target.value)}
@@ -131,7 +131,7 @@ const LastPattern = () => {
           </div>
           <div className="col-md-6">
             <div className="form-group">
-              <label>Select Specific Pattern</label>
+              <label className="card-text-Color">Select Specific Pattern</label>
               <select
                 className="form-control  mt-2"
                 onChange={(e) => setPatternType(e.target.value)}
@@ -139,6 +139,7 @@ const LastPattern = () => {
                 {/* <option value="">
                             Please Select Specific Pattern
                           </option> */}
+                          <option value="All">All</option>
                 {getChartPattern &&
                   getChartPattern.data.map((item) => (
                     <option value={item}>{item}</option>

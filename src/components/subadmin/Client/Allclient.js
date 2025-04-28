@@ -223,16 +223,16 @@ const AllClient = () => {
             },
         },
         {
-            name: 'Licanse',
-            label: 'Licanse',
+            name: 'License',
+            label: 'License',
             options: {
                 filter: true,
                 sort: false,
             },
         },
         {
-            name: 'LicanseStartDate',
-            label: 'Licanse Start Date',
+            name: 'LicenseStartDate',
+            label: 'License Start Date',
             options: {
                 filter: true,
                 sort: false,

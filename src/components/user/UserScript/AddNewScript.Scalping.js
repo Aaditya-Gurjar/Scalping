@@ -9,11 +9,14 @@ import {
   GET_EXPIRY_DATE,
   GetExchange,
 } from "../../CommonAPI/Admin";
-import { AddScript, CheckPnLScalping } from "../../CommonAPI/User";
+import { AddScript, CheckPnLScalping, CPrice, getToken } from "../../CommonAPI/User";
 import { text } from "../../../ExtraComponent/IconTexts";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Content from "../../../ExtraComponent/Content";
+import { connectWebSocket } from "../UserDashboard/LivePrice";
+import $ from 'jquery'
+
 
 const AddClient = () => {
   const userName = localStorage.getItem("name");
@@ -25,10 +28,13 @@ const AddClient = () => {
   const [getExpiryDate, setExpiryDate] = useState({ loading: true, data: [] });
   const [openModel, setOpenModel] = useState(false);
   const [openModel1, setOpenModel1] = useState(false);
+  const [priceValue, setPriceValue] = useState("");
   const [marginValue, setMarginValue] = useState("");
   const [error, setError] = useState("");
   const [showPnl, setShowPnl] = useState(false);
   const theme = localStorage.getItem("theme");
+  const [getCPrice, setCPrice] = useState(null);
+  const [channel, setChannel] = useState(null);
 
   const [PnlData, setPnlData] = useState({
     InstrumentName: "",
@@ -52,7 +58,13 @@ const AddClient = () => {
     });
   };
 
+
+
+
   const dataWithoutLastItem = location?.state?.data?.scriptType?.data?.slice(0, -1);
+  console.log("location?.state?.data?", location?.state?.data?.scriptType?.data)
+
+
 
   const getEndData = (stg) => {
     const foundItem = dataWithoutLastItem.find((item) => {
@@ -111,6 +123,7 @@ const AddClient = () => {
       FixedSM: "Single",
       TType: "",
       serendate: "",
+      Planname: "",
       expirydata1: "",
       Expirytype: "",
       Striketype: "",
@@ -129,7 +142,7 @@ const AddClient = () => {
       Trade_Execution: "Paper Trade",
       quantityselection: "Addition",
       Targetselection: "Fixed Target",
-      RepeatationCount: 1,
+      RepeatationCount: 2,
       Profit: 0,
       Loss: 0,
       RollOver: false,
@@ -326,14 +339,13 @@ const AddClient = () => {
       if (values.Strategy == "Multi_Conditional" && !values.FixedSM) {
         errors.FixedSM = "Please Select Position Type";
       }
-      if (
-        !values.RepeatationCount &&
-        values.Strategy == "Multi_Conditional" &&
-        values.FixedSM == "Multiple"
-      ) {
-        errors.RepeatationCount = "Please Enter No. of Repeatation";
+      if (values.Strategy === "Multi_Conditional" && values.FixedSM === "Multiple") {
+        if (values.RepeatationCount === "" || values.RepeatationCount === undefined) {
+          errors.RepeatationCount = "Please enter a value for Repeatation Count";
+        } else if (values.RepeatationCount < 2) {
+          errors.RepeatationCount = "Repeatation count must be at least 2";
+        }
       }
-
       if (
         (values.Loss === undefined ||
           values.Loss === null ||
@@ -372,7 +384,7 @@ const AddClient = () => {
         errors.RollOverExitTime = "Please Enter RollOver Exit Time";
       }
 
-      if (!values.WorkingDay.length > 0) {
+      if (!values.WorkingDay?.length > 0) {
         errors.WorkingDay = "Please select Working day";
       }
 
@@ -390,7 +402,7 @@ const AddClient = () => {
           formik.values.Strategy == "Multi_Conditional" &&
           formik.values.Targetselection == "Entry Wise SL")
       ) {
-        errors.FinalTarget = "Please Enter Final Target";
+        errors.FinalTarget = "Please Enter Final Target Price";
       }
 
       // ScrollToViewFirstError(errors);
@@ -465,6 +477,9 @@ const AddClient = () => {
           Timeframe: "",
           Quantity: values.Quantity,
           serendate: getEndData(values.Strategy),
+          Planname: location?.state?.data?.scriptType?.data?.find(
+            (item) => item.EndDate == getEndData(formik?.values?.Strategy)
+          )?.Planname,
           Expirytype: "",
           FixedSM:
             formik.values.Strategy == "Multi_Conditional"
@@ -571,7 +586,6 @@ const AddClient = () => {
         };
 
 
-        console.log("assss")
 
         if (
           (Number(values.EntryPrice) > 0 || Number(values.EntryRange) > 0) &&
@@ -664,7 +678,7 @@ const AddClient = () => {
               );
             }
         }
-
+     
         await AddScript(req)
           .then((response) => {
             if (response.Status) {
@@ -678,8 +692,10 @@ const AddClient = () => {
                 timer: 1500,
                 timerProgressBar: true,
               });
+
+              sessionStorage.setItem("addScriptTab", "Scalping"); 
               setTimeout(() => {
-                navigate("/user/dashboard");
+                navigate("/user/dashboard" );
               }, 1500);
             } else {
               Swal.fire({
@@ -711,6 +727,21 @@ const AddClient = () => {
     formik.setFieldValue("TStype", "Point");
   }, []);
 
+  useEffect(() => {
+    if (formik.values.Exchange === "MCX") {
+      formik.setFieldValue("Instrument", "FUTCOM");
+    }
+  }, [formik.values.Exchange]);
+
+ 
+ 
+  // let expiry = formik.values.expirydata1 == "Monthly"
+  // ? getExpiryDate?.data?.[0]
+  // : formik.values.expirydata1 == "Next_Month"
+  //   ? getExpiryDate?.data?.[1] : formik.values.expirydata1
+
+
+  // console.log("expiry", expiry)
 
 
   const SymbolSelectionArr = [
@@ -860,6 +891,7 @@ const AddClient = () => {
       col_size: 4,
       hiding: false,
       disable: false,
+      
     },
 
     {
@@ -911,6 +943,7 @@ const AddClient = () => {
       headingtype: 2,
       hiding: false,
       col_size: 6,
+      iconText: text.positionType,
       showWhen: (values) => values.Strategy == "Multi_Conditional",
       disable: false,
     },
@@ -945,8 +978,8 @@ const AddClient = () => {
         formik.values.Strategy == "Fixed Price" ||
           (formik.values.FixedSM == "Single" &&
             formik.values.Strategy == "Multi_Conditional")
-          ? text.Lower_Price
-          : text.First_Trade_Lower_Range,
+          ? text.firstTradeHigherRange
+          : text.firstTradeHigherRange,
       hiding: false,
     },
     {
@@ -961,8 +994,8 @@ const AddClient = () => {
         formik.values.Strategy == "Fixed Price" ||
           (formik.values.FixedSM == "Single" &&
             formik.values.Strategy == "Multi_Conditional")
-          ? text.Higher_Price
-          : text.First_Trade_Higher_Range,
+          ? text.firstTradeHigherRange
+          : text.firstTradeHigherRange,
       hiding: false,
     },
     {
@@ -993,6 +1026,7 @@ const AddClient = () => {
         values.Strategy == "Multi_Conditional",
       label_size: 12,
       headingtype: 4,
+      icon: text.measurementType,
       col_size: formik.values.FixedSM == "Multiple" ? 3 : 6,
       hiding: false,
       disable: false,
@@ -1034,11 +1068,13 @@ const AddClient = () => {
       headingtype: 4,
       disable: false,
       hiding: false,
+      iconText : text.targetType,
+
     },
 
     {
       name: "FinalTarget",
-      label: "Final Target",
+      label: "Final Target Price",
       type: "text3",
       label_size: 12,
       showWhen: (values) =>
@@ -1072,6 +1108,7 @@ const AddClient = () => {
       headingtype: 3,
       disable: false,
       hiding: false,
+      iconText: text.fixedTarget
     },
     {
       name: "tgp2",
@@ -1168,7 +1205,7 @@ const AddClient = () => {
         values.Strategy == "Multi Directional" ||
         values.Strategy == "One Directional",
       disable: false,
-      iconText: text.Lower_Range,
+      iconText: text.lowerRange,
       hiding: false,
     },
     {
@@ -1182,7 +1219,7 @@ const AddClient = () => {
         values.Strategy == "Multi Directional" ||
         values.Strategy == "One Directional",
       disable: false,
-      iconText: text.Higher_Range,
+      iconText: text.higherRange,
       hiding: false,
     },
     {
@@ -1197,6 +1234,7 @@ const AddClient = () => {
         values.Strategy == "Multi_Conditional" && values.FixedSM == "Multiple",
       disable: false,
       hiding: false,
+      iconText: text.repeatationCount,
     },
     {
       name: "HoldExit",
@@ -1217,6 +1255,7 @@ const AddClient = () => {
       headingtype: 4,
       disable: false,
       hiding: false,
+      iconText: text.holdOrExit,
     },
     {
       name: "TargetExit",
@@ -1227,13 +1266,13 @@ const AddClient = () => {
         { label: "False", value: false },
       ],
       showWhen: (values) =>
-        values.FixedSM == "Multiple" && values.Strategy == "Multi_Conditional",
+        values.FixedSM == "Multiple" && values.Strategy == "Multi_Conditional" && values.Targetselection !== "Entry Wise SL",
       label_size: 12,
       // col_size: formik.values.FixedSM == "Single" ? 3 : 3,
       col_size: formik.values.TargetExit == "true" ? 4 : 6,
       headingtype: 4,
       disable: false,
-      // iconText: text.Increment_Type,
+      iconText: text.continueAfterCycleExit,
       hiding: false,
     },
 
@@ -1252,7 +1291,7 @@ const AddClient = () => {
       // col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
       col_size: 4,
 
-      iconText: text.Trade_Count,
+      iconText: text.tradeCount,
       disable: false,
       hiding: false,
     },
@@ -1283,7 +1322,7 @@ const AddClient = () => {
     },
     {
       name: "Profit",
-      label: "Max Profit ",
+      label: "Max Profit (in price) ",
       type: "text3",
       label_size: 12,
       // col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
@@ -1297,7 +1336,7 @@ const AddClient = () => {
 
     {
       name: "Loss",
-      label: "Max Loss ",
+      label: "Max Loss (in price)",
       type: "text3",
       label_size: 12,
       col_size: 6,
@@ -1319,7 +1358,7 @@ const AddClient = () => {
       col_size: 4,
       headingtype: 4,
       disable: false,
-      iconText: text.Step_up,
+      iconText: text.stepUp,
       hiding: false,
     },
 
@@ -1337,7 +1376,7 @@ const AddClient = () => {
       col_size: 4,
       headingtype: 4,
       disable: false,
-      iconText: text.Increment_Type,
+      iconText: text.incrementType,
       hiding: false,
     },
 
@@ -1351,7 +1390,7 @@ const AddClient = () => {
       col_size: 4,
       headingtype: 4,
       disable: false,
-      iconText: text.Increment_Value,
+      iconText: text.incrementValue,
       hiding: false,
     },
   ];
@@ -1531,19 +1570,7 @@ const AddClient = () => {
       ),
       disable: false,
     },
-    {
-      name: "Heading",
-      label: "Risk_Management",
-      type: "heading",
-      hiding: false,
-      label_size: 12,
-      headingtype: 4,
-      col_size: 12,
-      data: RiskManagementArr.filter(
-        (item) => !item.showWhen || item.showWhen(formik.values)
-      ),
-      disable: false,
-    },
+
     {
       name: "Heading",
       label: "Exit_Rule",
@@ -1553,6 +1580,20 @@ const AddClient = () => {
       col_size: 12,
       headingtype: 3,
       data: ExitRuleArr.filter(
+        (item) => !item.showWhen || item.showWhen(formik.values)
+      ),
+      disable: false,
+    },
+
+    {
+      name: "Heading",
+      label: "Risk_Management",
+      type: "heading",
+      hiding: false,
+      label_size: 12,
+      headingtype: 4,
+      col_size: 12,
+      data: RiskManagementArr.filter(
         (item) => !item.showWhen || item.showWhen(formik.values)
       ),
       disable: false,
@@ -1610,6 +1651,8 @@ const AddClient = () => {
         });
     }
   };
+
+
 
   useEffect(() => {
     getSymbol();
@@ -1688,14 +1731,76 @@ const AddClient = () => {
     }
   };
 
+  let currentWebSocket = null;
+  const showLivePrice = async (singleChannel) => {
+     
+    if (currentWebSocket && typeof currentWebSocket.close === "function") {
+      currentWebSocket.close(); // Or implement unsubscribe logic if supported
+    }
+
+    currentWebSocket = connectWebSocket(singleChannel, (data) => {
+      if (data.lp && data.tk && channel && channel?.includes(data.tk)) {
+        console.log("Channel List", singleChannel)
+        console.log("data", data)
+        $(".LivePrice").html(data.lp);
+        // console.log("Updated Price Data:", data);
+      }
+    });
+  }
+
+  console.log("channel", channel)
+
+
+  const token = async () => {
+    try {
+      if (formik.values.Exchange && formik.values.Instrument && formik.values.Symbol && formik.values.expirydata1) {
+        const res = await getToken({
+          Exchange: formik.values.Exchange,
+          Instrument: formik.values.Instrument,
+          Symbol: formik.values.Symbol,
+          OptionType: formik.values.Optiontype,
+          Strike: formik.values.Strike,
+          Expiry: formik.values.expirydata1 == "Monthly"
+            ? getExpiryDate?.data?.[0]
+            : formik.values.expirydata1 == "Next_Month"
+              ? getExpiryDate?.data?.[1] : formik.values.expirydata1
+        });        
+        const singleChannel = `${formik.values.Exchange}|${res.Token[0]}`
+        setChannel(singleChannel)        
+        showLivePrice(singleChannel)
+
+      }
+
+
+    } catch (error) {
+      console.error("Error fetching token:", error);
+
+    }
+  }
   useEffect(() => {
     getExpiry();
+    token()
   }, [
     formik.values.Instrument,
     formik.values.Exchange,
     formik.values.Symbol,
     formik.values.Strike,
+    formik.values.expirydata1
   ]);
+
+
+  // const token = async () => {
+  //   if (formik.values.Instrument) {
+  //     const data = { 
+
+  // useEffect(() => {
+  //   token();
+  // }, [
+  //   formik.values.Instrument,
+  //   formik.values.Exchange,
+  //   formik.values.Symbol,
+  //   formik.values.Strike,
+  // ]);
 
   useEffect(() => {
     if (
@@ -1896,8 +2001,6 @@ const AddClient = () => {
 
   const checkModalCondition = async () => {
 
-
-
     const weekend = new Date().getDay();
     const currentDate = new Date();
     const currentTime =
@@ -1907,24 +2010,45 @@ const AddClient = () => {
       ":" +
       currentDate.getSeconds();
 
-    if (
-      weekend == 6 ||
-      weekend == 0 ||
-      currentTime >= "15:30:00" ||
-      currentTime <= "09:15:00"
-    ) {
-      SweentAlertFun(
-        "⚠️ Market is closed. Please try again during trading hours. ⏳"
-      );
-      return;
+    let MarketTime = formik.values.Exchange === "MCX" ? "23:25:00" : "15:30:00"
+
+    //   if (
+    //   weekend == 6 ||
+    //   weekend == 0 ||
+    //   currentTime >= MarketTime ||
+    //   currentTime <= "09:15:00"
+    // ) {
+    //   SweentAlertFun(
+    //     "⚠️ Market is closed. Please try again during trading hours. ⏳"
+    //   );
+    //   return;
+    // }
+
+    const req = {
+      Exchange: formik.values.Exchange,
+      Symbol: formik.values.Symbol,
+      Instrument: formik.values.Instrument,
+      Strike: formik.values.Strike === "" ? "0" : formik.values.Strike,
+      expirydata1:
+        formik.values.expirydata1 === "Monthly"
+          ? getExpiryDate?.data?.[0]
+          : formik.values.expirydata1 === "Next_Month"
+            ? getExpiryDate?.data?.[1]
+            : formik.values.expirydata1,
+    };
+
+
+    const response = await CPrice(req);
+    const errors = await formik.validateForm();
+    if (Object.keys(errors).length > 0) {
+      return SweentAlertFun(Object.values(errors)[0])
     }
 
-    const errors = await formik.validateForm();
-
-
-    if (Object.keys(errors).length > 0) {
-
-      return SweentAlertFun(Object.values(errors)[0])
+    if (response.Status) {
+      setCPrice(response.CPrice)
+    }
+    else {
+      setCPrice(0)
     }
 
     if (
@@ -1934,13 +2058,8 @@ const AddClient = () => {
         (formik.values.Instrument === "OPTIDX" ||
           formik.values.Instrument === "OPTSTK"))
     ) {
-      console.log("req");
-
-
       handleCheckPnl();
     } else {
-      console.log("req 222");
-
       setOpenModel1(true);
     }
   };
@@ -1952,6 +2071,8 @@ const AddClient = () => {
       button_status={false}
       backbutton_status={false}
     >
+
+      {formik.values.Exchange && formik.values.Instrument && formik.values.Symbol && formik.values.expirydata1 && <div className="AddScript_LivePrice card-text-Color"><div className="LivePriceContainer"><span> Live Price:  </span> <span className="LivePrice ms-2">{ }</span></div></div>}
       <AddForm
         fields={fields.filter(
           (field) => !field.showWhen || field.showWhen(formik.values)
@@ -1961,6 +2082,10 @@ const AddClient = () => {
         btn_name1="Cancel"
         formik={formik}
         btn_name1_route={"/user/dashboard"}
+        btn_name1_onClick={() => {
+          sessionStorage.setItem("addScriptTab", "Scalping");
+          navigate("/user/dashboard");
+        }}
         additional_field={
           <div>
             {![
@@ -2002,6 +2127,33 @@ const AddClient = () => {
             <div className="row">
               <div className="col-lg-12 col-sm-12">
                 <div className="input-block mb-3">
+
+                  {getCPrice == 0 &&
+                    <>
+                      <label
+                        className="form-label"
+                        style={{ fontWeight: "bold", color: "#fff" }}
+                      >
+                        Enter Price
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={priceValue}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (/^\d*\.?\d*$/.test(value)) {
+                            setPriceValue(value);
+                            setError("");
+                          } else {
+                            setError("Only numbers are allowed");
+                          }
+                        }}
+                      />
+                    </>
+                  }
+
+
                   <label
                     className="form-label"
                     style={{ fontWeight: "bold", color: "#fff" }}
@@ -2074,13 +2226,13 @@ const AddClient = () => {
             ].map(({ label, value }, index) => (
               <div key={index} className="d-flex align-items-center py-1">
                 <label
-                  className="fw-bold text-white mb-0 me-2"
+                  className="fw-bold mb-0 me-2 card-text-Color"
                   style={{ fontSize: "20px", minWidth: "150px" }}
                 >
                   {label}:
                 </label>
                 <span
-                  className="text-white mb-0"
+                  className="card-text-Color mb-0"
                   style={{ fontSize: "20px", fontWeight: "500" }}
                 >
                   {value || "N/A"}

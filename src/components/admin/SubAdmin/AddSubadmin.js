@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2'
 import { AddSubadminbyAdmin } from '../../CommonAPI/Admin'
-import AddForm from "../../../ExtraComponent/FormData";
+import AddForm from "../../../ExtraComponent/FormData2";
 import { useFormik } from "formik";
 import { useNavigate } from 'react-router-dom';
+import Content from '../../../ExtraComponent/Content';
 
 const AddSubadmin = () => {
     const navigate = useNavigate()
@@ -101,7 +102,7 @@ const AddSubadmin = () => {
                             background: "#1a1e23 ",
                             backdrop: "#121010ba",
                             confirmButtonColor: "#1ccc8a",
-                            title: "User Created!",
+                            title: "Subadmin Created!",
                             text: response.message,
                             icon: "success",
                             timer: 1500,
@@ -201,18 +202,25 @@ const AddSubadmin = () => {
 
 
     return (
-        <>
-            <AddForm
-                fields={fields}
-                page_title="Create Sub_Admin Account"
-                btn_name="Add"
-                btn_name1="Cancel"
-                formik={formik}
-                btn_name1_route={"/admin/allSubadmin"}
 
-            />
+        <Content
+            Page_title={"📄 Change Password"}
+            button_status={false}
+            backbutton_status={true}>
 
-        </>
+            <>
+                <AddForm
+                    fields={fields}
+                    page_title="Create Subadmin Account"
+                    btn_name="Add"
+                    btn_name1="Cancel"
+                    formik={formik}
+                    btn_name1_route={"/admin/allSubadmin"}
+
+                />
+
+            </>
+        </Content>
     );
 };
 

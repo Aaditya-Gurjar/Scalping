@@ -103,8 +103,7 @@ confirmButtonColor: "#1ccc8a",
                                     <div>
                                         <div className="form-group">
                                             <label htmlFor="cpass">Current Password:</label>
-
-                                            <div className="input-container">
+                                            <div className="input-container" style={{ display: 'flex', alignItems: 'center', width: '50%' }}>
                                                 <input
                                                     type={showPass1 ? 'text' : 'password'}
                                                     className="form-control my-2"
@@ -112,20 +111,21 @@ confirmButtonColor: "#1ccc8a",
                                                     placeholder='Enter current password'
                                                     onChange={handleCurrentPassword}
                                                     value={currPass}
+                                                    style={{ width: '100%' }}
                                                 />
-                                                <div className="input-span" onClick={() => setShowPass1(!showPass1)}>
+                                                <div className="input-span" onClick={() => setShowPass1(!showPass1)} style={{ marginLeft: '10px' }}>
                                                     {showPass1 ? <EyeOff /> : <Eye />}
                                                 </div>
-                                                {getCurrentPassError && (
-                                                    <div className="error-message" style={{ color: 'red' }}>
-                                                        {getCurrentPassError}
-                                                    </div>
-                                                )}
                                             </div>
+                                            {getCurrentPassError && (
+                                                <div className="error-message" style={{ color: 'red' }}>
+                                                    {getCurrentPassError}
+                                                </div>
+                                            )}
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="npass">New Password:</label>
-                                            <div className="input-container">
+                                            <div className="input-container" style={{ display: 'flex', alignItems: 'center', width: '50%' }}>
                                                 <input
                                                     type={showPass2 ? 'text' : 'password'}
                                                     className="form-control my-2"
@@ -133,21 +133,21 @@ confirmButtonColor: "#1ccc8a",
                                                     placeholder='Enter new password'
                                                     onChange={handleNewPassword}
                                                     value={newPass}
+                                                    style={{ width: '100%' }}
                                                 />
-                                                <div className="input-span" onClick={() => setShowPass2(!showPass2)}>
+                                                <div className="input-span" onClick={() => setShowPass2(!showPass2)} style={{ marginLeft: '10px' }}>
                                                     {showPass2 ? <EyeOff /> : <Eye />}
                                                 </div>
-                                                {getNewError && (
-                                                    <div className="error-message" style={{ color: 'red' }}>
-                                                        {getNewError}
-                                                    </div>
-                                                )}
-
                                             </div>
+                                            {getNewError && (
+                                                <div className="error-message" style={{ color: 'red' }}>
+                                                    {getNewError}
+                                                </div>
+                                            )}
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="vpass">Verify Password:</label>
-                                            <div className="input-container">
+                                            <div className="input-container" style={{ display: 'flex', alignItems: 'center', width: '50%' }}>
                                                 <input
                                                     type={showPass3 ? 'text' : 'password'}
                                                     className="form-control my-2"
@@ -155,16 +155,17 @@ confirmButtonColor: "#1ccc8a",
                                                     placeholder='Enter verify password'
                                                     onChange={handleVeryfyPassword}
                                                     value={verifyPass}
+                                                    style={{ width: '100%' }}
                                                 />
-                                                <div className="input-span" onClick={() => setShowPass3(!showPass3)}>
+                                                <div className="input-span" onClick={() => setShowPass3(!showPass3)} style={{ marginLeft: '10px' }}>
                                                     {showPass3 ? <EyeOff /> : <Eye />}
                                                 </div>
-                                                {getVeryfyError && (
-                                                    <div className="error-message" style={{ color: 'red' }}>
-                                                        {getVeryfyError}
-                                                    </div>
-                                                )}
                                             </div>
+                                            {getVeryfyError && (
+                                                <div className="error-message" style={{ color: 'red' }}>
+                                                    {getVeryfyError}
+                                                </div>
+                                            )}
                                         </div>
                                         <button type="submit" className="btn btn-primary me-2" onClick={handleSubmit}>
                                             Submit

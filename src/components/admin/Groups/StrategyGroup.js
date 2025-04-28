@@ -205,7 +205,7 @@ const Strategygroup = () => {
                     }
                 })
                 .catch((err) => {
-                    console.log('Error in group creation...');
+                    
                     Swal.fire({
                         background: "#1a1e23 ",
                         backdrop: "#121010ba",

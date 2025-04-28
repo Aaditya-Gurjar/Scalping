@@ -149,6 +149,7 @@ export const columns6 = [
       },
     },
   },
+
   {
     name: "Symbol",
     label: "Symbol",
@@ -171,11 +172,12 @@ export const columns6 = [
     options: {
       filter: true,
       sort: true,
-    }
+    },
   },
+
   {
     name: "Quantity",
-    label: "Quantity",
+    label: "Lot",
     options: {
       filter: true,
       sort: true,
@@ -191,22 +193,21 @@ export const columns6 = [
   },
   {
     name: "Re-entry Point",
-    label: "Re-entry",
+    label: "Re-Entry",
     options: {
       filter: true,
       sort: true,
     },
   },
 
-
-  {
-    name: "ScalpType",
-    label: "Scalp Type",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
+  // {
+  //     name: "ScalpType",
+  //     label: "ScalpType",
+  //     options: {
+  //         filter: true,
+  //         sort: true,
+  //     }
+  // },
   {
     name: "Exchange",
     label: "Exchange",
@@ -225,8 +226,6 @@ export const columns6 = [
     },
   },
 
-
-
   {
     name: "ExpiryDate",
     label: "Expiry Date",
@@ -243,14 +242,7 @@ export const columns6 = [
       sort: true,
     },
   },
-  {
-    name: "ExitDay",
-    label: "Exit Day",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
+
   {
     name: "EntryTime",
     label: "Entry Time",
@@ -262,6 +254,14 @@ export const columns6 = [
   {
     name: "ExitTime",
     label: "Exit Time",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "ExitDay",
+    label: "Exit Day",
     options: {
       filter: true,
       sort: true,
@@ -284,6 +284,7 @@ export const columns6 = [
       sort: true,
     },
   },
+
   {
     name: "TaskTime",
     label: "Task Time",
@@ -293,8 +294,76 @@ export const columns6 = [
     },
   },
   {
+    name: "TargetExit",
+    label: "Continue after cycle exit",
+    options: {
+      filter: true,
+      sort: true,
+      customBodyRender: (value) => (value ? "true" : "false"),
+    },
+  },
+  {
     name: "TradeCount",
-    label: "Trade Count",
+    label: "No. of Cycle",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+
+  {
+    name: "StepUp",
+    label: "Step Up",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "IncrementType",
+    label: "Increment Type",
+    options: {
+      filter: true,
+      sort: true,
+      customBodyRender: (value) => (value ? value : "-"),
+    },
+  },
+  {
+    name: "Incrementvalue",
+    label: "Increment Value",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+
+  {
+    name: "Booking Point2",
+    label: "Target 2",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Booking Point3",
+    label: "Target 3",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Quantity2",
+    label: "Lot 2",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Quantity3",
+    label: "Lot 3",
     options: {
       filter: true,
       sort: true,
@@ -311,11 +380,17 @@ export const columns6 = [
           return "-";
         }
         if (Array.isArray(value)) {
-          if (value.length && typeof value[0] === "object" && value[0].label) {
-            return value.map((day) => day.label).join(", ");
-          }
-          // Fallback: if it's an array of strings
-          return value.join(", ");
+          return (
+            <span>
+              {value.map((day, index) => (
+                <>
+                  {index > 0 && index % 3 === 0 ? <br /> : ""}
+                  {typeof day === "object" && day.label ? day.label : day}
+                  {index % 3 !== 2 && index !== value.length - 1 ? ", " : ""}
+                </>
+              ))}
+            </span>
+          );
         }
         return value;
       },
@@ -329,23 +404,7 @@ export const columns6 = [
       sort: true,
     },
   },
-  {
-    name: "PositionType",
-    label: "Position Type",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
-    name: "Trading",
-    label: "Trading",
-    options: {
-      filter: true,
-      sort: true,
-      customBodyRender: (value) => value ? "true" : "false"
-    },
-  },
+
   {
     name: "Profit",
     label: "Profit",
@@ -362,33 +421,10 @@ export const columns6 = [
       sort: true,
     },
   },
-  {
-    name: "HoldExit",
-    label: "Hold / Exit",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
-    name: "Instrument Symbol",
-    label: "Instrument Symbol",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
-    name: "Username",
-    label: "Username",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
+
   {
     name: "EntryPrice",
-    label: "Entry Price",
+    label: "First Trade Lower Range",
     options: {
       filter: true,
       sort: true,
@@ -396,7 +432,7 @@ export const columns6 = [
   },
   {
     name: "EntryRange",
-    label: "Entry Range",
+    label: "First Trade Higher Range",
     options: {
       filter: true,
       sort: true,
@@ -410,26 +446,10 @@ export const columns6 = [
       sort: true,
     },
   },
-  {
-    name: "TaskStatus",
-    label: "Task Status",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
+
   {
     name: "Instrument Type",
     label: "Instrument Type",
-    options: {
-      filter: true,
-      sort: true,
-      customBodyRender: (value) => value ? value : "-"
-    },
-  },
-  {
-    name: "Lot",
-    label: "Quantity",
     options: {
       filter: true,
       sort: true,
@@ -443,66 +463,10 @@ export const columns6 = [
       sort: true,
     },
   },
+
   {
-    name: "StepUp",
-    label: "Step Up",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
-    name: "IncrementType",
-    label: "Increment Type",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
-    name: "Incrementvalue",
-    label: "Increment Value",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
-    name: "Expirytype",
-    label: "Expiry Type",
-    options: {
-      filter: true,
-      sort: true,
-      customBodyRender: (value) => value ? value : "-"
-    },
-  },
-  {
-    name: "Booking Point2",
-    label: "Booking Point 2",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
-    name: "Booking Point3",
-    label: "Booking Point 3",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
-    name: "Quantity2",
-    label: "Quantity 2",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
-    name: "Quantity3",
-    label: "Quantity 3",
+    name: "OrderType",
+    label: "OrderType",
     options: {
       filter: true,
       sort: true,
@@ -510,11 +474,11 @@ export const columns6 = [
   },
   {
     name: "RolloverTF",
-    label: "RolloverTF",
+    label: "Rollover",
     options: {
       filter: true,
       sort: true,
-      customBodyRender: (value) => value ? "true" : "false"
+      customBodyRender: (value) => (value ? "true" : "false"),
     },
   },
   {
@@ -523,7 +487,7 @@ export const columns6 = [
     options: {
       filter: true,
       sort: true,
-      customBodyRender: (value) => value ? value : "-"
+      customBodyRender: (value) => (value ? value : "-"),
     },
   },
   {
@@ -532,18 +496,10 @@ export const columns6 = [
     options: {
       filter: true,
       sort: true,
-      customBodyRender: (value) => value ? value : "-"
+      customBodyRender: (value) => (value ? value : "-"),
     },
   },
-  {
-    name: "TargetExit",
-    label: "Target Exit",
-    options: {
-      filter: true,
-      sort: true,
-      customBodyRender: (value) => value ? "true" : "false"
-    },
-  },
+
   {
     name: "RepeatationCount",
     label: "Repeatation Count",
@@ -553,22 +509,24 @@ export const columns6 = [
     },
   },
   {
-    name: "Token1",
-    label: "Token1",
+    name: "HoldExit",
+    label: "Hold / Exit",
     options: {
       filter: true,
       sort: true,
     },
   },
+
   {
     name: "MatchPosition",
     label: "Match Position",
     options: {
       filter: true,
       sort: true,
-      customBodyRender: (value) => value ? "true" : "false"
+      customBodyRender: (value) => (value ? "true" : "false"),
     },
   },
+
   {
     name: "FinalTarget",
     label: "Final Target",
@@ -577,7 +535,6 @@ export const columns6 = [
       sort: true,
     },
   },
-
 ];
 
 // Option
@@ -597,7 +554,15 @@ export const columns1 = [
   },
   {
     name: "STG",
-    label: "Strategy Type",
+    label: "Strategy",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Symbol",
+    label: "Symbol",
     options: {
       filter: true,
       sort: true,
@@ -614,47 +579,6 @@ export const columns1 = [
   },
 
   {
-    name: "Instrument Type",
-    label: "Instrument Type",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
-    name: "Expirydate",
-    label: "Expiry Date",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
-    name: "Token",
-    label: "Token",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
-    name: "Symbol",
-    label: "Symbol",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-
-  {
-    name: "Expirytype",
-    label: "Expiry Type",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
     name: "strategytype",
     label: "Measurment Type",
     options: {
@@ -664,7 +588,7 @@ export const columns1 = [
   },
   {
     name: "Target value",
-    label: "Target",
+    label: "Target value",
     options: {
       filter: true,
       sort: true,
@@ -672,7 +596,7 @@ export const columns1 = [
   },
   {
     name: "SL value",
-    label: "Re-entry",
+    label: "Stoploss",
     options: {
       filter: true,
       sort: true,
@@ -688,20 +612,13 @@ export const columns1 = [
   },
   {
     name: "Lot Size",
-    label: "Quantity",
+    label: "Lot",
     options: {
       filter: true,
       sort: true,
     },
   },
-  {
-    name: "Product Type",
-    label: "Product Type",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
+
   {
     name: "Entry Time",
     label: "Entry Time",
@@ -719,32 +636,8 @@ export const columns1 = [
     },
   },
   {
-    name: "DeepStrike",
-    label: "Deep Strike",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
-    name: "DepthofStrike",
-    label: "Depth of Strike",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
-    name: "SSDate",
-    label: "SSDate",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
-    name: "SEDate",
-    label: "SEDate",
+    name: "Product Type",
+    label: "Exit Day",
     options: {
       filter: true,
       sort: true,
@@ -756,8 +649,44 @@ export const columns1 = [
     options: {
       filter: true,
       sort: true,
+      customBodyRender: (value) => (value ? value : "-"),
     },
   },
+  {
+    name: "DepthofStrike",
+    label: "Depth of Strike",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "DeepStrike",
+    label: "Deep Strike",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+
+  {
+    name: "SSDate",
+    label: "SS Date",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+
+  {
+    name: "SEDate",
+    label: "SE Date",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+
   {
     name: "LowerRange",
     label: "Lower Range",
@@ -776,7 +705,7 @@ export const columns1 = [
   },
   {
     name: "CEDepthLower",
-    label: "CEDepth Lower",
+    label: "CE Main Lower",
     options: {
       filter: true,
       sort: true,
@@ -784,31 +713,16 @@ export const columns1 = [
   },
   {
     name: "CEDepthHigher",
-    label: "CEDepth Higher",
+    label: "CE Main Higher",
     options: {
       filter: true,
       sort: true,
     },
   },
-  {
-    name: "PEDepthLower",
-    label: "PEDepth Lower",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
-    name: "PEDepthHigher",
-    label: "PEDepth Higher",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
+
   {
     name: "CEDeepLower",
-    label: "CEDeep Lower",
+    label: "CE Hedge Lower",
     options: {
       filter: true,
       sort: true,
@@ -816,7 +730,32 @@ export const columns1 = [
   },
   {
     name: "CEDeepHigher",
-    label: "CEDeep Higher",
+    label: "CE Hedge Higher",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "PEDepthLower",
+    label: "PE Main Lower",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "PEDepthHigher",
+    label: "PE Main Higher",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+
+  {
+    name: "PEDeepLower",
+    label: "PE Hedge Lower",
     options: {
       filter: true,
       sort: true,
@@ -824,31 +763,7 @@ export const columns1 = [
   },
   {
     name: "PEDeepHigher",
-    label: "PEDeep Higher",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
-    name: "PEDeepLower",
-    label: "PEDeep Lower",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
-    name: "GroupN",
-    label: "Unique Name",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
-    name: "TradeCount",
-    label: "Trade Count",
+    label: "PE Hedge Higher",
     options: {
       filter: true,
       sort: true,
@@ -866,39 +781,20 @@ export const columns1 = [
           return "-";
         }
         if (Array.isArray(value)) {
-          if (value.length && typeof value[0] === "object" && value[0].label) {
-            return value.map((day) => day.label).join(", ");
-          }
-          // Fallback: if it's an array of strings
-          return value.join(", ");
+          return (
+            <span>
+              {value.map((day, index) => (
+                <>
+                  {index > 0 && index % 3 === 0 ? <br /> : ""}
+                  {typeof day === "object" && day.label ? day.label : day}
+                  {index % 3 !== 2 && index !== value.length - 1 ? ", " : ""}
+                </>
+              ))}
+            </span>
+          );
         }
         return value;
       },
-    },
-  },
-];
-
-// Pattern
-export const columns2 = [
-  {
-    name: "S.No",
-    label: "S.No",
-    options: {
-      filter: true,
-      sort: true,
-      customBodyRender: (value, tableMeta, updateValue) => {
-        const rowIndex = tableMeta.rowIndex;
-
-        return rowIndex + 1;
-      },
-    },
-  },
-  {
-    name: "TradePattern",
-    label: "Trade Pattern",
-    options: {
-      filter: true,
-      sort: true,
     },
   },
   {
@@ -910,8 +806,76 @@ export const columns2 = [
     },
   },
   {
-    name: "Symbol",
-    label: "Symbol",
+    name: "ExitRuleO",
+    label: "Exit Type",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Expirydate",
+    label: "Expiry Date",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Expirytype",
+    label: "Expiry type",
+    options: {
+      filter: true,
+      sort: true,
+      customBodyRender: (value) => (value ? value : "-"),
+    },
+  },
+
+  {
+    name: "Instrument Type",
+    label: "Instrument Type",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Profit",
+    label: "Profit",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Loss",
+    label: "Loss",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "MainSymbol",
+    label: "Main Symbol",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+
+  {
+    name: "Spread",
+    label: "Spread",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+
+  {
+    name: "TaskTime",
+    label: "Task Time",
     options: {
       filter: true,
       sort: true,
@@ -926,8 +890,64 @@ export const columns2 = [
     },
   },
   {
+    name: "TradeCount",
+    label: "No. of Cycle",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+];
+
+// Pattern
+export const columns2 = [
+  {
+    name: "S.No",
+    label: "S.No",
+    options: {
+      filter: true,
+      sort: true,
+      customBodyRender: (value, tableMeta, updateValue) => {
+        const rowIndex = tableMeta.rowIndex;
+        return rowIndex + 1;
+      },
+    },
+  },
+  {
+    name: "TradePattern",
+    label: "Pattern Type",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Pattern",
+    label: "Pattern Name",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Symbol",
+    label: "Symbol",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "TimeFrame",
+    label: "Time Frame",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
     name: "TType",
-    label: "Trade Type",
+    label: "TransactionType",
     options: {
       filter: true,
       sort: true,
@@ -951,7 +971,7 @@ export const columns2 = [
   },
   {
     name: "SL value",
-    label: "Re-entry",
+    label: "Stoploss",
     options: {
       filter: true,
       sort: true,
@@ -959,16 +979,7 @@ export const columns2 = [
   },
   {
     name: "Quantity",
-    label: "Quantity",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-
-  {
-    name: "Expiry Date",
-    label: "Expiry Date",
+    label: "Lot",
     options: {
       filter: true,
       sort: true,
@@ -982,14 +993,7 @@ export const columns2 = [
       sort: true,
     },
   },
-  {
-    name: "ExitDay",
-    label: "Exit Day",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
+
   {
     name: "EntryTime",
     label: "Entry Time",
@@ -1007,16 +1011,17 @@ export const columns2 = [
     },
   },
   {
-    name: "Pattern",
-    label: "Pattern",
+    name: "ExitDay",
+    label: "Exit Day",
     options: {
       filter: true,
       sort: true,
     },
   },
+
   {
-    name: "TimeFrame",
-    label: "Time Frame",
+    name: "SSDate",
+    label: "SS Date",
     options: {
       filter: true,
       sort: true,
@@ -1024,23 +1029,56 @@ export const columns2 = [
   },
   {
     name: "SEDate",
-    label: "SEDate",
+    label: "SE Date",
     options: {
       filter: true,
       sort: true,
     },
   },
   {
-    name: "SSDate",
-    label: "SSDate",
+    name: "Exchange",
+    label: "Exchange",
     options: {
       filter: true,
       sort: true,
     },
   },
   {
-    name: "Trend",
-    label: "Trend",
+    name: "Expiry Date",
+    label: "Expiry Date",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+
+  {
+    name: "Instrument Type",
+    label: "Instrument Type",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "MainSymbol",
+    label: "Main Symbol",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "TaskTime",
+    label: "Task Time",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: "Token",
+    label: "Token",
     options: {
       filter: true,
       sort: true,
@@ -1054,6 +1092,15 @@ export const columns2 = [
       sort: true,
     },
   },
+
+  // {
+  //   name: "Trend",
+  //   label: "Trend",
+  //   options: {
+  //     filter: true,
+  //     sort: true,
+  //   },
+  // },
 ];
 
 // scalping
@@ -1472,13 +1519,13 @@ export const columns8 = [
   },
 
   {
-    name: "Ordertype",
-    label: "Order Type",
+    name: "StrategyTag",
+    label: "Strategy Tag",
     options: {
-      filter: true,
-      sort: true,
-    },
-  },
+        filter: true,
+        sort: true,
+    }
+},
 
   {
     name: "Planname",
