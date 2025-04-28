@@ -464,7 +464,7 @@ console.log("AnalyticsOverview", AnalyticsOverview);
       backbutton_status={true}
     >
       <div className="iq-card-body">
-        <div className="card-body">
+        <div className="">
           <div className="row g-3 mb-4">
             <div className="col-12 col-md-6 col-lg-8">
               <div className="d-flex  report-btns">
@@ -526,7 +526,7 @@ console.log("AnalyticsOverview", AnalyticsOverview);
           </div>
           {selectStrategyType === "Scalping" ? (
             <div className="mb-4">
-              <h5>Scalping</h5>
+              <h5 className="card-title">Scalping</h5>
               {tradeHistory.data1?.length > 0 ? (
                 <GridExample
                   columns={getColumnsForStrategy()}
