@@ -81,7 +81,7 @@ const navigate = useNavigate();
         <div className="d-flex justify-content-end">
                 <button
                   className="btn btn-primary m-3"
-                  onClick={() => navigate("/user/dashboard")}>
+                  onClick={() => navigate("/user/dashboard", { state:{prevSelectedTab: "ChartigPlatform"}})}>
                   Back
                 </button>
               </div>
