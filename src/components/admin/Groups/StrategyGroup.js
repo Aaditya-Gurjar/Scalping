@@ -8,6 +8,7 @@ import { width } from '@fortawesome/free-solid-svg-icons/fa0';
 import NoDataFound from '../../../ExtraComponent/NoDataFound';
 import Contnet from '../../../ExtraComponent/Content';
 
+
 const Strategygroup = () => {
     const [getGroupData, setGroupData] = useState({
         loading: true,
