@@ -18,10 +18,10 @@ const ChartingPatternCard = ({ data }) => {
         <div className="col-md-7">
           <div className="card-body">
             <h5 className="card-title">{pattern?.PatternType}</h5>
-            <h6 className="card-subtitle mb-2 text-muted">{pattern?.Pattern}</h6>
+            <h6 className="planClass">{pattern?.Pattern}</h6>
             <p className="card-text">{pattern?.Description}</p>
             <p className="card-text">
-              <small className="text-muted">Trade Type: {pattern?.TType}</small>
+              <small className="card-text">Trade Type: {pattern?.TType}</small>
             </p>
           </div>
         </div>

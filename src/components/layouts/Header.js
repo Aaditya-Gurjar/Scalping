@@ -6,7 +6,7 @@ import * as Config from "../../Utils/Config";
 import axios from "axios";
 import { TradingStatus } from "../CommonAPI/User";
 import Swal from "sweetalert2";
-import { IndianRupee, Eye } from "lucide-react";
+import { IndianRupee, Eye, Wallet } from "lucide-react";
 import {
   LastPattern,
   DataStart,
@@ -810,7 +810,7 @@ const Header = () => {
                         </span>
                       ) : (
                         <span>
-                          <Eye className="iconcol" />
+                          <Wallet className="iconcol" />
                         </span>
                       )}
                     </button>
