@@ -7222,11 +7222,11 @@ height: auto;
   right: 4% !important;
 }
 
-.response-btns {
+/* .response-btns {
   position: absolute !important;
   z-index: 2;
   right: 21%;
-}
+} */
 
 .response-page-dates {
   display: flex;
