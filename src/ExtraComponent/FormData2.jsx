@@ -146,7 +146,7 @@ const DynamicForm = ({
                                             onBlur={formik.handleBlur}
                                           />
                                           {formik.touched[item.name] &&
-                                          formik.errors[item.name] ? (
+                                            formik.errors[item.name] ? (
                                             <div style={{ color: "red" }}>
                                               {formik.errors[item.name]}
                                             </div>
@@ -200,7 +200,7 @@ const DynamicForm = ({
                                                 }}
                                               />
                                               {formik.touched[item.name] &&
-                                              formik.errors[item.name] ? (
+                                                formik.errors[item.name] ? (
                                                 <div style={{ color: "red" }}>
                                                   {formik.errors[item.name]}
                                                 </div>
@@ -318,7 +318,7 @@ const DynamicForm = ({
                                                 ))}
                                             </select>
                                             {formik.touched[item.name] &&
-                                            formik.errors[item.name] ? (
+                                              formik.errors[item.name] ? (
                                               <div style={{ color: "red" }}>
                                                 {formik.errors[item.name]}
                                               </div>
@@ -416,7 +416,7 @@ const DynamicForm = ({
                                             onBlur={formik.handleBlur}
                                           />
                                           {formik.touched[item.name] &&
-                                          formik.errors[item.name] ? (
+                                            formik.errors[item.name] ? (
                                             <div style={{ color: "red" }}>
                                               {formik.errors[item.name]}
                                             </div>
@@ -466,7 +466,7 @@ const DynamicForm = ({
                                                 }}
                                               />
                                               {formik.touched[item.name] &&
-                                              formik.errors[item.name] ? (
+                                                formik.errors[item.name] ? (
                                                 <div style={{ color: "red" }}>
                                                   {formik.errors[item.name]}
                                                 </div>
@@ -518,7 +518,7 @@ const DynamicForm = ({
                                                 />
 
                                                 {formik.touched[item.name] &&
-                                                formik.errors[item.name] ? (
+                                                  formik.errors[item.name] ? (
                                                   <div style={{ color: "red" }}>
                                                     {formik.errors[item.name]}
                                                   </div>
@@ -595,7 +595,7 @@ const DynamicForm = ({
                                                 ))}
                                             </select>
                                             {formik.touched[item.name] &&
-                                            formik.errors[item.name] ? (
+                                              formik.errors[item.name] ? (
                                               <div style={{ color: "red" }}>
                                                 {formik.errors[item.name]}
                                               </div>
@@ -655,7 +655,7 @@ const DynamicForm = ({
                                                 )}
                                               </select>
                                               {formik.touched[item.name] &&
-                                              formik.errors[item.name] ? (
+                                                formik.errors[item.name] ? (
                                                 <div style={{ color: "red" }}>
                                                   {formik.errors[item.name]}
                                                 </div>
@@ -728,7 +728,7 @@ const DynamicForm = ({
                                                   }}
                                                 />
                                                 {formik.touched[item.name] &&
-                                                formik.errors[item.name] ? (
+                                                  formik.errors[item.name] ? (
                                                   <div style={{ color: "red" }}>
                                                     {formik.errors[item.name]}
                                                   </div>
@@ -797,7 +797,7 @@ const DynamicForm = ({
                                                   }}
                                                 />
                                                 {formik.touched[item.name] &&
-                                                formik.errors[item.name] ? (
+                                                  formik.errors[item.name] ? (
                                                   <div style={{ color: "red" }}>
                                                     {formik.errors[item.name]}
                                                   </div>
@@ -863,7 +863,7 @@ const DynamicForm = ({
                                                   }}
                                                 />
                                                 {formik.touched[item.name] &&
-                                                formik.errors[item.name] ? (
+                                                  formik.errors[item.name] ? (
                                                   <div style={{ color: "red" }}>
                                                     {formik.errors[item.name]}
                                                   </div>
@@ -951,7 +951,7 @@ const DynamicForm = ({
                                             onBlur={formik.handleBlur}
                                           />
                                           {formik.touched[item.name] &&
-                                          formik.errors[item.name] ? (
+                                            formik.errors[item.name] ? (
                                             <div style={{ color: "red" }}>
                                               {formik.errors[item.name]}
                                             </div>
@@ -1017,7 +1017,7 @@ const DynamicForm = ({
                                                   }}
                                                 />
                                                 {formik.touched[item.name] &&
-                                                formik.errors[item.name] ? (
+                                                  formik.errors[item.name] ? (
                                                   <div style={{ color: "red" }}>
                                                     {formik.errors[item.name]}
                                                   </div>
@@ -1075,7 +1075,7 @@ const DynamicForm = ({
                                                 )}
                                               </select>
                                               {formik.touched[item.name] &&
-                                              formik.errors[item.name] ? (
+                                                formik.errors[item.name] ? (
                                                 <div style={{ color: "red" }}>
                                                   {formik.errors[item.name]}
                                                 </div>
@@ -1118,7 +1118,7 @@ const DynamicForm = ({
                                                 )}
                                               </select>
                                               {formik.touched[item.name] &&
-                                              formik.errors[item.name] ? (
+                                                formik.errors[item.name] ? (
                                                 <div style={{ color: "red" }}>
                                                   {formik.errors[item.name]}
                                                 </div>
@@ -1201,7 +1201,7 @@ const DynamicForm = ({
                                             onBlur={formik.handleBlur}
                                           />
                                           {formik.touched[item.name] &&
-                                          formik.errors[item.name] ? (
+                                            formik.errors[item.name] ? (
                                             <div style={{ color: "red" }}>
                                               {formik.errors[item.name]}
                                             </div>
@@ -1212,7 +1212,7 @@ const DynamicForm = ({
                                       <div
                                         className={`col-lg-${item.col_size}`}
                                         id="multiSelectID">
-                                          
+
                                         <div className="input-block mb-3 flex-column" id="multiSelectID2">
                                           <label
                                             className={`col-lg-${item.label_size} card-text-Color mb-1`}>
@@ -1281,14 +1281,14 @@ const DynamicForm = ({
                                           /> */}
 
                                           <Select
-                                          inputId="multiSelection" 
-                                          id="multiSelection"
+                                            inputId="multiSelection"
+                                            id="multiSelection"
                                             options={[
                                               {
                                                 label:
                                                   formik.values[item.name]
                                                     ?.length ===
-                                                  item.options?.length
+                                                    item.options?.length
                                                     ? "Deselect All"
                                                     : "Select All",
                                                 value: "all",
@@ -1390,7 +1390,7 @@ const DynamicForm = ({
                                                   }}
                                                 />
                                                 {formik.touched[item.name] &&
-                                                formik.errors[item.name] ? (
+                                                  formik.errors[item.name] ? (
                                                   <div style={{ color: "red" }}>
                                                     {formik.errors[item.name]}
                                                   </div>
@@ -1420,11 +1420,11 @@ const DynamicForm = ({
                                                 value={
                                                   formik.values[item.name]
                                                     ? dayjs(
-                                                        formik.values[
-                                                          item.name
-                                                        ],
-                                                        "HH:mm:ss"
-                                                      )
+                                                      formik.values[
+                                                      item.name
+                                                      ],
+                                                      "HH:mm:ss"
+                                                    )
                                                     : null
                                                 }
                                                 onChange={(newValue) => {
@@ -1432,8 +1432,8 @@ const DynamicForm = ({
                                                     item.name,
                                                     newValue
                                                       ? newValue.format(
-                                                          "HH:mm:ss"
-                                                        )
+                                                        "HH:mm:ss"
+                                                      )
                                                       : ""
                                                   );
                                                 }}
@@ -1513,7 +1513,7 @@ const DynamicForm = ({
                                                 )}
                                               </select>
                                               {formik.touched[item.name] &&
-                                              formik.errors[item.name] ? (
+                                                formik.errors[item.name] ? (
                                                 <div style={{ color: "red" }}>
                                                   {formik.errors[item.name]}
                                                 </div>
@@ -1602,9 +1602,9 @@ const DynamicForm = ({
                                               value={
                                                 formik.values[item.name]
                                                   ? dayjs(
-                                                      formik.values[item.name],
-                                                      "HH:mm:ss"
-                                                    )
+                                                    formik.values[item.name],
+                                                    "HH:mm:ss"
+                                                  )
                                                   : null
                                               }
                                               onChange={(newValue) => {
@@ -1612,8 +1612,8 @@ const DynamicForm = ({
                                                   item.name,
                                                   newValue
                                                     ? newValue.format(
-                                                        "HH:mm:ss"
-                                                      )
+                                                      "HH:mm:ss"
+                                                    )
                                                     : ""
                                                 );
                                               }}
@@ -1884,7 +1884,7 @@ const DynamicForm = ({
                               onBlur={formik.handleBlur}
                             />
                             {formik.touched[field.name] &&
-                            formik.errors[field.name] ? (
+                              formik.errors[field.name] ? (
                               <div style={{ color: "red" }}>
                                 {formik.errors[field.name]}
                               </div>
@@ -1925,7 +1925,7 @@ const DynamicForm = ({
                                   }}
                                 />
                                 {formik.touched[field.name] &&
-                                formik.errors[field.name] ? (
+                                  formik.errors[field.name] ? (
                                   <div style={{ color: "red" }}>
                                     {formik.errors[field.name]}
                                   </div>
@@ -1958,7 +1958,7 @@ const DynamicForm = ({
                               onBlur={formik.handleBlur}
                             />
                             {formik.touched[field.name] &&
-                            formik.errors[field.name] ? (
+                              formik.errors[field.name] ? (
                               <div style={{ color: "red" }}>
                                 {formik.errors[field.name]}
                               </div>
@@ -2030,7 +2030,7 @@ const DynamicForm = ({
                                 className={`form-control`}
                               />
                               {formik.touched[field.name] &&
-                              formik.errors[field.name] ? (
+                                formik.errors[field.name] ? (
                                 <div style={{ color: "red" }}>
                                   {formik.errors[field.name]}
                                 </div>
@@ -2086,7 +2086,7 @@ const DynamicForm = ({
                               </select>
 
                               {formik.touched[field.name] &&
-                              formik.errors[field.name] ? (
+                                formik.errors[field.name] ? (
                                 <div style={{ color: "red" }}>
                                   {formik.errors[field.name]}
                                 </div>
@@ -2123,7 +2123,7 @@ const DynamicForm = ({
                               </select>
 
                               {formik.touched[field.name] &&
-                              formik.errors[field.name] ? (
+                                formik.errors[field.name] ? (
                                 <div style={{ color: "red" }}>
                                   {formik.errors[field.name]}
                                 </div>
@@ -2367,7 +2367,7 @@ const DynamicForm = ({
                                                 {field.name}
                                               </h2> */}
                                 {formik.touched[field.name] &&
-                                formik.errors[field.name] ? (
+                                  formik.errors[field.name] ? (
                                   <div style={{ color: "red" }}>
                                     {formik.errors[field.name]}
                                   </div>
@@ -2393,9 +2393,9 @@ const DynamicForm = ({
                                 value={
                                   formik.values[field.name]
                                     ? dayjs(
-                                        formik.values[field.name],
-                                        "HH:mm:ss"
-                                      )
+                                      formik.values[field.name],
+                                      "HH:mm:ss"
+                                    )
                                     : null
                                 }
                                 onChange={(newValue) => {
@@ -2457,174 +2457,399 @@ const DynamicForm = ({
                               ))}
                           </div>
                           {formik.touched[field.name] &&
-                          formik.errors[field.name] ? (
+                            formik.errors[field.name] ? (
                             <div style={{ color: "red" }}>
                               {formik.errors[field.name]}
                             </div>
                           ) : null}
                         </div>
                       </>
-                    ) : field.type === "radio2" ? (
-                      <>
-                        <div
-                          className={`d-flex justify-content-center mb-4 col-lg-${field.col_size}`}>
-                          {field.title &&
-                            field.title.map((item) => (
-                              <div
-                                className={`form-check custom-checkbox d-flex align-items-center col-lg-3`}
-                                key={item.title}>
-                                <input
-                                  type="radio"
-                                  name={field.name}
-                                  value={item.value}
-                                  className="form-check-input"
-                                  id={item.title}
-                                  onChange={formik.handleChange}
-                                  checked={
-                                    formik.values[field.name] === item.value
-                                  }
-                                />
-                                <label
-                                  className={`col-lg-${field.label_size} card-text-Color col-form-label mx-2`}
-                                  htmlFor={item.title}>
-                                  {item.title}
-                                </label>
-                              </div>
-                            ))}
-                        </div>
-                      </>
-                    ) : field.type === "password" ? (
-                      <>
-                        <div className={`col-lg-${field.col_size}`}>
-                          <div className=" input-block row mb-3">
-                            <label
-                              className={`col-lg-${field.label_size} card-text-Color  col-form-labelp-0 `}
-                              htmlFor={field.name}>
-                              {field.label}
-                              <span className="text-danger">*</span>
-                            </label>
-                            <div style={{ position: "relative" }}>
-                              <input
-                                id={field.name}
-                                type={
-                                  passwordVisible[field.name]
-                                    ? "text"
-                                    : field.type
-                                }
-                                value={formik.values[field.name] || ""}
-                                placeholder={`Enter ${field.label}`}
-                                {...formik.getFieldProps(field.name)}
-                                className={` form-control`}
-                              />
-                              <i
-                                className={`fa-solid card-text-Color ${
-                                  passwordVisible[field.name]
-                                    ? "ri-eye-off-line password-eye"
-                                    : "ri-eye-line password-eye"
-                                }`}
-                                style={{
-                                  position: "absolute",
-                                  top: "1.5px",
-                                  right: "20px",
-                                  padding: "12.4px 6.6px",
-                                  borderRadius: "3px",
-                                }}
-                                onClick={() =>
-                                  setPasswordVisible((prevState) => ({
-                                    ...prevState,
-                                    [field.name]: !prevState[field.name],
-                                  }))
-                                }></i>
-                              {formik.touched[field.name] &&
-                              formik.errors[field.name] ? (
-                                <div style={{ color: "red" }}>
-                                  {formik.errors[field.name]}
-                                </div>
-                              ) : null}
-                            </div>
+                    )
+                      : field.type === "radio2" ? (
+                        <>
+                          <div className={`col-lg-${field.col_size} mt-2`}>
+                            {field.title && (
+                              <>
+                                {Array.from({ length: Math.ceil(field.title.length / 3) }).map((_, groupIndex) => (
+                                  <div className="d-flex flex-wrap mb-2" key={groupIndex}>
+                                    {field.title
+                                      .slice(groupIndex * 3, groupIndex * 3 + 3)
+                                      .map((item) => (
+                                        <div
+                                          className="form-check custom-checkbox d-flex align-items-center col-lg-4"
+                                          key={item.title}
+                                        >
+                                          <input
+                                            type="radio"
+                                            name={field.name}
+                                            value={item.value}
+                                            className="form-check-input"
+                                            id={item.title}
+                                            onChange={formik.handleChange}
+                                            checked={formik.values[field.name] === item.value}
+                                          />
+                                          <label
+                                            className={`col-lg-${field.label_size} card-text-Color col-form-label mx-2`}
+                                            htmlFor={item.title}
+                                          >
+                                            {item.title}
+                                          </label>
+                                        </div>
+                                      ))}
+                                  </div>
+                                ))}
+                              </>
+                            )}
+                            {formik.touched[field.name] && formik.errors[field.name] ? (
+                              <div style={{ color: "red" }}>{formik.errors[field.name]}</div>
+                            ) : null}
                           </div>
-                        </div>
-                      </>
-                    ) : field.type === "password1" ? (
-                      <>
-                        <div className={`col-lg-${field.col_size}`}>
-                          <div className=" input-block row">
-                            <label
-                              className={`col-lg-${field.label_size} card-text-Color col-form-labelp-0 `}
-                              htmlFor={field.name}>
-                              {field.label}
-                              <span className="text-danger">*</span>
-                            </label>
-                            <div style={{ position: "relative" }}>
-                              <input
-                                id={field.name}
-                                type={
-                                  passwordVisible[field.name]
-                                    ? "text"
-                                    : field.type
-                                }
-                                value={formik.values[field.name] || ""}
-                                placeholder={`Enter ${field.label}`}
-                                {...formik.getFieldProps(field.name)}
-                                className={` form-control`}
-                              />
+                        </>
 
-                              {formik.touched[field.name] &&
-                              formik.errors[field.name] ? (
-                                <div style={{ color: "red" }}>
-                                  {formik.errors[field.name]}
-                                </div>
-                              ) : null}
+                      )
+                        : field.type === "radio2" ? (
+                          <>
+                            <div
+                              className={`d-flex justify-content-center mb-4 col-lg-${field.col_size}`}>
+                              {field.title &&
+                                field.title.map((item) => (
+                                  <div
+                                    className={`form-check custom-checkbox d-flex align-items-center col-lg-3`}
+                                    key={item.title}>
+                                    <input
+                                      type="radio"
+                                      name={field.name}
+                                      value={item.value}
+                                      className="form-check-input"
+                                      id={item.title}
+                                      onChange={formik.handleChange}
+                                      checked={
+                                        formik.values[field.name] === item.value
+                                      }
+                                    />
+                                    <label
+                                      className={`col-lg-${field.label_size} card-text-Color col-form-label mx-2`}
+                                      htmlFor={item.title}>
+                                      {item.title}
+                                    </label>
+                                  </div>
+                                ))}
                             </div>
-                          </div>
-                        </div>
-                      </>
-                    ) : field.type === "date" ? (
-                      <>
-                        <div className="col-lg-3">
-                          <div className="row d-flex">
-                            <div className="col-lg-12 ">
-                              <div className="form-check custom-checkbox input-block p-0">
+                          </>
+                        ) : field.type === "password" ? (
+                          <>
+                            <div className={`col-lg-${field.col_size}`}>
+                              <div className=" input-block row mb-3">
                                 <label
-                                  className="col-lg-6 card-text-Color"
-                                  htmlFor={field.label}>
+                                  className={`col-lg-${field.label_size} card-text-Color  col-form-labelp-0 `}
+                                  htmlFor={field.name}>
+                                  {field.label}
+                                  <span className="text-danger">*</span>
+                                </label>
+                                <div style={{ position: "relative" }}>
+                                  <input
+                                    id={field.name}
+                                    type={
+                                      passwordVisible[field.name]
+                                        ? "text"
+                                        : field.type
+                                    }
+                                    value={formik.values[field.name] || ""}
+                                    placeholder={`Enter ${field.label}`}
+                                    {...formik.getFieldProps(field.name)}
+                                    className={` form-control`}
+                                  />
+                                  <i
+                                    className={`fa-solid card-text-Color ${passwordVisible[field.name]
+                                        ? "ri-eye-off-line password-eye"
+                                        : "ri-eye-line password-eye"
+                                      }`}
+                                    style={{
+                                      position: "absolute",
+                                      top: "1.5px",
+                                      right: "20px",
+                                      padding: "12.4px 6.6px",
+                                      borderRadius: "3px",
+                                    }}
+                                    onClick={() =>
+                                      setPasswordVisible((prevState) => ({
+                                        ...prevState,
+                                        [field.name]: !prevState[field.name],
+                                      }))
+                                    }></i>
+                                  {formik.touched[field.name] &&
+                                    formik.errors[field.name] ? (
+                                    <div style={{ color: "red" }}>
+                                      {formik.errors[field.name]}
+                                    </div>
+                                  ) : null}
+                                </div>
+                              </div>
+                            </div>
+                          </>
+                        ) : field.type === "password1" ? (
+                          <>
+                            <div className={`col-lg-${field.col_size}`}>
+                              <div className=" input-block row">
+                                <label
+                                  className={`col-lg-${field.label_size} card-text-Color col-form-labelp-0 `}
+                                  htmlFor={field.name}>
+                                  {field.label}
+                                  <span className="text-danger">*</span>
+                                </label>
+                                <div style={{ position: "relative" }}>
+                                  <input
+                                    id={field.name}
+                                    type={
+                                      passwordVisible[field.name]
+                                        ? "text"
+                                        : field.type
+                                    }
+                                    value={formik.values[field.name] || ""}
+                                    placeholder={`Enter ${field.label}`}
+                                    {...formik.getFieldProps(field.name)}
+                                    className={` form-control`}
+                                  />
+
+                                  {formik.touched[field.name] &&
+                                    formik.errors[field.name] ? (
+                                    <div style={{ color: "red" }}>
+                                      {formik.errors[field.name]}
+                                    </div>
+                                  ) : null}
+                                </div>
+                              </div>
+                            </div>
+                          </>
+                        ) : field.type === "date" ? (
+                          <>
+                            <div className="col-lg-3">
+                              <div className="row d-flex">
+                                <div className="col-lg-12 ">
+                                  <div className="form-check custom-checkbox input-block p-0">
+                                    <label
+                                      className="col-lg-6 card-text-Color"
+                                      htmlFor={field.label}>
+                                      {field.label}
+                                    </label>
+                                    <input
+                                      type={field.type}
+                                      name={field.name}
+                                      className="form-control"
+                                      id={field.name}
+                                      readOnly={field.disable}
+                                      {...formik.getFieldProps(field.name)}
+                                    />
+                                  </div>
+                                  {formik.errors[field.name] && (
+                                    <div style={{ color: "red" }}>
+                                      {formik.errors[field.name]}
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          </>
+                        ) : field.type === "msgbox" ? (
+                          <>
+                            <div className={`col-lg-${field.col_size}`}>
+                              <div className="row d-flex">
+                                <div className="mb-3 input-block">
+                                  <label
+                                    className={`col-lg-${field.label_size} card-text-Color`}
+                                    htmlFor={field.name}>
+                                    {field.label}
+                                  </label>
+                                  <textarea
+                                    className="form-control"
+                                    rows={field.row_size}
+                                    id={field.name}
+                                    name={field.name}
+                                    {...formik.getFieldProps(field.name)}
+                                    placeholder={field.label}></textarea>
+                                  {formik.touched[field.name] &&
+                                    formik.errors[field.name] && (
+                                      <div style={{ color: "red" }}>
+                                        {formik.errors[field.name]}
+                                      </div>
+                                    )}
+                                </div>
+                              </div>
+                            </div>
+                          </>
+                        ) : field.type === "number" ? (
+                          <>
+                            <div className={`col-lg-${field.col_size}`}>
+                              <div className="row d-flex">
+                                <div className="col-lg-12 ">
+                                  <div className="form-group input-block mb-3">
+                                    <label
+                                      className={`col-lg-${field.label_size} card-text-Color`}
+                                      htmlFor={field.name}>
+                                      {field.label}
+                                    </label>
+                                    <span className="text-danger">*</span>
+
+                                    <input
+                                      type="number"
+                                      name={field.name}
+                                      aria-describedby="basic-addon1"
+                                      className="form-control"
+                                      id={field.name}
+                                      placeholder={`Enter ${field.label}`}
+                                      {...formik.getFieldProps(field.name)}
+                                    />
+
+                                    {formik.touched[field.name] &&
+                                      formik.errors[field.name] ? (
+                                      <div style={{ color: "red" }}>
+                                        {formik.errors[field.name]}
+                                      </div>
+                                    ) : null}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </>
+                        ) : field.type === "security" ? (
+                          <>
+                            <div className={`col-lg-${field.col_size}`}>
+                              <div className="input-block mb-3 flex-column">
+                                <label
+                                  className={`col-lg-${field.label_size} card-text-Color`}>
                                   {field.label}
                                 </label>
-                                <input
-                                  type={field.type}
-                                  name={field.name}
-                                  className="form-control"
-                                  id={field.name}
-                                  readOnly={field.disable}
-                                  {...formik.getFieldProps(field.name)}
-                                />
                               </div>
-                              {formik.errors[field.name] && (
-                                <div style={{ color: "red" }}>
-                                  {formik.errors[field.name]}
-                                </div>
-                              )}
                             </div>
-                          </div>
-                        </div>
-                      </>
-                    ) : field.type === "msgbox" ? (
-                      <>
-                        <div className={`col-lg-${field.col_size}`}>
-                          <div className="row d-flex">
-                            <div className="mb-3 input-block">
+                          </>
+                        ) : field.type === "text3" ? (
+                          <>
+                            <div className={`col-lg-${field.col_size}`}>
+                              <div className="row d-flex">
+                                <div className="col-lg-12">
+                                  <div className="form-group input-block mb-3">
+                                    <label
+                                      className={`col-lg-${field.label_size} card-text-Color d-flex align-items-center`}
+                                      htmlFor={field.name}>
+                                      {field.label}
+                                      <span className="text-danger ms-1">*</span>
+                                    </label>
+                                    <input
+                                      type="text"
+                                      name={field.name}
+                                      readOnly={field.disable}
+                                      aria-describedby="basic-addon1"
+                                      className="form-control"
+                                      id={field.name}
+                                      placeholder={`Enter ${field.label}`}
+                                      {...formik.getFieldProps(field.name)}
+                                      onChange={(e) => {
+                                        let value = e.target.value;
+                                        if (
+                                          /^\d*\.?\d*$/.test(value) &&
+                                          value.length <= 10
+                                        ) {
+                                          formik.setFieldValue(field.name, value);
+                                        }
+                                      }}
+                                    />
+                                    {formik.touched[field.name] &&
+                                      formik.errors[field.name] ? (
+                                      <div style={{ color: "red" }}>
+                                        {formik.errors[field.name]}
+                                      </div>
+                                    ) : null}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </>
+                        ) : field.type === "text4" ? (
+                          <>
+                            <div className={`col-lg-${field.col_size}`}>
+                              <div className="row d-flex">
+                                <div className="col-lg-12">
+                                  <div className="form-group input-block mb-3">
+                                    <label
+                                      className={`col-lg-${field.label_size} card-text-Color`}
+                                      htmlFor={field.name}>
+                                      {field.label}
+                                    </label>
+                                    <span className="text-danger">*</span>
+                                    <input
+                                      type="number"
+                                      name={field.name}
+                                      readOnly={field.disable}
+                                      aria-describedby="basic-addon1"
+                                      className="form-control"
+                                      id={field.name}
+                                      placeholder={`Enter ${field.label}`}
+                                      {...formik.getFieldProps(field.name)}
+                                      min={1}
+                                      step="any"
+                                      onChange={(e) => {
+                                        let value = e.target.value;
+                                        value = value.replace(/^0+(?!\.)/, "");
+                                        if (value !== "") {
+                                          value = Math.min(
+                                            Math.max(parseFloat(value), 1),
+                                            100
+                                          );
+                                        }
+                                        formik.setFieldValue(field.name, value);
+                                      }}
+                                    />
+                                    {formik.touched[field.name] &&
+                                      formik.errors[field.name] ? (
+                                      <div style={{ color: "red" }}>
+                                        {formik.errors[field.name]}
+                                      </div>
+                                    ) : null}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </>
+                        ) : field.type === "heading" ? (
+                          <>
+                            <div></div>
+                            <div className={`col-lg-${field.col_size}`}>
+                              <div className="row d-flex">
+                                <div className="col-lg-12">
+                                  <div className="form-group input-block mt-3">
+                                    <h5 style={{ fontWeight: 600 }}>
+                                      {field.label}
+                                    </h5>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </>
+                        ) : field.type === "multiselect" ? (
+                          <div className={`col-lg-${field.col_size}`}>
+                            <div className="input-block mb-3 flex-column" id="multiSelectIdTest">
                               <label
-                                className={`col-lg-${field.label_size} card-text-Color`}
-                                htmlFor={field.name}>
+                                className={`col-lg-${field.label_size} card-text-Color mb-1`}>
                                 {field.label}
+                                <span className="text-danger">*</span>
                               </label>
-                              <textarea
-                                className="form-control"
-                                rows={field.row_size}
-                                id={field.name}
-                                name={field.name}
-                                {...formik.getFieldProps(field.name)}
-                                placeholder={field.label}></textarea>
+                              <Select
+                                id="multiSelection"
+                                options={field.options}
+                                isMulti
+                                className="basic-multi-select"
+                                value={formik.values[field.name]} // Bind to Formik's values
+                                onChange={
+                                  (selected) =>
+                                    formik.setFieldValue(field.name, selected) // Use Formik's setFieldValue
+                                }
+                                placeholder={
+                                  field.placeholder
+                                    ? field.placeholder
+                                    : "Select options"
+                                }
+                                isDisabled={field.disable}
+                              />
                               {formik.touched[field.name] &&
                                 formik.errors[field.name] && (
                                   <div style={{ color: "red" }}>
@@ -2633,196 +2858,13 @@ const DynamicForm = ({
                                 )}
                             </div>
                           </div>
-                        </div>
-                      </>
-                    ) : field.type === "number" ? (
-                      <>
-                        <div className={`col-lg-${field.col_size}`}>
-                          <div className="row d-flex">
-                            <div className="col-lg-12 ">
-                              <div className="form-group input-block mb-3">
-                                <label
-                                  className={`col-lg-${field.label_size} card-text-Color`}
-                                  htmlFor={field.name}>
-                                  {field.label}
-                                </label>
-                                <span className="text-danger">*</span>
-
-                                <input
-                                  type="number"
-                                  name={field.name}
-                                  aria-describedby="basic-addon1"
-                                  className="form-control"
-                                  id={field.name}
-                                  placeholder={`Enter ${field.label}`}
-                                  {...formik.getFieldProps(field.name)}
-                                />
-
-                                {formik.touched[field.name] &&
-                                formik.errors[field.name] ? (
-                                  <div style={{ color: "red" }}>
-                                    {formik.errors[field.name]}
-                                  </div>
-                                ) : null}
-                              </div>
+                        ) : (
+                          <>
+                            <div className={`col-lg-${field.col_size}`}>
+                              <div className="input-block mb-3"></div>
                             </div>
-                          </div>
-                        </div>
-                      </>
-                    ) : field.type === "security" ? (
-                      <>
-                        <div className={`col-lg-${field.col_size}`}>
-                          <div className="input-block mb-3 flex-column">
-                            <label
-                              className={`col-lg-${field.label_size} card-text-Color`}>
-                              {field.label}
-                            </label>
-                          </div>
-                        </div>
-                      </>
-                    ) : field.type === "text3" ? (
-                      <>
-                        <div className={`col-lg-${field.col_size}`}>
-                          <div className="row d-flex">
-                            <div className="col-lg-12">
-                              <div className="form-group input-block mb-3">
-                                <label
-                                  className={`col-lg-${field.label_size} card-text-Color d-flex align-items-center`}
-                                  htmlFor={field.name}>
-                                  {field.label}
-                                  <span className="text-danger ms-1">*</span>
-                                </label>
-                                <input
-                                  type="text"
-                                  name={field.name}
-                                  readOnly={field.disable}
-                                  aria-describedby="basic-addon1"
-                                  className="form-control"
-                                  id={field.name}
-                                  placeholder={`Enter ${field.label}`}
-                                  {...formik.getFieldProps(field.name)}
-                                  onChange={(e) => {
-                                    let value = e.target.value;
-                                    if (
-                                      /^\d*\.?\d*$/.test(value) &&
-                                      value.length <= 10
-                                    ) {
-                                      formik.setFieldValue(field.name, value);
-                                    }
-                                  }}
-                                />
-                                {formik.touched[field.name] &&
-                                formik.errors[field.name] ? (
-                                  <div style={{ color: "red" }}>
-                                    {formik.errors[field.name]}
-                                  </div>
-                                ) : null}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </>
-                    ) : field.type === "text4" ? (
-                      <>
-                        <div className={`col-lg-${field.col_size}`}>
-                          <div className="row d-flex">
-                            <div className="col-lg-12">
-                              <div className="form-group input-block mb-3">
-                                <label
-                                  className={`col-lg-${field.label_size} card-text-Color`}
-                                  htmlFor={field.name}>
-                                  {field.label}
-                                </label>
-                                <span className="text-danger">*</span>
-                                <input
-                                  type="number"
-                                  name={field.name}
-                                  readOnly={field.disable}
-                                  aria-describedby="basic-addon1"
-                                  className="form-control"
-                                  id={field.name}
-                                  placeholder={`Enter ${field.label}`}
-                                  {...formik.getFieldProps(field.name)}
-                                  min={1}
-                                  step="any"
-                                  onChange={(e) => {
-                                    let value = e.target.value;
-                                    value = value.replace(/^0+(?!\.)/, "");
-                                    if (value !== "") {
-                                      value = Math.min(
-                                        Math.max(parseFloat(value), 1),
-                                        100
-                                      );
-                                    }
-                                    formik.setFieldValue(field.name, value);
-                                  }}
-                                />
-                                {formik.touched[field.name] &&
-                                formik.errors[field.name] ? (
-                                  <div style={{ color: "red" }}>
-                                    {formik.errors[field.name]}
-                                  </div>
-                                ) : null}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </>
-                    ) : field.type === "heading" ? (
-                      <>
-                        <div></div>
-                        <div className={`col-lg-${field.col_size}`}>
-                          <div className="row d-flex">
-                            <div className="col-lg-12">
-                              <div className="form-group input-block mt-3">
-                                <h5 style={{ fontWeight: 600 }}>
-                                  {field.label}
-                                </h5>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </>
-                    ) : field.type === "multiselect" ? (
-                      <div className={`col-lg-${field.col_size}`}>
-                        <div className="input-block mb-3 flex-column" id="multiSelectIdTest">
-                          <label
-                            className={`col-lg-${field.label_size} card-text-Color mb-1`}>
-                            {field.label}
-                            <span className="text-danger">*</span>
-                          </label>
-                          <Select
-                            id="multiSelection"
-                            options={field.options}
-                            isMulti
-                            className="basic-multi-select"
-                            value={formik.values[field.name]} // Bind to Formik's values
-                            onChange={
-                              (selected) =>
-                                formik.setFieldValue(field.name, selected) // Use Formik's setFieldValue
-                            }
-                            placeholder={
-                              field.placeholder
-                                ? field.placeholder
-                                : "Select options"
-                            }
-                            isDisabled={field.disable}
-                          />
-                          {formik.touched[field.name] &&
-                            formik.errors[field.name] && (
-                              <div style={{ color: "red" }}>
-                                {formik.errors[field.name]}
-                              </div>
-                            )}
-                        </div>
-                      </div>
-                    ) : (
-                      <>
-                        <div className={`col-lg-${field.col_size}`}>
-                          <div className="input-block mb-3"></div>
-                        </div>
-                      </>
-                    )}
+                          </>
+                        )}
                   </React.Fragment>
                 ))}
                 {additional_field}

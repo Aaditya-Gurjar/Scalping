@@ -4,7 +4,7 @@ import { useFormik } from "formik";
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { GET_EXPIRY_DATE, ExpriyEndDate } from "../../CommonAPI/Admin";
-import { AddScript, CheckPnL } from "../../CommonAPI/User";
+import { AddScript, CheckPnL, getOptionType } from "../../CommonAPI/User";
 import Button from "react-bootstrap/Button";
 
 import axios from "axios";
@@ -12,10 +12,6 @@ import * as Config from "../../../Utils/Config";
 import { text } from "../../../ExtraComponent/IconTexts";
 import { Modal } from "react-bootstrap";
 import Content from "../../../ExtraComponent/Content";
-import { Tabs, Tab } from "react-bootstrap";
-import { FaUserAlt, FaChartLine } from "react-icons/fa"; // Import icons
-import "./TabStyles.css"; // Import custom CSS for styling
-import NewMarketWise from "./NewMarketWise.Option";
 
 const AddClient = () => {
   const location = useLocation();
@@ -30,6 +26,7 @@ const AddClient = () => {
   const [symbolOptions, setSymbolOptions] = useState([]);
   const [exchangeOptions, setExchangeOptions] = useState([]);
   const [openModel, setOpenModel] = useState(false);
+  const [optionRadioType, setOptionRadioType] = useState([]);
 
   const [PnlData, setPnlData] = useState({
     MaximumProfit: "",
@@ -42,6 +39,12 @@ const AddClient = () => {
     NoprofitLoss2: "",
   });
   // console.log("PnlData mai kya kya aa rha hai", PnlData);
+
+  const plnName =  location?.state?.data?.scriptType?.data?.find(
+    (item) => item.EndDate == getEndData(formik.values.Measurment_Type)
+  )?.Planname
+
+  
 
   const SweentAlertFun = (text) => {
     Swal.fire({
@@ -86,6 +89,8 @@ const AddClient = () => {
       }
     }
   };
+
+  const OptionType_options = ["Bearish","Bullish","Neutral", "Volatile"]
 
   const formik = useFormik({
     initialValues: {
@@ -146,6 +151,7 @@ const AddClient = () => {
       ExitType: "",
       WorkingDay: [],
       Planname: "",
+      Measurment_Type: OptionType_options[0], // Set the first option as default
     },
     validate: (values) => {
       let errors = {};
@@ -213,12 +219,10 @@ const AddClient = () => {
         errors.Expirytype = "Please select an expiry type.";
       }
 
-      if (!values.Lower_Range && values.Striketype === "Premium_Range" &&
-        values.Measurment_Type != "Shifting_FourLeg") {
+      if (!values.Lower_Range && values.Striketype === "Premium_Range") {
         errors.Lower_Range = "Please enter the lower range.";
       }
-      if (!values.Higher_Range && values.Striketype === "Premium_Range" &&
-        values.Measurment_Type != "Shifting_FourLeg") {
+      if (!values.Higher_Range && values.Striketype === "Premium_Range") {
         errors.Higher_Range = "Please enter the higher range.";
       }
       if (!values.Striketype) {
@@ -335,7 +339,6 @@ const AddClient = () => {
 
       if (
         values.Striketype == "Depth_of_Strike" &&
-        values.Measurment_Type != "Shifting_FourLeg" &&
         values.Strategy != "LongStraddle" &&
         values.Strategy != "ShortStraddle"
       ) {
@@ -351,7 +354,6 @@ const AddClient = () => {
       }
       if (
         values.Striketype == "Straddle_Width" &&
-        values.Measurment_Type != "Shifting_FourLeg" &&
         values.Strategy != "LongStraddle" &&
         values.Strategy != "ShortStraddle"
       ) {
@@ -367,7 +369,6 @@ const AddClient = () => {
       }
       if (
         values.Striketype == "Per_ATM" &&
-        values.Measurment_Type != "Shifting_FourLeg" &&
         values.Strategy != "LongStraddle" &&
         values.Strategy != "ShortStraddle"
       ) {
@@ -382,10 +383,8 @@ const AddClient = () => {
               : "Please Enter % of ATM value between -2.5 to 2.5";
       }
       if (
-        (values.Measurment_Type == "Ladder_Coverd" &&
-          values.Measurment_Type != "Shifting_FourLeg" &&
-          (values.Strategy == "BullCallLadder" ||
-            values.Strategy == "BullPutLadder")) ||
+        (values.Strategy == "BullCallLadder" ||
+          values.Strategy == "BullPutLadder") ||
         values.Strategy == "LongIronCondor" ||
         values.Strategy == "ShortIronCondor"
       ) {
@@ -407,18 +406,9 @@ const AddClient = () => {
         }
       }
       if (
-        values.Measurment_Type == "Shifting_FourLeg" &&
+        values.Striketype == "Depth_of_Strike" &&
         (values.Strategy == "ShortShifting" ||
           values.Strategy == "LongShifting")
-      ) {
-        if (values.Shifting_Point > 1000 || values.Shifting_Point < 100) {
-          errors.Shifting_Point = "Please Enter in range 100-1000";
-        }
-      }
-      if (
-        values.Measurment_Type == "Shifting_FourLeg" &&
-        values.Strategy != "ShortFourLegStretegy" &&
-        values.Strategy != "LongFourLegStretegy"
       ) {
         if (values.Shifting_Value > 5 || values.Shifting_Value < 1) {
           errors.Shifting_Value = "Please Enter Number of Shifts Between 1-5";
@@ -436,7 +426,6 @@ const AddClient = () => {
 
       if (
         !values.ExitType &&
-        values.Measurment_Type != "Shifting_FourLeg" &&
         values.ETPattern == "Leg vice"
       ) {
         errors.ExitType = "Please Select Exit Type";
@@ -454,15 +443,13 @@ const AddClient = () => {
 
 
     onSubmit: async (values) => {
-
+console.log("values", values);
       const req = {
         MainStrategy: location.state.data.selectStrategyType,
         Username: userName,
         Strategy: values.Strategy,
         ETPattern:
-          values.Measurment_Type != "Shifting_FourLeg"
-            ? values.ETPattern
-            : values.Strategy == "ShortShifting" ||
+          values.Strategy == "ShortShifting" ||
               values.Strategy == "LongShifting"
               ? "Leg vice"
               : (
@@ -477,22 +464,19 @@ const AddClient = () => {
         Strike: "",
         Optiontype: "",
         Targetvalue:
-          values.Measurment_Type == "Shifting_FourLeg" &&
-            (values.Strategy == "ShortShifting" ||
-              values.Strategy == "LongShifting")
+          values.Strategy == "ShortShifting" ||
+              values.Strategy == "LongShifting"
             ? values.Shifting_Point
             : values.Targetvalue,
         Slvalue: values.Slvalue,
         TStype: values.TStype,
         Quantity: values.Quantity,
         LowerRange:
-          values.Striketype == "Premium_Range" &&
-            values.Measurment_Type != "Shifting_FourLeg"
+          values.Striketype == "Premium_Range"
             ? values.Lower_Range
             : 0,
         HigherRange:
-          values.Striketype == "Premium_Range" &&
-            values.Measurment_Type != "Shifting_FourLeg"
+          values.Striketype == "Premium_Range"
             ? values.Higher_Range
             : 0,
         HoldExit: "",
@@ -507,9 +491,8 @@ const AddClient = () => {
         expirydata1: getExpiry && getExpiry.data[0],
         Expirytype: values.Expirytype,
         Striketype:
-          formik.values.Strategy !== "ShortStraddle" &&
-            formik.values.Strategy !== "LongStraddle" &&
-            formik.values.Measurment_Type !== "Shifting_FourLeg"
+            formik.values.Strategy !== "ShortStraddle" &&
+            formik.values.Strategy !== "LongStraddle"
             ? values.Striketype
             : (formik.values.Strategy === "LongFourLegStretegy" ||
               formik.values.Strategy === "ShortFourLegStretegy")
@@ -517,21 +500,17 @@ const AddClient = () => {
               : "",
 
         DepthofStrike:
-          formik.values.Striketype != "Premium_Range" &&
-            formik.values.Measurment_Type != "Shifting_FourLeg" &&
+            formik.values.Striketype != "Premium_Range" &&
             formik.values.Strategy != "LongStraddle" &&
             formik.values.Strategy != "ShortStraddle"
             ? Number(values.DepthofStrike)
-            : formik.values.Measurment_Type == "Shifting_FourLeg" &&
-              formik.values.Strategy != "ShortFourLegStretegy" &&
+            : formik.values.Strategy != "ShortFourLegStretegy" &&
               formik.values.Strategy != "LongFourLegStretegy"
               ? values.Shifting_Value
               : 0,
         DeepStrike:
-          (formik.values.Measurment_Type == "Ladder_Coverd" &&
-            formik.values.Measurment_Type != "Shifting_FourLeg" &&
             (formik.values.Strategy == "BullCallLadder" ||
-              formik.values.Strategy == "BullPutLadder")) ||
+              formik.values.Strategy == "BullPutLadder") ||
             formik.values.Strategy == "LongIronCondor" ||
             formik.values.Strategy == "ShortIronCondor"
             ? Number(values.DeepStrike)
@@ -559,7 +538,6 @@ const AddClient = () => {
         Loss: Number(values.Loss),
         Profit: Number(values.Profit),
         ExitRuleO:
-          values.Measurment_Type != "Shifting_FourLeg" &&
             values.ETPattern == "Leg vice"
             ? values.ExitType
             : "",
@@ -571,6 +549,7 @@ const AddClient = () => {
         )?.Planname,
       };
 
+      console.log("req", req);
 
 
 
@@ -586,7 +565,6 @@ const AddClient = () => {
 
       if (
         values.Striketype === "Premium_Range" &&
-        values.Measurment_Type != "Shifting_FourLeg" &&
         formik.values.Strategy !== "LongFourLegStretegy" &&
         formik.values.Strategy !== "ShortFourLegStretegy" &&
         Number(values.Lower_Range) >= Number(values.Higher_Range)
@@ -631,7 +609,7 @@ const AddClient = () => {
         }
       }
 
-
+console.log(":befie api hit ")
       await AddScript(req)
         .then((response) => {
           if (response.Status) {
@@ -645,10 +623,10 @@ const AddClient = () => {
               timer: 1500,
               timerProgressBar: true,
             });
-            sessionStorage.setItem("addScriptTab", "Option Strategy");
+            sessionStorage.setItem("addScriptTab", "Option Strategy"); 
 
             setTimeout(() => {
-              navigate("/user/dashboard", { state: { prevSelectedTab: "Option Strategy" } });
+              navigate("/user/dashboard", { state:{prevSelectedTab: "Option Strategy"}});
             }, 1500);
           } else {
             Swal.fire({
@@ -820,9 +798,6 @@ const AddClient = () => {
       ],
       showWhen: (value) =>
         value.Strategy != "ShortStraddle" &&
-        value.Strategy != "LongStraddle" &&
-        value.Measurment_Type != "Shifting_FourLeg" &&
-        value.Strategy != "ShortStraddle" &&
         value.Strategy != "LongStraddle",
       headingtype: 1,
       hiding: false,
@@ -853,7 +828,6 @@ const AddClient = () => {
       hiding: false,
       showWhen: (value) =>
         formik.values.Striketype != "Premium_Range" &&
-        value.Measurment_Type != "Shifting_FourLeg" &&
         value.Strategy != "LongStraddle" &&
         value.Strategy != "ShortStraddle",
       label_size: 12,
@@ -867,10 +841,8 @@ const AddClient = () => {
       label: "Deep Strike",
       type: "number",
       showWhen: (value) =>
-        (value.Measurment_Type == "Ladder_Coverd" &&
-          value.Measurment_Type != "Shifting_FourLeg" &&
-          (value.Strategy == "BullCallLadder" ||
-            value.Strategy == "BullPutLadder")) ||
+        value.Strategy == "BullCallLadder" ||
+        value.Strategy == "BullPutLadder" ||
         value.Strategy == "LongIronCondor" ||
         value.Strategy == "ShortIronCondor",
       hiding: false,
@@ -885,8 +857,7 @@ const AddClient = () => {
       type: "text3",
       hiding: false,
       showWhen: (value) =>
-        value.Striketype == "Premium_Range" &&
-        value.Measurment_Type != "Shifting_FourLeg",
+        value.Striketype == "Premium_Range",
       label_size: 12,
       col_size: 3,
       headingtype: 2,
@@ -899,8 +870,7 @@ const AddClient = () => {
       type: "text3",
       hiding: false,
       showWhen: (value) =>
-        value.Striketype == "Premium_Range" &&
-        value.Measurment_Type != "Shifting_FourLeg",
+        value.Striketype == "Premium_Range",
       label_size: 12,
       col_size: 3,
       headingtype: 2,
@@ -915,8 +885,7 @@ const AddClient = () => {
       hiding: false,
       label_size: 12,
       showWhen: (value) =>
-        value.Measurment_Type == "Shifting_FourLeg" &&
-        (value.Strategy == "ShortShifting" || value.Strategy == "LongShifting"),
+        value.Strategy == "ShortShifting" || value.Strategy == "LongShifting",
       col_size: 3,
       headingtype: 2,
       disable: false,
@@ -1159,7 +1128,6 @@ const AddClient = () => {
       label: "Number of Shifts",
       type: "text3",
       showWhen: (value) =>
-        value.Measurment_Type == "Shifting_FourLeg" &&
         value.Strategy != "ShortFourLegStretegy" &&
         value.Strategy != "LongFourLegStretegy",
       hiding: false,
@@ -1293,14 +1261,42 @@ const AddClient = () => {
     },
   ];
 
+  
+
+  console.log("Measurment_Type---", formik.values.Measurment_Type)
+
+  const fetchRadioOptions = async () => {
+    try {
+      const res = await getOptionType(formik.values.Measurment_Type);
+      console.log("res-------------", res);
+      if (res) {
+       setOptionRadioType(res[formik.values.Measurment_Type])
+      } else {
+        console.error("Unexpected API response:", res);
+      }
+    } catch (error) {
+      console.error("Error fetching radio options:", error);
+    }
+  };
+
+  console.log("OptionRadioType", optionRadioType)
+
+  useEffect(() => {
+    fetchRadioOptions()
+  }, [formik.values.Measurment_Type])
+
+  useEffect(() => {
+    // Set the initial value for Measurment_Type and trigger the API call
+    formik.setFieldValue("Measurment_Type", OptionType_options[0]);
+    fetchRadioOptions();
+  }, []);
+
   const fields = [
     {
       name: "Measurment_Type",
       label: "Option Type",
       type: "select",
-      options: location?.state?.data?.scriptType?.data?.[
-        location?.state?.data?.scriptType?.len
-      ]?.CombineOption.map((item) => {
+       options: OptionType_options.map((item) => {
         return { label: item, value: item };
       }),
       hiding: false,
@@ -1311,52 +1307,10 @@ const AddClient = () => {
     {
       name: "Strategy",
       label: "Strategy",
-      type: "radio1",
-      title:
-        formik.values.Measurment_Type == "Straddle_Strangle"
-          ? [
-            { title: "Long Strangle", value: "LongStrangle" },
-            { title: "Short Strangle", value: "ShortStrangle" },
-            { title: "Long Straddle", value: "LongStraddle" },
-            { title: "Short Straddle", value: "ShortStraddle" },
-          ]
-          : formik.values.Measurment_Type == "Butterfly_Condor"
-            ? [
-              { title: "Long Iron Butterfly", value: "LongIronButterfly" },
-              { title: "Short Iron Butterfly", value: "ShortIronButterfly" },
-              { title: "Long Iron Condor", value: "LongIronCondor" },
-              { title: "Short Iron Condor", value: "ShortIronCondor" },
-            ]
-            : formik.values.Measurment_Type == "Spread"
-              ? [
-                { title: "Bear Call Spread", value: "BearCallSpread" },
-                { title: "Bear Put Spread", value: "BearPutSpread" },
-                { title: "Bull Call Spread", value: "BullCallSpread" },
-                { title: "Bull Put Spread", value: "BullPutSpread" },
-              ]
-              : formik.values.Measurment_Type == "Ladder_Coverd"
-                ? [
-                  { title: "Bull Call Ladder", value: "BullCallLadder" },
-                  { title: "Bull Put Ladder", value: "BullPutLadder" },
-                  { title: "Covered Call", value: "CoveredCall" },
-                  { title: "Covered Put", value: "CoveredPut" },
-                ]
-                : formik.values.Measurment_Type == "Collar_Ratio"
-                  ? [
-                    { title: "Long Collar", value: "LongCollar" },
-                    { title: "Short Collar", value: "ShortCollar" },
-                    { title: "Ratio Call Spread", value: "RatioCallSpread" },
-                    { title: "Ratio Put Spread", value: "RatioPutSpread" },
-                  ]
-                  : formik.values.Measurment_Type == "Shifting_FourLeg"
-                    ? [
-                      { title: "Short Shifting", value: "ShortShifting" },
-                      { title: "Long Shifting", value: "LongShifting" },
-                      { title: "ShortFourLegStrategy", value: "ShortFourLegStretegy" },
-                      { title: "LongFourLegStrategy", value: "LongFourLegStretegy" },
-                    ]
-                    : "",
-
+      type: "radio2",
+      title : optionRadioType?.map((item) => {
+        return { title: item, value: item };
+      }),
       label_size: 12,
       col_size: 8,
       disable: false,
@@ -1404,6 +1358,7 @@ const AddClient = () => {
       ),
       disable: false,
     },
+
     {
       name: "Heading",
       label: "Exit_Rule",
@@ -1444,25 +1399,6 @@ const AddClient = () => {
       disable: false,
     },
   ];
-
-  useEffect(() => {
-    formik.setFieldValue(
-      "Strategy",
-      formik.values.Measurment_Type == "Straddle_Strangle"
-        ? "LongStrangle"
-        : formik.values.Measurment_Type == "Butterfly_Condor"
-          ? "LongIronButterfly"
-          : formik.values.Measurment_Type == "Spread"
-            ? "BearCallSpread"
-            : formik.values.Measurment_Type == "Ladder_Coverd"
-              ? "BullCallLadder"
-              : formik.values.Measurment_Type == "Collar_Ratio"
-                ? "LongCollar"
-                : formik.values.Measurment_Type == "Shifting_FourLeg"
-                  ? "ShortShifting"
-                  : ""
-    );
-  }, [formik.values.Measurment_Type]);
 
   const getExpriyData = async () => {
     const data = {
@@ -1514,26 +1450,19 @@ const AddClient = () => {
   }, []);
 
   useEffect(() => {
-    if (
-      formik.values.Strategy == "LongFourLegStretegy" ||
+    if (formik.values.Strategy == "LongFourLegStretegy" ||
       formik.values.Strategy == "ShortFourLegStretegy"
     ) {
-
       formik.setFieldValue("Striketype", "Premium_Range");
       formik.setFieldValue("ETPattern", "Premium Addition");
-
     }
-
     if (formik.values.Striketype != "Premium_Range") {
       formik.setFieldValue("Higher_Range", 1);
       formik.setFieldValue("Lower_Range", 1);
     }
-
     if (
-      (formik.values.Measurment_Type == "Ladder_Coverd" &&
-        formik.values.Measurment_Type != "Shifting_FourLeg" &&
-        (formik.values.Strategy == "BullCallLadder" ||
-          formik.values.Strategy == "BullPutLadder")) ||
+      (formik.values.Strategy == "BullCallLadder" ||
+        formik.values.Strategy == "BullPutLadder") ||
       formik.values.Strategy == "LongIronCondor" ||
       formik.values.Strategy == "ShortIronCondor"
     ) {
@@ -1541,33 +1470,19 @@ const AddClient = () => {
     }
 
     if (
-      !(
-        formik.values.Measurment_Type == "Shifting_FourLeg" &&
-        (formik.values.Strategy == "ShortShifting" ||
-          formik.values.Strategy == "LongShifting")
-      )
+      (formik.values.Strategy == "ShortShifting" ||
+        formik.values.Strategy == "LongShifting")
     ) {
       formik.setFieldValue("Shifting_Value", 1);
     }
-
     if (
-      !(
-        formik.values.Measurment_Type != "Shifting_FourLeg" ||
-        (formik.values.Measurment_Type == "Shifting_FourLeg" &&
-          (formik.values.Strategy == "ShortFourLegStretegy" ||
-            formik.values.Strategy == "LongFourLegStretegy"))
-      )
+      !(formik.values.Strategy == "LongFourLegStretegy" ||
+        formik.values.Strategy == "ShortFourLegStretegy")
     ) {
       formik.setFieldValue("TStype", "Point");
       formik.setFieldValue("Targetvalue", 0);
       formik.setFieldValue("Slvalue", 0);
     }
-    if (formik.values.Measurment_Type == "Shifting_FourLeg") {
-      formik.setFieldValue("ETPattern", "Premium Addition");
-      formik.setFieldValue("Higher_Range", 0);
-      formik.setFieldValue("Lower_Range", 0);
-    }
-
     if (
       formik.values.Strategy != "ShortFourLegStretegy" ||
       formik.values.Strategy != "LongFourLegStretegy"
@@ -1588,30 +1503,7 @@ const AddClient = () => {
     formik.values.Measurment_Type,
   ]);
 
-
-
   const handleCheckPnl = async () => {
-    // const weekend = new Date().getDay();
-    // const currentDate = new Date();
-    // const currentTime =
-    //   currentDate.getHours() +
-    //   ":" +
-    //   currentDate.getMinutes() +
-    //   ":" +
-    //   currentDate.getSeconds();
-
-    //  console.log("currentTime", currentTime);
-    // console.log("weekend", weekend);
-
-
-    // if (
-    //   weekend == 6 ||
-    //   weekend == 0 ||
-    //   currentTime >= "15:30:00" || currentTime <= "09:15:00"
-    // ) {
-    //   return SweentAlertFun("Market is off Today");
-    // }
-
     const weekend = new Date().getDay();
     const currentDate = new Date();
     const hours = currentDate.getHours();
@@ -1645,13 +1537,11 @@ const AddClient = () => {
       TStype: formik.values.TStype,
       Quantity: formik.values.Quantity,
       LowerRange:
-        formik.values.Striketype == "Premium_Range" &&
-          formik.values.Measurment_Type != "Shifting_FourLeg"
+        formik.values.Striketype == "Premium_Range"
           ? formik.values.Lower_Range
           : 0,
       HigherRange:
-        formik.values.Striketype == "Premium_Range" &&
-          formik.values.Measurment_Type != "Shifting_FourLeg"
+        formik.values.Striketype == "Premium_Range"
           ? formik.values.Higher_Range
           : 0,
       HoldExit: "",
@@ -1669,26 +1559,22 @@ const AddClient = () => {
       Expirytype: formik.values.Expirytype,
       Striketype:
         formik.values.Strategy != "ShortStraddle" &&
-          formik.values.Strategy != "LongStraddle" &&
-          formik.values.Measurment_Type != "Shifting_FourLeg" &&
-          formik.values.Strategy != "ShortStraddle" &&
-          formik.values.Strategy != "LongStraddle"
+        formik.values.Strategy != "LongStraddle" &&
+        formik.values.Strategy != "ShortStraddle" &&
+        formik.values.Strategy != "LongStraddle"
           ? formik.values.Striketype
           : "",
       DepthofStrike:
         formik.values.Striketype != "Premium_Range" &&
-          formik.values.Measurment_Type != "Shifting_FourLeg" &&
-          formik.values.Strategy != "LongStraddle" &&
-          formik.values.Strategy != "ShortStraddle"
+        formik.values.Strategy != "LongStraddle" &&
+        formik.values.Strategy != "ShortStraddle"
           ? Number(formik.values.DepthofStrike)
           : 0,
       DeepStrike:
-        (formik.values.Measurment_Type == "Ladder_Coverd" &&
-          formik.values.Measurment_Type != "Shifting_FourLeg" &&
-          (formik.values.Strategy == "BullCallLadder" ||
-            formik.values.Strategy == "BullPutLadder")) ||
-          formik.values.Strategy == "LongIronCondor" ||
-          formik.values.Strategy == "ShortIronCondor"
+        (formik.values.Strategy == "BullCallLadder" ||
+          formik.values.Strategy == "BullPutLadder") ||
+        formik.values.Strategy == "LongIronCondor" ||
+        formik.values.Strategy == "ShortIronCondor"
           ? Number(formik.values.DeepStrike)
           : 0,
       Group: formik.values.Unique_ID,
@@ -1710,7 +1596,6 @@ const AddClient = () => {
       quantityvalue: 0.0,
       targetselection: "",
     };
-
     console.log("req", req);
 
     await CheckPnL(req)
@@ -1751,151 +1636,100 @@ const AddClient = () => {
     setShowPnl(false);
   }, [formik.values]);
 
-  const [activeTab, setActiveTab] = useState("nameWise");
-
-  const handleTabChange = (key) => {
-    setActiveTab(key);
-  };
-
   return (
-    <Content
-      Page_title={"📌 Add Script - Option Strategy"}
-      button_status={false}
-      backbutton_status={false}
-    >
-      <div className="d-flex flex-column align-items-center">
-        <Tabs
-          id="custom-tabs"
-          activeKey={activeTab}
-          onSelect={handleTabChange}
-          className="custom-tabs mb-3"
-          justify
-        >
-          <Tab
-            eventKey="nameWise"
-            title={
-              <div className="d-flex align-items-center gap-2 tab-title">
-                <FaUserAlt className="icon" />
-                Name Wise
-              </div>
-            }
-          >
-            {/* Name Wise content */}
-            <div>
-              {formik.values.Exchange && formik.values.Instrument && formik.values.Symbol && formik.values.expirydata1 && <div className="AddScript_LivePrice card-text-Color"><div className="LivePriceContainer"><span> Live Price:  </span> <span className="LivePrice ms-2">{ }</span></div></div>}
-              <AddForm
-                fields={fields.filter(
-                  (field) => !field.showWhen || field.showWhen(formik.values)
-                )}
-
-                btn_name="Add"
-                btn_name1="Cancel"
-                formik={formik}
-                btn_name1_route={"/user/dashboard"}
-                additional_field={
-                  <div>
-                    {formik.values.Strategy == "CoveredCall" ||
-                      formik.values.Strategy == "CoveredPut" ||
-                      formik.values.Strategy == "LongCollar" ||
-                      formik.values.Strategy == "ShortCollar" ||
-                      formik.values.Strategy == "LongFourLegStretegy" ||
-                      formik.values.Strategy == "ShortFourLegStretegy" ? (
-                      ""
-                    ) : (
-                      <button className="addbtn" type="button" onClick={() => handleCheckPnl()}>
-                        Check PnL
-                      </button>
-                    )}
+    <>
+      {formik.values.Exchange && formik.values.Instrument && formik.values.Symbol && formik.values.expirydata1 && <div className="AddScript_LivePrice card-text-Color"><div className="LivePriceContainer"><span> Live Price:  </span> <span className="LivePrice ms-2">{ }</span></div></div>}
+      <AddForm
+        fields={fields.filter(
+          (field) => !field.showWhen || field.showWhen(formik.values)
+        )}
+        btn_name="Add"
+        btn_name1="Cancel"
+        formik={formik}
+        btn_name1_route={"/user/dashboard"}
+        additional_field={
+          <div>
+            {formik.values.Strategy == "CoveredCall" ||
+              formik.values.Strategy == "CoveredPut" ||
+              formik.values.Strategy == "LongCollar" ||
+              formik.values.Strategy == "ShortCollar" ||
+              formik.values.Strategy == "LongFourLegStretegy" ||
+              formik.values.Strategy == "ShortFourLegStretegy" ? (
+              ""
+            ) : (
+              <button className="addbtn" type="button" onClick={() => handleCheckPnl()}>
+                Check PnL
+              </button>
+            )}
+          </div>
+        }
+      />
+      <Modal
+        show={openModel}
+        onHide={() => setOpenModel(false)}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter ">
+            PnL Details
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {PnlData ? (
+            <div className="container">
+              <div className="row">
+                {[
+                  { label: "Maximum Profit", value: PnlData.MaximumProfit },
+                  { label: "Maximum Loss", value: PnlData.MaximumLoss },
+                  {
+                    label: "Spot Price Maximum Profit 1",
+                    value: PnlData.SpotPriceMaximumProfit1,
+                  },
+                  {
+                    label: "Spot Price Maximum Profit 2",
+                    value: PnlData.SpotPriceMaximumProfit2,
+                  },
+                  {
+                    label: "Spot Price Maximum Loss 1",
+                    value: PnlData.SpotPriceMaximumLoss1,
+                  },
+                  {
+                    label: "Spot Price Maximum Loss 2",
+                    value: PnlData.SpotPriceMaximumLoss2,
+                  },
+                  { label: "NoprofitLoss 1", value: PnlData.NoprofitLoss1 },
+                  { label: "NoprofitLoss 2", value: PnlData.NoprofitLoss2 },
+                ].map(({ label, value }, index) => (
+                  <div key={index} className="col-md-6 d-flex align-items-center py-2">
+                    <label
+                      className="fw-bold text-white mb-0 me-2 card-text-Color"
+                      style={{ fontSize: "18px", minWidth: "150px" }}
+                    >
+                      {label}:
+                    </label>
+                    <span
+                      className="text-white mb-0"
+                      style={{ fontSize: "18px", fontWeight: "500" }}
+                    >
+                      {value !== null && !isNaN(value) ? parseFloat(value).toFixed(4) : "N/A"}
+                    </span>
                   </div>
-                }
-              />
-
-              <Modal
-                show={openModel}
-                onHide={() => setOpenModel(false)}
-                size="lg"
-                aria-labelledby="contained-modal-title-vcenter"
-                centered
-              >
-                <Modal.Header closeButton>
-                  <Modal.Title id="contained-modal-title-vcenter ">
-                    PnL Details
-                  </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  {PnlData ? (
-                    <div className="container">
-                      <div className="row">
-                        {[
-                          { label: "Maximum Profit", value: PnlData.MaximumProfit },
-                          { label: "Maximum Loss", value: PnlData.MaximumLoss },
-                          {
-                            label: "Spot Price Maximum Profit 1",
-                            value: PnlData.SpotPriceMaximumProfit1,
-                          },
-                          {
-                            label: "Spot Price Maximum Profit 2",
-                            value: PnlData.SpotPriceMaximumProfit2,
-                          },
-                          {
-                            label: "Spot Price Maximum Loss 1",
-                            value: PnlData.SpotPriceMaximumLoss1,
-                          },
-                          {
-                            label: "Spot Price Maximum Loss 2",
-                            value: PnlData.SpotPriceMaximumLoss2,
-                          },
-                          { label: "NoprofitLoss 1", value: PnlData.NoprofitLoss1 },
-                          { label: "NoprofitLoss 2", value: PnlData.NoprofitLoss2 },
-                        ].map(({ label, value }, index) => (
-                          <div key={index} className="col-md-6 d-flex align-items-center py-2">
-                            <label
-                              className="fw-bold text-white mb-0 me-2 card-text-Color"
-                              style={{ fontSize: "18px", minWidth: "150px" }}
-                            >
-                              {label}:
-                            </label>
-                            <span
-                              className="text-white mb-0"
-                              style={{ fontSize: "18px", fontWeight: "500" }}
-                            >
-                              {value !== null && !isNaN(value) ? parseFloat(value).toFixed(4) : "N/A"}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ) : (
-                    <p className="text-danger text-center">❌ No data available</p>
-                  )}
-                </Modal.Body>
-
-
-                <Modal.Footer>
-                  <Button variant="secondary" onClick={() => setOpenModel(false)}>
-                    Close
-                  </Button>
-                </Modal.Footer>
-              </Modal>
-
-            </div>
-          </Tab>
-          <Tab
-            eventKey="marketWise"
-            title={
-              <div className="d-flex align-items-center gap-2 tab-title">
-                <FaChartLine className="icon" />
-                Market Wise
+                ))}
               </div>
-            }
-          >
-            {/* Market Wise content */}
-            <NewMarketWise />
-          </Tab>
-        </Tabs>
-      </div>
-    </Content>
+            </div>
+          ) : (
+            <p className="text-danger text-center">❌ No data available</p>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setOpenModel(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 };
-
 export default AddClient;

@@ -23,6 +23,7 @@ import AddScriptPattern from '../components/user/UserScript/AddScript.Pattern'
 import AddNewScalpingScript from '../components/user/UserScript/AddNewScript.Scalping'
 
 import AddNewScalpingOption from '../components/user/UserScript/AddNewScript.Option'
+import AddNewScalpingOptionMarketwise from '../components/user/UserScript/NewMarketWise.Option'
 import AddNewScalpingPattern from '../components/user/UserScript/AddNewScript.Pattern'
 
 import TechnicalPattern from '../components/user/Patterns/TechnicalPattern'
@@ -74,6 +75,7 @@ const UserRoute = () => {
             <Route path="/ViewGroup" element={<ViewGroup />} />
             <Route path="/newscript/scalping" element={<AddNewScalpingScript />} />
             <Route path="/newscript/option" element={<AddNewScalpingOption />} />
+            <Route path="/newscript/option/marketwise" element={<AddNewScalpingOptionMarketwise />} />
             <Route path="/newscript/pattern" element={<AddNewScalpingPattern />} />
             <Route path="/technical/pattern" element={<TechnicalPattern />} />
             <Route path="all/transection" element={<Transection />} />

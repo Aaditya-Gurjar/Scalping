@@ -1138,3 +1138,22 @@ export const reGenerateKeyApi = async (data) => {
         return err
     }
 }
+
+
+export const getOptionType = async (optionType) => {
+    var token = localStorage.getItem('token')
+    try {
+        const res = await axios.get(`${Config.base_url}${optionType}`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+}
