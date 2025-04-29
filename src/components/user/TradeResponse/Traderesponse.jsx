@@ -28,6 +28,7 @@ import TradeResponseCard from "./TradeResponseCard";
 
 const TradeResponse = () => {
   const location = useLocation();
+  
   const StrategyType = sessionStorage.getItem("StrategyType");
 
   const Username = localStorage.getItem("name");
@@ -75,8 +76,6 @@ const TradeResponse = () => {
   const day1 = String(DefultToDate.getDate()).padStart(2, "0");
   const Defult_To_Date = `${year1}.${month1}.${day1}`;
 
-  console.log("tradeHistory", tradeHistory);
-  console.log("getCharting", getCharting)
 
   useEffect(() => {
     if (selectStrategyType == "Scalping") {
@@ -166,7 +165,6 @@ const TradeResponse = () => {
       }
     } catch (error) {
       setStrategyType([]);
-      console.log("Error in finding the Strategy Type", error);
     }
   };
 
@@ -177,7 +175,6 @@ const TradeResponse = () => {
     await get_User_Data(data)
       .then((response) => {
         if (response.Status) {
-          console.log("get_User_Data", response);
 
           const filterLiveTrade = response.Data?.filter((item) => {
             return item.TradeExecution == "Live Trade";
@@ -193,7 +190,6 @@ const TradeResponse = () => {
 
 
 
-          console.log("filterLiveTrade1", filterLiveTrade1);
           setTradeHistory({
             loading: false,
             data: filterLiveTrade,
@@ -263,7 +259,6 @@ const TradeResponse = () => {
         PatternName: "",
       };
       const res = await get_Trade_Response(req);
-      console.log("reees", res);
       setChartingSegmentData(res?.data || []);
     } catch (error) {
       console.log("Error in getChartingSegmentData", error);
@@ -565,7 +560,8 @@ const TradeResponse = () => {
                       data={tradeHistory?.data1}
                       onRowSelect={handleRowSelect}
                       checkBox={true}
-                      isChecked={location?.state?.RowIndex}
+                      // isChecked={location?.state?.RowIndex}
+                      isChecked={(row) => row.Token === location?.state?.token}
                     />
                   ) : (
                     <NoDataFound />

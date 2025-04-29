@@ -498,10 +498,16 @@ const FullDataTable = ({ data, columns, onRowSelect, checkBox, isChecked, showIs
 
   // Sync checked rows with isChecked prop
   useEffect(() => {
-    if (isChecked !== undefined) {
+    if (typeof isChecked === 'function' && data?.length > 0) {
+      const matchedIndexes = data
+        .map((row, index) => (isChecked(row) ? index : -1))
+        .filter((index) => index !== -1);
+      setCheckedRows(matchedIndexes);
+    } else if (typeof isChecked === 'number') {
       setCheckedRows([isChecked]);
     }
-  }, [isChecked]);
+  }, [isChecked, data]);
+  
 
   return (
     <div className="modal-body">
