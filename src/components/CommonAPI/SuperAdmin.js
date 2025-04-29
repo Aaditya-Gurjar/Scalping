@@ -620,3 +620,14 @@ export const superadminCoupon = async (data) => {
         return error
     }
 }
+
+// Admin offer page api
+export const GETAdminOffer = async ()=>{
+    try {
+        const res = await axios.get(`${Config.superAdmin_base_url}GETAdminoffer`)
+            return res?.data
+        
+    } catch (error) {
+        
+    }
+}

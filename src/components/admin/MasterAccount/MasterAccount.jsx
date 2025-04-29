@@ -2,60 +2,127 @@ import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import Content from '../../../ExtraComponent/Content';
 import './MasterAccount.css';
-import { GetAccountsApi, GetClientService, MasterAccountApi, UpdateMasterAccount } from '../../CommonAPI/Admin';
+import { GetAccountsApi, GetClientService, MasterAccountApi, UpdateMasterAccount, GetMasterAccountTableData } from '../../CommonAPI/Admin';
 import Swal from 'sweetalert2';
 import FullDataTable from '../../../ExtraComponent/CommanDataTable.jsx';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material'; // Import MUI components
+import GridExample from "../../../ExtraComponent/CommanDataTable.jsx"
+import NoDataFound from '../../../ExtraComponent/NoDataFound.jsx';
 
 const MasterAccount = () => {
+  const token = localStorage.getItem("token")
+  // console.log("token",token);
+
   const [accountsData, setAccountsData] = useState([]);
   const [selectedMasterAccount, setSelectedMasterAccount] = useState(null);
   const [selectedChildAccounts, setSelectedChildAccounts] = useState([]);
   const [data, setData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
   const [updatedChildAccounts, setUpdatedChildAccounts] = useState([]); // State for updated child accounts
+  const [tabData, setTableData] = useState()
+  console.log("tabData", tabData)
 
   const fetchAccounts = async () => {
     try {
       const res = await GetClientService();
-      const users = res?.Data?.map(user =>  user.Username) || [];
-      
+      const users = res?.Data?.map(user => user.Username) || [];
+
       setAccountsData(users);
     } catch (error) {
       console.error("Error fetching accounts:", error);
     }
   };
+
+  const tableData = async () => {
+    try {
+      const res = await GetMasterAccountTableData()
+      console.log("response mai kya aa rha hai", res);
+      if (res.Status) {
+        setTableData(res.Data)
+      }
+
+    } catch (error) {
+      console.error("Error fetching data", error);
+    }
+  }
+  useEffect(() => {
+    tableData()
+  }, [])
+
   const columns = [
     { name: "MainUser", label: "Master Account", selector: row => row.MainUser, sortable: true },
-     
+
     {
       name: "ChildUser",
       label: "Child Accounts",
       options: {
-          filter: true,
-          sort: true,
-          customBodyRender: (value) => {
-              if (!value || (Array.isArray(value) && value.length === 0)) {
-                  return "-";
-              }
-              if (Array.isArray(value)) {
-                  return (
-                      <span>
-                          {value.map((day, index) => (
-                              <>
-                                  {index > 0 && index % 5 === 0 ? <br /> : ""}
-                                  {typeof day === "object" && day.label ? day.label : day}
-                                  {index % 3 !== 2 && index !== value.length - 1 ? ", " : ""}
-                              </>
-                          ))}
-                      </span>
-                  );
-              }
-              return value;
-          },
+        filter: true,
+        sort: true,
+        customBodyRender: (value) => {
+          if (!value || (Array.isArray(value) && value.length === 0)) {
+            return "-";
+          }
+          if (Array.isArray(value)) {
+            return (
+              <span>
+                {value.map((day, index) => (
+                  <>
+                    {index > 0 && index % 5 === 0 ? <br /> : ""}
+                    {typeof day === "object" && day.label ? day.label : day}
+                    {index % 3 !== 2 && index !== value.length - 1 ? ", " : ""}
+                  </>
+                ))}
+              </span>
+            );
+          }
+          return value;
+        },
       },
-  },
+    },
   ];
+
+
+  const columns1 = [
+    {
+      name: "SNo",
+      label: "S.No",
+      options: {
+        filter: false,
+        sort: false,
+        customBodyRender: (value, tableMeta) => {
+          return tableMeta.rowIndex + 1;
+        },
+      },
+    },
+    {
+      name: "Date",
+      label: "Date",
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      name: "MainUser",
+      label: "Main User",
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      name: "ChildUser",
+      label: "Child Users",
+      options: {
+        filter: true,
+        sort: false,
+        customBodyRender: (value) => {
+          return Array.isArray(value) ? value.join(", ") : value;
+        },
+      },
+    },
+  ];
+  
 
   useEffect(() => {
     fetchAccounts();
@@ -71,7 +138,7 @@ const MasterAccount = () => {
       const res = await GetAccountsApi();
       console.log("res.data", res?.Data)
       setData(res?.Data[0])
-    }catch (error) {
+    } catch (error) {
       console.error("Error fetching accounts:", error);
     }
   };
@@ -89,19 +156,19 @@ const MasterAccount = () => {
       MainUser: selectedMasterAccount?.value,
       ChildUser: selectedChildAccounts.map(account => account.value)
     };
-     
+
     if (!selectedMasterAccount?.value || selectedChildAccounts.length === 0) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Please select Master Account and Child Account(s)',
-            confirmButtonText: 'OK',
-            confirmButtonColor: '#3085d6',
-            customClass: {
-                popup: 'swal-custom-popup'
-            }
-        });
-        return;
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Please select Master Account and Child Account(s)',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#3085d6',
+        customClass: {
+          popup: 'swal-custom-popup'
+        }
+      });
+      return;
     }
 
     try {
@@ -161,7 +228,7 @@ const MasterAccount = () => {
     setUpdatedChildAccounts(selected || []);
   };
 
-  const handleModalSubmit = async() => {
+  const handleModalSubmit = async () => {
     const updatedData = {
       MainUser: data?.MainUser,
       ChildUser: updatedChildAccounts.map(account => account.value),
@@ -191,8 +258,8 @@ const MasterAccount = () => {
         }
       });
     }
-    
-    setIsModalOpen(false); 
+
+    setIsModalOpen(false);
   };
 
   return (
@@ -300,6 +367,20 @@ const MasterAccount = () => {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <div className="iq-card-body">
+        {tabData && tabData?.length > 0 ? (
+          <div className="table-responsive customtable">
+            <GridExample
+              columns={columns1}
+              data={tabData}
+              checkBox={false}
+            />
+          </div>
+        ) : (
+          <NoDataFound />
+        )}
+      </div>
     </Content>
   );
 };

@@ -1267,7 +1267,7 @@ export const UpdateMasterAccount = async (data) => {
     }
 
 }
- 
+
 
 export const TradeExecutionAPI = async (data) => {
     const token = localStorage.getItem('token')
@@ -1293,7 +1293,7 @@ export const TradeExecutionAPI = async (data) => {
     }
 }
 
- 
+
 
 export const getAdminCouponDetails = async (data) => {
     try {
@@ -1326,7 +1326,7 @@ export const AddCouponCodeApi = async (data) => {
 }
 
 
-export const addChartingStrategyTag = async (data) => { 
+export const addChartingStrategyTag = async (data) => {
     const token = localStorage.getItem('token');
 
     try {
@@ -1366,6 +1366,31 @@ export const getChartingStrategyTag = async (data) => {
                 }
             }
         )
+
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+
+}
+
+
+
+export const GetMasterAccountTableData = async () => {
+    try {
+        const res = await axios.get(`${Config.base_url}GETMasterAccountLogs`)
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+}
+
+
+export const GETBrokerGroupRecord = async (username) => {
+    try {
+        const res = await axios.get(`${Config.base_url}GETBrokerGroupRecord/${username}`)
 
         return res?.data
     }
