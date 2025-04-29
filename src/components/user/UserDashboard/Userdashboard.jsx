@@ -55,7 +55,6 @@ useEffect(() => {
   // sessionStorage.removeItem("addScriptTab"); 
 }, [addScriptTab]);
 
-console.log("location.state.prevSelectedTab", location.state?.prevSelectedTab)
 
   const currentDate = new Date();
   const formattedDate = `${String(currentDate.getDate()).padStart(2, "0")}.${String(

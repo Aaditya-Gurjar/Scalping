@@ -163,7 +163,7 @@ const DropdownComponent = ({ tableMeta, handleDelete, type, handleMatchPosition,
                             <li
                                 onClick={() =>
                                     navigate("/user/traderesponse", {
-                                        state: { type, RowIndex: tableMeta?.rowIndex, goto: "dashboard" }, // Pass tableMeta here
+                                        state: { type, RowIndex: tableMeta?.rowIndex, goto: "dashboard",token:tableMeta.rowData[3] },
                                     })
                                 }
                                 style={{ padding: "8px 16px", cursor: "pointer", color: "#fff" }}
