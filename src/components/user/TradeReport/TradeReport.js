@@ -432,7 +432,7 @@ const TradeReport = () => {
                         <div className="d-flex justify-content-end col-lg-12 report-page-dates">
                             <div className="form-group me-2"></div>
                             <div className="form-group me-3 col-lg-2">
-                                <label>Select Select From Date</label>
+                                <label> Select From Date</label>
                                 <DatePicker
                                     className="form-select"
                                     selected={FromDate === '' ? formattedDate : FromDate}
@@ -441,7 +441,7 @@ const TradeReport = () => {
                             </div>
 
                             <div className="form-group col-lg-2">
-                                <label>Select Select To Date</label>
+                                <label> Select To Date</label>
                                 <DatePicker
                                     className="form-select"
                                     selected={ToDate === '' ? Defult_To_Date : ToDate}

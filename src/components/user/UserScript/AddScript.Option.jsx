@@ -11,7 +11,6 @@ import Button from "react-bootstrap/Button";
 
 const AddClient = () => {
   const location = useLocation();
-  console.log("hfkflf", location.state.data);
 
   const userName = localStorage.getItem("name");
   const navigate = useNavigate();
@@ -72,7 +71,7 @@ const AddClient = () => {
 
   const formik = useFormik({
     initialValues: {
-      MainStrategy: location.state.data.selectStrategyType,
+      MainStrategy: location.state?.data?.selectStrategyType,
       Username: "",
       Strategy: location.state.data.STG,
       ETPattern: "",

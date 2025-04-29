@@ -67,7 +67,7 @@ const TradeResponse = () => {
   const day = String(currentDate.getDate()).padStart(2, "0");
   const formattedDate = `${year}.${month}.${day}`;
 
-  // Select Select From Date
+  //  Select From Date
   const DefultToDate = new Date();
   DefultToDate.setDate(DefultToDate.getDate() + 1);
   const year1 = DefultToDate.getFullYear();
@@ -97,6 +97,13 @@ const TradeResponse = () => {
   useEffect(() => {
     if (selectStrategyType == "ChartingPlatform") getChartingData();
   }, [selectStrategyType]);
+
+  useEffect(() => {
+    if (location?.state?.tableMeta) {
+        console.log("Received tableMeta:", location.state.tableMeta); // Log tableMeta
+    }
+}, [location?.state?.tableMeta]);
+
 
   const getChartingScript = async () => {
     const filterData = getChartingSegments.filter(
@@ -216,6 +223,11 @@ const TradeResponse = () => {
     GetTradeResposne();
   }, [selectStrategyType, FromDate, ToDate]);
 
+
+  console.log("tradeHistory.data1", tradeHistory.data1);
+  console.log("location", location?.state?.RowIndex);
+
+
   useEffect(() => {
     if (location?.state?.goto && location?.state?.goto === "dashboard") {
       if (location?.state?.type == "MultiCondition") {
@@ -277,55 +289,55 @@ const TradeResponse = () => {
     const data = {
       MainStrategy:
         selectStrategyType == "Scalping" &&
-          selectedRowData.ScalpType == "Multi_Conditional"
+        selectedRowData?.ScalpType == "Multi_Conditional"
           ? "NewScalping"
           : selectStrategyType,
       Strategy:
         selectStrategyType == "Scalping" &&
-          selectedRowData.ScalpType != "Multi_Conditional"
-          ? selectedRowData && selectedRowData.ScalpType
+        selectedRowData?.ScalpType != "Multi_Conditional"
+          ? selectedRowData?.ScalpType || ""
           : selectStrategyType == "Option Strategy"
-            ? selectedRowData && selectedRowData.STG
-            : selectStrategyType == "Pattern"
-              ? selectedRowData && selectedRowData.TradePattern
-              : selectStrategyType == "Scalping" &&
-                selectedRowData.ScalpType == "Multi_Conditional"
-                ? selectedRowData && selectedRowData.Targetselection
-                : selectStrategyType == "ChartingPlatform" &&
-                  (selectedRowData.Optiontype == " " ||
-                    selectedRowData?.Optiontype == "")
-                  ? "Cash"
-                  : selectStrategyType == "ChartingPlatform" &&
-                    selectedRowData?.Optiontype == "SX"
-                    ? "Future"
-                    : "Option",
+          ? selectedRowData?.STG || ""
+          : selectStrategyType == "Pattern"
+          ? selectedRowData?.TradePattern || ""
+          : selectStrategyType == "Scalping" &&
+            selectedRowData?.ScalpType == "Multi_Conditional"
+          ? selectedRowData?.Targetselection || ""
+          : selectStrategyType == "ChartingPlatform" &&
+            (selectedRowData?.Optiontype == " " ||
+              selectedRowData?.Optiontype == "")
+          ? "Cash"
+          : selectStrategyType == "ChartingPlatform" &&
+            selectedRowData?.Optiontype == "SX"
+          ? "Future"
+          : "Option",
       Symbol:
         selectStrategyType == "Scalping" || selectStrategyType == "Pattern"
-          ? selectedRowData && selectedRowData.Symbol
+          ? selectedRowData?.Symbol || ""
           : selectStrategyType == "Option Strategy"
-            ? selectedRowData && selectedRowData.IName
-            : selectStrategyType == "ChartingPlatform"
-              ? selectedRowData && selectedRowData?.TSymbol
-              : "",
+          ? selectedRowData?.IName || ""
+          : selectStrategyType == "ChartingPlatform"
+          ? selectedRowData?.TSymbol || ""
+          : "",
       Username: Username,
       ETPattern:
         selectStrategyType == "Scalping"
           ? ""
           : selectStrategyType == "Option Strategy"
-            ? selectedRowData && selectedRowData.Targettype
-            : selectStrategyType == "Pattern"
-              ? selectedRowData && selectedRowData.Pattern
-              : "",
+          ? selectedRowData?.Targettype || ""
+          : selectStrategyType == "Pattern"
+          ? selectedRowData?.Pattern || ""
+          : "",
       Timeframe:
         selectStrategyType == "Pattern"
-          ? selectedRowData && selectedRowData.TimeFrame
+          ? selectedRowData?.TimeFrame || ""
           : "",
-      From_date: convertDateFormat(FromDate == "" ? formattedDate : FromDate),
-      To_date: convertDateFormat(ToDate == "" ? Defult_To_Date : ToDate),
+      From_date: convertDateFormat(FromDate || formattedDate),
+      To_date: convertDateFormat(ToDate || Defult_To_Date),
       Group:
         selectStrategyType == "Scalping" ||
-          selectStrategyType == "Option Strategy"
-          ? selectedRowData && selectedRowData.GroupN
+        selectStrategyType == "Option Strategy"
+          ? selectedRowData?.GroupN || ""
           : "",
       TradePattern: "",
       PatternName: "",
@@ -336,7 +348,7 @@ const TradeResponse = () => {
         if (response.Status) {
           setAllTradeData({
             loading: false,
-            data: response.Data,
+            data: response.Data || [],
           });
           setShowTable(true);
         } else {
@@ -438,14 +450,14 @@ const TradeResponse = () => {
 
 
 
-            {/* Select Select From Date */}
+            {/*  Select From Date */}
             <div className="response-page-dates">
               <div
                 className={`form-group ${selectStrategyType === "ChartingPlatform"
                   ? "col-lg-2"
                   : "col-lg-2"
                   }`}>
-                <label>Select Select From Date</label>
+                <label> Select From Date</label>
                 <DatePicker
                   className="form-select"
                   selected={FromDate === "" ? formattedDate : FromDate}
@@ -453,13 +465,13 @@ const TradeResponse = () => {
                 />
               </div>
 
-              {/* Select Select To Date */}
+              {/*  Select To Date */}
               <div
                 className={`form-group ${selectStrategyType === "ChartingPlatform"
                   ? "col-lg-2"
                   : "col-lg-2"
                   }`}>
-                <label>Select Select To Date</label>
+                <label> Select To Date</label>
                 <DatePicker
                   className="form-select"
                   selected={ToDate === "" ? Defult_To_Date : ToDate}
@@ -537,7 +549,7 @@ const TradeResponse = () => {
                       data={
                         selectStrategyType === "ChartingPlatform"
                           ? getChartingSegmentData
-                          : tradeHistory?.data1
+                          : tradeHistory?.data1 || []
                       }
                       onRowSelect={handleRowSelect}
                       checkBox={true}
@@ -601,7 +613,10 @@ const TradeResponse = () => {
                 <div className="row g-3">
                   {getAllTradeData.data.map((item, index) => (
                     <div className="col-md-6" key={index}>
-                      <TradeResponseCard data={item} index={index} />
+                      <TradeResponseCard
+                        data={typeof item === "object" && item !== null ? item : {}}
+                        index={index}
+                      />
                     </div>
                   ))}
                 </div>
@@ -613,7 +628,7 @@ const TradeResponse = () => {
 
           {/* Commented out table rendering */}
 
-          {showTable && (
+          {/* {showTable && (
             <div className="mt-3">
               {getAllTradeData.data && getAllTradeData.data.length > 0 ? (
                 <GridExample
@@ -634,7 +649,7 @@ const TradeResponse = () => {
                 <NoDataFound />
               )}
             </div>
-          )}
+          )} */}
 
 
         </div>

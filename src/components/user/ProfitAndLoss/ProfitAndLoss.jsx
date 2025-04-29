@@ -55,7 +55,7 @@ const Tradehistory = () => {
   const day = String(currentDate.getDate()).padStart(2, "0");
   const formattedDate = `${year}.${month}.${day}`;
 
-  // Select Select From Date
+  //  Select From Date
   const DefultToDate = new Date();
   DefultToDate.setDate(DefultToDate.getDate() + 1);
   const year1 = DefultToDate.getFullYear();
@@ -218,7 +218,7 @@ const Tradehistory = () => {
               <div
                 className={`form-group ${selectStrategyType === "Scalping" ? "col-lg-2" : "col-lg-2"
                   }`}>
-                <label>Select Select From Date</label>
+                <label> Select From Date</label>
                 <DatePicker
                   className="form-select"
                   selected={FromDate == "" ? formattedDate : FromDate}
@@ -228,7 +228,7 @@ const Tradehistory = () => {
               <div
                 className={`form-group ${selectStrategyType === "Scalping" ? "col-lg-2" : "col-lg-2"
                   }`}>
-                <label>Select Select To Date</label>
+                <label> Select To Date</label>
                 <DatePicker
                   className="form-select"
                   selected={ToDate == "" ? Defult_To_Date : ToDate}

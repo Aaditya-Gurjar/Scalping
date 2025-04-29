@@ -27,8 +27,7 @@ const MasterAccount = () => {
   };
   const columns = [
     { name: "MainUser", label: "Master Account", selector: row => row.MainUser, sortable: true },
-    
-
+     
     {
       name: "ChildUser",
       label: "Child Accounts",
@@ -168,39 +167,40 @@ const MasterAccount = () => {
       button_status={false}
       backbutton_status={true}
     >
-      <div className="dropdown-row">
-        <div className="dropdown-column">
-          <label htmlFor="masterAccount">Master Account</label>
-          <Select
-            id="masterAccount"
-            options={accountsData.map((account) => ({
-              value: account,
-              label: account,
-
-            }))}
-            placeholder="Select Master Account"
-            isClearable
-            value={selectedMasterAccount}
-            onChange={handleMasterAccountChange}
-            isDisabled={data?.MainUser} // Disable if data is already fetched
-          />
+      {!data?.MainUser && ( // Hide fields and button if master account data exists
+        <div className="dropdown-row">
+          <div className="dropdown-column">
+            <label htmlFor="masterAccount">Master Account</label>
+            <Select
+              id="masterAccount"
+              options={accountsData.map((account) => ({
+                value: account,
+                label: account,
+              }))}
+              placeholder="Select Master Account"
+              isClearable
+              value={selectedMasterAccount}
+              onChange={handleMasterAccountChange}
+            />
+          </div>
+          <div className="dropdown-column">
+            <label htmlFor="childAccount">Child Account</label>
+            <Select
+              id="childAccount"
+              options={getChildUserOptions()}
+              placeholder="Select Child Account(s)"
+              isMulti
+              value={selectedChildAccounts}
+              onChange={handleChildAccountChange}
+            />
+          </div>
         </div>
-        <div className="dropdown-column">
-          <label htmlFor="childAccount">Child Account</label>
-          <Select
-            id="childAccount"
-            options={getChildUserOptions()}
-            placeholder="Select Child Account(s)"
-            isMulti
-            value={selectedChildAccounts}
-            onChange={handleChildAccountChange}
-            isDisabled={data?.ChildUser} // Disable if data is already fetched
-          />
-        </div>
-      </div>
-      <button className="addbtn submit-button styled-submit-button" onClick={handleSubmit}>
-        Submit
-      </button>
+      )}
+      {!data?.MainUser && ( // Hide submit button if master account data exists
+        <button className="addbtn submit-button styled-submit-button" onClick={handleSubmit}>
+          Submit
+        </button>
+      )}
 
       {/* Single card display for Master and Child Accounts */}
       {data?.MainUser && (

@@ -13,6 +13,11 @@ import {
 import { AddScript } from "../../CommonAPI/User";
 import { text } from "../../../ExtraComponent/IconTexts";
 import Content from "../../../ExtraComponent/Content";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import $ from "jquery";
+import { CheckPnLScalping, CPrice, getToken } from "../../CommonAPI/User";
+import { connectWebSocket } from "../UserDashboard/LivePrice";
 
 const AddClient = () => {
   const userName = localStorage.getItem("name");
@@ -23,41 +28,38 @@ const AddClient = () => {
   const [initialvalue, setinitialvalue] = useState(false);
   const [getStricke, setStricke] = useState({ loading: true, data: [] });
   const [getExpiryDate, setExpiryDate] = useState({ loading: true, data: [] });
+  const [openModel, setOpenModel] = useState(false);
+  const [openModel1, setOpenModel1] = useState(false);
+  const [priceValue, setPriceValue] = useState("");
+  const [marginValue, setMarginValue] = useState("");
+  const [error, setError] = useState("");
+  const [showPnl, setShowPnl] = useState(false);
+  const [getCPrice, setCPrice] = useState(null);
+  const [channel, setChannel] = useState(null);
 
-  const SweentAlertFun = (text) => {
-    Swal.fire({
-      title: "Error",
-      text: text,
-      icon: "error",
-      timer: 5500,
-      timerProgressBar: true,
-    });
-  };
+  const [PnlData, setPnlData] = useState({
+    InstrumentName: "",
+    LotSize: "",
+    MainSymbol: "",
+    Message: "",
+    Status: "",
+    Token: "",
+    TotalMargin: "",
+    TotalPnL: "",
+    TradingSymbol: "",
+  });
 
-  const getEndData = (stg) => {
-    const dataWithoutLastItem = location?.state?.scriptType?.data.slice(0, -1);
-    const foundItem = dataWithoutLastItem.find((item) => {
-      return item.Scalping.includes(stg);
-    });
-    return foundItem.EndDate;
-  };
-
-  const ScrollToViewFirstError = (newErrors) => {
-    if (Object.keys(newErrors).length !== 0) {
-      const errorField = Object.keys(newErrors)[0];
-
-      const errorElement = document.getElementById(errorField);
-      if (errorElement) {
-        const elementPosition =
-          errorElement.getBoundingClientRect().top + window.pageYOffset;
-
-        const offset = 100;
-        window.scrollTo({
-          top: elementPosition - offset,
-          behavior: "smooth",
-        });
-      }
+  let currentWebSocket = null;
+  const showLivePrice = async (singleChannel) => {
+    if (currentWebSocket && typeof currentWebSocket.close === "function") {
+      currentWebSocket.close();
     }
+
+    currentWebSocket = connectWebSocket(singleChannel, (data) => {
+      if (data.lp && data.tk && channel && channel?.includes(data.tk)) {
+        $(".LivePrice").html(data.lp);
+      }
+    });
   };
 
   const formik = useFormik({
@@ -404,16 +406,16 @@ const AddClient = () => {
           values.Instrument == "OPTIDX" || values.Instrument == "OPTSTK"
             ? values.Strike
             : "",
-            expirydata1: formik.values.expirydata1 == "Monthly"
-            ? getExpiryDate?.data?.[0]
-            : formik.values.expirydata1 == "Next_Month"
-              ? getExpiryDate?.data?.[1]
-              : formik.values.Exchange == "NSE"
-                ? getExpiryDate?.data?.[0]
-                : formik.values.expirydata1,
-            // expirydata1:
-            //   values.Exchange == "NSE" ? getExpiryDate.data[0] : values.expirydata1,
-            TType: values.TType,
+        expirydata1: formik.values.expirydata1 == "Monthly"
+          ? getExpiryDate?.data?.[0]
+          : formik.values.expirydata1 == "Next_Month"
+            ? getExpiryDate?.data?.[1]
+            : formik.values.Exchange == "NSE"
+              ? getExpiryDate?.data?.[0]
+              : formik.values.expirydata1,
+        // expirydata1:
+        //   values.Exchange == "NSE" ? getExpiryDate.data[0] : values.expirydata1,
+        TType: values.TType,
         TStype:
           values.Strategy == "One Directional" ||
             values.Strategy == "Multi Directional" ||
@@ -689,6 +691,85 @@ const AddClient = () => {
         });
     },
   });
+
+
+  const token = async () => {
+    try {
+      if (
+        formik.values.Exchange &&
+        formik.values.Instrument &&
+        formik.values.Symbol &&
+        formik.values.expirydata1
+      ) {
+        const res = await getToken({
+          Exchange: formik.values.Exchange,
+          Instrument: formik.values.Instrument,
+          Symbol: formik.values.Symbol,
+          OptionType: formik.values.Optiontype,
+          Strike: formik.values.Strike,
+          Expiry:
+            formik.values.expirydata1 == "Monthly"
+              ? getExpiryDate?.data?.[0]
+              : formik.values.expirydata1 == "Next_Month"
+                ? getExpiryDate?.data?.[1]
+                : formik.values.expirydata1,
+        });
+        const singleChannel = `${formik.values.Exchange}|${res.Token[0]}`;
+        setChannel(singleChannel);
+        showLivePrice(singleChannel);
+      }
+    } catch (error) {
+      console.error("Error fetching token:", error);
+    }
+  };
+
+  useEffect(() => {
+    token();
+  }, [
+    formik.values.Instrument,
+    formik.values.Exchange,
+    formik.values.Symbol,
+    formik.values.Strike,
+    formik.values.expirydata1,
+  ]);
+
+  const SweentAlertFun = (text) => {
+    Swal.fire({
+      title: "Error",
+      text: text,
+      icon: "error",
+      timer: 5500,
+      timerProgressBar: true,
+    });
+  };
+
+  const getEndData = (stg) => {
+    const dataWithoutLastItem = location?.state?.scriptType?.data.slice(0, -1);
+    const foundItem = dataWithoutLastItem.find((item) => {
+      return item.Scalping.includes(stg);
+    });
+    return foundItem.EndDate;
+  };
+
+  const ScrollToViewFirstError = (newErrors) => {
+    if (Object.keys(newErrors).length !== 0) {
+      const errorField = Object.keys(newErrors)[0];
+
+      const errorElement = document.getElementById(errorField);
+      if (errorElement) {
+        const elementPosition =
+          errorElement.getBoundingClientRect().top + window.pageYOffset;
+
+        const offset = 100;
+        window.scrollTo({
+          top: elementPosition - offset,
+          behavior: "smooth",
+        });
+      }
+    }
+  };
+
+
   const extractDetails = (inputString) => {
     const regex = /([PC])(?!.*[PC])(\d+)/;
     const match = inputString.match(regex);
@@ -703,7 +784,6 @@ const AddClient = () => {
   };
 
   const result = extractDetails(location.state.data.Symbol);
-
 
   useEffect(() => {
     if (formik.values.Exchange !== "MCX") {
@@ -1811,24 +1891,258 @@ const AddClient = () => {
     formik.values.Strike,
   ]);
 
+  const handleCheckPnl = async () => {
+    const req = {
+      MainStrategy: "NewScalping",
+      Username: userName,
+      Strategy: formik?.values.Strategy,
+      Exchange: formik?.values.Exchange,
+      Instrument:
+        formik.values.Exchange == "NSE" ? "" : formik.values.Instrument,
+      Symbol: formik?.values.Symbol,
+      Optiontype:
+        formik.values.Instrument == "OPTIDX" ||
+          formik.values.Instrument == "OPTSTK"
+          ? formik.values.Optiontype
+          : "",
+      Strike:
+        formik.values.Instrument == "OPTIDX" ||
+          formik.values.Instrument == "OPTSTK"
+          ? formik.values.Strike
+          : 0,
+      expirydata1:
+        formik.values.expirydata1 == "Monthly"
+          ? getExpiryDate?.data?.[0]
+          : formik.values.expirydata1 == "Next_Month"
+            ? getExpiryDate?.data?.[1]
+            : formik.values.expirydata1,
+      MarginValue: Number(marginValue),
+      TType: formik.values.TType,
+      TStype: formik.values.TStype,
+      Targetvalue: formik.values.Targetvalue,
+      Slvalue: formik.values.Slvalue,
+      HoldExit: formik.values.HoldExit,
+      Quantity: formik.values.Quantity,
+      FixedSM: formik.values.position_type,
+      quantity2: Number(formik.values.quantity2),
+      quantity3: Number(formik.values.quantity3),
+      tgp2: Number(formik.values.tgp2),
+      tgp3: Number(formik.values.tgp3),
+      stepup: Number(formik.values.stepup),
+      quantityselection: formik.values.quantityselection,
+      quantityvalue: Number(formik.values.quantityvalue),
+      targetselection: formik.values.Targetselection,
+      RepeatationCount: Number(formik.values.RepeatationCount),
+    };
+
+    await CheckPnLScalping(req)
+      .then((response) => {
+        if (response.Status) {
+          setShowPnl(true);
+          setOpenModel(true);
+          setPnlData({
+            InstrumentName: response.InstrumentName,
+            LotSize: response.LotSize,
+            MainSymbol: response.MainSymbol,
+            Message: response.Message,
+            Status: response.Status,
+            Token: response.Token,
+            TotalMargin: response.TotalMargin,
+            TotalPnL: response.TotalPnL,
+            TradingSymbol: response.TradingSymbol,
+          });
+        } else {
+          setPnlData({
+            InstrumentName: "",
+            LotSize: "",
+            MainSymbol: "",
+            Message: "",
+            Status: "",
+            Token: "",
+            TotalMargin: "",
+            TotalPnL: "",
+            TradingSymbol: "",
+          });
+        }
+      })
+      .catch((err) => {
+        console.log("Error in fetching the PnL", err);
+      });
+  };
+
+  const checkModalCondition = async () => {
+    const errors = await formik.validateForm();
+    if (Object.keys(errors).length > 0) {
+      return SweentAlertFun(Object.values(errors)[0]);
+    }
+
+    const req = {
+      Exchange: formik.values.Exchange,
+      Symbol: formik.values.Symbol,
+      Instrument: formik.values.Instrument,
+      Strike: formik.values.Strike === "" ? "0" : formik.values.Strike,
+      expirydata1:
+        formik.values.expirydata1 === "Monthly"
+          ? getExpiryDate?.data?.[0]
+          : formik.values.expirydata1 === "Next_Month"
+            ? getExpiryDate?.data?.[1]
+            : formik.values.expirydata1,
+    };
+
+    const response = await CPrice(req);
+    if (response.Status) {
+      setCPrice(response.CPrice);
+    } else {
+      setCPrice(0);
+    }
+
+    setOpenModel1(true);
+  };
+
   return (
     <>
       <Content
         Page_title={`📌 Add Script - scalping , Group Name : ${location.state.data.Username}`}
         button_status={false}
         backbutton_status={false}>
+        {formik.values.Exchange &&
+          formik.values.Instrument &&
+          formik.values.Symbol &&
+          formik.values.expirydata1 && (
+            <div className="AddScript_LivePrice card-text-Color">
+              <div className="LivePriceContainer">
+                <span>Live Price:</span>
+                <span className="LivePrice ms-2">{ }</span>
+              </div>
+            </div>
+          )}
         <AddForm
           fields={fields.filter(
             (field) => !field.showWhen || field.showWhen(formik.values)
           )}
-          // page_title={`Add Script - scalping , Group Name : ${location.state.data.Username}`}
           btn_name="Add"
           btn_name1="Cancel"
           formik={formik}
           btn_name1_route={"/user/dashboard"}
+          additional_field={
+            <div>
+              <button
+                type="button"
+                className="addbtn"
+                onClick={checkModalCondition}>
+                Check PnL
+              </button>
+            </div>
+          }
         />
       </Content>
+
+      <Modal
+        show={openModel1}
+        onHide={() => setOpenModel1(false)}
+        size="lg"
+        centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Margin Value</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="modal-body">
+            <div className="row">
+              <div className="col-lg-12 col-sm-12">
+                <div className="input-block mb-3">
+                  {getCPrice == 0 && (
+                    <>
+                      <label className="form-label">Enter Price</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={priceValue}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (/^\d*\.?\d*$/.test(value)) {
+                            setPriceValue(value);
+                            setError("");
+                          } else {
+                            setError("Only numbers are allowed");
+                          }
+                        }}
+                      />
+                    </>
+                  )}
+                  <label className="form-label">Margin Value</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={marginValue}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (/^\d*$/.test(value)) {
+                        setMarginValue(value);
+                        setError("");
+                      } else {
+                        setError("Only numbers are allowed");
+                      }
+                    }}
+                  />
+                  {error && <p className="text-danger">{error}</p>}
+                </div>
+              </div>
+            </div>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={() => setOpenModel1(false)}>Close</Button>
+          <Button
+            onClick={() => {
+              if (!marginValue.trim()) {
+                setError("Margin Value required");
+                return;
+              }
+              handleCheckPnl();
+              setOpenModel1(false);
+              setMarginValue("");
+            }}>
+            Submit
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal
+        show={openModel}
+        onHide={() => setOpenModel(false)}
+        size="lg"
+        centered>
+        <Modal.Header closeButton>
+          <Modal.Title>PnL Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {PnlData ? (
+            [
+              { label: "Token", value: PnlData.Token },
+              { label: "Margin", value: PnlData.TotalMargin },
+              {
+                label: "Maximum Loss",
+                value: PnlData.TotalPnL == 0 ? "0" : PnlData.TotalPnL,
+              },
+              { label: "Symbol", value: PnlData.TradingSymbol },
+            ].map(({ label, value }, index) => (
+              <div key={index} className="d-flex align-items-center py-1">
+                <label className="fw-bold mb-0 me-2">{label}:</label>
+                <span>{value || "N/A"}</span>
+              </div>
+            ))
+          ) : (
+            <p className="text-danger text-center">❌ No data available</p>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setOpenModel(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };
+
 export default AddClient;

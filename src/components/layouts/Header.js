@@ -434,6 +434,23 @@ const Header = () => {
     walletmodal(showFunds);
   };
 
+  const handleSetApiKey = async (e) => {
+    e.preventDefault();
+    const broker = localStorage.getItem("Broker");
+    if (broker == "DEMO") {
+      return Swal.fire({
+        background: "#1a1e23 ",
+        backdrop: "#121010ba",
+        confirmButtonColor: "#1ccc8a",
+        title: "Warning!",
+        text: "You are using a demo account. You Can't set API key.",
+        icon: "warning",
+        confirmButtonText: "OK",
+      });
+    }
+    setIsModalVisible(true)
+  };
+
   const handleAddBroker = async () => {
     const req = { BrokerName: addBrokerName };
 
@@ -491,6 +508,8 @@ const Header = () => {
     await Get_Profile_Data(data).then((response) => {
       if (response.Status) {
         localStorage.setItem("expire", 0);
+        // console.log("response", response);
+        localStorage.setItem("Broker", response.Data[0].BrokerName)
       } else {
         if (response.message === "Client Expired") {
           localStorage.setItem("expire", 1);
@@ -499,6 +518,9 @@ const Header = () => {
       }
     });
   };
+
+
+
   const currentTradeMode = getTradingStatus ? "Live Trading" : "Paper Trading";
 
   useEffect(() => {
@@ -916,7 +938,7 @@ const Header = () => {
 
                           <Link
                             className="iq-sub-card iq-bg-warning-hover text-decoration-none"
-                            onClick={(e) => setIsModalVisible(true)}
+                            onClick={(e) => handleSetApiKey(e)}
                           >
                             <div className="media align-items-center d-flex">
                               <div className="rounded card-icon bg-soft-warning">
