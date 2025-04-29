@@ -45,6 +45,7 @@ import SidebarRight from '../components/layouts/SidebarRight';
 
 
 import { SidebarProvider } from "../components/layouts/SidebarContext";
+import AdminOffer from '../components/superAdmin/adminOfferPage/AdminOffer';
 
 const SuperAdminRoute = () => {
   return (
@@ -76,6 +77,7 @@ const SuperAdminRoute = () => {
             />
             <Route path="/api-create-info" element={<ApiCreateInfo />} />
             <Route path="/new-update" element={<NewUpdate />} />
+            <Route path="/admin-offer" element={<AdminOffer />} />
           </Routes>
         </div>
         <SidebarRight position="right"/>

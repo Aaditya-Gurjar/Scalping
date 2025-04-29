@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { GetClientService, GetGroupNames, EditClientPanle, Get_Broker_Name } from '../../CommonAPI/Admin';
+import { GetClientService, GetGroupNames, EditClientPanle, Get_Broker_Name, GETBrokerGroupRecord } from '../../CommonAPI/Admin';
 import FullDataTable from '../../../ExtraComponent/CommanDataTable';
 import { Link, useNavigate } from 'react-router-dom';
 import { SquarePen } from 'lucide-react';
@@ -28,6 +28,10 @@ const Clientservice = () => {
     const [walletBalance, setWalletBalance] = useState('');
     const navigate = useNavigate();
 
+    const [brokerRecordData, setBrokerRecordData] = useState([]);
+    const [showBrokerModal, setShowBrokerModal] = useState(false);
+
+
     const adminPermission = localStorage.getItem("adminPermission");
     const permissionArray = [];
 
@@ -39,7 +43,7 @@ const Clientservice = () => {
         fetchClientService();
     }, [searchInput]);
 
- 
+
 
 
     const GetBalence = async (Username) => {
@@ -135,6 +139,23 @@ const Clientservice = () => {
                 console.log("Error in fetching the plans", err)
             })
     };
+
+    const handleBrokerRecord = async (rowData) => {
+        const username = rowData[3]; // Make sure index 3 is correct for 'Username'
+        console.log("Calling API for Username:", username);
+
+        const response = await GETBrokerGroupRecord(username);
+
+        if (response?.Status) {
+            console.log("API Success:", response.Data);
+            setBrokerRecordData(response.Data);
+            setShowBrokerModal(true);
+            // Aap yahan modal open kar sakte hain ya state update kar sakte hain
+        } else {
+            console.error("API Error:", response?.message || "Something went wrong");
+        }
+    };
+
 
 
     useEffect(() => {
@@ -261,6 +282,22 @@ const Clientservice = () => {
 
                 ),
             },
+        },
+        {
+            name: 'BrokerRecord',
+            label: 'Broker Record',
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value, tableMeta) => (
+                    <button
+                        style={{ padding: '5px 10px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                        onClick={() => handleBrokerRecord(tableMeta.rowData)}
+                    >
+                        View
+                    </button>
+                )
+            }
         },
         {
             name: 'Username',
@@ -590,6 +627,73 @@ const Clientservice = () => {
                         </div>
                     </>
                 )}
+
+                {showBrokerModal && (
+                    <>
+                        {/* Dark overlay */}
+                        <div className="modal-backdrop fade show"></div>
+
+                        <div
+                            className="modal fade show"
+                            id="broker_record_modal"
+                            tabIndex="-1"
+                            role="dialog"
+                            aria-labelledby="brokerModalLabel"
+                            aria-hidden="true"
+                            style={{ display: "block" }}
+                        >
+                            <div className="modal-dialog modal-dialog-centered modal-lg">
+                                <div className="modal-content card-bg-color">
+                                    <div className="modal-header p-3">
+                                        <h5 className="modal-title card-text-Color" id="brokerModalLabel">
+                                            Broker Group Record
+                                        </h5>
+                                        <button
+                                            type="button"
+                                            className="btn-close"
+                                            onClick={() => {
+                                                setShowBrokerModal(false);
+                                                setBrokerRecordData([]);
+                                            }}
+                                        />
+                                    </div>
+                                    <hr style={{ margin: "0" }} />
+
+                                    <div className="modal-body p-3 card-bg-color" style={{ maxHeight: "70vh", overflowY: "auto" }}>
+                                        {brokerRecordData?.length > 0 ? (
+                                            brokerRecordData.map((item, index) => (
+                                                <div key={index} className="mb-4 p-3 border rounded bg-light">
+                                                    <div className="row">
+                                                        <div className="col-md-6 mb-2">
+                                                            <strong className="card-text-Color">Username:</strong> {item.Username}
+                                                        </div>
+                                                        <div className="col-md-6 mb-2">
+                                                            <strong className="card-text-Color">Date:</strong> {item.Date}
+                                                        </div>
+                                                        <div className="col-md-6 mb-2">
+                                                            <strong className="card-text-Color">Broker:</strong> {item.Broker}
+                                                        </div>
+                                                        <div className="col-md-6 mb-2">
+                                                            <strong className="card-text-Color">Group:</strong>{" "}
+                                                            {item.Group?.length ? item.Group.join(', ') : "-"}
+                                                        </div>
+                                                        <div className="col-md-6 mb-2">
+                                                            <strong className="card-text-Color">SubAdmin:</strong>{" "}
+                                                            {item.SubAdmin?.length ? item.SubAdmin.join(', ') || "Admin" : "Admin"}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <p className="text-muted">No records found.</p>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                )}
+
             </Content>
         </>
     );

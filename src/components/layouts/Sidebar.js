@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import $ from "jquery";
-import { ListCollapse, Users, BadgeDollarSign, Pyramid } from "lucide-react";
+import { ListCollapse, Users, BadgeDollarSign, Pyramid,HandCoins  } from "lucide-react";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import { useSidebar } from "./SidebarContext";
@@ -23,7 +23,7 @@ const Sidebar = ({ position }) => {
   const [permission, setPermission] = useState(
     JSON.parse(localStorage.getItem("SubAdminPermission")) || null
   );
-const permissions  = localStorage.getItem("adminPermission");
+  const permissions = localStorage.getItem("adminPermission");
 
   const expire = localStorage.getItem("expire");
 
@@ -185,7 +185,7 @@ const permissions  = localStorage.getItem("adminPermission");
     {
       path: "/admin/strategygroup",
       icon: <i className="la la-sellsy" />, // Strategy Group icon
-      label: (<>Strategy <br/>Group</>),    
+      label: (<>Strategy <br />Group</>),
       permission: [],
     },
     {
@@ -214,35 +214,35 @@ const permissions  = localStorage.getItem("adminPermission");
     },
     {
       path: "/admin/userlogs",
-      icon: <i className="fa-regular fa-link" />,  
-      label: 
-      (
-        <>
-          User Panel  <br /> Log
-        </>
-      ),
+      icon: <i className="fa-regular fa-link" />,
+      label:
+        (
+          <>
+            User Panel  <br /> Log
+          </>
+        ),
       permission: [],
     },
     {
       path: "/admin/Coupon",
-      icon: <i className="fa fa-percent" />, 
-      label: 
-      (
-        <>
-          Add Coupon  
-        </>
-      ),
+      icon: <i className="fa fa-percent" />,
+      label:
+        (
+          <>
+            Add Coupon
+          </>
+        ),
       permission: [],
     },
   ];
 
   const isOptionChainIncluded = permissions?.includes("Option Chain")
-   
-  if(isOptionChainIncluded){
+
+  if (isOptionChainIncluded) {
     adminSideBaar.push({
       path: "/admin/OptionChain",
       icon: <i className="ri-stock-line" />, // Option Chain icon
-      label: (<>Option <br/>Chain</>),
+      label: (<>Option <br />Chain</>),
       permission: [],
     });
   }
@@ -282,6 +282,16 @@ const permissions  = localStorage.getItem("adminPermission");
       ),
       permission: [],
     },
+    // {
+    //   path: "/superadmin/admin-offer",
+    //   icon: <HandCoins />, // Client Trade Report icon
+    //   label: (
+    //     <>
+    //       Admin  <br /> Coupon Details
+    //     </>
+    //   ),
+    //   permission: [],
+    // },
   ];
 
   const userSidebarItems = [
@@ -291,7 +301,7 @@ const permissions  = localStorage.getItem("adminPermission");
       label: "Dashboard",
       permission: [],
     },
-    
+
     {
       path: "tradereport",
       icon: <i className="la la-sellsy" />, // Trade Report icon
@@ -309,7 +319,7 @@ const permissions  = localStorage.getItem("adminPermission");
     {
       path: "traderesponse",
       icon: <i className="la la-sellsy"></i>,
-      label: (<>Trade <br/> Response</>),
+      label: (<>Trade <br /> Response</>),
       permission: [],
 
 
@@ -350,7 +360,7 @@ const permissions  = localStorage.getItem("adminPermission");
           className={activeItem === item.path ? "active" : ""}
           onClick={(e) => handleSidebarClick(e, item.path)}
         >
-          <Link  to={expire?.includes(1) ? "/user/all/plan" : item.path} className="iq-waves-effect sidebar-left">
+          <Link to={expire?.includes(1) ? "/user/all/plan" : item.path} className="iq-waves-effect sidebar-left">
             <OverlayTrigger
               placement="right"
               delay={{ show: 250, hide: 400 }}

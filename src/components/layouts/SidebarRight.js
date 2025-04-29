@@ -4,6 +4,8 @@ import $ from "jquery";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import { useSidebar } from "./SidebarContext";
+import { HandCoins } from "lucide-react";
+
 const Sidebar = ({ position }) => {
   const role = localStorage.getItem("Role");
   const { activeItem, setActiveItem } = useSidebar();
@@ -74,7 +76,7 @@ const Sidebar = ({ position }) => {
       {
         path: "/admin/clientreport",
         icon: <i className="la la-briefcase"></i>,
-        label: (<>Client Thread <br/> Report</>),
+        label: (<>Client Thread <br /> Report</>),
       },
       {
         path: "/admin/smtp",
@@ -94,19 +96,19 @@ const Sidebar = ({ position }) => {
         label: (<>API<br />CreateInfo</>),
 
       },
-  
+
     ],
-  
+
     Superadmin: [
       {
         path: "/superadmin/client-trade-response",
         icon: <i className="la la-reply"></i>,
-        label: (<>Client Trade <br/> Response</>),
+        label: (<>Client Trade <br /> Response</>),
       },
       {
         path: "/superadmin/update-client-details",
         icon: <i className="la la-user"></i>,
-        label: (<>Update Client <br/> Details</>),
+        label: (<>Update Client <br /> Details</>),
       },
       {
         path: "/superadmin/api-create-info",
@@ -118,7 +120,16 @@ const Sidebar = ({ position }) => {
         icon: <i className="la la-bell"></i>,
         label: "New-Update",
       },
-      
+      {
+        path: "/superadmin/admin-offer",
+        icon: <HandCoins />, // Client Trade Report icon
+        label: (
+          <>
+            Admin  <br /> Coupon Details
+          </>
+        ),
+      },
+
     ],
     Subadmin: [
       {
@@ -194,7 +205,7 @@ const Sidebar = ({ position }) => {
   if (adminPermission?.includes("Copy Trading")) {
     sidebarItems.Admin.push({
       path: "/admin/Master-Account",
-      icon: <i className="la la-user-shield"></i>,  
+      icon: <i className="la la-user-shield"></i>,
       label: (
         <>
           Master<br />Account

@@ -2102,6 +2102,45 @@ export const
             }
         },
         {
+            name: "WorkingDay",
+            label: "Working Day",
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value) => {
+                    if (!value || (Array.isArray(value) && value.length === 0)) {
+                        return "-";
+                    }
+                    if (Array.isArray(value)) {
+                        return (
+                            <span>
+                                {value.map((day, index) =>
+                                    (index > 0 && index % 3 === 0 ? <><br />{day}</> : (index === 0 ? day : `, ${day}`))
+                                )}
+                            </span>
+                        );
+                    }
+                    return value;
+                },
+            },
+        },
+        {
+            name: "Profit",
+            label: "Max Profit",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
+            name: "Loss",
+            label: "Max Loss",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
             name: "Target value",
             label: "Target",
             options: {
