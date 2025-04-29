@@ -399,9 +399,8 @@ const TradeReport = () => {
             backbutton_status={true} >
             <div className="iq-card-body">
                 <div className="was-validated ">
-                    <div className="row">
-                        <div className="form-group col-lg-12 mb-4">
-                            <div className="d-flex justify-content-center report-btns">
+                    <div className="row mb-4">
+                    <div className="d-flex  report-btns">
                                 <ul
                                     className="nav nav-pills shadow rounded-pill p-1"
                                     style={{ backgroundColor: "#f1f3f5" }}
@@ -427,12 +426,10 @@ const TradeReport = () => {
                                     ))}
                                 </ul>
                             </div>
-                        </div>
-
-                        <div className="d-flex justify-content-end col-lg-12 report-page-dates">
+                            <div className="d-flex justify-content-end col-lg-12 report-page-dates">
                             <div className="form-group me-2"></div>
                             <div className="form-group me-3 col-lg-2">
-                                <label> Select From Date</label>
+                                <label>Select From Date</label>
                                 <DatePicker
                                     className="form-select"
                                     selected={FromDate === '' ? formattedDate : FromDate}
@@ -441,7 +438,7 @@ const TradeReport = () => {
                             </div>
 
                             <div className="form-group col-lg-2">
-                                <label> Select To Date</label>
+                                <label>Select To Date</label>
                                 <DatePicker
                                     className="form-select"
                                     selected={ToDate === '' ? Defult_To_Date : ToDate}
@@ -449,11 +446,14 @@ const TradeReport = () => {
                                 />
                             </div>
                         </div>
+                     
+
+                      
                     </div>
                 </div>
 
                 {tableType === "Scalping" && selectStrategyType !== "ChartingPlatform" && (
-                    <div className="modal-body" style={{ marginTop: "5rem" }}>
+                    <div className="modal-body">
                         {(tradeReport?.data)?.length > 0 ? (
                             <GridExample
                                 columns={
@@ -474,7 +474,7 @@ const TradeReport = () => {
                 )}
 
                 {selectStrategyType === "ChartingPlatform" && (
-                    <div className="container" style={{ marginTop: "5rem" }}>
+                    <div className="container">
                         <div className="d-flex justify-content-center "> 
                             <ul
                                 className="nav nav-pills shadow rounded-pill p-1"
@@ -540,8 +540,8 @@ const TradeReport = () => {
                 )}
 
                 {tableType === "MultiCondition" && selectStrategyType === "Scalping" && (
-                    <div style={{ marginTop: "5rem" }}>
-                        <div className="iq-header-title mt-4">
+                    <div>
+                        <div className="iq-header-title ">
                             <h4 className="card-title">Scalping</h4>
                         </div>
                         {tradeReport?.data1 && tradeReport?.data1?.length > 0 ? (

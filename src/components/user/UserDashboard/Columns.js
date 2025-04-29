@@ -2772,54 +2772,28 @@ export const getColumns8 = (handleContinutyDiscontinuty, chartingSubTab, getChar
     //         }
     //     }
     // },
-    // {
-    //     name: "Trading",
-    //     label: "Trading",
-    //     options: {
-    //         filter: true,
-    //         sort: true,
-    //         customBodyRender: (value, tableMeta, updateValue) => {
-    //             const label = value ? "Continue" : "Discontinue";
-    //             const labelStyle = value ? { backgroundColor: 'green', color: 'white' } : { backgroundColor: 'red', color: 'white' };
-
-    //             return (
-
-    //                 label === "Continue" ? (
-    //                     <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-success">{label}</button>) : (
-    //                     <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-danger">{label}</button>
-    //                 )
-
-
-
-    //             );
-    //         }
-    //     }
-    // },
-
     {
-        name: "TSymbol",
-        label: "Symbol",
-        options: {
-            filter: true,
-            sort: true,
-        }
-    },
-
-    {
-        name: "Token",
-        label: "LivePrice",
+        name: "Trading",
+        label: "Trading",
         options: {
             filter: true,
             sort: true,
             customBodyRender: (value, tableMeta, updateValue) => {
+                const label = value ? "Continue" : "Discontinue";
+                const labelStyle = value ? { backgroundColor: 'green', color: 'white' } : { backgroundColor: 'red', color: 'white' };
+
                 return (
-                    
-                    <div><span className={`LivePrice_${value}`}>-</span></div>
-                   
+
+                    label === "Continue" ? (
+                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-success">{label}</button>) : (
+                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-danger">{label}</button>
+                    )
+
+
+
                 );
             }
-        },
-       
+        }
     },
     {
         name: "EntryPrice",

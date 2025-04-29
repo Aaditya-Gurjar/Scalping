@@ -23,7 +23,7 @@ const Clientactivity = () => {
     const day = String(currentDate.getDate()).padStart(2, '0');
     const formattedDate = `${year}-${month}-${day}`;
 
-    //  Select From Date
+    // Select From Date
     const DefultToDate = new Date();
     DefultToDate.setDate(DefultToDate.getDate() + 1);
     const year1 = DefultToDate.getFullYear();
@@ -124,12 +124,12 @@ const Clientactivity = () => {
                             </select>
                         </div>
                         <div className="form-group col-lg-4 ">
-                            <label> Select From Date</label>
+                            <label>Select From Date</label>
                             <DatePicker className="form-select" selected={FromDate == "" ? formattedDate : FromDate} onChange={(date) => setFromDate(date)} />
 
                         </div>
                         <div className="form-group col-lg-4">
-                            <label> Select To Date</label>
+                            <label>Select To Date</label>
                             <DatePicker className="form-select" selected={ToDate == "" ? Defult_To_Date : ToDate} onChange={(date) => setToDate(date)} />
                         </div>
                     </div>

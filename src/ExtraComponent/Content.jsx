@@ -40,9 +40,9 @@ const Content = ({
                 
                 <li>
                   <div className="breadcrumb-box">
-                    <h3 className="heading-color mb-0">
+                    <h4 className="heading-color mb-0">
                       {Page_title}
-                    </h3>
+                    </h4>
                   </div>
                 </li>
               </ul>
