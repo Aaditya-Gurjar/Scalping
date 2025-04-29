@@ -317,6 +317,8 @@ const adminPermission = localStorage.getItem("adminPermission");
         money: price || planDetails.SOPPrice || planDetails.ChartPerMonth, // Use discounted price if available
       };
 
+      console.log("Plandetailssss", planDetails)
+
       const CheckBalanceResponse = await AddBalance(req1);
       if (CheckBalanceResponse.Status) {
         const req = {
@@ -331,6 +333,7 @@ const adminPermission = localStorage.getItem("adminPermission");
           Extendtype: type === 0 ? "ExtendServiceEndDate" : "ExtendServiceCount",
           money: price || planDetails.SOPPrice,
           Charting: planDetails.ChartingSignal,
+          Strategytag : planDetails.Strategytag || [],
         };
 
         const buyPlanResponse = await BuyPlan(req);

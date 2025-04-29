@@ -13,7 +13,7 @@ import { text } from "../../../ExtraComponent/IconTexts";
 import { Modal } from "react-bootstrap";
 import Content from "../../../ExtraComponent/Content";
 
-const AddClient = () => {
+const AddClient = (Planname) => {
   const location = useLocation();
   const userName = localStorage.getItem("name");
   const navigate = useNavigate();
@@ -38,13 +38,6 @@ const AddClient = () => {
     NoprofitLoss1: "",
     NoprofitLoss2: "",
   });
-  // console.log("PnlData mai kya kya aa rha hai", PnlData);
-
-  const plnName =  location?.state?.data?.scriptType?.data?.find(
-    (item) => item.EndDate == getEndData(formik.values.Measurment_Type)
-  )?.Planname
-
-  
 
   const SweentAlertFun = (text) => {
     Swal.fire({
@@ -64,13 +57,14 @@ const AddClient = () => {
       0,
       -1
     );
-
-    const foundItem = dataWithoutLastItem.find((item) => {
-      return item["Option Strategy"].includes(stg);
-    });
-
+    // const foundItem = dataWithoutLastItem.find((item) => {
+    //   return item["Option Strategy"].includes(stg);
+    // });
+    const foundItem = dataWithoutLastItem[0];
+     
     return foundItem.EndDate;
   };
+
 
   const ScrollToViewFirstError = (newErrors) => {
     if (Object.keys(newErrors).length !== 0) {
@@ -443,7 +437,6 @@ const AddClient = () => {
 
 
     onSubmit: async (values) => {
-console.log("values", values);
       const req = {
         MainStrategy: location.state.data.selectStrategyType,
         Username: userName,
@@ -487,7 +480,7 @@ console.log("values", values);
         ExitDay: values.ExitDay,
         FixedSM: "",
         TType: "",
-        serendate: getEndData(formik.values.Measurment_Type),
+        serendate: getEndData(formik.values.Strategy),
         expirydata1: getExpiry && getExpiry.data[0],
         Expirytype: values.Expirytype,
         Striketype:
@@ -545,11 +538,10 @@ console.log("values", values);
           ? values?.WorkingDay?.map((item) => item?.value || item)
           : [],
         Planname: location?.state?.data?.scriptType?.data?.find(
-          (item) => item.EndDate == getEndData(formik.values.Measurment_Type)
+          (item) => item.EndDate == getEndData(formik.values.Strategy)
         )?.Planname,
       };
 
-      console.log("req", req);
 
 
 
@@ -608,8 +600,6 @@ console.log("values", values);
           );
         }
       }
-
-console.log(":befie api hit ")
       await AddScript(req)
         .then((response) => {
           if (response.Status) {
@@ -646,6 +636,10 @@ console.log(":befie api hit ")
         });
     },
   });
+
+ 
+
+
 
   useEffect(() => {
     axios
@@ -1128,8 +1122,9 @@ console.log(":befie api hit ")
       label: "Number of Shifts",
       type: "text3",
       showWhen: (value) =>
+        value.Strategy !== "BearPutSpread" ||(
         value.Strategy != "ShortFourLegStretegy" &&
-        value.Strategy != "LongFourLegStretegy",
+        value.Strategy != "LongFourLegStretegy"),
       hiding: false,
       label_size: 12,
       col_size: formik.values.Measurment_Type != "Shifting_FourLeg" ? 3 : 4,
@@ -1263,12 +1258,10 @@ console.log(":befie api hit ")
 
   
 
-  console.log("Measurment_Type---", formik.values.Measurment_Type)
 
   const fetchRadioOptions = async () => {
     try {
       const res = await getOptionType(formik.values.Measurment_Type);
-      console.log("res-------------", res);
       if (res) {
        setOptionRadioType(res[formik.values.Measurment_Type])
       } else {
@@ -1279,7 +1272,6 @@ console.log(":befie api hit ")
     }
   };
 
-  console.log("OptionRadioType", optionRadioType)
 
   useEffect(() => {
     fetchRadioOptions()
@@ -1511,15 +1503,12 @@ console.log(":befie api hit ")
 
     const totalMinutes = hours * 60 + minutes; // e.g., 14 * 60 + 30 = 870
 
-    console.log("Current time (HH:MM):", `${hours}:${minutes}`);
-    console.log("Weekend:", weekend);
 
     // Market hours: 9:15 AM to 3:30 PM => 555 to 930 in total minutes
     if (weekend === 6 || weekend === 0 || totalMinutes < 555 || totalMinutes > 930) {
       return SweentAlertFun("Market is off Today");
     }
 
-    console.log("before req");
 
     const req = {
       MainStrategy: location.state.data.selectStrategyType,
@@ -1553,7 +1542,7 @@ console.log(":befie api hit ")
       TradeExecution: formik.values.Trade_Execution,
       FixedSM: "",
       TType: "",
-      serendate: getEndData(formik.values.Measurment_Type),
+      serendate: getEndData(formik.values.Strategy),
       expirydata1: getExpiry && getExpiry.data[0],
 
       Expirytype: formik.values.Expirytype,
@@ -1596,11 +1585,9 @@ console.log(":befie api hit ")
       quantityvalue: 0.0,
       targetselection: "",
     };
-    console.log("req", req);
 
     await CheckPnL(req)
       .then((response) => {
-        console.log("response", response);
         if (response.Status) {
           setShowPnl(true);
           setOpenModel(true);

@@ -107,8 +107,42 @@ const MasterAccount = () => {
     try {
       const res = await MasterAccountApi(req);
       console.log("API Response:", res);
+
+      if (res?.Status) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Master account created successfully!',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#3085d6',
+          customClass: {
+            popup: 'swal-custom-popup'
+          }
+        });
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Failed to create master account!',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#d33',
+          customClass: {
+            popup: 'swal-custom-popup'
+          }
+        });
+      }
     } catch (error) {
       console.error("Error submitting data:", error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'An unexpected error occurred!',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#d33',
+        customClass: {
+          popup: 'swal-custom-popup'
+        }
+      });
     }
   };
 

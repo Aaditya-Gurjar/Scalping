@@ -61,12 +61,13 @@ const AddClient = () => {
       0,
       -1
     );
+    console.log("datawithoutlastitem  new", dataWithoutLastItem);
 
     const foundItem = dataWithoutLastItem.find((item) => {
       return item["Option Strategy"].includes(stg);
-    });
-
-    return foundItem.EndDate;
+    }); 
+    console.log("foundItem", foundItem); 
+    return foundItem?.EndDate;
   };
 
   const ScrollToViewFirstError = (newErrors) => {
@@ -86,6 +87,7 @@ const AddClient = () => {
       }
     }
   };
+
 
   const formik = useFormik({
     initialValues: {
@@ -570,9 +572,7 @@ const AddClient = () => {
           (item) => item.EndDate == getEndData(formik.values.Measurment_Type)
         )?.Planname,
       };
-
-
-
+  
 
       if (
         values.Striketype == "Depth_of_Strike" &&
@@ -668,6 +668,10 @@ const AddClient = () => {
         });
     },
   });
+
+  const Planname = location?.state?.data?.scriptType?.data?.find(
+    (item) => item.EndDate == getEndData(formik.values.Measurment_Type)
+  )?.Planname
 
   useEffect(() => {
     axios
@@ -1627,7 +1631,7 @@ const AddClient = () => {
       return SweentAlertFun("Market is off Today");
     }
 
-    console.log("before req");
+    // console.log("before req");
 
     const req = {
       MainStrategy: location.state.data.selectStrategyType,
@@ -1765,7 +1769,7 @@ const AddClient = () => {
     >
       <div className="d-flex flex-column align-items-center">
         <Tabs
-          id="custom-tabs"
+          id="custom-tabs-newMarket"
           activeKey={activeTab}
           onSelect={handleTabChange}
           className="custom-tabs mb-3"
@@ -1774,8 +1778,8 @@ const AddClient = () => {
           <Tab
             eventKey="nameWise"
             title={
-              <div className="d-flex align-items-center gap-2 tab-title">
-                <FaUserAlt className="icon" />
+              <div className="d-flex align-items-center gap-2 tab-title-newmarket">
+                <FaUserAlt className="icon-newmarket" />
                 Name Wise
               </div>
             }
@@ -1883,14 +1887,14 @@ const AddClient = () => {
           <Tab
             eventKey="marketWise"
             title={
-              <div className="d-flex align-items-center gap-2 tab-title">
-                <FaChartLine className="icon" />
+              <div className="d-flex align-items-center gap-2 tab-title-newmarket">
+                <FaChartLine className="icon-newmarket" />
                 Market Wise
               </div>
             }
           >
             {/* Market Wise content */}
-            <NewMarketWise />
+            <NewMarketWise Planname={Planname} />
           </Tab>
         </Tabs>
       </div>

@@ -2515,7 +2515,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
     {
       name: "Slvalue",
-      label: "Stoploss",
+      label: "Re-entry",
       type: "text3",
       label_size: 12,
       col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
