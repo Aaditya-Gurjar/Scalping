@@ -626,11 +626,11 @@ const DescriptionPage = () => {
     <div className="desc-page-wrapper card-bg-color">
       <div className="desc-container card-bg-color">
         {/* Tab Navigation */}
-        <ul className="nav desc-nav-tabs">
+        <ul className="nav nav-pills shadow rounded-pill p-1">
           {TABS.map((tab) => (
             <li className="nav-item" key={tab}>
               <button
-                className={`nav-link ${activeTab === tab ? "active" : ""}`}
+                className={`nav-link rounded-pill ${activeTab === tab ? "active" : ""}`}
                 onClick={() => handleTabChange(tab)}
               >
                 {tab}
