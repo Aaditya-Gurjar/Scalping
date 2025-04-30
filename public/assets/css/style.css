@@ -7207,6 +7207,10 @@ height: auto;
   z-index: 2;
 } */
 
+.trade-report-btns{
+  z-index: 2 ;
+}
+
 .report-page-dates {
   position: absolute !important;
   z-index: 1;

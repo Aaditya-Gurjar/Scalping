@@ -215,7 +215,7 @@ const AddClient = () => {
         errors.Group = "Please Enter Unique Name.";
       }
       if (!values.HoldExit && values.Strategy != "Fixed Price") {
-        errors.HoldExit = "Please Select Whether To Hold Or Exit.";
+        errors.HoldExit = "Please Select Hold Or Exit.";
       }
       if (!values.Slvalue) {
         errors.Slvalue = values.Strategy == "Fixed Price" ? "Please Enter Stop Loss Price." : "Please Select Stop Loss Value.";

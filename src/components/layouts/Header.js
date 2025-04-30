@@ -822,19 +822,11 @@ const Header = () => {
                       data-bs-dismiss="modal"
                       className="addbtn mt-0 btn1 "
                     >
-                      {showFunds ? (
-                        <span className="btn-text-color" >
-                          <IndianRupee
-                            style={{ height: "24px", marginRight: "10px" }}
-                          />
-
-                          <strong className="btn-text-color" >{walletBalance || "-"}</strong>
+                       <span className="btn-text-color" >
+                          <span>
+                            <Wallet className="iconcol" />
+                          </span>
                         </span>
-                      ) : (
-                        <span>
-                          <Wallet className="iconcol" />
-                        </span>
-                      )}
                     </button>
                   </li>
 

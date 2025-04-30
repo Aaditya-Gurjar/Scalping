@@ -43,17 +43,19 @@ const Userdashboard = () => {
   const [showLivePrice, setShowLivePrice] = useState(false);
   const location = useLocation();
 
-useEffect(() => {
-  setSubTab(deletedStrategyType)
-}
-, [deletedStrategyType]);
+  const [botView, setBotView] = useState("Create New Bot"); // New state for dropdown selection
 
-const addScriptTab = sessionStorage.getItem("addScriptTab");
- 
-useEffect(() => {
-  setSubTab(addScriptTab);
-  // sessionStorage.removeItem("addScriptTab"); 
-}, [addScriptTab]);
+  useEffect(() => {
+    setSubTab(deletedStrategyType)
+  }
+    , [deletedStrategyType]);
+
+  const addScriptTab = sessionStorage.getItem("addScriptTab");
+
+  useEffect(() => {
+    setSubTab(addScriptTab);
+    // sessionStorage.removeItem("addScriptTab"); 
+  }, [addScriptTab]);
 
 
   const currentDate = new Date();
@@ -75,7 +77,7 @@ useEffect(() => {
     const year = date.getFullYear();
     return `${year}.${month}.${day}`;
   };
- 
+
   const [getGroupName, setGroupName] = useState({ loading: true, data: [] });
   const [getPositionData, setPositionData] = useState({
     loading: true,
@@ -91,7 +93,7 @@ useEffect(() => {
     const res = await GetAllUserGroup(data)
     setGroupNames(res?.Data)
   }
- 
+
   useEffect(() => {
     fetchStrategyType();
     GetOpenPosition();
@@ -101,7 +103,7 @@ useEffect(() => {
   useEffect(() => {
     getUserAllGroup();
   }, [activeTab]);
-  
+
   const fetchStrategyType = async () => {
     try {
       const res = await getStrategyType();
@@ -140,7 +142,7 @@ useEffect(() => {
         setData2({ status: false, msg: "Error fetching groups" });
       });
   };
- 
+
   const GetOpenPosition = async () => {
     const data = { userName: userName };
     await OpenPosition(data)
@@ -715,7 +717,7 @@ useEffect(() => {
       setTableType(StrategyType || "Scalping");
     }
   }, [subTab]);
- 
+
   return (
     <Content
       Page_title="📊 User Dashboard"
@@ -761,96 +763,89 @@ useEffect(() => {
             <>
               <div className="d-flex justify-content-center align-items-center flex-column gap-4 mt-4">
                 <div className="d-flex justify-content-start align-items-center w-100" style={{ maxWidth: "1200px" }}>
-                  {/* <h5 className="me-3" style={{ minWidth: "100px", textAlign: "left" }}></h5> */}
-                  <div className="d-flex flex-wrap gap-3 mx-auto">
-                  <ul
-                  className="nav nav-pills shadow rounded-pill p-1"
-                 
-                >
-                    {strategyType.map((type, index) => (
-  <li class="nav-item">
-                      <button
-                        key={index}
-                        className={` nav-link rounded-pill ${subTab === type.trim() ? "active rounded-pill" : "nav-link rounded-pill"}`}
-                        style={{
-                          padding: "10px 20px",
-                          margin: "5px",
-                          border: "none",
-                          outline: "none",
-                        }}
-                        onClick={() => {
-                          setSubTab(type.trim());
-                          setGroup(""); // Deselect group
-                          sessionStorage.setItem("StrategyType", type.trim());
-                          sessionStorage.removeItem("groupName"); // Clear groupName from session
-                        }}
-                        >
-                        <FiPlusCircle className="me-1" /> {type} Bot
-                      </button>
-                      </li>
-                    ))}
+                  <div className="d-flex align-items-center gap-3 me-3">
+                    <select
+                      className="form-select"
+                      style={{ width: "200px" }}
+                      value={botView}
+                      onChange={(e) => setBotView(e.target.value)}
+                    >
+                      <option value="Create New Bot">Create New Bot</option>
+                      <option value="Suggested Bots">Suggested Bots</option>
+                    </select>
+                  </div>
+                  <div className="d-flex flex-wrap gap-3 ">
+                    <ul className="nav nav-pills shadow rounded-pill p-1">
+                      {botView === "Create New Bot" &&
+                        strategyType.map((type, index) => (
+                          <li className="nav-item" key={index}>
+                            <button
+                              className={`nav-link rounded-pill ${subTab === type.trim() ? "active rounded-pill" : "nav-link rounded-pill"}`}
+                              style={{
+                                padding: "10px 20px",
+                                margin: "5px",
+                                border: "none",
+                                outline: "none",
+                              }}
+                              onClick={() => {
+                                setSubTab(type.trim());
+                                setGroup(""); // Deselect group
+                                sessionStorage.setItem("StrategyType", type.trim());
+                                sessionStorage.removeItem("groupName"); // Clear groupName from session
+                              }}
+                            >
+                              <FiPlusCircle className="me-1" /> {type} Bot
+                            </button>
+                          </li>
+                        ))}
+                      {botView === "Suggested Bots" &&
+                        groupNames.map((type, index) => (
+                          <li className="nav-item" key={index} style={{ textAlign: "left" }}>
+                            <button
+                              className={`nav-link rounded-pill ms-2 me-2 ${getGroup === type.trim() ? "active rounded-pill" : "nav-link rounded-pill"}`}
+                              style={{
+                                padding: "10px 20px",
+                                margin: "5px 0", // Ensure vertical spacing for left alignment
+                                border: "none",
+                                outline: "none",
+                              }}
+                              onClick={() => {
+                                setGroup(type.trim());
+                                setSubTab(""); // Deselect strategy type
+                                sessionStorage.setItem("groupName", type.trim());
+                                sessionStorage.removeItem("StrategyType"); // Clear StrategyType from session
+                              }}
+                            >
+                              <FiPlusCircle className="me-1" /> {type} Bot
+                            </button>
+                          </li>
+                        ))}
                     </ul>
                   </div>
                 </div>
                 <div
-  className="d-flex justify-content-center align-items-center w-100"
-  style={{ maxWidth: "1200px" }}
->
-  {/* <h5 className="me-3" style={{ minWidth: "100px", textAlign: "left" }}>
-    Suggested Bot:
-  </h5> */}
-
-  <div className="">
-    {groupNames && groupNames.length > 0 ? (
-      <select
-        className="form-select w-auto"
-        value={getGroup}
-        onChange={(e) => {
-          const selectedGroup = e.target.value;
-          setGroup(selectedGroup);
-          setSubTab("");
-          sessionStorage.setItem("groupName", selectedGroup);
-          sessionStorage.removeItem("StrategyType");
-        }}
-      >
-        <option value="">Select Suggested Bot</option>
-        {groupNames.map((group, index) => (
-          <option key={index} value={group}>
-            {group}
-          </option>
-        ))}
-      </select>
-    ) : (
-      <span className="text-muted">No group available</span>
-    )}
-  </div>
-</div>
-
-
-              </div>
-              {/* {subTab === "ChartingPlatform" && (
-                <div className="d-flex justify-content-end align-items-center dashboard-date"
+                  className="d-flex justify-content-center align-items-center w-100"
+                  style={{ maxWidth: "1200px" }}
                 >
-                  <div className="form-group me-3">
-                    <label className="form-label">Select From Date</label>
-                    <DatePicker
-                      className="form-control"
-                      selected={FromDate || formattedDate}
-                      onChange={(date) => setFromDate(date)}
-                      dateFormat="dd/MM/yyyy"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">Select To Date</label>
-                    <DatePicker
-                      className="form-control"
-                      selected={ToDate || Defult_To_Date}
-                      onChange={(date) => setToDate(date)}
-                      dateFormat="dd/MM/yyyy"
-                    />
+                  {/* <h5 className="me-3" style={{ minWidth: "100px", textAlign: "left" }}>
+                     Suggested Bot:
+                     </h5> */}
+
+                  <div className="">
+
+                    {/* <div className="d-flex justify-content-start align-items-center w-100" style={{ maxWidth: "1200px" }}>
+                      {/* <h5 className="me-3" style={{ minWidth: "100px", textAlign: "left" }}></h5> */}
+                    <div className="d-flex flex-wrap gap-3 ">
+                      <ul
+                        className="nav nav-pills shadow rounded-pill p-1"
+
+                      >
+
+                      </ul>
+                    </div>
                   </div>
                 </div>
-              )} */}
+              </div>
             </>
           )}
         </div>
@@ -955,7 +950,7 @@ useEffect(() => {
                 />
               </div>
             )}
-            
+
 
             {getPositionData.ChartingData?.length > 0 && (
               <div className="mt-4">
@@ -967,10 +962,10 @@ useEffect(() => {
                   alignDates="right"
                 />
               </div>
-            )} 
+            )}
           </>
         )}
- 
+
         {
           activeTab1 === "OpenPosition" &&
           getPositionData.Scalping?.length === 0 &&
@@ -980,7 +975,7 @@ useEffect(() => {
           getPositionData.ChartingData?.length === 0 && <NoDataFound />
         }
       </div>
-    </Content>
+    </Content >
   );
 };
 

@@ -251,7 +251,7 @@ const AddClient = () => {
         errors.Group = "Please Enter Unique Name.";
       }
       if (!values.HoldExit && values.Strategy != "Fixed Price" && values.position_type !== "Single") {
-        errors.HoldExit = "Please Select Whether To Hold Or Exit.";
+        errors.HoldExit = "Please Select Hold Or Exit.";
       }
       if (!values.Slvalue) {
         errors.Slvalue =
@@ -1893,6 +1893,7 @@ const AddClient = () => {
 
   const handleCheckPnl = async () => {
     const req = {
+      CPrice: getCPrice,
       MainStrategy: "NewScalping",
       Username: userName,
       Strategy: formik?.values.Strategy,
