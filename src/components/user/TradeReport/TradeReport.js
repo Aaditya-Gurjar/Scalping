@@ -400,10 +400,11 @@ const TradeReport = () => {
             <div className="iq-card-body">
                 <div className="was-validated ">
                     <div className="row mb-4">
+                        <div className="col-12 col-md-6 col-lg-8">
                     <div className="d-flex report-btn">
                                 <ul
                                     className="nav nav-pills shadow rounded-pill p-1"
-                                    style={{ backgroundColor: "#f1f3f5" }}
+                                   
                                 >
                                     {strategyNames.map((type, index) => (
                                         <li className="nav-item" key={index}>
@@ -426,6 +427,8 @@ const TradeReport = () => {
                                     ))}
                                 </ul>
                             </div>
+                            </div>
+                            <div className="col-12 col-md-6 col-lg-4">
                             <div className="d-flex justify-content-end col-lg-12 report-page-dates">
                             <div className="form-group me-2"></div>
                             <div className="form-group me-3 col-lg-2">
@@ -446,7 +449,7 @@ const TradeReport = () => {
                                 />
                             </div>
                         </div>
-                     
+                     </div>
 
                       
                     </div>
@@ -478,7 +481,7 @@ const TradeReport = () => {
                         <div className="d-flex justify-content-center "> 
                             <ul
                                 className="nav nav-pills shadow rounded-pill p-1"
-                                style={{ backgroundColor: "#f1f3f5" }}>
+                               >
                                 <li className="nav-item">
                                     <button
                                         className={`nav-link ${activeTab === "Cash" ? "active" : ""

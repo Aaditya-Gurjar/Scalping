@@ -7277,3 +7277,11 @@ height: auto;
 {
   padding: 0px !important;
 }
+[data-theme="light"] ul.nav.nav-pills.rounded-pill
+{
+background-color: #e7effd;
+}
+[data-theme="dark"] ul.nav.nav-pills.rounded-pill
+{
+background-color: #0f131b;
+}
