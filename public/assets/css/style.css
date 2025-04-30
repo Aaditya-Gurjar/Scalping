@@ -7273,3 +7273,7 @@ height: auto;
     width: auto;
     margin-top: 6px !important;
 }
+.MuiBox-root 
+{
+  padding: 0px !important;
+}
