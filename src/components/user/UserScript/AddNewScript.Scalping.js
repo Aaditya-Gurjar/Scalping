@@ -1861,6 +1861,7 @@ const AddClient = () => {
 
 
     const req = {
+      CPrice: getCPrice,
       MainStrategy: location?.state?.data?.selectStrategyType,
       Username: userName,
       Strategy: formik?.values.Strategy,
