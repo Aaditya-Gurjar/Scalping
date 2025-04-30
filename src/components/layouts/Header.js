@@ -38,6 +38,8 @@ const Header = () => {
   const [showModal, setShowModal] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [getTradingStatus, setTradingStatus] = useState(false);
+  console.log("getTradingStatus ggggg", getTradingStatus);
+
   const [getBrokerName, setBrokerName] = useState("");
   const [walletBalance, setWalletBalance] = useState("");
   const [showAddBrokerModal, setShowAddBrokerModal] = useState(false);
@@ -48,6 +50,8 @@ const Header = () => {
   const [autoLoginLoading, setAutoLoginLoading] = useState(false);
   const [dataStartloading, setDataStartLoading] = useState(false);
   const [lastPatternloading, setLastPatternLoading] = useState(false);
+
+  // const [tradingStatusToggle,setTradingStatus]
 
   const AdminPermission = async () => {
     try {
@@ -76,7 +80,16 @@ const Header = () => {
     AdminPermission();
   }, []);
 
+  const currentTradeMode = getTradingStatus ? "Live Trading" : "Paper Trading";
+  console.log("currentTradeMode", currentTradeMode)
+
+
   const handleToggle = async (value) => {
+    // Prevent toggling to the same state
+    if (value === getTradingStatus) {
+      return; // Exit early if user clicks the currently active mode
+    }
+
     const newStatus = value;
 
     if (newStatus == true) {
@@ -114,7 +127,6 @@ const Header = () => {
 
         if (response.data.Status) {
           // Assuming the status is in response.data.Status
-
           Swal.fire({
             background: "#1a1e23 ",
             backdrop: "#121010ba",
@@ -521,8 +533,6 @@ const Header = () => {
 
 
 
-  const currentTradeMode = getTradingStatus ? "Live Trading" : "Paper Trading";
-
   useEffect(() => {
     getprofiledata();
   }, []);
@@ -787,7 +797,6 @@ const Header = () => {
                     style={{
                       width: "120px",
                       backgroundColor: getTradingStatus ? "#7367f0" : "#2a2e32",
-                      // color: getTradingStatus ? "white" : "#6c7293",
                       color: "white",
                       fontWeight: "500",
                       padding: "6px 12px",
