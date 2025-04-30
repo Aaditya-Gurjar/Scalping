@@ -723,7 +723,7 @@ useEffect(() => {
       backbutton_status={false}>
       <div className="iq-card-body" >
         <ul
-          className="nav nav-tabs justify-content-center border-bottom"
+          className="nav nav-tabs justify-content-center border-bottom rounded-0"
           id="myTab-2"
           role="tablist">
           <li className="nav-item" role="presentation">
@@ -765,7 +765,7 @@ useEffect(() => {
                   <div className="d-flex flex-wrap gap-3 mx-auto">
                   <ul
                   className="nav nav-pills shadow rounded-pill p-1"
-                  style={{ backgroundColor: "#f1f3f5" }}
+                 
                 >
                     {strategyType.map((type, index) => (
   <li class="nav-item">
@@ -793,35 +793,39 @@ useEffect(() => {
                   </div>
                 </div>
                 <div
-                  className="d-flex justify-content-start align-items-center w-100"
-                  style={{ maxWidth: "1200px" }}
-                >
-                  <h5 className="me-3" style={{ minWidth: "100px", textAlign: "left" }}>
-                    Suggested Bot:
-                  </h5>
+  className="d-flex justify-content-center align-items-center w-100"
+  style={{ maxWidth: "1200px" }}
+>
+  {/* <h5 className="me-3" style={{ minWidth: "100px", textAlign: "left" }}>
+    Suggested Bot:
+  </h5> */}
 
-                  <div className="d-flex flex-wrap gap-3 ">
-                    {groupNames && groupNames.length > 0 ? (
-                      groupNames.map((group, index) => (
-                        <button
-                          key={index}
-                          className={`btn bot-btn ${getGroup === group ? "bot-btn-active" : "bot-btn"}`}
-                          onClick={() => {
-                            setGroup(group);
-                            setSubTab("");
-                            sessionStorage.setItem("groupName", group);
-                            sessionStorage.removeItem("StrategyType"); 
-                          }}
-                          style={{ whiteSpace: "nowrap" }}
-                        >
-                          <FaEye className="me-1" /> {group}
-                        </button>
-                      ))
-                    ) : (
-                      <span className="text-muted">No group available</span>
-                    )}
-                  </div>
-                </div>
+  <div className="">
+    {groupNames && groupNames.length > 0 ? (
+      <select
+        className="form-select w-auto"
+        value={getGroup}
+        onChange={(e) => {
+          const selectedGroup = e.target.value;
+          setGroup(selectedGroup);
+          setSubTab("");
+          sessionStorage.setItem("groupName", selectedGroup);
+          sessionStorage.removeItem("StrategyType");
+        }}
+      >
+        <option value="">Select Suggested Bot</option>
+        {groupNames.map((group, index) => (
+          <option key={index} value={group}>
+            {group}
+          </option>
+        ))}
+      </select>
+    ) : (
+      <span className="text-muted">No group available</span>
+    )}
+  </div>
+</div>
+
 
               </div>
               {/* {subTab === "ChartingPlatform" && (

@@ -166,7 +166,7 @@ const Tradehistory = () => {
                         <div className="d-flex  report-btns">
                         <ul
                   className="nav nav-pills shadow rounded-pill p-1"
-                  style={{ backgroundColor: "#f1f3f5" }}
+                 
                 >
                   {strategyNames.map((type, index) => (
                     <li className="nav-item" key={index}>

@@ -397,7 +397,7 @@ const TradeResponse = () => {
               <div className="d-flex  report-btns">
               <ul
                 className="nav nav-pills shadow rounded-pill p-1"
-                style={{ backgroundColor: "#f1f3f5" }}
+               
               >
                 {(strategyType || []).map((type, index) => (
                   <li className="nav-item" key={index}>
@@ -477,7 +477,7 @@ const TradeResponse = () => {
                       <div className="d-flex justify-content-center">
                         <ul
                           className="nav nav-pills shadow rounded-pill p-1"
-                          style={{ backgroundColor: "#f1f3f5" }}>
+                         >
                           <li className="nav-item">
                             <button
                               className={`nav-link ${activeTab === "Cash" ? "active" : ""
