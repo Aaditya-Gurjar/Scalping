@@ -161,7 +161,6 @@ const Tradehistory = () => {
     setShowReportSections(false);
   };
 
-  console.log("selectedRowData", selectedRowData);
   const handleSubmit = async () => {
     if (selectStrategyType === "ChartingPlatform") return;
     if (!selectedRowData) {
@@ -225,6 +224,18 @@ const Tradehistory = () => {
         InitialDeposite: 0,
       };
       const overviewRes = await get_Trade_History(overviewParams);
+     
+      if (!overviewRes?.data?.length && !overviewRes?.Overall?.length) {
+        Swal.fire({
+          icon: "info",
+          title: "No Data Found",
+          text: "No records available.",
+          confirmButtonColor: "#1ccc8a",
+          timer: 2000,
+        });
+        return; // Stop execution and prevent auto-scroll
+      }
+
       setAllTradeData({
         data: overviewRes?.data || [],
         Overall: overviewRes?.Overall || [],
@@ -528,15 +539,29 @@ console.log("AnalyticsOverview", AnalyticsOverview);
             <div className="mb-4">
               <h5 className="card-title">Scalping</h5>
               {tradeHistory.data1?.length > 0 ? (
-                <GridExample
-                  columns={getColumnsForStrategy()}
-                  data={tradeHistory.data1}
-                  onRowSelect={handleRowSelect}
-                  checkBox={true}
-                  isChecked={checkedRows}
-                />
+                <>
+                  <GridExample
+                    columns={getColumnsForStrategy()}
+                    data={tradeHistory.data1}
+                    onRowSelect={handleRowSelect}
+                    checkBox={true}
+                    isChecked={checkedRows}
+                  />
+                  <div className="d-grid gap-2">
+                    <button
+                      className="addbtn"
+                      onClick={handleSubmit}
+                      disabled={!selectedRowData}
+                    >
+                      📜 Generate History
+                    </button>
+                  </div>
+                </>
               ) : (
-                <NoDataFound />
+                <>
+                  <NoDataFound />
+                  <style>{`.addbtn { display: none; }`}</style>
+                </>
               )}
             </div>
           ) : (
@@ -606,33 +631,38 @@ console.log("AnalyticsOverview", AnalyticsOverview);
                   ? getChartingData?.length > 0
                   : tradeHistory.data?.length
               ) ? (
-                <GridExample
-                  columns={getColumnsForStrategy()}
-                  data={
-                    selectStrategyType === "ChartingPlatform"
-                      ? getChartingData
-                      : tradeHistory.data
-                  }
-                  onRowSelect={handleRowSelect}
-                  checkBox={
-                    selectStrategyType === "ChartingPlatform" ? false : true
-                  }
-                  isChecked={checkedRows}
-                />
+                <>
+                  <GridExample
+                    columns={getColumnsForStrategy()}
+                    data={
+                      selectStrategyType === "ChartingPlatform"
+                        ? getChartingData
+                        : tradeHistory.data
+                    }
+                    onRowSelect={handleRowSelect}
+                    checkBox={
+                      selectStrategyType === "ChartingPlatform" ? false : true
+                    }
+                    isChecked={checkedRows}
+                  />
+                  {selectStrategyType !== "ChartingPlatform" && (
+                    <div className="d-grid gap-2">
+                      <button
+                        className="addbtn"
+                        onClick={handleSubmit}
+                        disabled={!selectedRowData}
+                      >
+                        📜 Generate History
+                      </button>
+                    </div>
+                  )}
+                </>
               ) : (
-                <NoDataFound />
+                <>
+                  <NoDataFound />
+                  <style>{`.addbtn { display: none; }`}</style>
+                </>
               )}
-            </div>
-          )}
-          {selectStrategyType !== "ChartingPlatform" && (
-            <div className="d-grid gap-2">
-              <button
-                className="addbtn"
-                onClick={handleSubmit}
-                disabled={!selectedRowData}
-              >
-                📜 Generate History
-              </button>
             </div>
           )}
           {showReportSections && (
