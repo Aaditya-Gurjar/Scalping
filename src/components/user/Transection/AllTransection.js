@@ -176,6 +176,7 @@ confirmButtonColor: "#1ccc8a",
                 }
             },
         },
+        
         {
             name: "Username",
             label: "Username",
@@ -305,7 +306,7 @@ confirmButtonColor: "#1ccc8a",
                         <div className='iq-card-body'>
                             <div className='d-flex justify-content-between'>
                                 <div className="wallet-balance-container">
-                                    <span className="balance-label">Remaining Balance:</span>
+                                    <span className="balance-label fs-5">Remaining Balance:</span>
                                     <span className="balance-amount"> ₹ {walletBalance}</span>
                                 </div>
 

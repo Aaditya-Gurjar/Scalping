@@ -1157,3 +1157,23 @@ export const getOptionType = async (optionType) => {
         return err
     }
 }
+
+
+
+export const getPattenNameByMarketWise = async (Marketwise) => {
+    var token = localStorage.getItem('token')
+    try {
+        const res = await axios.get(`${Config.base_url}${Marketwise}`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+}

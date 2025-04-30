@@ -1,10 +1,10 @@
 import { useLocation, useNavigate } from "react-router-dom"
 import AddForm from "../../../ExtraComponent/FormData2";
-import { useFormik } from "formik";
+import { Formik, useFormik } from "formik";
 import { useState, useEffect } from "react";
 import Swal from 'sweetalert2';
 import { GET_EXPIRY_DATE, Get_StrikePrice, Get_Symbol, Get_Pattern_Time_Frame, Get_Pattern_Charting, Get_Pattern_Name, GetExchange } from '../../CommonAPI/Admin'
-import { AddScript } from '../../CommonAPI/User'
+import { AddScript, getPattenNameByMarketWise } from '../../CommonAPI/User'
 import { text } from "../../../ExtraComponent/IconTexts";
 import Content from "../../../ExtraComponent/Content";
 
@@ -19,7 +19,7 @@ const AddClient = () => {
     const [getExpiryDate, setExpiryDate] = useState({ loading: true, data: [] })
     const [getChartPattern, setChartPattern] = useState({ loading: true, data: [] })
     const [getPattern, setPattern] = useState({ loading: true, data: [] })
-
+    const [patternOptionMarketWise, setPatternOptionMarketWise] = useState([])
     const SweentAlertFun = (text) => {
         Swal.fire({
             background: "#1a1e23 ",
@@ -117,7 +117,7 @@ const AddClient = () => {
             Profit: 0,
             Loss: 0,
             WorkingDay: [],
-            Planname:""
+            Planname: ""
         },
 
         validate: (values) => {
@@ -197,26 +197,26 @@ const AddClient = () => {
             }
             if (!values.WorkingDay?.length > 0) {
                 errors.WorkingDay = "Please select Working day";
-              }
-              if (
+            }
+            if (
                 (values.Loss === undefined ||
-                  values.Loss === null ||
-                  values.Loss === "") &&
+                    values.Loss === null ||
+                    values.Loss === "") &&
                 values.Strategy == "Multi_Conditional" &&
                 values.FixedSM == "Multiple"
-              ) {
+            ) {
                 errors.Loss = "Please Enter Maximum Loss";
-              }
-        
-              if (
+            }
+
+            if (
                 (values.Profit === undefined ||
-                  values.Profit === null ||
-                  values.Profit === "") &&
+                    values.Profit === null ||
+                    values.Profit === "") &&
                 values.Strategy == "Multi_Conditional" &&
                 values.FixedSM == "Multiple"
-              ) {
+            ) {
                 errors.Profit = "Please Enter Maximum Loss";
-              }
+            }
             // ScrollToViewFirstError(errors)
             return errors;
         },
@@ -281,19 +281,19 @@ const AddClient = () => {
                 quantityvalue: 0.0,
                 targetselection: "",
                 WorkingDay: values?.WorkingDay?.map((item) => item?.value || item),
-                Loss:  Number(values.Loss) || 0, 
-                Profit:  Number(values.Profit)|| 0,
+                Loss: Number(values.Loss) || 0,
+                Profit: Number(values.Profit) || 0,
                 Planname: location?.state?.data?.scriptType?.data?.find(
                     (item) => item.EndDate == getEndData(formik.values.Strategy)
-                  )?.Planname,
+                )?.Planname,
             }
 
-             
-             
+
+
             if (values.EntryTime >= values.ExitTime) {
                 return SweentAlertFun("Exit Time should be greater than Entry Time")
             }
-           
+
             await AddScript(req)
                 .then((response) => {
                     if (response.Status) {
@@ -307,7 +307,7 @@ const AddClient = () => {
                             timer: 1500,
                             timerProgressBar: true
                         });
-              sessionStorage.setItem("addScriptTab", "Pattern"); 
+                        sessionStorage.setItem("addScriptTab", "Pattern");
 
                         setTimeout(() => {
                             navigate('/user/dashboard')
@@ -376,7 +376,7 @@ const AddClient = () => {
 
             })
     }
-    
+
     const SymbolSelectionArr = [
         {
             name: "Exchange",
@@ -493,8 +493,7 @@ const AddClient = () => {
             col_size: formik.values.Exchange == "NFO" && (formik.values.Instrument == 'FUTIDX' || formik.values.Instrument == 'FUTSTK') ? 3 : formik.values.Exchange == "NFO" && (formik.values.Instrument == 'OPTIDX' || formik.values.Instrument == 'OPTSTK') ? 4 : 6,
             disable: false,
         },
-    ]
-    const EntryRuleArr = [
+
         {
             name: "Timeframe",
             label: "Time Frame",
@@ -509,6 +508,9 @@ const AddClient = () => {
             col_size: 3,
             disable: false,
         },
+    ]
+    const EntryRuleArr = [
+
         {
             name: "Strategy",
             label: "Pattern Type",
@@ -523,24 +525,63 @@ const AddClient = () => {
             headingtype: 2,
             disable: false,
         },
+
+
+        {
+            name: "Marketwise",
+            label: "Market-wise",
+            type: "select",
+            options: formik.values.Strategy === 'ChartingPattern'
+                ? [
+                    { label: "All", value: "All" },
+                    { label: "Bullish", value: "BullishChartingPattern" },
+                    { label: "Bearish", value: "BearishChartingPattern" },
+                    { label: "Continuation", value: "ContinuationChartingPattern" }
+                ]
+                : [
+                    { label: "All", value: "All" },
+                    { label: "Bullish", value: "BullishCandlePattern" },
+                    { label: "Bearish", value: "BearishCandlePattern" },
+                    { label: "Continuation", value: "ContinuationCandlePattern" }
+                ],
+            label_size: 12,
+            hiding: false,
+            col_size: 3,
+            headingtype: 2,
+            disable: false,
+        },        
+
         {
             name: "ETPattern",
             label: "Pattern Name",
             type: "select",
-            options: formik.values.Strategy == 'ChartingPattern' ? getChartPattern.data && getChartPattern.data.map((item) => ({
-                label: item,
-                value: item
-            })) :
-                getPattern.data && getPattern.data.map((item) => ({
-                    label: item,
-                    value: item
-                })),
+            options:
+                formik.values.Strategy === 'ChartingPattern' && formik.values.Marketwise === "All"
+                    ? getChartPattern.data?.map((item) => ({
+                        label: item,
+                        value: item
+                    }))
+                    : formik.values.Strategy === 'CandlestickPattern' && formik.values.Marketwise === "All"
+                        ? getPattern.data?.map((item) => ({
+                            label: item,
+                            value: item
+                        }))
+                        : formik.values.Strategy === 'ChartingPattern' ? patternOptionMarketWise?.map((item) => ({
+                            label: item,
+                            value: item
+                        })) 
+                            : formik.values.Strategy === 'CandlestickPattern' ? patternOptionMarketWise?.map((item) => ({
+                                label: item,
+                                value: item
+                            })) : [],
+                         
             label_size: 12,
             hiding: false,
             headingtype: 2,
             col_size: 3,
             disable: false,
         },
+
         {
             name: "TType",
             label: "Transaction Type",
@@ -626,11 +667,11 @@ const AddClient = () => {
         },
 
         {
-              name: "WorkingDay",
-              label: "Working Day",
-              type: "multiselect",
-              options: [
-        
+            name: "WorkingDay",
+            label: "Working Day",
+            type: "multiselect",
+            options: [
+
                 // { label: "Select All", value: "all" },
                 { label: "Monday", value: "Monday" },
                 { label: "Tuesday", value: "Tuesday" },
@@ -638,37 +679,37 @@ const AddClient = () => {
                 { label: "Thursday", value: "Thursday" },
                 { label: "Friday", value: "Friday" },
                 { label: "Saturday", value: "Saturday" },
-              ],
-              label_size: 12,
-              col_size: 3,
-              headingtype: 4,
-              disable: false,
-              col_size: formik.values.TargetExit == "true" || formik.values.FixedSM != "Multiple" ? 4 : 6,
-              iconText: text.Increment_Type,
-              hiding: false,
-            },
-            {
-              name: "Profit",
-              label: "Max Profit (in price) ",
-              type: "text3",
-              label_size: 12,
-              // col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
-              col_size: 4,
-              headingtype: 4, 
-              disable: false,
-              hiding: false,
-            },
-        
-            {
-              name: "Loss",
-              label: "Max Loss (in price)",
-              type: "text3",
-              label_size: 12,
-              col_size: 4,
-              headingtype: 4,
-              disable: false,
-              hiding: false,
-            },
+            ],
+            label_size: 12,
+            col_size: 3,
+            headingtype: 4,
+            disable: false,
+            col_size: formik.values.TargetExit == "true" || formik.values.FixedSM != "Multiple" ? 4 : 6,
+            iconText: text.Increment_Type,
+            hiding: false,
+        },
+        {
+            name: "Profit",
+            label: "Max Profit (in price) ",
+            type: "text3",
+            label_size: 12,
+            // col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
+            col_size: 4,
+            headingtype: 4,
+            disable: false,
+            hiding: false,
+        },
+
+        {
+            name: "Loss",
+            label: "Max Loss (in price)",
+            type: "text3",
+            label_size: 12,
+            col_size: 4,
+            headingtype: 4,
+            disable: false,
+            hiding: false,
+        },
 
 
     ]
@@ -795,6 +836,21 @@ const AddClient = () => {
             disable: false,
         },
     ];
+
+    console.log("patternOptionMarketWise", patternOptionMarketWise)
+ const fetchPatternName = async () => {
+    if(formik.values.Marketwise !== "All"){
+        const res = await getPattenNameByMarketWise(formik.values.Marketwise);
+        
+            setPatternOptionMarketWise(res[formik.values.Marketwise] || []);
+        
+    }
+ }
+
+ useEffect(() => {
+    fetchPatternName()
+ }, [formik.values.Marketwise])
+
 
     const getSymbol = async () => {
         if (formik.values.Exchange) {

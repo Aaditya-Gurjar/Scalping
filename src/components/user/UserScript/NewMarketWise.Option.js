@@ -61,7 +61,7 @@ const AddClient = (Planname) => {
     //   return item["Option Strategy"].includes(stg);
     // });
     const foundItem = dataWithoutLastItem[0];
-     
+
     return foundItem.EndDate;
   };
 
@@ -84,7 +84,7 @@ const AddClient = (Planname) => {
     }
   };
 
-  const OptionType_options = ["Bearish","Bullish","Neutral", "Volatile"]
+  const OptionType_options = ["Bearish", "Bullish", "Neutral", "Volatile"]
 
   const formik = useFormik({
     initialValues: {
@@ -443,12 +443,12 @@ const AddClient = (Planname) => {
         Strategy: values.Strategy,
         ETPattern:
           values.Strategy == "ShortShifting" ||
-              values.Strategy == "LongShifting"
-              ? "Leg vice"
-              : (
-                formik.values.Strategy == "LongFourLegStretegy" ||
-                formik.values.Strategy == "ShortFourLegStretegy"
-              ) ? "Premium Addition" : "",
+            values.Strategy == "LongShifting"
+            ? "Leg vice"
+            : (
+              formik.values.Strategy == "LongFourLegStretegy" ||
+              formik.values.Strategy == "ShortFourLegStretegy"
+            ) ? "Premium Addition" : "",
 
         Timeframe: "",
         Exchange: "NFO",
@@ -458,7 +458,7 @@ const AddClient = (Planname) => {
         Optiontype: "",
         Targetvalue:
           values.Strategy == "ShortShifting" ||
-              values.Strategy == "LongShifting"
+            values.Strategy == "LongShifting"
             ? values.Shifting_Point
             : values.Targetvalue,
         Slvalue: values.Slvalue,
@@ -484,7 +484,7 @@ const AddClient = (Planname) => {
         expirydata1: getExpiry && getExpiry.data[0],
         Expirytype: values.Expirytype,
         Striketype:
-            formik.values.Strategy !== "ShortStraddle" &&
+          formik.values.Strategy !== "ShortStraddle" &&
             formik.values.Strategy !== "LongStraddle"
             ? values.Striketype
             : (formik.values.Strategy === "LongFourLegStretegy" ||
@@ -493,7 +493,7 @@ const AddClient = (Planname) => {
               : "",
 
         DepthofStrike:
-            formik.values.Striketype != "Premium_Range" &&
+          formik.values.Striketype != "Premium_Range" &&
             formik.values.Strategy != "LongStraddle" &&
             formik.values.Strategy != "ShortStraddle"
             ? Number(values.DepthofStrike)
@@ -502,8 +502,8 @@ const AddClient = (Planname) => {
               ? values.Shifting_Value
               : 0,
         DeepStrike:
-            (formik.values.Strategy == "BullCallLadder" ||
-              formik.values.Strategy == "BullPutLadder") ||
+          (formik.values.Strategy == "BullCallLadder" ||
+            formik.values.Strategy == "BullPutLadder") ||
             formik.values.Strategy == "LongIronCondor" ||
             formik.values.Strategy == "ShortIronCondor"
             ? Number(values.DeepStrike)
@@ -531,7 +531,7 @@ const AddClient = (Planname) => {
         Loss: Number(values.Loss),
         Profit: Number(values.Profit),
         ExitRuleO:
-            values.ETPattern == "Leg vice"
+          values.ETPattern == "Leg vice"
             ? values.ExitType
             : "",
         WorkingDay: values?.WorkingDay
@@ -613,10 +613,10 @@ const AddClient = (Planname) => {
               timer: 1500,
               timerProgressBar: true,
             });
-            sessionStorage.setItem("addScriptTab", "Option Strategy"); 
+            sessionStorage.setItem("addScriptTab", "Option Strategy");
 
             setTimeout(() => {
-              navigate("/user/dashboard", { state:{prevSelectedTab: "Option Strategy"}});
+              navigate("/user/dashboard", { state: { prevSelectedTab: "Option Strategy" } });
             }, 1500);
           } else {
             Swal.fire({
@@ -637,10 +637,7 @@ const AddClient = (Planname) => {
     },
   });
 
- 
-
-
-
+  console.log("formik.values.Strategy", formik.values.Strategy);
   useEffect(() => {
     axios
       .get(`${Config.base_url}OptionExchange`)
@@ -791,6 +788,10 @@ const AddClient = (Planname) => {
         { label: "% of ATM", value: "Per_ATM" },
       ],
       showWhen: (value) =>
+        value.Strategy != "LongFourLegStrategy" &&
+        value.Strategy != "ShortFourLegStrategy" &&
+        value.Strategy != "LongShifting" &&
+        value.Strategy != "ShortShifting" &&
         value.Strategy != "ShortStraddle" &&
         value.Strategy != "LongStraddle",
       headingtype: 1,
@@ -821,6 +822,10 @@ const AddClient = (Planname) => {
           : "text4",
       hiding: false,
       showWhen: (value) =>
+        value.Strategy != "LongFourLegStrategy" &&
+      value.Strategy != "ShortFourLegStrategy" &&
+        value.Strategy != "LongShifting" &&
+        value.Strategy != "ShortShifting" &&
         formik.values.Striketype != "Premium_Range" &&
         value.Strategy != "LongStraddle" &&
         value.Strategy != "ShortStraddle",
@@ -891,8 +896,11 @@ const AddClient = (Planname) => {
       type: "text3",
       hiding: false,
       showWhen: (value) =>
-        value.Strategy == "ShortFourLegStretegy" ||
-        value.Strategy == "LongFourLegStretegy",
+
+          [
+          "ShortFourLegStrategy", "LongFourLegStrategy" 
+        ].includes(value.Strategy)  ,
+
       label_size: 12,
       col_size: 3,
       headingtype: 2,
@@ -903,8 +911,10 @@ const AddClient = (Planname) => {
       label: "CE Main Higher",
       type: "text3",
       showWhen: (value) =>
-        value.Strategy == "ShortFourLegStretegy" ||
-        value.Strategy == "LongFourLegStretegy",
+        [
+          "ShortFourLegStrategy", "LongFourLegStrategy" 
+        ].includes(value.Strategy)  , 
+       
       hiding: false,
       label_size: 12,
       col_size: 3,
@@ -917,8 +927,9 @@ const AddClient = (Planname) => {
       label: "CE Hedge Lower",
       type: "text3",
       showWhen: (value) =>
-        value.Strategy == "ShortFourLegStretegy" ||
-        value.Strategy == "LongFourLegStretegy",
+        [
+          "ShortFourLegStrategy", "LongFourLegStrategy" 
+        ].includes(value.Strategy)  , 
       hiding: false,
       label_size: 12,
       col_size: 3,
@@ -931,8 +942,9 @@ const AddClient = (Planname) => {
       type: "text3",
       hiding: false,
       showWhen: (value) =>
-        value.Strategy == "ShortFourLegStretegy" ||
-        value.Strategy == "LongFourLegStretegy",
+        [
+          "ShortFourLegStrategy", "LongFourLegStrategy" 
+        ].includes(value.Strategy)  , 
       label_size: 12,
       col_size: 3,
       headingtype: 2,
@@ -943,8 +955,9 @@ const AddClient = (Planname) => {
       label: "PE Main Lower",
       type: "text3",
       showWhen: (value) =>
-        value.Strategy == "ShortFourLegStretegy" ||
-        value.Strategy == "LongFourLegStretegy",
+        [
+          "ShortFourLegStrategy", "LongFourLegStrategy" 
+        ].includes(value.Strategy)  , 
       hiding: false,
       label_size: 12,
       col_size: 3,
@@ -956,8 +969,9 @@ const AddClient = (Planname) => {
       label: "PE Main Higher",
       type: "text3",
       showWhen: (value) =>
-        value.Strategy == "ShortFourLegStretegy" ||
-        value.Strategy == "LongFourLegStretegy",
+        [
+          "ShortFourLegStrategy", "LongFourLegStrategy" 
+        ].includes(value.Strategy)  , 
       hiding: false,
       label_size: 12,
       col_size: 3,
@@ -970,8 +984,9 @@ const AddClient = (Planname) => {
       type: "text3",
       hiding: false,
       showWhen: (value) =>
-        value.Strategy == "ShortFourLegStretegy" ||
-        value.Strategy == "LongFourLegStretegy",
+        [
+          "ShortFourLegStrategy", "LongFourLegStrategy" 
+        ].includes(value.Strategy)  , 
       label_size: 12,
       col_size: 3,
       headingtype: 2,
@@ -982,9 +997,10 @@ const AddClient = (Planname) => {
       label: "PE Hedge Higher",
       type: "number",
       hiding: false,
-      showWhen: (value) =>
-        value.Strategy == "ShortFourLegStretegy" ||
-        value.Strategy == "LongFourLegStretegy",
+      sshowWhen: (value) =>
+        [
+          "ShortFourLegStrategy", "LongFourLegStrategy" 
+        ].includes(value.Strategy)  , 
       label_size: 12,
       col_size: 3,
       headingtype: 2,
@@ -1007,8 +1023,9 @@ const AddClient = (Planname) => {
         { label: "J", value: "J" },
       ],
       showWhen: (value) =>
-        value.Strategy == "LongFourLegStretegy" ||
-        value.Strategy == "ShortFourLegStretegy",
+        [
+          "ShortFourLegStrategy", "LongFourLegStrategy" 
+        ].includes(value.Strategy)  , 
       hiding: false,
       label_size: 12,
       col_size: 3,
@@ -1037,7 +1054,10 @@ const AddClient = (Planname) => {
             { label: "Leg vice", value: "Leg vice" },
             { label: "Premium Addition", value: "Premium Addition" },
           ],
-      showWhen: (value) => value.Measurment_Type != "Shifting_FourLeg",
+      showWhen: (value) =>  ! [
+        "ShortShifting", "LongShifting" , "ShortFourLegStrategy", "LongFourLegStrategy"
+      ].includes(value.Strategy) &&
+      value.Measurment_Type != "Shifting_FourLeg",
       hiding: false,
       label_size: 12,
       col_size: formik.values.Measurment_Type != "Shifting_FourLeg" ? 3 : 4,
@@ -1059,6 +1079,9 @@ const AddClient = (Planname) => {
       hiding: false,
       label_size: 12,
       showWhen: (value) =>
+        ! [
+          "ShortShifting", "LongShifting" 
+        ].includes(value.Strategy) &&
         value.Measurment_Type != "Shifting_FourLeg" ||
         (value.Measurment_Type == "Shifting_FourLeg" &&
           (value.Strategy == "ShortFourLegStretegy" ||
@@ -1078,6 +1101,9 @@ const AddClient = (Planname) => {
         { label: "Cost to Cost", value: "Cost to Cost" },
       ],
       showWhen: (value) =>
+        ! [
+          "ShortShifting", "LongShifting" 
+        ].includes(value.Strategy) &&
         value.Measurment_Type != "Shifting_FourLeg" &&
         value.ETPattern == "Leg vice",
       hiding: false,
@@ -1094,6 +1120,9 @@ const AddClient = (Planname) => {
       hiding: false,
       label_size: 12,
       showWhen: (value) =>
+        ! [
+          "ShortShifting", "LongShifting" 
+        ].includes(value.Strategy) &&
         value.Measurment_Type != "Shifting_FourLeg" ||
         (value.Measurment_Type == "Shifting_FourLeg" &&
           (value.Strategy == "ShortFourLegStretegy" ||
@@ -1109,6 +1138,9 @@ const AddClient = (Planname) => {
       hiding: false,
       label_size: 12,
       showWhen: (value) =>
+        ! [
+          "ShortShifting", "LongShifting" 
+        ].includes(value.Strategy) &&
         value.Measurment_Type != "Shifting_FourLeg" ||
         (value.Measurment_Type == "Shifting_FourLeg" &&
           (value.Strategy == "ShortFourLegStretegy" ||
@@ -1122,9 +1154,10 @@ const AddClient = (Planname) => {
       label: "Number of Shifts",
       type: "text3",
       showWhen: (value) =>
-        value.Strategy !== "BearPutSpread" ||(
-        value.Strategy != "ShortFourLegStretegy" &&
-        value.Strategy != "LongFourLegStretegy"),
+         [
+          "ShortShifting", "LongShifting" 
+        ].includes(value.Strategy) ,
+      
       hiding: false,
       label_size: 12,
       col_size: formik.values.Measurment_Type != "Shifting_FourLeg" ? 3 : 4,
@@ -1256,14 +1289,14 @@ const AddClient = (Planname) => {
     },
   ];
 
-  
+
 
 
   const fetchRadioOptions = async () => {
     try {
       const res = await getOptionType(formik.values.Measurment_Type);
       if (res) {
-       setOptionRadioType(res[formik.values.Measurment_Type])
+        setOptionRadioType(res[formik.values.Measurment_Type])
       } else {
         console.error("Unexpected API response:", res);
       }
@@ -1288,7 +1321,7 @@ const AddClient = (Planname) => {
       name: "Measurment_Type",
       label: "Option Type",
       type: "select",
-       options: OptionType_options.map((item) => {
+      options: OptionType_options.map((item) => {
         return { label: item, value: item };
       }),
       hiding: false,
@@ -1300,7 +1333,7 @@ const AddClient = (Planname) => {
       name: "Strategy",
       label: "Strategy",
       type: "radio2",
-      title : optionRadioType?.map((item) => {
+      title: optionRadioType?.map((item) => {
         return { title: item, value: item };
       }),
       label_size: 12,
@@ -1548,22 +1581,22 @@ const AddClient = (Planname) => {
       Expirytype: formik.values.Expirytype,
       Striketype:
         formik.values.Strategy != "ShortStraddle" &&
-        formik.values.Strategy != "LongStraddle" &&
-        formik.values.Strategy != "ShortStraddle" &&
-        formik.values.Strategy != "LongStraddle"
+          formik.values.Strategy != "LongStraddle" &&
+          formik.values.Strategy != "ShortStraddle" &&
+          formik.values.Strategy != "LongStraddle"
           ? formik.values.Striketype
           : "",
       DepthofStrike:
         formik.values.Striketype != "Premium_Range" &&
-        formik.values.Strategy != "LongStraddle" &&
-        formik.values.Strategy != "ShortStraddle"
+          formik.values.Strategy != "LongStraddle" &&
+          formik.values.Strategy != "ShortStraddle"
           ? Number(formik.values.DepthofStrike)
           : 0,
       DeepStrike:
         (formik.values.Strategy == "BullCallLadder" ||
           formik.values.Strategy == "BullPutLadder") ||
-        formik.values.Strategy == "LongIronCondor" ||
-        formik.values.Strategy == "ShortIronCondor"
+          formik.values.Strategy == "LongIronCondor" ||
+          formik.values.Strategy == "ShortIronCondor"
           ? Number(formik.values.DeepStrike)
           : 0,
       Group: formik.values.Unique_ID,
