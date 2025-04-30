@@ -763,15 +763,15 @@ ul.iq-menu a span {
   list-style-type: none;
   position: relative;
   white-space: nowrap;
-  margin: 10px 0;
+  margin: 15px 0;
 }
 
-.iq-menu-item-rightsidebar {
+/* .iq-menu-item-rightsidebar {
   list-style-type: none;
   position: relative;
   white-space: nowrap;
   margin: 5px !important;
-}
+} */
 
 
 
@@ -807,8 +807,8 @@ ul.iq-menu a span {
 }
 
 .iq-sidebar-menu .iq-menu li a i {
-  font-size: 30px;
-  margin-right: 10px;
+  font-size: 25px;
+  margin-right: 5px;
   vertical-align: middle;
   width: 20px;
   display: inline-block;
