@@ -984,6 +984,14 @@ export const columns3 = (selectStrategyType) => [
     },
   },
   {
+    name: "Symbol",
+    label: "Symbol",
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
     name: "ETime",
     label: "Entry Time",
     options: {
