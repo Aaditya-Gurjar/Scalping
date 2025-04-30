@@ -391,32 +391,10 @@ const TradeResponse = () => {
       backbutton_status={true}>
       <div className="iq-card-body">
         <div className="was-validated ">
-          <div className="row">
-            {/* Select Strategy Type */}
-            {/* <div
-              className={`form-group ${selectStrategyType === "ChartingPlatform"
-                  ? "col-lg-3"
-                  : "col-lg-4"
-                }`}>
-              <label>Select Strategy Type</label>
-              <select
-                className="form-select"
-                required
-                onChange={(e) => {
-                  setSelectStrategyType(e.target.value);
-                  sessionStorage.setItem("StrategyType", e.target.value);
-                }}
-                value={selectStrategyType}>
-                {strategyType?.map((item, index) => (
-                  <option key={index} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>
-            </div> */}
 
-
-            <div className="d-flex justify-content-center response-btns">
+  <div className="row g-3 mb-4">
+            <div className="col-12 col-md-6 col-lg-8">
+              <div className="d-flex  report-btns">
               <ul
                 className="nav nav-pills shadow rounded-pill p-1"
                 style={{ backgroundColor: "#f1f3f5" }}
@@ -441,16 +419,16 @@ const TradeResponse = () => {
                   </li>
                 ))}
               </ul>
+              </div>
+
             </div>
-
-
-
-            {/* Select From Date */}
-            <div className="response-page-dates">
+            <div className="col-12 col-md-6 col-lg-4">
+           <div className="history-page-dates">
+           <div className="history-page-dates">
               <div
                 className={`form-group ${selectStrategyType === "ChartingPlatform"
-                  ? "col-lg-2"
-                  : "col-lg-2"
+                  ? "col-lg-6"
+                  : "col-lg-6"
                   }`}>
                 <label>Select From Date</label>
                 <DatePicker
@@ -463,8 +441,8 @@ const TradeResponse = () => {
               {/* Select To Date */}
               <div
                 className={`form-group ${selectStrategyType === "ChartingPlatform"
-                  ? "col-lg-2"
-                  : "col-lg-2"
+                  ? "col-lg-6"
+                  : "col-lg-6"
                   }`}>
                 <label>Select To Date</label>
                 <DatePicker
@@ -474,8 +452,18 @@ const TradeResponse = () => {
                 />
               </div>
             </div>
+           </div>
+           </div>
           </div>
 
+
+
+
+
+
+
+
+      
 
 
           <div className="modal-body">

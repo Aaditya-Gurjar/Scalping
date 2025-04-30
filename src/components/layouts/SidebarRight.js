@@ -158,12 +158,12 @@ const Sidebar = ({ position }) => {
     User: [
       {
         path: "technical/pattern",
-        icon: <i className="fa fa-puzzle-piece" />, // Technical Patterns icon
+        icon: <i className="las la-cogs"></i>, // Technical Patterns icon
         label: "Tech Patterns",
       },
       {
         path: "lastpattern",
-        icon: <i className="fa fa-random" />, // Last Patterns icon
+        icon: <i class="las la-cog"></i>, // Last Patterns icon
         label: "Last Patterns",
       },
       {

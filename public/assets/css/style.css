@@ -689,7 +689,7 @@ section.sign-in-page {
 
 ul.iq-menu a span {
   margin-left: 0px !important;
-  font-size: 12px !important;
+  font-size: 10px !important;
   display: block !important;
   width: 100%;
   margin-top: 6px;
@@ -763,15 +763,15 @@ ul.iq-menu a span {
   list-style-type: none;
   position: relative;
   white-space: nowrap;
-  margin: 10px 0;
+  margin: 15px 0;
 }
 
-.iq-menu-item-rightsidebar {
+/* .iq-menu-item-rightsidebar {
   list-style-type: none;
   position: relative;
   white-space: nowrap;
   margin: 5px !important;
-}
+} */
 
 
 
@@ -807,8 +807,8 @@ ul.iq-menu a span {
 }
 
 .iq-sidebar-menu .iq-menu li a i {
-  font-size: 30px;
-  margin-right: 10px;
+  font-size: 25px;
+  margin-right: 5px;
   vertical-align: middle;
   width: 20px;
   display: inline-block;
@@ -6234,7 +6234,7 @@ ul.breadcrumb-links li a {
   border-radius: 5px;
   font-size: 16px;
   padding: 0px 10px;
-  height: 40px;
+  /* height: 40px; */
   border: 1px solid #ccc;
   transition: all 0.3s ease-in-out;
   margin: 0;
@@ -7222,11 +7222,11 @@ height: auto;
   right: 4% !important;
 }
 
-.response-btns {
+/* .response-btns {
   position: absolute !important;
   z-index: 2;
   right: 21%;
-}
+} */
 .report-btn{
   z-index: 2;
 }
@@ -7272,4 +7272,8 @@ height: auto;
   height: 30px !important;
     width: auto;
     margin-top: 6px !important;
+}
+.MuiBox-root 
+{
+  padding: 0px !important;
 }
