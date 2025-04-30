@@ -26,7 +26,7 @@ const Userdashboard = () => {
   const groupName = sessionStorage.getItem("groupName");
   const [activeTab1, setActiveTab1] = useState("CurrentPosition");
   const [activeTab, setActiveTab] = useState(addVia || "currentScript");
-  const [subTab, setSubTab] = useState('');
+  const [subTab, setSubTab] = useState("Scalping"); // Default to "Scalping"
   const [refresh, setRefresh] = useState(false);
   const [getGroup, setGroup] = useState('');
   const [strategyType, setStrategyType] = useState([]);
@@ -43,10 +43,10 @@ const Userdashboard = () => {
   const [showLivePrice, setShowLivePrice] = useState(false);
   const location = useLocation();
 
-  const [botView, setBotView] = useState("Create New Bot"); // New state for dropdown selection
+  const [botView, setBotView] = useState("Create New Bot"); // Default to "Create New Bot"
 
   useEffect(() => {
-    setSubTab(deletedStrategyType)
+    setSubTab(deletedStrategyType || "Scalping"); // Ensure "Scalping" is selected by default
   }
     , [deletedStrategyType]);
 
@@ -816,7 +816,7 @@ const Userdashboard = () => {
                                 sessionStorage.removeItem("StrategyType"); // Clear StrategyType from session
                               }}
                             >
-                              <FiPlusCircle className="me-1" /> {type} Bot
+                              <FiPlusCircle className="me-1" /> {type} 
                             </button>
                           </li>
                         ))}
