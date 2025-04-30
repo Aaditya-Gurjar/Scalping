@@ -895,13 +895,13 @@ const Header = () => {
                         alt="user"
                       /> */}
                       <img
-                        src={selectedImage || "/assets/images/user/1.jpg"}
+                        src={selectedImage || "/assets/images/user/demo.jpg"}
                         className="img-fluid rounded-circle me-3"
                         alt="user"
                       />
                       <div className="caption">
                         <h6 className="mb-0 line-height card-text-Color">{Username}</h6>
-                        <span className="font-size-12 card-text-Color">online</span>
+                        {/* <span className="font-size-12 card-text-Color">online</span> */}
                       </div>
                     </a>
                     <div className="iq-sub-dropdown iq-user-dropdown">
@@ -909,7 +909,7 @@ const Header = () => {
                         <div className="iq-card-body p-0 ">
                           <div className="bg-primary p-3">
                             <h5 className="text-white-important">{Username}</h5>
-                            <span className="text-white-important">online</span>
+                            {/* <span className="text-white-important">online</span> */}
                           </div>
                           <Link
                             to="/user/profile"
