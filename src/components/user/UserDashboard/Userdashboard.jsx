@@ -723,7 +723,7 @@ useEffect(() => {
       backbutton_status={false}>
       <div className="iq-card-body" >
         <ul
-          className="nav nav-tabs justify-content-center"
+          className="nav nav-tabs justify-content-center border-bottom"
           id="myTab-2"
           role="tablist">
           <li className="nav-item" role="presentation">
@@ -762,21 +762,34 @@ useEffect(() => {
               <div className="d-flex justify-content-center align-items-center flex-column gap-4 mt-4">
                 <div className="d-flex justify-content-start align-items-center w-100" style={{ maxWidth: "1200px" }}>
                   {/* <h5 className="me-3" style={{ minWidth: "100px", textAlign: "left" }}></h5> */}
-                  <div className="d-flex flex-wrap gap-3">
+                  <div className="d-flex flex-wrap gap-3 mx-auto">
+                  <ul
+                  className="nav nav-pills shadow rounded-pill p-1"
+                  style={{ backgroundColor: "#f1f3f5" }}
+                >
                     {strategyType.map((type, index) => (
+  <li class="nav-item">
                       <button
                         key={index}
-                        className={`btn bot-btn ${subTab === type.trim() ? "bot-btn-active" : "bot-btn"}`}
+                        className={` nav-link rounded-pill ${subTab === type.trim() ? "active rounded-pill" : "nav-link rounded-pill"}`}
+                        style={{
+                          padding: "10px 20px",
+                          margin: "5px",
+                          border: "none",
+                          outline: "none",
+                        }}
                         onClick={() => {
                           setSubTab(type.trim());
                           setGroup(""); // Deselect group
                           sessionStorage.setItem("StrategyType", type.trim());
                           sessionStorage.removeItem("groupName"); // Clear groupName from session
                         }}
-                        style={{ whiteSpace: "nowrap" }}>
+                        >
                         <FiPlusCircle className="me-1" /> {type} Bot
                       </button>
+                      </li>
                     ))}
+                    </ul>
                   </div>
                 </div>
                 <div
@@ -787,7 +800,7 @@ useEffect(() => {
                     Suggested Bot:
                   </h5>
 
-                  <div className="d-flex flex-wrap gap-3">
+                  <div className="d-flex flex-wrap gap-3 ">
                     {groupNames && groupNames.length > 0 ? (
                       groupNames.map((group, index) => (
                         <button

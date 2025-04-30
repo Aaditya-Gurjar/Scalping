@@ -6234,7 +6234,7 @@ ul.breadcrumb-links li a {
   border-radius: 5px;
   font-size: 16px;
   padding: 0px 10px;
-  height: 40px;
+  /* height: 40px; */
   border: 1px solid #ccc;
   transition: all 0.3s ease-in-out;
   margin: 0;
