@@ -19,4 +19,4 @@ root.render(
   </ThemeProvider>
 );
  
-// register();
+register();
