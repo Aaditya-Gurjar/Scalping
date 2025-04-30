@@ -400,7 +400,7 @@ const TradeReport = () => {
             <div className="iq-card-body">
                 <div className="was-validated ">
                     <div className="row mb-4">
-                    <div className="d-flex  report-btns">
+                    <div className="d-flex report-btn">
                                 <ul
                                     className="nav nav-pills shadow rounded-pill p-1"
                                     style={{ backgroundColor: "#f1f3f5" }}

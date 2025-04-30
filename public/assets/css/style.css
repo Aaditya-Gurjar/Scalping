@@ -7227,6 +7227,9 @@ height: auto;
   z-index: 2;
   right: 21%;
 } */
+.report-btn{
+  z-index: 2;
+}
 
 .response-page-dates {
   display: flex;
