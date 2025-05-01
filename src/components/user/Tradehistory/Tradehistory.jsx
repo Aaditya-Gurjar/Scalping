@@ -146,6 +146,10 @@ const Tradehistory = () => {
     setSelectedRowData(null); // Reset selected row data
   }, [selectStrategyType]);
 
+  useEffect(() => {
+    setOpenSection(null); // Close all open dropdowns when switching tabs
+  }, [selectStrategyType]);
+
   const convertDateFormat = (date) => {
     if (!date) return "";
     const dateObj = new Date(date);

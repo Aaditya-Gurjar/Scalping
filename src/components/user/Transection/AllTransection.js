@@ -50,7 +50,7 @@ const Clientservice = () => {
         await GetUserBalence(req)
             .then((response) => {
                 if (response.Status) {
-                    setWalletBalance(response.Balance)  
+                    setWalletBalance(response.Balance)
                 }
                 else {
                     setWalletBalance('')
@@ -86,9 +86,9 @@ const Clientservice = () => {
             .then((response) => {
                 if (response.Status) {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Success",
                         text: response.message,
                         icon: "success",
@@ -104,9 +104,9 @@ confirmButtonColor: "#1ccc8a",
                 }
                 else {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Error",
                         text: response.message,
                         icon: "error",
@@ -129,9 +129,9 @@ confirmButtonColor: "#1ccc8a",
             .then((response) => {
                 if (response.Status) {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Success",
                         text: response.message,
                         icon: "success",
@@ -147,9 +147,9 @@ confirmButtonColor: "#1ccc8a",
                 }
                 else {
                     Swal.fire({
- background: "#1a1e23 ",
-  backdrop: "#121010ba",
-confirmButtonColor: "#1ccc8a",
+                        background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
                         title: "Error",
                         text: response.message,
                         icon: "error",
@@ -176,7 +176,7 @@ confirmButtonColor: "#1ccc8a",
                 }
             },
         },
-        
+
         {
             name: "Username",
             label: "Username",
@@ -225,7 +225,7 @@ confirmButtonColor: "#1ccc8a",
                         color = 'red';
                         sign = '-';
                     }
-                     else {
+                    else {
                         color = 'green';
                         sign = '+';
                     }
@@ -296,187 +296,187 @@ confirmButtonColor: "#1ccc8a",
 
     return (
         <>
-        <Content
-        Page_title={"📉 Transaction"}
-        button_status={false}
-        backbutton_status={false}
-      >
-            
+            <Content
+                Page_title={"📉 Transaction"}
+                button_status={false}
+                backbutton_status={false}
+            >
 
-                        <div className='iq-card-body'>
-                            <div className='d-flex justify-content-between'>
-                                <div className="wallet-balance-container">
-                                    <span className="balance-label fs-5">Remaining Balance:</span>
-                                    <span className="balance-amount"> ₹ {walletBalance}</span>
-                                </div>
 
-                                <div className=''>
-                                    <button to='/admin/adduser' className='addbtn mx-2 mb-2'
-                                        onClick={() => setShowAddMoneyModal(true)}
-                                    >
-                                        Add Money
-                                    </button>
-                                    <button to='/admin/adduser' className='addbtn'
-                                        onClick={() => setShowWithdrawalModal(true)}
-                                    >
-                                        Withdraw Amount
-                                    </button>
-                                </div>
-                            </div>
-                            <FullDataTable columns={columns} data={AllTransectionData} checkBox={false} />
+                <div className='iq-card-body'>
+                    <div className='d-flex justify-content-between'>
+                        <div className="wallet-balance-container">
+                            <span className="balance-label fs-5">Remaining Balance:</span>
+                            <span className="balance-amount"> ₹ {walletBalance}</span>
                         </div>
 
+                        <div className=''>
+                            <button to='/admin/adduser' className='addbtn mx-2 mb-2'
+                                onClick={() => setShowAddMoneyModal(true)}
+                            >
+                                Add Money
+                            </button>
+                            <button to='/admin/adduser' className='addbtn'
+                                onClick={() => setShowWithdrawalModal(true)}
+                            >
+                                Withdraw Amount
+                            </button>
+                        </div>
+                    </div>
+                    <FullDataTable columns={columns} data={AllTransectionData} checkBox={false} />
+                </div>
 
-            {
-                showAddMoneyModal && (
-                    <div className="modal custom-modal d-flex" id="Balance" role="dialog">
-                        <div className="modal-dialog modal-dialog-centered" style={{ width: "30rem" }}>
-                            <div className="modal-content">
-                                <div className="modal-header border-0 pb-0">
-                                    <div className="form-header modal-header-title text-start mb-0">
-                                        <h4 className="mb-0 d-flex align-items-center">
-                                            <DollarSign className="me-2" style={{ color: '#4caf50' }} />
-                                            Add Balance
-                                        </h4>
-                                    </div>
-                                    <button
-                                        type="button"
-                                        className="btn-close"
-                                        data-bs-dismiss="modal"
-                                        aria-label="Close"
-                                        onClick={() => { setError(''); setEnterMoney(''); setShowAddMoneyModal(false) }}
-                                    ></button>
-                                </div>
-                                <div >
-                                    <div className="modal-body">
-                                        <div className="row">
-                                            <div className="col-lg-12 col-sm-12">
-                                                <div className="input-block mb-3">
-                                                    <label className="form-label" style={{ fontWeight: 'bold', color: '#333' }}>
-                                                        Balance
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        className="form-control number-input"
-                                                        placeholder="Enter Balance to Add"
-                                                        inputMode="decimal"
-                                                        pattern="^\d*\.?\d*$"
-                                                        name="EnterMoney"
-                                                        value={EnterMoney}
-                                                        onChange={(e) => { handleInputChange(e, 1) }}
-                                                    />
-                                                    {
-                                                        error && (
-                                                            <p style={{ color: 'red', fontSize: '12px' }}>{error}</p>
-                                                        )
-                                                    }
 
-                                                </div>
-                                            </div>
+                {
+                    showAddMoneyModal && (
+                        <div className="modal custom-modal d-flex" id="Balance" role="dialog">
+                            <div className="modal-dialog modal-dialog-centered" style={{ width: "30rem" }}>
+                                <div className="modal-content">
+                                    <div className="modal-header border-0 pb-0">
+                                        <div className="form-header modal-header-title text-start mb-0">
+                                            <h4 className="mb-0 d-flex align-items-center">
+                                                <DollarSign className="me-2" style={{ color: '#4caf50' }} />
+                                                Add Balance
+                                            </h4>
                                         </div>
-                                    </div>
-                                    <div className="modal-footer">
                                         <button
                                             type="button"
+                                            className="btn-close"
                                             data-bs-dismiss="modal"
-                                            className="btn btn-back cancel-btn me-2"
+                                            aria-label="Close"
                                             onClick={() => { setError(''); setEnterMoney(''); setShowAddMoneyModal(false) }}
-                                            style={{ backgroundColor: '#f44336', color: 'white', borderRadius: '4px' }}
-                                        >
-                                            Cancel
-                                        </button>
-                                        <button
-                                            type="submit"
-                                            data-bs-dismiss="modal"
-                                            className="btn btn-primary paid-continue-btn"
-                                            style={{ backgroundColor: '#4caf50', color: 'white', borderRadius: '4px' }}
-                                            onClick={handleAddMoney}
-                                        >
-                                            Add Balance
-                                        </button>
+                                        ></button>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                    <div >
+                                        <div className="modal-body">
+                                            <div className="row">
+                                                <div className="col-lg-12 col-sm-12">
+                                                    <div className="input-block mb-3">
+                                                        <label className="form-label" style={{ fontWeight: 'bold', color: '#333' }}>
+                                                            Balance
+                                                        </label>
+                                                        <input
+                                                            type="text"
+                                                            className="form-control number-input"
+                                                            placeholder="Enter Balance to Add"
+                                                            inputMode="decimal"
+                                                            pattern="^\d*\.?\d*$"
+                                                            name="EnterMoney"
+                                                            value={EnterMoney}
+                                                            onChange={(e) => { handleInputChange(e, 1) }}
+                                                        />
+                                                        {
+                                                            error && (
+                                                                <p style={{ color: 'red', fontSize: '12px' }}>{error}</p>
+                                                            )
+                                                        }
 
-                )
-            }
-
-            {
-                showWithdrawalModal && (
-                    <div className="modal custom-modal d-flex" id="Balance" role="dialog">
-                        <div className="modal-dialog modal-dialog-centered" style={{ width: "30rem" }}>
-                            <div className="modal-content">
-                                <div className="modal-header border-0 pb-0">
-                                    <div className="form-header modal-header-title text-start mb-0">
-                                        <h4 className="mb-0 d-flex align-items-center">
-                                            <DollarSign className="me-2" style={{ color: '#4caf50' }} />
-                                            Withdrawal Balance
-                                        </h4>
-                                    </div>
-                                    <button
-                                        type="button"
-                                        className="btn-close"
-                                        data-bs-dismiss="modal"
-                                        aria-label="Close"
-                                        onClick={() => { setError(''); setEnterMoney(''); setShowWithdrawalModal(false) }}
-
-                                    ></button>
-                                </div>
-                                <div>
-                                    <div className="modal-body">
-                                        <div className="row">
-                                            <div className="col-lg-12 col-sm-12">
-                                                <div className="input-block mb-3">
-                                                    <label className="form-label" style={{ fontWeight: 'bold', color: '#333' }}>
-                                                        Balance
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        className="form-control number-input"
-                                                        placeholder="Enter Balance to Withdrawal"
-                                                        inputMode="decimal"
-                                                        pattern="^\d*\.?\d*$"
-                                                        name="EnterMoney"
-                                                        value={EnterMoney}
-                                                        onChange={(e) => { handleInputChange(e, 2) }}
-                                                    />
-                                                    {
-                                                        error && (
-                                                            <p style={{ color: 'red', fontSize: '12px' }}>{error}</p>
-                                                        )
-                                                    }
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="modal-footer">
-                                        <button
-                                            type="button"
-                                            data-bs-dismiss="modal"
-                                            className="btn btn-back cancel-btn me-2"
-                                            onClick={() => { setError(''); setEnterMoney(''); setShowWithdrawalModal(false) }}
-                                            style={{ backgroundColor: '#f44336', color: 'white', borderRadius: '4px' }}
-                                        >
-                                            Cancel
-                                        </button>
-                                        <button
-                                            type="submit"
-                                            data-bs-dismiss="modal"
-                                            className="btn btn-primary paid-continue-btn"
-                                            style={{ backgroundColor: '#4caf50', color: 'white', borderRadius: '4px' }}
-                                            onClick={handleWithdrawal}
-                                        >
-                                            Withdrawal Balance
-                                        </button>
+                                        <div className="modal-footer">
+                                            <button
+                                                type="button"
+                                                data-bs-dismiss="modal"
+                                                className="btn btn-back cancel-btn me-2"
+                                                onClick={() => { setError(''); setEnterMoney(''); setShowAddMoneyModal(false) }}
+                                                style={{ backgroundColor: '#f44336', color: 'white', borderRadius: '4px' }}
+                                            >
+                                                Cancel
+                                            </button>
+                                            <button
+                                                type="submit"
+                                                data-bs-dismiss="modal"
+                                                className="btn btn-primary paid-continue-btn"
+                                                style={{ backgroundColor: '#4caf50', color: 'white', borderRadius: '4px' }}
+                                                onClick={handleAddMoney}
+                                            >
+                                                Add Balance
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                )
-            }
+
+                    )
+                }
+
+                {
+                    showWithdrawalModal && (
+                        <div className="modal custom-modal d-flex" id="Balance" role="dialog">
+                            <div className="modal-dialog modal-dialog-centered" style={{ width: "30rem" }}>
+                                <div className="modal-content">
+                                    <div className="modal-header border-0 pb-0">
+                                        <div className="form-header modal-header-title text-start mb-0">
+                                            <h4 className="mb-0 d-flex align-items-center">
+                                                <DollarSign className="me-2" style={{ color: '#4caf50' }} />
+                                                Withdrawal Balance
+                                            </h4>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            className="btn-close"
+                                            data-bs-dismiss="modal"
+                                            aria-label="Close"
+                                            onClick={() => { setError(''); setEnterMoney(''); setShowWithdrawalModal(false) }}
+
+                                        ></button>
+                                    </div>
+                                    <div>
+                                        <div className="modal-body">
+                                            <div className="row">
+                                                <div className="col-lg-12 col-sm-12">
+                                                    <div className="input-block mb-3">
+                                                        <label className="form-label" style={{ fontWeight: 'bold', color: '#333' }}>
+                                                            Balance
+                                                        </label>
+                                                        <input
+                                                            type="text"
+                                                            className="form-control number-input"
+                                                            placeholder="Enter Balance to Withdrawal"
+                                                            inputMode="decimal"
+                                                            pattern="^\d*\.?\d*$"
+                                                            name="EnterMoney"
+                                                            value={EnterMoney}
+                                                            onChange={(e) => { handleInputChange(e, 2) }}
+                                                        />
+                                                        {
+                                                            error && (
+                                                                <p style={{ color: 'red', fontSize: '12px' }}>{error}</p>
+                                                            )
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="modal-footer">
+                                            <button
+                                                type="button"
+                                                data-bs-dismiss="modal"
+                                                className="btn btn-back cancel-btn me-2"
+                                                onClick={() => { setError(''); setEnterMoney(''); setShowWithdrawalModal(false) }}
+                                                style={{ backgroundColor: '#f44336', color: 'white', borderRadius: '4px' }}
+                                            >
+                                                Cancel
+                                            </button>
+                                            <button
+                                                type="submit"
+                                                data-bs-dismiss="modal"
+                                                className="btn btn-primary paid-continue-btn"
+                                                style={{ backgroundColor: '#4caf50', color: 'white', borderRadius: '4px' }}
+                                                onClick={handleWithdrawal}
+                                            >
+                                                Withdrawal Balance
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                }
             </Content>
         </>
     );
