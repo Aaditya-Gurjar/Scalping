@@ -16,6 +16,7 @@ import { Tabs, Tab } from "react-bootstrap";
 import { FaUserAlt, FaChartLine } from "react-icons/fa"; // Import icons
 import "./TabStyles.css"; // Import custom CSS for styling
 import NewMarketWise from "./NewMarketWise.Option";
+import { toast } from "react-toastify";
 
 const AddClient = () => {
   const location = useLocation();
@@ -1615,6 +1616,7 @@ const AddClient = () => {
     // ) {
     //   return SweentAlertFun("Market is off Today");
     // }
+    console.log("handleCheckPnl");
 
     const weekend = new Date().getDay();
     const currentDate = new Date();
@@ -1735,6 +1737,17 @@ const AddClient = () => {
             NoprofitLoss2: response.NoprofitLoss2,
           });
         } else {
+          toast.warning("No data available", {
+            position: "bottom-left",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+
+
           setPnlData({
             MaximumProfit: "",
             MaximumLoss: "",

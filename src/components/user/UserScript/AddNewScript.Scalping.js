@@ -166,6 +166,10 @@ const AddClient = () => {
       if (!values.Trade_Execution || values.Trade_Execution == 0) {
         errors.Trade_Execution = "Please Select Trade Execution.";
       }
+
+      if(values.TargetExit === "" || values.TargetExit === undefined || values.TargetExit === null) {
+        errors.TargetExit ="Please Enter Continue after cycle exit"
+      }
       if (!values.Trade_Count || values.Trade_Count == 0) {
         errors.Trade_Count = "Please Enter Trade Count.";
       }
@@ -404,9 +408,7 @@ const AddClient = () => {
       ) {
         errors.FinalTarget = "Please Enter Final Target Price";
       }
-      if(!values.TargetExit){
-        errors.TargetExit ="Please Enter Continue after cycle exit"
-      }
+      
 
       // ScrollToViewFirstError(errors);
       return errors;
@@ -720,6 +722,7 @@ const AddClient = () => {
   });
 
   useEffect(() => {
+    console.log("TargetExit", formik.values.TargetExit)
     formik.setFieldValue("Exchange", "NFO");
     formik.setFieldValue("TType", "BUY");
     formik.setFieldValue("ExitDay", "Intraday");
@@ -728,6 +731,7 @@ const AddClient = () => {
     formik.setFieldValue("Instrument", "FUTIDX");
     formik.setFieldValue("HoldExit", "Hold");
     formik.setFieldValue("TStype", "Point");
+    formik.setFieldValue("TargetExit", false);
   }, []);
 
   useEffect(() => {
@@ -736,7 +740,7 @@ const AddClient = () => {
     }
   }, [formik.values.Exchange]);
 
- 
+  
  
   // let expiry = formik.values.expirydata1 == "Monthly"
   // ? getExpiryDate?.data?.[0]
