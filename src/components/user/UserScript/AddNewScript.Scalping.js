@@ -404,6 +404,9 @@ const AddClient = () => {
       ) {
         errors.FinalTarget = "Please Enter Final Target Price";
       }
+      if(!values.TargetExit){
+        errors.TargetExit ="Please Enter Continue after cycle exit"
+      }
 
       // ScrollToViewFirstError(errors);
       return errors;
