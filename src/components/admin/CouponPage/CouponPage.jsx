@@ -26,7 +26,6 @@ const CouponPage = () => {
         fetchCouponDetails();
     }, []);
 
-    console.log("Coupon Details:", couponDetails);
 
     return (
         <>

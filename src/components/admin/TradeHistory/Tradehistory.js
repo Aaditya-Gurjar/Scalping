@@ -470,7 +470,6 @@ const Tradehistory = () => {
         }
     };
 
-    console.log("getAllTradeData", getAllTradeData)
 
 
     return (

@@ -70,7 +70,6 @@ const AdminServicesList = () => {
     );
   };
 
-  console.log("strategyTags", strategyTags)
 
   // Function to handle edit button click
   const handleEdit = async (plan) => {
@@ -170,7 +169,6 @@ const AdminServicesList = () => {
     }));
   };
 
-  console.log("editPlanData", editPlanData)
   const handleModalSave = async () => {
     try {
 

@@ -38,7 +38,6 @@ const Header = () => {
   const [showModal, setShowModal] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [getTradingStatus, setTradingStatus] = useState(false);
-  console.log("getTradingStatus ggggg", getTradingStatus);
 
   const [getBrokerName, setBrokerName] = useState("");
   const [walletBalance, setWalletBalance] = useState("");
@@ -81,7 +80,6 @@ const Header = () => {
   }, []);
 
   const currentTradeMode = getTradingStatus ? "Live Trading" : "Paper Trading";
-  console.log("currentTradeMode", currentTradeMode)
 
 
   const handleToggle = async (value) => {
