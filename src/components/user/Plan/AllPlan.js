@@ -668,17 +668,19 @@ const adminPermission = localStorage.getItem("adminPermission");
         onClose={handleClose}
         aria-labelledby="coupon-modal-title"
         aria-describedby="coupon-modal-description"
+        className="coupon-modal"
       >
+        
         <Box sx={style}>
           {/* Close Button */}
           <Button
             onClick={handleClose}
             sx={{
               position: "absolute",
-              top: 8,
+              top:5,
               right: 8,
               minWidth: "auto",
-              padding: 2,
+              padding: 1,
               color: "#000",
               backgroundColor: "transparent",
               "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.1)" },
