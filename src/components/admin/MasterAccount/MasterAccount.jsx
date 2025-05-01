@@ -20,7 +20,6 @@ const MasterAccount = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
   const [updatedChildAccounts, setUpdatedChildAccounts] = useState([]); // State for updated child accounts
   const [tabData, setTableData] = useState()
-  console.log("tabData", tabData)
 
   const fetchAccounts = async () => {
     try {
@@ -36,7 +35,6 @@ const MasterAccount = () => {
   const tableData = async () => {
     try {
       const res = await GetMasterAccountTableData()
-      console.log("response mai kya aa rha hai", res);
       if (res.Status) {
         setTableData(res.Data)
       }
@@ -136,7 +134,6 @@ const MasterAccount = () => {
   const getData = async () => {
     try {
       const res = await GetAccountsApi();
-      console.log("res.data", res?.Data)
       setData(res?.Data[0])
     } catch (error) {
       console.error("Error fetching accounts:", error);
