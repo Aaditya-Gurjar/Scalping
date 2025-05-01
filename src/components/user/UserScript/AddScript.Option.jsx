@@ -69,6 +69,8 @@ const AddClient = () => {
     return foundItem.EndDate;
   };
 
+
+ 
   const formik = useFormik({
     initialValues: {
       MainStrategy: location.state?.data?.selectStrategyType,
@@ -568,6 +570,10 @@ const AddClient = () => {
         WorkingDay: values.WorkingDay
           ? values?.WorkingDay?.map((item) => item?.value || item)
           : [],
+
+          Planname: location?.state?.data?.scriptType?.data?.find(
+            (item) => item.EndDate == getEndData(formik.values.Measurment_Type)
+          )?.Planname,
       };
 
 
@@ -670,6 +676,10 @@ const AddClient = () => {
     }
   }, [formik.submitCount]); 
   
+
+  const value=  location?.state?.data 
+
+  console.log("value", value)
 
   const handleCheckPnl = async () => {
     // const weekend = new Date().getDay();

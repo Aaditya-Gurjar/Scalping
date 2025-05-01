@@ -62,6 +62,7 @@ const AddClient = () => {
     });
   };
 
+
   const formik = useFormik({
     initialValues: {
       MainStrategy: "",
@@ -468,7 +469,8 @@ const AddClient = () => {
         PEDeepHigher: 0.0,
         TradeCount: values.Trade_Count || 1,
         TradeExecution: values.Trade_Execution,
-        stretegytag: values.Strategy,
+        // stretegytag: values.Strategy,
+        Strategy : values.Strategy,
         quantity2:
           values.position_type == "Single" &&
             values.Strategy == "Multi_Conditional"
@@ -554,6 +556,9 @@ const AddClient = () => {
             formik.values.Targetselection == "Entry Wise SL"
             ? parseFloat(values.FinalTarget)
             : 0.0,
+        Planname: location?.state?.scriptType?.data?.find(
+          (item) => item?.EndDate === getEndData(formik?.values?.Strategy)
+        )?.Planname,
       };
 
       if (
@@ -750,6 +755,8 @@ const AddClient = () => {
     });
     return foundItem.EndDate;
   };
+
+
 
   const ScrollToViewFirstError = (newErrors) => {
     if (Object.keys(newErrors).length !== 0) {

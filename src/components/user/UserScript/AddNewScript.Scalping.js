@@ -569,8 +569,8 @@ const AddClient = () => {
               : "0",
           RolloverTime:
             values.FixedSM == "Multiple" &&
-              values.Strategy == "Multi_Conditional" &&
-              values.RollOver == "true"
+            values.Strategy == "Multi_Conditional" &&
+            values.RollOver == "true"
               ? values.RollOverExitTime
               : "00:00:00",
           TargetExit:
