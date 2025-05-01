@@ -98,7 +98,7 @@ const AddPlanPage = () => {
 
     const showError = (title, message = "") => {
         Swal.fire({
-            background: "#1a1e23 ",
+             // background: "#1a1e23 ",
             backdrop: "#121010ba",
             confirmButtonColor: "#1ccc8a",
             title: title,
@@ -189,7 +189,7 @@ const AddPlanPage = () => {
                 const response = await AddPlan(req);
                 if (response.Status) {
                     Swal.fire({
-                        background: "#1a1e23 ",
+                         // background: "#1a1e23 ",
                         backdrop: "#121010ba",
                         confirmButtonColor: "#1ccc8a",
                         title: "Success!",

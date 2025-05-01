@@ -59,7 +59,7 @@ const Addscript = () => {
         };
 
         Swal.fire({
-            background: "#1a1e23 ",
+             // background: "#1a1e23 ",
             backdrop: "#121010ba",
             confirmButtonColor: "#1ccc8a",
             title: "Are you sure?",
@@ -76,7 +76,7 @@ const Addscript = () => {
                     if (response.Status) {
                         setRefresh(!refresh);
                         Swal.fire({
-                            background: "#1a1e23 ",
+                             // background: "#1a1e23 ",
                             backdrop: "#121010ba",
                             confirmButtonColor: "#1ccc8a",
                             title: "Deleted!",
@@ -87,7 +87,7 @@ const Addscript = () => {
                         });
                     } else {
                         Swal.fire({
-                            background: "#1a1e23 ",
+                             // background: "#1a1e23 ",
                             backdrop: "#121010ba",
                             confirmButtonColor: "#1ccc8a",
                             title: "Error!",
@@ -100,7 +100,7 @@ const Addscript = () => {
                 } catch (err) {
                     console.error("Error in delete script", err);
                     Swal.fire({
-                        background: "#1a1e23 ",
+                         // background: "#1a1e23 ",
                         backdrop: "#121010ba",
                         confirmButtonColor: "#1ccc8a",
                         title: "Error!",

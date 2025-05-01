@@ -63,7 +63,7 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
 
     if (data2.status == false) {
       Swal.fire({
-        background: "#1a1e23 ",
+         // background: "#1a1e23 ",
         backdrop: "#121010ba",
         confirmButtonColor: "#1ccc8a",
         title: "Error",
@@ -76,7 +76,7 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
       allScripts?.data?.[allScripts?.len]?.CombineScalping?.length == 0
     ) {
       Swal.fire({
-        background: "#1a1e23 ",
+         // background: "#1a1e23 ",
         backdrop: "#121010ba",
         confirmButtonColor: "#1ccc8a",
         title: "Warning",
@@ -92,7 +92,7 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
         ) ?? "";
       if (!isExist) {
         Swal.fire({
-          background: "#1a1e23 ",
+           // background: "#1a1e23 ",
           backdrop: "#121010ba",
           confirmButtonColor: "#1ccc8a",
           title: "Warning",
@@ -118,7 +118,7 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
   const handleAddScript2 = (data1) => {
     if (data2.status == false) { 
       Swal.fire({
-        background: "#1a1e23 ",
+         // background: "#1a1e23 ",
         backdrop: "#121010ba",
         confirmButtonColor: "#1ccc8a",
         title: "Error",
@@ -131,7 +131,7 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
       allScripts?.data?.[allScripts?.len]?.CombineOption?.length == 0
     ) {
       Swal.fire({
-        background: "#1a1e23 ",
+         // background: "#1a1e23 ",
         backdrop: "#121010ba",
         confirmButtonColor: "#1ccc8a",
         title: "Warning",
@@ -200,7 +200,7 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
         });
       } else {
         Swal.fire({
-          background: "#1a1e23 ",
+           // background: "#1a1e23 ",
           backdrop: "#121010ba",
           confirmButtonColor: "#1ccc8a",
           title: "Warning",
@@ -217,7 +217,7 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
   const handleAddScript3 = (data1) => {
     if (data2.status == false) {
       Swal.fire({
-        background: "#1a1e23 ",
+         // background: "#1a1e23 ",
         backdrop: "#121010ba",
         confirmButtonColor: "#1ccc8a",
         title: "Error",
@@ -230,7 +230,7 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
       allScripts?.data?.[allScripts?.len]?.CombinePattern?.length == 0
     ) {
       Swal.fire({
-        background: "#1a1e23 ",
+         // background: "#1a1e23 ",
         backdrop: "#121010ba",
         confirmButtonColor: "#1ccc8a",
         title: "Warning",
@@ -248,7 +248,7 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
         ) ?? "";
       if (!isExist) {
         Swal.fire({
-          background: "#1a1e23 ",
+           // background: "#1a1e23 ",
           backdrop: "#121010ba",
           confirmButtonColor: "#1ccc8a",
           title: "Warning",

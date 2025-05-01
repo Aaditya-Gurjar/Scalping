@@ -31,7 +31,7 @@ const AddClient = () => {
 
   const SweentAlertFun = (text) => {
     Swal.fire({
-      background: "#1a1e23 ",
+       // background: "#1a1e23 ",
       backdrop: "#121010ba",
       confirmButtonColor: "#1ccc8a",
       title: "Error",
@@ -309,7 +309,7 @@ const AddClient = () => {
         .then((response) => {
           if (response.Status) {
             Swal.fire({
-              background: "#1a1e23 ",
+               // background: "#1a1e23 ",
               backdrop: "#121010ba",
               confirmButtonColor: "#1ccc8a",
               title: "Script Added !",
@@ -323,7 +323,7 @@ const AddClient = () => {
             }, 1500);
           } else {
             Swal.fire({
-              background: "#1a1e23 ",
+               // background: "#1a1e23 ",
               backdrop: "#121010ba",
               confirmButtonColor: "#1ccc8a",
               title: "Error !",

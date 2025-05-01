@@ -527,7 +527,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
             .then((response) => {
               if (response.Status) {
                 Swal.fire({
-                  background: "#1a1e23 ",
+                   // background: "#1a1e23 ",
                   backdrop: "#121010ba",
                   title: "Success",
                   text: response.message,
@@ -564,7 +564,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
           if (response.Status) {
             Swal.fire({
-              background: "#1a1e23 ",
+               // background: "#1a1e23 ",
               backdrop: "#121010ba",
               title: "Success",
               text: response.message,
@@ -595,7 +595,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
         //         // icon: "success",
         //         // timer: 2000,
         //         // timerProgressBar: true
-        //         background: "#1a1e23 ",
+        //          // background: "#1a1e23 ",
         //         backdrop: "#121010ba",
         //         title: "Success",
         //         text: response.message,
@@ -702,7 +702,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
                   //     timerProgressBar: true
                   // })
                   Swal.fire({
-                    background: "#1a1e23 ",
+                     // background: "#1a1e23 ",
                     backdrop: "#121010ba",
                     title: "Success",
                     text: response.message,

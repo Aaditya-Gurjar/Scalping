@@ -24,7 +24,7 @@ const Smtp = () => {
         await setSmtpDetail(data).then((response) => {
             if (response.Status) {
                 Swal.fire({
-                    background: "#1a1e23 ",
+                     // background: "#1a1e23 ",
                     backdrop: "#121010ba",
                     confirmButtonColor: "#1ccc8a",
                     title: "Data Saved!",
@@ -35,7 +35,7 @@ const Smtp = () => {
                 });
             } else {
                 Swal.fire({
-                    background: "#1a1e23 ",
+                     // background: "#1a1e23 ",
                     backdrop: "#121010ba",
                     confirmButtonColor: "#1ccc8a",
                     title: "Error!",

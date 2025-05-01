@@ -95,7 +95,7 @@
 //         .then((response) => {
 //           if (response.Status) {
 //             Swal.fire({
-//  background: "#1a1e23 ",
+//   // background: "#1a1e23 ",
 //   backdrop: "#121010ba",
 // confirmButtonColor: "#1ccc8a",
 //               title: "User Created!",
@@ -109,7 +109,7 @@
 //             }, 1500);
 //           } else {
 //             Swal.fire({
-//  background: "#1a1e23 ",
+//   // background: "#1a1e23 ",
 //   backdrop: "#121010ba",
 // confirmButtonColor: "#1ccc8a",
 //               title: "Error!",
@@ -298,7 +298,7 @@ const EditSubadmin = () => {
         .then((response) => {
           if (response.Status) {
             Swal.fire({
-              background: "#1a1e23 ",
+               // background: "#1a1e23 ",
               backdrop: "#121010ba",
               confirmButtonColor: "#1ccc8a",
               title: "User Created!",
@@ -312,7 +312,7 @@ const EditSubadmin = () => {
             }, 1500);
           } else {
             Swal.fire({
-              background: "#1a1e23 ",
+               // background: "#1a1e23 ",
               backdrop: "#121010ba",
               confirmButtonColor: "#1ccc8a",
               title: "Error!",
