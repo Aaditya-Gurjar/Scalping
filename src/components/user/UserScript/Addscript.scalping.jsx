@@ -810,7 +810,6 @@ const AddClient = () => {
       value: item,
     }));
 
-    console.log("workingDay", workingDay);
     formik.setFieldValue("Strategy", location?.state?.data?.ScalpType);
     formik.setFieldValue("Exchange", location?.state?.data?.Exchange);
     formik.setFieldValue(

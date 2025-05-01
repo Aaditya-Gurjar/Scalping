@@ -54,12 +54,10 @@ const Pannel = () => {
       return `${year}.${month}.${day}`;
     }
   };
-  console.log("getSortName", getSortName);
 
   const GetSortTypeName = async () => {
     const data = { userName: userName };
     await GetName(data).then((response) => {
-      console.log("Get Sort Type Name", response);
       if (response.Status) {
         setSortName(response.Taskstatus);
       } else {

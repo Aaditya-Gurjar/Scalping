@@ -170,7 +170,6 @@ const MasterAccount = () => {
 
     try {
       const res = await MasterAccountApi(req);
-      console.log("API Response:", res);
 
       if (res?.Status) {
         Swal.fire({

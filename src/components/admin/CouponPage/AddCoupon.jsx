@@ -74,7 +74,6 @@ const AddCoupon = () => {
                 Expiry: values.expiry
             };
             const res = await AddCouponCodeApi(req);
-            console.log("response", res);
 
             if (res.Status) {
                 Swal.fire({
@@ -102,14 +101,12 @@ const AddCoupon = () => {
         formik.values.user.includes(opt.value)
     );
 
-    console.log('Selected user options:', selectedUserOptions);
 
     // Handler for user-select change
     const handleUserChange = (selectedOpts) => {
 
 
         const values = selectedOpts ? selectedOpts.map((o) => o.value) : [];
-        console.log('Selected values:', values[values.length - 1]);
 
         if (values[values.length - 1] === 'All') {
             // If "All" is selected, deselect everything else and keep only "All"

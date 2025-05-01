@@ -113,7 +113,6 @@ const Strategygroup = () => {
             });
         }
  
-        console.log("res", res)
         setShowOfferModal(false); // Close modal
     };
 

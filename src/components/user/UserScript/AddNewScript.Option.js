@@ -42,7 +42,6 @@ const AddClient = () => {
     NoprofitLoss1: "",
     NoprofitLoss2: "",
   });
-  // console.log("PnlData mai kya kya aa rha hai", PnlData);
 
   const SweentAlertFun = (text) => {
     Swal.fire({
@@ -62,7 +61,6 @@ const AddClient = () => {
       0,
       -1
     );
-    console.log("datawithoutlastitem  new", dataWithoutLastItem);
 
     const foundItem = dataWithoutLastItem.find((item) => {
       return item["Option Strategy"].includes(stg);
@@ -1616,7 +1614,6 @@ const AddClient = () => {
     // ) {
     //   return SweentAlertFun("Market is off Today");
     // }
-    console.log("handleCheckPnl");
 
     const weekend = new Date().getDay();
     const currentDate = new Date();
@@ -1625,15 +1622,12 @@ const AddClient = () => {
 
     const totalMinutes = hours * 60 + minutes; // e.g., 14 * 60 + 30 = 870
 
-    console.log("Current time (HH:MM):", `${hours}:${minutes}`);
-    console.log("totalMinutes:", totalMinutes);
-
+    
     // Market hours: 9:15 AM to 3:30 PM => 555 to 930 in total minutes
     if (weekend === 6 || weekend === 0 || totalMinutes < 555 || totalMinutes > 930) {
       return SweentAlertFun("Market is off Today");
     }
 
-    console.log("before req");
 
     const req = {
       
@@ -1718,7 +1712,6 @@ const AddClient = () => {
       targetselection: "",
     };
 
-    console.log("req", req);
 
     await CheckPnL(req)
       .then((response) => {

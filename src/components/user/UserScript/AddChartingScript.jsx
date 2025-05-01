@@ -29,9 +29,7 @@ const AddChartingScript = ({
 
   const allowedSegments = scriptType?.data[scriptType?.data.length - 1]?.CombineChartingSignal
   // const allowedSegments = location?.state?.data?.scriptType?.data[location?.state?.data?.scriptType?.data.length - 1]?.CombineChartingSignal
-  console.log("allowedSegments----", allowedSegments);
-  console.log("scriptType----", scriptType);
-
+  
 
   const defaultChartingData = (userName) =>
     allowedSegments?.map((segment) => ({
@@ -115,7 +113,6 @@ const AddChartingScript = ({
   const getStrategyTag = async () => {
     try {
       const res = await getStrategyTagApi(userName);
-      console.log("res", res);
       if (res.Status) {
         const strategTag = res.StrategyTag || [];
         setStrategTag(strategTag);
@@ -126,7 +123,6 @@ const AddChartingScript = ({
     }
   }
 
-  console.log("-chartingData--", chartingData);
 
   useEffect(() => {
     getChartingData();

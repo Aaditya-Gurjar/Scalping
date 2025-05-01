@@ -17,7 +17,6 @@ const ClientThreadReport = () => {
         ComapnyDetails()
     }, [])
 
-    console.log("getAllClientThreadeReport", getAllClientThreadeReport)
 
     useEffect(() => {
         getClientThreadeReport()

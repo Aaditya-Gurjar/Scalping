@@ -50,7 +50,6 @@ const ViewGroup = ({ group, isCopyScriptVisible, handleAddScript11, handleAddScr
 
 
 
-  console.log("allScripts----", allScripts)
 
   const handleAddScript1 = (data1, type) => {
 

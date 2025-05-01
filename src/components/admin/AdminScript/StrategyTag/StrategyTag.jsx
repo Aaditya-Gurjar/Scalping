@@ -33,9 +33,7 @@ const StrategyTag = () => {
 
   const handleSubmit = async (values, { resetForm }) => {
     try {
-      console.log('Submitting Values:', values);
       const res = await addChartingStrategyTag(values);
-      console.log('API Response:', res);
 
       if (res.Status) {
         Swal.fire({
