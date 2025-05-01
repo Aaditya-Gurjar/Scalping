@@ -205,7 +205,7 @@ const Clientservice = () => {
                 const response = await EditClientPanle(req);
                 if (response.Status) {
                     Swal.fire({
-                        background: "#1a1e23 ",
+                         // background: "#1a1e23 ",
                         backdrop: "#121010ba",
                         confirmButtonColor: "#1ccc8a",
                         title: "Updated",
@@ -222,7 +222,7 @@ const Clientservice = () => {
                     fetchClientService();
                 } else {
                     Swal.fire({
-                        background: "#1a1e23 ",
+                         // background: "#1a1e23 ",
                         backdrop: "#121010ba",
                         confirmButtonColor: "#1ccc8a",
                         title: "Error",

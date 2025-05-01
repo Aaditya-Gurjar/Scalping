@@ -126,7 +126,7 @@ const Header = () => {
         if (response.data.Status) {
           // Assuming the status is in response.data.Status
           Swal.fire({
-            background: "#1a1e23 ",
+             // background: "#1a1e23 ",
             backdrop: "#121010ba",
             confirmButtonColor: "#1ccc8a",
             title: "Success!",
@@ -141,7 +141,7 @@ const Header = () => {
           });
         } else {
           Swal.fire({
-            background: "#1a1e23 ",
+             // background: "#1a1e23 ",
             backdrop: "#121010ba",
             confirmButtonColor: "#1ccc8a",
             title: "Success!",
@@ -158,7 +158,7 @@ const Header = () => {
       } catch (err) {
         console.error("Error in ConnectBroker request", err);
         Swal.fire({
-          background: "#1a1e23 ",
+           // background: "#1a1e23 ",
           backdrop: "#121010ba",
           confirmButtonColor: "#1ccc8a",
           title: "Error!",
@@ -371,7 +371,7 @@ const Header = () => {
     try {
       const response = await LastPattern(); // API call
       Swal.fire({
-        background: "#1a1e23 ",
+         // background: "#1a1e23 ",
         backdrop: "#121010ba",
         confirmButtonColor: "#1ccc8a",
         title: "Last Pattern On !",
@@ -382,7 +382,7 @@ const Header = () => {
       });
     } catch (error) {
       Swal.fire({
-        background: "#1a1e23 ",
+         // background: "#1a1e23 ",
         backdrop: "#121010ba",
         confirmButtonColor: "#1ccc8a",
         title: "Error !",
@@ -449,7 +449,7 @@ const Header = () => {
     const broker = localStorage.getItem("Broker");
     if (broker == "DEMO") {
       return Swal.fire({
-        background: "#1a1e23 ",
+         // background: "#1a1e23 ",
         backdrop: "#121010ba",
         confirmButtonColor: "#1ccc8a",
         title: "Warning!",
@@ -466,7 +466,7 @@ const Header = () => {
 
     if (addBrokerName == "") {
       Swal.fire({
-        background: "#1a1e23 ",
+         // background: "#1a1e23 ",
         backdrop: "#121010ba",
         confirmButtonColor: "#1ccc8a",
         title: "Warning!",
@@ -480,7 +480,7 @@ const Header = () => {
       .then((response) => {
         if (response.Status) {
           Swal.fire({
-            background: "#1a1e23 ",
+             // background: "#1a1e23 ",
             backdrop: "#121010ba",
             confirmButtonColor: "#1ccc8a",
             title: "Success!",
@@ -493,7 +493,7 @@ const Header = () => {
           setShowAddBrokerModal(false);
         } else {
           Swal.fire({
-            background: "#1a1e23 ",
+             // background: "#1a1e23 ",
             backdrop: "#121010ba",
             confirmButtonColor: "#1ccc8a",
             title: "Error!",

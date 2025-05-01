@@ -16,7 +16,7 @@ const AddClient = () => {
 
     const SweentAlertFun = (text) => {
         Swal.fire({
- background: "#1a1e23 ",
+  // background: "#1a1e23 ",
   backdrop: "#121010ba",
 confirmButtonColor: "#1ccc8a",
             title: "Error",
@@ -307,7 +307,7 @@ confirmButtonColor: "#1ccc8a",
                 const response = await AddAdminScript(req);
                 if (response.Status) {
                     Swal.fire({
- background: "#1a1e23 ",
+  // background: "#1a1e23 ",
   backdrop: "#121010ba",
 confirmButtonColor: "#1ccc8a",
                         title: "Script Added !",
@@ -321,7 +321,7 @@ confirmButtonColor: "#1ccc8a",
                     }, 1500)
                 } else {
                     Swal.fire({
- background: "#1a1e23 ",
+  // background: "#1a1e23 ",
   backdrop: "#121010ba",
 confirmButtonColor: "#1ccc8a",
                         title: "Error !",

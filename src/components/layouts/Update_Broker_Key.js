@@ -115,7 +115,7 @@ const Update_Broker_Key = ({ closeModal, isVisible, Role }) => {
             const response = await UpdateBrokerData(req);
             if (response.Status) {
                 Swal.fire({
-                    background: "#1a1e23 ",
+                     // background: "#1a1e23 ",
                     backdrop: "#121010ba",
                     confirmButtonColor: "#1ccc8a",
                     title: 'Success!',
@@ -128,7 +128,7 @@ const Update_Broker_Key = ({ closeModal, isVisible, Role }) => {
                 });
             } else {
                 Swal.fire({
-                    background: "#1a1e23 ",
+                     // background: "#1a1e23 ",
                     backdrop: "#121010ba",
                     confirmButtonColor: "#1ccc8a",
                     title: 'Error!',
@@ -200,7 +200,7 @@ const Update_Broker_Key = ({ closeModal, isVisible, Role }) => {
                     setUpDateData({ data: response.Data });
 
                     Swal.fire({
-                        background: "#1a1e23 ",
+                         // background: "#1a1e23 ",
                         backdrop: "#121010ba",
                         confirmButtonColor: "#1ccc8a",
                         title: "Updated successfully!",
@@ -216,7 +216,7 @@ const Update_Broker_Key = ({ closeModal, isVisible, Role }) => {
                 else {
 
                     Swal.fire({
-                        background: "#1a1e23 ",
+                         // background: "#1a1e23 ",
                         backdrop: "#121010ba",
                         confirmButtonColor: "#1ccc8a",
                         title: "Error",
