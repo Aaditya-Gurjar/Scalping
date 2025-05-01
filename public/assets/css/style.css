@@ -7292,3 +7292,7 @@ background-color: #e7effd;
 {
 background-color: #0f131b;
 }
+body .coupon-modal .MuiBox-root
+{
+  padding: 20px !important;
+}
