@@ -173,7 +173,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
     const data = { Username: userName };
     await GetUserScripts(data)
       .then((response) => {
-
+        console.log("setAllScripts",response)
         if (response.Status) {
 
           setAllScripts({
@@ -829,6 +829,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
               data: { selectStrategyType: "Scalping", scriptType: allScripts },
             },
           });
+              
         } else {
           Swal.fire({
             title: "Warning",

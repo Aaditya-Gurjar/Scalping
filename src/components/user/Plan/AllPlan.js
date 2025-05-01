@@ -33,6 +33,7 @@ const style = {
   borderRadius: 2,
   boxShadow: 24,
   p: 4,
+  padding: 4,
 };
 
 const ServicesList = () => {
@@ -310,11 +311,12 @@ const adminPermission = localStorage.getItem("adminPermission");
       const planDetails = isCharting
         ? plansData?.data1[index]
         : plansData?.data[index];
-
+        console.log("planDetails", planDetails)
       const req1 = {
         Username: username,
         transactiontype: "Purchase",
-        money: price || planDetails.SOPPrice || planDetails.ChartPerMonth, // Use discounted price if available
+        money: price || planDetails.SOPPrice || planDetails.ChartPerMonth,
+        Activity : planDetails?.Planname // Use discounted price if available
       };
 
       console.log("Plandetailssss", planDetails)
