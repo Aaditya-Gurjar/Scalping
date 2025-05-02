@@ -121,7 +121,7 @@ const AddClient = () => {
       Loss: 0,
       RollOver: "",
       RolloverDay: "0",
-      RollOverExitTime: "00:00:00",
+      RolloverTime: "00:00:00",
       TargetExit: location?.state?.data?.TargetExit || false,
       WorkingDay: [],
       OrderType: "Market",
@@ -349,12 +349,12 @@ const AddClient = () => {
 
       if (
         values.ExitDay == "Delivery" &&
-        !values.RollOverExitTime &&
+        !values.RolloverTime &&
         values.Strategy == "Multi_Conditional" &&
         values.position_type == "Multiple" &&
         values.RollOver == true
       ) {
-        errors.RollOverExitTime = "Please Enter RollOver Exit Time";
+        errors.RolloverTime = "Please Enter RollOver Exit Time";
       }
       if (
         (values.TargetExit === undefined || values.TargetExit === null) &&
@@ -423,8 +423,8 @@ const AddClient = () => {
             values.Strategy == "Multi_Conditional"
             ? values.TStype
             : "",
-        Targetvalue: values.Targetvalue,
-        Slvalue: values.Slvalue,
+        Targetvalue: parseFloat(values.Targetvalue),
+        Slvalue: parseFloat(values.Slvalue),
         HoldExit:
           values.Strategy === "Multi Directional" ||
             values.Strategy === "One Directional" ||
@@ -448,7 +448,7 @@ const AddClient = () => {
             : Number(values.HigherRange),
         ETPattern: "",
         Timeframe: "",
-        Quantity: values.Quantity,
+        Quantity: parseFloat(values.Quantity),
         serendate: getEndData(values.Strategy),
         FixedSM:
           formik.values.Strategy == "Multi_Conditional"
@@ -505,17 +505,17 @@ const AddClient = () => {
           values.position_type == "Multiple" &&
             values.Strategy == "Multi_Conditional"
             ? Number(values.quantityvalue)
-            : 0,
+            : 1,
         targetselection:
           values.position_type == "Multiple" &&
             values.Strategy == "Multi_Conditional"
             ? values.Targetselection
-            : "",
+            : formik.values.Targetselection,
         RepeatationCount:
           values.position_type == "Multiple" &&
             values.Strategy == "Multi_Conditional"
             ? values.RepeatationCount
-            : 2,
+            : 1,
 
         Loss:
           values.position_type == "Multiple" &&
@@ -534,11 +534,11 @@ const AddClient = () => {
             ? values.RollOver
             : false,
         RolloverDay: values.RolloverDay || "0",
-        RollOverExitTime:
+        RolloverTime:
           values.position_type == "Multiple" &&
             values.Strategy == "Multi_Conditional" &&
             values.RollOver == true
-            ? values.RollOverExitTime
+            ? values.RolloverTime
             : "00:00:00",
         TargetExit:
           values.Strategy == "Multi Directional" ||
@@ -548,7 +548,7 @@ const AddClient = () => {
             ? values.TargetExit
             : false,
         WorkingDay: values?.WorkingDay?.map((item) => item?.value || item),
-        OrderType: values.OrderType,
+        OrderType: values.OrderType || "Pending",
 
         FinalTarget:
           formik.values.position_type == "Multiple" &&
@@ -796,11 +796,11 @@ const AddClient = () => {
     if (formik.values.Exchange !== "MCX") {
       formik.setFieldValue("ExitTime", "15:14:00");
       formik.setFieldValue("EntryTime", "09:15:00");
-      formik.setFieldValue("RollOverExitTime", "14:00:00");
+      formik.setFieldValue("RolloverTime", "14:00:00");
     } else if (formik.values.Exchange === "MCX") {
       formik.setFieldValue("ExitTime", "23:29:00");
       formik.setFieldValue("EntryTime", "09:00:00");
-      formik.setFieldValue("RollOverExitTime", "23:00:00");
+      formik.setFieldValue("RolloverTime", "23:00:00");
     }
   }, [formik.values.Exchange]);
 
@@ -882,8 +882,8 @@ const AddClient = () => {
     );
     formik.setFieldValue("RolloverDay", location?.state?.data?.RolloverDay || "0");
     formik.setFieldValue(
-      "RollOverExitTime",
-      location?.state?.data?.RolloverTime
+      "RolloverTime",
+      location?.state?.data?.RolloverTime 
     );
     formik.setFieldValue("OrderType", location?.state?.data?.OrderType);
     formik.setFieldValue("RolloverDay", location?.state?.data?.RolloverDay || "0");
@@ -1625,7 +1625,7 @@ const AddClient = () => {
     },
 
     {
-      name: "RollOverExitTime",
+      name: "RolloverTime",
       label: "RollOver Exit Time",
       type: "timepiker",
       label_size: 12,
@@ -1887,7 +1887,7 @@ const AddClient = () => {
         });
     }
   };
-
+console.log("formik.values.Targetselection", formik.values.Targetselection)
   useEffect(() => {
     getExpiry();
   }, [

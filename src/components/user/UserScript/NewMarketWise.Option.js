@@ -27,6 +27,7 @@ const AddClient = (Planname) => {
   const [exchangeOptions, setExchangeOptions] = useState([]);
   const [openModel, setOpenModel] = useState(false);
   const [optionRadioType, setOptionRadioType] = useState([]);
+  const getPlanname = localStorage.getItem("Planname");
 
   const [PnlData, setPnlData] = useState({
     MaximumProfit: "",
@@ -85,6 +86,7 @@ const AddClient = (Planname) => {
   };
 
   const OptionType_options = ["Bearish", "Bullish", "Neutral", "Volatile"]
+
 
   const formik = useFormik({
     initialValues: {
@@ -537,9 +539,7 @@ const AddClient = (Planname) => {
         WorkingDay: values?.WorkingDay
           ? values?.WorkingDay?.map((item) => item?.value || item)
           : [],
-        Planname: location?.state?.data?.scriptType?.data?.find(
-          (item) => item.EndDate == getEndData(formik.values.Strategy)
-        )?.Planname,
+        Planname: getPlanname
       };
 
 

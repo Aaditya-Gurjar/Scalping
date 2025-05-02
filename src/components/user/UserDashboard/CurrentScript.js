@@ -174,7 +174,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
     await GetUserScripts(data)
       .then((response) => {
         if (response.Status) {
-
+          localStorage.setItem("Planname", response.data[0].Planname || "");
           setAllScripts({
             data: response.data,
             len: response.data?.length - 1,
@@ -313,10 +313,10 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
                   setRefresh(!refresh);
                 },
               });
-              // setTimeout(() => {
-              //   sessionStorage.setItem("deletedStrategyType", data);
-              //   // window.location.reload();
-              // }, 1500);
+              setTimeout(() => {
+                sessionStorage.setItem("deletedStrategyType", data);
+                // window.location.reload();
+              }, 1500);
             } else {
               Swal.fire({
                 title: "Error !",

@@ -233,10 +233,10 @@ const AddClient = () => {
                 Instrument: values.Instrument,
                 Strike: values.Strike,
                 Optiontype: values.Instrument == "OPTIDX" || values.Instrument == "OPTSTK" ? values.Optiontype : "",
-                Targetvalue: values.Targetvalue,
-                Slvalue: values.Slvalue,
+                Targetvalue: parseFloat(values.Targetvalue),
+                Slvalue: parseFloat(values.Slvalue),
                 TStype: values.TStype,
-                Quantity: values.Quantity,
+                Quantity: parseFloat(values.Quantity),
                 LowerRange: 0.0,
                 HigherRange: 0.0,
                 HoldExit: '',
@@ -837,7 +837,6 @@ const AddClient = () => {
         },
     ];
 
-    console.log("patternOptionMarketWise", patternOptionMarketWise)
  const fetchPatternName = async () => {
     if(formik.values.Marketwise !== "All"){
         const res = await getPattenNameByMarketWise(formik.values.Marketwise);

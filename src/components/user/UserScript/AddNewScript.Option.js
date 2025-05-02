@@ -144,7 +144,7 @@ const AddClient = () => {
       targetselection: "",
       Profit: "0",
       Loss: "0",
-      ExitType: "",
+      ExitRuleO: "",
       WorkingDay: [],
       Planname: "",
     },
@@ -436,11 +436,11 @@ const AddClient = () => {
 
 
       if (
-        !values.ExitType &&
+        !values.ExitRuleO &&
         values.Measurment_Type != "Shifting_FourLeg" &&
         values.ETPattern == "Leg vice"
       ) {
-        errors.ExitType = "Please Select Exit Type";
+        errors.ExitRuleO = "Please Select Exit Type";
       }
 
       if (!values.WorkingDay?.length > 0) {
@@ -481,11 +481,11 @@ const AddClient = () => {
           values.Measurment_Type == "Shifting_FourLeg" &&
             (values.Strategy == "ShortShifting" ||
               values.Strategy == "LongShifting")
-            ? values.Shifting_Point
-            : values.Targetvalue,
-        Slvalue: values.Slvalue,
+            ? parseFloat(values.Shifting_Point)
+            : parseFloat(values.Targetvalue),
+        Slvalue: parseFloat(values.Slvalue),
         TStype: values.TStype,
-        Quantity: values.Quantity,
+        Quantity: parseFloat(values.Quantity),
         LowerRange:
           values.Striketype == "Premium_Range" &&
             values.Measurment_Type != "Shifting_FourLeg"
@@ -562,7 +562,7 @@ const AddClient = () => {
         ExitRuleO:
           values.Measurment_Type != "Shifting_FourLeg" &&
             values.ETPattern == "Leg vice"
-            ? values.ExitType
+            ? values.ExitRuleO
             : "",
         WorkingDay: values?.WorkingDay
           ? values?.WorkingDay?.map((item) => item?.value || item)
@@ -746,7 +746,7 @@ const AddClient = () => {
     formik.setFieldValue("Shifting_Point", 100);
     formik.setFieldValue("Shifting_Value", 1);
     formik.setFieldValue("Trade_Count", 1);
-    formik.setFieldValue("ExitType", "Normal");
+    formik.setFieldValue("ExitRuleO", "Normal");
 
 
   }, []);
@@ -1110,7 +1110,7 @@ const AddClient = () => {
     },
 
     {
-      name: "ExitType",
+      name: "ExitRuleO",
       label: "Exit Type",
       type: "select1",
       options: [
@@ -1642,7 +1642,7 @@ const AddClient = () => {
       Strike: "",
       Optiontype: "",
       Targetvalue: formik.values.Targetvalue,
-      Slvalue: formik.values.Slvalue,
+      Slvalue: parseFloat(formik.values.Slvalue),
       TStype: formik.values.TStype,
       Quantity: formik.values.Quantity,
       LowerRange:

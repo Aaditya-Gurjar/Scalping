@@ -13,6 +13,7 @@ const AddClient = () => {
   const location = useLocation();
 
   const userName = localStorage.getItem("name");
+  const getPlanname = localStorage.getItem("Planname");
   const navigate = useNavigate();
   const [getExpiry, setExpiry] = useState({ loading: true, data: [] });
   const [openModel, setOpenModel] = useState(false);
@@ -119,7 +120,7 @@ const AddClient = () => {
       Shifting_Point: 1,
       Profit: "0",
       Loss: "0",
-      ExitType: "",
+      ExitRuleO: "",
       WorkingDay: [],
     },
     validate: (values) => {
@@ -422,16 +423,16 @@ const AddClient = () => {
       // if (!values.WorkingDay?.length > 0) {
       //   errors.WorkingDay = "Please select Working day";
       // }
-      if (!values.WorkingDay || values.WorkingDay.length === 0) {
+      if ( values.WorkingDay?.length === 0) {
         errors.WorkingDay = "Please select Working day";
       }
 
       if (
-        !values.ExitType &&
+        !values.ExitRuleO &&
         values.Measurment_Type != "Shifting_FourLeg" &&
         values.ETPattern == "Leg vice"
       ) {
-        errors.ExitType = "Please Select Exit Type";
+        errors.ExitRuleO = "Please Select Exit Type";
       }
 
       // ScrollToViewFirstError(errors);
@@ -476,6 +477,14 @@ const AddClient = () => {
             ? values.Higher_Range
             : 0,
         HoldExit: "",
+        quantity2: 0.0,
+        quantity3: 0.0,
+        quantityselection: "",
+        quantityvalue: 0.0,
+        stepup: 0.0,
+        targetselection: "",
+        tgp2: 0.0,
+        tgp3: 0.0,
         EntryPrice: 0.0,
         EntryRange: 0.0,
         EntryTime: values.EntryTime,
@@ -571,11 +580,9 @@ const AddClient = () => {
           ? values?.WorkingDay?.map((item) => item?.value || item)
           : [],
 
-          Planname: location?.state?.data?.scriptType?.data?.find(
-            (item) => item.EndDate == getEndData(formik.values.Measurment_Type)
-          )?.Planname,
-      };
+          Planname : getPlanname || "",
 
+      };
 
       if (
         values.Striketype == "Depth_of_Strike" &&
@@ -794,6 +801,7 @@ const AddClient = () => {
       quantityselection: "",
       quantityvalue: 0.0,
       targetselection: "",
+      ExitRuleO : formik.values.ExitRuleO || "",
     };
 
     await CheckPnL(req)
@@ -908,7 +916,7 @@ const AddClient = () => {
     formik.setFieldValue("Profit", location.state.data.Profit || 0);
     formik.setFieldValue("Loss", location.state.data.Loss || 0);
     formik.setFieldValue("WorkingDay", workingDay);
-    formik.setFieldValue("ExitType", "Normal");
+    formik.setFieldValue("ExitRuleO", location.state.data.ExitRuleO || "");
   }, []);
 
   const SymbolSelectionArr = [
@@ -1223,76 +1231,10 @@ const AddClient = () => {
       showWhen: (value) => value.Measurment_Type != "Shifting_FourLeg",
       hiding: false,
       label_size: 12,
-      col_size: 4,
+      col_size: 3,
       headingtype: 3,
       disable: false,
     },
-
-    {
-      name: "ExitType",
-      label: "Exit Type",
-      type: "select1",
-      options: [
-        { label: "Normal", value: "Normal" },
-        { label: "Cost to Cost", value: "Cost to Cost" },
-      ],
-      showWhen: (value) =>
-        value.Measurment_Type != "Shifting_FourLeg" &&
-        value.ETPattern == "Leg vice",
-      hiding: false,
-      label_size: 12,
-      col_size: formik.values.Measurment_Type != "Shifting_FourLeg" ? 3 : 4,
-      headingtype: 3,
-      disable: false,
-    },
-
-    {
-      name: "Targetvalue",
-      label: "Target Value",
-      type: "text3",
-      hiding: false,
-      label_size: 12,
-      showWhen: (value) =>
-        value.Measurment_Type != "Shifting_FourLeg" ||
-        (value.Measurment_Type == "Shifting_FourLeg" &&
-          (value.Strategy == "ShortFourLegStretegy" ||
-            value.Strategy == "LongFourLegStretegy")),
-      headingtype: 3,
-      col_size: 4,
-      disable: false,
-    },
-    {
-      name: "Slvalue",
-      label: "StopLoss Value",
-      type: "text3",
-      hiding: false,
-      label_size: 12,
-      showWhen: (value) =>
-        value.Measurment_Type != "Shifting_FourLeg" ||
-        (value.Measurment_Type == "Shifting_FourLeg" &&
-          (value.Strategy == "ShortFourLegStretegy" ||
-            value.Strategy == "LongFourLegStretegy")),
-      col_size: 4,
-      headingtype: 3,
-      disable: false,
-    },
-    {
-      name: "Shifting_Value",
-      label: "Number of Shifts",
-      type: "text3",
-      showWhen: (value) =>
-        value.Measurment_Type == "Shifting_FourLeg" &&
-        value.Strategy != "ShortFourLegStretegy" &&
-        value.Strategy != "LongFourLegStretegy",
-      hiding: false,
-      label_size: 12,
-      col_size: 4,
-      headingtype: 3,
-      disable: false,
-    },
-  ];
-
-  const RiskManagementArr = [
     {
       name: "TStype",
       label: "Measurement Type",
@@ -1311,10 +1253,76 @@ const AddClient = () => {
         (value.Measurment_Type == "Shifting_FourLeg" &&
           (value.Strategy == "ShortFourLegStretegy" ||
             value.Strategy == "LongFourLegStretegy")),
-      col_size: 4,
+      col_size: 3,
       headingtype: 4,
       disable: false,
     },
+    {
+      name: "ExitRuleO",
+      label: "Exit Type",
+      type: "select1",
+      options: [
+        { label: "Normal", value: "Normal" },
+        { label: "Cost to Cost", value: "Cost to Cost" },
+      ],
+      showWhen: (value) =>
+        value.Measurment_Type != "Shifting_FourLeg" &&
+        value.ETPattern == "Leg vice",
+      hiding: false,
+      label_size: 12,
+      col_size: formik.values.Measurment_Type != "Shifting_FourLeg" ? 3 : 3,
+      headingtype: 3,
+      disable: false,
+    },
+
+    {
+      name: "Targetvalue",
+      label: "Target Value",
+      type: "text3",
+      hiding: false,
+      label_size: 12,
+      showWhen: (value) =>
+        value.Measurment_Type != "Shifting_FourLeg" ||
+        (value.Measurment_Type == "Shifting_FourLeg" &&
+          (value.Strategy == "ShortFourLegStretegy" ||
+            value.Strategy == "LongFourLegStretegy")),
+      headingtype: 3,
+      col_size: 3,
+      disable: false,
+    },
+    {
+      name: "Slvalue",
+      label: "StopLoss Value",
+      type: "text3",
+      hiding: false,
+      label_size: 12,
+      showWhen: (value) =>
+        value.Measurment_Type != "Shifting_FourLeg" ||
+        (value.Measurment_Type == "Shifting_FourLeg" &&
+          (value.Strategy == "ShortFourLegStretegy" ||
+            value.Strategy == "LongFourLegStretegy")),
+      col_size: 3,
+      headingtype: 3,
+      disable: false,
+    },
+    {
+      name: "Shifting_Value",
+      label: "Number of Shifts",
+      type: "text3",
+      showWhen: (value) =>
+        value.Measurment_Type == "Shifting_FourLeg" &&
+        value.Strategy != "ShortFourLegStretegy" &&
+        value.Strategy != "LongFourLegStretegy",
+      hiding: false,
+      label_size: 12,
+      col_size: 3,
+      headingtype: 3,
+      disable: false,
+    },
+  ];
+
+  const RiskManagementArr = [
+  
     {
       name: "Quantity",
       label: "Lot",
@@ -1676,6 +1684,8 @@ const AddClient = () => {
     formik.values.Striketype,
     formik.values.Measurment_Type,
   ]);
+
+  console.log("location.state.data Copy Option", location.state.data);
 
   useEffect(() => {
     const temp =

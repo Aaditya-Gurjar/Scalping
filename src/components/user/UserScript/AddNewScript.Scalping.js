@@ -147,7 +147,7 @@ const AddClient = () => {
       Loss: 0,
       RollOver: false,
       NumberOfDays: "0",
-      RollOverExitTime: "00:00:00",
+      RolloverTime: "00:00:00",
       TargetExit: false,
       WorkingDay: [],
       OrderType: "Pending",
@@ -380,12 +380,12 @@ const AddClient = () => {
       }
 
       if (
-        !values.RollOverExitTime &&
+        !values.RolloverTime &&
         values.Strategy == "Multi_Conditional" &&
         values.FixedSM == "Multiple" &&
         values.RollOver == true
       ) {
-        errors.RollOverExitTime = "Please Enter RollOver Exit Time";
+        errors.RolloverTime = "Please Enter RollOver Exit Time";
       }
 
       if (!values.WorkingDay?.length > 0) {
@@ -571,7 +571,7 @@ const AddClient = () => {
             values.FixedSM == "Multiple" &&
             values.Strategy == "Multi_Conditional" &&
             values.RollOver == "true"
-              ? values.RollOverExitTime
+              ? values.RolloverTime
               : "00:00:00",
           TargetExit:
             values.Strategy == "Multi Directional" ||
@@ -1490,7 +1490,7 @@ const AddClient = () => {
     },
 
     {
-      name: "RollOverExitTime",
+      name: "RolloverTime",
       label: "RollOver Exit Time",
       type: "timepiker",
       label_size: 12,
@@ -1841,11 +1841,11 @@ const AddClient = () => {
     if (formik.values.Exchange !== "MCX") {
       formik.setFieldValue("ExitTime", "15:14:00");
       formik.setFieldValue("EntryTime", "09:15:00");
-      formik.setFieldValue("RollOverExitTime", "14:00:00");
+      formik.setFieldValue("RolloverTime", "14:00:00");
     } else if (formik.values.Exchange === "MCX") {
       formik.setFieldValue("ExitTime", "23:25:00");
       formik.setFieldValue("EntryTime", "09:00:00");
-      formik.setFieldValue("RollOverExitTime", "23:00:00");
+      formik.setFieldValue("RolloverTime", "23:00:00");
 
     }
   }, [formik.values.Exchange]);
