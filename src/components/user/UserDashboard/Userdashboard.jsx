@@ -711,12 +711,18 @@ const Userdashboard = () => {
   ];
 
   useEffect(() => {
-    if (subTab === "Scalping") {
-      setTableType(StrategyType || "MultiCondition");
-    } else {
-      setTableType(StrategyType || "Scalping");
+    if (botView === "Create New Bot") {
+      setSubTab("Scalping");
+      setGroup("");
+      sessionStorage.setItem("StrategyType", "Scalping");
+      sessionStorage.removeItem("groupName");
+    } else if (botView === "Suggested Bots") {
+      setGroup("demo");
+      setSubTab("");
+      sessionStorage.setItem("groupName", "demo");
+      sessionStorage.removeItem("StrategyType");
     }
-  }, [subTab]);
+  }, [botView]);
 
   return (
     <Content
