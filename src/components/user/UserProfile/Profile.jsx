@@ -40,7 +40,6 @@ const ProfilePage = () => {
     try {
       const data = { Username: username };
       const res = await reGenerateKeyApi(data);
-      console.log("Response from reGenerateKeyApi:", res);
 
       if (res.Status) {
         Swal.fire({

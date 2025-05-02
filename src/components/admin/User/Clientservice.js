@@ -147,7 +147,6 @@ const Clientservice = () => {
         const response = await GETBrokerGroupRecord(username);
 
         if (response?.Status) {
-            console.log("API Success:", response.Data);
             setBrokerRecordData(response.Data);
             setShowBrokerModal(true);
             // Aap yahan modal open kar sakte hain ya state update kar sakte hain

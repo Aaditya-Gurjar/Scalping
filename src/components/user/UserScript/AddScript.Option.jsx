@@ -69,6 +69,8 @@ const AddClient = () => {
     return foundItem.EndDate;
   };
 
+
+ 
   const formik = useFormik({
     initialValues: {
       MainStrategy: location.state?.data?.selectStrategyType,
@@ -568,6 +570,10 @@ const AddClient = () => {
         WorkingDay: values.WorkingDay
           ? values?.WorkingDay?.map((item) => item?.value || item)
           : [],
+
+          Planname: location?.state?.data?.scriptType?.data?.find(
+            (item) => item.EndDate == getEndData(formik.values.Measurment_Type)
+          )?.Planname,
       };
 
 
@@ -671,6 +677,10 @@ const AddClient = () => {
   }, [formik.submitCount]); 
   
 
+  const value=  location?.state?.data 
+
+  console.log("value", value)
+
   const handleCheckPnl = async () => {
     // const weekend = new Date().getDay();
     // const currentDate = new Date();
@@ -698,9 +708,7 @@ const AddClient = () => {
 
     const totalMinutes = hours * 60 + minutes; // e.g., 14 * 60 + 30 = 870
 
-    console.log("Current time (HH:MM):", `${hours}:${minutes}`);
-    console.log("totalMinutes:", totalMinutes);
-
+    
     // Market hours: 9:15 AM to 3:30 PM => 555 to 930 in total minutes
     if (weekend === 6 || weekend === 0 || totalMinutes < 555 || totalMinutes > 930) {
       return SweentAlertFun("Market is off Today");

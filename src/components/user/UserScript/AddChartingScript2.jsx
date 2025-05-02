@@ -55,12 +55,10 @@ const AddChartingScript2 = () => {
     };
     try {
       const response = await getUserChartingScripts(req);
-      console.log("response", response)
       if (response?.Status) {
         let filteredData = response.Client;
         if (strategy !== "All") {
           filteredData = filteredData.filter(item => item.StrategyTag === strategy);
-          console.log("Filtered data based on strategy:", filteredData);
         }
         setGetCharting(filteredData);
       } else {
@@ -76,13 +74,11 @@ const AddChartingScript2 = () => {
 
   const handleChange = (selectedOption) => {
     setStrategy(selectedOption.value);
-    console.log("Selected strategy:", selectedOption.value);
   };
 
   const fetchStrategyTags = async () => {
     try {
       const response = await getStrategyTagApi(Username);
-      console.log("response", response)
       setStrategyTagOptions(response?.StrategyTag || []);
     }
     catch (error) {

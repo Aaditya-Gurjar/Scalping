@@ -637,7 +637,6 @@ const AddClient = (Planname) => {
     },
   });
 
-  console.log("formik.values.Strategy", formik.values.Strategy);
   useEffect(() => {
     axios
       .get(`${Config.base_url}OptionExchange`)

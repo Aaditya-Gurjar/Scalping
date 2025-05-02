@@ -97,12 +97,7 @@ const TradeResponse = () => {
     if (selectStrategyType == "ChartingPlatform") getChartingData();
   }, [selectStrategyType]);
 
-  useEffect(() => {
-    if (location?.state?.tableMeta) {
-        console.log("Received tableMeta:", location.state.tableMeta); // Log tableMeta
-    }
-}, [location?.state?.tableMeta]);
-
+  
 
   const getChartingScript = async () => {
     const filterData = getChartingSegments.filter(

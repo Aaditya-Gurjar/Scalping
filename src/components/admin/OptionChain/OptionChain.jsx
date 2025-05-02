@@ -393,7 +393,6 @@ const OptionChainForm = () => {
       <Formik
         initialValues={formValues}
         onSubmit={values => {
-          console.log(values);
         }}
       >
         {({ values, setFieldValue }) => (

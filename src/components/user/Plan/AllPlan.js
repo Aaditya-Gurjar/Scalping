@@ -75,9 +75,7 @@ const adminPermission = localStorage.getItem("adminPermission");
         ? getUpdatedPlansCharting[selectedPlan.index]
         : getUpdatedPlans[selectedPlan.index]; // Use getUpdatedPlans or getUpdatedPlansCharting
 
-      console.log("Selected Plan Details:", planDetails);
-      console.log("Coupon Code Entered:", couponCode);
-
+      
       const req = {
         User: username,
         Planname: planDetails.Planname || planDetails.PlanName, // Ensure correct plan name is passed
@@ -85,7 +83,6 @@ const adminPermission = localStorage.getItem("adminPermission");
       };
 
       const res = await applyCouponCode(req);
-      console.log("Coupon Verification Response:", res);
 
       if (res.Status) {
         const actualPrice = planDetails.SOPPrice || planDetails.ChartPerMonth;
@@ -311,7 +308,6 @@ const adminPermission = localStorage.getItem("adminPermission");
       const planDetails = isCharting
         ? plansData?.data1[index]
         : plansData?.data[index];
-        console.log("planDetails", planDetails)
       const req1 = {
         Username: username,
         transactiontype: "Purchase",
@@ -319,7 +315,6 @@ const adminPermission = localStorage.getItem("adminPermission");
         Activity : planDetails?.Planname // Use discounted price if available
       };
 
-      console.log("Plandetailssss", planDetails)
 
       const CheckBalanceResponse = await AddBalance(req1);
       if (CheckBalanceResponse.Status) {
@@ -668,17 +663,19 @@ const adminPermission = localStorage.getItem("adminPermission");
         onClose={handleClose}
         aria-labelledby="coupon-modal-title"
         aria-describedby="coupon-modal-description"
+        className="coupon-modal"
       >
+        
         <Box sx={style}>
           {/* Close Button */}
           <Button
             onClick={handleClose}
             sx={{
               position: "absolute",
-              top: 8,
+              top:5,
               right: 8,
               minWidth: "auto",
-              padding: 2,
+              padding: 1,
               color: "#000",
               backgroundColor: "transparent",
               "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.1)" },

@@ -321,7 +321,7 @@
 //                         <strong>Reward (Max Profit):</strong>{" "}
 //                         {description[0]["Reward (Max Profit)"]}
 //                       </p>
-//                       <div className="nested-info">
+//                       <div className="nested-info ms-0">
 //                         <p>
 //                           <strong>Breakeven Points:</strong>
 //                         </p>
@@ -334,7 +334,7 @@
 //                           {description[0]["Breakeven Points"]?.["Lower BE"]}
 //                         </p>
 //                       </div>
-//                       <div className="nested-info">
+//                       <div className="nested-info ms-0">
 //                         <p>
 //                           <strong>Max Profit When :</strong>
 //                         </p>
@@ -624,13 +624,19 @@ const DescriptionPage = () => {
 
   return (
     <div className="desc-page-wrapper card-bg-color">
-      <div className="desc-container card-bg-color">
+      <div className=" card-bg-color">
         {/* Tab Navigation */}
-        <ul className="nav nav-pills shadow rounded-pill p-1">
+        <ul className="nav nav-pills shadow rounded-pill p-1 w-50 mx-auto">
           {TABS.map((tab) => (
             <li className="nav-item" key={tab}>
-              <button
-                className={`nav-link rounded-pill ${activeTab === tab ? "active" : ""}`}
+              <button style={{
+                                                    padding: "10px 20px",
+                                                    margin: "5px",
+                                                    border: "none",
+                                                    outline: "none",
+                                                }}
+                className={`nav-link rounded-pill ${activeTab === tab ? "active" : ""}`
+              }
                 onClick={() => handleTabChange(tab)}
               >
                 {tab}
@@ -639,7 +645,7 @@ const DescriptionPage = () => {
           ))}
         </ul>
 
-        <div className="desc-tab-content card-bg-color">
+        <div className="mt-3 card-bg-color">
           {/* Scalping Tab Content */}
           {activeTab === "Scalping" && (
             <div className="scalping-content">
@@ -660,11 +666,11 @@ const DescriptionPage = () => {
                 <div className="desc-card card-bg-color">
                   <p className="desc-text">
                     <strong>Position Type:</strong>{" "}
-                    {description?.[0]?.PositionType}
+                    <span style={{fontSize:'14px'}}>{description?.[0]?.PositionType}</span> 
                   </p>
-                  <p className="desc-text">
+                  <p className="desc-text" >
                     <strong>Description:</strong>{" "}
-                    {description?.[0]?.Description}
+                    <span style={{fontSize:'14px'}}>{description?.[0]?.Description}</span>
                   </p>
                 </div>
               </div>
@@ -725,52 +731,52 @@ const DescriptionPage = () => {
                     <div className="option-info">
                       <p>
                         <strong>Strategy Name:</strong>{" "}
-                        {description[0]["Strategy Name"]}
+                        <span style={{fontSize:'14px'}}> {description[0]["Strategy Name"]}</span>
                       </p>
                       <p>
                         <strong>Market Outlook:</strong>{" "}
-                        {description[0]["View (Market Outlook)"]}
+                        <span style={{fontSize:'14px'}}>{description[0]["View (Market Outlook)"]}</span> 
                       </p>
                       <p>
-                        <strong>Strategy:</strong> {description[0]["Strategy"]}
+                        <strong>Strategy:</strong> <span style={{fontSize:'14px'}}> {description[0]["Strategy"]}</span> 
                       </p>
                       <p>
                         <strong>Risk (Max Loss):</strong>{" "}
-                        {description[0]["Risk (Max Loss)"]}
+                        <span style={{fontSize:'14px'}}> {description[0]["Risk (Max Loss)"]}</span>
                       </p>
                       <p>
                         <strong>Reward (Max Profit):</strong>{" "}
-                        {description[0]["Reward (Max Profit)"]}
+                        <span style={{fontSize:'14px'}}> {description[0]["Reward (Max Profit)"]}</span>
                       </p>
-                      <div className="nested-info">
+                      <div className="nested-info ms-0">
                         <p>
                           <strong>Breakeven Points:</strong>
                         </p>
                         <p>
                           <strong>Upper BE:</strong>{" "}
-                          {description[0]["Breakeven Points"]?.["Upper BE"]}
+                          <span style={{fontSize:'14px'}}>{description[0]["Breakeven Points"]?.["Upper BE"]}</span> 
                         </p>
                         <p>
                           <strong>Lower BE:</strong>{" "}
-                          {description[0]["Breakeven Points"]?.["Lower BE"]}
+                          <span style={{fontSize:'14px'}}>{description[0]["Breakeven Points"]?.["Lower BE"]}</span>
                         </p>
                       </div>
-                      <div className="nested-info">
+                      <div className="nested-info ms-0">
                         <p>
                           <strong>Max Profit When :</strong>
                         </p>
                         <p>
                           <strong>Upward:</strong>{" "}
-                          {description[0]["Max Profit When?"]?.["Upward"]}
+                          <span style={{fontSize:'14px'}}>{description[0]["Max Profit When?"]?.["Upward"]}</span>
                         </p>
                         <p>
                           <strong>Downward:</strong>{" "}
-                          {description[0]["Max Profit When?"]?.["Downward"]}
+                          <span style={{fontSize:'14px'}}>{description[0]["Max Profit When?"]?.["Downward"]}</span>
                         </p>
                       </div>
                       <p>
                         <strong>Max Loss When :</strong>{" "}
-                        {description[0]["Max Loss When?"]}
+                        <span style={{fontSize:'14px'}}> {description[0]["Max Loss When?"]}</span>
                       </p>
                     </div>
                   </div>

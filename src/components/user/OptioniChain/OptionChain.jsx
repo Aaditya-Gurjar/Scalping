@@ -55,7 +55,6 @@ const OptionChainForm = () => {
               .map(item => item.Planname)
           ),
         ];
-        console.log("uniquePlanNames", uniquePlanNames);
         setPlanNames(uniquePlanNames);
       }
       else {
@@ -284,7 +283,6 @@ const OptionChainForm = () => {
       let data = qs.stringify(req);
   
       const res = await TradeExecutionAPI(data);
-      console.log("Trade Execution Response:", res);
 
       // Show success toast with API response
       toast.success(res.message)

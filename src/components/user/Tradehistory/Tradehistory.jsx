@@ -268,7 +268,6 @@ const Tradehistory = () => {
     }
   };
 
-  console.log("selectedRowData", selectedRowData);
   const getChartingSegmentData = async () => {
     try {
       const req = {
@@ -471,7 +470,6 @@ const Tradehistory = () => {
     autoSubmitIfNeeded();
   }, [selectedRowData, location?.state?.goto]);
 
-console.log("AnalyticsOverview", AnalyticsOverview);
   return (
     <Content
       Page_title={"📊 Trade History "}

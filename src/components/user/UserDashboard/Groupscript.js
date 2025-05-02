@@ -321,7 +321,6 @@ const GroupScript = ({ data, selectedType, GroupName, data2, getGroup }) => {
     const [selectGroup, setSelectGroup] = useState('');
     const [allScripts, setAllScripts] = useState({ data: [], len: 0 })
     const [getAllService, setAllservice] = useState({ loading: true, data: [], data1: [] });
-    console.log("getAllService-", getAllService)
 
     useEffect(() => {
         GetUserAllScripts()
@@ -352,7 +351,6 @@ const GroupScript = ({ data, selectedType, GroupName, data2, getGroup }) => {
     const GetAllUserScriptDetails = async () => {
         const stgType = localStorage.getItem("groupTab"); // moved inside to get fresh value
         const data = { Strategy: stgType, Group: GroupName };
-        console.log("sneh data---", data)
     
         const response = await GetAllGroupService(data);
     
@@ -375,7 +373,6 @@ const GroupScript = ({ data, selectedType, GroupName, data2, getGroup }) => {
                 data1: filterMulticondtion,
             });
         } else {
-            console.log("response?.Data---", response?.Data)
             setAllservice({
                 loading: false,
                 data: response?.Data || [],

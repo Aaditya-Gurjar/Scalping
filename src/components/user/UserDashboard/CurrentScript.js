@@ -173,7 +173,6 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
     const data = { Username: userName };
     await GetUserScripts(data)
       .then((response) => {
-        console.log("setAllScripts",response)
         if (response.Status) {
 
           setAllScripts({
@@ -2755,7 +2754,6 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       formik2.setFieldValue("Loss", EditDataPattern.Loss || 0);
     }
   }, [showEditModal, data, EditDataPattern]);
-  console.log("EditDataPattern", EditDataPattern)
 
   const updatedFields = fields.filter((item) => {
     return item.hiding == false
