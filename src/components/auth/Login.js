@@ -35,7 +35,7 @@ const Login = () => {
                         backdrop: "#121010ba",
                         confirmButtonColor: "#1ccc8a",
                         title: "Login!",
-                        text: "User Login  successfully!",
+                        text: "User Login successfully!",
                         icon: "success",
                         timer: 1500,
                         timerProgressBar: true

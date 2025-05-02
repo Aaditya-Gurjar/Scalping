@@ -61,7 +61,6 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
   const stg = sessionStorage.getItem("StrategyType");
 
-  console.log("allScripts2", allScripts2)
 
 
   const [getAllService, setAllservice] = useState({
@@ -136,7 +135,6 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
 
   const showLivePrice = async () => {
-    console.log("Channel List", channelList)
     connectWebSocket(channelList, (data) => {
       if (data.lp && data.tk) {
         $(".LivePrice_" + data.tk).html(data.lp);
@@ -195,7 +193,6 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
 
   const GetChartingAllotStg = async () => {
-    console.log("GetChartingAllotStg")
     const data = { Username: userName };
     await chartAllotStrategyApi(data)
       .then((response) => {
@@ -1173,7 +1170,6 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
         errors.FinalTarget = "Please Enter Final Target Price";
       }
 
-      console.log("errors", errors)
 
       return errors;
     },
