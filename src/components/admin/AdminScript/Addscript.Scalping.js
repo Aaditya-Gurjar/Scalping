@@ -700,7 +700,6 @@ const AddClient = () => {
   ]
 
   const ExitRuleArr = [
-
     {
       name: "TStype",
       label: "Measurement Type",
@@ -709,25 +708,35 @@ const AddClient = () => {
         { label: "Percentage", value: "Percentage" },
         { label: "Point", value: "Point" },
       ],
-      showWhen: (values) => values.Strategy == "One Directional" || values.Strategy == "Multi Directional" || (values.Strategy == "Multi_Conditional"),
+      showWhen: (values) =>
+        values.Strategy === "One Directional" ||
+        values.Strategy === "Multi Directional" ||
+        values.Strategy === "Multi_Conditional",
       label_size: 12,
       headingtype: 4,
-      col_size: 6,
+      col_size: formik.values.position_type === "Multiple" ? 3 : 6, // ✅ Correct dynamic sizing
       hiding: false,
       disable: false,
       iconText: text.measurementType,
     },
-
     {
       name: "Slvalue",
-      label: formik.values.Strategy == "Fixed Price" ? "Stoploss" : formik.values.position_type == "Single" && formik.values.Strategy == "Multi_Conditional" ? "Stoploss" : "Re-Entry",
+      label:
+        formik.values.Strategy === "Fixed Price"
+          ? "Stoploss"
+          : formik.values.position_type === "Single" &&
+            formik.values.Strategy === "Multi_Conditional"
+          ? "Stoploss"
+          : "Re-Entry",
       type: "text3",
       label_size: 12,
-      col_size: 6,
+      col_size: formik.values.position_type === "Multiple" ? 3 : 6, // ✅ Same dynamic sizing
       headingtype: 3,
       disable: false,
       hiding: false,
     },
+    
+    
 
     {
       name: "Targetselection",

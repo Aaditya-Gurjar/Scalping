@@ -268,18 +268,34 @@ const AddClient = () => {
 
 
 
+    // useEffect(() => {
+    //     formik.setFieldValue('Strategy', "CandlestickPattern")
+    //     formik.setFieldValue('Exchange', "NFO")
+    //     formik.setFieldValue('Instrument', "OPTFUT")
+    //     formik.setFieldValue('Timeframe', "1M")
+    //     formik.setFieldValue('EntryTime', "09:15:00")
+    //     formik.setFieldValue('ExitTime', "15:25:00")
+    //     formik.setFieldValue('Optiontype', "CE")
+    //     formik.setFieldValue('TStype', "Point")
+    //     formik.setFieldValue('ExitDay', "Intraday")
+    //     formik.setFieldValue('TType', "BUY")
+    // }, [])
+
     useEffect(() => {
-        formik.setFieldValue('Strategy', "CandlestickPattern")
-        formik.setFieldValue('Exchange', "NFO")
-        formik.setFieldValue('Instrument', "OPTFUT")
-        formik.setFieldValue('Timeframe', "1M")
-        formik.setFieldValue('EntryTime', "09:15:00")
-        formik.setFieldValue('ExitTime', "15:25:00")
-        formik.setFieldValue('Optiontype', "CE")
-        formik.setFieldValue('TStype', "Point")
-        formik.setFieldValue('ExitDay', "Intraday")
-        formik.setFieldValue('TType', "BUY")
-    }, [])
+        // console.log("selectStrategyType:", location.state?.data?.selectStrategyType);
+        formik.setFieldValue('Strategy', "CandlestickPattern");
+        formik.setFieldValue('Exchange', "NFO");
+        const isPatternScript = location.state?.data?.selectStrategyType === "Pattern";
+        formik.setFieldValue('Instrument', isPatternScript ? "FUTIDX" : "OPTFUT");
+        formik.setFieldValue('Timeframe', "1M");
+        formik.setFieldValue('EntryTime', "09:15:00");
+        formik.setFieldValue('ExitTime', "15:25:00");
+        formik.setFieldValue('Optiontype', "CE");
+        formik.setFieldValue('TStype', "Point");
+        formik.setFieldValue('ExitDay', "Intraday");
+        formik.setFieldValue('TType', "BUY");
+        // console.log("Instrument set to:", isPatternScript ? "FUTIDX" : "OPTFUT");
+    }, []);
 
     const get_Exchange = async () => {
         await GetExchange()

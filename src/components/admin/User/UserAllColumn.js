@@ -109,7 +109,13 @@ export const ClientActivityPage = () => [
         options: {
             filter: true,
             sort: true,
-            customBodyRender: (value) => value ? value : "-"
+            customBodyRender: (value) => {
+                if (Array.isArray(value)) {
+                    const filtered = value.filter(item => item); // remove empty strings
+                    return filtered.length > 0 ? filtered.join(", ") : "-";
+                }
+                return value ? value : "-";
+            }            
         }
     },
     {
