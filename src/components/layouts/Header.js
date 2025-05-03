@@ -4,7 +4,7 @@ import UpdateBrokerKey from "./Update_Broker_Key";
 import Loginwihapi from "./log_with_api";
 import * as Config from "../../Utils/Config";
 import axios from "axios";
-import { TradingStatus } from "../CommonAPI/User";
+import { reGenerateKeyApi, TradingStatus } from "../CommonAPI/User";
 import Swal from "sweetalert2";
 import { IndianRupee, Eye, Wallet } from "lucide-react";
 import {
@@ -529,6 +529,34 @@ const Header = () => {
     });
   };
 
+  const regenerateKey = async () => {
+    try {
+      const data = { Username: Username };
+      const res = await reGenerateKeyApi(data);
+
+      if (res.Status) {
+        Swal.fire({
+          icon: "success",
+          title: "Pin Regenerated Successfully",
+          text: "The new pin has been sent to your registered email.",
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Failed to regenerate the pin. Please try again.",
+        });
+      }
+    } catch (error) {
+      console.error("Error regenerating key:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "An unexpected error occurred. Please try again later.",
+      });
+    }
+  };
+
 
 
   useEffect(() => {
@@ -599,6 +627,14 @@ const Header = () => {
                           onClick={(e) => navigate("/admin/transectionrequest")}
                         >
                           💵 Transaction Requests
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          className="dropdown-item"
+                          onClick={(e) => regenerateKey()}
+                        >
+                          🔁 Re-Generate Key
                         </button>
                       </li>
                     </ul>
