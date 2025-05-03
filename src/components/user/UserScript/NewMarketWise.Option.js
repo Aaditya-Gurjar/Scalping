@@ -66,7 +66,6 @@ const AddClient = (Planname) => {
     return foundItem.EndDate;
   };
 
-
   const ScrollToViewFirstError = (newErrors) => {
     if (Object.keys(newErrors).length !== 0) {
       const errorField = Object.keys(newErrors)[0];
@@ -996,15 +995,16 @@ const AddClient = (Planname) => {
       label: "PE Hedge Higher",
       type: "number",
       hiding: false,
-      sshowWhen: (value) =>
+      showWhen: (value) =>
         [
           "ShortFourLegStrategy", "LongFourLegStrategy" 
-        ].includes(value.Strategy)  , 
+        ].includes(value.Strategy), 
       label_size: 12,
       col_size: 3,
       headingtype: 2,
       disable: false,
     },
+
     {
       name: "Unique_ID",
       label: "Unique Name",

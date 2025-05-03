@@ -45,10 +45,6 @@ const Userdashboard = () => {
 
   const [botView, setBotView] = useState("Create New Bot"); // Default to "Create New Bot"
 
-  useEffect(() => {
-    setSubTab(deletedStrategyType || "Scalping"); // Ensure "Scalping" is selected by default
-  }
-    , [deletedStrategyType]);
 
   const addScriptTab = sessionStorage.getItem("addScriptTab");
 
@@ -724,6 +720,14 @@ const Userdashboard = () => {
     }
   }, [botView]);
 
+
+
+  useEffect(() => {
+    setSubTab(deletedStrategyType || "Scalping");
+  }
+    , [deletedStrategyType]);
+
+
   return (
     <Content
       Page_title="📊 User Dashboard"
@@ -822,7 +826,7 @@ const Userdashboard = () => {
                                 sessionStorage.removeItem("StrategyType"); // Clear StrategyType from session
                               }}
                             >
-                              <FiPlusCircle className="me-1" /> {type} 
+                              <FiPlusCircle className="me-1" /> {type}
                             </button>
                           </li>
                         ))}
