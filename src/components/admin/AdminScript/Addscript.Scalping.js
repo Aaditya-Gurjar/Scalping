@@ -477,7 +477,6 @@ const AddClient = () => {
     }
   });
 
-
   useEffect(() => {
     formik.setFieldValue('Exchange', "NFO")
     formik.setFieldValue("TType", "BUY")

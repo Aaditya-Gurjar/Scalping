@@ -65,7 +65,6 @@ const AddClient = () => {
     const foundItem = dataWithoutLastItem.find((item) => {
       return item["Option Strategy"].includes(stg);
     }); 
-    console.log("foundItem", foundItem); 
     return foundItem?.EndDate;
   };
 
@@ -1715,7 +1714,6 @@ const AddClient = () => {
 
     await CheckPnL(req)
       .then((response) => {
-        console.log("response", response);
         if (response.Status) {
           setShowPnl(true);
           setOpenModel(true);

@@ -142,7 +142,6 @@ const Clientservice = () => {
 
     const handleBrokerRecord = async (rowData) => {
         const username = rowData[3]; // Make sure index 3 is correct for 'Username'
-        console.log("Calling API for Username:", username);
 
         const response = await GETBrokerGroupRecord(username);
 

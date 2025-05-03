@@ -686,8 +686,6 @@ const AddClient = () => {
 
   const value=  location?.state?.data 
 
-  console.log("value", value)
-
   const handleCheckPnl = async () => {
     // const weekend = new Date().getDay();
     // const currentDate = new Date();
@@ -720,8 +718,6 @@ const AddClient = () => {
     if (weekend === 6 || weekend === 0 || totalMinutes < 555 || totalMinutes > 930) {
       return SweentAlertFun("Market is off Today");
     }
-
-    console.log("before req");
 
     const req = {
       
@@ -1685,7 +1681,6 @@ const AddClient = () => {
     formik.values.Measurment_Type,
   ]);
 
-  console.log("location.state.data Copy Option", location.state.data);
 
   useEffect(() => {
     const temp =

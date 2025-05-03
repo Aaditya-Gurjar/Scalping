@@ -62,9 +62,6 @@ const AddClient = () => {
 
 
   const dataWithoutLastItem = location?.state?.data?.scriptType?.data?.slice(0, -1);
-  console.log("location?.state?.data?", location?.state?.data?.scriptType?.data)
-
-
 
   const getEndData = (stg) => {
     const foundItem = dataWithoutLastItem.find((item) => {
@@ -722,7 +719,6 @@ const AddClient = () => {
   });
 
   useEffect(() => {
-    console.log("TargetExit", formik.values.TargetExit)
     formik.setFieldValue("Exchange", "NFO");
     formik.setFieldValue("TType", "BUY");
     formik.setFieldValue("ExitDay", "Intraday");
@@ -1747,8 +1743,8 @@ const AddClient = () => {
 
     currentWebSocket = connectWebSocket(singleChannel, (data) => {
       if (data.lp && data.tk && channel && channel?.includes(data.tk)) {
-        console.log("Channel List", singleChannel)
-        console.log("data", data)
+        // console.log("Channel List", singleChannel)
+        // console.log("data", data)
         $(".LivePrice").html(data.lp);
         // console.log("Updated Price Data:", data);
       }
