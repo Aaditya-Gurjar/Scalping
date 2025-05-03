@@ -549,13 +549,6 @@ const Header = () => {
           {role === "Admin" ? (
             <nav className="navbar navbar-expand-lg navbar-light p-0">
               <button
-                className="addbtn mx-4"
-                onClick={() => setShowModal(true)}
-              >
-                🔑 Auto Login
-              </button>
-
-              <button
                 className="navbar-toggler ms-3"
                 type="button"
                 data-bs-toggle="collapse"
@@ -574,26 +567,42 @@ const Header = () => {
                 id="navbarSupportedContent"
               >
                 <ul className="navbar-nav ms-auto navbar-list align-items-center">
-                  <li className="nav-item">
+                  <li className="nav-item dropdown">
                     <button
-                      type="button"
-                      className="addbtn mx-3 btn1"
-                      onClick={(e) => setIsModalVisible(true)}
+                      className="addbtn mx-3 dropdown-toggle"
+                      id="adminMenuDropdown"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
                     >
-                      🔐 Set API Key
+                      Admin Menu
                     </button>
+                    <ul className="dropdown-menu" aria-labelledby="adminMenuDropdown">
+                      <li>
+                        <button
+                          className="dropdown-item"
+                          onClick={() => setShowModal(true)}
+                        >
+                          🔑 Auto Login
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          className="dropdown-item"
+                          onClick={(e) => setIsModalVisible(true)}
+                        >
+                          🔐 Set API Key
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          className="dropdown-item"
+                          onClick={(e) => navigate("/admin/transectionrequest")}
+                        >
+                          💵 Transaction Requests
+                        </button>
+                      </li>
+                    </ul>
                   </li>
-
-                  <li className="nav-item">
-                    <button
-                      type="button"
-                      className="addbtn  mx-3 btn1"
-                      onClick={(e) => navigate("/admin/transectionrequest")}
-                    >
-                      💵 Transaction Requests
-                    </button>
-                  </li>
-
                   <li
                     className="nav-item iq-full-screen"
                     onClick={toggleFullscreen}
@@ -613,8 +622,6 @@ const Header = () => {
                       onClick={toggleTheme}
                       className={`addbtn  ms-auto`}
                       style={{
-                        // backgroundColor: theme === "light" ? "#222" : "#f8f9fa",
-                        // color: theme === "light" ? "#fff" : "#000",
                         border: "none",
                         padding: "8px 15px",
                         borderRadius: "5px",
@@ -624,7 +631,6 @@ const Header = () => {
                       {theme === "light" ? "🌙 Dark Mode" : "☀️ Light Mode"}
                     </button>
                   </li>
-
                   <li
                     className={`nav-item ${activeElement === "profile" ? "iq-show" : ""
                       }`}
