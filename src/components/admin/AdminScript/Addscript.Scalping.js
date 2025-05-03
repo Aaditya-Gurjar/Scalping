@@ -714,7 +714,7 @@ const AddClient = () => {
         values.Strategy === "Multi_Conditional",
       label_size: 12,
       headingtype: 4,
-      col_size: formik.values.position_type === "Multiple" ? 3 : 6, // ✅ Correct dynamic sizing
+      col_size: formik.values.position_type === "Multiple" ? 3 : 6, 
       hiding: false,
       disable: false,
       iconText: text.measurementType,
@@ -730,7 +730,7 @@ const AddClient = () => {
           : "Re-Entry",
       type: "text3",
       label_size: 12,
-      col_size: formik.values.position_type === "Multiple" ? 3 : 6, // ✅ Same dynamic sizing
+      col_size: formik.values.position_type === "Multiple" ? 3 : 6,
       headingtype: 3,
       disable: false,
       hiding: false,
