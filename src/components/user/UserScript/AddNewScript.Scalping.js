@@ -139,7 +139,7 @@ const AddClient = () => {
       Trade_Execution: "Paper Trade",
       quantityselection: "Addition",
       Targetselection: "Fixed Target",
-      RepeatationCount: 2,
+      RepeatationCount: 1,
       Profit: 0,
       Loss: 0,
       RollOver: false,
@@ -342,9 +342,9 @@ const AddClient = () => {
       }
       if (values.Strategy === "Multi_Conditional" && values.FixedSM === "Multiple") {
         if (values.RepeatationCount === "" || values.RepeatationCount === undefined) {
-          errors.RepeatationCount = "Please enter a value for Repeatation Count";
-        } else if (values.RepeatationCount < 2) {
-          errors.RepeatationCount = "Repeatation count must be at least 2";
+          errors.RepeatationCount = "Please enter a value for Repetition Count";
+        } else if (values.RepeatationCount < 1) {
+          errors.RepeatationCount = "Repetition Count must be at least 1";
         }
       }
       if (
@@ -695,7 +695,7 @@ const AddClient = () => {
                 timerProgressBar: true,
               });
 
-              sessionStorage.setItem("addScriptTab", "Scalping"); 
+              sessionStorage.setItem("redirectStrategyType", "Scalping"); 
               setTimeout(() => {
                 navigate("/user/dashboard" );
               }, 1500);
@@ -1227,7 +1227,7 @@ const AddClient = () => {
     },
     {
       name: "RepeatationCount",
-      label: "Repeatation Count",
+      label: "Repetition Count",
       type: "text3",
       label_size: 12,
       // col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
@@ -1737,16 +1737,19 @@ const AddClient = () => {
   let currentWebSocket = null;
   const showLivePrice = async (singleChannel) => {
      
+    // console.log("singleChannel", singleChannel)
     if (currentWebSocket && typeof currentWebSocket.close === "function") {
-      currentWebSocket.close(); // Or implement unsubscribe logic if supported
+      currentWebSocket.close(); 
+    
     }
 
     currentWebSocket = connectWebSocket(singleChannel, (data) => {
+      // console.log("singleChannel", singleChannel)
       if (data.lp && data.tk && channel && channel?.includes(data.tk)) {
         // console.log("Channel List", singleChannel)
         // console.log("data", data)
         $(".LivePrice").html(data.lp);
-        // console.log("Updated Price Data:", data);
+        // console.log("Updated Price Data:", data.tk);
       }
     });
   }
@@ -2084,10 +2087,11 @@ const AddClient = () => {
         // page_title="Add Script scalping"
         btn_name="Add"
         btn_name1="Cancel"
+       
         formik={formik}
         btn_name1_route={"/user/dashboard"}
         btn_name1_onClick={() => {
-          sessionStorage.setItem("addScriptTab", "Scalping");
+          sessionStorage.setItem("redirectStrategyType", "Scalping");
           navigate("/user/dashboard");
         }}
         additional_field={

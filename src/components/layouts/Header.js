@@ -4,7 +4,7 @@ import UpdateBrokerKey from "./Update_Broker_Key";
 import Loginwihapi from "./log_with_api";
 import * as Config from "../../Utils/Config";
 import axios from "axios";
-import { reGenerateKeyApi, TradingStatus } from "../CommonAPI/User";
+import { getToken, reGenerateKeyApi, TradingStatus } from "../CommonAPI/User";
 import Swal from "sweetalert2";
 import { IndianRupee, Eye, Wallet } from "lucide-react";
 import {
@@ -12,11 +12,16 @@ import {
   DataStart,
   AutoLogin,
   getAdminPermission,
+  GET_EXPIRY_DATE,
 } from "../CommonAPI/Admin";
 import { addBroker } from "../CommonAPI/SuperAdmin";
 import { jwtDecode } from "jwt-decode";
 import { GetUserBalence, Get_Profile_Data } from "../CommonAPI/User";
 import { useTheme } from "../../ThemeContext";
+import { connectWebSocket } from "../user/UserDashboard/LivePrice";
+import $ from "jquery";
+
+
 const Header = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showFunds, setShowFunds] = useState(false);
@@ -126,7 +131,7 @@ const Header = () => {
         if (response.data.Status) {
           // Assuming the status is in response.data.Status
           Swal.fire({
-             // background: "#1a1e23 ",
+            // background: "#1a1e23 ",
             backdrop: "#121010ba",
             confirmButtonColor: "#1ccc8a",
             title: "Success!",
@@ -141,7 +146,7 @@ const Header = () => {
           });
         } else {
           Swal.fire({
-             // background: "#1a1e23 ",
+            // background: "#1a1e23 ",
             backdrop: "#121010ba",
             confirmButtonColor: "#1ccc8a",
             title: "Success!",
@@ -158,7 +163,7 @@ const Header = () => {
       } catch (err) {
         console.error("Error in ConnectBroker request", err);
         Swal.fire({
-           // background: "#1a1e23 ",
+          // background: "#1a1e23 ",
           backdrop: "#121010ba",
           confirmButtonColor: "#1ccc8a",
           title: "Error!",
@@ -371,7 +376,7 @@ const Header = () => {
     try {
       const response = await LastPattern(); // API call
       Swal.fire({
-         // background: "#1a1e23 ",
+        // background: "#1a1e23 ",
         backdrop: "#121010ba",
         confirmButtonColor: "#1ccc8a",
         title: "Last Pattern On !",
@@ -382,7 +387,7 @@ const Header = () => {
       });
     } catch (error) {
       Swal.fire({
-         // background: "#1a1e23 ",
+        // background: "#1a1e23 ",
         backdrop: "#121010ba",
         confirmButtonColor: "#1ccc8a",
         title: "Error !",
@@ -449,7 +454,7 @@ const Header = () => {
     const broker = localStorage.getItem("Broker");
     if (broker == "DEMO") {
       return Swal.fire({
-         // background: "#1a1e23 ",
+        // background: "#1a1e23 ",
         backdrop: "#121010ba",
         confirmButtonColor: "#1ccc8a",
         title: "Warning!",
@@ -466,7 +471,7 @@ const Header = () => {
 
     if (addBrokerName == "") {
       Swal.fire({
-         // background: "#1a1e23 ",
+        // background: "#1a1e23 ",
         backdrop: "#121010ba",
         confirmButtonColor: "#1ccc8a",
         title: "Warning!",
@@ -480,7 +485,7 @@ const Header = () => {
       .then((response) => {
         if (response.Status) {
           Swal.fire({
-             // background: "#1a1e23 ",
+            // background: "#1a1e23 ",
             backdrop: "#121010ba",
             confirmButtonColor: "#1ccc8a",
             title: "Success!",
@@ -493,7 +498,7 @@ const Header = () => {
           setShowAddBrokerModal(false);
         } else {
           Swal.fire({
-             // background: "#1a1e23 ",
+            // background: "#1a1e23 ",
             backdrop: "#121010ba",
             confirmButtonColor: "#1ccc8a",
             title: "Error!",
@@ -558,9 +563,72 @@ const Header = () => {
   };
 
 
+  let currentWebSocket = null;
+
+  const showLivePrice = async (singleChannel) => {
+    if (currentWebSocket && typeof currentWebSocket.close === "function") {
+      currentWebSocket.close(); // Or implement unsubscribe logic if supported
+    }
+
+    currentWebSocket = connectWebSocket(singleChannel, (data) => {
+      if (data.lp && data.tk) {
+        // console.log("Channel List", singleChannel)
+        // console.log("data", data)
+        if(tokenMap[data.tk] === "NIFTY"){ 
+          $(".LivePrice_NIFTY").html(data.lp);
+        }
+        else if(tokenMap[data.tk] === "BANKNIFTY"){
+        $(".LivePrice_BANKNIFTY").html(data.lp);
+        }
+        // console.log("Updated Price Data:", data.lp);
+      }
+    });
+  }
+
+  const tokenMap = {}
+
+
+  const getExpriyData = async (symbol) => {
+    const data = { Exchange: "NFO", Instrument: "FUTIDX", Symbol: symbol, Strike: "" }
+    await GET_EXPIRY_DATE(data)
+      .then((response) => {
+        if (response.Status) {
+          getTokenfn(response["Expiry Date"][0], symbol);
+        }
+      })
+      .catch((err) => {
+        console.log("Error in finding the Expriy Data", err)
+      })
+  }
+
+
+  const getTokenfn = async (expiry, symbol) => {
+    try {
+      const res = await getToken({
+        Exchange: "NFO",
+        Instrument: "FUTIDX",
+        Symbol: symbol,
+        OptionType: "",
+        Strike: "",
+        Expiry: expiry
+      });
+      const singleChannel = `NFO|${res.Token[0]}`;
+      tokenMap[res.Token[0]] = symbol;  
+      // setChannel(singleChannel);
+      showLivePrice(singleChannel);
+
+    } catch (error) {
+      console.error("Error fetching token:", error);
+    }
+  };
+
+
+
 
   useEffect(() => {
     getprofiledata();
+    getExpriyData("BANKNIFTY");
+    getExpriyData("NIFTY");
   }, []);
 
   return (
@@ -782,7 +850,7 @@ const Header = () => {
           ) : role === "User" ? (
             <nav className="navbar navbar-expand-lg navbar-light p-0">
               <button
-                className="navbar-toggler"
+                className="navbar-toggler "
                 type="button"
                 data-bs-toggle="collapse"
                 href="#navbarSupportedContent"
@@ -865,17 +933,43 @@ const Header = () => {
                     <></>
                   )}
 
+                  {/* <li>
+                    <div className="AddScript_LivePrice card-text-Color">
+                      <div className="LivePriceContainer addbtn">
+                        <span>Live Price:</span>
+                        <span className="LivePrice ms-2">{ }</span>
+                      </div>
+                    </div>
+                  </li> */}
+
+                  <li className="live-price-item">
+                    <div className="live-price-box">
+                      <span className="label card-text-Color">NIFTY:</span>
+                      <span className="LivePrice_NIFTY liveprice-text-color ms-2">{ }</span>
+                    </div>
+                  </li>
+
+
+                  <li className="live-price-item">
+                    <div className="live-price-box">
+                      <span className="label card-text-Color">BANKNIFTY:</span>
+                      <span className="LivePrice_BANKNIFTY liveprice-text-color ms-2">{ }</span>
+                    </div>
+                  </li>
+
+  
+
                   <li className="nav-item mx-3 btn-text-color" onClick={toggleFundsVisibility}>
                     <button
                       type="button"
                       data-bs-dismiss="modal"
                       className="addbtn mt-0 btn1 "
                     >
-                       <span className="btn-text-color" >
-                          <span>
-                            <Wallet className="iconcol" />
-                          </span>
+                      <span className="btn-text-color" >
+                        <span>
+                          <Wallet className="iconcol" />
                         </span>
+                      </span>
                     </button>
                   </li>
 

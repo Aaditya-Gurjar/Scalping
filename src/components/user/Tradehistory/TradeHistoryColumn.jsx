@@ -341,7 +341,7 @@ export const columns = () => [
   },
   {
     name: "RepeatationCount",
-    label: "Repeatation Count",
+    label: "Repetition Count",
     options: {
       filter: true,
       sort: true,
@@ -482,38 +482,7 @@ export const columns1 = () => [
       sort: true,
     },
   },
-  {
-    name: "Quantity",
-    label: "Lot",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
-    name: "EntryTime",
-    label: "Entry Time",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
-    name: "ExitTime",
-    label: "Exit Time",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
-  {
-    name: "ExitDay",
-    label: "Exit Day",
-    options: {
-      filter: true,
-      sort: true,
-    },
-  },
+  
   {
     name: "StrikeType",
     label: "Strike Type",

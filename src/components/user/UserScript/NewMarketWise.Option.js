@@ -612,7 +612,7 @@ const AddClient = (Planname) => {
               timer: 1500,
               timerProgressBar: true,
             });
-            sessionStorage.setItem("addScriptTab", "Option Strategy");
+            sessionStorage.setItem("redirectStrategyType", "Option Strategy");
 
             setTimeout(() => {
               navigate("/user/dashboard", { state: { prevSelectedTab: "Option Strategy" } });

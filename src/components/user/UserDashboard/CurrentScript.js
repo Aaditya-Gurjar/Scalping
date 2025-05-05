@@ -196,14 +196,14 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
     const data = { Username: userName };
     await chartAllotStrategyApi(data)
       .then((response) => {
-
         if (response.Status) {
-
           setAllScripts2({
             data: response.data,
             len: response.data?.length - 1,
             Planname: response.data[response.data?.length - 1].Planname,
           });
+          
+          const res = response?.data?.[response.len]?.CombineChartingSignal?.length 
         } else {
           setAllScripts2({
             data: [],
@@ -311,7 +311,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
                 },
               });
               setTimeout(() => {
-                sessionStorage.setItem("deletedStrategyType", data);
+                sessionStorage.setItem("redirectStrategyType", data);
                 // window.location.reload();
               }, 1500);
             } else {
@@ -2274,7 +2274,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
     {
       name: "RepeatationCount",
-      label: "Repeatation Count",
+      label: "Repetition Count",
       type: "text3",
       label_size: 12,
       col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,

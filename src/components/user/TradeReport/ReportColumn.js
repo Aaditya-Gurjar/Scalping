@@ -999,7 +999,7 @@ export const getColumns9 = () => [
 
     {
         name: "RepeatationCount",
-        label: "Repeatation Count",
+        label: "Repetition Count",
         options: {
             filter: true,
             sort: true,

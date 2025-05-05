@@ -13,7 +13,6 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 // DropdownComponent as a separate component
 const DropdownComponent = ({ tableMeta, handleDelete, type, handleMatchPosition, handleEdit }) => {
 
-    console.log("tableMeta", tableMeta);
     const navigate = useNavigate();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
@@ -2658,7 +2657,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
     },
     {
         name: "RepeatationCount",
-        label: "Repeatation Count",
+        label: "Repetition Count",
         options: {
             filter: true,
             sort: true,

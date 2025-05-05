@@ -307,7 +307,7 @@ const AddClient = () => {
                             timer: 1500,
                             timerProgressBar: true
                         });
-                        sessionStorage.setItem("addScriptTab", "Pattern");
+                        sessionStorage.setItem("redirectStrategyType", "Pattern");
 
                         setTimeout(() => {
                             navigate('/user/dashboard')

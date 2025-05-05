@@ -910,7 +910,7 @@ export const ReportColumns3 = () => [
 
     {
         name: "RepeatationCount",
-        label: "Repeatation Count",
+        label: "Repetition Count",
         options: {
             filter: true,
             sort: true,

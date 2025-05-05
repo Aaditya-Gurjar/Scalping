@@ -116,7 +116,7 @@ const AddClient = () => {
       Trade_Execution: "Paper Trade",
       quantityselection: "Addition",
       Targetselection: "Fixed Target",
-      RepeatationCount: 2,
+      RepeatationCount: 1,
       Profit: 0,
       Loss: 0,
       RollOver: "",
@@ -301,9 +301,9 @@ const AddClient = () => {
           values.RepeatationCount === undefined
         ) {
           errors.RepeatationCount =
-            "Please enter a value for Repeatation Count";
-        } else if (values.RepeatationCount < 2) {
-          errors.RepeatationCount = "Repeatation count must be at least 2";
+            "Please enter a value for Repetition Count";
+        } else if (values.RepeatationCount < 1) {
+          errors.RepeatationCount = "Repetition Count must be at least 1";
         }
       }
       if (
@@ -866,7 +866,7 @@ const AddClient = () => {
     );
     formik.setFieldValue(
       "RepeatationCount",
-      location?.state?.data?.RepeatationCount || 2
+      location?.state?.data?.RepeatationCount || 1
     );
     formik.setFieldValue("Profit", location?.state?.data?.Profit);
     formik.setFieldValue("Loss", location?.state?.data?.Loss);
@@ -1363,7 +1363,7 @@ const AddClient = () => {
 
     {
       name: "RepeatationCount",
-      label: "Repeatation Count",
+      label: "Repetition Count",
       type: "text3",
       label_size: 12,
       col_size: 4,
