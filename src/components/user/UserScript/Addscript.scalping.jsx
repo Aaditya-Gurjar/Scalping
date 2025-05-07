@@ -448,7 +448,7 @@ const AddClient = () => {
             : Number(values.HigherRange),
         ETPattern: "",
         Timeframe: "",
-        Quantity: parseFloat(values.Quantity),
+        Quantity: Number(values.Quantity),
         serendate: getEndData(values.Strategy),
         FixedSM:
           formik.values.Strategy == "Multi_Conditional"

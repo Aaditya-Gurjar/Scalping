@@ -129,6 +129,8 @@ const adminPermission = localStorage.getItem("adminPermission");
           cancelButtonText: "Cancel",
           reverseButtons: false,
           showCloseButton: true, // Add close button to the top-right corner
+          allowEnterKey: true, // Enable Enter key for confirmation
+          focusConfirm: true,  // Focus on the "Yes" button
         });
 
         if (result.isConfirmed) {
@@ -146,6 +148,8 @@ const adminPermission = localStorage.getItem("adminPermission");
           reverseButtons: false, // Ensure "Extend End Date" is on the left and "Cancel" is on the right
           allowOutsideClick: false, // Prevent closing the alert by clicking outside
           showCloseButton: true, // Add a close button to the top-right corner
+          allowEnterKey: true, // Enable Enter key for confirmation
+          focusConfirm: true,  // Focus on the "Extend End Date" button
         });
 
         if (result.isConfirmed) {
@@ -168,6 +172,20 @@ const adminPermission = localStorage.getItem("adminPermission");
     if (selectedPlan) {
       if (selectedPlan.isBuyNow) {
         // Show Confirm Purchase modal for Buy Now
+        // const result = await Swal.fire({
+        //   title: "Confirm Purchase",
+        //   text: `Do you want to continue with this plan: ${selectedPlan.Planname || selectedPlan.PlanName} for ₹${selectedPlan.SOPPrice || selectedPlan.ChartPerMonth}?`,
+        //   icon: "question",
+        //   showCancelButton: true,
+        //   confirmButtonText: "Yes",
+        //   cancelButtonText: "Cancel",
+        //   reverseButtons: false,
+        //   showCloseButton: true, 
+        // });
+
+        
+        
+
         const result = await Swal.fire({
           title: "Confirm Purchase",
           text: `Do you want to continue with this plan: ${selectedPlan.Planname || selectedPlan.PlanName} for ₹${selectedPlan.SOPPrice || selectedPlan.ChartPerMonth}?`,
@@ -175,9 +193,13 @@ const adminPermission = localStorage.getItem("adminPermission");
           showCancelButton: true,
           confirmButtonText: "Yes",
           cancelButtonText: "Cancel",
-          reverseButtons: false,
-          showCloseButton: true, // Add close button to the top-right corner
+          confirmButtonColor: "#28a745", // Green
+          cancelButtonColor: "#d33",     // Red
+          focusConfirm: true,  // Focus on the "Yes" button
+          allowEnterKey: true, // Enable Enter key for confirmation
         });
+        
+        
 
         if (result.isConfirmed) {
           HandleBuyPlan(selectedPlan.index, 1, selectedPlan.isCharting); // Confirm purchase
@@ -194,6 +216,8 @@ const adminPermission = localStorage.getItem("adminPermission");
           reverseButtons: false, // Ensure "Extend End Date" is on the left and "Extend Number of Scripts" is on the right
           allowOutsideClick: false, // Prevent closing the alert by clicking outside
           showCloseButton: true, // Add a close button to the top-right corner
+          allowEnterKey: true, // Enable Enter key for confirmation
+          focusConfirm: true,  // Focus on the "Extend End Date" button
         });
 
         if (result.isConfirmed) {
@@ -561,6 +585,7 @@ const adminPermission = localStorage.getItem("adminPermission");
                     </div>
                     {(isPlanPurchased(plan?.Planname) && !planExpired?.includes(plan?.Planname)) ? (
                       <button
+                        type="button"
                         className="allplan-button buy-again"
                         onClick={() => handleBuyAgain(index, false)}
                       >
@@ -568,6 +593,7 @@ const adminPermission = localStorage.getItem("adminPermission");
                       </button>
                     ) : (
                       <button
+                        type="button"
                         className="allplan-button"
                         onClick={() => handleBuyNow(index, false)}
                       >
@@ -717,7 +743,7 @@ const adminPermission = localStorage.getItem("adminPermission");
 
           {/* Continue Buttons */}
           <Stack direction="column" spacing={2} mt={3}>
-            <button variant="text" className="btn border" onClick={handleContinueWithout}>
+            <button variant="text" className="btn border card-text-Color" onClick={handleContinueWithout}>
               Continue without Coupon
             </button>
             <button

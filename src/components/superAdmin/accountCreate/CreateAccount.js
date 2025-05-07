@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import { createAdmin, superToAdminGetNewPermission } from '../../CommonAPI/SuperAdmin';
@@ -115,34 +113,33 @@ const Adduser = () => {
             if (values.Signpassword !== values.ConfirmPassword) {
                 errors.ConfirmPassword = "Password And Confirm Password Should Be Same";
             }
-            if (!values.AmmountDetails) {
+            if (values.AmmountDetails === "") {
                 errors.AmmountDetails = "Please Enter Amount";
             }
-            if (!values.SOPLiveTrade) {
+            if (values.SOPLiveTrade === "") {
                 errors.SOPLiveTrade = "Please Enter Live Trade Amount";
             }
-            if (!values.SOPPaperTrade) {
+            if (values.SOPPaperTrade === "") {
                 errors.SOPPaperTrade = "Please Enter Paper Trade Amount";
             }
-            if (!values.SOPScriptwise) {
+            if (values.SOPScriptwise === "") {
                 errors.SOPScriptwise = "Please Enter Paper Trade Amount";
             }
             if (!values.Companyname) {
                 errors.Companyname = "Please Enter Company Name";
             }
             if (!values.Url) {
-                errors.Url = "Please Enter URL"
+                errors.Url = "Please Enter URL";
             }
-            if (!values.ChartPerMonth) {
+            if (values.ChartPerMonth === "") {
                 errors.ChartPerMonth = "Please Enter Charting Amount";
             }
-            if (!values.ChartPaperTrade) {
+            if (values.ChartPaperTrade === "") {
                 errors.ChartPaperTrade = "Please Enter Chart Per Trade";
             }
-            if(!values.ChartLiveTrade) {
+            if (values.ChartLiveTrade === "") {
                 errors.ChartLiveTrade = "Please Enter Chart Live Trade";
             }
-            
             return errors;
         },
         onSubmit: async (values) => {

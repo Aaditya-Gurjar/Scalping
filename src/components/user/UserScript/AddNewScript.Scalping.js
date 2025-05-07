@@ -1734,9 +1734,13 @@ const AddClient = () => {
     }
   };
 
+
+
   let currentWebSocket = null;
-  const showLivePrice = async (singleChannel) => {
-     
+  const showLivePrice = async (singleChannel, channel1) => {
+      
+    console.log(" Channel--", channel1)
+
     // console.log("singleChannel", singleChannel)
     if (currentWebSocket && typeof currentWebSocket.close === "function") {
       currentWebSocket.close(); 
@@ -1744,17 +1748,15 @@ const AddClient = () => {
     }
 
     currentWebSocket = connectWebSocket(singleChannel, (data) => {
-      // console.log("singleChannel", singleChannel)
-      if (data.lp && data.tk && channel && channel?.includes(data.tk)) {
+      if (data.lp && data.tk && channel1 && channel1 === data.tk) {
         // console.log("Channel List", singleChannel)
         // console.log("data", data)
         $(".LivePrice").html(data.lp);
-        // console.log("Updated Price Data:", data.tk);
+        console.log("Updated Price Data:", data.lp);
       }
     });
   }
 
-  console.log("channel", channel)
 
 
   const token = async () => {
@@ -1772,8 +1774,9 @@ const AddClient = () => {
               ? getExpiryDate?.data?.[1] : formik.values.expirydata1
         });        
         const singleChannel = `${formik.values.Exchange}|${res.Token[0]}`
-        setChannel(singleChannel)        
-        showLivePrice(singleChannel)
+        console.log("singlechnnellllllllllll", singleChannel)
+        setChannel(res.Token[0])        
+        showLivePrice(singleChannel, res.Token[0])
 
       }
 

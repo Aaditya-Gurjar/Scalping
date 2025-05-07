@@ -7352,3 +7352,22 @@ body .coupon-modal .MuiBox-root {
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
+
+.swal2-confirm{
+  background-color: green !important;
+  color: white !important;
+}
+
+.cancel-btn-color{
+  background-color: #b30000 !important;
+  color: white !important;
+}
+
+.add-btn-color{
+  background-color: green !important;
+  color: white !important;
+}
+
+.paper-live-trading-btn{
+  margin-left: 5rem !important;
+}
