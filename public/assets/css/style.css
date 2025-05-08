@@ -7335,7 +7335,12 @@ body .coupon-modal .MuiBox-root {
 
 [data-theme="light"] .iq-card.borderColor {
   border: 1px solid #2a2a2a !important;
+  padding: 10px;
+  border-radius: 5px;
 }
 [data-theme="dark"] .iq-card.borderColor {
   border: 1px solid #ffff !important;
+  padding: 10px;
+  border-radius: 5px;
 }
+

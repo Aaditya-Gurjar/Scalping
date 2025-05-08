@@ -305,7 +305,7 @@ const MasterAccount = () => {
           <h4 className="account-title-single">Master Account :  
           <span className="account-value-single text-dark">{data.MainUser}</span></h4>
           <hr className="account-divider" />
-          <h4 className="account-title-single">Child Accounts     <button className="addbtn btn btn-sm" onClick={handleEditClick}>
+          <h4 className="fs-6">Child Accounts     <button className="addbtn btn btn-sm" onClick={handleEditClick}>
            <i className='fa fa-edit me-0'></i> 
           </button></h4>
           <div className="account-grid-single">
