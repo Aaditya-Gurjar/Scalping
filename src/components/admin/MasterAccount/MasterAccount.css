@@ -200,7 +200,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 15px;
+    gap: 8px;
     margin-top: 10px;
   }
 
@@ -208,13 +208,10 @@
     background-color: #f8f9fa;
     color: #555;
     font-size: 1rem;
-    padding: 10px 15px;
+    padding: 5px 8px;
     border: 1px solid #ddd;
     border-radius: 8px;
     text-align: center;
-    min-width: 100px;
-    max-width: 150px;
-    flex: 1 1 calc(33.33% - 30px); /* 3 items per row with gap */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
