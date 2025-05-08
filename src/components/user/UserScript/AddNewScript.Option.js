@@ -65,7 +65,6 @@ const AddClient = () => {
     const foundItem = dataWithoutLastItem.find((item) => {
       return item["Option Strategy"].includes(stg);
     }); 
-    console.log("foundItem", foundItem); 
     return foundItem?.EndDate;
   };
 
@@ -644,7 +643,7 @@ const AddClient = () => {
               timer: 1500,
               timerProgressBar: true,
             });
-            sessionStorage.setItem("addScriptTab", "Option Strategy");
+            sessionStorage.setItem("redirectStrategyType", "Option Strategy");
 
             setTimeout(() => {
               navigate("/user/dashboard", { state: { prevSelectedTab: "Option Strategy" } });
@@ -1715,7 +1714,6 @@ const AddClient = () => {
 
     await CheckPnL(req)
       .then((response) => {
-        console.log("response", response);
         if (response.Status) {
           setShowPnl(true);
           setOpenModel(true);
@@ -1861,13 +1859,13 @@ const AddClient = () => {
                         ].map(({ label, value }, index) => (
                           <div key={index} className="col-md-6 d-flex align-items-center py-2">
                             <label
-                              className="fw-bold text-white mb-0 me-2 card-text-Color"
+                              className="fw-bold   mb-0 me-2 card-text-Color"
                               style={{ fontSize: "18px", minWidth: "150px" }}
                             >
                               {label}:
                             </label>
                             <span
-                              className="text-white mb-0"
+                              className="  mb-0"
                               style={{ fontSize: "18px", fontWeight: "500" }}
                             >
                               {value !== null && !isNaN(value) ? parseFloat(value).toFixed(4) : "N/A"}
@@ -1883,7 +1881,7 @@ const AddClient = () => {
 
 
                 <Modal.Footer>
-                  <Button variant="secondary" onClick={() => setOpenModel(false)}>
+                  <Button variant="" className="cancel-btn-color" onClick={() => setOpenModel(false)}>
                     Close
                   </Button>
                 </Modal.Footer>

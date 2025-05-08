@@ -633,14 +633,10 @@ const Tradehistory = () => {
 
                     )}
 
-
-
-
-
                     {selectStrategyType !== "ChartingPlatform" && (
                         <div className="d-grid gap-2">
                             <button
-                                className="addbtn"
+                                className="addbtn hoverNone"
                                 onClick={handleSubmit}
                                 disabled={!selectedRowData}>
                                 📜 Generate History

@@ -196,14 +196,14 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
     const data = { Username: userName };
     await chartAllotStrategyApi(data)
       .then((response) => {
-
         if (response.Status) {
-
           setAllScripts2({
             data: response.data,
             len: response.data?.length - 1,
             Planname: response.data[response.data?.length - 1].Planname,
           });
+          
+          const res = response?.data?.[response.len]?.CombineChartingSignal?.length 
         } else {
           setAllScripts2({
             data: [],
@@ -311,7 +311,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
                 },
               });
               setTimeout(() => {
-                sessionStorage.setItem("deletedStrategyType", data);
+                sessionStorage.setItem("redirectStrategyType", data);
                 // window.location.reload();
               }, 1500);
             } else {
@@ -2274,7 +2274,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
     {
       name: "RepeatationCount",
-      label: "Repeatation Count",
+      label: "Repetition Count",
       type: "text3",
       label_size: 12,
       col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
@@ -2768,7 +2768,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
                     <>
                       <div className="iq-card-header d-flex justify-content-between">
                         <div className="iq-header-title">
-                          {tableType === "MultiCondition" ? <h3 className="card-title">{"Scalping"}</h3> : <h4 className="card-title">{data}</h4>}
+                          {tableType === "MultiCondition" ? <h3 className="card-title">{data}</h3> : <h4 className="card-title">{data}</h4>}
                         </div>
                         <div className='d-flex justify-content-end'>
                           {/* <button className='addbtn btn btn-primary rounded mx-2 mt-1' onClick={() => AddScript(data)}>Add Script</button> */}

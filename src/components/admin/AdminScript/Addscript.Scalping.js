@@ -477,7 +477,6 @@ const AddClient = () => {
     }
   });
 
-
   useEffect(() => {
     formik.setFieldValue('Exchange', "NFO")
     formik.setFieldValue("TType", "BUY")
@@ -712,7 +711,7 @@ const AddClient = () => {
       showWhen: (values) => values.Strategy == "One Directional" || values.Strategy == "Multi Directional" || (values.Strategy == "Multi_Conditional"),
       label_size: 12,
       headingtype: 4,
-      col_size: 6,
+      col_size: formik.values.position_type == "Single" ? 4 : 3,
       hiding: false,
       disable: false,
       iconText: text.measurementType,
@@ -723,7 +722,7 @@ const AddClient = () => {
       label: formik.values.Strategy == "Fixed Price" ? "Stoploss" : formik.values.position_type == "Single" && formik.values.Strategy == "Multi_Conditional" ? "Stoploss" : "Re-Entry",
       type: "text3",
       label_size: 12,
-      col_size: 6,
+      col_size: formik.values.position_type == "Single" ? 4 : 3,
       headingtype: 3,
       disable: false,
       hiding: false,

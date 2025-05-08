@@ -100,7 +100,6 @@ const AddChartingScript2 = () => {
     fetchChartingData();
   }, [chartingSubTab, fromDate, toDate, strategy]);
 
-  console.log("strategyTagOptions", strategyTagOptions)
   return (
     <Content
       Page_title={"🖥️ Panel Track"}

@@ -383,7 +383,7 @@ export const columns = () => [
     },
     {
         name: "RepeatationCount",
-        label: "Repeatation Count",
+        label: "Repetition Count",
         options: {
             filter: true,
             sort: true,

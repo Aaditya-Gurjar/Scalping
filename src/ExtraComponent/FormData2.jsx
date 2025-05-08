@@ -2872,7 +2872,7 @@ const DynamicForm = ({
                   {btn_name1 ? (
                     <Link
                       to={btn_name1_route}
-                      className="btn customer-btn-cancel mx-3  btn-primary">
+                      className="btn customer-btn-cancel mx-3  cancel-btn-color">
                       {btn_name1}
                     </Link>
                   ) : (
@@ -2882,7 +2882,7 @@ const DynamicForm = ({
                     <>
                       <button
                         type="submit"
-                        className="btn customer-btn-save btn-primary">
+                        className="btn customer-btn-save add-btn-color">
                         {btn_name}
                       </button>
                       {btn_name2 ? (

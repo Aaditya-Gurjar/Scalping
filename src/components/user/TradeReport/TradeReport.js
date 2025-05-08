@@ -86,6 +86,8 @@ const TradeReport = () => {
         return `${year}.${month}.${day}`;
     };
 
+    console.log("location?.state", location?.state)
+
     const GetTradeReport = async () => {
         const data = {
             Data: selectStrategyType,

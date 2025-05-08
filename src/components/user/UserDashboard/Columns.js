@@ -12,6 +12,7 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
 // DropdownComponent as a separate component
 const DropdownComponent = ({ tableMeta, handleDelete, type, handleMatchPosition, handleEdit }) => {
+
     const navigate = useNavigate();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
@@ -2000,7 +2001,7 @@ export const
                 customBodyRender: (value, tableMeta, updateValue) => {
                     return (
                         <div>
-                            <DropdownComponent tableMeta={tableMeta} handleDelete={() => handleDelete(tableMeta, 2)} handleEdit={() => handleEdit(tableMeta)} type="MultiCondition" />
+                            <DropdownComponent tableMeta={tableMeta} handleDelete={() => handleDelete(tableMeta, 2)} handleEdit={() => handleEdit(tableMeta)} type="Pattern" />
                         </div>
                     );
                 },
@@ -2656,7 +2657,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
     },
     {
         name: "RepeatationCount",
-        label: "Repeatation Count",
+        label: "Repetition Count",
         options: {
             filter: true,
             sort: true,

@@ -62,9 +62,6 @@ const AddClient = () => {
 
 
   const dataWithoutLastItem = location?.state?.data?.scriptType?.data?.slice(0, -1);
-  console.log("location?.state?.data?", location?.state?.data?.scriptType?.data)
-
-
 
   const getEndData = (stg) => {
     const foundItem = dataWithoutLastItem.find((item) => {
@@ -142,7 +139,7 @@ const AddClient = () => {
       Trade_Execution: "Paper Trade",
       quantityselection: "Addition",
       Targetselection: "Fixed Target",
-      RepeatationCount: 2,
+      RepeatationCount: 1,
       Profit: 0,
       Loss: 0,
       RollOver: false,
@@ -345,9 +342,9 @@ const AddClient = () => {
       }
       if (values.Strategy === "Multi_Conditional" && values.FixedSM === "Multiple") {
         if (values.RepeatationCount === "" || values.RepeatationCount === undefined) {
-          errors.RepeatationCount = "Please enter a value for Repeatation Count";
-        } else if (values.RepeatationCount < 2) {
-          errors.RepeatationCount = "Repeatation count must be at least 2";
+          errors.RepeatationCount = "Please enter a value for Repetition Count";
+        } else if (values.RepeatationCount < 1) {
+          errors.RepeatationCount = "Repetition Count must be at least 1";
         }
       }
       if (
@@ -698,7 +695,7 @@ const AddClient = () => {
                 timerProgressBar: true,
               });
 
-              sessionStorage.setItem("addScriptTab", "Scalping"); 
+              sessionStorage.setItem("redirectStrategyType", "Scalping"); 
               setTimeout(() => {
                 navigate("/user/dashboard" );
               }, 1500);
@@ -722,7 +719,6 @@ const AddClient = () => {
   });
 
   useEffect(() => {
-    console.log("TargetExit", formik.values.TargetExit)
     formik.setFieldValue("Exchange", "NFO");
     formik.setFieldValue("TType", "BUY");
     formik.setFieldValue("ExitDay", "Intraday");
@@ -1231,7 +1227,7 @@ const AddClient = () => {
     },
     {
       name: "RepeatationCount",
-      label: "Repeatation Count",
+      label: "Repetition Count",
       type: "text3",
       label_size: 12,
       // col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
@@ -1738,24 +1734,29 @@ const AddClient = () => {
     }
   };
 
+
+
   let currentWebSocket = null;
-  const showLivePrice = async (singleChannel) => {
-     
+  const showLivePrice = async (singleChannel, channel1) => {
+      
+    console.log(" Channel--", channel1)
+
+    // console.log("singleChannel", singleChannel)
     if (currentWebSocket && typeof currentWebSocket.close === "function") {
-      currentWebSocket.close(); // Or implement unsubscribe logic if supported
+      currentWebSocket.close(); 
+    
     }
 
     currentWebSocket = connectWebSocket(singleChannel, (data) => {
-      if (data.lp && data.tk && channel && channel?.includes(data.tk)) {
-        console.log("Channel List", singleChannel)
-        console.log("data", data)
+      if (data.lp && data.tk && channel1 && channel1 === data.tk) {
+        // console.log("Channel List", singleChannel)
+        // console.log("data", data)
         $(".LivePrice").html(data.lp);
-        // console.log("Updated Price Data:", data);
+        console.log("Updated Price Data:", data.lp);
       }
     });
   }
 
-  console.log("channel", channel)
 
 
   const token = async () => {
@@ -1773,8 +1774,9 @@ const AddClient = () => {
               ? getExpiryDate?.data?.[1] : formik.values.expirydata1
         });        
         const singleChannel = `${formik.values.Exchange}|${res.Token[0]}`
-        setChannel(singleChannel)        
-        showLivePrice(singleChannel)
+        console.log("singlechnnellllllllllll", singleChannel)
+        setChannel(res.Token[0])        
+        showLivePrice(singleChannel, res.Token[0])
 
       }
 
@@ -2088,10 +2090,11 @@ const AddClient = () => {
         // page_title="Add Script scalping"
         btn_name="Add"
         btn_name1="Cancel"
+       
         formik={formik}
         btn_name1_route={"/user/dashboard"}
         btn_name1_onClick={() => {
-          sessionStorage.setItem("addScriptTab", "Scalping");
+          sessionStorage.setItem("redirectStrategyType", "Scalping");
           navigate("/user/dashboard");
         }}
         additional_field={
