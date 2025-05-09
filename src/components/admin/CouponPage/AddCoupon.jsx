@@ -74,7 +74,6 @@ const AddCoupon = () => {
                 Expiry: values.expiry
             };
             const res = await AddCouponCodeApi(req);
-            console.log("response", res);
 
             if (res.Status) {
                 Swal.fire({
@@ -102,14 +101,12 @@ const AddCoupon = () => {
         formik.values.user.includes(opt.value)
     );
 
-    console.log('Selected user options:', selectedUserOptions);
 
     // Handler for user-select change
     const handleUserChange = (selectedOpts) => {
 
 
         const values = selectedOpts ? selectedOpts.map((o) => o.value) : [];
-        console.log('Selected values:', values[values.length - 1]);
 
         if (values[values.length - 1] === 'All') {
             // If "All" is selected, deselect everything else and keep only "All"
@@ -125,7 +122,7 @@ const AddCoupon = () => {
 
     return (
         <Content Page_title="🏷️ Add Coupon" button_status backbutton_status>
-            <div className="add-coupon-wrapper">
+            <div className="add-coupon-wrapper card-bg-color">
                 <h2 className="add-coupon-title">Create Coupon</h2>
                 <form onSubmit={formik.handleSubmit} className="add-coupon-form">
 
@@ -154,7 +151,8 @@ const AddCoupon = () => {
                                 value={formik.values.couponCode}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                className="add-coupon-input"
+                                placeholder="Enter coupon code"
+                                className="add-coupon-input card-text-Color card-bg-color"
                             />
                             {formik.touched.couponCode && formik.errors.couponCode && (
                                 <div className="add-coupon-error">{formik.errors.couponCode}</div>
@@ -169,6 +167,7 @@ const AddCoupon = () => {
                             <input
                                 type="number"
                                 name="discountPer"
+                                placeholder="Enter discount percentage"
                                 value={formik.values.discountPer}
                                 onChange={e =>
                                     formik.setFieldValue(
@@ -177,7 +176,7 @@ const AddCoupon = () => {
                                     )
                                 }
                                 onBlur={formik.handleBlur}
-                                className="add-coupon-input"
+                                className="add-coupon-input card-text-Color card-bg-color"
                             />
                             {formik.touched.discountPer && formik.errors.discountPer && (
                                 <div className="add-coupon-error">{formik.errors.discountPer}</div>
@@ -212,7 +211,7 @@ const AddCoupon = () => {
                                 value={formik.values.expiry}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                className="add-coupon-input"
+                                className="add-coupon-input card-text-Color card-bg-color"
                             />
                             {formik.touched.expiry && formik.errors.expiry && (
                                 <div className="add-coupon-error">{formik.errors.expiry}</div>

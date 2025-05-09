@@ -142,12 +142,10 @@ const Clientservice = () => {
 
     const handleBrokerRecord = async (rowData) => {
         const username = rowData[3]; // Make sure index 3 is correct for 'Username'
-        console.log("Calling API for Username:", username);
 
         const response = await GETBrokerGroupRecord(username);
 
         if (response?.Status) {
-            console.log("API Success:", response.Data);
             setBrokerRecordData(response.Data);
             setShowBrokerModal(true);
             // Aap yahan modal open kar sakte hain ya state update kar sakte hain
@@ -205,7 +203,7 @@ const Clientservice = () => {
                 const response = await EditClientPanle(req);
                 if (response.Status) {
                     Swal.fire({
-                        background: "#1a1e23 ",
+                        // background: "#1a1e23 ",
                         backdrop: "#121010ba",
                         confirmButtonColor: "#1ccc8a",
                         title: "Updated",
@@ -222,7 +220,7 @@ const Clientservice = () => {
                     fetchClientService();
                 } else {
                     Swal.fire({
-                        background: "#1a1e23 ",
+                        // background: "#1a1e23 ",
                         backdrop: "#121010ba",
                         confirmButtonColor: "#1ccc8a",
                         title: "Error",
@@ -309,12 +307,14 @@ const Clientservice = () => {
             }
         },
         {
-            name: 'SubAdmin',
-            label: 'Created by',
+            name: 'Group',
+            label: 'Strategy Group',
             options: {
                 filter: true,
                 sort: true,
-                customBodyRender: (value) => value == '' || value == null ? "Admin" : value,
+                customBodyRender: (value, tableMeta) => (
+                    <span>{value?.length ? value.join(' , ') : '-'}</span>
+                ),
             }
         },
         {
@@ -339,15 +339,15 @@ const Clientservice = () => {
 
             }
         },
+
+
         {
-            name: 'Group',
-            label: 'Strategy Group',
+            name: 'SubAdmin',
+            label: 'Created by',
             options: {
                 filter: true,
                 sort: true,
-                customBodyRender: (value, tableMeta) => (
-                    <span>{value?.length ? value.join(' , ') : '-'}</span>
-                ),
+                customBodyRender: (value) => value == '' || value == null ? "Admin" : value,
             }
         },
         {

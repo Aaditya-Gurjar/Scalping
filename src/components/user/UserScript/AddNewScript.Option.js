@@ -16,6 +16,7 @@ import { Tabs, Tab } from "react-bootstrap";
 import { FaUserAlt, FaChartLine } from "react-icons/fa"; // Import icons
 import "./TabStyles.css"; // Import custom CSS for styling
 import NewMarketWise from "./NewMarketWise.Option";
+import { toast } from "react-toastify";
 
 const AddClient = () => {
   const location = useLocation();
@@ -41,11 +42,10 @@ const AddClient = () => {
     NoprofitLoss1: "",
     NoprofitLoss2: "",
   });
-  // console.log("PnlData mai kya kya aa rha hai", PnlData);
 
   const SweentAlertFun = (text) => {
     Swal.fire({
-      background: "#1a1e23 ",
+       // background: "#1a1e23 ",
       backdrop: "#121010ba",
       confirmButtonColor: "#1ccc8a",
       title: "Error",
@@ -61,12 +61,10 @@ const AddClient = () => {
       0,
       -1
     );
-    console.log("datawithoutlastitem  new", dataWithoutLastItem);
 
     const foundItem = dataWithoutLastItem.find((item) => {
       return item["Option Strategy"].includes(stg);
     }); 
-    console.log("foundItem", foundItem); 
     return foundItem?.EndDate;
   };
 
@@ -145,7 +143,7 @@ const AddClient = () => {
       targetselection: "",
       Profit: "0",
       Loss: "0",
-      ExitType: "",
+      ExitRuleO: "",
       WorkingDay: [],
       Planname: "",
     },
@@ -437,11 +435,11 @@ const AddClient = () => {
 
 
       if (
-        !values.ExitType &&
+        !values.ExitRuleO &&
         values.Measurment_Type != "Shifting_FourLeg" &&
         values.ETPattern == "Leg vice"
       ) {
-        errors.ExitType = "Please Select Exit Type";
+        errors.ExitRuleO = "Please Select Exit Type";
       }
 
       if (!values.WorkingDay?.length > 0) {
@@ -482,11 +480,11 @@ const AddClient = () => {
           values.Measurment_Type == "Shifting_FourLeg" &&
             (values.Strategy == "ShortShifting" ||
               values.Strategy == "LongShifting")
-            ? values.Shifting_Point
-            : values.Targetvalue,
-        Slvalue: values.Slvalue,
+            ? parseFloat(values.Shifting_Point)
+            : parseFloat(values.Targetvalue),
+        Slvalue: parseFloat(values.Slvalue),
         TStype: values.TStype,
-        Quantity: values.Quantity,
+        Quantity: parseFloat(values.Quantity),
         LowerRange:
           values.Striketype == "Premium_Range" &&
             values.Measurment_Type != "Shifting_FourLeg"
@@ -563,7 +561,7 @@ const AddClient = () => {
         ExitRuleO:
           values.Measurment_Type != "Shifting_FourLeg" &&
             values.ETPattern == "Leg vice"
-            ? values.ExitType
+            ? values.ExitRuleO
             : "",
         WorkingDay: values?.WorkingDay
           ? values?.WorkingDay?.map((item) => item?.value || item)
@@ -636,7 +634,7 @@ const AddClient = () => {
         .then((response) => {
           if (response.Status) {
             Swal.fire({
-              background: "#1a1e23 ",
+               // background: "#1a1e23 ",
               backdrop: "#121010ba",
               confirmButtonColor: "#1ccc8a",
               title: "Script Added !",
@@ -645,14 +643,14 @@ const AddClient = () => {
               timer: 1500,
               timerProgressBar: true,
             });
-            sessionStorage.setItem("addScriptTab", "Option Strategy");
+            sessionStorage.setItem("redirectStrategyType", "Option Strategy");
 
             setTimeout(() => {
               navigate("/user/dashboard", { state: { prevSelectedTab: "Option Strategy" } });
             }, 1500);
           } else {
             Swal.fire({
-              background: "#1a1e23 ",
+               // background: "#1a1e23 ",
               backdrop: "#121010ba",
               confirmButtonColor: "#1ccc8a",
               title: "Error !",
@@ -747,7 +745,7 @@ const AddClient = () => {
     formik.setFieldValue("Shifting_Point", 100);
     formik.setFieldValue("Shifting_Value", 1);
     formik.setFieldValue("Trade_Count", 1);
-    formik.setFieldValue("ExitType", "Normal");
+    formik.setFieldValue("ExitRuleO", "Normal");
 
 
   }, []);
@@ -1111,7 +1109,7 @@ const AddClient = () => {
     },
 
     {
-      name: "ExitType",
+      name: "ExitRuleO",
       label: "Exit Type",
       type: "select1",
       options: [
@@ -1623,15 +1621,12 @@ const AddClient = () => {
 
     const totalMinutes = hours * 60 + minutes; // e.g., 14 * 60 + 30 = 870
 
-    console.log("Current time (HH:MM):", `${hours}:${minutes}`);
-    console.log("totalMinutes:", totalMinutes);
-
+    
     // Market hours: 9:15 AM to 3:30 PM => 555 to 930 in total minutes
     if (weekend === 6 || weekend === 0 || totalMinutes < 555 || totalMinutes > 930) {
       return SweentAlertFun("Market is off Today");
     }
 
-    console.log("before req");
 
     const req = {
       
@@ -1646,7 +1641,7 @@ const AddClient = () => {
       Strike: "",
       Optiontype: "",
       Targetvalue: formik.values.Targetvalue,
-      Slvalue: formik.values.Slvalue,
+      Slvalue: parseFloat(formik.values.Slvalue),
       TStype: formik.values.TStype,
       Quantity: formik.values.Quantity,
       LowerRange:
@@ -1716,11 +1711,9 @@ const AddClient = () => {
       targetselection: "",
     };
 
-    console.log("req", req);
 
     await CheckPnL(req)
       .then((response) => {
-        console.log("response", response);
         if (response.Status) {
           setShowPnl(true);
           setOpenModel(true);
@@ -1735,6 +1728,17 @@ const AddClient = () => {
             NoprofitLoss2: response.NoprofitLoss2,
           });
         } else {
+          toast.warning("No data available", {
+            position: "bottom-left",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+
+
           setPnlData({
             MaximumProfit: "",
             MaximumLoss: "",
@@ -1855,13 +1859,13 @@ const AddClient = () => {
                         ].map(({ label, value }, index) => (
                           <div key={index} className="col-md-6 d-flex align-items-center py-2">
                             <label
-                              className="fw-bold text-white mb-0 me-2 card-text-Color"
+                              className="fw-bold   mb-0 me-2 card-text-Color"
                               style={{ fontSize: "18px", minWidth: "150px" }}
                             >
                               {label}:
                             </label>
                             <span
-                              className="text-white mb-0"
+                              className="  mb-0"
                               style={{ fontSize: "18px", fontWeight: "500" }}
                             >
                               {value !== null && !isNaN(value) ? parseFloat(value).toFixed(4) : "N/A"}
@@ -1877,7 +1881,7 @@ const AddClient = () => {
 
 
                 <Modal.Footer>
-                  <Button variant="secondary" onClick={() => setOpenModel(false)}>
+                  <Button variant="" className="cancel-btn-color" onClick={() => setOpenModel(false)}>
                     Close
                   </Button>
                 </Modal.Footer>

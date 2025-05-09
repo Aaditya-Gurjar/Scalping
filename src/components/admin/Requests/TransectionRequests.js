@@ -163,7 +163,7 @@ const Clientservice = () => {
     const handleApprovalChange = async (e, row) => {
         const value = e.target.value;
         Swal.fire({
-            background: "#1a1e23 ",
+             // background: "#1a1e23 ",
             backdrop: "#121010ba",
             confirmButtonColor: "#1ccc8a",
             title: "Are you sure?",
@@ -187,7 +187,7 @@ const Clientservice = () => {
                     const response = await ApprovwRequest(req);
                     if (response.Status) {
                         Swal.fire({
-                            background: "#1a1e23 ",
+                             // background: "#1a1e23 ",
                             backdrop: "#121010ba",
                             confirmButtonColor: "#1ccc8a",
                             title: "Success",
@@ -201,7 +201,7 @@ const Clientservice = () => {
                         fetchClientService();
                     } else {
                         Swal.fire({
-                            background: "#1a1e23 ",
+                             // background: "#1a1e23 ",
                             backdrop: "#121010ba",
                             confirmButtonColor: "#1ccc8a",
                             title: "Error",
@@ -213,7 +213,7 @@ const Clientservice = () => {
                 } catch (error) {
                     console.error('Error in approval request:', error); // Log error for debugging
                     Swal.fire({
-                        background: "#1a1e23 ",
+                         // background: "#1a1e23 ",
                         backdrop: "#121010ba",
                         confirmButtonColor: "#1ccc8a",
                         title: "Error",

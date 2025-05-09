@@ -86,6 +86,8 @@ const TradeReport = () => {
         return `${year}.${month}.${day}`;
     };
 
+    console.log("location?.state", location?.state)
+
     const GetTradeReport = async () => {
         const data = {
             Data: selectStrategyType,
@@ -258,7 +260,7 @@ const TradeReport = () => {
                     setShowTable(true);
                 } else {
                     Swal.fire({
-                        background: "#1a1e23 ",
+                         // background: "#1a1e23 ",
                         backdrop: "#121010ba",
                         confirmButtonColor: "#1ccc8a",
                         title: "No Records found",

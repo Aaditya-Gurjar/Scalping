@@ -146,6 +146,10 @@ const Tradehistory = () => {
     setSelectedRowData(null); // Reset selected row data
   }, [selectStrategyType]);
 
+  useEffect(() => {
+    setOpenSection(null); // Close all open dropdowns when switching tabs
+  }, [selectStrategyType]);
+
   const convertDateFormat = (date) => {
     if (!date) return "";
     const dateObj = new Date(date);
@@ -160,6 +164,7 @@ const Tradehistory = () => {
     setOpenSection(null); // Reset open section when selecting a new row
     setShowReportSections(false);
   };
+  console.log("Selected Row Data:", selectedRowData, "selectStrategyType", selectStrategyType);
 
   const handleSubmit = async () => {
     if (selectStrategyType === "ChartingPlatform") return;
@@ -181,6 +186,8 @@ const Tradehistory = () => {
       profitLoss: false,
       consistent: false,
     });
+
+    
     try {
       const basicData = {
         MainStrategy:
@@ -223,6 +230,8 @@ const Tradehistory = () => {
         PatternName: "",
         InitialDeposite: 0,
       };
+
+      console.log("Overview Params:", overviewParams);
       const overviewRes = await get_Trade_History(overviewParams);
      
       if (!overviewRes?.data?.length && !overviewRes?.Overall?.length) {
@@ -263,8 +272,7 @@ const Tradehistory = () => {
       });
     }
   };
-
-  console.log("selectedRowData", selectedRowData);
+console.log("selectedRowData", selectedRowData);
   const getChartingSegmentData = async () => {
     try {
       const req = {
@@ -301,32 +309,59 @@ const Tradehistory = () => {
   const loadSectionData = async (section) => {
     if (loadedSections[section]) return;
     try {
-      const params = {
+      // const params = {
+      //   MainStrategy:
+      //     selectStrategyType === "Scalping"
+      //       ? selectedRowData?.ScalpType === "Multi_Conditional"
+      //         ? "NewScalping"
+      //         : selectStrategyType
+      //       : selectStrategyType,
+      //   Strategy:
+      //     selectStrategyType === "Scalping"
+      //       ? selectedRowData?.Targetselection
+      //       : selectStrategyType === "Option Strategy"
+      //       ? selectedRowData?.STG
+      //       : selectStrategyType === "Pattern"
+      //       ? selectedRowData?.TradePattern
+      //       : "Cash",
+      //   Symbol: selectStrategyType === "Scalping" ? selectedRowData?.Symbol : selectedRowData?.MainSymbol,
+      //   Username: selectedRowData?.Username || "",
+      //   ETPattern: selectStrategyType ==="Pattern" ? selectedRowData.Pattern :(selectedRowData.TType ||selectedRowData.Targettype),
+      //   Timeframe: selectedRowData?.TimeFrame || "",
+      //   From_date: convertDateFormat(FromDate || formattedDate),
+      //   To_date: convertDateFormat(ToDate || Default_To_Date),
+      //   Group: selectedRowData?.GroupN || "",
+      //   TradePattern: "",
+      //   PatternName: "",
+      //   InitialDeposite: 0,
+      // };
+
+      const  params = {
         MainStrategy:
-          selectStrategyType === "Scalping"
-            ? selectedRowData?.ScalpType === "Multi_Conditional"
-              ? "NewScalping"
-              : selectStrategyType
-            : selectStrategyType,
-        Strategy:
-          selectStrategyType === "Scalping"
-            ? selectedRowData?.Targetselection
-            : selectStrategyType === "Option Strategy"
-            ? selectedRowData?.STG
-            : selectStrategyType === "Pattern"
-            ? selectedRowData?.TradePattern
-            : "Cash",
-        Symbol: selectedRowData?.Symbol || "",
-        Username: selectedRowData?.Username || "",
-        ETPattern: selectedRowData?.Targettype || selectedRowData.TType || "",
-        Timeframe: selectedRowData?.TimeFrame || "",
-        From_date: convertDateFormat(FromDate || formattedDate),
-        To_date: convertDateFormat(ToDate || Default_To_Date),
-        Group: selectedRowData?.GroupN || "",
-        TradePattern: "",
-        PatternName: "",
-        InitialDeposite: 0,
-      };
+        selectStrategyType === "Scalping"
+          ? selectedRowData.ScalpType === "Multi_Conditional"
+            ? "NewScalping"
+            : selectStrategyType
+          : selectStrategyType,
+      Strategy:
+        selectStrategyType === "Scalping"
+          ? selectedRowData.Targetselection
+          : selectStrategyType === "Option Strategy"
+          ? selectedRowData.STG
+          : selectStrategyType === "Pattern"
+          ? selectedRowData.TradePattern
+          : activeTab,
+      Symbol:  selectStrategyType === "Option Strategy"? selectedRowData.MainSymbol : selectedRowData.Symbol,
+      Username: selectedRowData.Username || "",
+      ETPattern:  selectStrategyType ==="Pattern" ? selectedRowData.Pattern :(selectedRowData.TType ||selectedRowData.Targettype),
+      Timeframe: selectedRowData.TimeFrame || "",
+      From_date: convertDateFormat(FromDate || formattedDate),
+      To_date: convertDateFormat(ToDate || Default_To_Date),
+      Group: selectedRowData.GroupN || "",
+      TradePattern: "",
+      PatternName: "",
+      InitialDeposite: 0,
+      }
 
       if (section === "pnlAnalysis") {
         const pnlRes = await get_PnL_Data(params);
@@ -467,7 +502,6 @@ const Tradehistory = () => {
     autoSubmitIfNeeded();
   }, [selectedRowData, location?.state?.goto]);
 
-console.log("AnalyticsOverview", AnalyticsOverview);
   return (
     <Content
       Page_title={"📊 Trade History "}
@@ -549,7 +583,7 @@ console.log("AnalyticsOverview", AnalyticsOverview);
                   />
                   <div className="d-grid gap-2">
                     <button
-                      className="addbtn"
+                      className="addbtn hoverNone"
                       onClick={handleSubmit}
                       disabled={!selectedRowData}
                     >
@@ -648,7 +682,7 @@ console.log("AnalyticsOverview", AnalyticsOverview);
                   {selectStrategyType !== "ChartingPlatform" && (
                     <div className="d-grid gap-2">
                       <button
-                        className="addbtn"
+                        className="addbtn hoverNone"
                         onClick={handleSubmit}
                         disabled={!selectedRowData}
                       >

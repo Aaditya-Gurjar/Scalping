@@ -502,7 +502,7 @@ export const columns6 = [
 
   {
     name: "RepeatationCount",
-    label: "Repeatation Count",
+    label: "Repetition Count",
     options: {
       filter: true,
       sort: true,

@@ -62,9 +62,6 @@ const AddClient = () => {
 
 
   const dataWithoutLastItem = location?.state?.data?.scriptType?.data?.slice(0, -1);
-  console.log("location?.state?.data?", location?.state?.data?.scriptType?.data)
-
-
 
   const getEndData = (stg) => {
     const foundItem = dataWithoutLastItem.find((item) => {
@@ -142,12 +139,12 @@ const AddClient = () => {
       Trade_Execution: "Paper Trade",
       quantityselection: "Addition",
       Targetselection: "Fixed Target",
-      RepeatationCount: 2,
+      RepeatationCount: 1,
       Profit: 0,
       Loss: 0,
       RollOver: false,
       NumberOfDays: "0",
-      RollOverExitTime: "00:00:00",
+      RolloverTime: "00:00:00",
       TargetExit: false,
       WorkingDay: [],
       OrderType: "Pending",
@@ -165,6 +162,10 @@ const AddClient = () => {
       }
       if (!values.Trade_Execution || values.Trade_Execution == 0) {
         errors.Trade_Execution = "Please Select Trade Execution.";
+      }
+
+      if(values.TargetExit === "" || values.TargetExit === undefined || values.TargetExit === null) {
+        errors.TargetExit ="Please Enter Continue after cycle exit"
       }
       if (!values.Trade_Count || values.Trade_Count == 0) {
         errors.Trade_Count = "Please Enter Trade Count.";
@@ -340,10 +341,11 @@ const AddClient = () => {
         errors.FixedSM = "Please Select Position Type";
       }
       if (values.Strategy === "Multi_Conditional" && values.FixedSM === "Multiple") {
+
         if (values.RepeatationCount === "" || values.RepeatationCount === undefined) {
-          errors.RepeatationCount = "Please enter a value for Repeatation Count";
-        } else if (values.RepeatationCount < 2) {
-          errors.RepeatationCount = "Repeatation count must be at least 2";
+          errors.RepeatationCount = "Please enter a value for Repetition Count";
+        } else if (values.RepeatationCount < 1) {
+          errors.RepeatationCount = "Repetition Count must be at least 1";
         }
       }
       if (
@@ -376,12 +378,12 @@ const AddClient = () => {
       }
 
       if (
-        !values.RollOverExitTime &&
+        !values.RolloverTime &&
         values.Strategy == "Multi_Conditional" &&
         values.FixedSM == "Multiple" &&
         values.RollOver == true
       ) {
-        errors.RollOverExitTime = "Please Enter RollOver Exit Time";
+        errors.RolloverTime = "Please Enter RollOver Exit Time";
       }
 
       if (!values.WorkingDay?.length > 0) {
@@ -404,6 +406,7 @@ const AddClient = () => {
       ) {
         errors.FinalTarget = "Please Enter Final Target Price";
       }
+      
 
       // ScrollToViewFirstError(errors);
       return errors;
@@ -564,9 +567,9 @@ const AddClient = () => {
               : "0",
           RolloverTime:
             values.FixedSM == "Multiple" &&
-              values.Strategy == "Multi_Conditional" &&
-              values.RollOver == "true"
-              ? values.RollOverExitTime
+            values.Strategy == "Multi_Conditional" &&
+            values.RollOver == "true"
+              ? values.RolloverTime
               : "00:00:00",
           TargetExit:
             values.Strategy == "Multi Directional" ||
@@ -657,7 +660,7 @@ const AddClient = () => {
           ) {
             if (Number(values.quantity2) > 0) {
               return SweentAlertFun("Please Enter Target 2 ");
-            } else if (Number(values.tgp2) > 0) {
+            } else if (Number(formik.values.tgp2) > 0) {
               return SweentAlertFun(
                 formik.values.Exchange == "NFO"
                   ? "Please Enter Lot 2"
@@ -683,7 +686,7 @@ const AddClient = () => {
           .then((response) => {
             if (response.Status) {
               Swal.fire({
-                background: "#1a1e23 ",
+                 // background: "#1a1e23 ",
                 backdrop: "#121010ba",
                 confirmButtonColor: "#1ccc8a",
                 title: "Script Added !",
@@ -693,7 +696,7 @@ const AddClient = () => {
                 timerProgressBar: true,
               });
 
-              sessionStorage.setItem("addScriptTab", "Scalping"); 
+              sessionStorage.setItem("redirectStrategyType", "Scalping"); 
               setTimeout(() => {
                 navigate("/user/dashboard" );
               }, 1500);
@@ -725,6 +728,7 @@ const AddClient = () => {
     formik.setFieldValue("Instrument", "FUTIDX");
     formik.setFieldValue("HoldExit", "Hold");
     formik.setFieldValue("TStype", "Point");
+    formik.setFieldValue("TargetExit", false);
   }, []);
 
   useEffect(() => {
@@ -733,7 +737,7 @@ const AddClient = () => {
     }
   }, [formik.values.Exchange]);
 
- 
+  
  
   // let expiry = formik.values.expirydata1 == "Monthly"
   // ? getExpiryDate?.data?.[0]
@@ -1224,7 +1228,7 @@ const AddClient = () => {
     },
     {
       name: "RepeatationCount",
-      label: "Repeatation Count",
+      label: "Repetition Count",
       type: "text3",
       label_size: 12,
       // col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
@@ -1483,7 +1487,7 @@ const AddClient = () => {
     },
 
     {
-      name: "RollOverExitTime",
+      name: "RolloverTime",
       label: "RollOver Exit Time",
       type: "timepiker",
       label_size: 12,
@@ -1731,24 +1735,29 @@ const AddClient = () => {
     }
   };
 
+
+
   let currentWebSocket = null;
-  const showLivePrice = async (singleChannel) => {
-     
+  const showLivePrice = async (singleChannel, channel1) => {
+      
+    console.log(" Channel--", channel1)
+
+    // console.log("singleChannel", singleChannel)
     if (currentWebSocket && typeof currentWebSocket.close === "function") {
-      currentWebSocket.close(); // Or implement unsubscribe logic if supported
+      currentWebSocket.close(); 
+    
     }
 
     currentWebSocket = connectWebSocket(singleChannel, (data) => {
-      if (data.lp && data.tk && channel && channel?.includes(data.tk)) {
-        console.log("Channel List", singleChannel)
-        console.log("data", data)
+      if (data.lp && data.tk && channel1 && channel1 === data.tk) {
+        // console.log("Channel List", singleChannel)
+        // console.log("data", data)
         $(".LivePrice").html(data.lp);
-        // console.log("Updated Price Data:", data);
+        console.log("Updated Price Data:", data.lp);
       }
     });
   }
 
-  console.log("channel", channel)
 
 
   const token = async () => {
@@ -1766,8 +1775,9 @@ const AddClient = () => {
               ? getExpiryDate?.data?.[1] : formik.values.expirydata1
         });        
         const singleChannel = `${formik.values.Exchange}|${res.Token[0]}`
-        setChannel(singleChannel)        
-        showLivePrice(singleChannel)
+        console.log("singlechnnellllllllllll", singleChannel)
+        setChannel(res.Token[0])        
+        showLivePrice(singleChannel, res.Token[0])
 
       }
 
@@ -1834,11 +1844,11 @@ const AddClient = () => {
     if (formik.values.Exchange !== "MCX") {
       formik.setFieldValue("ExitTime", "15:14:00");
       formik.setFieldValue("EntryTime", "09:15:00");
-      formik.setFieldValue("RollOverExitTime", "14:00:00");
+      formik.setFieldValue("RolloverTime", "14:00:00");
     } else if (formik.values.Exchange === "MCX") {
       formik.setFieldValue("ExitTime", "23:25:00");
       formik.setFieldValue("EntryTime", "09:00:00");
-      formik.setFieldValue("RollOverExitTime", "23:00:00");
+      formik.setFieldValue("RolloverTime", "23:00:00");
 
     }
   }, [formik.values.Exchange]);
@@ -2081,10 +2091,11 @@ const AddClient = () => {
         // page_title="Add Script scalping"
         btn_name="Add"
         btn_name1="Cancel"
+       
         formik={formik}
         btn_name1_route={"/user/dashboard"}
         btn_name1_onClick={() => {
-          sessionStorage.setItem("addScriptTab", "Scalping");
+          sessionStorage.setItem("redirectStrategyType", "Scalping");
           navigate("/user/dashboard");
         }}
         additional_field={

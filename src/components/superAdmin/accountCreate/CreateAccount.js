@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import { createAdmin, superToAdminGetNewPermission } from '../../CommonAPI/SuperAdmin';
@@ -7,6 +5,7 @@ import AddForm from "../../../ExtraComponent/FormData2";
 import { useFormik } from "formik";
 import { useNavigate } from 'react-router-dom';
 import Content from '../../../ExtraComponent/Content';
+import { options } from '@fullcalendar/core/preact.js';
 
 const Adduser = () => {
     const navigate = useNavigate();
@@ -51,7 +50,7 @@ const Adduser = () => {
 
                 } else {
                     Swal.fire({
-                        background: "#1a1e23 ",
+                         // background: "#1a1e23 ",
                         backdrop: "#121010ba",
                         confirmButtonColor: "#1ccc8a",
                         title: "Error!",
@@ -115,34 +114,33 @@ const Adduser = () => {
             if (values.Signpassword !== values.ConfirmPassword) {
                 errors.ConfirmPassword = "Password And Confirm Password Should Be Same";
             }
-            if (!values.AmmountDetails) {
+            if (values.AmmountDetails === "") {
                 errors.AmmountDetails = "Please Enter Amount";
             }
-            if (!values.SOPLiveTrade) {
+            if (values.SOPLiveTrade === "") {
                 errors.SOPLiveTrade = "Please Enter Live Trade Amount";
             }
-            if (!values.SOPPaperTrade) {
+            if (values.SOPPaperTrade === "") {
                 errors.SOPPaperTrade = "Please Enter Paper Trade Amount";
             }
-            if (!values.SOPScriptwise) {
+            if (values.SOPScriptwise === "") {
                 errors.SOPScriptwise = "Please Enter Paper Trade Amount";
             }
             if (!values.Companyname) {
                 errors.Companyname = "Please Enter Company Name";
             }
             if (!values.Url) {
-                errors.Url = "Please Enter URL"
+                errors.Url = "Please Enter URL";
             }
-            if (!values.ChartPerMonth) {
+            if (values.ChartPerMonth === "") {
                 errors.ChartPerMonth = "Please Enter Charting Amount";
             }
-            if (!values.ChartPaperTrade) {
+            if (values.ChartPaperTrade === "") {
                 errors.ChartPaperTrade = "Please Enter Chart Per Trade";
             }
-            if(!values.ChartLiveTrade) {
+            if (values.ChartLiveTrade === "") {
                 errors.ChartLiveTrade = "Please Enter Chart Live Trade";
             }
-            
             return errors;
         },
         onSubmit: async (values) => {
@@ -166,12 +164,13 @@ const Adduser = () => {
                 ChartLiveTrade: values.ChartLiveTrade,
             };
 
+ 
 
             await createAdmin(req)
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
-                            background: "#1a1e23 ",
+                             // background: "#1a1e23 ",
                             backdrop: "#121010ba",
                             confirmButtonColor: "#1ccc8a",
                             title: "Admin Created!",
@@ -186,7 +185,7 @@ const Adduser = () => {
                     }
                     else {
                         Swal.fire({
-                            background: "#1a1e23 ",
+                             // background: "#1a1e23 ",
                             backdrop: "#121010ba",
                             confirmButtonColor: "#1ccc8a",
                             title: "Error!",
@@ -349,29 +348,30 @@ const Adduser = () => {
         {
             name: "BrokerPermission",
             label: "Broker Permission",
-            type: "custom",
+            type: "select2",
             label_size: 12,
             col_size: 6,
             disable: false,
-            customRender: (value = []) => (
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-                {value.slice(0, 20).map((item, index) => (
-                  <span
-                    key={index}
-                    style={{
-                      backgroundColor: "#e0f7fa",
-                      padding: "4px 8px",
-                      borderRadius: "4px",
-                      fontSize: "0.875rem",
-                      flex: "0 1 calc(20%)", // 5 per row
-                      boxSizing: "border-box",
-                    }}
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
-            )
+            options: optionsArray,
+            // customRender: (value = []) => (
+            //   <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+            //     {value.slice(0, 20).map((item, index) => (
+            //       <span
+            //         key={index}
+            //         style={{
+            //           backgroundColor: "#e0f7fa",
+            //           padding: "4px 8px",
+            //           borderRadius: "4px",
+            //           fontSize: "0.875rem",
+            //           flex: "0 1 calc(20%)", // 5 per row
+            //           boxSizing: "border-box",
+            //         }}
+            //       >
+            //         {item}
+            //       </span>
+            //     ))}
+            //   </div>
+            // )
           }
           
 

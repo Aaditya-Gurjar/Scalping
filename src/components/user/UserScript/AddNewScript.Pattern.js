@@ -22,7 +22,7 @@ const AddClient = () => {
     const [patternOptionMarketWise, setPatternOptionMarketWise] = useState([])
     const SweentAlertFun = (text) => {
         Swal.fire({
-            background: "#1a1e23 ",
+             // background: "#1a1e23 ",
             backdrop: "#121010ba",
             confirmButtonColor: "#1ccc8a",
             title: "Error",
@@ -233,10 +233,10 @@ const AddClient = () => {
                 Instrument: values.Instrument,
                 Strike: values.Strike,
                 Optiontype: values.Instrument == "OPTIDX" || values.Instrument == "OPTSTK" ? values.Optiontype : "",
-                Targetvalue: values.Targetvalue,
-                Slvalue: values.Slvalue,
+                Targetvalue: parseFloat(values.Targetvalue),
+                Slvalue: parseFloat(values.Slvalue),
                 TStype: values.TStype,
-                Quantity: values.Quantity,
+                Quantity: parseFloat(values.Quantity),
                 LowerRange: 0.0,
                 HigherRange: 0.0,
                 HoldExit: '',
@@ -298,7 +298,7 @@ const AddClient = () => {
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
-                            background: "#1a1e23 ",
+                             // background: "#1a1e23 ",
                             backdrop: "#121010ba",
                             confirmButtonColor: "#1ccc8a",
                             title: "Script Added !",
@@ -307,7 +307,7 @@ const AddClient = () => {
                             timer: 1500,
                             timerProgressBar: true
                         });
-                        sessionStorage.setItem("addScriptTab", "Pattern");
+                        sessionStorage.setItem("redirectStrategyType", "Pattern");
 
                         setTimeout(() => {
                             navigate('/user/dashboard')
@@ -315,7 +315,7 @@ const AddClient = () => {
                     }
                     else {
                         Swal.fire({
-                            background: "#1a1e23 ",
+                             // background: "#1a1e23 ",
                             backdrop: "#121010ba",
                             confirmButtonColor: "#1ccc8a",
                             title: "Error !",
@@ -837,7 +837,6 @@ const AddClient = () => {
         },
     ];
 
-    console.log("patternOptionMarketWise", patternOptionMarketWise)
  const fetchPatternName = async () => {
     if(formik.values.Marketwise !== "All"){
         const res = await getPattenNameByMarketWise(formik.values.Marketwise);

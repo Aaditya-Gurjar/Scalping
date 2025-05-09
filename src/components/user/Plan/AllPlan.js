@@ -33,6 +33,7 @@ const style = {
   borderRadius: 2,
   boxShadow: 24,
   p: 4,
+  padding: 4,
 };
 
 const ServicesList = () => {
@@ -74,9 +75,7 @@ const adminPermission = localStorage.getItem("adminPermission");
         ? getUpdatedPlansCharting[selectedPlan.index]
         : getUpdatedPlans[selectedPlan.index]; // Use getUpdatedPlans or getUpdatedPlansCharting
 
-      console.log("Selected Plan Details:", planDetails);
-      console.log("Coupon Code Entered:", couponCode);
-
+      
       const req = {
         User: username,
         Planname: planDetails.Planname || planDetails.PlanName, // Ensure correct plan name is passed
@@ -84,7 +83,6 @@ const adminPermission = localStorage.getItem("adminPermission");
       };
 
       const res = await applyCouponCode(req);
-      console.log("Coupon Verification Response:", res);
 
       if (res.Status) {
         const actualPrice = planDetails.SOPPrice || planDetails.ChartPerMonth;
@@ -131,6 +129,8 @@ const adminPermission = localStorage.getItem("adminPermission");
           cancelButtonText: "Cancel",
           reverseButtons: false,
           showCloseButton: true, // Add close button to the top-right corner
+          allowEnterKey: true, // Enable Enter key for confirmation
+          focusConfirm: true,  // Focus on the "Yes" button
         });
 
         if (result.isConfirmed) {
@@ -148,6 +148,8 @@ const adminPermission = localStorage.getItem("adminPermission");
           reverseButtons: false, // Ensure "Extend End Date" is on the left and "Cancel" is on the right
           allowOutsideClick: false, // Prevent closing the alert by clicking outside
           showCloseButton: true, // Add a close button to the top-right corner
+          allowEnterKey: true, // Enable Enter key for confirmation
+          focusConfirm: true,  // Focus on the "Extend End Date" button
         });
 
         if (result.isConfirmed) {
@@ -170,6 +172,20 @@ const adminPermission = localStorage.getItem("adminPermission");
     if (selectedPlan) {
       if (selectedPlan.isBuyNow) {
         // Show Confirm Purchase modal for Buy Now
+        // const result = await Swal.fire({
+        //   title: "Confirm Purchase",
+        //   text: `Do you want to continue with this plan: ${selectedPlan.Planname || selectedPlan.PlanName} for ₹${selectedPlan.SOPPrice || selectedPlan.ChartPerMonth}?`,
+        //   icon: "question",
+        //   showCancelButton: true,
+        //   confirmButtonText: "Yes",
+        //   cancelButtonText: "Cancel",
+        //   reverseButtons: false,
+        //   showCloseButton: true, 
+        // });
+
+        
+        
+
         const result = await Swal.fire({
           title: "Confirm Purchase",
           text: `Do you want to continue with this plan: ${selectedPlan.Planname || selectedPlan.PlanName} for ₹${selectedPlan.SOPPrice || selectedPlan.ChartPerMonth}?`,
@@ -177,9 +193,13 @@ const adminPermission = localStorage.getItem("adminPermission");
           showCancelButton: true,
           confirmButtonText: "Yes",
           cancelButtonText: "Cancel",
-          reverseButtons: false,
-          showCloseButton: true, // Add close button to the top-right corner
+          confirmButtonColor: "#28a745", // Green
+          cancelButtonColor: "#d33",     // Red
+          focusConfirm: true,  // Focus on the "Yes" button
+          allowEnterKey: true, // Enable Enter key for confirmation
         });
+        
+        
 
         if (result.isConfirmed) {
           HandleBuyPlan(selectedPlan.index, 1, selectedPlan.isCharting); // Confirm purchase
@@ -196,6 +216,8 @@ const adminPermission = localStorage.getItem("adminPermission");
           reverseButtons: false, // Ensure "Extend End Date" is on the left and "Extend Number of Scripts" is on the right
           allowOutsideClick: false, // Prevent closing the alert by clicking outside
           showCloseButton: true, // Add a close button to the top-right corner
+          allowEnterKey: true, // Enable Enter key for confirmation
+          focusConfirm: true,  // Focus on the "Extend End Date" button
         });
 
         if (result.isConfirmed) {
@@ -310,14 +332,13 @@ const adminPermission = localStorage.getItem("adminPermission");
       const planDetails = isCharting
         ? plansData?.data1[index]
         : plansData?.data[index];
-
       const req1 = {
         Username: username,
         transactiontype: "Purchase",
-        money: price || planDetails.SOPPrice || planDetails.ChartPerMonth, // Use discounted price if available
+        money: price || planDetails.SOPPrice || planDetails.ChartPerMonth,
+        Activity : planDetails?.Planname // Use discounted price if available
       };
 
-      console.log("Plandetailssss", planDetails)
 
       const CheckBalanceResponse = await AddBalance(req1);
       if (CheckBalanceResponse.Status) {
@@ -564,6 +585,7 @@ const adminPermission = localStorage.getItem("adminPermission");
                     </div>
                     {(isPlanPurchased(plan?.Planname) && !planExpired?.includes(plan?.Planname)) ? (
                       <button
+                        type="button"
                         className="allplan-button buy-again"
                         onClick={() => handleBuyAgain(index, false)}
                       >
@@ -571,6 +593,7 @@ const adminPermission = localStorage.getItem("adminPermission");
                       </button>
                     ) : (
                       <button
+                        type="button"
                         className="allplan-button"
                         onClick={() => handleBuyNow(index, false)}
                       >
@@ -666,17 +689,19 @@ const adminPermission = localStorage.getItem("adminPermission");
         onClose={handleClose}
         aria-labelledby="coupon-modal-title"
         aria-describedby="coupon-modal-description"
+        className="coupon-modal"
       >
+        
         <Box sx={style}>
           {/* Close Button */}
           <Button
             onClick={handleClose}
             sx={{
               position: "absolute",
-              top: 8,
+              top:5,
               right: 8,
               minWidth: "auto",
-              padding: 2,
+              padding: 1,
               color: "#000",
               backgroundColor: "transparent",
               "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.1)" },
@@ -718,7 +743,7 @@ const adminPermission = localStorage.getItem("adminPermission");
 
           {/* Continue Buttons */}
           <Stack direction="column" spacing={2} mt={3}>
-            <button variant="text" className="btn border" onClick={handleContinueWithout}>
+            <button variant="text" className="btn border card-text-Color" onClick={handleContinueWithout}>
               Continue without Coupon
             </button>
             <button

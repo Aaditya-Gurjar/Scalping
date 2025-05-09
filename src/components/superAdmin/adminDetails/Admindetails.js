@@ -93,7 +93,7 @@ const Strategygroup = () => {
         const res = await superadminCoupon(offerData);
         if (res.Status) {
             Swal.fire({
-                background: "#1a1e23 ",
+                 // background: "#1a1e23 ",
                 backdrop: "#121010ba",
                 confirmButtonColor: "#1ccc8a",
                 title: "Success!",
@@ -103,7 +103,7 @@ const Strategygroup = () => {
             });
         } else {
             Swal.fire({
-                background: "#1a1e23 ",
+                 // background: "#1a1e23 ",
                 backdrop: "#121010ba",
                 confirmButtonColor: "#1ccc8a",
                 title: "Error!",
@@ -113,7 +113,6 @@ const Strategygroup = () => {
             });
         }
  
-        console.log("res", res)
         setShowOfferModal(false); // Close modal
     };
 
@@ -145,7 +144,7 @@ const Strategygroup = () => {
         let Companyname = getAdminDetails[index].Companyname;
 
         Swal.fire({
-            background: "#1a1e23 ",
+             // background: "#1a1e23 ",
             backdrop: "#121010ba",
             confirmButtonColor: "#1ccc8a",
             title: "Are you sure?",
@@ -163,7 +162,7 @@ const Strategygroup = () => {
                             adminDetailsData();
                             e.target.checked = status;
                             Swal.fire({
-                                background: "#1a1e23 ",
+                                 // background: "#1a1e23 ",
                                 backdrop: "#121010ba",
                                 confirmButtonColor: "#1ccc8a",
                                 title: "Changed!",
@@ -189,7 +188,7 @@ const Strategygroup = () => {
         let Companyname = getAdminDetails[index].Companyname;
 
         Swal.fire({
-            background: "#1a1e23 ",
+             // background: "#1a1e23 ",
             backdrop: "#121010ba",
             confirmButtonColor: "#1ccc8a",
             title: "Are you sure?",
@@ -207,7 +206,7 @@ const Strategygroup = () => {
                             adminDetailsData();
 
                             Swal.fire({
-                                background: "#1a1e23 ",
+                                 // background: "#1a1e23 ",
                                 backdrop: "#121010ba",
                                 confirmButtonColor: "#1ccc8a",
                                 title: "Changed!",
@@ -255,7 +254,7 @@ const Strategygroup = () => {
 
                 } else {
                     Swal.fire({
-                        background: "#1a1e23 ",
+                         // background: "#1a1e23 ",
                         backdrop: "#121010ba",
                         confirmButtonColor: "#1ccc8a",
                         title: "Error!",
@@ -333,7 +332,7 @@ const Strategygroup = () => {
             const response = await deleteSubAdminData(dataRequest);
             if (response.Status) {
                 Swal.fire({
-                    background: "#1a1e23 ",
+                     // background: "#1a1e23 ",
                     backdrop: "#121010ba",
                     confirmButtonColor: "#1ccc8a",
                     title: "Deleted!",
@@ -347,7 +346,7 @@ const Strategygroup = () => {
             }
             else {
                 Swal.fire({
-                    background: "#1a1e23 ",
+                     // background: "#1a1e23 ",
                     backdrop: "#121010ba",
                     confirmButtonColor: "#1ccc8a",
                     title: "Error!",
@@ -620,7 +619,7 @@ const Strategygroup = () => {
     const handleSubmitFund = async () => {
         if (amount === '') {
             Swal.fire({
-                background: "#1a1e23 ",
+                 // background: "#1a1e23 ",
                 backdrop: "#121010ba",
                 confirmButtonColor: "#1ccc8a",
                 icon: 'error',
@@ -638,7 +637,7 @@ const Strategygroup = () => {
             .then((response) => {
                 if (response.Status) {
                     Swal.fire({
-                        background: "#1a1e23 ",
+                         // background: "#1a1e23 ",
                         backdrop: "#121010ba",
                         confirmButtonColor: "#1ccc8a",
                         icon: 'success',
@@ -649,7 +648,7 @@ const Strategygroup = () => {
                 }
                 else {
                     Swal.fire({
-                        background: "#1a1e23 ",
+                         // background: "#1a1e23 ",
                         backdrop: "#121010ba",
                         confirmButtonColor: "#1ccc8a",
                         icon: 'error',
@@ -717,7 +716,7 @@ const Strategygroup = () => {
     //             .then((response) => {
     //                 if (response.Status) {
     //                     Swal.fire({
-    //                         background: "#1a1e23 ",
+    //                          // background: "#1a1e23 ",
     //                         backdrop: "#121010ba",
     //                         confirmButtonColor: "#1ccc8a",
     //                         title: "Admin Updated!",
@@ -732,7 +731,7 @@ const Strategygroup = () => {
     //                 }
     //                 else {
     //                     Swal.fire({
-    //                         background: "#1a1e23 ",
+    //                          // background: "#1a1e23 ",
     //                         backdrop: "#121010ba",
     //                         confirmButtonColor: "#1ccc8a",
     //                         title: "Error!",
@@ -1021,7 +1020,7 @@ const Strategygroup = () => {
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
-                            background: "#1a1e23 ",
+                             // background: "#1a1e23 ",
                             backdrop: "#121010ba",
                             confirmButtonColor: "#1ccc8a",
                             title: "Broker Updated!",
@@ -1036,7 +1035,7 @@ const Strategygroup = () => {
                     }
                     else {
                         Swal.fire({
-                            background: "#1a1e23 ",
+                             // background: "#1a1e23 ",
                             backdrop: "#121010ba",
                             confirmButtonColor: "#1ccc8a",
                             title: "Error!",
@@ -1091,7 +1090,7 @@ const Strategygroup = () => {
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
-                            background: "#1a1e23 ",
+                             // background: "#1a1e23 ",
                             backdrop: "#121010ba",
                             confirmButtonColor: "#1ccc8a",
                             title: "Permission Updated!",
@@ -1106,7 +1105,7 @@ const Strategygroup = () => {
                     }
                     else {
                         Swal.fire({
-                            background: "#1a1e23 ",
+                             // background: "#1a1e23 ",
                             backdrop: "#121010ba",
                             confirmButtonColor: "#1ccc8a",
                             title: "Error!",

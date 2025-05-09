@@ -13,6 +13,8 @@ import "./AllPlan.css"; // Import your custom CSS
 import Content from "../../../ExtraComponent/Content";
 import { EditPlanname, GetAllStratgy, getChartingStrategyTag } from "../../CommonAPI/Admin";
 import Swal from 'sweetalert2';
+import NoDataFound from "../../../ExtraComponent/NoDataFound";
+
 
 
 // Make sure Bootstrap CSS is imported in your entry file (index.js or App.js)
@@ -70,7 +72,6 @@ const AdminServicesList = () => {
     );
   };
 
-  console.log("strategyTags", strategyTags)
 
   // Function to handle edit button click
   const handleEdit = async (plan) => {
@@ -110,6 +111,7 @@ const AdminServicesList = () => {
           loading: false,
           data: filterPlan,
           data1: filterPlanCharting,
+          
         });
       }
     } catch (error) {
@@ -170,7 +172,6 @@ const AdminServicesList = () => {
     }));
   };
 
-  console.log("editPlanData", editPlanData)
   const handleModalSave = async () => {
     try {
 
@@ -253,6 +254,8 @@ const AdminServicesList = () => {
             <Tab eventKey="Scalping" title="SOP" onClick={() => setActiveTab("Scalping")}>
               {plansData.loading ? (
                 <p>Loading...</p>
+              ) : plansData.data.length === 0 ? (
+                <NoDataFound />
               ) : (
                 <div className="allplan-grid">
                   {plansData.data
@@ -387,6 +390,8 @@ const AdminServicesList = () => {
               <Tab eventKey="Charting" title="Charting" onClick={() => setActiveTab("Charting")}>
                 {plansData.loading ? (
                   <p>Loading...</p>
+                ) : plansData.data1.length === 0 ? (
+                  <NoDataFound />
                 ) : (
                   <div className="allplan-grid">
                     {plansData.data1

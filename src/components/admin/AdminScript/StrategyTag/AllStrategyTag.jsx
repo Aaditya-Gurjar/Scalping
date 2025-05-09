@@ -11,7 +11,6 @@ const AllStrategyTag = () => {
 
     const fetchStarategyTag = async () => {
         const res = await getChartingStrategyTag();
-        console.log("All Strategy Tag", res);
         if (res && res.data) {
             setStrategyTags(res.data); // Store the data in state
         }
@@ -21,7 +20,6 @@ const AllStrategyTag = () => {
         fetchStarategyTag();
     }, []);
 
-    console.log("Strategy Tags", strategyTags);
 
     return (
         <Content

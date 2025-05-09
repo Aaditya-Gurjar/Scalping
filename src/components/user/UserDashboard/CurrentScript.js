@@ -61,7 +61,6 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
   const stg = sessionStorage.getItem("StrategyType");
 
-  console.log("allScripts2", allScripts2)
 
 
   const [getAllService, setAllservice] = useState({
@@ -136,7 +135,6 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
 
   const showLivePrice = async () => {
-    console.log("Channel List", channelList)
     connectWebSocket(channelList, (data) => {
       if (data.lp && data.tk) {
         $(".LivePrice_" + data.tk).html(data.lp);
@@ -173,9 +171,8 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
     const data = { Username: userName };
     await GetUserScripts(data)
       .then((response) => {
-
         if (response.Status) {
-
+          localStorage.setItem("Planname", response.data[0].Planname || "");
           setAllScripts({
             data: response.data,
             len: response.data?.length - 1,
@@ -196,18 +193,17 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
 
   const GetChartingAllotStg = async () => {
-    console.log("GetChartingAllotStg")
     const data = { Username: userName };
     await chartAllotStrategyApi(data)
       .then((response) => {
-
         if (response.Status) {
-
           setAllScripts2({
             data: response.data,
             len: response.data?.length - 1,
             Planname: response.data[response.data?.length - 1].Planname,
           });
+          
+          const res = response?.data?.[response.len]?.CombineChartingSignal?.length 
         } else {
           setAllScripts2({
             data: [],
@@ -314,10 +310,10 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
                   setRefresh(!refresh);
                 },
               });
-              // setTimeout(() => {
-              //   sessionStorage.setItem("deletedStrategyType", data);
-              //   // window.location.reload();
-              // }, 1500);
+              setTimeout(() => {
+                sessionStorage.setItem("redirectStrategyType", data);
+                // window.location.reload();
+              }, 1500);
             } else {
               Swal.fire({
                 title: "Error !",
@@ -527,7 +523,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
             .then((response) => {
               if (response.Status) {
                 Swal.fire({
-                  background: "#1a1e23 ",
+                   // background: "#1a1e23 ",
                   backdrop: "#121010ba",
                   title: "Success",
                   text: response.message,
@@ -564,7 +560,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
           if (response.Status) {
             Swal.fire({
-              background: "#1a1e23 ",
+               // background: "#1a1e23 ",
               backdrop: "#121010ba",
               title: "Success",
               text: response.message,
@@ -595,7 +591,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
         //         // icon: "success",
         //         // timer: 2000,
         //         // timerProgressBar: true
-        //         background: "#1a1e23 ",
+        //          // background: "#1a1e23 ",
         //         backdrop: "#121010ba",
         //         title: "Success",
         //         text: response.message,
@@ -702,7 +698,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
                   //     timerProgressBar: true
                   // })
                   Swal.fire({
-                    background: "#1a1e23 ",
+                     // background: "#1a1e23 ",
                     backdrop: "#121010ba",
                     title: "Success",
                     text: response.message,
@@ -829,6 +825,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
               data: { selectStrategyType: "Scalping", scriptType: allScripts },
             },
           });
+              
         } else {
           Swal.fire({
             title: "Warning",
@@ -1173,7 +1170,6 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
         errors.FinalTarget = "Please Enter Final Target Price";
       }
 
-      console.log("errors", errors)
 
       return errors;
     },
@@ -2278,7 +2274,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
     {
       name: "RepeatationCount",
-      label: "Repeatation Count",
+      label: "Repetition Count",
       type: "text3",
       label_size: 12,
       col_size: formik.values.FixedSM == "Multiple" ? 3 : 4,
@@ -2754,7 +2750,6 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       formik2.setFieldValue("Loss", EditDataPattern.Loss || 0);
     }
   }, [showEditModal, data, EditDataPattern]);
-  console.log("EditDataPattern", EditDataPattern)
 
   const updatedFields = fields.filter((item) => {
     return item.hiding == false
@@ -2773,7 +2768,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
                     <>
                       <div className="iq-card-header d-flex justify-content-between">
                         <div className="iq-header-title">
-                          {tableType === "MultiCondition" ? <h3 className="card-title">{"Scalping"}</h3> : <h4 className="card-title">{data}</h4>}
+                          {tableType === "MultiCondition" ? <h3 className="card-title">{data}</h3> : <h4 className="card-title">{data}</h4>}
                         </div>
                         <div className='d-flex justify-content-end'>
                           {/* <button className='addbtn btn btn-primary rounded mx-2 mt-1' onClick={() => AddScript(data)}>Add Script</button> */}

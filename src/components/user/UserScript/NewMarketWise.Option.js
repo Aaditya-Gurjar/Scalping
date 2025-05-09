@@ -27,6 +27,7 @@ const AddClient = (Planname) => {
   const [exchangeOptions, setExchangeOptions] = useState([]);
   const [openModel, setOpenModel] = useState(false);
   const [optionRadioType, setOptionRadioType] = useState([]);
+  const getPlanname = localStorage.getItem("Planname");
 
   const [PnlData, setPnlData] = useState({
     MaximumProfit: "",
@@ -41,7 +42,7 @@ const AddClient = (Planname) => {
 
   const SweentAlertFun = (text) => {
     Swal.fire({
-      background: "#1a1e23 ",
+       // background: "#1a1e23 ",
       backdrop: "#121010ba",
       confirmButtonColor: "#1ccc8a",
       title: "Error",
@@ -65,7 +66,6 @@ const AddClient = (Planname) => {
     return foundItem.EndDate;
   };
 
-
   const ScrollToViewFirstError = (newErrors) => {
     if (Object.keys(newErrors).length !== 0) {
       const errorField = Object.keys(newErrors)[0];
@@ -85,6 +85,7 @@ const AddClient = (Planname) => {
   };
 
   const OptionType_options = ["Bearish", "Bullish", "Neutral", "Volatile"]
+
 
   const formik = useFormik({
     initialValues: {
@@ -461,7 +462,7 @@ const AddClient = (Planname) => {
             values.Strategy == "LongShifting"
             ? values.Shifting_Point
             : values.Targetvalue,
-        Slvalue: values.Slvalue,
+        Slvalue: parseFloat(values.Slvalue),
         TStype: values.TStype,
         Quantity: values.Quantity,
         LowerRange:
@@ -537,9 +538,7 @@ const AddClient = (Planname) => {
         WorkingDay: values?.WorkingDay
           ? values?.WorkingDay?.map((item) => item?.value || item)
           : [],
-        Planname: location?.state?.data?.scriptType?.data?.find(
-          (item) => item.EndDate == getEndData(formik.values.Strategy)
-        )?.Planname,
+        Planname: getPlanname
       };
 
 
@@ -604,7 +603,7 @@ const AddClient = (Planname) => {
         .then((response) => {
           if (response.Status) {
             Swal.fire({
-              background: "#1a1e23 ",
+               // background: "#1a1e23 ",
               backdrop: "#121010ba",
               confirmButtonColor: "#1ccc8a",
               title: "Script Added !",
@@ -613,14 +612,14 @@ const AddClient = (Planname) => {
               timer: 1500,
               timerProgressBar: true,
             });
-            sessionStorage.setItem("addScriptTab", "Option Strategy");
+            sessionStorage.setItem("redirectStrategyType", "Option Strategy");
 
             setTimeout(() => {
               navigate("/user/dashboard", { state: { prevSelectedTab: "Option Strategy" } });
             }, 1500);
           } else {
             Swal.fire({
-              background: "#1a1e23 ",
+               // background: "#1a1e23 ",
               backdrop: "#121010ba",
               confirmButtonColor: "#1ccc8a",
               title: "Error !",
@@ -637,7 +636,6 @@ const AddClient = (Planname) => {
     },
   });
 
-  console.log("formik.values.Strategy", formik.values.Strategy);
   useEffect(() => {
     axios
       .get(`${Config.base_url}OptionExchange`)
@@ -997,15 +995,16 @@ const AddClient = (Planname) => {
       label: "PE Hedge Higher",
       type: "number",
       hiding: false,
-      sshowWhen: (value) =>
+      showWhen: (value) =>
         [
           "ShortFourLegStrategy", "LongFourLegStrategy" 
-        ].includes(value.Strategy)  , 
+        ].includes(value.Strategy), 
       label_size: 12,
       col_size: 3,
       headingtype: 2,
       disable: false,
     },
+
     {
       name: "Unique_ID",
       label: "Unique Name",
@@ -1296,7 +1295,11 @@ const AddClient = (Planname) => {
     try {
       const res = await getOptionType(formik.values.Measurment_Type);
       if (res) {
-        setOptionRadioType(res[formik.values.Measurment_Type])
+        const options = res[formik.values.Measurment_Type];
+        setOptionRadioType(options);
+        if (options?.length > 0) {
+          formik.setFieldValue("Strategy", options[0]); // Auto-select the first option
+        }
       } else {
         console.error("Unexpected API response:", res);
       }
@@ -1304,7 +1307,6 @@ const AddClient = (Planname) => {
       console.error("Error fetching radio options:", error);
     }
   };
-
 
   useEffect(() => {
     fetchRadioOptions()
@@ -1506,7 +1508,11 @@ const AddClient = (Planname) => {
     ) {
       formik.setFieldValue("TStype", "Point");
       formik.setFieldValue("Targetvalue", 0);
-      formik.setFieldValue("Slvalue", 0);
+      formik.setFieldValue("Slvalue", 0 );
+    }
+    else{
+      formik.setFieldValue("Targetvalue", 1);
+      formik.setFieldValue("Slvalue", 1 );
     }
     if (
       formik.values.Strategy != "ShortFourLegStretegy" ||
@@ -1554,7 +1560,7 @@ const AddClient = (Planname) => {
       Instrument: "FUTIDX",
       Strike: "",
       Optiontype: "",
-      Targetvalue: formik.values.Targetvalue,
+      Targetvalue: formik.values.Targetvalue || 1,
       Slvalue: formik.values.Slvalue,
       TStype: formik.values.TStype,
       Quantity: formik.values.Quantity,
@@ -1724,13 +1730,13 @@ const AddClient = (Planname) => {
                 ].map(({ label, value }, index) => (
                   <div key={index} className="col-md-6 d-flex align-items-center py-2">
                     <label
-                      className="fw-bold text-white mb-0 me-2 card-text-Color"
+                      className="fw-bold mb-0 me-2 card-text-Color"
                       style={{ fontSize: "18px", minWidth: "150px" }}
                     >
                       {label}:
                     </label>
                     <span
-                      className="text-white mb-0"
+                      className="mb-0"
                       style={{ fontSize: "18px", fontWeight: "500" }}
                     >
                       {value !== null && !isNaN(value) ? parseFloat(value).toFixed(4) : "N/A"}
@@ -1744,7 +1750,7 @@ const AddClient = (Planname) => {
           )}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setOpenModel(false)}>
+          <Button  variant="secondary" onClick={() => setOpenModel(false)}>
             Close
           </Button>
         </Modal.Footer>

@@ -50,10 +50,9 @@ const ViewGroup = ({ group, isCopyScriptVisible, handleAddScript11, handleAddScr
 
 
 
-  console.log("allScripts----", allScripts)
 
   const handleAddScript1 = (data1, type) => {
-
+ 
     const selectedRowIndex = data1?.rowIndex;
     const selectedRow = type == 1 ? getAllService?.data?.[selectedRowIndex] : getAllService?.data1?.[selectedRowIndex];
  

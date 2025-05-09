@@ -20,7 +20,6 @@ import { useLocation } from "react-router-dom";
 const Userdashboard = () => {
   const userName = localStorage.getItem("name");
   const StrategyType = sessionStorage.getItem("StrategyType");
-  const deletedStrategyType = sessionStorage.getItem("deletedStrategyType");
 
   const addVia = sessionStorage.getItem("addVia");
   const groupName = sessionStorage.getItem("groupName");
@@ -45,17 +44,13 @@ const Userdashboard = () => {
 
   const [botView, setBotView] = useState("Create New Bot"); // Default to "Create New Bot"
 
-  useEffect(() => {
-    setSubTab(deletedStrategyType || "Scalping"); // Ensure "Scalping" is selected by default
-  }
-    , [deletedStrategyType]);
 
-  const addScriptTab = sessionStorage.getItem("addScriptTab");
+  const redirectStrategyType = sessionStorage.getItem("redirectStrategyType");
 
   useEffect(() => {
-    setSubTab(addScriptTab);
-    // sessionStorage.removeItem("addScriptTab"); 
-  }, [addScriptTab]);
+    setSubTab(redirectStrategyType);
+    // sessionStorage.removeItem("redirectStrategyType"); 
+  }, [redirectStrategyType]);
 
 
   const currentDate = new Date();
@@ -170,6 +165,9 @@ const Userdashboard = () => {
         console.log("Error in finding the open postion data", err);
       });
   };
+
+
+  
 
   const columns1 = [
     {
@@ -711,12 +709,26 @@ const Userdashboard = () => {
   ];
 
   useEffect(() => {
-    if (subTab === "Scalping") {
-      setTableType(StrategyType || "MultiCondition");
-    } else {
-      setTableType(StrategyType || "Scalping");
+    if (botView === "Create New Bot") {
+      setSubTab("Scalping");
+      setGroup("");
+      sessionStorage.setItem("StrategyType", "Scalping");
+      sessionStorage.removeItem("groupName");
+    } else if (botView === "Suggested Bots") {
+      setGroup("demo");
+      setSubTab("");
+      sessionStorage.setItem("groupName", "demo");
+      sessionStorage.removeItem("StrategyType");
     }
-  }, [subTab]);
+  }, [botView]);
+
+
+
+  useEffect(() => {
+    setSubTab(redirectStrategyType || "Scalping");
+  }
+    , [redirectStrategyType]);
+
 
   return (
     <Content
@@ -816,7 +828,7 @@ const Userdashboard = () => {
                                 sessionStorage.removeItem("StrategyType"); // Clear StrategyType from session
                               }}
                             >
-                              <FiPlusCircle className="me-1" /> {type} 
+                              <FiPlusCircle className="me-1" /> {type}
                             </button>
                           </li>
                         ))}

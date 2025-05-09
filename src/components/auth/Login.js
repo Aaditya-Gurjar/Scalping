@@ -31,11 +31,11 @@ const Login = () => {
                     localStorage.setItem("name", Username)
                     localStorage.setItem("token", response.access_token)
                     Swal.fire({
-                        background: "#1a1e23 ",
+                        //  // background: "#1a1e23 ",
                         backdrop: "#121010ba",
                         confirmButtonColor: "#1ccc8a",
                         title: "Login!",
-                        text: "User Login  successfully!",
+                        text: "User Login successfully!",
                         icon: "success",
                         timer: 1500,
                         timerProgressBar: true
@@ -56,7 +56,7 @@ const Login = () => {
                 }
                 else {
                     Swal.fire({
-                        background: "#1a1e23 ",
+                         // background: "#1a1e23 ",
                         backdrop: "#121010ba",
                         confirmButtonColor: "#1ccc8a",
                         title: "Error!",
@@ -120,7 +120,7 @@ const Login = () => {
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
-                            background: "#1a1e23 ",
+                             // background: "#1a1e23 ",
                             backdrop: "#121010ba",
                             confirmButtonColor: "#1ccc8a",
                             title: "Success",
@@ -133,7 +133,7 @@ const Login = () => {
                     }
                     else {
                         Swal.fire({
-                            background: "#1a1e23 ",
+                             // background: "#1a1e23 ",
                             backdrop: "#121010ba",
                             confirmButtonColor: "#1ccc8a",
                             title: "Error",

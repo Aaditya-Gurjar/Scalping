@@ -76,6 +76,7 @@ const TradeResponse = () => {
   const day1 = String(DefultToDate.getDate()).padStart(2, "0");
   const Defult_To_Date = `${year1}.${month1}.${day1}`;
 
+  console.log("location?.state", location?.state)
 
   useEffect(() => {
     if (selectStrategyType == "Scalping") {
@@ -97,12 +98,7 @@ const TradeResponse = () => {
     if (selectStrategyType == "ChartingPlatform") getChartingData();
   }, [selectStrategyType]);
 
-  useEffect(() => {
-    if (location?.state?.tableMeta) {
-        console.log("Received tableMeta:", location.state.tableMeta); // Log tableMeta
-    }
-}, [location?.state?.tableMeta]);
-
+  
 
   const getChartingScript = async () => {
     const filterData = getChartingSegments.filter(
@@ -348,7 +344,7 @@ const TradeResponse = () => {
           setShowTable(true);
         } else {
           Swal.fire({
-            background: "#1a1e23 ",
+             // background: "#1a1e23 ",
             backdrop: "#121010ba",
             confirmButtonColor: "#1ccc8a",
             title: "No Records found",
