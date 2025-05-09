@@ -190,13 +190,13 @@ const Sidebar = ({ position }) => {
     },
     {
       path: "/admin/clientservice",
-      icon: <i className="fa fa-users" />, // Client Service icon
+      icon: <i className="ri-group-line" />, // Client Service icon
       label: "Add Client",
       permission: [],
     },
     {
       path: "/admin/allSubadmin",
-      icon: <i className="ri-group-fill" />, // SubAdmin icon
+      icon: <i className="las la-user-check"></i>, // SubAdmin icon
       label: "SubAdmin",
       permission: [],
     },
@@ -214,7 +214,7 @@ const Sidebar = ({ position }) => {
     },
     {
       path: "/admin/userlogs",
-      icon: <i className="fa-regular fa-link" />,
+      icon:<i className="las la-clipboard-list"></i>,
       label:
         (
           <>
@@ -225,7 +225,7 @@ const Sidebar = ({ position }) => {
     },
     {
       path: "/admin/Coupon",
-      icon: <i className="fa fa-percent" />,
+      icon:<i className="las la-percentage"></i>,
       label:
         (
           <>

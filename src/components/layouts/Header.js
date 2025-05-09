@@ -665,10 +665,10 @@ const Header = () => {
                 <ul className="navbar-nav ms-auto navbar-list align-items-center">
                   <li className="nav-item dropdown">
                     <button
-                      className="addbtn mx-3 dropdown-toggle"
+                      className="addbtn mx-3 dropdown-toggle btn-sm btn"
                       id="adminMenuDropdown"
                       data-bs-toggle="dropdown"
-                      aria-expanded="false"
+                     
                     >
                       Admin Menu
                     </button>
