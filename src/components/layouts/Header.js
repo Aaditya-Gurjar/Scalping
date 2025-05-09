@@ -942,7 +942,7 @@ const Header = () => {
                     </div>
                   </li> */}
 
-                  <li className="live-price-item">
+                  {/* <li className="live-price-item">
                     <div className="live-price-box">
                       <span className="label card-text-Color">NIFTY:</span>
                       <span className="LivePrice_NIFTY liveprice-text-color ms-2">{ }</span>
@@ -955,7 +955,7 @@ const Header = () => {
                       <span className="label card-text-Color">BANKNIFTY:</span>
                       <span className="LivePrice_BANKNIFTY liveprice-text-color ms-2">{ }</span>
                     </div>
-                  </li>
+                  </li> */}
 
   
 

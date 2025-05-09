@@ -5,6 +5,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import { useSidebar } from "./SidebarContext";
 import { HandCoins } from "lucide-react";
+import { getAdminPermission } from "../CommonAPI/Admin";
 
 const Sidebar = ({ position }) => {
   const role = localStorage.getItem("Role");
@@ -14,6 +15,38 @@ const Sidebar = ({ position }) => {
   const permission = localStorage.getItem("SubAdminPermission");
   const expire = localStorage.getItem("expire");
   const adminPermission = localStorage.getItem("adminPermission");
+
+  const[permissionData, setPermissionData] = useState([]);
+  
+      const AdminPermission = async () => {
+        try {
+          await getAdminPermission()
+            .then((response) => {
+              if (response.Status) {
+               
+                setPermissionData(JSON.stringify(response.Data))
+  
+              } else {
+                setPermissionData({
+                  data: [],
+                });
+              }
+            })
+            .catch((err) => {
+              console.log("Error Group data fetch", err);
+            });
+        } catch {
+          console.log("Error Group data fetch");
+        }
+      };
+    
+      useEffect(() => {
+        AdminPermission();
+      }, []);
+   
+
+
+
 
   const setImages = () => {
     $(".title_name").text(localStorage.getItem("pannel_name"));
@@ -190,7 +223,7 @@ const Sidebar = ({ position }) => {
     ],
   };
 
-  if (adminPermission?.includes("ChartingPlatform")) {
+  if (permissionData?.includes("ChartingPlatform")) {
     sidebarItems.Admin.push({
       path: "/admin/Strategy-tag",
       icon: <i className="la la-chess-knight"></i>,
@@ -202,7 +235,7 @@ const Sidebar = ({ position }) => {
     },);
   }
 
-  if (adminPermission?.includes("Copy Trading")) {
+  if (permissionData?.includes("Copy Trading")) {
     sidebarItems.Admin.push({
       path: "/admin/Master-Account",
       icon: <i className="la la-user-shield"></i>,

@@ -83,6 +83,8 @@ const Userdashboard = () => {
     ChartingData: [],
   });
 
+
+  console.log("getPositionData", getPositionData);
   const getAllGroupNames = async () => {
     const data = { User: userName };
     const res = await GetAllUserGroup(data)
@@ -145,10 +147,10 @@ const Userdashboard = () => {
         if (response.Status) {
           setPositionData({
             loading: false,
-            Scalping: response.Scalping,
-            Option: response.Option,
-            Pattern: response.Pattern,
-            NewScalping: response?.NewScalping,
+            Scalping: response.Scalping || [],
+            Option: response.Option || [],
+            Pattern: response.Pattern || [],
+            NewScalping: response?.NewScalping || [],
             ChartingData: response?.ChartingData || [],
           });
         } else {

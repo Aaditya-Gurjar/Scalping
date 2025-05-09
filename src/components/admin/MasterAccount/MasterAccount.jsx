@@ -301,9 +301,9 @@ const MasterAccount = () => {
 
       {/* Single card display for Master and Child Accounts */}
       {data?.MainUser && (
-        <div className="account-card-single w-100 mw-100">
+        <div className="account-card-single w-100 mw-100 card-bg-color">
           <h4 className="account-title-single">Master Account :  
-          <span className="account-value-single text-dark">{data.MainUser}</span></h4>
+          <span className="account-value-single card-text-Colors">{data.MainUser}</span></h4>
           <hr className="account-divider" />
           <h4 className="fs-6">Child Accounts     <button className="addbtn btn btn-sm" onClick={handleEditClick}>
            <i className='fa fa-edit me-0'></i> 

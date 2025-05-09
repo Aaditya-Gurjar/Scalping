@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import $ from "jquery";
-import { ListCollapse, Users, BadgeDollarSign, Pyramid,HandCoins  } from "lucide-react";
+import { ListCollapse, Users, BadgeDollarSign, Pyramid, HandCoins } from "lucide-react";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import { useSidebar } from "./SidebarContext";
-import { SubAdminPermission } from '../CommonAPI/Admin'
+import { getAdminPermission, SubAdminPermission } from '../CommonAPI/Admin'
 
 
 const Sidebar = ({ position }) => {
@@ -23,7 +23,35 @@ const Sidebar = ({ position }) => {
   const [permission, setPermission] = useState(
     JSON.parse(localStorage.getItem("SubAdminPermission")) || null
   );
-  const permissions = localStorage.getItem("adminPermission");
+  // const permissions = localStorage.getItem("adminPermission");
+const[permissionData, setPermissionData] = useState([]);
+
+    const AdminPermission = async () => {
+      try {
+        await getAdminPermission()
+          .then((response) => {
+            if (response.Status) {
+             
+              setPermissionData(JSON.stringify(response.Data))
+
+            } else {
+              setPermissionData({
+                data: [],
+              });
+            }
+          })
+          .catch((err) => {
+            console.log("Error Group data fetch", err);
+          });
+      } catch {
+        console.log("Error Group data fetch");
+      }
+    };
+  
+    useEffect(() => {
+      AdminPermission();
+    }, []);
+ 
 
   const expire = localStorage.getItem("expire");
 
@@ -214,7 +242,7 @@ const Sidebar = ({ position }) => {
     },
     {
       path: "/admin/userlogs",
-      icon:<i className="las la-clipboard-list"></i>,
+      icon: <i className="las la-clipboard-list"></i>,
       label:
         (
           <>
@@ -225,7 +253,7 @@ const Sidebar = ({ position }) => {
     },
     {
       path: "/admin/Coupon",
-      icon:<i className="las la-percentage"></i>,
+      icon: <i className="las la-percentage"></i>,
       label:
         (
           <>
@@ -236,7 +264,7 @@ const Sidebar = ({ position }) => {
     },
   ];
 
-  const isOptionChainIncluded = permissions?.includes("Option Chain")
+  const isOptionChainIncluded = permissionData?.includes("Option Chain")
 
   if (isOptionChainIncluded) {
     adminSideBaar.push({
@@ -346,7 +374,6 @@ const Sidebar = ({ position }) => {
     // }
   ];
 
-
   const renderSidebarItems = (items) =>
     items
       .filter(
@@ -374,8 +401,6 @@ const Sidebar = ({ position }) => {
       ));
 
   const getSidebarItems = () => {
-
-
 
     switch (role) {
       case "Admin":
