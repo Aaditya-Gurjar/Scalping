@@ -341,6 +341,7 @@ const AddClient = () => {
         errors.FixedSM = "Please Select Position Type";
       }
       if (values.Strategy === "Multi_Conditional" && values.FixedSM === "Multiple") {
+
         if (values.RepeatationCount === "" || values.RepeatationCount === undefined) {
           errors.RepeatationCount = "Please enter a value for Repetition Count";
         } else if (values.RepeatationCount < 1) {
@@ -659,7 +660,7 @@ const AddClient = () => {
           ) {
             if (Number(values.quantity2) > 0) {
               return SweentAlertFun("Please Enter Target 2 ");
-            } else if (Number(values.tgp2) > 0) {
+            } else if (Number(formik.values.tgp2) > 0) {
               return SweentAlertFun(
                 formik.values.Exchange == "NFO"
                   ? "Please Enter Lot 2"

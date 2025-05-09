@@ -1,10 +1,12 @@
 import { useLocation, useNavigate } from "react-router-dom"
-import AddForm from "../../../ExtraComponent/FormData";
+import AddForm from "../../../ExtraComponent/FormData2";
 import { useFormik } from "formik";
 import { useState, useEffect } from "react";
 import Swal from 'sweetalert2';
 import { AddAdminScript, GET_EXPIRY_DATE, Get_StrikePrice, Get_Symbol, Get_Pattern_Time_Frame, Get_Pattern_Charting, Get_Pattern_Name, GetExchange } from '../../CommonAPI/Admin'
 import { text } from "../../../ExtraComponent/IconTexts";
+import Content from "../../../ExtraComponent/Content";
+import { getPattenNameByMarketWise } from "../../CommonAPI/User";
 
 const AddClient = () => {
 
@@ -17,10 +19,11 @@ const AddClient = () => {
     const [getExpiryDate, setExpiryDate] = useState({ loading: true, data: [] })
     const [getChartPattern, setChartPattern] = useState({ loading: true, data: [] })
     const [getPattern, setPattern] = useState({ loading: true, data: [] })
+    const [patternOptionMarketWise, setPatternOptionMarketWise] = useState([])
 
     const SweentAlertFun = (text) => {
         Swal.fire({
-             // background: "#1a1e23 ",
+            // background: "#1a1e23 ",
             backdrop: "#121010ba",
             confirmButtonColor: "#1ccc8a",
             title: "Error",
@@ -49,6 +52,8 @@ const AddClient = () => {
         }
     }
 
+   
+
     const formik = useFormik({
         initialValues: {
             MainStrategy: location.state?.data?.selectStrategyType,
@@ -58,7 +63,7 @@ const AddClient = () => {
             Timeframe: "",
             Exchange: "",
             Symbol: "",
-            Instrument: "",
+            Instrument: "FUTIDX",
             Strike: "",
             Optiontype: "",
             Targetvalue: 1.0,
@@ -193,12 +198,12 @@ const AddClient = () => {
                 FixedSM: "",
                 TType: values.TType,
                 // expirydata1: values.Exchange == "NSE" ? "-" : values.expirydata1,
-                expirydata1: 
-                  values.expirydata1 === "Monthly"
-                    ? getExpiryDate?.data?.[0]
-                    : values.expirydata1 === "Next_Month"
-                      ? getExpiryDate?.data?.[1]
-                      : values.expirydata1 || "-", // Ensure a fallback value is set
+                expirydata1:
+                    values.expirydata1 === "Monthly"
+                        ? getExpiryDate?.data?.[0]
+                        : values.expirydata1 === "Next_Month"
+                            ? getExpiryDate?.data?.[1]
+                            : values.expirydata1 || "-", // Ensure a fallback value is set
 
                 Expirytype: "",
                 Striketype: "",
@@ -222,7 +227,7 @@ const AddClient = () => {
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
-                             // background: "#1a1e23 ",
+                            // background: "#1a1e23 ",
                             backdrop: "#121010ba",
                             confirmButtonColor: "#1ccc8a",
                             title: "Script Added !",
@@ -237,7 +242,7 @@ const AddClient = () => {
                     }
                     else {
                         Swal.fire({
-                             // background: "#1a1e23 ",
+                            // background: "#1a1e23 ",
                             backdrop: "#121010ba",
                             confirmButtonColor: "#1ccc8a",
                             title: "Error !",
@@ -266,7 +271,19 @@ const AddClient = () => {
 
     }, [formik.values.Exchange]);
 
+    const fetchPatternName = async () => {
+        if(formik.values.Marketwise !== "All"){
+            const res = await getPattenNameByMarketWise(formik.values.Marketwise);
+            
+                setPatternOptionMarketWise(res[formik.values.Marketwise] || []);
+            
+        }
+     }
 
+     
+      useEffect(() => {
+         fetchPatternName()
+      }, [formik.values.Marketwise])
 
     useEffect(() => {
         formik.setFieldValue('Strategy', "CandlestickPattern")
@@ -279,6 +296,7 @@ const AddClient = () => {
         formik.setFieldValue('TStype', "Point")
         formik.setFieldValue('ExitDay', "Intraday")
         formik.setFieldValue('TType', "BUY")
+        formik.setFieldValue('Instrument', "FUTIDX")
     }, [])
 
     const get_Exchange = async () => {
@@ -404,17 +422,17 @@ const AddClient = () => {
             label: "Expiry Date",
             type: "select",
             options: formik.values.Exchange == "NFO" &&
-            (formik.values.Instrument == "FUTIDX" ||
-                formik.values.Instrument == "FUTSTK")
-            ? [
-                { label: "Monthly", value: "Monthly" },
-                { label: "Next Month", value: "Next_Month" },
-            ]
-            : getExpiryDate &&
-            getExpiryDate.data.map((item) => ({
-                label: item,
-                value: item,
-            })),
+                (formik.values.Instrument == "FUTIDX" ||
+                    formik.values.Instrument == "FUTSTK")
+                ? [
+                    { label: "Monthly", value: "Monthly" },
+                    { label: "Next Month", value: "Next_Month" },
+                ]
+                : getExpiryDate &&
+                getExpiryDate.data.map((item) => ({
+                    label: item,
+                    value: item,
+                })),
             // options: getExpiryDate && getExpiryDate.data.map((item) => ({
             //     label: item,
             //     value: item
@@ -427,10 +445,6 @@ const AddClient = () => {
             col_size: formik.values.Exchange == "NFO" && (formik.values.Instrument == 'FUTIDX' || formik.values.Instrument == 'FUTSTK') ? 3 : formik.values.Exchange == "NFO" && (formik.values.Instrument == 'OPTIDX' || formik.values.Instrument == 'OPTSTK') ? 4 : 6,
             disable: false,
         },
-
-    ]
-
-    const EntryRuleArr = [
         {
             name: "Timeframe",
             label: "Time Frame",
@@ -445,6 +459,11 @@ const AddClient = () => {
             col_size: 3,
             disable: false,
         },
+
+    ]
+
+    const EntryRuleArr = [
+       
         {
             name: "Strategy",
             label: "Pattern Type",
@@ -460,24 +479,62 @@ const AddClient = () => {
             col_size: 3,
             disable: false,
         },
+
+        {
+            name: "Marketwise",
+            label: "Market-wise",
+            type: "select",
+            options: formik.values.Strategy === 'ChartingPattern'
+                ? [
+                    { label: "All", value: "All" },
+                    { label: "Bullish", value: "BullishChartingPattern" },
+                    { label: "Bearish", value: "BearishChartingPattern" },
+                    { label: "Continuation", value: "ContinuationChartingPattern" }
+                ]
+                : [
+                    { label: "All", value: "All" },
+                    { label: "Bullish", value: "BullishCandlePattern" },
+                    { label: "Bearish", value: "BearishCandlePattern" },
+                    { label: "Continuation", value: "ContinuationCandlePattern" }
+                ],
+            label_size: 12,
+            hiding: false,
+            col_size: 3,
+            headingtype: 2,
+            disable: false,
+        },        
+
         {
             name: "ETPattern",
             label: "Pattern Name",
             type: "select",
-            options: formik.values.Strategy == 'ChartingPattern' ? getChartPattern.data && getChartPattern.data.map((item) => ({
-                label: item,
-                value: item
-            })) :
-                getPattern.data && getPattern.data.map((item) => ({
-                    label: item,
-                    value: item
-                })),
+            options:
+                formik.values.Strategy === 'ChartingPattern' && formik.values.Marketwise === "All"
+                    ? getChartPattern.data?.map((item) => ({
+                        label: item,
+                        value: item
+                    }))
+                    : formik.values.Strategy === 'CandlestickPattern' && formik.values.Marketwise === "All"
+                        ? getPattern.data?.map((item) => ({
+                            label: item,
+                            value: item
+                        }))
+                        : formik.values.Strategy === 'ChartingPattern' ? patternOptionMarketWise?.map((item) => ({
+                            label: item,
+                            value: item
+                        })) 
+                            : formik.values.Strategy === 'CandlestickPattern' ? patternOptionMarketWise?.map((item) => ({
+                                label: item,
+                                value: item
+                            })) : [],
+                         
             label_size: 12,
             hiding: false,
             headingtype: 2,
             col_size: 3,
             disable: false,
         },
+
         {
             name: "TType",
             label: "Transaction Type",
@@ -540,7 +597,7 @@ const AddClient = () => {
     ]
 
     const RiskManagementArr = [
-        
+
 
         {
             name: "Quantity",
@@ -840,15 +897,18 @@ const AddClient = () => {
 
     return (
         <>
-            <AddForm
-                fields={fields.filter((field) => !field.showWhen || field.showWhen(formik.values))}
+            <Content>
+                
+                <AddForm
+                    fields={fields.filter((field) => !field.showWhen || field.showWhen(formik.values))}
 
-                page_title={`Add Script - Pattern Script  , Group Name : ${location.state?.data?.selectGroup}`}
-                btn_name="Add"
-                btn_name1="Cancel"
-                formik={formik}
-                btn_name1_route={"/admin/allscript"}
-            />
+                    page_title={`Add Script - Pattern Script  , Group Name : ${location.state?.data?.selectGroup}`}
+                    btn_name="Add"
+                    btn_name1="Cancel"
+                    formik={formik}
+                    btn_name1_route={"/admin/allscript"}
+                />
+            </Content>
         </>
     );
 };

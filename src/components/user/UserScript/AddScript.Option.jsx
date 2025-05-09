@@ -48,7 +48,7 @@ const AddClient = () => {
 
   const SweentAlertFun = (text) => {
     Swal.fire({
-       // background: "#1a1e23 ",
+      // background: "#1a1e23 ",
       backdrop: "#121010ba",
       confirmButtonColor: "#1ccc8a",
       title: "Error",
@@ -71,7 +71,7 @@ const AddClient = () => {
   };
 
 
- 
+
   const formik = useFormik({
     initialValues: {
       MainStrategy: location.state?.data?.selectStrategyType,
@@ -125,10 +125,14 @@ const AddClient = () => {
     },
     validate: (values) => {
       let errors = {};
+      
       const maxTime = "15:29:59";
       const minTime = "09:15:00";
       if (!values.Strategy) {
         errors.Strategy = "Please Select a Strategy Type.";
+      }
+      if(!values.Exchange) {
+        errors.Exchange = "Please Select Exchange";
       }
       if (!values.Measurment_Type) {
         errors.Measurment_Type = "Please select Option type.";
@@ -420,10 +424,10 @@ const AddClient = () => {
         errors.Profit = "Please Enter Maximum Profit";
       }
 
-      // if (!values.WorkingDay?.length > 0) {
-      //   errors.WorkingDay = "Please select Working day";
-      // }
-      if ( values.WorkingDay?.length === 0) {
+      if (!values.WorkingDay?.length > 0) {
+        errors.WorkingDay = "Please select Working day";
+      }
+      if (values.WorkingDay?.length === 0) {
         errors.WorkingDay = "Please select Working day";
       }
 
@@ -495,6 +499,7 @@ const AddClient = () => {
         serendate: getEndData(values.Measurment_Type),
         // expirydata1: values.Expirytype == "Weekly" ? getExpiry && getExpiry.data[0] : values.Expirytype == "Next Week" ? getExpiry && getExpiry.data[1] : getExpiry && getExpiry.data[2],
         expirydata1: getExpiry && getExpiry.data[0],
+        ExitRuleO: formik.values.ExitRuleO,
 
         Expirytype: values.Expirytype,
         Striketype:
@@ -580,7 +585,7 @@ const AddClient = () => {
           ? values?.WorkingDay?.map((item) => item?.value || item)
           : [],
 
-          Planname : getPlanname || "",
+        Planname: getPlanname || "",
 
       };
 
@@ -643,7 +648,7 @@ const AddClient = () => {
         .then((response) => {
           if (response.Status) {
             Swal.fire({
-               // background: "#1a1e23 ",
+              // background: "#1a1e23 ",
               backdrop: "#121010ba",
               confirmButtonColor: "#1ccc8a",
               title: "Script Added !",
@@ -657,7 +662,7 @@ const AddClient = () => {
             }, 1500);
           } else {
             Swal.fire({
-               // background: "#1a1e23 ",
+              // background: "#1a1e23 ",
               backdrop: "#121010ba",
               confirmButtonColor: "#1ccc8a",
               title: "Error !",
@@ -681,10 +686,10 @@ const AddClient = () => {
         formik.setFieldTouched('WorkingDay', true, false);
       }
     }
-  }, [formik.submitCount]); 
-  
+  }, [formik.submitCount]);
 
-  const value=  location?.state?.data 
+
+  const value = location?.state?.data
 
   const handleCheckPnl = async () => {
     // const weekend = new Date().getDay();
@@ -713,14 +718,14 @@ const AddClient = () => {
 
     const totalMinutes = hours * 60 + minutes; // e.g., 14 * 60 + 30 = 870
 
-    
+
     // Market hours: 9:15 AM to 3:30 PM => 555 to 930 in total minutes
     if (weekend === 6 || weekend === 0 || totalMinutes < 555 || totalMinutes > 930) {
       return SweentAlertFun("Market is off Today");
     }
 
     const req = {
-      
+
       MainStrategy: location.state.data.selectStrategyType,
       Strategy: formik.values.Strategy,
       Username: userName,
@@ -797,7 +802,7 @@ const AddClient = () => {
       quantityselection: "",
       quantityvalue: 0.0,
       targetselection: "",
-      ExitRuleO : formik.values.ExitRuleO || "",
+      ExitRuleO: formik.values.ExitRuleO,
     };
 
     await CheckPnL(req)
@@ -831,6 +836,8 @@ const AddClient = () => {
         console.log("Error in fetching the PnL", err);
       });
   };
+
+  console.log("location.state.data.ExitRuleO", location.state.data)
 
   useEffect(() => {
     const workingDay = location?.state?.data?.WorkingDay?.map((item) => ({
@@ -912,7 +919,10 @@ const AddClient = () => {
     formik.setFieldValue("Profit", location.state.data.Profit || 0);
     formik.setFieldValue("Loss", location.state.data.Loss || 0);
     formik.setFieldValue("WorkingDay", workingDay);
-    formik.setFieldValue("ExitRuleO", location.state.data.ExitRuleO || "");
+    formik.setFieldValue(
+      "ExitRuleO",
+      location.state.data.ExitRuleO || ""
+    );
   }, []);
 
   const SymbolSelectionArr = [
@@ -1318,7 +1328,7 @@ const AddClient = () => {
   ];
 
   const RiskManagementArr = [
-  
+
     {
       name: "Quantity",
       label: "Lot",

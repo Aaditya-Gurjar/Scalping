@@ -5,6 +5,7 @@ import AddForm from "../../../ExtraComponent/FormData2";
 import { useFormik } from "formik";
 import { useNavigate } from 'react-router-dom';
 import Content from '../../../ExtraComponent/Content';
+import { options } from '@fullcalendar/core/preact.js';
 
 const Adduser = () => {
     const navigate = useNavigate();
@@ -163,6 +164,7 @@ const Adduser = () => {
                 ChartLiveTrade: values.ChartLiveTrade,
             };
 
+ 
 
             await createAdmin(req)
                 .then((response) => {
@@ -346,29 +348,30 @@ const Adduser = () => {
         {
             name: "BrokerPermission",
             label: "Broker Permission",
-            type: "custom",
+            type: "select2",
             label_size: 12,
             col_size: 6,
             disable: false,
-            customRender: (value = []) => (
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-                {value.slice(0, 20).map((item, index) => (
-                  <span
-                    key={index}
-                    style={{
-                      backgroundColor: "#e0f7fa",
-                      padding: "4px 8px",
-                      borderRadius: "4px",
-                      fontSize: "0.875rem",
-                      flex: "0 1 calc(20%)", // 5 per row
-                      boxSizing: "border-box",
-                    }}
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
-            )
+            options: optionsArray,
+            // customRender: (value = []) => (
+            //   <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+            //     {value.slice(0, 20).map((item, index) => (
+            //       <span
+            //         key={index}
+            //         style={{
+            //           backgroundColor: "#e0f7fa",
+            //           padding: "4px 8px",
+            //           borderRadius: "4px",
+            //           fontSize: "0.875rem",
+            //           flex: "0 1 calc(20%)", // 5 per row
+            //           boxSizing: "border-box",
+            //         }}
+            //       >
+            //         {item}
+            //       </span>
+            //     ))}
+            //   </div>
+            // )
           }
           
 

@@ -206,20 +206,36 @@ const AddClient = () => {
       if (!values.ExitDay) {
         errors.ExitDay = "Please Select Exit Day.";
       }
-      if (!values.EntryPrice) {
-        if (values.Strategy == "Fixed Price" && values.EntryPrice == 0) {
+
+      if (
+        values.EntryPrice === undefined ||
+        values.EntryPrice === null ||
+        values.EntryPrice === ""
+      ) {
+        if (          
+          (formik.values.Strategy == "Multi_Conditional" && formik.values.position_type == "Single") || formik.values.Strategy == "Fixed Price"
+        ) {
           errors.EntryPrice = "Please Enter The Lowest Price.";
-        } else if (values.Strategy != "Fixed Price" && values.EntryPrice != 0) {
+        } else if (formik.values.Strategy != "Fixed Price") {
           errors.EntryPrice = "Please Enter The First Trade Lower Range";
         }
       }
-      if (!values.EntryRange) {
-        if (values.Strategy == "Fixed Price" && values.EntryRange == 0) {
+      if (
+        values.EntryRange === undefined ||
+        values.EntryRange === null ||
+        values.EntryRange === ""
+      ) {
+        if (
+           (formik.values.Strategy == "Multi_Conditional" && formik.values.position_type == "Single") || formik.values.Strategy == "Fixed Price"
+        ) {
           errors.EntryRange = "Please Enter The Highest Price.";
-        } else if (values.Strategy != "Fixed Price" && values.EntryRange != 0) {
+        } else if (formik.values.Strategy != "Fixed Price") {
           errors.EntryRange = "Please Enter The First Trade Higher Range";
         }
       }
+
+
+
 
       if (!values.Targetvalue) {
         errors.Targetvalue =
@@ -294,7 +310,7 @@ const AddClient = () => {
       }
       if (
         values.Strategy === "Multi_Conditional" &&
-        values.FixedSM === "Multiple"
+        values.position_type === "Multiple"
       ) {
         if (
           values.RepeatationCount === "" ||
@@ -382,8 +398,8 @@ const AddClient = () => {
         errors.FinalTarget = "Please Enter Final Target Price";
       }
 
-      if (values.WorkingDay?.length === 0) {
-        errors.WorkingDay = "Please Select Working Day";
+      if (!values.WorkingDay?.length > 0) {
+        errors.WorkingDay = "Please select Working day";
       }
 
       console.log("err", errors);
@@ -470,7 +486,7 @@ const AddClient = () => {
         TradeCount: values.Trade_Count || 1,
         TradeExecution: values.Trade_Execution,
         // stretegytag: values.Strategy,
-        Strategy : values.Strategy,
+        Strategy: values.Strategy,
         quantity2:
           values.position_type == "Single" &&
             values.Strategy == "Multi_Conditional"
@@ -698,6 +714,11 @@ const AddClient = () => {
   });
 
 
+  
+  console.log("values.Strategy", formik.values.Strategy);
+  console.log("values.FixedSMFixedSM", formik.values.position_type);
+
+
   const token = async () => {
     try {
       if (
@@ -789,7 +810,7 @@ const AddClient = () => {
       return null;
     }
   };
-
+ 
   const result = extractDetails(location.state.data.Symbol);
 
   useEffect(() => {
@@ -883,7 +904,7 @@ const AddClient = () => {
     formik.setFieldValue("RolloverDay", location?.state?.data?.RolloverDay || "0");
     formik.setFieldValue(
       "RolloverTime",
-      location?.state?.data?.RolloverTime 
+      location?.state?.data?.RolloverTime
     );
     formik.setFieldValue("OrderType", location?.state?.data?.OrderType);
     formik.setFieldValue("RolloverDay", location?.state?.data?.RolloverDay || "0");
@@ -1766,6 +1787,8 @@ const AddClient = () => {
       disable: false,
     },
   ];
+
+  
   useEffect(() => {
     if (initialvalue) {
       if (formik.values.Symbol !== location.state.data.MainSymbol) {
@@ -1887,7 +1910,6 @@ const AddClient = () => {
         });
     }
   };
-console.log("formik.values.Targetselection", formik.values.Targetselection)
   useEffect(() => {
     getExpiry();
   }, [
@@ -1896,6 +1918,10 @@ console.log("formik.values.Targetselection", formik.values.Targetselection)
     formik.values.Symbol,
     formik.values.Strike,
   ]);
+
+
+  console.log("formik.values.Targetselection", formik.values.Targetselection)
+
 
   const handleCheckPnl = async () => {
     const req = {
