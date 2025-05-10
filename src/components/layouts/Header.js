@@ -231,7 +231,9 @@ const Header = () => {
   };
 
   useEffect(() => {
-    GetBalence();
+    if(role === "User"){
+      GetBalence();
+      }
     clearSession();
   }, []);
 
