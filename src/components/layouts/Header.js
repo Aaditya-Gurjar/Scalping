@@ -944,16 +944,13 @@ const Header = () => {
                     </div>
                   </li>
 
-
                   <li className="live-price-item">
                     <div className="live-price-box">
                       <span className="label card-text-Color">BANKNIFTY:</span>
                       <span className="LivePrice_BANKNIFTY liveprice-text-color ms-2">{ }</span>
                     </div>
                   </li>
-
-  
-
+ 
                   <li className="nav-item mx-3 btn-text-color" onClick={toggleFundsVisibility}>
                     <button
                       type="button"
