@@ -871,7 +871,7 @@ const Header = () => {
                 id="navbarSupportedContent"
               >
                 <div
-                  className="btn-group paper-live-trading-btn"
+                  className="btn-group paper-live-trading-btn tradin-btn-align"
                   role="group"
                   style={{
                     backgroundColor: "#2a2e32",
