@@ -935,16 +935,9 @@ const Header = () => {
                     <></>
                   )}
 
-                  {/* <li>
-                    <div className="AddScript_LivePrice card-text-Color">
-                      <div className="LivePriceContainer addbtn">
-                        <span>Live Price:</span>
-                        <span className="LivePrice ms-2">{ }</span>
-                      </div>
-                    </div>
-                  </li> */}
+                 
 
-                  {/* <li className="live-price-item">
+                  <li className="live-price-item">
                     <div className="live-price-box">
                       <span className="label card-text-Color">NIFTY:</span>
                       <span className="LivePrice_NIFTY liveprice-text-color ms-2">{ }</span>
@@ -957,7 +950,7 @@ const Header = () => {
                       <span className="label card-text-Color">BANKNIFTY:</span>
                       <span className="LivePrice_BANKNIFTY liveprice-text-color ms-2">{ }</span>
                     </div>
-                  </li> */}
+                  </li>
 
   
 
