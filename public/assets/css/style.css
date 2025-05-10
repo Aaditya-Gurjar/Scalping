@@ -7404,7 +7404,6 @@ body .coupon-modal .MuiBox-root {
   font-weight: bold;
 }
 
-
 .hoverNone {
   pointer-events: auto; 
   cursor: pointer;      
@@ -7434,4 +7433,3 @@ body .coupon-modal .MuiBox-root {
 .paper-live-trading-btn{
   margin-left: 5rem !important;
 }
-
