@@ -107,19 +107,9 @@ const AddChartingScript2 = () => {
       backbutton_status={false}>
       <div className="iq-card-body">
 
-        <div className="d-flex justify-content-end">
-          <button
-            className="btn btn-primary m-3"
-            onClick={() => navigate("/user/dashboard")}>
-            Back
-          </button>
-        </div>
-
-
-
-
-        {/* Add view toggle buttons */}
-        {data === "ChartingPlatform" && (
+        <div className="d-flex justify-content-between">
+          <div>
+              {data === "ChartingPlatform" && (
           <div
             className="d-flex justify-content-between align-items-center my-3 card-bg-color"
             style={{
@@ -214,6 +204,19 @@ const AddChartingScript2 = () => {
 
 
         )}
+          </div>
+          <button style={{ height: "30px", lineHeight: "15px" }} 
+            className="btn btn-primary m-3"
+            onClick={() => navigate("/user/dashboard")}>
+            Back
+          </button>
+        </div>
+
+
+
+
+        {/* Add view toggle buttons */}
+      
       </div>
       <div>
         {data && (
@@ -233,8 +236,8 @@ const AddChartingScript2 = () => {
                   <Loader />
                 ) : (
                   <>
-                    <div className="d-flex justify-content-end " style={{ gap: "20px" }}>
-                      <div style={{ width: "10%" }}>
+                    <div className="d-flex justify-content-start " style={{ gap: "20px" }}>
+                      <div style={{ width: "15%" }}>
                         <strong className="card-text-Color">Select From Date:</strong>
                         <DatePicker
                           selected={fromDate}
@@ -243,7 +246,7 @@ const AddChartingScript2 = () => {
                           className="form-control"
                         />
                       </div>
-                      <div style={{ width: "10%" }}>
+                      <div style={{ width: "15%" }}>
                         <strong className="card-text-Color">Select To Date:</strong>
                         <DatePicker
                           selected={toDate}
