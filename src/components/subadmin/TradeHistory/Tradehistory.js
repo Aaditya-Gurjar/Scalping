@@ -516,15 +516,15 @@ confirmButtonColor: "#1ccc8a",
 
                                 <div className='mb-3 mt-3'>
                                     <div className="accordion" id="accordionExample">
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header" id="headingTwo">
-                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" style={{ fontWeight: 'bold' }}>
+                                        <div className="accordion-item">
+                                            <h2 className="accordion-header" id="headingTwo">
+                                                <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" style={{ fontWeight: 'bold' }}>
                                                     Drawdown Table
                                                 </button>
 
                                             </h2>
-                                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                                <div class="accordion-body">
+                                            <div id="collapseThree" className="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                                <div className="accordion-body">
                                                     <GridExample
                                                         columns={columns6()}
                                                         data={getDropDownData.data}
@@ -632,14 +632,14 @@ confirmButtonColor: "#1ccc8a",
 
                                     <div>
                                         <div className="accordion" id="accordionExample">
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header" id="headingTwo">
-                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" style={{ fontWeight: 'bold' }}>
+                                            <div className="accordion-item">
+                                                <h2 className="accordion-header" id="headingTwo">
+                                                    <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" style={{ fontWeight: 'bold' }}>
                                                         Equity Curve Table
                                                     </button>
                                                 </h2>
-                                                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                                    <div class="accordion-body">
+                                                <div id="collapseTwo" className="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                                    <div className="accordion-body">
                                                         <GridExample
                                                             columns={columns5(selectStrategyType)}
                                                             data={getEquityCurveDetails.data}

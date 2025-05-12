@@ -12,9 +12,11 @@ import {
   Get_Pattern_Name,
   GetExchange,
 } from "../../CommonAPI/Admin";
-import { AddScript } from "../../CommonAPI/User";
+import { AddScript, getToken } from "../../CommonAPI/User";
 import { text } from "../../../ExtraComponent/IconTexts";
 import Content from "../../../ExtraComponent/Content";
+import { connectWebSocketForSingleChannel } from "../UserDashboard/LivePriceForSingleChannel";
+import $ from "jquery";
 
 const AddClient = () => {
   const location = useLocation();
@@ -26,6 +28,7 @@ const AddClient = () => {
   const [getStricke, setStricke] = useState({ loading: true, data: [] });
   const [getTimeFrame, setTimeFrame] = useState({ loading: true, data: [] });
   const [getExpiryDate, setExpiryDate] = useState({ loading: true, data: [] });
+  const [channel, setChannel] = useState([]);
   const [getChartPattern, setChartPattern] = useState({
     loading: true,
     data: [],
@@ -1081,6 +1084,62 @@ const AddClient = () => {
     GetPatternCharting();
   }, []);
 
+  let currentWebSocket = null;
+
+  const showLivePrice = async (singleChannel, channel1) => { 
+    if (currentWebSocket && typeof currentWebSocket.close === "function") {
+      currentWebSocket.close();
+    }
+
+    currentWebSocket = connectWebSocketForSingleChannel(singleChannel, (data) => { 
+      if (data.lp && data.tk && channel1 && channel1 === data.tk) {
+        console.log("singleChannel", singleChannel, channel1)
+
+        $(".LivePrice").html(data.lp);
+      }
+    });
+  }
+
+
+
+  const token = async () => {
+    try {
+      if (formik.values.Exchange && formik.values.Instrument && formik.values.Symbol && formik.values.expirydata1) {
+        const res = await getToken({
+          Exchange: formik.values.Exchange,
+          Instrument: formik.values.Instrument,
+          Symbol: formik.values.Symbol,
+          OptionType: formik.values.Optiontype,
+          Strike: formik.values.Strike,
+          Expiry: formik.values.expirydata1 == "Monthly"
+            ? getExpiryDate?.data?.[0]
+            : formik.values.expirydata1 == "Next_Month"
+              ? getExpiryDate?.data?.[1] : formik.values.expirydata1
+        });
+        const singleChannel = `${formik.values.Exchange}|${res.Token[0]}`
+        setChannel(res.Token[0])
+        showLivePrice(singleChannel, res.Token[0])
+
+      }
+
+
+    } catch (error) {
+      console.error("Error fetching token:", error);
+
+    }
+  }
+  useEffect(() => {
+    getExpiry();
+    token()
+  }, [
+    formik.values.Instrument,
+    formik.values.Exchange,
+    formik.values.Symbol,
+    formik.values.Strike,
+    formik.values.expirydata1
+  ]);
+
+
   useEffect(() => {
     if (
       formik.values.Symbol &&
@@ -1120,6 +1179,10 @@ const AddClient = () => {
         button_status={false}
         backbutton_status={false}
       >
+
+        
+      {formik.values.Exchange && formik.values.Instrument && formik.values.Symbol && formik.values.expirydata1 && <div className="AddScript_LivePrice card-text-Color"><div className="LivePriceContainer"><span> Live Price:  </span> <span className="LivePrice ms-2">{ }</span></div></div>}
+
         <AddForm
           fields={fields.filter(
             (field) => !field.showWhen || field.showWhen(formik.values)

@@ -1159,8 +1159,8 @@ export const getColumns3 = (handleDelete, handleEdit, handleContinutyDiscontinut
                 return (
 
                     label === "Continue" ? (
-                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-success">{label}</button>) : (
-                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-danger">{label}</button>
+                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" className="btn btn-outline-success">{label}</button>) : (
+                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" className="btn btn-outline-danger">{label}</button>
                     )
 
 
@@ -1449,8 +1449,8 @@ export const getColumns4 = (handleDelete, handleEdit, handleContinutyDiscontinut
                 return (
 
                     label === "Continue" ? (
-                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-success">{label}</button>) : (
-                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-danger">{label}</button>
+                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" className="btn btn-outline-success">{label}</button>) : (
+                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" className="btn btn-outline-danger">{label}</button>
                     )
 
 
@@ -1937,8 +1937,8 @@ export const
                     return (
 
                         label === "Continue" ? (
-                            <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-success">{label}</button>) : (
-                            <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-danger">{label}</button>
+                            <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" className="btn btn-outline-success">{label}</button>) : (
+                            <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" className="btn btn-outline-danger">{label}</button>
                         )
 
 
@@ -2290,8 +2290,8 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
                 return (
 
                     label === "Continue" ? (
-                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-success">{label}</button>) : (
-                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-danger">{label}</button>
+                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" className="btn btn-outline-success">{label}</button>) : (
+                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" className="btn btn-outline-danger">{label}</button>
                     )
 
 
@@ -2825,8 +2825,8 @@ export const getColumns8 = (handleContinutyDiscontinuty, chartingSubTab, getChar
                 return (
 
                     label === "Continue" ? (
-                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-success">{label}</button>) : (
-                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" class="btn btn-outline-danger">{label}</button>
+                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" className="btn btn-outline-success">{label}</button>) : (
+                        <button style={{ width: "7rem" }} onClick={() => handleContinutyDiscontinuty(tableMeta, 2)} type="button" className="btn btn-outline-danger">{label}</button>
                     )
 
 

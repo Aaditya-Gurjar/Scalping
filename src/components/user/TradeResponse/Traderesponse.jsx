@@ -228,7 +228,13 @@ const TradeResponse = () => {
   }, [tradeHistory, location?.state?.RowIndex]);
 
   const handleRowSelect = (rowData) => {
-    setSelectedRowData(rowData);
+    setSelectedRowData((prevSelected) => {
+      // Toggle selection if the same row is clicked again
+      if (prevSelected?.Token === rowData?.Token) {
+        return null;
+      }
+      return rowData;
+    });
   };
 
   useEffect(() => {
@@ -395,6 +401,8 @@ const TradeResponse = () => {
       Page_title={"📢 Trade Response"}
       button_status={false}
       backbutton_status={true}>
+
+
       <div className="iq-card-body">
         <div className="was-validated ">
 
@@ -533,7 +541,7 @@ const TradeResponse = () => {
                       }
                       onRowSelect={handleRowSelect}
                       checkBox={true}
-                      isChecked={location?.state?.RowIndex}
+                      isChecked={(row) => selectedRowData?.Token === row?.Token} // Ensure proper synchronization
                     />
                   </div>
                 ) : (
@@ -557,8 +565,7 @@ const TradeResponse = () => {
                       data={tradeHistory?.data1}
                       onRowSelect={handleRowSelect}
                       checkBox={true}
-                      // isChecked={location?.state?.RowIndex}
-                      isChecked={(row) => row.Token === location?.state?.token}
+                      isChecked={(row) => selectedRowData?.Token === row?.Token} // Ensure proper synchronization
                     />
                   ) : (
                     <NoDataFound />
@@ -567,15 +574,7 @@ const TradeResponse = () => {
               </div>
             )}
 
-          {/* {selectStrategyType === "Scalping" &&
-            tableType === "MultiCondition" &&
-            tradeHistory.data1?.length > 0 && (
-              <button
-                className="btn btn-primary mt-2"
-                onClick={handleSubmit}>
-                Submit
-              </button>
-            )} */}
+
 
           {!(
             selectStrategyType === "Scalping" && tableType === "MultiCondition"
@@ -596,7 +595,7 @@ const TradeResponse = () => {
                     <div className="col-md-6" key={index}>
                       <TradeResponseCard
                         data={typeof item === "object" && item !== null ? item : {}}
-                        index={(currentPage - 1) * itemsPerPage + index + 1} // Continuous numbering
+                        index={(currentPage - 1) * itemsPerPage + index} // Continuous numbering
                       />
                     </div>
                   ))}
@@ -625,9 +624,8 @@ const TradeResponse = () => {
                         </li>
                       ))}
                       <li
-                        className={`page-item ${
-                          currentPage === totalPages ? "disabled" : ""
-                        }`}
+                        className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                          }`}
                       >
                         <button
                           className="page-link"
@@ -644,32 +642,6 @@ const TradeResponse = () => {
               )}
             </div>
           )}
-
-          {/* Commented out table rendering */}
-
-          {/* {showTable && (
-            <div className="mt-3">
-              {getAllTradeData.data && getAllTradeData.data.length > 0 ? (
-                <GridExample
-                  columns={
-                    selectStrategyType === "Scalping"
-                      ? columns3
-                      : selectStrategyType === "Option Strategy"
-                        ? columns4
-                        : selectStrategyType === "ChartingPlatform"
-                          ? columns3
-                          : columns5
-                  }
-                  data={getAllTradeData.data}
-                  onRowSelect={handleRowSelect}
-                  checkBox={false}
-                />
-              ) : (
-                <NoDataFound />
-              )}
-            </div>
-          )} */}
-
 
         </div>
 

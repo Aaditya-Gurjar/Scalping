@@ -68,6 +68,9 @@ const AddClient = () => {
     return foundItem?.EndDate;
   };
 
+
+  
+
   const ScrollToViewFirstError = (newErrors) => {
     if (Object.keys(newErrors).length !== 0) {
       const errorField = Object.keys(newErrors)[0];

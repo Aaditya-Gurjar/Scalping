@@ -196,7 +196,7 @@ const Sidebar = ({ position }) => {
       },
       {
         path: "lastpattern",
-        icon: <i class="las la-cog"></i>, // Last Patterns icon
+        icon: <i className="las la-cog"></i>, // Last Patterns icon
         label: "Last Patterns",
       },
       {

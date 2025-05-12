@@ -90,6 +90,14 @@ const TradeResponseCard = ({ data, index }) => {
                 </span>
               </p>
             </div>
+
+            <div className="col-6 mb-2">
+              <p className="card-text-Color">
+                <strong className="card-text-Color">Reason:</strong>{" "}
+                <span className="card-text-Color">{data.Reason || "N/A"}</span>
+              </p>
+            </div>
+
             <div className="col-12 mb-3">
               <h6 className="response-card-section-title card-text-Color">
                 Order Details

@@ -16,6 +16,7 @@ import Modal from "react-bootstrap/Modal";
 import Content from "../../../ExtraComponent/Content";
 import { connectWebSocket } from "../UserDashboard/LivePrice";
 import $ from 'jquery'
+import { connectWebSocketForSingleChannel } from "../UserDashboard/LivePriceForSingleChannel";
 
 
 const AddClient = () => {
@@ -1744,12 +1745,12 @@ const AddClient = () => {
       currentWebSocket.close();
     }
 
-    currentWebSocket = connectWebSocket(singleChannel, (data) => {
+    currentWebSocket = connectWebSocketForSingleChannel(singleChannel, (data) => {
       // console.log("singleChannel", singleChannel, channel1)
-    console.log("singleChannel", singleChannel, channel1)
-
  
       if (data.lp && data.tk && channel1 && channel1 === data.tk) {
+          console.log("singleChannel", singleChannel, channel1)
+
         $(".LivePrice").html(data.lp);
       }
     });

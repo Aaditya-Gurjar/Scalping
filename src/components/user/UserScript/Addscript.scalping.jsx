@@ -18,6 +18,7 @@ import Modal from "react-bootstrap/Modal";
 import $ from "jquery";
 import { CheckPnLScalping, CPrice, getToken } from "../../CommonAPI/User";
 import { connectWebSocket } from "../UserDashboard/LivePrice";
+import { connectWebSocketForSingleChannel } from "../UserDashboard/LivePriceForSingleChannel";
 
 const AddClient = () => {
   const userName = localStorage.getItem("name");
@@ -55,10 +56,10 @@ const AddClient = () => {
       currentWebSocket.close();
     }
 
-    currentWebSocket = connectWebSocket(singleChannel, (data) => {
+    currentWebSocket = connectWebSocketForSingleChannel(singleChannel, (data) => {
       console.log("channel--", channel)
       if (data.lp && data.tk && channel && channel?.includes(data.tk)) {
-        $(".LivePriceDash").html(data.lp);
+        $(".LivePrice").html(data.lp);
       }
     });
   };
@@ -2046,7 +2047,7 @@ const AddClient = () => {
             <div className="AddScript_LivePrice card-text-Color">
               <div className="LivePriceContainer">
                 <span>Live Price:</span>
-                <span className="LivePriceDash ms-2">{ }</span>
+                <span className="LivePrice ms-2">{ }</span>
               </div>
             </div>
           )}

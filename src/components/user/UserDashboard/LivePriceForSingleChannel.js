@@ -1,4 +1,3 @@
-
 import axios from "axios";
 import { getSessionId } from "../../CommonAPI/User";
 import CryptoJS from 'crypto-js';
@@ -11,6 +10,7 @@ const client_id = "YOUR_CLIENT_ID";
 const api_key = "YOUR_API_KEY";
 
 let ws = null;
+let currentSocket = null; // Track the current active socket
 
 
 export const getSessionIdFromAPI = async () => {
@@ -36,49 +36,58 @@ export async function CreateSocketSession(type, userid, userSession1) {
 };
 
 async function ConnectSocket(onResponse, channelList, userId1, userSession1) {
-    const url = "wss://ws1.aliceblueonline.com/NorenWS/"
-    let socket;
+    const url = "wss://ws1.aliceblueonline.com/NorenWS/";
 
+    // Disconnect the old socket if it exists
+    if (currentSocket) {
+        currentSocket.close();
+        currentSocket = null;
+    }
 
-    socket = new WebSocket(url)
+    const socket = new WebSocket(url);
+    currentSocket = socket; // Set the new socket as the current one
+
     socket.onopen = function () {
-
-        var encrcptToken = CryptoJS.SHA256(CryptoJS.SHA256(userSession1).toString()).toString();
-        var initCon = {
+        const encrcptToken = CryptoJS.SHA256(CryptoJS.SHA256(userSession1).toString()).toString();
+        const initCon = {
             susertoken: encrcptToken,
             t: "c",
             actid: userId1 + "_" + "API",
             uid: userId1 + "_" + "API",
             source: "API"
-        }
+        };
 
-        socket.send(JSON.stringify(initCon))
-    }
+        socket.send(JSON.stringify(initCon));
+    };
 
     socket.onmessage = async function (msg) {
-        var response = JSON.parse(msg.data)
+        const response = JSON.parse(msg.data);
 
-        // console.log("onMessage", response)
         if (response.lp) {
-            await onResponse(response)
-
+            await onResponse(response);
         }
 
         if (response.s === 'OK') {
-            // var channel = await channelList;
-            let json = {
+            const json = {
                 k: channelList,
                 t: 't'
             };
 
-            await socket.send(JSON.stringify(json))
-
+            await socket.send(JSON.stringify(json));
         }
-    }
+    };
 
+    socket.onclose = function () {
+        console.log("Socket closed");
+    };
+
+    socket.onerror = function (error) {
+        console.error("Socket error:", error);
+    };
 }
 
-export const connectWebSocket = async (instrument, onPriceUpdate) => {
+export const connectWebSocketForSingleChannel = async (instrument, onPriceUpdate) => {
+
     const type = { loginType: "API" };
 
     const credentials = await getSessionIdFromAPI();
