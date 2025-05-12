@@ -164,8 +164,8 @@ const AddClient = () => {
         errors.Trade_Execution = "Please Select Trade Execution.";
       }
 
-      if(values.TargetExit === "" || values.TargetExit === undefined || values.TargetExit === null) {
-        errors.TargetExit ="Please Enter Continue after cycle exit"
+      if (values.TargetExit === "" || values.TargetExit === undefined || values.TargetExit === null) {
+        errors.TargetExit = "Please Enter Continue after cycle exit"
       }
       if (!values.Trade_Count || values.Trade_Count == 0) {
         errors.Trade_Count = "Please Enter Trade Count.";
@@ -406,7 +406,7 @@ const AddClient = () => {
       ) {
         errors.FinalTarget = "Please Enter Final Target Price";
       }
-      
+
 
       // ScrollToViewFirstError(errors);
       return errors;
@@ -567,8 +567,8 @@ const AddClient = () => {
               : "0",
           RolloverTime:
             values.FixedSM == "Multiple" &&
-            values.Strategy == "Multi_Conditional" &&
-            values.RollOver == "true"
+              values.Strategy == "Multi_Conditional" &&
+              values.RollOver == "true"
               ? values.RolloverTime
               : "00:00:00",
           TargetExit:
@@ -681,12 +681,12 @@ const AddClient = () => {
               );
             }
         }
-     
+
         await AddScript(req)
           .then((response) => {
             if (response.Status) {
               Swal.fire({
-                 // background: "#1a1e23 ",
+                // background: "#1a1e23 ",
                 backdrop: "#121010ba",
                 confirmButtonColor: "#1ccc8a",
                 title: "Script Added !",
@@ -696,9 +696,9 @@ const AddClient = () => {
                 timerProgressBar: true,
               });
 
-              sessionStorage.setItem("redirectStrategyType", "Scalping"); 
+              sessionStorage.setItem("redirectStrategyType", "Scalping");
               setTimeout(() => {
-                navigate("/user/dashboard" );
+                navigate("/user/dashboard");
               }, 1500);
             } else {
               Swal.fire({
@@ -737,8 +737,7 @@ const AddClient = () => {
     }
   }, [formik.values.Exchange]);
 
-  
- 
+
   // let expiry = formik.values.expirydata1 == "Monthly"
   // ? getExpiryDate?.data?.[0]
   // : formik.values.expirydata1 == "Next_Month"
@@ -895,7 +894,7 @@ const AddClient = () => {
       col_size: 4,
       hiding: false,
       disable: false,
-      
+
     },
 
     {
@@ -1072,7 +1071,7 @@ const AddClient = () => {
       headingtype: 4,
       disable: false,
       hiding: false,
-      iconText : text.targetType,
+      iconText: text.targetType,
 
     },
 
@@ -1656,8 +1655,6 @@ const AddClient = () => {
     }
   };
 
-
-
   useEffect(() => {
     getSymbol();
   }, [formik.values.Instrument, formik.values.Exchange]);
@@ -1683,6 +1680,7 @@ const AddClient = () => {
       });
     }
   };
+
   useEffect(() => {
     getStrikePrice();
   }, [formik.values.Instrument, formik.values.Exchange, formik.values.Symbol]);
@@ -1739,21 +1737,20 @@ const AddClient = () => {
 
   let currentWebSocket = null;
   const showLivePrice = async (singleChannel, channel1) => {
-      
-    console.log(" Channel--", channel1)
+
 
     // console.log("singleChannel", singleChannel)
     if (currentWebSocket && typeof currentWebSocket.close === "function") {
-      currentWebSocket.close(); 
-    
+      currentWebSocket.close();
     }
 
     currentWebSocket = connectWebSocket(singleChannel, (data) => {
+      // console.log("singleChannel", singleChannel, channel1)
+    console.log("singleChannel", singleChannel, channel1)
+
+ 
       if (data.lp && data.tk && channel1 && channel1 === data.tk) {
-        // console.log("Channel List", singleChannel)
-        // console.log("data", data)
         $(".LivePrice").html(data.lp);
-        console.log("Updated Price Data:", data.lp);
       }
     });
   }
@@ -1773,10 +1770,10 @@ const AddClient = () => {
             ? getExpiryDate?.data?.[0]
             : formik.values.expirydata1 == "Next_Month"
               ? getExpiryDate?.data?.[1] : formik.values.expirydata1
-        });        
+        });
         const singleChannel = `${formik.values.Exchange}|${res.Token[0]}`
         console.log("singlechnnellllllllllll", singleChannel)
-        setChannel(res.Token[0])        
+        setChannel(res.Token[0])
         showLivePrice(singleChannel, res.Token[0])
 
       }
@@ -2091,7 +2088,7 @@ const AddClient = () => {
         // page_title="Add Script scalping"
         btn_name="Add"
         btn_name1="Cancel"
-       
+
         formik={formik}
         btn_name1_route={"/user/dashboard"}
         btn_name1_onClick={() => {

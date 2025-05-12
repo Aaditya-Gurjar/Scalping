@@ -56,8 +56,9 @@ const AddClient = () => {
     }
 
     currentWebSocket = connectWebSocket(singleChannel, (data) => {
+      console.log("channel--", channel)
       if (data.lp && data.tk && channel && channel?.includes(data.tk)) {
-        $(".LivePrice").html(data.lp);
+        $(".LivePriceDash").html(data.lp);
       }
     });
   };
@@ -2045,7 +2046,7 @@ const AddClient = () => {
             <div className="AddScript_LivePrice card-text-Color">
               <div className="LivePriceContainer">
                 <span>Live Price:</span>
-                <span className="LivePrice ms-2">{ }</span>
+                <span className="LivePriceDash ms-2">{ }</span>
               </div>
             </div>
           )}

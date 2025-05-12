@@ -239,7 +239,8 @@ const Clientservice = () => {
 
 
 
-            }
+            },
+            
         },
         {
             name: "TransactionRequest",
@@ -283,6 +284,14 @@ const Clientservice = () => {
             }
         },
         {
+            name: "Activity",
+            label: "Activity",
+            options: {
+                filter: true,
+                sort: true,
+            }
+        },
+        {
             name: "DateTime",
             label: "Date",
             options: {
@@ -301,8 +310,7 @@ const Clientservice = () => {
                 button_status={false}
                 backbutton_status={false}
             >
-
-
+ 
                 <div className='iq-card-body'>
                     <div className='d-flex justify-content-between'>
                         <div className="wallet-balance-container">

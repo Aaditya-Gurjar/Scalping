@@ -28,7 +28,7 @@ import TradeResponseCard from "./TradeResponseCard";
 
 const TradeResponse = () => {
   const location = useLocation();
-  
+
   const StrategyType = sessionStorage.getItem("StrategyType");
 
   const Username = localStorage.getItem("name");
@@ -98,7 +98,7 @@ const TradeResponse = () => {
     if (selectStrategyType == "ChartingPlatform") getChartingData();
   }, [selectStrategyType]);
 
-  
+
 
   const getChartingScript = async () => {
     const filterData = getChartingSegments.filter(
@@ -216,10 +216,6 @@ const TradeResponse = () => {
   }, [selectStrategyType, FromDate, ToDate]);
 
 
-  console.log("tradeHistory.data1", tradeHistory.data1);
-  console.log("location", location?.state?.RowIndex);
-
-
   useEffect(() => {
     if (location?.state?.goto && location?.state?.goto === "dashboard") {
       if (location?.state?.type == "MultiCondition") {
@@ -280,45 +276,45 @@ const TradeResponse = () => {
     const data = {
       MainStrategy:
         selectStrategyType == "Scalping" &&
-        selectedRowData?.ScalpType == "Multi_Conditional"
+          selectedRowData?.ScalpType == "Multi_Conditional"
           ? "NewScalping"
           : selectStrategyType,
       Strategy:
         selectStrategyType == "Scalping" &&
-        selectedRowData?.ScalpType != "Multi_Conditional"
+          selectedRowData?.ScalpType != "Multi_Conditional"
           ? selectedRowData?.ScalpType || ""
           : selectStrategyType == "Option Strategy"
-          ? selectedRowData?.STG || ""
-          : selectStrategyType == "Pattern"
-          ? selectedRowData?.TradePattern || ""
-          : selectStrategyType == "Scalping" &&
-            selectedRowData?.ScalpType == "Multi_Conditional"
-          ? selectedRowData?.Targetselection || ""
-          : selectStrategyType == "ChartingPlatform" &&
-            (selectedRowData?.Optiontype == " " ||
-              selectedRowData?.Optiontype == "")
-          ? "Cash"
-          : selectStrategyType == "ChartingPlatform" &&
-            selectedRowData?.Optiontype == "SX"
-          ? "Future"
-          : "Option",
+            ? selectedRowData?.STG || ""
+            : selectStrategyType == "Pattern"
+              ? selectedRowData?.TradePattern || ""
+              : selectStrategyType == "Scalping" &&
+                selectedRowData?.ScalpType == "Multi_Conditional"
+                ? selectedRowData?.Targetselection || ""
+                : selectStrategyType == "ChartingPlatform" &&
+                  (selectedRowData?.Optiontype == " " ||
+                    selectedRowData?.Optiontype == "")
+                  ? "Cash"
+                  : selectStrategyType == "ChartingPlatform" &&
+                    selectedRowData?.Optiontype == "SX"
+                    ? "Future"
+                    : "Option",
       Symbol:
         selectStrategyType == "Scalping" || selectStrategyType == "Pattern"
           ? selectedRowData?.Symbol || ""
           : selectStrategyType == "Option Strategy"
-          ? selectedRowData?.IName || ""
-          : selectStrategyType == "ChartingPlatform"
-          ? selectedRowData?.TSymbol || ""
-          : "",
+            ? selectedRowData?.IName || ""
+            : selectStrategyType == "ChartingPlatform"
+              ? selectedRowData?.TSymbol || ""
+              : "",
       Username: Username,
       ETPattern:
         selectStrategyType == "Scalping"
           ? ""
           : selectStrategyType == "Option Strategy"
-          ? selectedRowData?.Targettype || ""
-          : selectStrategyType == "Pattern"
-          ? selectedRowData?.Pattern || ""
-          : "",
+            ? selectedRowData?.Targettype || ""
+            : selectStrategyType == "Pattern"
+              ? selectedRowData?.Pattern || ""
+              : "",
       Timeframe:
         selectStrategyType == "Pattern"
           ? selectedRowData?.TimeFrame || ""
@@ -327,7 +323,7 @@ const TradeResponse = () => {
       To_date: convertDateFormat(ToDate || Defult_To_Date),
       Group:
         selectStrategyType == "Scalping" ||
-        selectStrategyType == "Option Strategy"
+          selectStrategyType == "Option Strategy"
           ? selectedRowData?.GroupN || ""
           : "",
       TradePattern: "",
@@ -344,7 +340,7 @@ const TradeResponse = () => {
           setShowTable(true);
         } else {
           Swal.fire({
-             // background: "#1a1e23 ",
+            // background: "#1a1e23 ",
             backdrop: "#121010ba",
             confirmButtonColor: "#1ccc8a",
             title: "No Records found",
@@ -378,7 +374,21 @@ const TradeResponse = () => {
     selectSegmentType,
   ]);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
+  const paginatedData = getAllTradeData.data.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const totalPages = Math.ceil(getAllTradeData.data.length / itemsPerPage);
+
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
 
   return (
     <Content
@@ -388,78 +398,69 @@ const TradeResponse = () => {
       <div className="iq-card-body">
         <div className="was-validated ">
 
-  <div className="row g-3 mb-4">
+          <div className="row g-3 mb-4">
             <div className="col-12 col-md-6 col-lg-8">
               <div className="d-flex  report-btns">
-              <ul
-                className="nav nav-pills shadow rounded-pill p-1"
-               
-              >
-                {(strategyType || []).map((type, index) => (
-                  <li className="nav-item" key={index}>
-                    <button
-                      className={`nav-link ${selectStrategyType === type ? "active" : ""} rounded-pill`}
-                      onClick={() => {
-                        setSelectStrategyType(type);
-                        sessionStorage.setItem("StrategyType", type);
-                      }}
-                      style={{
-                        padding: "10px 20px",
-                        margin: "5px",
-                        border: "none",
-                        outline: "none",
-                      }}
-                    >
-                      {type}
-                    </button>
-                  </li>
-                ))}
-              </ul>
+                <ul
+                  className="nav nav-pills shadow rounded-pill p-1"
+
+                >
+                  {(strategyType || []).map((type, index) => (
+                    <li className="nav-item" key={index}>
+                      <button
+                        className={`nav-link ${selectStrategyType === type ? "active" : ""} rounded-pill`}
+                        onClick={() => {
+                          setSelectStrategyType(type);
+                          sessionStorage.setItem("StrategyType", type);
+                        }}
+                        style={{
+                          padding: "10px 20px",
+                          margin: "5px",
+                          border: "none",
+                          outline: "none",
+                        }}
+                      >
+                        {type}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
               </div>
 
             </div>
             <div className="col-12 col-md-6 col-lg-4">
-           <div className="history-page-dates">
-           <div className="history-page-dates">
-              <div
-                className={`form-group ${selectStrategyType === "ChartingPlatform"
-                  ? "col-lg-6"
-                  : "col-lg-6"
-                  }`}>
-                <label>Select From Date</label>
-                <DatePicker
-                  className="form-select"
-                  selected={FromDate === "" ? formattedDate : FromDate}
-                  onChange={(date) => setFromDate(date)}
-                />
-              </div>
+              <div className="history-page-dates">
+                <div className="history-page-dates">
+                  <div
+                    className={`form-group ${selectStrategyType === "ChartingPlatform"
+                      ? "col-lg-6"
+                      : "col-lg-6"
+                      }`}>
+                    <label>Select From Date</label>
+                    <DatePicker
+                      className="form-select"
+                      selected={FromDate === "" ? formattedDate : FromDate}
+                      onChange={(date) => setFromDate(date)}
+                    />
+                  </div>
 
-              {/* Select To Date */}
-              <div
-                className={`form-group ${selectStrategyType === "ChartingPlatform"
-                  ? "col-lg-6"
-                  : "col-lg-6"
-                  }`}>
-                <label>Select To Date</label>
-                <DatePicker
-                  className="form-select"
-                  selected={ToDate === "" ? Defult_To_Date : ToDate}
-                  onChange={(date) => setToDate(date)}
-                />
+                  {/* Select To Date */}
+                  <div
+                    className={`form-group ${selectStrategyType === "ChartingPlatform"
+                      ? "col-lg-6"
+                      : "col-lg-6"
+                      }`}>
+                    <label>Select To Date</label>
+                    <DatePicker
+                      className="form-select"
+                      selected={ToDate === "" ? Defult_To_Date : ToDate}
+                      onChange={(date) => setToDate(date)}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
-           </div>
-           </div>
           </div>
-
-
-
-
-
-
-
-
-      
 
 
           <div className="modal-body">
@@ -473,7 +474,7 @@ const TradeResponse = () => {
                       <div className="d-flex justify-content-center">
                         <ul
                           className="nav nav-pills shadow rounded-pill p-1"
-                         >
+                        >
                           <li className="nav-item">
                             <button
                               className={`nav-link ${activeTab === "Cash" ? "active" : ""
@@ -591,14 +592,52 @@ const TradeResponse = () => {
             <div className="mt-3">
               {getAllTradeData.data && getAllTradeData.data.length > 0 ? (
                 <div className="row g-3">
-                  {getAllTradeData.data.map((item, index) => (
+                  {paginatedData.map((item, index) => (
                     <div className="col-md-6" key={index}>
                       <TradeResponseCard
                         data={typeof item === "object" && item !== null ? item : {}}
-                        index={index}
+                        index={(currentPage - 1) * itemsPerPage + index + 1} // Continuous numbering
                       />
                     </div>
                   ))}
+
+                  <nav aria-label="Pagination">
+                    <ul className="pagination">
+                      <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+                        <button
+                          className="page-link"
+                          onClick={() => handlePageChange(currentPage - 1)}
+                        >
+                          Previous
+                        </button>
+                      </li>
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                        <li
+                          key={page}
+                          className={`page-item ${currentPage === page ? "active" : ""}`}
+                        >
+                          <button
+                            className="page-link"
+                            onClick={() => handlePageChange(page)}
+                          >
+                            {page}
+                          </button>
+                        </li>
+                      ))}
+                      <li
+                        className={`page-item ${
+                          currentPage === totalPages ? "disabled" : ""
+                        }`}
+                      >
+                        <button
+                          className="page-link"
+                          onClick={() => handlePageChange(currentPage + 1)}
+                        >
+                          Next
+                        </button>
+                      </li>
+                    </ul>
+                  </nav>
                 </div>
               ) : (
                 <NoDataFound />

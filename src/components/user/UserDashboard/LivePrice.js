@@ -79,6 +79,7 @@ async function ConnectSocket(onResponse, channelList, userId1, userSession1) {
 }
 
 export const connectWebSocket = async (instrument, onPriceUpdate) => {
+
     const type = { loginType: "API" };
 
     const credentials = await getSessionIdFromAPI();
