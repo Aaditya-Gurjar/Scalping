@@ -205,10 +205,10 @@ const AddChartingScript2 = () => {
 
         )}
           </div>
-          <button style={{ height: "30px", lineHeight: "15px" }} 
+          <button style={{ height: "32px", lineHeight: "16px" }} 
             className="btn btn-primary m-3"
             onClick={() => navigate("/user/dashboard")}>
-            Back
+           <i class="las la-arrow-left"></i> Back
           </button>
         </div>
 
