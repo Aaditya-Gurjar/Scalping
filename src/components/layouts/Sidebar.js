@@ -401,7 +401,6 @@ const[permissionData, setPermissionData] = useState([]);
       ));
 
   const getSidebarItems = () => {
-
     switch (role) {
       case "Admin":
         return renderSidebarItems(adminSideBaar);

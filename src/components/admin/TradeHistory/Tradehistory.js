@@ -295,6 +295,16 @@ const Tradehistory = () => {
             };
 
             const tradeRes = await get_Trade_History(basicData);
+            if (!tradeRes.data || tradeRes.data.length === 0) {
+                Swal.fire({
+                    icon: "info",
+                    title: "No Record Found",
+                    text: "No data available for the selected criteria.",
+                    confirmButtonColor: "#1ccc8a",
+                });
+                return;
+            }
+
             setAllTradeData({
                 data: tradeRes.data || [],
                 Overall: tradeRes.Overall || [],
