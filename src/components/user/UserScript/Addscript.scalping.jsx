@@ -57,7 +57,6 @@ const AddClient = () => {
     }
 
     currentWebSocket = connectWebSocketForSingleChannel(singleChannel, (data) => {
-      console.log("channel--", channel)
       if (data.lp && data.tk && channel && channel?.includes(data.tk)) {
         $(".LivePrice").html(data.lp);
       }
@@ -214,7 +213,7 @@ const AddClient = () => {
         values.EntryPrice === null ||
         values.EntryPrice === ""
       ) {
-        if (          
+        if (
           (formik.values.Strategy == "Multi_Conditional" && formik.values.position_type == "Single") || formik.values.Strategy == "Fixed Price"
         ) {
           errors.EntryPrice = "Please Enter The Lowest Price.";
@@ -228,7 +227,7 @@ const AddClient = () => {
         values.EntryRange === ""
       ) {
         if (
-           (formik.values.Strategy == "Multi_Conditional" && formik.values.position_type == "Single") || formik.values.Strategy == "Fixed Price"
+          (formik.values.Strategy == "Multi_Conditional" && formik.values.position_type == "Single") || formik.values.Strategy == "Fixed Price"
         ) {
           errors.EntryRange = "Please Enter The Highest Price.";
         } else if (formik.values.Strategy != "Fixed Price") {
@@ -286,12 +285,19 @@ const AddClient = () => {
         if (!values.stepup) {
           errors.stepup = "Please Enter Step Up";
         }
-        if (!values.quantityvalue) {
-          errors.quantityvalue = "Please Enter Increment Value";
-        }
+
+
         if (!values.quantityselection) {
           errors.quantityselection = "Please Select Increment Type";
         }
+        if ((values.quantityvalue === "0" || values.quantityvalue === 0) && values.quantityselection === "Multiplication") {
+          errors.quantityvalue = "Please Enter Increment Value";
+        }
+
+        if ( (values.quantityvalue ===null || values.quantityvalue == undefined || values.quantityvalue =="") && values.quantityselection === "Addition") {
+          errors.quantityvalue = "Please Enter Increment Value";
+        }
+
         if (!values.Targetvalue) {
           errors.Targetvalue = "Please Enter Target ";
         }
@@ -716,10 +722,7 @@ const AddClient = () => {
   });
 
 
-  
-  console.log("values.Strategy", formik.values.Strategy);
-  console.log("values.FixedSMFixedSM", formik.values.position_type);
-
+ 
 
   const token = async () => {
     try {
@@ -812,7 +815,7 @@ const AddClient = () => {
       return null;
     }
   };
- 
+
   const result = extractDetails(location.state.data.Symbol);
 
   useEffect(() => {
@@ -1790,7 +1793,7 @@ const AddClient = () => {
     },
   ];
 
-  
+
   useEffect(() => {
     if (initialvalue) {
       if (formik.values.Symbol !== location.state.data.MainSymbol) {

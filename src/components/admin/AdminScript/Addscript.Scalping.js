@@ -223,11 +223,17 @@ const AddClient = () => {
         if (!values.stepup) {
           errors.stepup = "Please Enter Step Up";
         }
-        if (!values.quantityvalue) {
-          errors.quantityvalue = "Please Enter Increment Value";
-        }
+         
         if (!values.quantityselection) {
           errors.quantityselection = "Please Select Increment Type";
+        }
+
+        if ((values.quantityvalue === "0" || values.quantityvalue === 0) && values.quantityselection === "Multiplication") {
+          errors.quantityvalue = "Please Enter Increment Value";
+        }
+
+        if ( (values.quantityvalue ===null || values.quantityvalue == undefined || values.quantityvalue =="") && values.quantityselection === "Addition") {
+          errors.quantityvalue = "Please Enter Increment Value";
         }
         if (!values.Targetvalue) {
           errors.Targetvalue = "Please Enter Target";

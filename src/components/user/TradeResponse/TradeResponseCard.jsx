@@ -21,12 +21,6 @@ const TradeResponseCard = ({ data, index }) => {
     responseDetails = {};
   }
 
-  // Split order details into two halves
-  const orderEntries = Object.entries(orderDetails);
-  const halfLength = Math.ceil(orderEntries.length / 2);
-  const leftOrderDetails = orderEntries.slice(0, halfLength);
-  const rightOrderDetails = orderEntries.slice(halfLength);
-
   const renderValue = (value) => {
     if (typeof value === "object" && value !== null) {
       return JSON.stringify(value); // Stringify nested objects
@@ -94,7 +88,11 @@ const TradeResponseCard = ({ data, index }) => {
             <div className="col-6 mb-2">
               <p className="card-text-Color">
                 <strong className="card-text-Color">Reason:</strong>{" "}
-                <span className="card-text-Color">{data.Reason || "N/A"}</span>
+                <span className="card-text-Color">
+                  {typeof data?.Reason === "object" && data?.Reason !== null
+                    ? JSON.stringify(data.Reason, null, 2) // Pretty-print object
+                    : data?.Reason || "N/A"} {/* Show string or fallback to "N/A" */}
+                </span>
               </p>
             </div>
 
@@ -102,38 +100,25 @@ const TradeResponseCard = ({ data, index }) => {
               <h6 className="response-card-section-title card-text-Color">
                 Order Details
               </h6>
-              <div className="order-details-container">
-                <div className="order-details-column">
-                  {leftOrderDetails.map(([key, value]) => (
-                    <div
-                      key={key}
-                      className="order-detail-item card-text-Color"
-                      style={{ wordWrap: "break-word", whiteSpace: "pre-wrap" }}
-                    >
-                      <strong className="card-text-Color">{key}:</strong>{" "}
-                      <span className="card-text-Color">
-                        {renderValue(value)}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-                <div className="order-details-divider"></div>
-                <div className="order-details-column">
-                  {rightOrderDetails.map(([key, value]) => (
-                    <div
-                      key={key}
-                      className="order-detail-item card-text-Color"
-                      style={{ wordWrap: "break-word", whiteSpace: "pre-wrap" }}
-                    >
-                      <strong className="card-text-Color">{key}:</strong>{" "}
-                      <span className="card-text-Color">
-                        {renderValue(value)}
-                      </span>
-                    </div>
-                  ))}
-                </div>
+              <div
+                className="order-details-container"
+                style={{
+                  wordWrap: "break-word",
+                  whiteSpace: "pre-wrap", // Preserve formatting for JSON or strings
+                  overflowWrap: "break-word",
+                  wordBreak: "break-word",
+                  marginTop: "10px",
+                }}
+              >
+                <p className="card-text-Color">
+                  {typeof data.Orderdetail === "string"
+                    ? data.Orderdetail // Directly show stringified JSON or plain string
+                    : JSON.stringify(data.Orderdetail, null, 2)} {/* Pretty-print objects */}
+                </p>
               </div>
             </div>
+
+            
             <div className="col-12">
               <h6 className="response-card-section-title card-text-Color">
                 Response

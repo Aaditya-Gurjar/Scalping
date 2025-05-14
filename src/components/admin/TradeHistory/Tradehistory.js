@@ -831,3 +831,4 @@ const getChartOptions = (data, type) => ({
 });
 
 export default Tradehistory;
+
