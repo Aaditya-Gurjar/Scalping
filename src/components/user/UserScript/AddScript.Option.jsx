@@ -125,13 +125,13 @@ const AddClient = () => {
     },
     validate: (values) => {
       let errors = {};
-      
+
       const maxTime = "15:29:59";
       const minTime = "09:15:00";
       if (!values.Strategy) {
         errors.Strategy = "Please Select a Strategy Type.";
       }
-      if(!values.Exchange) {
+      if (!values.Exchange) {
         errors.Exchange = "Please Select Exchange";
       }
       if (!values.Measurment_Type) {
@@ -657,6 +657,9 @@ const AddClient = () => {
               timer: 1500,
               timerProgressBar: true,
             });
+            sessionStorage.setItem("redirectStrategyType", "Option Strategy");
+
+
             setTimeout(() => {
               navigate("/user/dashboard");
             }, 1500);
@@ -737,7 +740,7 @@ const AddClient = () => {
       Strike: "",
       Optiontype: "",
       Targetvalue: formik.values.Targetvalue,
-      Slvalue: formik.values.Slvalue,
+      Slvalue: parseFloat(formik.values.Slvalue),
       TStype: formik.values.TStype,
       Quantity: formik.values.Quantity,
       LowerRange:

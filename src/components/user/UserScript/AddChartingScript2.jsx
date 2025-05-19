@@ -150,7 +150,10 @@ const AddChartingScript2 = () => {
                 </button>
               ))}
             </div>
+                <label id="strategy-select-label">Select Strategy Tag</label>
+
             <Box sx={{ minWidth: 120 }}>
+
               <FormControl fullWidth>
                 <Select
                   options={[

@@ -64,6 +64,66 @@ const loginWithApi = async (UserDetails) => {
             }
         }
 
+
+
+             if (UserDetails.BrokerName.toUpperCase() === "MARKETHUBSARAL".toUpperCase()) {
+            try {
+                const response = await axios.get(Config.base_url + 'MarkethubSaral/' + UserDetails.Username,
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        }
+                    }
+                );
+                if (response.data.Status) {
+
+                    Swal.fire({
+                         // background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
+                        title: 'Success!',
+                        text: 'Trading On successfully.',
+                        icon: 'success',
+                        confirmButtonText: 'OK',
+                        timer: 1000
+                    }).then(() => {
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 1000);
+                    });
+                } else {
+
+                    Swal.fire({
+                         // background: "#1a1e23 ",
+                        backdrop: "#121010ba",
+                        confirmButtonColor: "#1ccc8a",
+                        title: 'Error!',
+                        text: response.data.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK',
+                        timer: 3000
+                    }).then(() => {
+                        setTimeout(() => {
+                            window.location.reload();
+
+                        }, 3000);
+                    });
+                }
+            } catch (err) {
+                console.error("Error in ConnectBroker request", err);
+                Swal.fire({
+                     // background: "#1a1e23 ",
+                    backdrop: "#121010ba",
+                    confirmButtonColor: "#1ccc8a",
+                    title: 'Error!',
+                    text: 'An error occurred. Please try again later.',
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                });
+            }
+        }
+
         if (UserDetails.BrokerName.toUpperCase() === "ANGEL") {
 
             let config = {

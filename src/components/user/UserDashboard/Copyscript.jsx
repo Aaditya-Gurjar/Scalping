@@ -54,6 +54,7 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
   };
 
   const handleAddScript1 = (data1, type) => {
+    GetUserAllScripts();
     const selectedRowIndex = data1.rowIndex;
 
     const selectedRow =
@@ -116,6 +117,7 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
   };
 
   const handleAddScript2 = (data1) => {
+    GetUserAllScripts();
     if (data2.status == false) { 
       Swal.fire({
          // background: "#1a1e23 ",
@@ -215,6 +217,7 @@ const Coptyscript = ({ data, selectedType, data2 }) => {
   };
 
   const handleAddScript3 = (data1) => {
+    GetUserAllScripts();
     if (data2.status == false) {
       Swal.fire({
          // background: "#1a1e23 ",

@@ -1561,7 +1561,7 @@ const AddClient = (Planname) => {
       Strike: "",
       Optiontype: "",
       Targetvalue: formik.values.Targetvalue || 1,
-      Slvalue: formik.values.Slvalue,
+      Slvalue: parseFloat(formik.values.Slvalue),
       TStype: formik.values.TStype,
       Quantity: formik.values.Quantity,
       LowerRange:

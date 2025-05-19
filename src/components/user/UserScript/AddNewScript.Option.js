@@ -1769,6 +1769,8 @@ const AddClient = () => {
     setActiveTab(key);
   };
 
+  console.log("formik.values.Strategy", formik.values.Strategy)
+
   return (
     <Content
       Page_title={"📌 Add Script - Option Strategy"}
@@ -1806,12 +1808,12 @@ const AddClient = () => {
                 btn_name1_route={"/user/dashboard"}
                 additional_field={
                   <div>
-                    {formik.values.Strategy == "CoveredCall" ||
+                    {(formik.values.Strategy == "CoveredCall" ||
                       formik.values.Strategy == "CoveredPut" ||
                       formik.values.Strategy == "LongCollar" ||
                       formik.values.Strategy == "ShortCollar" ||
                       formik.values.Strategy == "LongFourLegStretegy" ||
-                      formik.values.Strategy == "ShortFourLegStretegy" ? (
+                      formik.values.Strategy == "ShortFourLegStretegy" )? (
                       ""
                     ) : (
                       <button className="addbtn" type="button" onClick={() => handleCheckPnl()}>

@@ -321,28 +321,31 @@ const MasterAccount = () => {
 
       {/* Modal for editing child accounts */}
       <Dialog
+      className='card-bg-color'
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         maxWidth="md" // Set a maximum width for the modal
         PaperProps={{
+          className: "card-bg-color", // add bg class to modal paper
           style: {
             width: '600px', // Fixed width
             height: '400px', // Fixed height
           },
         }}
       >
-        <DialogTitle>Edit Child Accounts</DialogTitle>
-        <DialogContent style={{ overflowY: 'auto' }}> {/* Enable scrolling if content overflows */}
+        <DialogTitle className='card-text-Color card-bg-color'>Edit Child Accounts</DialogTitle>
+        <DialogContent className="card-bg-color" style={{ overflowY: 'auto' }}> {/* Enable scrolling if content overflows */}
           <div className="modal-dropdown">
-            <label htmlFor="modalMasterAccount">Master Account</label>
+            <label htmlFor="modalMasterAccount" className="card-text-Color">Master Account</label>
             <Select
               id="modalMasterAccount"
               value={{ value: data?.MainUser, label: data?.MainUser }}
               isDisabled
+              classNamePrefix="card-bg-color"
             />
           </div>
           <div className="modal-dropdown">
-            <label htmlFor="modalChildAccount">Child Accounts</label>
+            <label htmlFor="modalChildAccount" className="card-text-Color">Child Accounts</label>
             <Select
               id="modalChildAccount"
               options={accountsData
@@ -351,14 +354,15 @@ const MasterAccount = () => {
               isMulti
               value={updatedChildAccounts}
               onChange={handleModalChildAccountChange}
+              classNamePrefix="card-bg-color"
             />
           </div>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setIsModalOpen(false)} color="secondary">
+        <DialogActions className="card-bg-color">
+          <Button onClick={() => setIsModalOpen(false)} color="secondary" className="card-text-Color">
             Cancel
           </Button>
-          <Button onClick={handleModalSubmit} color="primary">
+          <Button onClick={handleModalSubmit} color="primary" className="card-text-Color">
             Submit
           </Button>
         </DialogActions>

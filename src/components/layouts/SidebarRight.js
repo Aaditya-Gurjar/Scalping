@@ -215,11 +215,11 @@ const Sidebar = ({ position }) => {
         label: "Description",
       },
 
-      // {
-      //   path: "/api-create-info",
-      //   icon: <i className="la la-rocket"></i>,
-      //   label: "API Process",
-      // },
+      {
+        path: "api-create-info",
+        icon: <i className="la la-rocket"></i>,
+        label: "API Process",
+      },
     ],
   };
 

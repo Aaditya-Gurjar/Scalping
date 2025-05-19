@@ -29,12 +29,13 @@ const AdminServicesList = () => {
 
   const [expandedOptions, setExpandedOptions] = useState([]);
   const [expandedPatternItems, setExpandedPatternItems] = useState([]);
+  const redirectPlan = sessionStorage.getItem("redirectPlan");
 
   // State for the Edit Modal
   const [showEditModal, setShowEditModal] = useState(false);
   const [editPlanData, setEditPlanData] = useState(null);
   const [planData, setPlanData] = useState({})
-  const [activeTab, setActiveTab] = useState("Scalping");
+  const [activeTab, setActiveTab] = useState("");
   const [editablePlans, setEditablePlans] = useState(['ABCd', 'XYZ', 'Testing'])
   const [strategyTags, setStrategyTags] = useState([]); // State for strategy tag options
   const navigate = useNavigate();
@@ -65,6 +66,8 @@ const AdminServicesList = () => {
   useEffect(() => {
     setEditPlanData("")
   }, [activeTab])
+
+
 
   const toggleExpand = (index) => {
     setExpandedPatternItems((prev) =>
@@ -111,7 +114,7 @@ const AdminServicesList = () => {
           loading: false,
           data: filterPlan,
           data1: filterPlanCharting,
-          
+
         });
       }
     } catch (error) {
@@ -224,6 +227,28 @@ const AdminServicesList = () => {
   const handleModalCancel = () => {
     setShowEditModal(false);
   };
+
+  // Listen for redirectPlan changes and set active tab accordingly
+  useEffect(() => {
+    const handleTabFromRedirect = () => {
+      const redirectPlan = sessionStorage.getItem("redirectPlan");
+      if (redirectPlan) {
+        setActiveTab(redirectPlan);
+        sessionStorage.removeItem("redirectPlan"); // Optional: clear after using
+      }
+    };
+    handleTabFromRedirect();
+
+    // Listen for storage changes from other tabs/windows
+    const onStorage = (e) => {
+      if (e.key === "redirectPlan") {
+        handleTabFromRedirect();
+      }
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, []);
+
   return (
     <Content
       Page_title={"📌 All Admin Plans"}
@@ -246,7 +271,8 @@ const AdminServicesList = () => {
 
         <div className="container mt-4">
           <Tabs
-            defaultActiveKey="Scalping"
+            activeKey={activeTab || "Scalping"}
+            onSelect={(k) => setActiveTab(k)}
             id="admin-plans-tabs"
             className="mb-3 custom-tabs"
             fill
@@ -284,70 +310,60 @@ const AdminServicesList = () => {
                                 <strong>Scalping Strategy:</strong>{" "}
                                 {plan?.Scalping?.join(", ")}
                               </p>
-                              <p className="price-item">
-                                <strong>Options:</strong>{" "}
-                                {plan["Option Strategy"]?.length > 1 ? (
-                                  <>
-                                    {expandedOptions.includes(index) ? (
-                                      <>
-                                        {plan["Option Strategy"].join(", ")}
-                                        <span
-                                          className="show-more"
-                                          onClick={() => toggleOptions(index)}
-                                        >
-                                          {" "}
-                                          🔼
-                                        </span>
-                                      </>
-                                    ) : (
-                                      <>
-                                        {plan["Option Strategy"][0]}
-                                        <span
-                                          className="show-more"
-                                          onClick={() => toggleOptions(index)}
-                                        >
-                                          {" "}
-                                          🔽
-                                        </span>
-                                      </>
-                                    )}
-                                  </>
-                                ) : (
-                                  plan["Option Strategy"]?.join(", ")
-                                )}
-                              </p>
-                              <p className="price-item">
-                                <strong>Patterns:</strong>{" "}
-                                {plan.Pattern?.length > 1 ? (
-                                  <>
-                                    {expandedPatternItems.includes(index) ? (
-                                      <>
-                                        {plan.Pattern.join(", ")}
-                                        <span
-                                          className="show-more"
-                                          onClick={() => toggleExpand(index)}
-                                        >
-                                          {" "}
-                                          🔼
-                                        </span>
-                                      </>
-                                    ) : (
-                                      <>
-                                        {plan.Pattern[0]}
-                                        <span
-                                          className="show-more"
-                                          onClick={() => toggleExpand(index)}
-                                        >
-                                          {" "}
-                                          🔽
-                                        </span>
-                                      </>
-                                    )}
-                                  </>
-                                ) : (
-                                  plan.Pattern?.join(", ")
-                                )}
-                              </p>
+                              {plan["Option Strategy"]?.length > 0 && (
+                                <p className="price-item">
+                                  <strong>Options:</strong>{" "}
+                                  {plan["Option Strategy"].length > 1 ? (
+                                    <>
+                                      {expandedOptions.includes(index) ? (
+                                        <>
+                                          {plan["Option Strategy"].join(", ")}
+                                          <span className="show-more" onClick={() => toggleOptions(index)}>
+                                            {" "}🔼
+                                          </span>
+                                        </>
+                                      ) : (
+                                        <>
+                                          {plan["Option Strategy"][0]}
+                                          <span className="show-more" onClick={() => toggleOptions(index)}>
+                                            {" "}🔽
+                                          </span>
+                                        </>
+                                      )}
+                                    </>
+                                  ) : (
+                                    plan["Option Strategy"].join(", ")
+                                  )}
+                                </p>
+                              )}
+
+                              {plan.Pattern?.length > 0 && (
+                                <p className="price-item">
+                                  <strong>Patterns:</strong>{" "}
+                                  {plan.Pattern.length > 1 ? (
+                                    <>
+                                      {expandedPatternItems.includes(index) ? (
+                                        <>
+                                          {plan.Pattern.join(", ")}
+                                          <span className="show-more" onClick={() => toggleExpand(index)}>
+                                            {" "}🔼
+                                          </span>
+                                        </>
+                                      ) : (
+                                        <>
+                                          {plan.Pattern[0]}
+                                          <span className="show-more" onClick={() => toggleExpand(index)}>
+                                            {" "}🔽
+                                          </span>
+                                        </>
+                                      )}
+                                    </>
+                                  ) : (
+                                    plan.Pattern.join(", ")
+                                  )}
+                                </p>
+                              )}
+
                               {plan.SOPPaperTrade > 0 && <p className="allplan-card-subtitle">
                                 <strong className="card-text-Color">Price Per Paper Trade :</strong>
                                 <FaRupeeSign /> {plan.SOPPaperTrade}

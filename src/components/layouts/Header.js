@@ -667,10 +667,9 @@ const Header = () => {
                 <ul className="navbar-nav ms-auto navbar-list align-items-center">
                   <li className="nav-item dropdown">
                     <button
-                      className="addbtn mx-3 dropdown-toggle btn-sm btn"
+                      className="addbtn mx-3 dropdown-toggle btn"
                       id="adminMenuDropdown"
                       data-bs-toggle="dropdown"
-                     
                     >
                       Admin Menu
                     </button>

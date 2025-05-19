@@ -355,6 +355,8 @@ const AddClient = () => {
               timer: 1500,
               timerProgressBar: true,
             });
+            sessionStorage.setItem("redirectStrategyType", "Pattern");
+
             setTimeout(() => {
               navigate("/user/dashboard");
             }, 1500);
@@ -1086,12 +1088,12 @@ const AddClient = () => {
 
   let currentWebSocket = null;
 
-  const showLivePrice = async (singleChannel, channel1) => { 
+  const showLivePrice = async (singleChannel, channel1) => {
     if (currentWebSocket && typeof currentWebSocket.close === "function") {
       currentWebSocket.close();
     }
 
-    currentWebSocket = connectWebSocketForSingleChannel(singleChannel, (data) => { 
+    currentWebSocket = connectWebSocketForSingleChannel(singleChannel, (data) => {
       if (data.lp && data.tk && channel1 && channel1 === data.tk) {
         console.log("singleChannel", singleChannel, channel1)
 
@@ -1180,8 +1182,8 @@ const AddClient = () => {
         backbutton_status={false}
       >
 
-        
-      {formik.values.Exchange && formik.values.Instrument && formik.values.Symbol && formik.values.expirydata1 && <div className="AddScript_LivePrice card-text-Color"><div className="LivePriceContainer"><span> Live Price:  </span> <span className="LivePrice ms-2">{ }</span></div></div>}
+
+        {formik.values.Exchange && formik.values.Instrument && formik.values.Symbol && formik.values.expirydata1 && <div className="AddScript_LivePrice card-text-Color"><div className="LivePriceContainer"><span> Live Price:  </span> <span className="LivePrice ms-2">{ }</span></div></div>}
 
         <AddForm
           fields={fields.filter(
@@ -1193,6 +1195,7 @@ const AddClient = () => {
           btn_name1="Cancel"
           formik={formik}
           btn_name1_route={"/user/dashboard"}
+
         />
       </Content>
     </>

@@ -12,6 +12,7 @@ import {
 import AddForm from "../../../ExtraComponent/FormData";
 import { useFormik } from "formik";
 import Content from "../../../ExtraComponent/Content";
+import NoDataFound from "../../../ExtraComponent/NoDataFound"; // <-- add import
 
 const Strategygroup = () => {
   const [showModal, setShowModal] = useState(false);
@@ -185,70 +186,75 @@ const Strategygroup = () => {
         button_status={false}
         backbutton_status={true}
       >
-        <div className="table-responsive">
-          <table className="table">
-            <thead className="thead-tabel">
-              <tr>
-                <th scope="col">SR. No</th>
-                <th scope="col">Panel Name</th>
-                <th scope="col">Favicon</th>
-                <th scope="col">Header Image1</th>
-                <th scope="col">Header Image2</th>
-                <th scope="col">Login Image</th>
-                <th scope="col">Update</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>{panleName}</td>
-                <td>
-                  {getfaviconImage && (
-                    <img
-                      src={`data:image/png;base64,${getfaviconImage}`}
-                      className="api_img"
-                      alt="Panel Front Image"
-                      style={{ width: "70px", height: "70px" }}
-                    />
-                  )}
-                </td>
-                <td>
-                  {HeaderImg1 && (
-                    <img
-                      src={`data:image/png;base64,${HeaderImg1}`}
-                      className="api_img"
-                      alt="Panel Icon"
-                      style={{ width: "70px", height: "70px" }}
-                    />
-                  )}
-                </td>
-                <td>
-                  {HeaderImg2 && (
-                    <img
-                      src={`data:image/png;base64,${HeaderImg2}`}
-                      className="api_img"
-                      alt="Panel Front Image"
-                      style={{ width: "70px", height: "70px" }}
-                    />
-                  )}
-                </td>
-                <td>
-                  {panleLogo && (
-                    <img
-                      src={`data:image/png;base64,${panleLogo}`}
-                      className="api_img"
-                      alt="Panel Logo"
-                      style={{ width: "70px", height: "70px" }}
-                    />
-                  )}
-                </td>
-                <td>
-                  <SquarePen onClick={() => setShowModal(true)} />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        {/* Show NoDataFound if all data is missing */}
+        { !panleName && !getfaviconImage && !HeaderImg1 && !HeaderImg2 && !panleLogo ? (
+          <NoDataFound />
+        ) : (
+          <div className="table-responsive">
+            <table className="table">
+              <thead className="thead-tabel">
+                <tr>
+                  <th scope="col">SR. No</th>
+                  <th scope="col">Panel Name</th>
+                  <th scope="col">Favicon</th>
+                  <th scope="col">Header Image1</th>
+                  <th scope="col">Header Image2</th>
+                  <th scope="col">Login Image</th>
+                  <th scope="col">Update</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>{panleName}</td>
+                  <td>
+                    {getfaviconImage && (
+                      <img
+                        src={`data:image/png;base64,${getfaviconImage}`}
+                        className="api_img"
+                        alt="Panel Front Image"
+                        style={{ width: "70px", height: "70px" }}
+                      />
+                    )}
+                  </td>
+                  <td>
+                    {HeaderImg1 && (
+                      <img
+                        src={`data:image/png;base64,${HeaderImg1}`}
+                        className="api_img"
+                        alt="Panel Icon"
+                        style={{ width: "70px", height: "70px" }}
+                      />
+                    )}
+                  </td>
+                  <td>
+                    {HeaderImg2 && (
+                      <img
+                        src={`data:image/png;base64,${HeaderImg2}`}
+                        className="api_img"
+                        alt="Panel Front Image"
+                        style={{ width: "70px", height: "70px" }}
+                      />
+                    )}
+                  </td>
+                  <td>
+                    {panleLogo && (
+                      <img
+                        src={`data:image/png;base64,${panleLogo}`}
+                        className="api_img"
+                        alt="Panel Logo"
+                        style={{ width: "70px", height: "70px" }}
+                      />
+                    )}
+                  </td>
+                  <td>
+                    <SquarePen onClick={() => setShowModal(true)} />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        )}
 
         {showModal && (
           <div

@@ -7435,3 +7435,19 @@ body .coupon-modal .MuiBox-root {
 .paper-live-trading-btn{
   margin-left: 5rem !important;
 }
+
+.dropdwown-multi .css-b62m3t-container{
+  margin-left: 4rem !important;
+  width: 40vw !important;
+}
+
+.stg-label{
+  margin-left: 4rem;
+}
+
+.dropdown-multi .css-13cymwt-control{
+  width: 39vw !important;
+}
+.dropdown-multi .css-b62m3t-container{
+  width: 39vw !important;
+}

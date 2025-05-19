@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Get_Broker_Name, viewBrokerDetails } from "../../CommonAPI/Admin";
+import { Get_Broker_Name, getBrokerDetails, viewBrokerDetails } from "../../CommonAPI/Admin";
 import { Eye, Trash2, BarChart2 } from "lucide-react";
 import Modal from "../../../ExtraComponent/Modal1";
 import Content from "../../../ExtraComponent/Content";
@@ -8,7 +8,7 @@ const ApiCreateInfo = () => {
   const [brokers, setBrokers] = useState([]);
   const [show, setShow] = useState(false);
   const [brokerName, setBrokerName] = useState("");
-  const [brokerDetails, setBrokerDetails] = useState({});
+  const [brokerDetails, setBrokerDetails] = useState([]);
 
   const [showModal, setshowModal] = useState(false);
 
@@ -40,11 +40,13 @@ const ApiCreateInfo = () => {
     if (brokerName === "") return;
     const req = { BrokerName: brokerName };
     try {
-      await viewBrokerDetails(req).then((response) => {
-        if (response.status) {
-          setBrokerDetails(req.BrokerName);
+      await getBrokerDetails(req).then((response) => {
+          console.log("response", response);
+
+        if (response.Status) {
+          setBrokerDetails(response.Data?.[0]);
         } else {
-          setBrokerDetails({});
+          setBrokerDetails([]);
         }
       });
     } catch (error) {
@@ -52,9 +54,11 @@ const ApiCreateInfo = () => {
     }
   };
 
+
   const handleShow = () => {
     setshowModal(true);
   };
+
 
   return (
     <>
@@ -106,10 +110,31 @@ const ApiCreateInfo = () => {
         <Modal
           isOpen={showModal}
           size="lg"
-          title={`${brokerDetails}  API Create Information.`}
+          title={`${brokerName}  API Create Information.`}
           hideBtn={true}
           handleClose={() => setshowModal(false)}
-        ></Modal>
+        >
+          {/* Render broker steps */}
+          <div>
+            {[1,2,3,4,5].map(step => {
+              const text = brokerDetails[`Step${step}Text`];
+              const img = brokerDetails[`Step${step}Image`];
+              if (!text) return null;
+              return (
+                <div key={step} style={{ marginBottom: "1.5rem" }}>
+                  <div style={{ fontWeight: 500, marginBottom: 6 }}>{text}</div>
+                  {img && (
+                    <img
+                      src={`data:image/jpeg;base64,${img}`}
+                      alt={`Step ${step}`}
+                      style={{ maxWidth: "100%", maxHeight: 500, display: "block", margin: "0.5rem auto" }}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </Modal>
       </Content>
     </>
   );

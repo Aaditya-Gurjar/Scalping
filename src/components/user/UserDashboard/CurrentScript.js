@@ -310,9 +310,10 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
                   setRefresh(!refresh);
                 },
               });
+              
               setTimeout(() => {
                 sessionStorage.setItem("redirectStrategyType", data);
-                // window.location.reload();
+                window.location.reload();
               }, 1500);
             } else {
               Swal.fire({

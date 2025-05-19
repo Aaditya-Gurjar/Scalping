@@ -98,7 +98,7 @@ const AddPlanPage = () => {
 
     const showError = (title, message = "") => {
         Swal.fire({
-             // background: "#1a1e23 ",
+            // background: "#1a1e23 ",
             backdrop: "#121010ba",
             confirmButtonColor: "#1ccc8a",
             title: title,
@@ -154,11 +154,11 @@ const AddPlanPage = () => {
 
 
             if (!values.Duration) errors.Duration = "Please select a plan duration.";
-            
-            if(!values.ChartPaperTrade && formik.values.PlanType !== "Scalping"){
-                errors.ChartPaperTrade = "Please enter the Chart Paper Trade Amount.";
-            }
-  
+
+            // if (!values.ChartPaperTrade && formik.values.PlanType !== "Scalping") {
+            //     errors.ChartPaperTrade = "Please enter the Chart Paper Trade Amount.";
+            // }
+
             return errors;
 
         },
@@ -167,7 +167,7 @@ const AddPlanPage = () => {
                 showError("Error!", "Please select at least one strategy either Scalping, Option or Pattern.");
                 return;
             }
-          
+
             const req = {
                 Scalping: selecteScalping.map((strategy) => strategy.value),
                 Option: selecteOptions.map((strategy) => strategy.value),
@@ -184,12 +184,12 @@ const AddPlanPage = () => {
                 SOPPaperTrade: values.SOPPaperTrade || 0.0,
                 ChartPaperTrade: values.ChartPaperTrade || 0.0,
             };
-             
+
             try {
                 const response = await AddPlan(req);
                 if (response.Status) {
                     Swal.fire({
-                         // background: "#1a1e23 ",
+                        // background: "#1a1e23 ",
                         backdrop: "#121010ba",
                         confirmButtonColor: "#1ccc8a",
                         title: "Success!",
@@ -199,6 +199,7 @@ const AddPlanPage = () => {
                         timerProgressBar: true
                     });
                     setTimeout(() => {
+                        sessionStorage.setItem("redirectPlan", formik.values.PlanType);
                         navigate('/admin/allplan');
                     }, 1500);
                 } else {
@@ -294,11 +295,11 @@ const AddPlanPage = () => {
             name: "ChartPaperTrade",
             label: "Paper Trade Amount",
             type: "text",
-            showWhen: () => formik.values.PlanType !== "Scalping", 
+            showWhen: () => formik.values.PlanType !== "Scalping",
             col_size: 6,
         },
 
-        
+
 
 
 
@@ -336,15 +337,16 @@ const AddPlanPage = () => {
                                         selected={selectedCharting}
                                         onChange={handleChartingChange}
                                     />
-                                    {formik.errors.Charting && (
+                                    {formik.touched.Charting && formik.errors.Charting && (
                                         <div className="text-danger mt-1 small">
                                             {formik.errors.Charting}
                                         </div>
                                     )}
+
                                 </div>
                                 <div className="col-lg-12 dropdwown-multi" style={{ width: "48%" }}>
                                     <CustomMultiSelect
-                                        label={<span className='card-text-Color'>Strategy Tag</span>}
+                                        label={<span className='card-text-Color stg-label'>Strategy Tag</span>}
                                         options={strategyTags} // Use dynamic strategy tags
                                         selected={selectedStrategyTags}
                                         onChange={handleStrategyTagChange}

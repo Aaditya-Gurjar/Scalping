@@ -8,6 +8,8 @@
 
  
 // export const base_url = `http://217.145.69.67:8000/`;
+// export const base_url = `https://tools.foxittechnology.com//backend/`;
+
 export const base_url = `https://soptools.tradestreet.in/backend/`;
 // export const base_url = `https://app.thebuildstudy.com/backend/`;
 // export const base_url = `https://tools.tradestreet.in/backend/`;
