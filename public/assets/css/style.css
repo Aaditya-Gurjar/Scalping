@@ -7451,3 +7451,36 @@ body .coupon-modal .MuiBox-root {
 .dropdown-multi .css-b62m3t-container{
   width: 39vw !important;
 }
+.botIconContainer
+{
+  position: fixed;
+    width: 112px;
+    height: 140px;
+    bottom: 30px;
+    display: flex
+;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 1;
+    right: 80px;
+
+    -ms-align-items: center;
+    align-items: center;
+    background: #a64bf4;
+    background: linear-gradient(to left, #00dbde, #fc00ff, #00dbde, #fc00ff);
+    background-position: 50%;
+    background-size: 300%;
+    border-radius: 50%;
+    color: #fff;
+    cursor: pointer;
+    display: flex
+;
+    flex-wrap: wrap;
+    font-size: 1.7em;
+    height: 2em;
+    justify-content: center;
+    width: 2em;
+}

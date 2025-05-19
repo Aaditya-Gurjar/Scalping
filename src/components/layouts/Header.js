@@ -644,6 +644,12 @@ const Header = () => {
 
             {/* </div> */}
           </div>
+          <div className="botIconContainer">
+  <div className="iconInner">
+    <i className="fa fa-commenting" aria-hidden="true" />
+  </div>
+</div>
+
           {role === "Admin" ? (
             <nav className="navbar navbar-expand-lg navbar-light p-0">
               <button
@@ -660,6 +666,7 @@ const Header = () => {
               <button className="me-3 menusidebar" onClick={toggleSidebar}>
                 <i className="ri-more-fill" />
               </button>
+
               <div
                 className="collapse navbar-collapse"
                 id="navbarSupportedContent"
