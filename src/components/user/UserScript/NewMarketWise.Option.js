@@ -1502,18 +1502,10 @@ const AddClient = (Planname) => {
     ) {
       formik.setFieldValue("Shifting_Value", 1);
     }
-    if (
-      !(formik.values.Strategy == "LongFourLegStretegy" ||
-        formik.values.Strategy == "ShortFourLegStretegy")
-    ) {
-      formik.setFieldValue("TStype", "Point");
-      formik.setFieldValue("Targetvalue", 0);
-      formik.setFieldValue("Slvalue", 0 );
-    }
-    else{
-      formik.setFieldValue("Targetvalue", 1);
-      formik.setFieldValue("Slvalue", 1 );
-    }
+    // Always set TStype, Targetvalue, and Slvalue to 1
+    formik.setFieldValue("TStype", "Point");
+    formik.setFieldValue("Targetvalue", 1);
+    formik.setFieldValue("Slvalue", 1);
     if (
       formik.values.Strategy != "ShortFourLegStretegy" ||
       formik.values.Strategy != "LongFourLegStretegy"
