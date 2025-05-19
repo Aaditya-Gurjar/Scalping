@@ -270,3 +270,64 @@
   color: #333;
   flex: 1; /* Allow the value to take up remaining space */
 }
+
+/* Scrollable description for long text, styled with Bootstrap look */
+.description-scrollable {
+  max-height: 120px;
+  overflow-y: auto;
+  white-space: pre-line;
+  font-size: 1rem;
+  color: #333;
+  background: #f6f6f6;
+  border-radius: 6px;
+  padding: 10px;
+  margin-top: 4px;
+}
+
+@media (max-width: 768px) {
+    .strategy-card-fullwidth {
+        flex-direction: column !important;
+    }
+    .strategy-img-container, .strategy-content-container {
+        width: 100% !important;
+        min-height: 120px;
+        border-right: none;
+        border-bottom: 1px solid #eee;
+    }
+    .strategy-content-container {
+        padding: 16px;
+    }
+}
+
+.strategy-card-fullwidth {
+    min-height: 200px;
+    margin-bottom: 24px;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.strategy-img-container {
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 180px;
+    border-right: 1px solid #eee;
+}
+
+.strategy-content-container {
+    padding: 24px 20px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* For Webkit browsers */
+.description-scrollable::-webkit-scrollbar {
+  width: 6px;
+  background: #e9ecef;
+}
+.description-scrollable::-webkit-scrollbar-thumb {
+  background: #adb5bd;
+  border-radius: 4px;
+}
