@@ -785,6 +785,7 @@ const AddClient = (Planname) => {
         { label: "Premium Range", value: "Premium_Range" },
         { label: "% of ATM", value: "Per_ATM" },
       ],
+      
       showWhen: (value) =>
         value.Strategy != "LongFourLegStrategy" &&
         value.Strategy != "ShortFourLegStrategy" &&
