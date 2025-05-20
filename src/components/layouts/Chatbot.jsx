@@ -19,8 +19,8 @@ const Chatbot = ({ onClose }) => {
 
       {/* Input Area */}
       <div className="chatbot-input">
-        <input type="text" placeholder="Type a message..." disabled />
-        <button disabled>Send</button>
+        <input type="text" placeholder="Type a message..."  />
+        <button >Send</button>
       </div>
     </div>
   );
