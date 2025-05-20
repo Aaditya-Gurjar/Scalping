@@ -20,11 +20,18 @@ import { GetUserBalence, Get_Profile_Data } from "../CommonAPI/User";
 import { useTheme } from "../../ThemeContext";
 import { connectWebSocket } from "../user/UserDashboard/LivePrice";
 import $ from "jquery";
+import Chatbot from "./Chatbot";
 
 
 const Header = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showFunds, setShowFunds] = useState(false);
+
+    const [showChat, setShowChat] = useState(false);
+
+  const handleChatToggle = () => {
+    setShowChat(!showChat);
+  };
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -644,11 +651,14 @@ const Header = () => {
 
             {/* </div> */}
           </div>
-          <div className="botIconContainer">
-  <div className="iconInner">
-    <i className="fa fa-commenting" aria-hidden="true" />
-  </div>
-</div>
+    
+ <button className="botIcon" 
+        onClick={handleChatToggle}>
+          <i className="fa fa-commenting fs-5" aria-hidden="true" />
+      </button>
+
+      {/* Conditionally render chatbot */}
+      {showChat && <Chatbot onClose={() => setShowChat(false)} />}
 
           {role === "Admin" ? (
             <nav className="navbar navbar-expand-lg navbar-light p-0">
