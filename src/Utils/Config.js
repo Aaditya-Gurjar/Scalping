@@ -7,6 +7,10 @@
 // export const base_url = `http://217.145.69.29:8000/`;
 
  
+// Chatbot api 
+export const ChatBot_Base_Url = `http://185.209.75.88:8000/`;
+
+
 // export const base_url = `http://217.145.69.67:8000/`;
 // export const base_url = `https://tools.foxittechnology.com//backend/`;
 export const base_url = `https://soptools.tradestreet.in/backend/`;

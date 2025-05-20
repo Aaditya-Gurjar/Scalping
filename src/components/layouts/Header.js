@@ -27,7 +27,7 @@ const Header = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showFunds, setShowFunds] = useState(false);
 
-    const [showChat, setShowChat] = useState(false);
+  const [showChat, setShowChat] = useState(false);
 
   const handleChatToggle = () => {
     setShowChat(!showChat);
@@ -238,9 +238,9 @@ const Header = () => {
   };
 
   useEffect(() => {
-    if(role === "User"){
+    if (role === "User") {
       GetBalence();
-      }
+    }
     clearSession();
   }, []);
 
@@ -583,11 +583,11 @@ const Header = () => {
       if (data.lp && data.tk) {
         // console.log("Channel List", singleChannel)
         // console.log("data", data)
-        if(tokenMap[data.tk] === "NIFTY"){ 
+        if (tokenMap[data.tk] === "NIFTY") {
           $(".LivePrice_NIFTY").html(data.lp);
         }
-        else if(tokenMap[data.tk] === "BANKNIFTY"){
-        $(".LivePrice_BANKNIFTY").html(data.lp);
+        else if (tokenMap[data.tk] === "BANKNIFTY") {
+          $(".LivePrice_BANKNIFTY").html(data.lp);
         }
         // console.log("Updated Price Data:", data.lp);
       }
@@ -622,7 +622,7 @@ const Header = () => {
         Expiry: expiry
       });
       const singleChannel = `NFO|${res.Token[0]}`;
-      tokenMap[res.Token[0]] = symbol;  
+      tokenMap[res.Token[0]] = symbol;
       // setChannel(singleChannel);
       showLivePrice(singleChannel);
 
@@ -651,14 +651,14 @@ const Header = () => {
 
             {/* </div> */}
           </div>
-    
- <button className="botIcon" 
-        onClick={handleChatToggle}>
-          <i className="fa fa-commenting fs-5" aria-hidden="true" />
-      </button>
 
-      {/* Conditionally render chatbot */}
-      {showChat && <Chatbot onClose={() => setShowChat(false)} />}
+          <button className="botIcon"
+            onClick={handleChatToggle}>
+            <i className="fa fa-commenting fs-5" aria-hidden="true" />
+          </button>
+
+          {/* Conditionally render chatbot */}
+          {showChat && <Chatbot onClose={() => setShowChat(false)} />}
 
           {role === "Admin" ? (
             <nav className="navbar navbar-expand-lg navbar-light p-0">
@@ -951,7 +951,7 @@ const Header = () => {
                     <></>
                   )}
 
-                 
+
 
                   <li className="live-price-item">
                     <div className="live-price-box">
@@ -966,7 +966,7 @@ const Header = () => {
                       <span className="LivePrice_BANKNIFTY liveprice-text-color ms-2">{ }</span>
                     </div>
                   </li>
- 
+
                   <li className="nav-item mx-3 btn-text-color" onClick={toggleFundsVisibility}>
                     <button
                       type="button"
