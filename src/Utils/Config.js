@@ -8,7 +8,8 @@
 
  
 // Chatbot api 
-export const ChatBot_Base_Url = `http://185.209.75.88:8000/`;
+// export const ChatBot_Base_Url = `http://185.209.75.88:8000/`;
+export const ChatBot_Base_Url = `https://chatbot.tradestreet.in/backend/`;
 
 
 // export const base_url = `http://217.145.69.67:8000/`;
