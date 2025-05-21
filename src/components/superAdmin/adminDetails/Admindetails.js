@@ -827,10 +827,10 @@ const Strategygroup = () => {
             if (values.ChartPerTrade < 0) {
                 errors.ChartPerTrade = "Value cannot be negative";
             }
-            if (!values.ChartLiveTrade) {
+            if (values.ChartLiveTrade < 0) {
                 errors.ChartLiveTrade = "Please enter Chart Live Trade";
             }
-            if (!values.ChartPaperTrade) {
+            if (values.ChartPaperTrade < 0) {
                 errors.ChartPaperTrade = "Please enter Chart Paper Trade";
             }
             if (values.ChartPerMonth < 0) {
@@ -846,12 +846,12 @@ const Strategygroup = () => {
                 mobile_no: values.mobile_no,
                 SignEmail: values.SignEmail,
                 Url: values.Url,
-                SOPPaperTrade: values.SOPPaperTrade,
-                SOPLiveTrade: values.SOPLiveTrade,
-                SOPScriptwise: values.SOPScriptwise,
-                ChartPaperTrade: values.ChartPaperTrade,
-                ChartLiveTrade: values.ChartLiveTrade,
-                ChartPerMonth: values.ChartPerMonth,
+                SOPPaperTrade: values.SOPPaperTrade || 0,
+                SOPLiveTrade: values.SOPLiveTrade || 0,
+                SOPScriptwise: values.SOPScriptwise || 0,
+                ChartPaperTrade: values.ChartPaperTrade || 0,
+                ChartLiveTrade: values.ChartLiveTrade || 0,
+                ChartPerMonth: values.ChartPerMonth || 0,
             };
 
             await updateAdmin(req)

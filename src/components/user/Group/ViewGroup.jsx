@@ -52,11 +52,11 @@ const ViewGroup = ({ group, isCopyScriptVisible, handleAddScript11, handleAddScr
 
 
   const handleAddScript1 = (data1, type) => {
- 
+
     const selectedRowIndex = data1?.rowIndex;
     const selectedRow = type == 1 ? getAllService?.data?.[selectedRowIndex] : getAllService?.data1?.[selectedRowIndex];
- 
-    console.log("allScripts", allScripts )
+
+    console.log("allScripts", allScripts)
     if (data2?.status == false) {
       Swal.fire({
         title: "Error",
@@ -92,7 +92,7 @@ const ViewGroup = ({ group, isCopyScriptVisible, handleAddScript11, handleAddScr
     }
   }
   const handleAddScript2 = (data1) => {
-console.log("allScripts", allScripts )
+    console.log("allScripts", allScripts)
 
     if (data2.status == false) {
       Swal.fire({
@@ -156,7 +156,7 @@ console.log("allScripts", allScripts )
   }
   const handleAddScript3 = (data1) => {
 
-console.log("allScripts", allScripts )
+    console.log("allScripts", allScripts)
 
 
 
@@ -444,6 +444,24 @@ console.log("allScripts", allScripts )
       });
     }
   };
+  const formatDescription = (desc) => {
+    const paragraphs = desc.split("\n\n");
+
+    return paragraphs.map((para, i) => {
+      const lines = para.split("\n");
+      return (
+        <p key={i} style={{ marginBottom: "1em" }}>
+          {lines.map((line, j) => (
+            <React.Fragment key={j}>
+              {line}
+              {j < lines.length - 1 && <br />}
+            </React.Fragment>
+          ))}
+        </p>
+      );
+    });
+  };
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -465,7 +483,7 @@ console.log("allScripts", allScripts )
       <div className="d-flex justify-content-center">
         <ul
           className="nav nav-pills shadow rounded-pill p-1"
-         >
+        >
           <li className="nav-item">
             <button
               className={`nav-link ${activeTab === "Scalping" ? "active" : ""
@@ -570,7 +588,7 @@ console.log("allScripts", allScripts )
           <div className="d-flex justify-content-center">
             <ul
               className="nav nav-pills shadow rounded-pill p-1"
-             >
+            >
               <li className="nav-item">
                 <button
                   className={`nav-link ${modalActiveTab === "Description" ? "active" : ""
@@ -603,13 +621,10 @@ console.log("allScripts", allScripts )
           </div>
           <div className="mt-3 modal-content-scroll">
             {modalActiveTab === "Description" && (
-              <div>
-                <p className="modal-description">
-                  {selectedRowData
-                    ? selectedRowData[0]?.Description ||
-                    JSON.stringify(selectedRowData, null, 2)
-                    : "No description available."}
-                </p>
+              <div className="modal-description text-xs">
+                {selectedRowData && selectedRowData[0]?.Description
+                  ? formatDescription(selectedRowData[0].Description)
+                  : "No description available."}
               </div>
             )}
             {modalActiveTab === "Parameters" && (
@@ -697,7 +712,7 @@ console.log("allScripts", allScripts )
           <div className="d-flex justify-content-center">
             <ul
               className="nav nav-pills shadow rounded-pill p-1"
-             >
+            >
               <li className="nav-item">
                 <button
                   className={`nav-link ${optionModalActiveTab === "Description" ? "active" : ""
@@ -876,7 +891,7 @@ console.log("allScripts", allScripts )
           <div className="d-flex justify-content-center">
             <ul
               className="nav nav-pills shadow rounded-pill p-1"
-             >
+            >
               <li className="nav-item">
                 <button
                   className={`nav-link ${patternModalActiveTab === "Description" ? "active" : ""
