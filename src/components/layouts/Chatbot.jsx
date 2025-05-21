@@ -113,7 +113,7 @@ const Chatbot = ({ onClose }) => {
       console.log("data", data);
       const res = unsatisfied(data)
       console.log("res", res);
-       
+
 
       setMessages(prev =>
         prev.map((msg, i) =>
@@ -127,6 +127,8 @@ const Chatbot = ({ onClose }) => {
       console.error('Error sending feedback:', error);
     }
   };
+
+ 
 
   return (
     <div className="chatbot-container position-fixed bottom-1 end-1 m-3 shadow rounded-xl bg-white border"
