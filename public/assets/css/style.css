@@ -7451,3 +7451,11 @@ body .coupon-modal .MuiBox-root {
 .dropdown-multi .css-b62m3t-container{
   width: 39vw !important;
 }
+
+.center-nodata {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 400px !important; /* Optional: adjust based on your design */
+}

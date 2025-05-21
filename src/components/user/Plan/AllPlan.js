@@ -22,6 +22,7 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import { Modal, Button, TextField, Stack, Typography } from '@mui/material';
+import NoDataFound from "../../../ExtraComponent/NoDataFound";
 
 const style = {
   position: 'absolute',
@@ -58,7 +59,7 @@ const ServicesList = () => {
   const [verificationMessage, setVerificationMessage] = useState(""); // State for verification message
   const [verificationColor, setVerificationColor] = useState(""); // State for message color
   const [isContinueEnabled, setIsContinueEnabled] = useState(false); // State to manage "Continue" button enable/disable
-const adminPermission = localStorage.getItem("adminPermission");
+  const adminPermission = localStorage.getItem("adminPermission");
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
@@ -75,7 +76,7 @@ const adminPermission = localStorage.getItem("adminPermission");
         ? getUpdatedPlansCharting[selectedPlan.index]
         : getUpdatedPlans[selectedPlan.index]; // Use getUpdatedPlans or getUpdatedPlansCharting
 
-      
+
       const req = {
         User: username,
         Planname: planDetails.Planname || planDetails.PlanName, // Ensure correct plan name is passed
@@ -183,8 +184,8 @@ const adminPermission = localStorage.getItem("adminPermission");
         //   showCloseButton: true, 
         // });
 
-        
-        
+
+
 
         const result = await Swal.fire({
           title: "Confirm Purchase",
@@ -198,8 +199,8 @@ const adminPermission = localStorage.getItem("adminPermission");
           focusConfirm: true,  // Focus on the "Yes" button
           allowEnterKey: true, // Enable Enter key for confirmation
         });
-        
-        
+
+
 
         if (result.isConfirmed) {
           HandleBuyPlan(selectedPlan.index, 1, selectedPlan.isCharting); // Confirm purchase
@@ -336,7 +337,7 @@ const adminPermission = localStorage.getItem("adminPermission");
         Username: username,
         transactiontype: "Purchase",
         money: price || planDetails.SOPPrice || planDetails.ChartPerMonth,
-        Activity : planDetails?.Planname // Use discounted price if available
+        Activity: planDetails?.Planname // Use discounted price if available
       };
 
 
@@ -354,7 +355,7 @@ const adminPermission = localStorage.getItem("adminPermission");
           Extendtype: type === 0 ? "ExtendServiceEndDate" : "ExtendServiceCount",
           money: price || planDetails.SOPPrice,
           Charting: planDetails.ChartingSignal,
-          Strategytag : planDetails.Strategytag || [],
+          Strategytag: planDetails.Strategytag || [],
         };
 
         const buyPlanResponse = await BuyPlan(req);
@@ -412,6 +413,7 @@ const adminPermission = localStorage.getItem("adminPermission");
       plan.Planname !== "One Week Demo"
   );
 
+   
 
   const [value, setValue] = useState("1");
 
@@ -481,7 +483,7 @@ const adminPermission = localStorage.getItem("adminPermission");
             <div className="d-flex flex-wrap gap-2 justify-content-between">
               {plansData.loading ? (
                 <p className="allplan-loading">Loading...</p>
-              ) : (
+              ) : (getUpdatedPlans && getUpdatedPlans.length > 0 ? (
                 getUpdatedPlans?.map((plan, index) => (
                   <div key={index} className="allplan-card mb-3">
                     <div className="plan-header">
@@ -601,7 +603,23 @@ const adminPermission = localStorage.getItem("adminPermission");
                       </button>
                     )}
                   </div>
-                ))
+                ))) :
+                (<div className="center-nodata">
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      textAlign: "center",
+                      marginBottom: "10px",
+                    }}>
+                    <img
+                      src="/assets/images/no-record-found.png"
+                      width="50%"
+                      alt="No records found"
+                    />
+                  </div>
+                </div>)
               )}
             </div>
           </TabPanel>
@@ -610,7 +628,7 @@ const adminPermission = localStorage.getItem("adminPermission");
             <div className="d-flex flex-wrap gap-2 justify-content-between">
               {plansData.loading ? (
                 <p className="allplan-loading">Loading...</p>
-              ) : (
+              ) : (getUpdatedPlansCharting && getUpdatedPlansCharting.length > 0 ? (
                 getUpdatedPlansCharting?.map((plan, index) => (
                   <div key={index} className="allplan-card mb-3">
                     <div className="plan-header">
@@ -648,7 +666,7 @@ const adminPermission = localStorage.getItem("adminPermission");
                         <strong className="card-text-Color">Fixed Per Month:</strong>
                         <FaRupeeSign /> {plan.ChartPerMonth}
                       </p> */}
-                      
+
                       {plan?.Strategytag && (
                         <p className="allplan-card-subtitle">
                           <strong className="card-text-Color">Strategy Tag:</strong>
@@ -660,7 +678,7 @@ const adminPermission = localStorage.getItem("adminPermission");
                       )}
                     </div>
 
- 
+
                     {isPlanPurchased(plan.Planname) ? (
                       <button
                         className="allplan-button buy-again"
@@ -677,7 +695,23 @@ const adminPermission = localStorage.getItem("adminPermission");
                       </button>
                     )}
                   </div>
-                ))
+                ))) :
+                (<div className="center-nodata">
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      textAlign: "center",
+                      marginBottom: "10px",
+                    }}>
+                    <img
+                      src="/assets/images/no-record-found.png"
+                      width="50%"
+                      alt="No records found"
+                    />
+                  </div>
+                </div>)
               )}
             </div>
           </TabPanel>
@@ -692,14 +726,14 @@ const adminPermission = localStorage.getItem("adminPermission");
         aria-describedby="coupon-modal-description"
         className="coupon-modal"
       >
-        
+
         <Box sx={style}>
           {/* Close Button */}
           <Button
             onClick={handleClose}
             sx={{
               position: "absolute",
-              top:5,
+              top: 5,
               right: 8,
               minWidth: "auto",
               padding: 1,
