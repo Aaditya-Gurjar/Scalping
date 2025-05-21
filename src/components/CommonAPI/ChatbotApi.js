@@ -2,13 +2,11 @@ import axios from "axios"
 import * as Config from "../../Utils/Config";
 
 export const askQuestion = async (data) => {
-    const token = localStorage.getItem('token')
     try {
         const res = await axios.post(`${Config.ChatBot_Base_Url}ask/`, data,
             {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
                 }
             }
         )
@@ -16,8 +14,9 @@ export const askQuestion = async (data) => {
         return res?.data
     }
     catch (err) {
-        return err
-    }
+    console.error("CORS error details:", err);
+    throw err;
+}
 
 }
 
@@ -29,7 +28,7 @@ export const unsatisfied = async (data) => {
             {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+
                 }
             }
         )

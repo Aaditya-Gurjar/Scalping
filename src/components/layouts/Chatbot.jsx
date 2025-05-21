@@ -35,13 +35,13 @@ const Chatbot = ({ onClose }) => {
         setMessages(prev => [
           ...prev,
           {
-            text: res.answer || "Bot Response Answer",
+            text: res.answer ,
             sender: 'bot',
             feedbackGiven: false
           }
         ]);
         setIsBotTyping(false);
-      }, 2000);
+      }, 1000);
     } catch (error) {
       console.error('Error in handleQuesion:', error);
       setIsBotTyping(false);
@@ -128,7 +128,7 @@ const Chatbot = ({ onClose }) => {
     }
   };
 
- 
+
 
   return (
     <div className="chatbot-container position-fixed bottom-1 end-1 m-3 shadow rounded-xl bg-white border"
