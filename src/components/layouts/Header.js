@@ -1111,7 +1111,7 @@ const Header = () => {
               <div className="nav-item mx-5">
                 <button
                   type="button"
-                  className="addbtn "
+                  className="addbtn ms-5"
                   onClick={(e) => setShowAddBrokerModal(true)}
                 >
                   Add Broker
