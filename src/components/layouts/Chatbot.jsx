@@ -139,7 +139,7 @@ const Chatbot = ({ onClose }) => {
         style={{
           background: 'linear-gradient(90deg, #007bff 0%, #00c6ff 100%)'
         }}>
-        <span className="fw-bold ms-3">SOP BOT</span>
+        <span className="fw-bold ms-3">SOP AI</span>
         <button className="btn btn-sm btn-light" onClick={() => setShowCloseAlert(true)}>&times;</button>
       </div>
 
