@@ -19,6 +19,7 @@ const Adduser = () => {
     const [selectedIndex, setSelectedIndex] = useState([]);
     const [GetAllPlans, setAllPlans] = useState({ LivePlanName: [], DemoPlanName: [], data: [] });
     const [plans, setPlans] = useState( {SOPPlans : [], ChartPlans: []} );
+    const [planType, setPlanType] = useState('SOP'); // Add this state
     const Name_regex = (name) => {
         const nameRegex = /^[a-zA-Z]+$/;
         return nameRegex.test(name);
@@ -196,9 +197,7 @@ const Adduser = () => {
                 group: selectedOptions && selectedOptions.map((item) => item.value),
                 Permission: formik.values.permissions || [], // Ensure permissions is always an array
             }
-            console.log("values.planname", values.planname)
-
-            console.log("GetAllPlans", GetAllPlans)
+          
 
             const FilterPlanAmount = GetAllPlans.LivePlanName.filter((item) =>
                 (item.Planname || item.PlanName) === values.planname
@@ -221,8 +220,7 @@ const Adduser = () => {
 
             }
 
-            console.log("Request data", req)
-            return ;
+         ;
 
 
             await CreateAccount(req)
@@ -344,21 +342,36 @@ const Adduser = () => {
             disable: false,
         },
 
+         {
+            name: "planType",
+            label: "Plan Type",
+            type: "select1",
+            options:
+                [{ label: "SOP", value: "SOP" },
+                { label: "Charting", value: "Charting" },
+                ],
+            label_size: 12,
+            hiding: false,
+            col_size: 6,
+            disable: false,
+        },
+
         {
             name: "planname",
             label: "Plan Name",
             type: "select1",
-            options: formik.values.Select_License === '1'
-                ? GetAllPlans.DemoPlanName.map((item) => ({
-                    label: (item.PlanName || item.Planname),
-                    value: (item.PlanName || item.Planname),
-                }))
-                : formik.values.Select_License === '2'
-                    ? GetAllPlans.LivePlanName.map((item) => ({
-                        label: (item.PlanName || item.Planname + " ₹ " + (item.SOPPrice || item.ChartPerMonth) ),
+            options:
+                formik.values.planType === 'SOP'
+                    ? plans.SOPPlans.map((item) => ({
+                        label: (item.PlanName || item.Planname) + (item.SOPPrice ? ` ₹ ${item.SOPPrice}` : ""),
                         value: (item.PlanName || item.Planname),
                     }))
-                    : [],
+                    : formik.values.planType === 'Charting'
+                        ? plans.ChartPlans.map((item) => ({
+                            label: (item.PlanName || item.Planname) + (item.ChartPerMonth ? ` ₹ ${item.ChartPerMonth}` : ""),
+                            value: (item.PlanName || item.Planname),
+                        }))
+                        : [],
             label_size: 12,
             hiding: false,
             col_size: 6,
@@ -433,8 +446,9 @@ const Adduser = () => {
                                             classNamePrefix="select"
                                         />
                                     </div>
+                               
                                     {permissionArray.length > 0 && (
-                                        <div className="col-lg-6">
+                                        <div className="col-lg-12">
                                             <label className='card-text-Color'>Permission</label>
                                             <div className="checkbox-group">
                                                 {permissionArray.map((permission, index) => (
