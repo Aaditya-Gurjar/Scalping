@@ -25,7 +25,7 @@ const Chatbot = ({ onClose }) => {
     setMessages(prev => [...prev, { text: input, sender: 'user' }]);
     setInput('');
   };
-
+ 
   const handleQuesion = async (que) => {
     setIsBotTyping(true);
     try {
@@ -35,7 +35,7 @@ const Chatbot = ({ onClose }) => {
         setMessages(prev => [
           ...prev,
           {
-            text: res.answer ,
+            text: res.answer,
             sender: 'bot',
             feedbackGiven: false
           }
@@ -47,9 +47,7 @@ const Chatbot = ({ onClose }) => {
       setIsBotTyping(false);
     }
   };
-
-
-
+ 
   useEffect(() => {
     const lastMsg = messages[messages.length - 1];
     if (lastMsg && lastMsg.sender === 'user') {
@@ -91,8 +89,7 @@ const Chatbot = ({ onClose }) => {
   const handlePopupSubmit = async () => {
     if (!reason.trim()) return;
 
-    const message = messages[popupIdx];
-    // Find the user question just before this bot message
+    const message = messages[popupIdx]; 
     let question = '';
     if (popupIdx > 0) {
       for (let i = popupIdx - 1; i >= 0; i--) {
@@ -102,6 +99,7 @@ const Chatbot = ({ onClose }) => {
         }
       }
     }
+
     try {
       const data = {
         question: question,
@@ -127,9 +125,7 @@ const Chatbot = ({ onClose }) => {
       console.error('Error sending feedback:', error);
     }
   };
-
-
-
+ 
   return (
     <div className="chatbot-container position-fixed bottom-1 end-1 m-3 shadow rounded-xl bg-white border"
       style={{ width: 380, zIndex: 1050, height: 520 }}>
