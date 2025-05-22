@@ -1,4 +1,4 @@
-// export const base_url = `${window.location.origin}/backend/`    
+// export const base_url = `${window.location.origin}/backend/`
 // export const base_url = `http://193.239.237.144:8002/`;
 // export const base_url = `http://193.239.237.147:8000/`;
 // export const base_url = `http://193.239.237.149:8000/`;
@@ -7,7 +7,11 @@
 // export const base_url = `http://217.145.69.29:8000/`;
 
  
- 
+// Chatbot api 
+// export const ChatBot_Base_Url = `http://185.209.75.88:8000/`;
+export const ChatBot_Base_Url = `https://chatbot.tradestreet.in/backend/`;
+
+
 // export const base_url = `http://217.145.69.67:8000/`;
 // export const base_url = `https://tools.foxittechnology.com//backend/`;
 export const base_url = `https://soptools.tradestreet.in/backend/`;

@@ -2689,6 +2689,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
     //         sort: true,
     //     }
     // },
+
     // {
     //     name: "MatchPosition",
     //     label: "Match Position",
@@ -2698,6 +2699,7 @@ export const getColumns6 = (handleDelete, handleEdit, handleContinutyDiscontinut
     //         customBodyRender: (value) => value ? "true" : "false"
     //     }
     // },
+    
     {
         name: "OrderType",
         label: "Order Type",

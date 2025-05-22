@@ -666,7 +666,6 @@ const ServicesList = () => {
                         <strong className="card-text-Color">Fixed Per Month:</strong>
                         <FaRupeeSign /> {plan.ChartPerMonth}
                       </p> */}
-
                       {plan?.Strategytag && (
                         <p className="allplan-card-subtitle">
                           <strong className="card-text-Color">Strategy Tag:</strong>
