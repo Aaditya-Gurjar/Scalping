@@ -67,7 +67,7 @@ const DynamicForm = ({
           ) : (
             ""
           )}
-          <form onSubmit={formik.handleSubmit}>
+          <form onSubmit={formik.handleSubmit} >
             <div className="card-body ">
               <div className="page-header">
                 <div className="content-page-header d-flex justify-content-between align-items-center">

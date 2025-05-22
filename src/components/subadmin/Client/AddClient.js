@@ -215,7 +215,7 @@ const Adduser = () => {
             const FilterPlanAmount = GetAllPlans.data.filter((item) => item.PlanName === values.planname);
             if (FilterPlanAmount[0].payment > values.ClientAmmount && FilterPlanAmount[0].payment !== '') {
                 Swal.fire({
-                     // background: "#1a1e23 ",
+                    // background: "#1a1e23 ",
                     backdrop: "#121010ba",
                     confirmButtonColor: "#1ccc8a",
                     title: "Invalid Amount",
@@ -227,11 +227,14 @@ const Adduser = () => {
                 return
 
             }
+
+           
+
             await CreateAccount(req)
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
-                             // background: "#1a1e23 ",
+                            // background: "#1a1e23 ",
                             backdrop: "#121010ba",
                             confirmButtonColor: "#1ccc8a",
                             title: "User Created!",
@@ -246,7 +249,7 @@ const Adduser = () => {
                     }
                     else {
                         Swal.fire({
-                             // background: "#1a1e23 ",
+                            // background: "#1a1e23 ",
                             backdrop: "#121010ba",
                             confirmButtonColor: "#1ccc8a",
                             title: "Error!",
@@ -272,6 +275,7 @@ const Adduser = () => {
             hiding: false,
             col_size: 6,
             disable: false,
+            autoComplete: "off"
         },
         {
             name: "email",
@@ -281,6 +285,7 @@ const Adduser = () => {
             hiding: false,
             col_size: 6,
             disable: false,
+            autoComplete: "off"
         },
         {
             name: "password",
@@ -290,6 +295,7 @@ const Adduser = () => {
             hiding: false,
             col_size: 6,
             disable: false,
+            autoComplete: "off"
         },
         {
             name: "cpassword",
@@ -344,7 +350,7 @@ const Adduser = () => {
                 value: item.PlanName
             })) :
                 GetAllPlans.LivePlanName && GetAllPlans.LivePlanName.map((item) => ({
-                    label: item.PlanName,
+                    label: item.PlanName ,
                     value: item.PlanName
                 })),
             label_size: 12,

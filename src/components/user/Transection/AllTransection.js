@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import FullDataTable from '../../../ExtraComponent/CommanDataTable';
 import { GetAllTransection, AddBalance } from '../../CommonAPI/User';
-import { DollarSign } from 'lucide-react';
+import { DollarSign, IndianRupee } from 'lucide-react';
 import Swal from 'sweetalert2';
 import { GetUserBalence } from '../../CommonAPI/User'
 import Content from '../../../ExtraComponent/Content';
@@ -343,7 +343,7 @@ const Clientservice = () => {
                                     <div className="modal-header border-0 pb-0">
                                         <div className="form-header modal-header-title text-start mb-0">
                                             <h4 className="mb-0 d-flex align-items-center">
-                                                <DollarSign className="me-2" style={{ color: '#4caf50' }} />
+                                                <IndianRupee className="me-2" style={{ color: '#4caf50' }} />
                                                 Add Balance
                                             </h4>
                                         </div>
@@ -419,7 +419,7 @@ const Clientservice = () => {
                                     <div className="modal-header border-0 pb-0">
                                         <div className="form-header modal-header-title text-start mb-0">
                                             <h4 className="mb-0 d-flex align-items-center">
-                                                <DollarSign className="me-2" style={{ color: '#4caf50' }} />
+                                                <IndianRupee className="me-2" style={{ color: '#4caf50' }} />
                                                 Withdrawal Balance
                                             </h4>
                                         </div>

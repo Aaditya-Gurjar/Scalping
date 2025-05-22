@@ -167,11 +167,10 @@ const Clientservice = () => {
             backdrop: "#121010ba",
             confirmButtonColor: "#1ccc8a",
             title: "Are you sure?",
-            text: "Do you want to change the status?",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonText: "Yes, change it!",
-            cancelButtonText: "No, cancel",
+            confirmButtonText: "Yes",
+            cancelButtonText: "No",
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {

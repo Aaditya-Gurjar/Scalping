@@ -18,6 +18,7 @@ const Adduser = () => {
     const [optionsArray, setOptionsArray] = useState([]);
     const [selectedIndex, setSelectedIndex] = useState([]);
     const [GetAllPlans, setAllPlans] = useState({ LivePlanName: [], DemoPlanName: [], data: [] });
+    const [plans, setPlans] = useState( {SOPPlans : [], ChartPlans: []} );
     const Name_regex = (name) => {
         const nameRegex = /^[a-zA-Z]+$/;
         return nameRegex.test(name);
@@ -31,6 +32,9 @@ const Adduser = () => {
         GetAllPlansData();
     }, [])
 
+
+    console.log("plans", plans)
+    
     const getBrokerName = async () => {
         await Get_Broker_Name()
             .then((response) => {
@@ -90,6 +94,11 @@ const Adduser = () => {
                         ...response.Charting // Charting array ko add kar diya
                     ];
 
+                    const SOPPlans = LivePlanName.filter((item) => item.Planname !== 'One Week Demo' && item.Planname !== 'Two Days Demo' && item.SOPPrice);
+                    const ChartPlans = LivePlanName.filter((item) => item.Planname !== 'One Week Demo' && item.Planname !== 'Two Days Demo' && item.ChartPerMonth);
+                    setPlans({ SOPPlans, ChartPlans });
+
+                    
                     const DemoPlanName = response.Admin.filter((item) => item.Planname === 'One Week Demo' || item.Planname === 'Two Days Demo');
 
                     setAllPlans({
@@ -187,19 +196,23 @@ const Adduser = () => {
                 group: selectedOptions && selectedOptions.map((item) => item.value),
                 Permission: formik.values.permissions || [], // Ensure permissions is always an array
             }
+            console.log("values.planname", values.planname)
 
+            console.log("GetAllPlans", GetAllPlans)
 
-            const FilterPlanAmount = GetAllPlans.data.filter((item) =>
+            const FilterPlanAmount = GetAllPlans.LivePlanName.filter((item) =>
                 (item.Planname || item.PlanName) === values.planname
             );
 
-            if (FilterPlanAmount.length > 0 && FilterPlanAmount[0].SOPPrice > values.ClientAmmount) {
+            console.log("FilterPlanAmount", FilterPlanAmount)
+
+            if (FilterPlanAmount.length > 0 && (FilterPlanAmount[0].SOPPrice || FilterPlanAmount[0].ChartPerMonth) > values.ClientAmmount) {
                 Swal.fire({
                      // background: "#1a1e23 ",
                     backdrop: "#121010ba",
                     confirmButtonColor: "#1ccc8a",
                     title: "Invalid Amount",
-                    text: `The plan amount is ${FilterPlanAmount[0].SOPPrice}, but you've entered ${values.ClientAmmount}. Please enter an amount greater than or equal to the plan amount.`,
+                    text: `The plan amount is ${FilterPlanAmount[0].SOPPrice || FilterPlanAmount[0].ChartPerMonth}, but you've entered ${values.ClientAmmount}. Please enter an amount greater than or equal to the plan amount.`,
                     icon: "error",
                     timer: 3000,
                     timerProgressBar: true
@@ -208,7 +221,10 @@ const Adduser = () => {
 
             }
 
- 
+            console.log("Request data", req)
+            return ;
+
+
             await CreateAccount(req)
                 .then((response) => {
                     if (response.Status) {
@@ -261,6 +277,7 @@ const Adduser = () => {
             hiding: false,
             col_size: 6,
             disable: false,
+            autoComplete: "off"
         },
         {
             name: "email",
@@ -279,6 +296,8 @@ const Adduser = () => {
             hiding: false,
             col_size: 6,
             disable: false,
+            autoComplete: "off"
+
         },
         {
             name: "cpassword",
@@ -336,7 +355,7 @@ const Adduser = () => {
                 }))
                 : formik.values.Select_License === '2'
                     ? GetAllPlans.LivePlanName.map((item) => ({
-                        label: (item.PlanName || item.Planname),
+                        label: (item.PlanName || item.Planname + " ₹ " + (item.SOPPrice || item.ChartPerMonth) ),
                         value: (item.PlanName || item.Planname),
                     }))
                     : [],
