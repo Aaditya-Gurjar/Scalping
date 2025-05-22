@@ -18,7 +18,7 @@ const Adduser = () => {
     const [optionsArray, setOptionsArray] = useState([]);
     const [selectedIndex, setSelectedIndex] = useState([]);
     const [GetAllPlans, setAllPlans] = useState({ LivePlanName: [], DemoPlanName: [], data: [] });
-    const [plans, setPlans] = useState( {SOPPlans : [], ChartPlans: []} );
+    const [plans, setPlans] = useState({ SOPPlans: [], ChartPlans: [] });
     const [planType, setPlanType] = useState('SOP'); // Add this state
     const Name_regex = (name) => {
         const nameRegex = /^[a-zA-Z]+$/;
@@ -35,7 +35,7 @@ const Adduser = () => {
 
 
     console.log("plans", plans)
-    
+
     const getBrokerName = async () => {
         await Get_Broker_Name()
             .then((response) => {
@@ -99,7 +99,7 @@ const Adduser = () => {
                     const ChartPlans = LivePlanName.filter((item) => item.Planname !== 'One Week Demo' && item.Planname !== 'Two Days Demo' && item.ChartPerMonth);
                     setPlans({ SOPPlans, ChartPlans });
 
-                    
+
                     const DemoPlanName = response.Admin.filter((item) => item.Planname === 'One Week Demo' || item.Planname === 'Two Days Demo');
 
                     setAllPlans({
@@ -197,7 +197,7 @@ const Adduser = () => {
                 group: selectedOptions && selectedOptions.map((item) => item.value),
                 Permission: formik.values.permissions || [], // Ensure permissions is always an array
             }
-          
+
 
             const FilterPlanAmount = GetAllPlans.LivePlanName.filter((item) =>
                 (item.Planname || item.PlanName) === values.planname
@@ -207,7 +207,7 @@ const Adduser = () => {
 
             if (FilterPlanAmount.length > 0 && (FilterPlanAmount[0].SOPPrice || FilterPlanAmount[0].ChartPerMonth) > values.ClientAmmount) {
                 Swal.fire({
-                     // background: "#1a1e23 ",
+                    // background: "#1a1e23 ",
                     backdrop: "#121010ba",
                     confirmButtonColor: "#1ccc8a",
                     title: "Invalid Amount",
@@ -220,14 +220,14 @@ const Adduser = () => {
 
             }
 
-         ;
+            ;
 
 
             await CreateAccount(req)
                 .then((response) => {
                     if (response.Status) {
                         Swal.fire({
-                             // background: "#1a1e23 ",
+                            // background: "#1a1e23 ",
                             backdrop: "#121010ba",
                             confirmButtonColor: "#1ccc8a",
                             title: "User Created!",
@@ -242,7 +242,7 @@ const Adduser = () => {
                     }
                     else {
                         Swal.fire({
-                             // background: "#1a1e23 ",
+                            // background: "#1a1e23 ",
                             backdrop: "#121010ba",
                             confirmButtonColor: "#1ccc8a",
                             title: "Error!",
@@ -258,10 +258,10 @@ const Adduser = () => {
                 })
         },
     });
-    
+
     const permissionArray = [
     ];
-    
+
     if (adminPermission) {
         adminPermission.includes("Option Chain") && permissionArray.push({ label: "Option Chain", value: "Option Chain" });
     }
@@ -342,7 +342,7 @@ const Adduser = () => {
             disable: false,
         },
 
-         {
+        {
             name: "planType",
             label: "Plan Type",
             type: "select1",
@@ -354,6 +354,7 @@ const Adduser = () => {
             hiding: false,
             col_size: 6,
             disable: false,
+            showWhen: (values) => formik.values.Select_License == '2',
         },
 
         {
@@ -361,22 +362,28 @@ const Adduser = () => {
             label: "Plan Name",
             type: "select1",
             options:
-                formik.values.planType === 'SOP'
-                    ? plans.SOPPlans.map((item) => ({
-                        label: (item.PlanName || item.Planname) + (item.SOPPrice ? ` ₹ ${item.SOPPrice}` : ""),
-                        value: (item.PlanName || item.Planname),
+                formik.values.Select_License === '1'
+                    ? GetAllPlans.DemoPlanName.map((item) => ({
+                        label: item.PlanName || item.Planname,
+                        value: item.PlanName || item.Planname,
                     }))
-                    : formik.values.planType === 'Charting'
-                        ? plans.ChartPlans.map((item) => ({
-                            label: (item.PlanName || item.Planname) + (item.ChartPerMonth ? ` ₹ ${item.ChartPerMonth}` : ""),
-                            value: (item.PlanName || item.Planname),
+                    : formik.values.planType === 'SOP'
+                        ? plans.SOPPlans.map((item) => ({
+                            label: `${item.PlanName || item.Planname}${item.SOPPrice ? ` ₹ ${item.SOPPrice}` : ""}`,
+                            value: item.PlanName || item.Planname,
                         }))
-                        : [],
+                        : formik.values.planType === 'Charting'
+                            ? plans.ChartPlans.map((item) => ({
+                                label: `${item.PlanName || item.Planname}${item.ChartPerMonth ? ` ₹ ${item.ChartPerMonth}` : ""}`,
+                                value: item.PlanName || item.Planname,
+                            }))
+                            : [],
             label_size: 12,
             hiding: false,
             col_size: 6,
             disable: false,
         },
+
         {
             name: "bname",
             label: "Broker",
@@ -392,7 +399,7 @@ const Adduser = () => {
             disable: false,
         },
 
-       
+
 
     ];
 
@@ -446,7 +453,7 @@ const Adduser = () => {
                                             classNamePrefix="select"
                                         />
                                     </div>
-                               
+
                                     {permissionArray.length > 0 && (
                                         <div className="col-lg-12">
                                             <label className='card-text-Color'>Permission</label>
