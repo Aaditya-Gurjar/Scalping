@@ -232,7 +232,7 @@ const ServicesList = () => {
 
   const handleBuyNow = (index, isCharting) => {
     const planDetails = isCharting ? plansData?.data1[index] : plansData?.data[index];
-    if (!["Three Days Live", "Two Days Demo", "One Week Demo"].includes(planDetails.Planname)) {
+    if (!["Charting Three Days Live", "Three Days Live", "Two Days Demo", "One Week Demo"].includes(planDetails.Planname)) {
       setSelectedPlan({ ...planDetails, index, isCharting, isBuyNow: true });
       handleOpen(); // Open the coupon modal
     } else {
@@ -242,7 +242,7 @@ const ServicesList = () => {
 
   const handleBuyAgain = (index, isCharting) => {
     const planDetails = isCharting ? plansData?.data1[index] : plansData?.data[index];
-    if (!["Three Days Live", "Two Days Demo", "One Week Demo"].includes(planDetails.Planname)) {
+    if (!["Charting Three Days Live", "Three Days Live", "Two Days Demo", "One Week Demo"].includes(planDetails.Planname)) {
       setSelectedPlan({ ...planDetails, index, isCharting, isBuyNow: false });
       handleOpen(); // Open the coupon modal
     } else {
@@ -282,7 +282,7 @@ const ServicesList = () => {
         );
         const filterPlanCharting = response?.Charting?.filter(
           (plan) =>
-            !["Three Days Live", "Two Days Demo", "One Week Demo"].includes(
+            ![ "Charting Three Days Live", "Three Days Live", "Two Days Demo", "One Week Demo"].includes(
               plan.Planname
             )
         );
@@ -408,6 +408,7 @@ const ServicesList = () => {
   const getUpdatedPlansCharting = plansData.data1?.filter(
     (plan) =>
       (plan?.ChartPerMonth !== 0) &&
+      plan.Planname !== "Charting Three Days Live" &&
       plan.Planname !== "Three Days Live" &&
       plan.Planname !== "Two Days Demo" &&
       plan.Planname !== "One Week Demo"
