@@ -118,7 +118,7 @@ const AddClient = (Planname) => {
       expirydata1: "",
       Expirytype: "",
       Striketype: "",
-      DepthofStrike: "",
+      DepthofStrike: 0,
       DeepStrike: "",
       Group: "",
       CEDepthLower: 0.0,
@@ -332,21 +332,21 @@ const AddClient = (Planname) => {
             : "Please Enter PE Hedge Higher";
       }
 
-      if (
-        values.Striketype == "Depth_of_Strike" &&
-        values.Strategy != "LongStraddle" &&
-        values.Strategy != "ShortStraddle"
-      ) {
-        if (
-          values.DepthofStrike > 5 ||
-          values.DepthofStrike < -5 ||
-          values.DepthofStrike == 0
-        )
-          errors.DepthofStrike =
-            values.DepthofStrike == 0
-              ? "Depth of Strike cannot be Zero"
-              : "Enter Depth of Strike value between -5 to 5";
-      }
+      // if (
+      //   values.Striketype == "Depth_of_Strike" &&
+      //   values.Strategy != "LongStraddle" &&
+      //   values.Strategy != "ShortStraddle"
+      // ) {
+      //   if (
+      //     values.DepthofStrike > 5 ||
+      //     values.DepthofStrike < -5 ||
+      //     values.DepthofStrike == 0
+      //   )
+      //     errors.DepthofStrike =
+      //       values.DepthofStrike == 0
+      //         ? "Depth of Strike cannot be Zero"
+      //         : "Enter Depth of Strike value between -5 to 5";
+      // }
       if (
         values.Striketype == "Straddle_Width" &&
         values.Strategy != "LongStraddle" &&
@@ -1476,6 +1476,14 @@ const AddClient = (Planname) => {
   useEffect(() => {
     GetExpriyEndDate();
   }, []);
+
+
+  useEffect(() => {
+    if (formik.values.Striketype == "Depth_of_Strike") {
+      formik.setFieldValue("DepthofStrike", 0);
+    }
+  }, []);
+
 
   useEffect(() => {
     if (formik.values.Strategy == "LongFourLegStretegy" ||

@@ -128,7 +128,7 @@ const ResponseQnA = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </li>
+                            </li> 
                         ))}
                     </ul>
                 )}
