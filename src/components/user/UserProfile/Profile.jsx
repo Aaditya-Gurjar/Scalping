@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container, Grid, Card, Typography, Box, Button } from "@mui/material";
-import { FaPhone, FaEnvelope, FaUserTie, FaClipboardList, FaUsers, FaRegStar } from "react-icons/fa";
+import { FaPhone, FaEnvelope, FaUserTie, FaClipboardList, FaUsers, FaRegStar, FaCalendarAlt } from "react-icons/fa";
 import { Get_Profile_Data, reGenerateKeyApi } from "../../CommonAPI/User";
 import Content from "../../../ExtraComponent/Content";
 import Swal from "sweetalert2"; // Import SweetAlert
@@ -72,6 +72,7 @@ const ProfilePage = () => {
     { icon: <FaUserTie />, label: "Broker", value: BrokerName || "-" },
     { icon: <FaClipboardList />, label: "Scripts", value: NumberofScript || "-" },
     { icon: <FaUsers />, label: "Group", value: Group?.length ? Group.join(", ") : "No Group Available" },
+    { icon: <FaCalendarAlt />, label: "Service End Date", value: data.profile.ServiceEndDate || "-" },
     {
       icon: <FaRegStar />,
       label: "Active Plan",
