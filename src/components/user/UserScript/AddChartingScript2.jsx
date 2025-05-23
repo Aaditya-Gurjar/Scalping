@@ -127,7 +127,7 @@ const AddChartingScript2 = () => {
 
             {/* Heading */}
             <h4 className="m-0 card-text-Color" style={{ fontWeight: "600" }}>
-              {tableType === "MultiCondition" ? "Scalping" : data}
+              {"Signals"}
             </h4>
 
             {/* Capsule Buttons */}

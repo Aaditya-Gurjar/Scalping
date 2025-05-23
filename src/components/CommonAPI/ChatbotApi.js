@@ -40,3 +40,46 @@ export const unsatisfied = async (data) => {
     }
 
 }
+
+
+
+export const GetUnansweredQue = async (data) => {
+    const token = localStorage.getItem('token')
+     try {
+        const res = await axios.get(`${Config.ChatBot_Base_Url}unanswered_question`, data,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+
+
+}
+
+ 
+export const SubmitAnswer = async (data) => {
+    const token = localStorage.getItem('token')
+     try {
+        const res = await axios.post(`${Config.ChatBot_Base_Url}answer_question`, data,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+
+
+}

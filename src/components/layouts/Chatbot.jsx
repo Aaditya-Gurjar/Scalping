@@ -25,7 +25,7 @@ const Chatbot = ({ onClose }) => {
     setMessages(prev => [...prev, { text: input, sender: 'user' }]);
     setInput('');
   };
- 
+
   const handleQuesion = async (que) => {
     setIsBotTyping(true);
     try {
@@ -47,7 +47,7 @@ const Chatbot = ({ onClose }) => {
       setIsBotTyping(false);
     }
   };
- 
+
   useEffect(() => {
     const lastMsg = messages[messages.length - 1];
     if (lastMsg && lastMsg.sender === 'user') {
@@ -86,10 +86,11 @@ const Chatbot = ({ onClose }) => {
     }
   };
 
-  const handlePopupSubmit = async () => {
-    if (!reason.trim()) return;
+  const handlePopupSubmit = async (isCancel = false) => {
+    // If cancel, allow empty reason, else require non-empty reason
+    if (!isCancel && !reason.trim()) return;
 
-    const message = messages[popupIdx]; 
+    const message = messages[popupIdx];
     let question = '';
     if (popupIdx > 0) {
       for (let i = popupIdx - 1; i >= 0; i--) {
@@ -104,7 +105,7 @@ const Chatbot = ({ onClose }) => {
       const data = {
         question: question,
         answer: message.text,
-        Reason: reason,
+        Reason: isCancel ? '' : reason,
         Domain: window.location.origin,
         Username: username
       };
@@ -125,7 +126,7 @@ const Chatbot = ({ onClose }) => {
       console.error('Error sending feedback:', error);
     }
   };
- 
+
   return (
     <div className="chatbot-container position-fixed bottom-1 end-1 m-3 shadow rounded-xl bg-white border"
       style={{ width: 380, zIndex: 1050, height: 520 }}>
@@ -135,7 +136,8 @@ const Chatbot = ({ onClose }) => {
         style={{
           background: 'linear-gradient(90deg, #007bff 0%, #00c6ff 100%)'
         }}>
-        <span className="fw-bold ms-3">SOP AI</span>
+        <span className="fw-bold ms-3">
+          🤖 SOP AI</span>
         <button className="btn btn-sm btn-light" onClick={() => setShowCloseAlert(true)}>&times;</button>
       </div>
 
@@ -241,7 +243,10 @@ const Chatbot = ({ onClose }) => {
             <div className="d-flex justify-content-end gap-2">
               <button
                 className="btn btn-outline-danger btn-sm px-3"
-                onClick={() => setShowPopup(false)}
+                onClick={() => {
+                  setShowPopup(false);
+                  handlePopupSubmit(true);
+                }}
               >
                 Cancel
               </button>

@@ -35,6 +35,7 @@ import CouponPage from '../components/admin/CouponPage/CouponPage';
 import AddCoupon from '../components/admin/CouponPage/AddCoupon';
 import StrategyTag from '../components/admin/AdminScript/StrategyTag/StrategyTag';
 import AllStrategyTag from '../components/admin/AdminScript/StrategyTag/AllStrategyTag';
+import ResponseQnA from '../components/admin/ResponseQnA/ResponseQnA';
 
 // const Dashboards = lazy(() => import('../components/admin/Dashboard/Dashboards'));
 // const Sidebar = lazy(() => import('../components/layouts/Sidebar'));
@@ -105,6 +106,7 @@ const AdminRoute = () => {
             <Route path="/addCoupon" element={<AddCoupon />} />
             <Route path="/add-Strategy-tag" element={<StrategyTag />} />
             <Route path="/Strategy-tag" element={<AllStrategyTag />} />
+            <Route path="/ResponseQnA" element={<ResponseQnA />} />
           </Routes>
         </div>
         <SidebarRight position="right"/>
