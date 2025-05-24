@@ -138,31 +138,45 @@ const ServicesList = () => {
           HandleBuyPlan(selectedPlan.index, 1, selectedPlan.isCharting, discountedPrice); // Pass discounted price
         }
       } else {
-        // Show Extend End Date or Extend Number of Scripts modal for Buy Again
-        const result = await Swal.fire({
-          title: "Choose an Option",
-          text: `Do you want to extend the end date or extend the number of scripts for the plan: ${selectedPlan.Planname || selectedPlan.PlanName}?`,
-          icon: "question",
-          showCancelButton: true,
-          confirmButtonText: "Extend End Date",
-          cancelButtonText: "Cancel",
-          reverseButtons: false, // Ensure "Extend End Date" is on the left and "Cancel" is on the right
-          allowOutsideClick: false, // Prevent closing the alert by clicking outside
-          showCloseButton: true, // Add a close button to the top-right corner
-          allowEnterKey: true, // Enable Enter key for confirmation
-          focusConfirm: true,  // Focus on the "Extend End Date" button
-        });
-
-        if (result.isConfirmed) {
-          await HandleBuyPlan(selectedPlan.index, 0, selectedPlan.isCharting, discountedPrice); // Extend End Date
-        } else if (result.dismiss === Swal.DismissReason.cancel || result.dismiss === Swal.DismissReason.close) {
-          Swal.fire({
-            title: "Cancelled",
-            text: "Plan purchase has been cancelled.",
-            icon: "info",
-            timer: 1500,
-            timerProgressBar: true,
+        // Buy Again logic
+        if (!selectedPlan.isCharting) {
+          // SOP: Show both options
+          const result = await Swal.fire({
+            title: "Choose an Option",
+            text: `Do you want to extend the end date or extend the number of scripts for the plan: ${selectedPlan.Planname || selectedPlan.PlanName}?`,
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Extend End Date",
+            cancelButtonText: "Extend Number of Scripts",
+            reverseButtons: false, // Ensure "Extend End Date" is on the left and "Extend Number of Scripts" is on the right
+            allowOutsideClick: false, // Prevent closing the alert by clicking outside
+            showCloseButton: true, // Add a close button to the top-right corner
+            allowEnterKey: true, // Enable Enter key for confirmation
+            focusConfirm: true,  // Focus on the "Extend End Date" button
           });
+          if (result.isConfirmed) {
+            await HandleBuyPlan(selectedPlan.index, 0, selectedPlan.isCharting, discountedPrice); // Extend End Date
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            await HandleBuyPlan(selectedPlan.index, 1, selectedPlan.isCharting, discountedPrice); // Extend Number of Scripts
+          }
+        } else {
+          // Charting: Only Extend End Date
+          const result = await Swal.fire({
+            title: "Extend End Date",
+            text: `Do you want to extend the end date for the plan: ${selectedPlan.Planname || selectedPlan.PlanName}?`,
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Extend End Date",
+            cancelButtonText: "Cancel",
+            reverseButtons: false,
+            allowOutsideClick: false,
+            showCloseButton: true,
+            allowEnterKey: true,
+            focusConfirm: true,
+          });
+          if (result.isConfirmed) {
+            await HandleBuyPlan(selectedPlan.index, 0, selectedPlan.isCharting, discountedPrice); // Only Extend End Date
+          }
         }
       }
     }
@@ -173,20 +187,6 @@ const ServicesList = () => {
     if (selectedPlan) {
       if (selectedPlan.isBuyNow) {
         // Show Confirm Purchase modal for Buy Now
-        // const result = await Swal.fire({
-        //   title: "Confirm Purchase",
-        //   text: `Do you want to continue with this plan: ${selectedPlan.Planname || selectedPlan.PlanName} for ₹${selectedPlan.SOPPrice || selectedPlan.ChartPerMonth}?`,
-        //   icon: "question",
-        //   showCancelButton: true,
-        //   confirmButtonText: "Yes",
-        //   cancelButtonText: "Cancel",
-        //   reverseButtons: false,
-        //   showCloseButton: true, 
-        // });
-
-
-
-
         const result = await Swal.fire({
           title: "Confirm Purchase",
           text: `Do you want to continue with this plan: ${selectedPlan.Planname || selectedPlan.PlanName} for ₹${selectedPlan.SOPPrice || selectedPlan.ChartPerMonth}?`,
@@ -199,32 +199,49 @@ const ServicesList = () => {
           focusConfirm: true,  // Focus on the "Yes" button
           allowEnterKey: true, // Enable Enter key for confirmation
         });
-
-
-
         if (result.isConfirmed) {
           HandleBuyPlan(selectedPlan.index, 1, selectedPlan.isCharting); // Confirm purchase
         }
       } else {
         // Show Extend End Date or Extend Number of Scripts modal for Buy Again
-        const result = await Swal.fire({
-          title: "Choose an Option",
-          text: `Do you want to extend the end date or extend the number of scripts for the plan: ${selectedPlan.Planname || selectedPlan.PlanName}?`,
-          icon: "question",
-          showCancelButton: true,
-          confirmButtonText: "Extend End Date",
-          cancelButtonText: "Extend Number of Scripts",
-          reverseButtons: false, // Ensure "Extend End Date" is on the left and "Extend Number of Scripts" is on the right
-          allowOutsideClick: false, // Prevent closing the alert by clicking outside
-          showCloseButton: true, // Add a close button to the top-right corner
-          allowEnterKey: true, // Enable Enter key for confirmation
-          focusConfirm: true,  // Focus on the "Extend End Date" button
-        });
-
-        if (result.isConfirmed) {
-          await HandleBuyPlan(selectedPlan.index, 0, selectedPlan.isCharting); // Extend End Date
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          await HandleBuyPlan(selectedPlan.index, 1, selectedPlan.isCharting); // Extend Number of Scripts
+        // Only show 'Extend Number of Scripts' for non-charting plans
+        if (!selectedPlan.isCharting) {
+          const result = await Swal.fire({
+            title: "Choose an Option",
+            text: `Do you want to extend the end date or extend the number of scripts for the plan: ${selectedPlan.Planname || selectedPlan.PlanName}?`,
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Extend End Date",
+            cancelButtonText: "Extend Number of Scripts",
+            reverseButtons: false, // Ensure "Extend End Date" is on the left and "Extend Number of Scripts" is on the right
+            allowOutsideClick: false, // Prevent closing the alert by clicking outside
+            showCloseButton: true, // Add a close button to the top-right corner
+            allowEnterKey: true, // Enable Enter key for confirmation
+            focusConfirm: true,  // Focus on the "Extend End Date" button
+          });
+          if (result.isConfirmed) {
+            await HandleBuyPlan(selectedPlan.index, 0, selectedPlan.isCharting); // Extend End Date
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            await HandleBuyPlan(selectedPlan.index, 1, selectedPlan.isCharting); // Extend Number of Scripts
+          }
+        } else {
+          // Charting plan: Only allow Extend End Date
+          const result = await Swal.fire({
+            title: "Extend End Date",
+            text: `Do you want to extend the end date for the plan: ${selectedPlan.Planname || selectedPlan.PlanName}?`,
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Extend End Date",
+            cancelButtonText: "Cancel",
+            reverseButtons: false,
+            allowOutsideClick: false,
+            showCloseButton: true,
+            allowEnterKey: true,
+            focusConfirm: true,
+          });
+          if (result.isConfirmed) {
+            await HandleBuyPlan(selectedPlan.index, 0, selectedPlan.isCharting); // Only Extend End Date
+          }
         }
       }
     }
@@ -413,8 +430,7 @@ const ServicesList = () => {
       plan.Planname !== "Two Days Demo" &&
       plan.Planname !== "One Week Demo"
   );
-
-   
+ 
 
   const [value, setValue] = useState("1");
 
@@ -777,21 +793,27 @@ const ServicesList = () => {
             </Typography>
           )}
 
-          {/* Continue Buttons */}
+          {/* Continue Button (Dynamic) */}
           <Stack direction="column" spacing={2} mt={3}>
-            <button variant="text" className="btn border card-text-Color" onClick={handleContinueWithout}>
-              Continue without Coupon
-            </button>
-            <button
-              variant="contained"
-              className="addbtn"
-              onClick={handleContinue}
-              disabled={!isContinueEnabled} // Disable "Continue" button if not enabled
-              disableRipple={!isContinueEnabled}
-
-            >
-              Continue
-            </button>
+            {verificationMessage === "Verified" && isContinueEnabled ? (
+              <button
+                variant="contained"
+                className="allplan-button buy-again"
+                onClick={handleContinue}
+                disabled={!isContinueEnabled}
+                disableRipple={!isContinueEnabled}
+              >
+                Continue
+              </button>
+            ) : (
+              <button
+                variant="text"
+                className="addbtn border card-text-Color"
+                onClick={handleContinueWithout}
+              >
+                Continue without Coupon
+              </button>
+            )}
           </Stack>
         </Box>
       </Modal>

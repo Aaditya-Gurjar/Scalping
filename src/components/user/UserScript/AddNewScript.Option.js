@@ -45,7 +45,7 @@ const AddClient = () => {
 
   const SweentAlertFun = (text) => {
     Swal.fire({
-       // background: "#1a1e23 ",
+      // background: "#1a1e23 ",
       backdrop: "#121010ba",
       confirmButtonColor: "#1ccc8a",
       title: "Error",
@@ -64,12 +64,12 @@ const AddClient = () => {
 
     const foundItem = dataWithoutLastItem.find((item) => {
       return item["Option Strategy"].includes(stg);
-    }); 
+    });
     return foundItem?.EndDate;
   };
 
 
-  
+
 
   const ScrollToViewFirstError = (newErrors) => {
     if (Object.keys(newErrors).length !== 0) {
@@ -336,22 +336,22 @@ const AddClient = () => {
             : "Please Enter PE Hedge Higher";
       }
 
-      if (
-        values.Striketype == "Depth_of_Strike" &&
-        values.Measurment_Type != "Shifting_FourLeg" &&
-        values.Strategy != "LongStraddle" &&
-        values.Strategy != "ShortStraddle"
-      ) {
-        if (
-          values.DepthofStrike > 5 ||
-          values.DepthofStrike < -5 ||
-          values.DepthofStrike == 0
-        )
-          errors.DepthofStrike =
-            values.DepthofStrike == 0
-              ? "Depth of Strike cannot be Zero"
-              : "Enter Depth of Strike value between -5 to 5";
-      }
+      // if (
+      //   values.Striketype == "Depth_of_Strike" &&
+      //   values.Measurment_Type != "Shifting_FourLeg" &&
+      //   values.Strategy != "LongStraddle" &&
+      //   values.Strategy != "ShortStraddle"
+      // ) {
+      //   if (
+      //     values.DepthofStrike > 5 ||
+      //     values.DepthofStrike < -5 ||
+      //     values.DepthofStrike == 0
+      //   )
+      //     errors.DepthofStrike =
+      //       values.DepthofStrike == 0
+      //         ? "Depth of Strike cannot be Zero"
+      //         : "Enter Depth of Strike value between -5 to 5";
+      // }
       if (
         values.Striketype == "Straddle_Width" &&
         values.Measurment_Type != "Shifting_FourLeg" &&
@@ -573,7 +573,7 @@ const AddClient = () => {
           (item) => item.EndDate == getEndData(formik.values.Measurment_Type)
         )?.Planname,
       };
-  
+
 
       if (
         values.Striketype == "Depth_of_Strike" &&
@@ -637,7 +637,7 @@ const AddClient = () => {
         .then((response) => {
           if (response.Status) {
             Swal.fire({
-               // background: "#1a1e23 ",
+              // background: "#1a1e23 ",
               backdrop: "#121010ba",
               confirmButtonColor: "#1ccc8a",
               title: "Script Added !",
@@ -653,7 +653,7 @@ const AddClient = () => {
             }, 1500);
           } else {
             Swal.fire({
-               // background: "#1a1e23 ",
+              // background: "#1a1e23 ",
               backdrop: "#121010ba",
               confirmButtonColor: "#1ccc8a",
               title: "Error !",
@@ -720,6 +720,7 @@ const AddClient = () => {
   }, []);
 
   useEffect(() => {
+
     formik.setFieldValue(
       "Measurment_Type",
       location?.state?.data?.scriptType?.data?.[
@@ -727,11 +728,9 @@ const AddClient = () => {
       ].CombineOption?.[0]
     );
 
-
-
     // formik.setFieldValue('Exchange', "NSE");
     formik.setFieldValue("Symbol", symbolOptions[0]?.value || "");
-    formik.setFieldValue("ETPattern", "Future");
+    formik.setFieldValue("ETPattern", "Leg vice");
     formik.setFieldValue("TStype", "Percentage");
     formik.setFieldValue("Targetvalue", 1.0);
     formik.setFieldValue("Slvalue", 1.0);
@@ -749,8 +748,6 @@ const AddClient = () => {
     formik.setFieldValue("Shifting_Value", 1);
     formik.setFieldValue("Trade_Count", 1);
     formik.setFieldValue("ExitRuleO", "Normal");
-
-
   }, []);
 
   useEffect(() => {
@@ -1075,8 +1072,8 @@ const AddClient = () => {
             { label: "Leg vice", value: "Leg vice" },
           ]
           : [
-            { label: "Future", value: "Future" },
             { label: "Leg vice", value: "Leg vice" },
+            { label: "Future", value: "Future" },
             { label: "Premium Addition", value: "Premium Addition" },
           ],
       showWhen: (value) => value.Measurment_Type != "Shifting_FourLeg",
@@ -1289,7 +1286,6 @@ const AddClient = () => {
         { label: "Paper Trade", value: "Paper Trade" },
         { label: "Live Trade", value: "Live Trade" },
       ],
-
       label_size: 12,
       col_size: 4,
       headingtype: 6,
@@ -1451,6 +1447,11 @@ const AddClient = () => {
   ];
 
   useEffect(() => {
+
+    if (formik.values.Striketype === "Depth_of_Strike") {
+      formik.setFieldValue("DepthofStrike", 0);
+    }
+
     formik.setFieldValue(
       "Strategy",
       formik.values.Measurment_Type == "Straddle_Strangle"
@@ -1467,7 +1468,7 @@ const AddClient = () => {
                   ? "ShortShifting"
                   : ""
     );
-  }, [formik.values.Measurment_Type]);
+  }, [formik.values.Measurment_Type, formik.values.Striketype]);
 
   const getExpriyData = async () => {
     const data = {
@@ -1593,8 +1594,6 @@ const AddClient = () => {
     formik.values.Measurment_Type,
   ]);
 
-
-
   const handleCheckPnl = async () => {
     // const weekend = new Date().getDay();
     // const currentDate = new Date();
@@ -1624,15 +1623,16 @@ const AddClient = () => {
 
     const totalMinutes = hours * 60 + minutes; // e.g., 14 * 60 + 30 = 870
 
-    
+
     // Market hours: 9:15 AM to 3:30 PM => 555 to 930 in total minutes
     if (weekend === 6 || weekend === 0 || totalMinutes < 555 || totalMinutes > 930) {
       return SweentAlertFun("Market is off Today");
     }
 
 
+
     const req = {
-      
+
       MainStrategy: location.state.data.selectStrategyType,
       Strategy: formik.values.Strategy,
       Username: userName,
@@ -1759,6 +1759,8 @@ const AddClient = () => {
       });
   };
 
+
+
   useEffect(() => {
     setShowPnl(false);
   }, [formik.values]);
@@ -1813,7 +1815,7 @@ const AddClient = () => {
                       formik.values.Strategy == "LongCollar" ||
                       formik.values.Strategy == "ShortCollar" ||
                       formik.values.Strategy == "LongFourLegStretegy" ||
-                      formik.values.Strategy == "ShortFourLegStretegy" )? (
+                      formik.values.Strategy == "ShortFourLegStretegy") ? (
                       ""
                     ) : (
                       <button className="addbtn" type="button" onClick={() => handleCheckPnl()}>

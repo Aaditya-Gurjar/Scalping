@@ -42,7 +42,7 @@ const AddClient = (Planname) => {
 
   const SweentAlertFun = (text) => {
     Swal.fire({
-       // background: "#1a1e23 ",
+      // background: "#1a1e23 ",
       backdrop: "#121010ba",
       confirmButtonColor: "#1ccc8a",
       title: "Error",
@@ -332,21 +332,22 @@ const AddClient = (Planname) => {
             : "Please Enter PE Hedge Higher";
       }
 
-      if (
-        values.Striketype == "Depth_of_Strike" &&
-        values.Strategy != "LongStraddle" &&
-        values.Strategy != "ShortStraddle"
-      ) {
-        if (
-          values.DepthofStrike > 5 ||
-          values.DepthofStrike < -5 ||
-          values.DepthofStrike == 0
-        )
-          errors.DepthofStrike =
-            values.DepthofStrike == 0
-              ? "Depth of Strike cannot be Zero"
-              : "Enter Depth of Strike value between -5 to 5";
-      }
+      // if (
+      //   values.Striketype == "Depth_of_Strike" &&
+      //   values.Strategy != "LongStraddle" &&
+      //   values.Strategy != "ShortStraddle"
+      // ) {
+      //   if (
+      //     values.DepthofStrike > 5 ||
+      //     values.DepthofStrike < -5 ||
+      //     values.DepthofStrike == 0
+      //   )
+      //     errors.DepthofStrike =
+
+      //       values.DepthofStrike == 0
+      //         ? "Depth of Strike cannot be Zero"
+      //         : "Enter Depth of Strike value between -5 to 5";
+      // }
       if (
         values.Striketype == "Straddle_Width" &&
         values.Strategy != "LongStraddle" &&
@@ -442,14 +443,11 @@ const AddClient = (Planname) => {
         MainStrategy: location.state.data.selectStrategyType,
         Username: userName,
         Strategy: values.Strategy,
-        ETPattern:
-          values.Strategy == "ShortShifting" ||
-            values.Strategy == "LongShifting"
-            ? "Leg vice"
-            : (
-              formik.values.Strategy == "LongFourLegStretegy" ||
-              formik.values.Strategy == "ShortFourLegStretegy"
-            ) ? "Premium Addition" : "",
+        ETPattern: (values.Strategy === "ShortShifting" || values.Strategy === "LongShifting")
+          ? "Leg vice"
+          : (values.Strategy === "LongFourLegStrategy" || values.Strategy === "ShortFourLegStrategy")
+            ? "Premium Addition"
+            : values.ETPattern,
 
         Timeframe: "",
         Exchange: "NFO",
@@ -460,11 +458,11 @@ const AddClient = (Planname) => {
         Targetvalue:
           values.Strategy == "ShortShifting" ||
             values.Strategy == "LongShifting"
-            ? values.Shifting_Point
-            : values.Targetvalue,
+            ? Number(values.Shifting_Point)
+            : Number(values.Targetvalue),
         Slvalue: parseFloat(values.Slvalue),
         TStype: values.TStype,
-        Quantity: values.Quantity,
+        Quantity: Number(values.Quantity),
         LowerRange:
           values.Striketype == "Premium_Range"
             ? values.Lower_Range
@@ -603,7 +601,7 @@ const AddClient = (Planname) => {
         .then((response) => {
           if (response.Status) {
             Swal.fire({
-               // background: "#1a1e23 ",
+              // background: "#1a1e23 ",
               backdrop: "#121010ba",
               confirmButtonColor: "#1ccc8a",
               title: "Script Added !",
@@ -619,7 +617,7 @@ const AddClient = (Planname) => {
             }, 1500);
           } else {
             Swal.fire({
-               // background: "#1a1e23 ",
+              // background: "#1a1e23 ",
               backdrop: "#121010ba",
               confirmButtonColor: "#1ccc8a",
               title: "Error !",
@@ -635,6 +633,9 @@ const AddClient = (Planname) => {
         });
     },
   });
+
+  console.log("fomik.strategy", formik.values.Strategy);
+
 
   useEffect(() => {
     axios
@@ -693,7 +694,7 @@ const AddClient = (Planname) => {
 
     // formik.setFieldValue('Exchange', "NSE");
     formik.setFieldValue("Symbol", symbolOptions[0]?.value || "");
-    formik.setFieldValue("ETPattern", "Future");
+    formik.setFieldValue("ETPattern", "Leg vice");
     formik.setFieldValue("TStype", "Percentage");
     formik.setFieldValue("Targetvalue", 1.0);
     formik.setFieldValue("Slvalue", 1.0);
@@ -785,7 +786,7 @@ const AddClient = (Planname) => {
         { label: "Premium Range", value: "Premium_Range" },
         { label: "% of ATM", value: "Per_ATM" },
       ],
-      
+
       showWhen: (value) =>
         value.Strategy != "LongFourLegStrategy" &&
         value.Strategy != "ShortFourLegStrategy" &&
@@ -822,7 +823,7 @@ const AddClient = (Planname) => {
       hiding: false,
       showWhen: (value) =>
         value.Strategy != "LongFourLegStrategy" &&
-      value.Strategy != "ShortFourLegStrategy" &&
+        value.Strategy != "ShortFourLegStrategy" &&
         value.Strategy != "LongShifting" &&
         value.Strategy != "ShortShifting" &&
         formik.values.Striketype != "Premium_Range" &&
@@ -896,9 +897,9 @@ const AddClient = (Planname) => {
       hiding: false,
       showWhen: (value) =>
 
-          [
-          "ShortFourLegStrategy", "LongFourLegStrategy" 
-        ].includes(value.Strategy)  ,
+        [
+          "ShortFourLegStrategy", "LongFourLegStrategy"
+        ].includes(value.Strategy),
 
       label_size: 12,
       col_size: 3,
@@ -911,9 +912,9 @@ const AddClient = (Planname) => {
       type: "text3",
       showWhen: (value) =>
         [
-          "ShortFourLegStrategy", "LongFourLegStrategy" 
-        ].includes(value.Strategy)  , 
-       
+          "ShortFourLegStrategy", "LongFourLegStrategy"
+        ].includes(value.Strategy),
+
       hiding: false,
       label_size: 12,
       col_size: 3,
@@ -927,8 +928,8 @@ const AddClient = (Planname) => {
       type: "text3",
       showWhen: (value) =>
         [
-          "ShortFourLegStrategy", "LongFourLegStrategy" 
-        ].includes(value.Strategy)  , 
+          "ShortFourLegStrategy", "LongFourLegStrategy"
+        ].includes(value.Strategy),
       hiding: false,
       label_size: 12,
       col_size: 3,
@@ -942,8 +943,8 @@ const AddClient = (Planname) => {
       hiding: false,
       showWhen: (value) =>
         [
-          "ShortFourLegStrategy", "LongFourLegStrategy" 
-        ].includes(value.Strategy)  , 
+          "ShortFourLegStrategy", "LongFourLegStrategy"
+        ].includes(value.Strategy),
       label_size: 12,
       col_size: 3,
       headingtype: 2,
@@ -955,8 +956,8 @@ const AddClient = (Planname) => {
       type: "text3",
       showWhen: (value) =>
         [
-          "ShortFourLegStrategy", "LongFourLegStrategy" 
-        ].includes(value.Strategy)  , 
+          "ShortFourLegStrategy", "LongFourLegStrategy"
+        ].includes(value.Strategy),
       hiding: false,
       label_size: 12,
       col_size: 3,
@@ -969,8 +970,8 @@ const AddClient = (Planname) => {
       type: "text3",
       showWhen: (value) =>
         [
-          "ShortFourLegStrategy", "LongFourLegStrategy" 
-        ].includes(value.Strategy)  , 
+          "ShortFourLegStrategy", "LongFourLegStrategy"
+        ].includes(value.Strategy),
       hiding: false,
       label_size: 12,
       col_size: 3,
@@ -984,8 +985,8 @@ const AddClient = (Planname) => {
       hiding: false,
       showWhen: (value) =>
         [
-          "ShortFourLegStrategy", "LongFourLegStrategy" 
-        ].includes(value.Strategy)  , 
+          "ShortFourLegStrategy", "LongFourLegStrategy"
+        ].includes(value.Strategy),
       label_size: 12,
       col_size: 3,
       headingtype: 2,
@@ -998,8 +999,8 @@ const AddClient = (Planname) => {
       hiding: false,
       showWhen: (value) =>
         [
-          "ShortFourLegStrategy", "LongFourLegStrategy" 
-        ].includes(value.Strategy), 
+          "ShortFourLegStrategy", "LongFourLegStrategy"
+        ].includes(value.Strategy),
       label_size: 12,
       col_size: 3,
       headingtype: 2,
@@ -1024,8 +1025,8 @@ const AddClient = (Planname) => {
       ],
       showWhen: (value) =>
         [
-          "ShortFourLegStrategy", "LongFourLegStrategy" 
-        ].includes(value.Strategy)  , 
+          "ShortFourLegStrategy", "LongFourLegStrategy"
+        ].includes(value.Strategy),
       hiding: false,
       label_size: 12,
       col_size: 3,
@@ -1050,14 +1051,14 @@ const AddClient = (Planname) => {
             { label: "Leg vice", value: "Leg vice" },
           ]
           : [
-            { label: "Future", value: "Future" },
             { label: "Leg vice", value: "Leg vice" },
+            { label: "Future", value: "Future" },
             { label: "Premium Addition", value: "Premium Addition" },
           ],
-      showWhen: (value) =>  ! [
-        "ShortShifting", "LongShifting" , "ShortFourLegStrategy", "LongFourLegStrategy"
+      showWhen: (value) => ![
+        "ShortShifting", "LongShifting", "ShortFourLegStrategy", "LongFourLegStrategy"
       ].includes(value.Strategy) &&
-      value.Measurment_Type != "Shifting_FourLeg",
+        value.Measurment_Type != "Shifting_FourLeg",
       hiding: false,
       label_size: 12,
       col_size: formik.values.Measurment_Type != "Shifting_FourLeg" ? 3 : 4,
@@ -1079,8 +1080,8 @@ const AddClient = (Planname) => {
       hiding: false,
       label_size: 12,
       showWhen: (value) =>
-        ! [
-          "ShortShifting", "LongShifting" 
+        ![
+          "ShortShifting", "LongShifting"
         ].includes(value.Strategy) &&
         value.Measurment_Type != "Shifting_FourLeg" ||
         (value.Measurment_Type == "Shifting_FourLeg" &&
@@ -1101,8 +1102,8 @@ const AddClient = (Planname) => {
         { label: "Cost to Cost", value: "Cost to Cost" },
       ],
       showWhen: (value) =>
-        ! [
-          "ShortShifting", "LongShifting" 
+        ![
+          "ShortShifting", "LongShifting"
         ].includes(value.Strategy) &&
         value.Measurment_Type != "Shifting_FourLeg" &&
         value.ETPattern == "Leg vice",
@@ -1120,8 +1121,8 @@ const AddClient = (Planname) => {
       hiding: false,
       label_size: 12,
       showWhen: (value) =>
-        ! [
-          "ShortShifting", "LongShifting" 
+        ![
+          "ShortShifting", "LongShifting"
         ].includes(value.Strategy) &&
         value.Measurment_Type != "Shifting_FourLeg" ||
         (value.Measurment_Type == "Shifting_FourLeg" &&
@@ -1138,8 +1139,8 @@ const AddClient = (Planname) => {
       hiding: false,
       label_size: 12,
       showWhen: (value) =>
-        ! [
-          "ShortShifting", "LongShifting" 
+        ![
+          "ShortShifting", "LongShifting"
         ].includes(value.Strategy) &&
         value.Measurment_Type != "Shifting_FourLeg" ||
         (value.Measurment_Type == "Shifting_FourLeg" &&
@@ -1154,10 +1155,10 @@ const AddClient = (Planname) => {
       label: "Number of Shifts",
       type: "text3",
       showWhen: (value) =>
-         [
-          "ShortShifting", "LongShifting" 
-        ].includes(value.Strategy) ,
-      
+        [
+          "ShortShifting", "LongShifting"
+        ].includes(value.Strategy),
+
       hiding: false,
       label_size: 12,
       col_size: formik.values.Measurment_Type != "Shifting_FourLeg" ? 3 : 4,
@@ -1488,6 +1489,10 @@ const AddClient = (Planname) => {
       formik.setFieldValue("Higher_Range", 1);
       formik.setFieldValue("Lower_Range", 1);
     }
+    // Set DepthofStrike to 0 if Striketype is Depth_of_Strike
+    if (formik.values.Striketype === "Depth_of_Strike") {
+      formik.setFieldValue("DepthofStrike", 0);
+    }
     if (
       (formik.values.Strategy == "BullCallLadder" ||
         formik.values.Strategy == "BullPutLadder") ||
@@ -1540,6 +1545,8 @@ const AddClient = (Planname) => {
     if (weekend === 6 || weekend === 0 || totalMinutes < 555 || totalMinutes > 930) {
       return SweentAlertFun("Market is off Today");
     }
+
+    console.log("ETpatern", formik.values.ETPattern);
 
 
     const req = {
@@ -1743,7 +1750,7 @@ const AddClient = (Planname) => {
           )}
         </Modal.Body>
         <Modal.Footer>
-          <Button  variant="secondary" onClick={() => setOpenModel(false)}>
+          <Button variant="secondary" onClick={() => setOpenModel(false)}>
             Close
           </Button>
         </Modal.Footer>
