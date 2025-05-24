@@ -84,7 +84,12 @@ const AddClient = (Planname) => {
     }
   };
 
-  const OptionType_options = ["Bearish", "Bullish", "Neutral", "Volatile"]
+  const OptionType_options = [
+    { label: "Bearish 📉", value: "Bearish" },
+    { label: "Bullish 📈", value: "Bullish" },
+    { label: "Neutral ➖", value: "Neutral" },
+    { label: "Volatile⚠️", value: "Volatile" }
+  ];
 
 
   const formik = useFormik({
@@ -146,7 +151,7 @@ const AddClient = (Planname) => {
       ExitType: "",
       WorkingDay: [],
       Planname: "",
-      Measurment_Type: OptionType_options[0], // Set the first option as default
+      Measurment_Type: OptionType_options[0].value, // Set the first option's value as default
     },
     validate: (values) => {
       let errors = {};
@@ -1315,7 +1320,7 @@ const AddClient = (Planname) => {
 
   useEffect(() => {
     // Set the initial value for Measurment_Type and trigger the API call
-    formik.setFieldValue("Measurment_Type", OptionType_options[0]);
+    formik.setFieldValue("Measurment_Type", OptionType_options[0].value);
     fetchRadioOptions();
   }, []);
 
@@ -1325,7 +1330,7 @@ const AddClient = (Planname) => {
       label: "Option Type",
       type: "select",
       options: OptionType_options.map((item) => {
-        return { label: item, value: item };
+        return { label: item.label, value: item.value };
       }),
       hiding: false,
       label_size: 12,
@@ -1342,6 +1347,7 @@ const AddClient = (Planname) => {
       label_size: 12,
       col_size: 8,
       disable: false,
+      iconText: text.strikeType,
       hiding: false,
     },
     {

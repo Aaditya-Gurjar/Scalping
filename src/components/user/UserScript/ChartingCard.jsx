@@ -40,7 +40,6 @@ const ChartingCard = ({
   }
   const adminPermission = localStorage.getItem("adminPermission");
 
-  console.log("adminPermission", adminPermission);
 
   const initialValues = {
     fundOrLot:

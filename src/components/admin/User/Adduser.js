@@ -34,7 +34,7 @@ const Adduser = () => {
     }, [])
 
 
-    console.log("plans", plans)
+    // console.log("plans", plans)
 
     const getBrokerName = async () => {
         await Get_Broker_Name()
@@ -95,9 +95,13 @@ const Adduser = () => {
                         ...response.Charting // Charting array ko add kar diya
                     ];
 
-                    const SOPPlans = LivePlanName.filter((item) => item.Planname !== 'One Week Demo' && item.Planname !== 'Two Days Demo' && item.SOPPrice);
-                    const ChartPlans = LivePlanName.filter((item) => item.Planname !== 'One Week Demo' && item.Planname !== 'Two Days Demo' && item.ChartPerMonth);
+                    const SOPPlans = LivePlanName.filter((item) => item.Planname !== 'One Week Demo' && item.Planname !== 'Two Days Demo' && item.ChartingSignal.length=== 0);
+                    const ChartPlans = LivePlanName.filter((item) => item.Planname !== 'One Week Demo' && item.Planname !== 'Two Days Demo' && item.ChartingSignal.length!== 0);
                     setPlans({ SOPPlans, ChartPlans });
+
+
+ console.log("chartplans", ChartPlans)
+ console.log("SOPPlans", SOPPlans)
 
 
                     const DemoPlanName = response.Admin.filter((item) => item.Planname === 'One Week Demo' || item.Planname === 'Two Days Demo');
@@ -203,7 +207,7 @@ const Adduser = () => {
                 (item.Planname || item.PlanName) === values.planname
             );
 
-            console.log("FilterPlanAmount", FilterPlanAmount)
+            // console.log("FilterPlanAmount", FilterPlanAmount)
 
             if (FilterPlanAmount.length > 0 && (FilterPlanAmount[0].SOPPrice || FilterPlanAmount[0].ChartPerMonth) > values.ClientAmmount) {
                 Swal.fire({

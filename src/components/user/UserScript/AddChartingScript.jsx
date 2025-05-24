@@ -7,6 +7,7 @@ import {
 import Swal from "sweetalert2";
 import { useNavigate, useLocation } from "react-router-dom";
 import ChartingCard from "./ChartingCard";
+import NoDataFound from "../../../ExtraComponent/NoDataFound";
 
 const AddChartingScript = ({
   selectStrategyType,
@@ -179,31 +180,34 @@ const AddChartingScript = ({
 
   return (
     <div className="iq-card">
-      
       <div className="row">
-        {chartingData?.map((item, index) => (
-          <ChartingCard
-            key={index}
-            item={item}
-            index={index}
-            strategTag={strategTag}
-            chartingData={chartingData}
-            setChartingData={setChartingData}
-            handleAddCharting={handleAddCharting}
-            selectStrategyType="ChartingPlatform"
-            scriptType={scriptType}
-            tableType={tableType}
-            data={data}
-            selectedType={selectedType}
-            FromDate={FromDate}
-            ToDate={ToDate}
-            chartingSubTab={chartingSubTab}
-            getCharting={getCharting}
-            view={view}
-            fixedRowPerPage={fixedRowPerPage}
-            allScripts2={scriptType} // Pass allScripts2 here
-          />
-        ))}
+        {chartingData && chartingData.length > 0 ? (
+          chartingData.map((item, index) => (
+            <ChartingCard
+              key={index}
+              item={item}
+              index={index}
+              strategTag={strategTag}
+              chartingData={chartingData}
+              setChartingData={setChartingData}
+              handleAddCharting={handleAddCharting}
+              selectStrategyType="ChartingPlatform"
+              scriptType={scriptType}
+              tableType={tableType}
+              data={data}
+              selectedType={selectedType}
+              FromDate={FromDate}
+              ToDate={ToDate}
+              chartingSubTab={chartingSubTab}
+              getCharting={getCharting}
+              view={view}
+              fixedRowPerPage={fixedRowPerPage}
+              allScripts2={scriptType} // Pass allScripts2 here
+            />
+          ))
+        ) : (
+          <NoDataFound />
+        )}
       </div>
     </div>
   );
