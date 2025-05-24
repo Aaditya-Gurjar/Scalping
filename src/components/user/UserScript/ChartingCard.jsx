@@ -28,7 +28,6 @@ const ChartingCard = ({
   const navigate = useNavigate();
 
 
-
   // If there's no data, display NoDataFound component in the center
   if (!chartingData || chartingData.length === 0) {
     return (

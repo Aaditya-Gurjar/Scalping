@@ -12,6 +12,7 @@ import {
   DeleteSingleChartingScript,
   MatchPosition,
   chartAllotStrategyApi,
+  TradingStatus,
 } from "../../CommonAPI/User";
 import Loader from "../../../ExtraComponent/Loader";
 import {
@@ -38,7 +39,9 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
 
   const userName = localStorage.getItem("name");
+  const role = localStorage.getItem("Role");
   const strategyType = sessionStorage.getItem("StrategyType");
+
 
   const adminPermission = localStorage.getItem("adminPermission");
   const navigate = useNavigate();
@@ -225,6 +228,18 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       timerProgressBar: true,
     });
   };
+
+    const fetchTradingStatus = async () => {
+    if (role == "User") {
+      const requestData = { userName };
+      const response = await TradingStatus(requestData);
+      console.log("Trading Status Response:", response);
+      return response.Status
+
+    }
+  };
+
+
 
   const handleDelete = async (rowData, type) => {
     const index = rowData.rowIndex;
@@ -619,6 +634,17 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       return;
     } else {
       {
+        const tradingStatus = await fetchTradingStatus();
+        if (!tradingStatus) {
+          return Swal.fire({
+            title: "Live Trading is Off",
+            text: "Trading is not allowed at this time.",
+            icon: "warning",
+            timer: 2000,
+            timerProgressBar: true,
+          });
+        }
+  
         Swal.fire({
           title: "Do you want to Continue",
           text: "You won't be able to revert this!",
