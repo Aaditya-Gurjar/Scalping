@@ -10,8 +10,7 @@ const ChartingCard = ({
   chartingData,
   strategTag,
   setChartingData,
-  handleAddCharting,
-  
+  handleAddCharting,  
   selectStrategyType,
   scriptType,
   tableType,

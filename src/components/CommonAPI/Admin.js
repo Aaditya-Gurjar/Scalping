@@ -1424,3 +1424,47 @@ export const getBrokerDetails = async (data) => {
 }
 
 
+export const AdminProfile = async (data) => {
+    const token = localStorage.getItem('token')
+
+
+    try {
+        const res = await axios.get(`${Config.base_url}AdminProfile`, data,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+
+}
+
+
+export const AdminProfile = async (data) => {
+    const token = localStorage.getItem('token')
+
+
+    try {
+        const res = await axios.get(`${Config.base_url}AdminProfile`, data,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+
+        return res?.data
+    }
+    catch (err) {
+        return err
+    }
+
+}

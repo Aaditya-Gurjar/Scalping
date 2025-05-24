@@ -40,8 +40,7 @@ label {
 }
 
 input, .basic-multi-select {
-    padding: 10px;
-    
+    /* padding: 10px;  */
     border-radius: 5px;
     font-size: 1em;
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
-import { AddPlan, GetAllStratgy, getChartingStrategyTag } from '../../CommonAPI/Admin';
+import { AddPlan, AdminProfile, GetAllStratgy, getChartingStrategyTag } from '../../CommonAPI/Admin';
 import AddForm from "../../../ExtraComponent/FormData";
 import { useFormik } from "formik";
 import Select from 'react-select';
@@ -51,6 +51,7 @@ const AddPlanPage = () => {
     const [OptionStratgy, setOptionStratgy] = useState([]);
     const [PatternStratgy, setPatternStratgy] = useState([]);
     const [strategyTags, setStrategyTags] = useState([]); // State for strategy tag options
+    const [adminProfile, setAdminProfile] = useState(null);
     const adminPermission = localStorage.getItem("adminPermission");
 
     const [planOptionArr, setPlanOptionArr] = useState([{ value: "Scalping", label: "SOP" }]);
@@ -108,6 +109,23 @@ const AddPlanPage = () => {
             timerProgressBar: true
         });
     };
+
+    const fetchAdminDetials = async () => {
+        try {
+            const response = await AdminProfile()
+            console.log("Response", response.Data[0]);
+            setAdminProfile(response.Data[0]);
+        } catch (err) {
+            showError("Network error occurred");
+        }
+    }
+
+    useEffect(() => {
+        fetchAdminDetials();
+    }, []);
+
+
+
 
     const formik = useFormik({
         initialValues: {
@@ -282,12 +300,13 @@ const AddPlanPage = () => {
             label: "Live Trade Amount",
             type: "text",
             col_size: 6,
+            showWhen: (values) => (values.PlanType === "Scalping" && adminProfile?.SOPLiveTrade) || (values.PlanType !== "Scalping" && adminProfile?.ChartLiveTrade),
         },
         {
             name: "SOPPaperTrade",
             label: "Paper Trade Amount",
             type: "text",
-            showWhen: () => formik.values.PlanType === "Scalping", // Removed unnecessary {}
+            showWhen: () => (formik.values.PlanType === "Scalping" && adminProfile?.SOPPaperTrade) ,
             col_size: 6,
         },
 
@@ -295,13 +314,9 @@ const AddPlanPage = () => {
             name: "ChartPaperTrade",
             label: "Paper Trade Amount",
             type: "text",
-            showWhen: () => formik.values.PlanType !== "Scalping",
+            showWhen: () => formik.values.PlanType !== "Scalping" && adminProfile?.ChartPaperTrade,
             col_size: 6,
         },
-
-
-
-
 
     ];
 

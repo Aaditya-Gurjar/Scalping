@@ -927,7 +927,8 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       RepeatationCount: 0, // int
       Profit: 0.0, // float
       Loss: 0.0, // float
-      WorkingDay: [], // list (array)
+      TradeExecution : "", 
+      WorkingDay: [], 
     },
     validate: (values) => {
       let errors = {};
@@ -1171,6 +1172,10 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
         errors.FinalTarget = "Please Enter Final Target Price";
       }
 
+       if (!values.TradeExecution || values.TradeExecution == 0) {
+        errors.TradeExecution = "Please Select Trade Execution.";
+      }
+
 
       return errors;
     },
@@ -1195,7 +1200,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
         EntryTime: values.EntryTime || EditDataScalping.EntryTime, // str
         ExitTime: values.ExitTime || EditDataScalping?.ExitTime, // str
         ExitDay: values.ExitDay || EditDataScalping.ExitDay || "", // str
-        TradeExecution: values.TradeExecution || EditDataScalping.TradeExecution || "", // str
+        TradeExecution: values.TradeExecution||  EditDataScalping.TradeExecution, // str
         Group: values.Group || EditDataScalping.GroupN || "", // str
         FinalTarget: values.FinalTarget || parseFloat(EditDataScalping.FinalTarget),
         // Depth values for CE and PE options
@@ -1221,6 +1226,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
         RepeatationCount: values.RepeatationCount || EditDataScalping.RepeatationCount || 0, // int
         Profit: values.Profit || EditDataScalping.Profit || 0.0, // float
         Loss: values.Loss || EditDataScalping.Loss || 0.0, // float
+        TradeExecution: values.TradeExecution|| EditDataScalping.TradeExecution  , // str
         WorkingDay: values.WorkingDay?.map(day => day?.value || day) || formik?.values?.WorkingDay?.map(day => day?.value || day) || [],
 
       }
@@ -1300,6 +1306,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
     },
   });
 
+  console.log("EditDataOption", EditDataOption);
 
   const formik1 = useFormik({
     enableReinitialize: true,
@@ -1433,7 +1440,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
         EntryTime: values.EntryTime,
         ExitTime: values.ExitTime,
         ExitDay: EditDataOption["Product Type"],
-        TradeExecution: EditDataOption.TradeExecution,
+        TradeExecution: values.TradeExecution || EditDataOption.TradeExecution,
         Group: EditDataOption.GroupN,
         CEDepthLower: values.CEDepthLower || EditDataOption.CEDepthLower,
         CEDepthHigher: values.CEDepthHigher || EditDataOption.CEDepthHigher,
@@ -1637,7 +1644,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
         EntryTime: values.EntryTime,
         ExitTime: values.ExitTime,
         ExitDay: EditDataPattern.ExitDay,
-        TradeExecution: EditDataPattern.TradeExecution,
+        TradeExecution: values.TradeExecution || EditDataPattern.TradeExecution,
         Group: "",
         CEDepthLower: 0.0,
         CEDepthHigher: 0.0,
@@ -1922,6 +1929,23 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
   ];
 
+  const OptionOtherParameterArr = [
+    {
+      name: "TradeExecution",
+      label: "Trade Execution",
+      type: "select",
+      options: [
+        { label: "Paper Trade", value: "Paper Trade" },
+        { label: "Live Trade", value: "Live Trade" },
+      ],
+
+      label_size: 12,
+      col_size: 4,
+      headingtype: 6,
+      disable: false,
+      hiding: false,
+    },
+  ];
   const OptionFields = [
 
     {
@@ -1994,6 +2018,22 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       ),
       disable: false,
     },
+
+      {
+        name: "Heading",
+        label: "Other_Parameters",
+        type: "heading",
+        hiding: false,
+        label_size: 12,
+        col_size: 12,
+        headingtype: 6,
+        data: OptionOtherParameterArr.filter(
+            (item) => !item.showWhen || item.showWhen(formik.values)
+        ),
+        disable: false,
+    },
+
+
 
   ];
 
@@ -2107,6 +2147,24 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
 
   ];
 
+  const PatternOtherParameterArr = [
+    {
+      name: "TradeExecution",
+      label: "Trade Execution",
+      type: "select",
+      options: [
+        { label: "Paper Trade", value: "Paper Trade" },
+        { label: "Live Trade", value: "Live Trade" },
+      ],
+
+      label_size: 12,
+      col_size: 4,
+      headingtype: 6,
+      disable: false,
+      hiding: false,
+    },
+  ];
+
 
   const PatternFields = [
 
@@ -2148,6 +2206,20 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
         (item) => !item.showWhen || item.showWhen(formik.values)
       ),
       disable: false,
+    },
+
+      {
+        name: "Heading",
+        label: "Other_Parameters",
+        type: "heading",
+        hiding: false,
+        label_size: 12,
+        col_size: 12,
+        headingtype: 6,
+        data: PatternOtherParameterArr.filter(
+            (item) => !item.showWhen || item.showWhen(formik.values)
+        ),
+        disable: false,
     },
 
   ];
@@ -2442,6 +2514,24 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
     },
   ];
 
+  const OtherParameterArr = [
+    {
+      name: "TradeExecution",
+      label: "Trade Execution",
+      type: "select",
+      options: [
+        { label: "Paper Trade", value: "Paper Trade" },
+        { label: "Live Trade", value: "Live Trade" },
+      ],
+
+      label_size: 12,
+      col_size: 4,
+      headingtype: 6,
+      disable: false,
+      hiding: false,
+    },
+  ];
+
   const ExitRuleArr = [
     {
       name: "TStype",
@@ -2450,8 +2540,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       options: [
         { label: "Percentage", value: "Percentage" },
         { label: "Point", value: "Point" },
-      ],
-      // showWhen: (values) => showEditModal && EditDataScalping.ScalpType != "Fixed Price",
+      ], 
       showWhen: () =>
         showEditModal && EditDataScalping.PositionType !== "Multiple",
       label_size: 12,
@@ -2575,19 +2664,19 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       ),
       disable: false,
     },
-    // {
-    //     name: "Heading",
-    //     label: "Other_Parameters",
-    //     type: "heading",
-    //     hiding: false,
-    //     label_size: 12,
-    //     col_size: 12,
-    //     headingtype: 6,
-    //     data: OtherParameterArr.filter(
-    //         (item) => !item.showWhen || item.showWhen(formik.values)
-    //     ),
-    //     disable: false,
-    // },
+    {
+        name: "Heading",
+        label: "Other_Parameters",
+        type: "heading",
+        hiding: false,
+        label_size: 12,
+        col_size: 12,
+        headingtype: 6,
+        data: OtherParameterArr.filter(
+            (item) => !item.showWhen || item.showWhen(formik.values)
+        ),
+        disable: false,
+    },
   ];
 
   useEffect(() => {
@@ -2597,6 +2686,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       });
 
       formik.setFieldValue("EntryPrice", EditDataScalping.EntryPrice);
+      formik.setFieldValue("TradeExecution", EditDataScalping.TradeExecution);
       formik.setFieldValue("FinalTarget", EditDataScalping.FinalTarget);
       formik.setFieldValue("EntryRange", EditDataScalping.EntryRange);
       formik.setFieldValue(
@@ -2689,6 +2779,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       const WorkingDay = EditDataScalping?.WorkingDay?.map((day) => {
         return { label: day, value: day };
       });
+      formik.setFieldValue("TradeExecution", EditDataScalping.TradeExecution);
       formik.setFieldValue("EntryPrice", EditDataScalping.EntryPrice);
       formik.setFieldValue("EntryRange", EditDataScalping.EntryRange);
       formik.setFieldValue("Targetvalue", parseFloat(EditDataScalping["Booking Point"]));
@@ -2716,6 +2807,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       const WorkingDay = EditDataOption?.WorkingDay?.map((day) => {
         return { label: day, value: day };
       });
+      formik1.setFieldValue("TradeExecution", EditDataOption.TradeExecution);
       formik1.setFieldValue("TStype", EditDataOption.strategytype);
       formik1.setFieldValue("Targetvalue", EditDataOption["Target value"]);
       formik1.setFieldValue("Slvalue", EditDataOption["SL value"]);
@@ -2740,6 +2832,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
       const WorkingDay = EditDataPattern?.WorkingDay?.map((day) => {
         return { label: day, value: day };
       });
+      formik2.setFieldValue("TradeExecution", EditDataPattern.TradeExecution);
       formik2.setFieldValue("TStype", EditDataPattern.TStype);
       formik2.setFieldValue("Targetvalue", EditDataPattern["Target value"]);
       formik2.setFieldValue("Slvalue", EditDataPattern["SL value"]);
@@ -2755,6 +2848,7 @@ const Coptyscript = ({ tableType, data, selectedType, FromDate, ToDate }) => {
   const updatedFields = fields.filter((item) => {
     return item.hiding == false
   })
+ 
 
   return (
     <div className="container-fluid">
