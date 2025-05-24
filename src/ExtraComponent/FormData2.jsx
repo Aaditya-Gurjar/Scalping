@@ -2493,6 +2493,21 @@ const DynamicForm = ({
                                             htmlFor={item.title}
                                           >
                                             {item.title}
+                                            {item.iconText && (
+                                              <span className="custom-tooltip-wrapper">
+                                                <span
+                                                  className="info-icon-container"
+                                                  data-tooltip={item.iconText}>
+                                                  <Info
+                                                    style={{
+                                                      width: "15px",
+                                                      fill: "#ffffff",
+                                                    }}
+                                                    className="mx-1"
+                                                  />
+                                                </span>
+                                              </span>
+                                            )}
                                           </label>
                                         </div>
                                       ))}
@@ -2531,6 +2546,21 @@ const DynamicForm = ({
                                       className={`col-lg-${field.label_size} card-text-Color col-form-label mx-2`}
                                       htmlFor={item.title}>
                                       {item.title}
+                                       {item.iconText && (
+                                              <span className="custom-tooltip-wrapper">
+                                                <span
+                                                  className="info-icon-container"
+                                                  data-tooltip={item.iconText}>
+                                                  <Info
+                                                    style={{
+                                                      width: "15px",
+                                                      fill: "#ffffff",
+                                                    }}
+                                                    className="mx-1"
+                                                  />
+                                                </span>
+                                              </span>
+                                            )}
                                     </label>
                                   </div>
                                 ))}
@@ -2561,8 +2591,8 @@ const DynamicForm = ({
                                   />
                                   <i
                                     className={`fa-solid card-text-Color ${passwordVisible[field.name]
-                                        ? "ri-eye-off-line password-eye"
-                                        : "ri-eye-line password-eye"
+                                      ? "ri-eye-off-line password-eye"
+                                      : "ri-eye-line password-eye"
                                       }`}
                                     style={{
                                       position: "absolute",

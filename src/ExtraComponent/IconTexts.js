@@ -60,4 +60,32 @@ export const text = {
   };
   
   
-  
+
+  const optionStrategyText = {
+  LongStrangle: "Buy OTM Call & OTM Put with the same expiry but different strike prices.",
+  ShortStrangle: "Sell OTM Call & OTM Put with the same expiry but different strike prices.",
+  LongStraddle: "Buy ATM Call & ATM Put with the same strike price and expiry.",
+  ShortStraddle: "Sell ATM Call & ATM Put with the same strike price and expiry.",
+
+  LongIronButterfly: "Buy 1 ATM Put, Sell 1 OTM Put, Sell 1 OTM Call, Buy 1 ATM Call (Same Expiry).",
+  ShortIronButterfly: "Sell 1 ATM Put, Buy 1 OTM Put, Buy 1 OTM Call, Sell 1 ATM Call (Same Expiry).",
+  LongIronCondor: "Buy 1 OTM Put, Sell 1 Deep OTM Put, Sell 1 Deep OTM Call, Buy 1 OTM Call (Same Expiry).",
+  ShortIronCondor: "Sell 1 OTM Put, Buy 1 Deep OTM Put, Buy 1 Deep OTM Call, Sell 1 OTM Call (Same Expiry).",
+
+  BearCallSpread: "Sell ATM Call & Buy OTM Call with the same expiry.",
+  BearPutSpread: "Buy ATM Put & Sell OTM Put with the same expiry.",
+  BullCallSpread: "Buy ATM Call & Sell OTM Call with the same expiry.",
+  BullPutSpread: "Sell ATM Put & Buy OTM Put with the same expiry.",
+
+  BullCallLadder: "Buy OTM Call, Sell ATM Call, Buy 1 more deep OTM Call.",
+  BullPutLadder: "Sell ATM Put, Buy OTM Put, Buy 1 more deep OTM Put.",
+  CoveredCall: "Buy Future & Sell an OTM Call .",
+  CoveredPut: "Sell Future & Sell an OTM Put.",
+
+  LongCollar: "Buy Future , buy an ATM Put, and sell an OTM Call.",
+  ShortCollar: "Sell Future , buy an ATM Call, and sell an OTM Put.",
+  RatioCallSpread: "Buy 1 ATM Call, Sell 2 OTM Calls (1:2 Ratio).",
+  RatioPutSpread: "Buy 1 ATM Put, Sell 2 OTM Puts (1:2 Ratio)."
+};
+
+
